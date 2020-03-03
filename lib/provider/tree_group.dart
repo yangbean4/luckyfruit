@@ -101,6 +101,7 @@ class TreeGroup with ChangeNotifier {
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
     }
+    notifyListeners();
 
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {

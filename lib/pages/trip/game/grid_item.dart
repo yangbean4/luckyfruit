@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/elliptical_widget.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
+import './tree_item.dart';
 
 class GridItem extends StatefulWidget {
   final Tree tree;
@@ -18,32 +18,7 @@ class GridItem extends StatefulWidget {
 class _GridItemState extends State<GridItem> {
   @override
   Widget build(BuildContext context) {
-    Widget _tree = Container(
-      width: ScreenUtil().setWidth(200),
-      height: ScreenUtil().setWidth(205),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              bottom: 0,
-              left: ScreenUtil().setWidth(50),
-              child: EllipticalWidget(
-                width: ScreenUtil().setWidth(100),
-                height: ScreenUtil().setWidth(50),
-                color: MyTheme.darkGrayColor,
-              )),
-          Positioned(
-            bottom: ScreenUtil().setWidth(10),
-            child: TreeWidget(
-              tree: widget.tree,
-              imgHeight: ScreenUtil().setWidth(140),
-              imgWidth: ScreenUtil().setWidth(200),
-              labelWidth: ScreenUtil().setWidth(60),
-              primary: true,
-            ),
-          )
-        ],
-      ),
-    );
+    Widget _tree = TreeItem(widget.tree);
 
     return Container(
       width: ScreenUtil().setWidth(200),

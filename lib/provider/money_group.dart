@@ -62,6 +62,8 @@ class MoneyGroup with ChangeNotifier {
       addGold(treeGroup.makeGoldSped);
       addMoney(treeGroup.makeMoneySped);
     });
+    notifyListeners();
+
     return this;
   }
 

@@ -32,6 +32,7 @@ class _TripState extends State<Trip> {
               Expanded(
                 child: Container(
                   width: ScreenUtil().setWidth(1080),
+                  // height: ,
                   child: Stack(
                     children: <Widget>[
                       Container(
@@ -39,13 +40,13 @@ class _TripState extends State<Trip> {
                         // height: ScreenUtil().setWidth(812),
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          alignment: Alignment.bottomCenter,
+                          alignment: Alignment.center,
                           image: AssetImage(tourismMap.cityImgSrc),
                           fit: BoxFit.cover,
                         )),
                       ),
                       Positioned(
-                        bottom: ScreenUtil().setWidth(110),
+                        bottom: ScreenUtil().setWidth(140),
                         left: ScreenUtil().setWidth(296),
                         child: Image.asset(
                           tourismMap.carImgSrc,
@@ -54,7 +55,7 @@ class _TripState extends State<Trip> {
                         ),
                       ),
                       Positioned(
-                        bottom: ScreenUtil().setWidth(120),
+                        bottom: ScreenUtil().setWidth(140),
                         left: ScreenUtil().setWidth(152),
                         child: Image.asset(
                           tourismMap.manImgSrc,
@@ -69,7 +70,7 @@ class _TripState extends State<Trip> {
               Game(),
             ])),
         Positioned(
-          bottom: ScreenUtil().setWidth(975),
+          bottom: ScreenUtil().setWidth(1175),
           left: 0,
           child: Selector<MoneyGroup, Map<String, double>>(
             selector: (context, provider) => ({
@@ -130,7 +131,7 @@ class _TripState extends State<Trip> {
           ),
         ),
         Positioned(
-          bottom: ScreenUtil().setWidth(910),
+          bottom: ScreenUtil().setWidth(1110),
           right: 0,
           child: Selector<TreeGroup, Function>(
             selector: (context, provider) => provider.recycle,

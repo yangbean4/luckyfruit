@@ -1,0 +1,11 @@
+import 'package:flutter/material.dart';
+
+class TreeAnimated extends AnimatedWidget {
+  TreeAnimated({Key key, Animation<double> treeTreeAnimated})
+      : super(key: key, listenable: treeTreeAnimated);
+
+  @override
+  Widget build(BuildContext context) {
+    return;
+  }
+}

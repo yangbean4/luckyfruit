@@ -61,10 +61,10 @@ class _GameState extends State<Game> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(1080),
-      height: ScreenUtil().setWidth(1044),
+      height: ScreenUtil().setWidth(1200),
       color: Color.fromRGBO(255, 255, 255, 1),
       padding: EdgeInsets.symmetric(
-        vertical: ScreenUtil().setWidth(54),
+        vertical: ScreenUtil().setWidth(46),
         horizontal: ScreenUtil().setWidth(60),
       ),
       child: Selector<TreeGroup, Tree>(
@@ -80,10 +80,11 @@ class _GameState extends State<Game> {
                     children: <Widget>[
                       Expanded(
                         child: GridView.count(
+                            childAspectRatio: 0.9,
                             physics: new NeverScrollableScrollPhysics(),
                             primary: false,
                             // itemCount: X_AMOUNT * Y_AMOUNT,
-                            // mainAxisSpacing: ScreenUtil().setHeight(110),
+                            mainAxisSpacing: ScreenUtil().setHeight(30),
                             crossAxisCount: 4,
                             crossAxisSpacing: ScreenUtil().setWidth(54),
                             children: renderGrid(context)),
