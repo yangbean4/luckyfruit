@@ -39,7 +39,8 @@ class _GridItemState extends State<GridItem> {
                   child: Center(
                     child: Draggable(
                         child: _tree,
-                        feedback: _tree,
+                        // feedback: _tree,
+                        feedback: TreeNoAnimation(widget.tree),
                         data: widget.tree,
                         childWhenDragging: Container()),
                   ),

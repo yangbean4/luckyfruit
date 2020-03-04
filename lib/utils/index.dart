@@ -4,13 +4,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 class Util {
-  static String formatNumber(num number) {
+  static String formatNumber(num number, {int fixed}) {
     String str = '';
     number = number ?? 0;
     if (number / pow(10, 6) > 1) {
       str = (number / 1000).toStringAsFixed(2) + 'k';
     } else {
-      str = number.toStringAsFixed(2);
+      str = number.toStringAsFixed(fixed ?? 2);
     }
     return str;
   }
