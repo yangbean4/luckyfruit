@@ -19,6 +19,7 @@ class AESUtil {
 
   /// 加密
   String encrypt(String str) {
+    return str;
     if (str.length % 16 != 0) {
       str =
           str.padLeft(str.length + 16 - str.length % 16, ascii.decode([0x00]));
@@ -28,6 +29,7 @@ class AESUtil {
 
   /// 解密
   String decrypt(String base64) {
+    return base64;
     return this
         ._encrypter
         .decrypt(

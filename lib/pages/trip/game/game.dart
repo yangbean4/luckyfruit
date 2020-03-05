@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/theme/index.dart';
 import './grid_item.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/utils/index.dart';
+import './shake_button.dart';
+// import 'package:luckyfruit/widgets/layer.dart';
 
 class Game extends StatefulWidget {
   Game({Key key}) : super(key: key);
@@ -58,7 +56,7 @@ class _GameState extends State<Game> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(1080),
-      height: ScreenUtil().setWidth(1200),
+      height: ScreenUtil().setWidth(1240),
       color: Color.fromRGBO(255, 255, 255, 1),
       padding: EdgeInsets.symmetric(
         vertical: ScreenUtil().setWidth(46),
@@ -75,7 +73,7 @@ class _GameState extends State<Game> {
                 children: <Widget>[
                   Expanded(
                     child: GridView.count(
-                        childAspectRatio: 0.83,
+                        childAspectRatio: 0.73,
                         physics: new NeverScrollableScrollPhysics(),
                         primary: false,
                         // itemCount: X_AMOUNT * Y_AMOUNT,
@@ -92,65 +90,7 @@ class _GameState extends State<Game> {
                       child: GestureDetector(
                         onTap: addTree,
                         child: Center(
-                          child: Container(
-                            // minWidth: ScreenUtil().setWidth(560),
-                            width: ScreenUtil().setWidth(500),
-                            height: ScreenUtil().setWidth(128),
-                            decoration: BoxDecoration(
-                              color: MyTheme.primaryColor,
-                              borderRadius: BorderRadius.all(
-                                Radius.elliptical(
-                                  ScreenUtil().setWidth(64),
-                                  ScreenUtil().setWidth(64),
-                                ),
-                              ),
-                            ),
-                            child: Stack(overflow: Overflow.visible, children: <
-                                Widget>[
-                              Container(
-                                height: ScreenUtil().setWidth(55),
-                                margin: EdgeInsets.only(
-                                  top: ScreenUtil().setWidth(55),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/image/gold.png',
-                                      width: ScreenUtil().setWidth(55),
-                                      height: ScreenUtil().setWidth(55),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(14),
-                                        ),
-                                        child: Text(
-                                          Util.formatNumber(
-                                              minLevelTree?.consumeGold ?? 0),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: ScreenUtil().setWidth(34),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                bottom: ScreenUtil().setWidth(80),
-                                left: ScreenUtil().setWidth(220),
-                                child: TreeWidget(
-                                  tree: minLevelTree,
-                                  imgHeight: ScreenUtil().setWidth(84),
-                                  imgWidth: ScreenUtil().setWidth(77),
-                                  labelWidth: ScreenUtil().setWidth(40),
-                                  primary: false,
-                                ),
-                              )
-                            ]),
-                          ),
-                        ),
+                            child: ShakeButton(minLevelTree: minLevelTree)),
                       )),
                 ],
               );

@@ -6,6 +6,7 @@ import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/elliptical_widget.dart';
 import './tree_item.dart';
+import './tree_no_animation.dart';
 
 class GridItem extends StatefulWidget {
   final Tree tree;
@@ -22,7 +23,7 @@ class _GridItemState extends State<GridItem> {
 
     return Container(
       width: ScreenUtil().setWidth(200),
-      height: ScreenUtil().setWidth(210),
+      height: ScreenUtil().setWidth(250),
       child: Stack(
         children: <Widget>[
           Positioned(
