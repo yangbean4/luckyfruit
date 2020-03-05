@@ -103,7 +103,7 @@ class MoneyGroup with ChangeNotifier {
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(MoneyGroup.CACHE_KEY, data);
 
-    // await Service().saveMoneyInfo({'acct_id': acct_id, 'coin': data});
+    await Service().saveMoneyInfo({'acct_id': acct_id, 'coin': data});
 
     // 通知更新
     notifyListeners();
