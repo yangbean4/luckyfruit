@@ -8,14 +8,18 @@ import 'package:luckyfruit/routes/router.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();
   TourismMap tourismMap = TourismMap();
-  treeGroup.init(moneyGroup);
-  moneyGroup.init(treeGroup);
+  userModel.initUser().then((e) {
+    treeGroup.init(moneyGroup, userModel.value?.acct_id);
+    moneyGroup.init(treeGroup, userModel.value?.acct_id);
+  });
 
   runApp(MultiProvider(
     providers: [

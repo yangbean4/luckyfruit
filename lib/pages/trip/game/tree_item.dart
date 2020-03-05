@@ -13,8 +13,9 @@ import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/theme/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/config/app.dart';
 
-const num TreeAnimationTime = 8;
+const num TreeAnimationTime = AnimationConfig.TreeAnimationTime;
 
 class TreeItem extends StatefulWidget {
   final Tree tree;

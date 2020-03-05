@@ -47,14 +47,14 @@ class _ShakeButtonState extends State<ShakeButton>
     Timer.periodic(period, (_timer) {
       if (!isDispose) {
         timer = _timer;
-        controller.value = 0.0;
+        // controller.value = 0.0;
         // controller?.forward();
         runAnimation();
       } else {
         timer?.cancel();
       }
     });
-    controller?.forward();
+    // controller?.forward();
   }
 
   Future<void> runAnimation() async {

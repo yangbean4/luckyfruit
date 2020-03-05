@@ -7,6 +7,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/service/index.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
@@ -17,6 +18,11 @@ class TreeGroup with ChangeNotifier {
   static const int MAX_LEVEL = 38;
   // 当前最大等级和最小等级的差
   static const int DIFF_LEVEL = 5;
+
+  static const String LOAD = 'LOAD';
+
+  String acct_id;
+
   // 冷却时间
   int delayTime;
   // 最后种树时间
@@ -83,12 +89,8 @@ class TreeGroup with ChangeNotifier {
   //   .._upDateTime = group['upDateTime'] as double
   //   .._treeList = group['treeList'].map((map) => Tree.formJson(map)).toList();
 
-  //初始化 form请求&Storage
-  Future<TreeGroup> init(MoneyGroup _moneyGroup) async {
-    moneyGroup = moneyGroup ?? _moneyGroup;
-    String res = await Storage.getItem(TreeGroup.CACHE_KEY);
-    if (res != null) {
-      Map<String, dynamic> group = json.decode(res);
+  void setTreeGroup(Map<String, dynamic> group) {
+    if (group != null && group.isNotEmpty) {
       _upDateTime = group['upDateTime'] != null
           ? DateTime.parse(group['upDateTime'])
           : null;
@@ -100,9 +102,37 @@ class TreeGroup with ChangeNotifier {
           jsonDecode(group['treeGradeNumber']);
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-    }
-    notifyListeners();
 
+      notifyListeners();
+    }
+  }
+
+  Map<String, dynamic> getUseGroup(String str1, String str2) {
+    if (str1 == null || str2 == null || str2 == '') {
+      return str1 == null && (str2 == null || str2 == '')
+          ? null
+          : json.decode(str1 ?? str2);
+    } else {
+      Map<String, dynamic> group1 = json.decode(str1);
+      Map<String, dynamic> group2 = json.decode(str2);
+      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime']);
+      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime']);
+      return upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+    }
+  }
+
+  //初始化 form请求&Storage
+  Future<TreeGroup> init(MoneyGroup _moneyGroup, String accId) async {
+    acct_id = accId;
+    moneyGroup = _moneyGroup;
+
+    String res = await Storage.getItem(TreeGroup.CACHE_KEY);
+
+    Map<String, dynamic> ajaxData =
+        await Service().getTreeInfo({'acct_id': accId, 'city': '123'});
+
+    setTreeGroup(getUseGroup(res, ajaxData['code']));
+    EVENT_BUS.emit(TreeGroup.LOAD);
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
@@ -113,8 +143,15 @@ class TreeGroup with ChangeNotifier {
   // 保存
   Future<bool> save() async {
     _upDateTime = DateTime.now();
-    bool saveSuccess =
-        await Storage.setItem(TreeGroup.CACHE_KEY, jsonEncode(this));
+    String data = jsonEncode(this);
+    bool saveSuccess = await Storage.setItem(TreeGroup.CACHE_KEY, data);
+
+    await Service().saveTreeInfo({
+      'acct_id': acct_id,
+      'code': data,
+      'city': '123',
+      'last_time': 'last_time'
+    });
     // 通知更新
     notifyListeners();
     return saveSuccess;

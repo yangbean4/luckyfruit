@@ -8,8 +8,6 @@ import 'package:luckyfruit/models/index.dart';
 
 class Service {
   static final Service _instance = Service._internal();
-  // final String baseUrl = 'http://yapi.demo.qunar.com/mock/33662';
-  final String baseUrl = 'http://slots.plandog.com/public/index.php?r=';
 
   final _aes = new AESUtil(App.AESKEY);
 
@@ -26,26 +24,49 @@ class Service {
   Future<Map<String, dynamic>> getUtilAjax(
       String url, Map<String, dynamic> data) async {
     Response response = await _client.post(url, data: data);
-    return response.data;
+    return response.data['data'];
   }
 
   /// 获取用户信息
-  Future<User> getUser(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> getUser(Map<String, dynamic> data) async {
     Response response = await _client.post('/User/index', data: data);
-    Map<String, dynamic> json = response.data['data'];
-    return User.fromJson(json);
+    return response.data['data'];
+  }
+
+  // 获取用户树数据
+  Future<Map<String, dynamic>> getTreeInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Tree/treeInfo', data: data);
+    return response.data['data'];
+  }
+
+  // 树数据记录
+  Future<Map<String, dynamic>> saveTreeInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Tree/addTree', data: data);
+    return response.data['data'];
+  }
+
+  // 获取用户树数据
+  Future<Map<String, dynamic>> getMoneyInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Tree/treeInfo', data: data);
+    return response.data['data'];
+  }
+
+  // 获取用户树数据
+  Future<Map<String, dynamic>> saveMoneyInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/User/update', data: data);
+    return response.data['data'];
   }
 
   // 埋点 上报
   Future<Map<String, dynamic>> burialReport(Map<String, dynamic> data) async {
     Response response = await _client.post('/Report/log', data: data);
-    return response.data;
+    return response.data['data'];
   }
 
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
-        baseUrl: baseUrl,
+        baseUrl: App.BASE_URL,
         connectTimeout: 5000,
         responseType: ResponseType.plain,
         receiveTimeout: 10000);
@@ -67,7 +88,8 @@ class Service {
     // 添加拦截器
     _client.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-      options.data = _aes.encrypt(json.encode(options.data));
+      // REVIEW: aes?
+      // options.data = _aes.encrypt(json.encode(options.data));
       // 请求拦截器，加密参数
       return options;
     }, onResponse: (Response res) {
@@ -93,9 +115,7 @@ class Service {
       print('发生错误：' + e.message);
       print('请求路径:${e.request.path}');
       print('请求参数:${e.request.data}');
-      if (e.request.path == '/Report/log') {
-        return null;
-      }
+
       if (e.message.startsWith('SocketException') ||
           // e.message.startsWith('') ||
           e.message.startsWith('Connecting timed')) {

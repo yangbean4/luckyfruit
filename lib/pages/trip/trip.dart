@@ -11,6 +11,7 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/widgets/breathe_text.dart';
 
 class Trip extends StatefulWidget {
   Trip({Key key}) : super(key: key);
@@ -94,18 +95,26 @@ class _TripState extends State<Trip> {
                         width: ScreenUtil().setWidth(300),
                         height: ScreenUtil().setWidth(150),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              Util.formatNumber(map['gold']),
-                              style: TextStyle(
-                                  color: MyTheme.secondaryColor,
-                                  fontSize: ScreenUtil().setWidth(44),
-                                  fontWeight: FontWeight.bold),
+                            BreatheText(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: ScreenUtil().setWidth(300),
+                                child: Text(
+                                  Util.formatNumber(map['gold']),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: MyTheme.secondaryColor,
+                                      fontSize: ScreenUtil().setWidth(44),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                             Text(
                               '${Util.formatNumber(map['makeGoldSped'])}b/s',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: MyTheme.blackColor,
                                   fontSize: ScreenUtil().setWidth(38),

@@ -41,6 +41,8 @@ dependencies:
   url_launcher: ^5.2.5
   # Loading动画 随时间变化而变化的加载指示器集合
   flutter_spinkit: ^4.1.2
+  # 获取设备信息
+  device_info: ^0.4.1+5
 dev_dependencies:
   flutter_test:
     sdk: flutter

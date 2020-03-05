@@ -15,5 +15,11 @@ class AnimationConfig {
 }
 
 class App {
+  // 离线也有收益的时长 单位秒
+  static const num UN_LINE_TIME = 20 * 60;
   static const String AESKEY = '06BB48CFA768694D';
+  static const String BASE_URL =
+      'http://bs_service.test.com/public/index.php?r=';
+  static const String METHOD_CHANNEL = "com.xyjy.flutterchannel/method";
+  static const String EVENT_CHANNEL = "com.xyjy.flutterchannel/event";
 }
