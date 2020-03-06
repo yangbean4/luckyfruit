@@ -109,12 +109,14 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
+  bool isDirty(group) => group.isEmpty || group['upDateTime'] == null;
+
   Map<String, dynamic> getUseGroup(String str1, String str2) {
     Map<String, dynamic> group1 = Util.decodeStr(str1);
     Map<String, dynamic> group2 = Util.decodeStr(str2);
     Map<String, dynamic> group = {};
-    if (group1.isNotEmpty || group2.isNotEmpty) {
-      group = group1.isNotEmpty ? group2 : group1;
+    if (isDirty(group1) || isDirty(group2)) {
+      group = isDirty(group1) ? group2 : group1;
     } else {
       DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
       DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');

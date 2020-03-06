@@ -51,11 +51,13 @@ class MoneyGroup with ChangeNotifier {
     }
   }
 
+  bool isDirty(group) => group.isEmpty || group['upDateTime'] == null;
+
   Map<String, dynamic> getUseGroup(String str1, Map<String, dynamic> group2) {
     Map<String, dynamic> group1 = Util.decodeStr(str1);
     Map<String, dynamic> group = {};
-    if (group1.isNotEmpty || group2.isNotEmpty) {
-      group = group1.isNotEmpty ? group2 : group1;
+    if (isDirty(group1) || isDirty(group2)) {
+      group = isDirty(group1) ? group2 : group1;
     } else {
       DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
       DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');
@@ -69,7 +71,7 @@ class MoneyGroup with ChangeNotifier {
       String t = group['_upDateTime'];
       _gold = group['_gold'] != null
           ? double.parse(group['_gold'].toString())
-          : 0.0;
+          : 400.0;
       _money = group['_money'] != null
           ? double.parse((group['_money']).toString())
           : 0.0;
