@@ -113,8 +113,8 @@ class MoneyGroup with ChangeNotifier {
     });
     const period = const Duration(seconds: AnimationConfig.TreeAnimationTime);
     Timer.periodic(period, (timer) {
-      addGold(treeGroup.makeGoldSped);
-      addMoney(treeGroup.makeMoneySped);
+      addGold(treeGroup.makeGoldSped * AnimationConfig.TreeAnimationTime);
+      addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
     });
 
     return this;

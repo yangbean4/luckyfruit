@@ -45,23 +45,27 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     return BottomNavigationBarItem(
         icon: Image.asset(
           iconUrl,
-          width: ScreenUtil().setWidth(70),
+          width: ScreenUtil().setWidth(56),
         ),
         activeIcon: Image.asset(
           activeIconUrl,
-          width: ScreenUtil().setWidth(70),
+          width: ScreenUtil().setWidth(56),
         ),
         title: Text(
           name,
-          style: TextStyle(height: 1.3, fontSize: ScreenUtil().setWidth(24)),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'semibold',
+              height: 1.2,
+              fontSize: ScreenUtil().setWidth(34)),
         ));
   }
 
   Widget _createBottomBar() {
     return BottomNavigationBar(
-      iconSize: ScreenUtil().setWidth(70),
-      selectedFontSize: ScreenUtil().setSp(30),
-      unselectedFontSize: ScreenUtil().setSp(30),
+      iconSize: ScreenUtil().setWidth(56),
+      selectedFontSize: ScreenUtil().setSp(34),
+      unselectedFontSize: ScreenUtil().setSp(34),
       items: [
         _createBarItem(
             iconUrl: 'assets/image/trip.png',
@@ -73,7 +77,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             name: 'MAP'),
       ],
       currentIndex: this.tabIndex,
-      fixedColor: MyTheme.mainActiveColor,
+      fixedColor: MyTheme.blackColor,
       onTap: (int index) {
         setState(() {
           this.tabIndex = index;

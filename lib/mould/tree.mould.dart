@@ -31,13 +31,15 @@ class Tree extends TreePoint {
 
   // 种一棵需要的钱 初始值
   double get f => gold * delay * p;
+
+  double get recycleGold => f * 0.5;
 // ---------------------------------------------------------------------
   // 种一棵需要的钱 终值
   double get end => f * pow(1.07005, gradeNumber - 1);
   // 种一棵需要的钱
   double get consumeGold => end >= 23 * f ? 23 * f : end;
   //
-  String get treeImgSrc => 'assets/image/tree.png';
+  String get treeImgSrc => 'assets/tree/tree${grade % 3 + 1}.png';
 
   Tree({this.grade, this.gradeNumber = 1, int x, int y}) : super(x: x, y: y);
 

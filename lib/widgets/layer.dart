@@ -330,7 +330,7 @@ class Layer {
           ),
           child: SecondaryText('回收价格'),
         ),
-        GoldText('${goldNumber}t')
+        GoldText('${goldNumber}')
       ])
         ..show();
 

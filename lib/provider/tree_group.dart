@@ -41,7 +41,7 @@ class TreeGroup with ChangeNotifier {
 
   // 当前树中的最大等级
   // int _maxLevel = 1;
-  int get maxLevel => treeGradeNumber.keys.map((t) => int.parse(t)).reduce(max);
+  int get maxLevel => treeList.map((t) => t.grade).reduce(max);
 
   Tree get maxLevelTree => new Tree(grade: maxLevel);
 
@@ -197,12 +197,12 @@ class TreeGroup with ChangeNotifier {
       Layer.toastWarning('没有位置啦,试试把树拖到伐木场吧');
       return Future.value(false);
     }
-    if (makeTreeTime
-        .add(Duration(seconds: delayTime ?? 0))
-        .isAfter(DateTime.now())) {
-      Layer.toastWarning('冷却中....');
-      return Future.value(false);
-    }
+    // if (makeTreeTime
+    //     .add(Duration(seconds: delayTime ?? 0))
+    //     .isAfter(DateTime.now())) {
+    //   Layer.toastWarning('冷却中....');
+    //   return Future.value(false);
+    // }
 
     if (tree == null) {
       tree = new Tree(
@@ -216,6 +216,7 @@ class TreeGroup with ChangeNotifier {
       tree?.y = point.y;
     }
     if (moneyGroup.gold < tree.consumeGold) {
+      Layer.toastWarning('金币不够哟...');
       return Future.value(false);
     }
 
@@ -238,7 +239,8 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
-      if (++target.grade > maxLevel) {
+      int _maxLevel = maxLevel;
+      if (++target.grade > _maxLevel) {
         // _maxLevel = target.grade;
         // 最低级别的树更新
         if (maxLevel - _minLevel > TreeGroup.DIFF_LEVEL) {
@@ -263,7 +265,7 @@ class TreeGroup with ChangeNotifier {
       return;
     }
     _treeList.remove(tree);
-    // TODO:回收的时候加钱
+    EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
     save();
   }
 }

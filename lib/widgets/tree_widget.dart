@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:luckyfruit/theme/elliptical_widget.dart';
+import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 
@@ -12,6 +12,7 @@ class TreeWidget extends StatelessWidget {
   final num imgHeight;
   final String imgSrc;
   final num labelWidth;
+  final num labelHeight;
   final bool primary;
   final String label;
   final Tree tree;
@@ -21,6 +22,7 @@ class TreeWidget extends StatelessWidget {
       this.imgHeight,
       this.imgSrc,
       this.labelWidth,
+      this.labelHeight,
       this.label,
       this.tree,
       this.primary})
@@ -28,12 +30,14 @@ class TreeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    num _labelHeight = labelHeight ?? (labelWidth / 2);
     return Container(
       width: imgWidth,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
+      height: _labelHeight + imgHeight - imgHeight * 0.118,
+      child: Stack(children: <Widget>[
+        Positioned(
+            bottom: _labelHeight - imgHeight * 0.118,
+            child: Container(
               width: imgWidth,
               height: imgHeight,
               decoration: BoxDecoration(
@@ -42,10 +46,13 @@ class TreeWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-            ),
-            EllipticalWidget(
+            )),
+        Positioned(
+            bottom: 0,
+            left: (imgWidth - labelWidth) / 2,
+            child: EllipticalWidget(
               width: labelWidth,
-              height: labelWidth / 2,
+              height: _labelHeight,
               color: primary ? MyTheme.primaryColor : Colors.white,
               child: Center(
                   child: Text(
@@ -53,11 +60,13 @@ class TreeWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: !primary ? MyTheme.primaryColor : Colors.white,
-                    fontSize: ScreenUtil().setWidth(24),
+                    fontFamily: FontFamily.bold,
+                    fontSize: ScreenUtil().setWidth(40),
+                    height: 1,
                     fontWeight: FontWeight.w600),
               )),
-            )
-          ]),
+            ))
+      ]),
     );
   }
 }

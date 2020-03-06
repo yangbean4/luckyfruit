@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/theme/elliptical_widget.dart';
+import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 
 Widget TreeNoAnimation(Tree tree) => Container(

@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/theme/elliptical_widget.dart';
+import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -42,7 +42,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
     super.initState();
     isDispose = false;
     treeAnimationController = new AnimationController(
-      duration: Duration(milliseconds: 1000 * TreeAnimationTime ~/ 8),
+      duration: Duration(milliseconds: 1000 * TreeAnimationTime ~/ 25),
       vsync: this,
     );
     final CurvedAnimation treeCurve = new CurvedAnimation(
@@ -56,34 +56,14 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
     final CurvedAnimation goldCurve = new CurvedAnimation(
         parent: goldAnimationController, curve: Curves.easeIn);
 
-    goldAnimation = new Tween(begin: 1.0, end: 0.2).animate(goldCurve)
+    goldAnimation = new Tween(begin: -20.0, end: -30.0).animate(goldCurve)
       ..addStatusListener((status) {
-        // 金币动画结束时隐藏金币
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            showGold = false;
-          });
-          goldAnimationController.value = 0.0;
-        }
+        setState(() {
+          showGold = status == AnimationStatus.forward;
+        });
       });
 
-    treeAnimation = new Tween(begin: 1.0, end: 1.1).animate(treeCurve)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          treeAnimationController.reverse();
-        }
-        // 树的动画开始时显示金币且金币动画开始执行
-        if (status == AnimationStatus.forward) {
-          setState(() {
-            showGold = true;
-          });
-          goldAnimationController.forward();
-        } else {
-          setState(() {
-            showGold = false;
-          });
-        }
-      });
+    treeAnimation = new Tween(begin: 1.0, end: 1.1).animate(treeCurve);
 
     const period = const Duration(seconds: TreeAnimationTime);
     Future.delayed(Duration(seconds: Random().nextInt(TreeAnimationTime ~/ 2)))
@@ -91,12 +71,23 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
       Timer.periodic(period, (_timer) {
         if (!isDispose) {
           timer = _timer;
-          treeAnimationController?.forward();
+          runAction();
         } else {
           timer?.cancel();
         }
       });
     });
+  }
+
+  Future<void> runAction() async {
+    try {
+      await goldAnimationController
+        ..value = 0.0
+        ..forward();
+      await Future.delayed(Duration(seconds: 1));
+      await treeAnimationController?.forward();
+      await treeAnimationController?.reverse();
+    } catch (e) {}
   }
 
   @override
@@ -112,7 +103,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(200),
-      height: ScreenUtil().setWidth(240),
+      height: ScreenUtil().setWidth(185),
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
@@ -125,7 +116,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                 color: MyTheme.darkGrayColor,
               )),
           Positioned(
-            bottom: ScreenUtil().setWidth(10),
+            bottom: 0,
             child: AnimatedBuilder(
                 animation: treeAnimation,
                 builder: (BuildContext context, Widget child) {
@@ -133,7 +124,8 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                     tree: widget.tree,
                     imgHeight: ScreenUtil().setWidth(140 * treeAnimation.value),
                     imgWidth: ScreenUtil().setWidth(200 * treeAnimation.value),
-                    labelWidth: ScreenUtil().setWidth(60),
+                    labelWidth: ScreenUtil().setWidth(72),
+                    labelHeight: ScreenUtil().setWidth(44),
                     primary: true,
                   );
                 }),
@@ -143,7 +135,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                   animation: goldAnimation,
                   builder: (BuildContext context, Widget child) {
                     return Positioned(
-                        top: ScreenUtil().setWidth(30 * goldAnimation.value),
+                        top: ScreenUtil().setWidth(goldAnimation.value),
                         child: Container(
                           width: ScreenUtil().setWidth(200),
                           child: Row(
@@ -166,9 +158,10 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                                                 TreeAnimationTime,
                                             fixed: 0),
                                     style: TextStyle(
+                                      fontFamily: FontFamily.bold,
                                       color: MyTheme.secondaryColor,
-                                      fontSize: ScreenUtil().setWidth(22),
-                                      fontWeight: FontWeight.w600,
+                                      fontSize: ScreenUtil().setWidth(34),
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   )),
                             ],

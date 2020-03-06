@@ -6,14 +6,17 @@ import 'package:intl/intl.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {
-    String str = '';
+    List<String> dan = ['', 'K', 'M', 'B', 'T', 'aa', 'ab'];
     number = number ?? 0;
-    if (number / pow(10, 6) > 1) {
-      str = (number / 1000).toStringAsFixed(2) + 'k';
-    } else {
-      str = number.toStringAsFixed(fixed ?? 2);
-    }
-    return str;
+    int index = dan
+        .asMap()
+        .keys
+        .toList()
+        .lastIndexWhere((t) => number / pow(10, 3 * t + 1) > 1);
+
+    return index <= 0
+        ? number.toStringAsFixed(fixed ?? 2)
+        : (number / pow(10, 3 * index)).toStringAsFixed(2) + dan[index];
   }
 
   static Map<String, dynamic> decodeStr(String str) {

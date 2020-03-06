@@ -24,6 +24,19 @@ class _TripState extends State<Trip> {
   @override
   Widget build(BuildContext context) {
     TourismMap tourismMap = Provider.of<TourismMap>(context);
+
+// 创建线性渐变,蓝色强调色到绿色强调色的渐变
+// 这里的渐变效果是从左往右的线性渐变
+    Gradient gradient = LinearGradient(colors: [
+      Color.fromRGBO(255, 172, 30, 1),
+      Color.fromRGBO(255, 131, 30, 1),
+    ]);
+// 根据渐变创建shader
+// 范围是从左上角(0,0),到右下角(size.width,size.height)全屏幕范围
+    Shader shader = gradient.createShader(
+      Rect.fromLTWH(
+          0, 0, ScreenUtil().setWidth(300), ScreenUtil().setWidth(300)),
+    );
     return Stack(
       children: <Widget>[
         Container(
@@ -47,21 +60,21 @@ class _TripState extends State<Trip> {
                         )),
                       ),
                       Positioned(
-                        bottom: ScreenUtil().setWidth(140),
-                        left: ScreenUtil().setWidth(296),
+                        bottom: ScreenUtil().setWidth(46),
+                        left: ScreenUtil().setWidth(256),
                         child: Image.asset(
                           tourismMap.carImgSrc,
-                          width: ScreenUtil().setWidth(455),
-                          height: ScreenUtil().setWidth(276),
+                          width: ScreenUtil().setWidth(687),
+                          height: ScreenUtil().setWidth(511),
                         ),
                       ),
                       Positioned(
-                        bottom: ScreenUtil().setWidth(140),
-                        left: ScreenUtil().setWidth(152),
+                        bottom: ScreenUtil().setWidth(88),
+                        left: ScreenUtil().setWidth(88),
                         child: Image.asset(
                           tourismMap.manImgSrc,
-                          width: ScreenUtil().setWidth(110),
-                          height: ScreenUtil().setWidth(313),
+                          width: ScreenUtil().setWidth(172),
+                          height: ScreenUtil().setWidth(352),
                         ),
                       ),
                     ],
@@ -71,7 +84,7 @@ class _TripState extends State<Trip> {
               Game(),
             ])),
         Positioned(
-          bottom: ScreenUtil().setWidth(1175),
+          bottom: ScreenUtil().setWidth(930),
           left: 0,
           child: Selector<MoneyGroup, Map<String, double>>(
             selector: (context, provider) => ({
@@ -95,30 +108,29 @@ class _TripState extends State<Trip> {
                         width: ScreenUtil().setWidth(300),
                         height: ScreenUtil().setWidth(150),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             BreatheText(
                               child: Container(
-                                alignment: Alignment.center,
                                 width: ScreenUtil().setWidth(300),
                                 child: Text(
                                   Util.formatNumber(map['gold']),
-                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: MyTheme.secondaryColor,
-                                      fontSize: ScreenUtil().setWidth(44),
+                                      foreground: Paint()..shader = shader,
+                                      fontFamily: FontFamily.black,
+                                      fontSize: ScreenUtil().setWidth(68),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
                             Text(
-                              '${Util.formatNumber(map['makeGoldSped'])}b/s',
-                              textAlign: TextAlign.center,
+                              '${Util.formatNumber(map['makeGoldSped'])}/s',
                               style: TextStyle(
                                   color: MyTheme.blackColor,
-                                  fontSize: ScreenUtil().setWidth(38),
-                                  fontWeight: FontWeight.w600),
+                                  fontFamily: FontFamily.bold,
+                                  fontSize: ScreenUtil().setWidth(46),
+                                  fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -140,7 +152,7 @@ class _TripState extends State<Trip> {
           ),
         ),
         Positioned(
-          bottom: ScreenUtil().setWidth(1110),
+          bottom: ScreenUtil().setWidth(880),
           right: 0,
           child: Selector<TreeGroup, Function>(
             selector: (context, provider) => provider.recycle,
@@ -159,7 +171,7 @@ class _TripState extends State<Trip> {
                   },
                   onWillAccept: (Tree source) {
                     Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
-                        source.recycleMoney);
+                        source.recycleGold);
                     return false;
                   },
                   onAccept: (Tree source) {});

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/theme/elliptical_widget.dart';
+import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import './tree_item.dart';
 import './tree_no_animation.dart';
 
@@ -23,17 +23,22 @@ class _GridItemState extends State<GridItem> {
 
     return Container(
       width: ScreenUtil().setWidth(200),
-      height: ScreenUtil().setWidth(250),
+      height: ScreenUtil().setWidth(210),
       child: Stack(
+        overflow: Overflow.visible,
         children: <Widget>[
           Positioned(
               left: 0,
               bottom: 0,
-              child: EllipticalWidget(
-                width: ScreenUtil().setWidth(200),
-                height: ScreenUtil().setWidth(100),
-                color: MyTheme.grayColor,
-              )),
+              child: Container(
+                  width: ScreenUtil().setWidth(200),
+                  height: ScreenUtil().setWidth(100),
+                  decoration: BoxDecoration(
+                      color: MyTheme.grayColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.elliptical(ScreenUtil().setWidth(200) / 2,
+                            ScreenUtil().setWidth(100) / 2),
+                      )))),
           widget.tree != null
               ? Positioned(
                   bottom: ScreenUtil().setWidth(25),
