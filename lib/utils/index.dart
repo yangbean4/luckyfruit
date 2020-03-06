@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,14 @@ class Util {
       str = number.toStringAsFixed(fixed ?? 2);
     }
     return str;
+  }
+
+  static Map<String, dynamic> decodeStr(String str) {
+    Map<String, dynamic> map = {};
+    try {
+      map = json.decode(str);
+    } catch (e) {}
+    return map;
   }
 
   /// 格式化时间戳

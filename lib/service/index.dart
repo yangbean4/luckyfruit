@@ -33,6 +33,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取用户金钱信息
+  Future<Map<String, dynamic>> userInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/User/userInfo', data: data);
+    return response.data['data'];
+  }
+
   // 获取用户树数据
   Future<Map<String, dynamic>> getTreeInfo(Map<String, dynamic> data) async {
     Response response = await _client.post('/Tree/treeInfo', data: data);
@@ -47,7 +53,7 @@ class Service {
 
   // 获取用户树数据
   Future<Map<String, dynamic>> getMoneyInfo(Map<String, dynamic> data) async {
-    Response response = await _client.post('/Tree/treeInfo', data: data);
+    Response response = await _client.post('/User/userInfo', data: data);
     return response.data['data'];
   }
 

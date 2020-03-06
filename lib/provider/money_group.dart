@@ -7,6 +7,7 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import './tree_group.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 class MoneyGroup with ChangeNotifier {
   // 对TreeGroup Provider引用
@@ -50,18 +51,26 @@ class MoneyGroup with ChangeNotifier {
     }
   }
 
-  //初始化 form请求&Storage
-  Future<MoneyGroup> init(TreeGroup _treeGroup, String accId) async {
-    acct_id = accId;
-    treeGroup = _treeGroup;
+  Map<String, dynamic> getUseGroup(String str1, Map<String, dynamic> group2) {
+    Map<String, dynamic> group1 = Util.decodeStr(str1);
+    Map<String, dynamic> group = {};
+    if (group1.isNotEmpty || group2.isNotEmpty) {
+      group = group1.isNotEmpty ? group2 : group1;
+    } else {
+      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
+      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');
+      group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+    }
+    return group;
+  }
 
-    String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
-
-    if (res != null) {
-      Map<String, dynamic> group = json.decode(res);
+  void setTreeGroup(Map<String, dynamic> group) {
+    if (group != null && group.isNotEmpty) {
       String t = group['_upDateTime'];
       _gold = double.parse(group['_gold'].toString());
-      _money = double.parse(group['_money'].toString());
+      _money = group['_money'] != null
+          ? double.parse((group['_money']).toString())
+          : 0;
       DateTime upDateTime = t == null ? null : DateTime.tryParse(t);
 
       if (upDateTime != null) {
@@ -70,7 +79,23 @@ class MoneyGroup with ChangeNotifier {
         EVENT_BUS.on(TreeGroup.LOAD,
             (gold) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
       }
+      notifyListeners();
     }
+  }
+
+  //初始化 form请求&Storage
+  Future<MoneyGroup> init(TreeGroup _treeGroup, String accId) async {
+    acct_id = accId;
+    treeGroup = _treeGroup;
+
+    String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
+    Map<String, dynamic> ajaxData =
+        await Service().getMoneyInfo({'acct_id': accId, 'city': '123'});
+
+    setTreeGroup(getUseGroup(res, {
+      'upDateTime': ajaxData['last_leave_time'],
+      '_gold': ajaxData['coin'],
+    }));
 
     EVENT_BUS.on(MoneyGroup.ADD_GOLD, (gold) => addGold(gold));
     EVENT_BUS.on(MoneyGroup.ACC_GOLD, (gold) => accGold(gold));
@@ -87,23 +112,24 @@ class MoneyGroup with ChangeNotifier {
       addGold(treeGroup.makeGoldSped);
       addMoney(treeGroup.makeMoneySped);
     });
-    notifyListeners();
 
     return this;
   }
 
   // 将对象转为json
-  Map<String, dynamic> toJson() => {
-        'upDateTime': this._upDateTime.toString(),
-        '_gold': this._gold,
-        '_money': _money
-      };
+  Map<String, dynamic> toJson() =>
+      {'upDateTime': _upDateTime.toString(), '_gold': _gold, '_money': _money};
 
   Future<bool> save() async {
+    _upDateTime = DateTime.now();
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(MoneyGroup.CACHE_KEY, data);
 
-    await Service().saveMoneyInfo({'acct_id': acct_id, 'coin': data});
+    await Service().saveMoneyInfo({
+      'acct_id': acct_id,
+      'coin': _gold,
+      'last_leave_time': _upDateTime.toString()
+    });
 
     // 通知更新
     notifyListeners();

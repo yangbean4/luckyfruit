@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -8,6 +9,7 @@ import 'package:luckyfruit/widgets/layer.dart';
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
@@ -38,8 +40,8 @@ class TreeGroup with ChangeNotifier {
       new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 1);
 
   // 当前树中的最大等级
-  int _maxLevel = 1;
-  int get maxLevel => _maxLevel;
+  // int _maxLevel = 1;
+  int get maxLevel => treeGradeNumber.keys.map((t) => int.parse(t)).reduce(max);
 
   Tree get maxLevelTree => new Tree(grade: maxLevel);
 
@@ -108,17 +110,17 @@ class TreeGroup with ChangeNotifier {
   }
 
   Map<String, dynamic> getUseGroup(String str1, String str2) {
-    if (str1 == null || str2 == null || str2 == '') {
-      return str1 == null && (str2 == null || str2 == '')
-          ? null
-          : json.decode(str1 ?? str2);
+    Map<String, dynamic> group1 = Util.decodeStr(str1);
+    Map<String, dynamic> group2 = Util.decodeStr(str2);
+    Map<String, dynamic> group = {};
+    if (group1.isNotEmpty || group2.isNotEmpty) {
+      group = group1.isNotEmpty ? group2 : group1;
     } else {
-      Map<String, dynamic> group1 = json.decode(str1);
-      Map<String, dynamic> group2 = json.decode(str2);
-      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime']);
-      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime']);
-      return upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
+      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');
+      group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
     }
+    return group;
   }
 
   //初始化 form请求&Storage
@@ -234,11 +236,11 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
-      if (++target.grade > _maxLevel) {
-        _maxLevel = target.grade;
+      if (++target.grade > maxLevel) {
+        // _maxLevel = target.grade;
         // 最低级别的树更新
-        if (_maxLevel - _minLevel > TreeGroup.DIFF_LEVEL) {
-          _minLevel = _maxLevel - TreeGroup.DIFF_LEVEL;
+        if (maxLevel - _minLevel > TreeGroup.DIFF_LEVEL) {
+          _minLevel = maxLevel - TreeGroup.DIFF_LEVEL;
         }
         Layer.newGrade(maxLevelTree);
       }
