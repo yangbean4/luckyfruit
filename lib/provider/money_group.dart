@@ -67,10 +67,12 @@ class MoneyGroup with ChangeNotifier {
   void setTreeGroup(Map<String, dynamic> group) {
     if (group != null && group.isNotEmpty) {
       String t = group['_upDateTime'];
-      _gold = double.parse(group['_gold'].toString());
+      _gold = group['_gold'] != null
+          ? double.parse(group['_gold'].toString())
+          : 0.0;
       _money = group['_money'] != null
           ? double.parse((group['_money']).toString())
-          : 0;
+          : 0.0;
       DateTime upDateTime = t == null ? null : DateTime.tryParse(t);
 
       if (upDateTime != null) {
