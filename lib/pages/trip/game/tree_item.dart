@@ -115,21 +115,31 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                 height: ScreenUtil().setWidth(50),
                 color: MyTheme.darkGrayColor,
               )),
-          Positioned(
-            bottom: 0,
-            child: AnimatedBuilder(
-                animation: treeAnimation,
-                builder: (BuildContext context, Widget child) {
-                  return TreeWidget(
+          AnimatedBuilder(
+              animation: treeAnimation,
+              builder: (BuildContext context, Widget child) {
+                return Positioned(
+                  bottom: 0,
+                  left: ScreenUtil().setWidth(200 * (1 - treeAnimation.value)) /
+                      2,
+                  child: TreeWidget(
                     tree: widget.tree,
                     imgHeight: ScreenUtil().setWidth(140 * treeAnimation.value),
                     imgWidth: ScreenUtil().setWidth(200 * treeAnimation.value),
                     labelWidth: ScreenUtil().setWidth(72),
                     labelHeight: ScreenUtil().setWidth(44),
                     primary: true,
-                  );
-                }),
-          ),
+                    // image: Transform.scale(
+                    //     alignment: Alignment.center,
+                    //     scale: treeAnimation.value,
+                    //     child: Image.asset(
+                    //       widget.tree?.treeImgSrc,
+                    //       width: ScreenUtil().setWidth(200),
+                    //       height: ScreenUtil().setWidth(140),
+                    //     )),
+                  ),
+                );
+              }),
           showGold
               ? AnimatedBuilder(
                   animation: goldAnimation,
@@ -160,7 +170,8 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                                     style: TextStyle(
                                       fontFamily: FontFamily.bold,
                                       color: MyTheme.secondaryColor,
-                                      fontSize: ScreenUtil().setWidth(34),
+                                      fontSize: ScreenUtil().setWidth(40),
+                                      height: 1,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )),

@@ -16,6 +16,7 @@ class TreeWidget extends StatelessWidget {
   final bool primary;
   final String label;
   final Tree tree;
+  final Widget image;
   const TreeWidget(
       {Key key,
       this.imgWidth,
@@ -25,7 +26,8 @@ class TreeWidget extends StatelessWidget {
       this.labelHeight,
       this.label,
       this.tree,
-      this.primary})
+      this.primary,
+      this.image})
       : super(key: key);
 
   @override
@@ -36,17 +38,24 @@ class TreeWidget extends StatelessWidget {
       height: _labelHeight + imgHeight - imgHeight * 0.118,
       child: Stack(children: <Widget>[
         Positioned(
-            bottom: _labelHeight - imgHeight * 0.118,
-            child: Container(
-              width: imgWidth,
-              height: imgHeight,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(imgSrc ?? tree?.treeImgSrc),
-                  fit: BoxFit.contain,
-                ),
+          bottom: _labelHeight - imgHeight * 0.118,
+          // child: image ??
+          //     Image.asset(
+          //       imgSrc ?? tree?.treeImgSrc,
+          //       width: imgWidth,
+          //       height: imgHeight,
+          //     )
+          child: Container(
+            width: imgWidth,
+            height: imgHeight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(imgSrc ?? tree?.treeImgSrc),
+                fit: BoxFit.contain,
               ),
-            )),
+            ),
+          ),
+        ),
         Positioned(
             bottom: 0,
             left: (imgWidth - labelWidth) / 2,

@@ -93,7 +93,7 @@ class _TripState extends State<Trip> {
             }),
             builder: (context, Map<String, double> map, child) {
               return Container(
-                width: ScreenUtil().setWidth(500),
+                width: ScreenUtil().setWidth(600),
                 height: ScreenUtil().setWidth(150),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -105,15 +105,15 @@ class _TripState extends State<Trip> {
                     Positioned(
                       right: 0,
                       child: Container(
-                        width: ScreenUtil().setWidth(300),
+                        width: ScreenUtil().setWidth(400),
                         height: ScreenUtil().setWidth(150),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            BreatheText(
+                            BreatheAnimation(
                               child: Container(
-                                width: ScreenUtil().setWidth(300),
+                                width: ScreenUtil().setWidth(400),
                                 child: Text(
                                   Util.formatNumber(map['gold']),
                                   style: TextStyle(
@@ -159,22 +159,22 @@ class _TripState extends State<Trip> {
             builder: (context, Function recycle, child) {
               return DragTarget(
                   builder: (context, candidateData, rejectedData) {
-                    return Container(
-                        width: ScreenUtil().setWidth(226),
-                        height: ScreenUtil().setWidth(252),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/image/recycle.png'),
-                            fit: BoxFit.contain,
-                          ),
-                        ));
-                  },
-                  onWillAccept: (Tree source) {
-                    Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
-                        source.recycleGold);
-                    return false;
-                  },
-                  onAccept: (Tree source) {});
+                return Container(
+                    width: ScreenUtil().setWidth(226),
+                    height: ScreenUtil().setWidth(252),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/image/recycle.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ));
+              }, onWillAccept: (Tree source) {
+                Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
+                    source.recycleGold);
+                return true;
+              }, onAccept: (Tree source) {
+                return true;
+              });
             },
           ),
         ),

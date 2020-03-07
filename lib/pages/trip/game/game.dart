@@ -48,6 +48,7 @@ class _GameState extends State<Game> {
                 },
                 onAccept: (Tree source) {
                   treeGroup.trans(source, data, pos: new TreePoint(x: x, y: y));
+                  return true;
                 },
               );
             }));
@@ -81,6 +82,7 @@ class _GameState extends State<Game> {
                     onAccept: (Tree source) {
                       treeGroup.trans(source, data,
                           pos: new TreePoint(x: x, y: y));
+                      return true;
                     },
                   ));
             }));
@@ -180,6 +182,7 @@ class _GameState extends State<Game> {
                                             fontFamily: FontFamily.bold,
                                             color: Colors.white,
                                             fontSize: ScreenUtil().setWidth(44),
+                                            height: 1,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         )),
