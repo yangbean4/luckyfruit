@@ -50,7 +50,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
 
     goldAnimationController = new AnimationController(
       // 树放大的时候开始动画,与树的动画时间一致
-      duration: Duration(milliseconds: 1000 * TreeAnimationTime ~/ 8),
+      duration: Duration(milliseconds: 1000 * TreeAnimationTime ~/ 12),
       vsync: this,
     );
     final CurvedAnimation goldCurve = new CurvedAnimation(
@@ -63,7 +63,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
         });
       });
 
-    treeAnimation = new Tween(begin: 1.0, end: 1.1).animate(treeCurve);
+    treeAnimation = new Tween(begin: 1.0, end: 1.2).animate(treeCurve);
 
     const period = const Duration(seconds: TreeAnimationTime);
     Future.delayed(Duration(seconds: Random().nextInt(TreeAnimationTime ~/ 2)))
@@ -81,12 +81,13 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
 
   Future<void> runAction() async {
     try {
+      await treeAnimationController?.forward();
+      await treeAnimationController?.reverse();
+      await Future.delayed(Duration(milliseconds: 300));
+
       await goldAnimationController
         ..value = 0.0
         ..forward();
-      await Future.delayed(Duration(seconds: 1));
-      await treeAnimationController?.forward();
-      await treeAnimationController?.reverse();
     } catch (e) {}
   }
 

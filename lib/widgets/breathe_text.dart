@@ -18,7 +18,7 @@ class BreatheAnimation extends StatefulWidget {
     this.end = 1.1,
     this.timeInterval = const Duration(
         milliseconds: 1000 * AnimationConfig.TreeAnimationTime ~/ 5),
-    this.animateTime = const Duration(milliseconds: 800),
+    this.animateTime = const Duration(milliseconds: 600),
   }) : super(key: key);
 
   @override
@@ -40,14 +40,9 @@ class _BreatheAnimationState extends State<BreatheAnimation>
       ..value = 0.0;
     // ..fling(velocity: 0.1);
     final CurvedAnimation curve =
-        new CurvedAnimation(parent: controller, curve: Curves.bounceIn);
+        new CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
 
-    animation = new Tween(begin: widget.begin, end: widget.end).animate(curve)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.reverse();
-        }
-      });
+    animation = new Tween(begin: widget.begin, end: widget.end).animate(curve);
     Timer.periodic(widget.timeInterval, (_timer) {
       if (!isDispose) {
         timer = _timer;

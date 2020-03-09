@@ -38,7 +38,7 @@ dependencies:
   #国际化和本地化功能，包括消息翻译，复数形式和性别，日期/数字格式和解析以及双向文本。
   intl: ^0.16.0
   # 在移动平台中启动URL
-  url_launcher: ^5.2.5
+  # url_launcher: ^5.4,2
   # Loading动画 随时间变化而变化的加载指示器集合
   flutter_spinkit: ^4.1.2
   # 获取设备信息

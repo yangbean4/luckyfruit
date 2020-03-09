@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,9 @@ import 'package:luckyfruit/provider/user_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();

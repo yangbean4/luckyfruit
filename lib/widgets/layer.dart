@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -50,7 +51,7 @@ class Layer {
           ),
         ),
         SecondaryText('恭喜获得'),
-        GoldText('${goldNumber}t')
+        GoldText(Util.formatNumber(goldNumber))
       ])
         ..show();
 // 新等级弹窗
@@ -100,7 +101,7 @@ class Layer {
           children: <Widget>[
             Container(
               width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(42),
+              height: ScreenUtil().setWidth(44),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -330,7 +331,7 @@ class Layer {
           ),
           child: SecondaryText('回收价格'),
         ),
-        GoldText('${goldNumber}')
+        GoldText(Util.formatNumber(goldNumber))
       ])
         ..show();
 

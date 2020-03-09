@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:convert';
 
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 class Util {
@@ -48,16 +48,16 @@ class Util {
   }
 
   /// 打开url
-  static launchUrl(String url) async {
-    try {
-      if (await canLaunch(url)) {
-        return await launch(url);
-      } else {
-        print('无法打开 $url');
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
+  // static launchUrl(String url) async {
+  //   try {
+  //     if (await canLaunch(url)) {
+  //       return await launch(url);
+  //     } else {
+  //       print('无法打开 $url');
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
 }

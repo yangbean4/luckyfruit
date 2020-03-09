@@ -255,6 +255,7 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     }
+    notifyListeners();
     save();
   }
 
@@ -263,6 +264,9 @@ class TreeGroup with ChangeNotifier {
     if (_treeList.length == 1) {
       Layer.toastWarning('你就要没树啦....');
       return;
+    }
+    if (tree.grade == maxLevel) {
+      // TODO:是否最大等级不回收
     }
     _treeList.remove(tree);
     EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
