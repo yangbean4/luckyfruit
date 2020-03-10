@@ -190,6 +190,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.3.1"
+  eventsource:
+    dependency: "direct main"
+    description:
+      name: eventsource
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
   fixnum:
     dependency: transitive
     description:
@@ -553,6 +560,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
+  sync:
+    dependency: transitive
+    description:
+      name: sync
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   term_glyph:
     dependency: transitive
     description:

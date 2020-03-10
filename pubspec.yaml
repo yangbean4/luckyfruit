@@ -43,6 +43,9 @@ dependencies:
   flutter_spinkit: ^4.1.2
   # 获取设备信息
   device_info: ^0.4.1+5
+  # Server-Sent Events
+  eventsource: ^0.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
