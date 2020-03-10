@@ -94,12 +94,12 @@ flutter:
     - family: semibold
       fonts:
         - asset: assets/font/SEMIBOLD.OTF
-    - family: CN-Bold
-      fonts:
-        - asset: assets/font/CN-Bold.otf
-    - family: CN-Heavy
-      fonts:
-        - asset: assets/font/CN-Heavy.otf
+    # - family: CN-Bold
+    #   fonts:
+    #     - asset: assets/font/CN-Bold.otf
+    # - family: CN-Heavy
+    #   fonts:
+    #     - asset: assets/font/CN-Heavy.otf
 
   
   # For details regarding fonts from package dependencies,

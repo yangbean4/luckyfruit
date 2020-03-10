@@ -23,6 +23,6 @@ class FontFamily {
   static String black = 'black';
   static String bold = 'bold';
   static String semibold = 'semibold';
-  static String CNBold = 'CN-Bold';
-  static String CNHeavy = 'CN-Heavy';
+  // static String CNBold = 'CN-Bold';
+  // static String CNHeavy = 'CN-Heavy';
 }
