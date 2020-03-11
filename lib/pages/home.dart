@@ -64,8 +64,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   Widget _createBottomBar() {
     return BottomNavigationBar(
       iconSize: ScreenUtil().setWidth(56),
-      selectedFontSize: ScreenUtil().setSp(34),
-      unselectedFontSize: ScreenUtil().setSp(34),
+      showUnselectedLabels: true,
+      selectedFontSize: ScreenUtil().setWidth(34),
+      unselectedFontSize: ScreenUtil().setWidth(34),
+      selectedItemColor: MyTheme.mainActiveColor,
+      unselectedItemColor: MyTheme.mainItemColor,
       items: [
         _createBarItem(
             iconUrl: 'assets/image/trip.png',
@@ -75,9 +78,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             iconUrl: 'assets/image/map.png',
             activeIconUrl: 'assets/image/map_active.png',
             name: 'MAP'),
+        _createBarItem(
+            iconUrl: 'assets/image/partner.png',
+            activeIconUrl: 'assets/image/partner_active.png',
+            name: 'PARTNER'),
+        _createBarItem(
+            iconUrl: 'assets/image/mine.png',
+            activeIconUrl: 'assets/image/mine_active.png',
+            name: 'MINE'),
       ],
       currentIndex: this.tabIndex,
-      fixedColor: MyTheme.blackColor,
       onTap: (int index) {
         setState(() {
           this.tabIndex = index;

@@ -36,6 +36,10 @@ class TreeGroup with ChangeNotifier {
   int _minLevel = 1;
   int get minLevel => _minLevel;
 
+// 显示 添加/回收 树
+  Tree _isrecycle;
+  Tree get isrecycle => _isrecycle;
+
   Tree get minLevelTree =>
       new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 1);
 
@@ -262,14 +266,20 @@ class TreeGroup with ChangeNotifier {
   // 回收树木
   recycle(Tree tree) {
     if (_treeList.length == 1) {
-      Layer.toastWarning('你就要没树啦....');
+      Layer.toastWarning('你就要没��啦....');
       return;
     }
     if (tree.grade == maxLevel) {
-      // TODO:是否最大等级不回收
+      return Layer.toastWarning('最大等级的🌲不能回收');
     }
     _treeList.remove(tree);
     EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
     save();
+  }
+
+  // 切换添加/回收树按钮 树是否在拖拽.
+  void transRecycle(Tree tree) {
+    _isrecycle = tree;
+    notifyListeners();
   }
 }

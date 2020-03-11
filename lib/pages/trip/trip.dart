@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './game/game.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/widgets/layer.dart';
+// import 'package:luckyfruit/provider/tree_group.dart';
+// import 'package:luckyfruit/mould/tree.mould.dart';
+// import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
@@ -151,33 +151,34 @@ class _TripState extends State<Trip> {
             },
           ),
         ),
-        Positioned(
-          bottom: ScreenUtil().setWidth(880),
-          right: 0,
-          child: Selector<TreeGroup, Function>(
-            selector: (context, provider) => provider.recycle,
-            builder: (context, Function recycle, child) {
-              return DragTarget(
-                  builder: (context, candidateData, rejectedData) {
-                return Container(
-                    width: ScreenUtil().setWidth(226),
-                    height: ScreenUtil().setWidth(252),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/image/recycle.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ));
-              }, onWillAccept: (Tree source) {
-                Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
-                    source.recycleGold);
-                return true;
-              }, onAccept: (Tree source) {
-                return true;
-              });
-            },
-          ),
-        ),
+        // 移除此处, 回收改为 在拖动树木时添加按钮处
+        // Positioned(
+        //   bottom: ScreenUtil().setWidth(880),
+        //   right: 0,
+        //   child: Selector<TreeGroup, Function>(
+        //     selector: (context, provider) => provider.recycle,
+        //     builder: (context, Function recycle, child) {
+        //       return DragTarget(
+        //           builder: (context, candidateData, rejectedData) {
+        //         return Container(
+        //             width: ScreenUtil().setWidth(226),
+        //             height: ScreenUtil().setWidth(252),
+        //             decoration: BoxDecoration(
+        //               image: DecorationImage(
+        //                 image: AssetImage('assets/image/recycle.png'),
+        //                 fit: BoxFit.contain,
+        //               ),
+        //             ));
+        //       }, onWillAccept: (Tree source) {
+        //         Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
+        //             source.recycleGold);
+        //         return true;
+        //       }, onAccept: (Tree source) {
+        //         return true;
+        //       });
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

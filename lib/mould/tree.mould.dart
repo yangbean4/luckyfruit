@@ -9,6 +9,8 @@ class TreePoint {
 }
 
 class Tree extends TreePoint {
+  Tree({this.grade, this.gradeNumber = 1, int x, int y}) : super(x: x, y: y);
+
   // 等级
   int grade;
   // 该等级生产的次数
@@ -40,8 +42,6 @@ class Tree extends TreePoint {
   double get consumeGold => end >= 23 * f ? 23 * f : end;
   //
   String get treeImgSrc => 'assets/tree/tree${grade % 3 + 1}.png';
-
-  Tree({this.grade, this.gradeNumber = 1, int x, int y}) : super(x: x, y: y);
 
   factory Tree.formJson(Map<String, dynamic> json) => Tree()
     ..x = int.parse(json['x'].toString())

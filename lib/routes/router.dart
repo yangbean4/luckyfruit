@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:luckyfruit/pages/illustration/illustration.dart';
 import '../pages/Home.dart';
 
 final routes = {
   'Home': (context) => Home(),
+  'Illustration': (context) => Illustration(),
   // 'app.content': (content, {arguments}) => AppPage(arguments: arguments),
   '404': (context) => Text("404"),
 };

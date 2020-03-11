@@ -18,7 +18,7 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  // Sse.init();
+  // Sse.init();\
   UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();

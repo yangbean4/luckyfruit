@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import './tree_item.dart';
@@ -43,13 +45,20 @@ class _GridItemState extends State<GridItem> {
               ? Positioned(
                   bottom: ScreenUtil().setWidth(25),
                   child: Center(
-                    child: Draggable(
-                        child: _tree,
-                        // feedback: _tree,
-                        feedback: TreeNoAnimation(widget.tree),
-                        data: widget.tree,
-                        childWhenDragging: Container()),
-                  ),
+                      child: Selector<TreeGroup, Function>(
+                          selector: (context, provider) =>
+                              provider.transRecycle,
+                          shouldRebuild: (pre, next) => false,
+                          builder: (context, Function transRecycle, child) {
+                            return Draggable(
+                                child: _tree,
+                                onDragStarted: () => transRecycle(widget.tree),
+                                onDragEnd: (_) => transRecycle(null),
+                                // feedback: _tree,
+                                feedback: TreeNoAnimation(widget.tree),
+                                data: widget.tree,
+                                childWhenDragging: Container());
+                          })),
                 )
               : Container()
           // Positioned(child: null)
