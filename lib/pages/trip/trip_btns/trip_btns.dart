@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
-
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/widgets/count_down.dart';
 // 右上角的一些入口玩法
 
 class TripBtns extends StatefulWidget {
@@ -14,27 +16,31 @@ class TripBtns extends StatefulWidget {
 }
 
 class _TripBtnsState extends State<TripBtns> {
-  List<Widget> btnList;
+  String goldLabel = '';
+  Duration getGoldCountdown;
+  bool isCountdown = false;
+
   @override
   void initState() {
     super.initState();
-    btnList = [
-      getItem('assets/image/phone.png', () {
-        print('phone');
-      }, 'FREE', labelColor: MyTheme.redColor),
-      getItem('assets/image/spin.png', () {
-        print('spin');
-      }, 'SPIN'),
-      getItem('assets/image/rank.png', () {
-        print('rank');
-      }, 'RANK'),
-      getItem('assets/image/help.png', () {
-        print('help');
-      }, 'HOW TO PLAY'),
-    ];
+    WidgetsBinding.instance.addPostFrameCallback((c) {
+      Duration _getGoldCountdown =
+          Provider.of<LuckyGroup>(context, listen: false).getGoldCountdown;
+      if (_getGoldCountdown != null) {
+        setState(() {
+          getGoldCountdown = _getGoldCountdown;
+          isCountdown = true;
+        });
+      }
+    });
   }
 
-  Widget getItem(String imgSrc, Function onTap, String label,
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  Widget getItem(String imgSrc, Function onTap, label,
       {Color labelColor, double labelWith}) {
     return GestureDetector(
       onTap: onTap,
@@ -78,45 +84,47 @@ class _TripBtnsState extends State<TripBtns> {
                       color: labelColor,
                       borderRadius: BorderRadius.all(
                           Radius.circular(ScreenUtil().setWidth(10)))),
-                  child: labelColor == null
-                      ? Center(
-                          child: Stack(children: <Widget>[
-                          Text(
-                            label,
-                            style: TextStyle(
-                                height: 1,
-                                foreground: new Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = ScreenUtil().setSp(3)
-                                  ..color = Colors.white,
-                                fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setSp(20),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            label,
-                            style: TextStyle(
-                                color: labelColor == null
-                                    ? MyTheme.blackColor
-                                    : Colors.white,
-                                height: 1,
-                                fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setSp(20),
-                                fontWeight: FontWeight.bold),
-                          )
-                        ]))
-                      : Text(
-                          label,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: labelColor == null
-                                  ? MyTheme.blackColor
-                                  : Colors.white,
-                              height: 1,
-                              fontFamily: FontFamily.bold,
-                              fontSize: ScreenUtil().setSp(20),
-                              fontWeight: FontWeight.bold),
-                        ),
+                  child: label is Widget
+                      ? label
+                      : labelColor == null
+                          ? Center(
+                              child: Stack(children: <Widget>[
+                              Text(
+                                label,
+                                style: TextStyle(
+                                    height: 1,
+                                    foreground: new Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = ScreenUtil().setWidth(3)
+                                      ..color = Colors.white,
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setWidth(20),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                label,
+                                style: TextStyle(
+                                    color: labelColor == null
+                                        ? MyTheme.blackColor
+                                        : Colors.white,
+                                    height: 1,
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setWidth(20),
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ]))
+                          : Text(
+                              label,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: labelColor == null
+                                      ? MyTheme.blackColor
+                                      : Colors.white,
+                                  height: 1,
+                                  fontFamily: FontFamily.bold,
+                                  fontSize: ScreenUtil().setWidth(20),
+                                  fontWeight: FontWeight.bold),
+                            ),
                 ),
               ),
             )
@@ -131,7 +139,40 @@ class _TripBtnsState extends State<TripBtns> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: btnList,
+      children: [
+        getItem('assets/image/gold.png', () {
+          print('gold');
+        },
+            isCountdown
+                ? CountdownFormatted(
+                    duration: getGoldCountdown,
+                    builder: (context, String str) {
+                      return Text(
+                        str,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            height: 1,
+                            fontFamily: FontFamily.bold,
+                            fontSize: ScreenUtil().setWidth(20),
+                            fontWeight: FontWeight.bold),
+                      );
+                    })
+                : 'GET',
+            labelColor: MyTheme.yellowColor),
+        getItem('assets/image/phone.png', () {
+          print('phone');
+        }, 'FREE', labelColor: MyTheme.redColor),
+        getItem('assets/image/spin.png', () {
+          print('spin');
+        }, 'SPIN'),
+        getItem('assets/image/rank.png', () {
+          print('rank');
+        }, 'RANK'),
+        getItem('assets/image/help.png', () {
+          print('help');
+        }, 'HOW TO PLAY'),
+      ],
     );
   }
 }

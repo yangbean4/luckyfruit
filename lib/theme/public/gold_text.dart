@@ -6,7 +6,10 @@ import 'package:luckyfruit/theme/index.dart';
 
 class GoldText extends StatelessWidget {
   final String text;
-  const GoldText(this.text, {Key key}) : super(key: key);
+  final double iconSize;
+  final double textSize;
+  const GoldText(this.text, {Key key, this.iconSize, this.textSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +19,8 @@ class GoldText extends StatelessWidget {
       children: <Widget>[
         Image.asset(
           'assets/image/gold.png',
-          width: ScreenUtil().setWidth(64),
-          height: ScreenUtil().setWidth(64),
+          width: ScreenUtil().setWidth(iconSize ?? 64),
+          height: ScreenUtil().setWidth(iconSize ?? 64),
         ),
         Container(
             margin: EdgeInsets.only(
@@ -27,7 +30,7 @@ class GoldText extends StatelessWidget {
               text,
               style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(43),
+                fontSize: ScreenUtil().setWidth(textSize ?? 43),
                 fontWeight: FontWeight.w600,
               ),
             )),

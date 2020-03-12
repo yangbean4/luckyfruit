@@ -12,7 +12,6 @@ import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import './trip_btns/trip_btns.dart';
-import 'package:luckyfruit/widgets/gradient_text.dart';
 
 class _SelectorUse {
   String city;

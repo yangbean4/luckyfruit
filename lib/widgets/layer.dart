@@ -50,7 +50,7 @@ class Layer {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        SecondaryText('恭喜获得'),
+        SecondaryText('恭喜获得', color: MyTheme.secondaryColor),
         GoldText(Util.formatNumber(goldNumber))
       ])
         ..show();
@@ -80,7 +80,7 @@ class Layer {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        SecondaryText('升级成功')
+        SecondaryText('升级成功', color: MyTheme.secondaryColor)
       ],
       footer: Container(
         width: ScreenUtil().setWidth(840),
@@ -329,11 +329,24 @@ class Layer {
             top: ScreenUtil().setWidth(63),
             bottom: ScreenUtil().setWidth(50),
           ),
-          child: SecondaryText('回收价格'),
+          child: SecondaryText('回收价格', color: MyTheme.secondaryColor),
         ),
         GoldText(Util.formatNumber(goldNumber))
       ])
         ..show();
+
+  static levelUp(int level, double getGlod) {
+    Modal modal = Modal(children: <Widget>[
+      ModalTitle('Level Up $level'),
+      Image.asset(
+        'assets/image/more_gold.png',
+        width: ScreenUtil().setWidth(227),
+        height: ScreenUtil().setWidth(140),
+      ),
+      SecondaryText("Level up reward"),
+    ])
+      ..show();
+  }
 
   /// toast弹窗
   static _showToast(String type, String msg) {
