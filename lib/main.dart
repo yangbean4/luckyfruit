@@ -10,7 +10,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
-
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/sse.dart';
 
 void main() {
@@ -22,7 +22,8 @@ void main() {
   UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();
-  TourismMap tourismMap = TourismMap();
+  TourismMap tourismMap = TourismMap()..init(moneyGroup);
+  LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
     treeGroup.init(moneyGroup, userModel.value?.acct_id);
     moneyGroup.init(treeGroup, userModel.value?.acct_id);
@@ -38,6 +39,9 @@ void main() {
       ),
       ChangeNotifierProvider<TourismMap>.value(
         value: tourismMap,
+      ),
+      ChangeNotifierProvider<LuckyGroup>.value(
+        value: luckyGroup,
       )
     ],
     child: MyApp(),

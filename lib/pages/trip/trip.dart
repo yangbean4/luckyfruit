@@ -4,14 +4,19 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './game/game.dart';
-// import 'package:luckyfruit/provider/tree_group.dart';
-// import 'package:luckyfruit/mould/tree.mould.dart';
-// import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
+
+class _SelectorUse {
+  String city;
+  double schedule;
+  int level;
+  _SelectorUse({this.level, this.city, this.schedule});
+}
 
 class Trip extends StatefulWidget {
   Trip({Key key}) : super(key: key);
@@ -20,11 +25,9 @@ class Trip extends StatefulWidget {
   _TripState createState() => _TripState();
 }
 
-class _TripState extends State<Trip> {
+class _TripState extends State<Trip> with MyNavigator {
   @override
   Widget build(BuildContext context) {
-    TourismMap tourismMap = Provider.of<TourismMap>(context);
-
 // 创建线性渐变,蓝色强调色到绿色强调色的渐变
 // 这里的渐变效果是从左往右的线性渐变
     Gradient gradient = LinearGradient(colors: [
@@ -40,49 +43,183 @@ class _TripState extends State<Trip> {
     return Stack(
       children: <Widget>[
         Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
+          Expanded(
+            child: Container(
+              width: ScreenUtil().setWidth(1080),
+              // height: ,
+              child: Stack(
                 children: <Widget>[
-              Expanded(
-                child: Container(
-                  width: ScreenUtil().setWidth(1080),
-                  // height: ,
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
+                  Selector<TourismMap, String>(
+                    selector: (context, provider) => provider.cityImgSrc,
+                    builder: (context, String cityImgSrc, child) {
+                      return Container(
                         width: ScreenUtil().setWidth(1080),
                         // height: ScreenUtil().setWidth(812),
                         decoration: BoxDecoration(
                             image: DecorationImage(
                           alignment: Alignment.center,
-                          image: AssetImage(tourismMap.cityImgSrc),
+                          image: AssetImage(cityImgSrc),
                           fit: BoxFit.cover,
                         )),
-                      ),
-                      Positioned(
+                      );
+                    },
+                  ),
+                  Selector<TourismMap, String>(
+                    selector: (context, provider) => provider.carImgSrc,
+                    builder: (context, String carImgSrc, child) {
+                      return Positioned(
                         bottom: ScreenUtil().setWidth(46),
                         left: ScreenUtil().setWidth(256),
                         child: Image.asset(
-                          tourismMap.carImgSrc,
+                          carImgSrc,
                           width: ScreenUtil().setWidth(687),
                           height: ScreenUtil().setWidth(511),
                         ),
-                      ),
-                      Positioned(
+                      );
+                    },
+                  ),
+                  Selector<TourismMap, String>(
+                    selector: (context, provider) => provider.manImgSrc,
+                    builder: (context, String manImgSrc, child) {
+                      return Positioned(
                         bottom: ScreenUtil().setWidth(88),
                         left: ScreenUtil().setWidth(88),
                         child: Image.asset(
-                          tourismMap.manImgSrc,
+                          manImgSrc,
                           width: ScreenUtil().setWidth(172),
                           height: ScreenUtil().setWidth(352),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ),
+
+                  // 头部 多按钮等
+                  Positioned(
+                    top: ScreenUtil().setWidth(92),
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(60)),
+                        height: ScreenUtil().setWidth(237),
+                        child: Selector<TourismMap, _SelectorUse>(
+                            selector: (context, provider) => _SelectorUse(
+                                city: provider.city,
+                                schedule: provider.schedule,
+                                level: provider.level),
+                            builder:
+                                (context, _SelectorUse _selectorUse, child) {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      width: ScreenUtil().setWidth(378),
+                                      height: ScreenUtil().setWidth(237),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () =>
+                                                pushNamed(context, 'map'),
+                                            child: Container(
+                                              width: ScreenUtil().setWidth(378),
+                                              height: ScreenUtil().setWidth(54),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    _selectorUse.city
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                        height: 1,
+                                                        fontFamily:
+                                                            FontFamily.black,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        color: Colors.white,
+                                                        fontSize: ScreenUtil()
+                                                            .setSp(74)),
+                                                  ),
+                                                  Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: ScreenUtil()
+                                                              .setWidth(9),
+                                                          left: ScreenUtil()
+                                                              .setWidth(12)),
+                                                      child: Image.asset(
+                                                        'assets/image/cityarrow.png',
+                                                        width: ScreenUtil()
+                                                            .setWidth(21),
+                                                        height: ScreenUtil()
+                                                            .setWidth(35),
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: ScreenUtil().setWidth(248),
+                                            margin: EdgeInsets.only(
+                                              top: ScreenUtil().setWidth(10),
+                                            ),
+                                            child: Text(
+                                              'LV.${_selectorUse.level}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: FontFamily.bold,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: MyTheme.blackColor,
+                                                  fontSize:
+                                                      ScreenUtil().setSp(24)),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: ScreenUtil().setWidth(248),
+                                            height: ScreenUtil().setWidth(20),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(ScreenUtil()
+                                                      .setWidth(10))),
+                                            ),
+                                            child: Container(
+                                                width: ScreenUtil().setWidth(
+                                                    248 /
+                                                        100 *
+                                                        _selectorUse.schedule),
+                                                height:
+                                                    ScreenUtil().setWidth(20),
+                                                decoration: BoxDecoration(
+                                                  color: MyTheme.yellowColor,
+                                                  borderRadius: BorderRadius
+                                                      .all(Radius.circular(
+                                                          ScreenUtil()
+                                                              .setWidth(10))),
+                                                )),
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                    width: ScreenUtil().setWidth(960 - 378),
+                                    height: ScreenUtil().setWidth(106),
+                                  )
+                                ],
+                              );
+                            })),
+                  ),
+                ],
               ),
-              Game(),
-            ])),
+            ),
+          ),
+          Game(),
+        ])),
         Positioned(
           bottom: ScreenUtil().setWidth(930),
           left: 0,
@@ -119,7 +256,7 @@ class _TripState extends State<Trip> {
                                   style: TextStyle(
                                       foreground: Paint()..shader = shader,
                                       fontFamily: FontFamily.black,
-                                      fontSize: ScreenUtil().setWidth(68),
+                                      fontSize: ScreenUtil().setSp(68),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -129,7 +266,7 @@ class _TripState extends State<Trip> {
                               style: TextStyle(
                                   color: MyTheme.blackColor,
                                   fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setWidth(46),
+                                  fontSize: ScreenUtil().setSp(46),
                                   fontWeight: FontWeight.bold),
                             )
                           ],

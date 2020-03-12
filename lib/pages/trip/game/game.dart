@@ -19,12 +19,12 @@ num gridWidth = 200;
 num gridHeight = 210;
 num xSpace = (960 - gridWidth * GameConfig.X_AMOUNT) ~/ 3;
 
-class SelectorUse {
+class _SelectorUse {
   Tree minLevelTree;
   Function addTree;
   Tree isrecycle;
   Function recycle;
-  SelectorUse({this.minLevelTree, this.addTree, this.isrecycle, this.recycle});
+  _SelectorUse({this.minLevelTree, this.addTree, this.isrecycle, this.recycle});
 }
 
 class Game extends StatefulWidget {
@@ -154,13 +154,13 @@ class _GameState extends State<Game> with MyNavigator {
               top: ScreenUtil().setWidth(85),
               // bottom: ScreenUtil().setWidth(54),
             ),
-            child: Selector<TreeGroup, SelectorUse>(
-                selector: (context, provider) => SelectorUse(
+            child: Selector<TreeGroup, _SelectorUse>(
+                selector: (context, provider) => _SelectorUse(
                     minLevelTree: provider.minLevelTree,
                     addTree: provider.addTree,
                     recycle: provider.recycle,
                     isrecycle: provider.isrecycle),
-                builder: (context, SelectorUse selectorUse, child) {
+                builder: (context, _SelectorUse selectorUse, child) {
                   Widget center = selectorUse.isrecycle == null
                       ? GestureDetector(
                           onTap: selectorUse.addTree,
