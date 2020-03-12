@@ -38,49 +38,38 @@ class Modal {
         }
       }));
     }
+
+    children?.addAll(btnList);
     final cancel = () {
       this.hide();
       if (onCancel != null) {
         onCancel();
       }
     };
-    final topWidget = Container(
-      width: ScreenUtil().setWidth(840),
-      height: ScreenUtil().setWidth(860),
-      margin: EdgeInsets.only(
-        bottom: ScreenUtil().setWidth(70),
-      ),
-      padding: EdgeInsets.symmetric(
-        vertical: ScreenUtil().setWidth(90),
-        horizontal: ScreenUtil().setWidth(120),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(ScreenUtil().setWidth(100)),
-        ),
-      ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: btnList.length > 1
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-              children: btnList,
+    final topWidget = Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              bottom: ScreenUtil().setWidth(70),
             ),
-          )
-        ],
-      ),
-    );
+            padding: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setWidth(90),
+              horizontal: ScreenUtil().setWidth(120),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(ScreenUtil().setWidth(100)),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: children,
+            ),
+          ),
+        ]);
 
     List<Widget> widgetList = [topWidget];
     if (footer != null) {
