@@ -213,7 +213,7 @@ class Layer {
                         Text(
                           '每天领取分红',
                           style: TextStyle(
-                              color: MyTheme.redColor,
+                              color: MyTheme.secondaryColor,
                               fontSize: ScreenUtil().setWidth(22),
                               fontWeight: FontWeight.w500),
                         ),

@@ -18,7 +18,7 @@ class MyTheme {
   // 黑色文字
   static const Color blackColor = Color.fromRGBO(38, 38, 38, 1);
   /* 红色文字*/
-  static const Color redColor = Color.fromRGBO(38, 38, 38, 1);
+  static const Color redColor = Color.fromRGBO(255, 76, 47, 1);
   // 黄色
   static const Color yellowColor = Color.fromRGBO(255, 172, 30, 1);
 }

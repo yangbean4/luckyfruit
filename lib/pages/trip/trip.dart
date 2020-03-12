@@ -10,6 +10,7 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 
 class _SelectorUse {
   String city;
@@ -102,7 +103,7 @@ class _TripState extends State<Trip> with MyNavigator {
                     child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(60)),
-                        height: ScreenUtil().setWidth(237),
+                        height: ScreenUtil().setWidth(250),
                         child: Selector<TourismMap, _SelectorUse>(
                             selector: (context, provider) => _SelectorUse(
                                 city: provider.city,
@@ -115,7 +116,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                 children: <Widget>[
                                   Container(
                                       width: ScreenUtil().setWidth(378),
-                                      height: ScreenUtil().setWidth(237),
+                                      height: ScreenUtil().setWidth(250),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -183,6 +184,9 @@ class _TripState extends State<Trip> with MyNavigator {
                                           Container(
                                             width: ScreenUtil().setWidth(248),
                                             height: ScreenUtil().setWidth(20),
+                                            margin: EdgeInsets.only(
+                                                bottom:
+                                                    ScreenUtil().setWidth(36)),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.all(
@@ -203,7 +207,97 @@ class _TripState extends State<Trip> with MyNavigator {
                                                           ScreenUtil()
                                                               .setWidth(10))),
                                                 )),
-                                          )
+                                          ),
+                                          GestureDetector(
+                                            onTap: () =>
+                                                pushNamed(context, 'dividend'),
+                                            child: Container(
+                                              width: ScreenUtil().setWidth(378),
+                                              height: ScreenUtil().setWidth(96),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    ScreenUtil().setWidth(24),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                alignment: Alignment.center,
+                                                image: AssetImage(
+                                                    'assets/image/dividend.png'),
+                                                fit: BoxFit.cover,
+                                              )),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                    'assets/image/dividend_tree.png',
+                                                    width: ScreenUtil()
+                                                        .setWidth(44),
+                                                    height: ScreenUtil()
+                                                        .setWidth(48),
+                                                  ),
+                                                  Expanded(
+                                                      child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text('TODAY',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  ScreenUtil()
+                                                                      .setSp(
+                                                                          24),
+                                                              fontFamily:
+                                                                  FontFamily
+                                                                      .bold,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: MyTheme
+                                                                  .redColor)),
+                                                      Selector<LuckyGroup,
+                                                              double>(
+                                                          selector: (context,
+                                                                  provider) =>
+                                                              provider.dividend,
+                                                          builder: (context,
+                                                              double dividend,
+                                                              child) {
+                                                            return Text(
+                                                                '\$${Util.formatNumber(dividend)}',
+                                                                style: TextStyle(
+                                                                    fontSize: ScreenUtil()
+                                                                        .setSp(
+                                                                            32),
+                                                                    fontFamily:
+                                                                        FontFamily
+                                                                            .bold,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: MyTheme
+                                                                        .redColor));
+                                                          })
+                                                    ],
+                                                  )),
+                                                  Image.asset(
+                                                    'assets/image/dividend_btn.png',
+                                                    width: ScreenUtil()
+                                                        .setWidth(123),
+                                                    height: ScreenUtil()
+                                                        .setWidth(64),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       )),
                                   Container(
