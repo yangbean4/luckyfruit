@@ -13,14 +13,15 @@ class Modal {
   final Function onCancel;
   final Widget footer;
   final List<Widget> children;
+  final bool autoHide;
 
-  Modal({
-    this.okText,
-    this.onOk,
-    this.onCancel,
-    this.children,
-    this.footer,
-  });
+  Modal(
+      {this.okText,
+      this.onOk,
+      this.onCancel,
+      this.children,
+      this.footer,
+      this.autoHide = true});
 
   /// 隐藏Modal
   hide() {
@@ -32,7 +33,9 @@ class Modal {
     List<Widget> btnList = [];
     if (okText != null) {
       btnList.add(_createButton(okText, () {
-        this.hide();
+        if (autoHide) {
+          this.hide();
+        }
         if (onOk != null) {
           onOk();
         }
@@ -51,6 +54,7 @@ class Modal {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
+            width: ScreenUtil().setWidth(840),
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setWidth(70),
             ),

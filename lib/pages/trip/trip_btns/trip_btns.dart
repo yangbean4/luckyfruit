@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 
 // 右上角的一些入口玩法
 
@@ -24,6 +25,7 @@ class _TripBtnsState extends State<TripBtns> {
       }, 'FREE', labelColor: MyTheme.redColor),
       getItem('assets/image/spin.png', () {
         print('spin');
+        Layer.showLuckyWheel();
       }, 'SPIN'),
       getItem('assets/image/rank.png', () {
         print('rank');
