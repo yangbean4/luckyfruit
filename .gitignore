@@ -8,7 +8,6 @@
 .buildlog/
 .history
 .svn/
-todo.md
 # IntelliJ related
 *.iml
 *.ipr

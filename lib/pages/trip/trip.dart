@@ -11,6 +11,8 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import './trip_btns/trip_btns.dart';
+import 'package:luckyfruit/widgets/gradient_text.dart';
 
 class _SelectorUse {
   String city;
@@ -29,18 +31,6 @@ class Trip extends StatefulWidget {
 class _TripState extends State<Trip> with MyNavigator {
   @override
   Widget build(BuildContext context) {
-// 创建线性渐变,蓝色强调色到绿色强调色的渐变
-// 这里的渐变效果是从左往右的线性渐变
-    Gradient gradient = LinearGradient(colors: [
-      Color.fromRGBO(255, 172, 30, 1),
-      Color.fromRGBO(255, 131, 30, 1),
-    ]);
-// 根据渐变创建shader
-// 范围是从左上角(0,0),到右下角(size.width,size.height)全屏幕范围
-    Shader shader = gradient.createShader(
-      Rect.fromLTWH(
-          0, 0, ScreenUtil().setWidth(300), ScreenUtil().setWidth(300)),
-    );
     return Stack(
       children: <Widget>[
         Container(
@@ -303,6 +293,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                   Container(
                                     width: ScreenUtil().setWidth(960 - 378),
                                     height: ScreenUtil().setWidth(106),
+                                    child: TripBtns(),
                                   )
                                 ],
                               );
@@ -344,16 +335,24 @@ class _TripState extends State<Trip> with MyNavigator {
                           children: <Widget>[
                             BreatheAnimation(
                               child: Container(
-                                width: ScreenUtil().setWidth(400),
-                                child: Text(
-                                  Util.formatNumber(map['gold']),
-                                  style: TextStyle(
-                                      foreground: Paint()..shader = shader,
-                                      fontFamily: FontFamily.black,
-                                      fontSize: ScreenUtil().setSp(68),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                                  width: ScreenUtil().setWidth(400),
+                                  child: ShaderMask(
+                                    shaderCallback: (bounds) =>
+                                        LinearGradient(colors: [
+                                      Color.fromRGBO(255, 172, 30, 1),
+                                      Color.fromRGBO(255, 131, 30, 1),
+                                    ]).createShader(Rect.fromLTWH(
+                                            0, 0, bounds.width, bounds.height)),
+                                    child: Text(
+                                      Util.formatNumber(map['gold']),
+                                      style: TextStyle(
+                                          // The color must be set to white for this to work
+                                          color: Colors.white,
+                                          fontFamily: FontFamily.black,
+                                          fontSize: ScreenUtil().setSp(68),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )),
                             ),
                             Text(
                               '${Util.formatNumber(map['makeGoldSped'])}/s',
@@ -382,34 +381,6 @@ class _TripState extends State<Trip> with MyNavigator {
             },
           ),
         ),
-        // 移除此处, 回收改为 在拖动树木时添加按钮处
-        // Positioned(
-        //   bottom: ScreenUtil().setWidth(880),
-        //   right: 0,
-        //   child: Selector<TreeGroup, Function>(
-        //     selector: (context, provider) => provider.recycle,
-        //     builder: (context, Function recycle, child) {
-        //       return DragTarget(
-        //           builder: (context, candidateData, rejectedData) {
-        //         return Container(
-        //             width: ScreenUtil().setWidth(226),
-        //             height: ScreenUtil().setWidth(252),
-        //             decoration: BoxDecoration(
-        //               image: DecorationImage(
-        //                 image: AssetImage('assets/image/recycle.png'),
-        //                 fit: BoxFit.contain,
-        //               ),
-        //             ));
-        //       }, onWillAccept: (Tree source) {
-        //         Layer.recycleLayer(() => recycle(source), source.treeImgSrc,
-        //             source.recycleGold);
-        //         return true;
-        //       }, onAccept: (Tree source) {
-        //         return true;
-        //       });
-        //     },
-        //   ),
-        // ),
       ],
     );
   }
