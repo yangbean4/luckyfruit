@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:luckyfruit/pages/illustration/illustration.dart';
 import '../pages/Home.dart';
+import '../pages/rank_page.dart';
 
 final routes = {
   'Home': (context) => Home(),
   'Illustration': (context) => Illustration(),
   // 'app.content': (content, {arguments}) => AppPage(arguments: arguments),
   '404': (context) => Text("404"),
+  'RankPage': (context) => RankPage(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {
