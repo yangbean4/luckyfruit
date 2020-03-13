@@ -12,6 +12,7 @@ import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import './ad_btn.dart';
+import 'package:luckyfruit/pages/trip/game/lucky_wheel.dart';
 
 /// 公共函数库
 class Layer {
@@ -429,5 +430,49 @@ class Layer {
       dismissOtherToast: true,
       handleTouch: true,
     );
+  }
+
+  static showLuckyWheel() {
+    var luckyWheelObj = new LuckyWheelWidget();
+
+    Modal(
+        onOk: () {
+          luckyWheelObj.startSpin();
+        },
+        onCancel: () {},
+        okText: "开始",
+        autoHide: false,
+        children: <Widget>[
+          luckyWheelObj,
+          Container(
+            // color: Colors.blue,
+            margin: EdgeInsets.only(
+              top: ScreenUtil().setWidth(63),
+              bottom: ScreenUtil().setWidth(50),
+            ),
+            child: Text(
+              "TICKET x 10",
+              style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setWidth(46),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Container(
+            // color: Colors.red,
+            margin: EdgeInsets.only(
+              bottom: ScreenUtil().setWidth(50),
+            ),
+            child: Text(
+              "After depleted，you'll get 10 free tickets at 00:00",
+              style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setWidth(24),
+              ),
+            ),
+          ),
+        ])
+      ..show();
   }
 }

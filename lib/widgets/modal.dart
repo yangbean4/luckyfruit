@@ -15,6 +15,7 @@ class Modal {
   List<Widget> children;
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
   final List<Widget> Function(Modal modal) childrenBuilder;
+  final bool autoHide;
 
   Modal(
       {this.okText,
@@ -22,7 +23,8 @@ class Modal {
       this.onCancel,
       this.children,
       this.footer,
-      this.childrenBuilder});
+      this.childrenBuilder,
+      this.autoHide = true});
 
   /// 隐藏Modal
   hide() {
@@ -34,7 +36,9 @@ class Modal {
     children = children ?? childrenBuilder(this);
     if (okText != null) {
       children?.add(_createButton(okText, () {
-        this.hide();
+        if (autoHide) {
+          this.hide();
+        }
         if (onOk != null) {
           onOk();
         }
