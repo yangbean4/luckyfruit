@@ -19,7 +19,7 @@ class AdButton extends StatefulWidget {
   final Duration interval;
   AdButton(
       {Key key,
-      this.useAd,
+      this.useAd = true,
       this.btnText,
       this.cancelText = 'No,Thanks',
       this.onCancel,
@@ -32,7 +32,7 @@ class AdButton extends StatefulWidget {
 }
 
 class _AdButtonState extends State<AdButton> {
-  bool showCancel;
+  bool showCancel = false;
   List<Widget> children;
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _AdButtonState extends State<AdButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setWidth(widget.useAd ? 246 : 124),
+      // height: ScreenUtil().setWidth(widget.useAd ? 260 : 124),
       width: ScreenUtil().setWidth(720),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,10 +86,13 @@ class _AdButtonState extends State<AdButton> {
           widget.useAd
               ? GestureDetector(
                   onTap: widget.onCancel,
-                  child: ThirdText(showCancel ? '' : widget.cancelText),
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: ScreenUtil().setWidth(28)),
+                      child: FourthText(!showCancel ? '' : widget.cancelText)),
                 )
               : Container(),
-          widget.useAd ? FourthText(widget.tips) : Container()
+          widget.useAd ? ThirdText(widget.tips) : Container()
         ],
       ),
     );

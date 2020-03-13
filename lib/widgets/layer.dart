@@ -352,10 +352,12 @@ class Layer {
                 iconSize: 72,
                 textSize: 66,
               ),
-              AdButton(
-                btnText: '5x Reward',
-                onCancel: modal.hide,
-              )
+              Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
+                  child: AdButton(
+                    btnText: '5x Reward',
+                    onCancel: modal.hide,
+                  ))
             ])
       ..show();
   }

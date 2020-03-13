@@ -9,6 +9,7 @@ import 'package:luckyfruit/widgets/modal.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:provider/provider.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 
 class Warehouse extends StatefulWidget {
   final Widget child;
@@ -172,10 +173,11 @@ class _WarehouseState extends State<Warehouse> {
               return GestureDetector(
                 child: widget.child,
                 onTap: () {
-                  setState(() {
-                    treeList = [];
-                  });
-                  _showWarehouse(treeList, warehouseTreeList);
+                  // setState(() {
+                  //   treeList = [];
+                  // });
+                  // _showWarehouse(treeList, warehouseTreeList);
+                  Layer.levelUp(10, 1000);
                 },
               );
             });

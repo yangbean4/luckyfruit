@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
 
-// 次要的 红色文字
 class ThirdText extends StatelessWidget {
   final String text;
   final Color color;
