@@ -212,7 +212,7 @@ class TreeGroup with ChangeNotifier {
   }
 
 // 添加树
-  bool addTree({Tree tree}) {
+  bool addTree({Tree tree, bool saveData = true}) {
     TreePoint point = findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // REVIEW: 如果是抽奖时是否放入仓库?
@@ -245,7 +245,9 @@ class TreeGroup with ChangeNotifier {
 
     // 添加并保存
     _treeList.add(tree);
-    save();
+    if (saveData) {
+      save();
+    }
     return true;
   }
 
@@ -307,7 +309,7 @@ class TreeGroup with ChangeNotifier {
   // 从仓库取出
   void outWarehouse(List<Tree> outTreeList) {
     for (var tree in outTreeList) {
-      if (addTree(tree: tree)) {
+      if (addTree(tree: tree, saveData: false)) {
         _warehouseTreeList.remove(tree);
       } else {
         break;

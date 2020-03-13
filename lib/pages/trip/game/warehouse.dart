@@ -9,7 +9,60 @@ import 'package:luckyfruit/widgets/modal.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:provider/provider.dart';
-import 'package:luckyfruit/widgets/layer.dart';
+
+class ListItem extends StatefulWidget {
+  final Tree tree;
+  final void Function(bool isSelect) onClick;
+  ListItem(this.tree, {Key key, this.onClick}) : super(key: key);
+
+  @override
+  _ListItemState createState() => _ListItemState();
+}
+
+class _ListItemState extends State<ListItem> {
+  bool isSelect = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        bool _isSelect = !isSelect;
+        setState(() {
+          isSelect = _isSelect;
+        });
+        widget.onClick(_isSelect);
+      },
+      child: Container(
+        height: ScreenUtil().setWidth(200),
+        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(70)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: ScreenUtil().setWidth(180),
+              height: ScreenUtil().setWidth(180),
+              decoration: BoxDecoration(
+                  border: isSelect
+                      ? Border.all(width: 1, color: MyTheme.primaryColor)
+                      : null),
+              child: Center(
+                child: TreeWidget(
+                  tree: widget.tree,
+                  imgHeight: ScreenUtil().setWidth(142),
+                  imgWidth: ScreenUtil().setWidth(130),
+                  labelWidth: ScreenUtil().setWidth(80),
+                  primary: true,
+                ),
+              ),
+            ),
+            Expanded(child: SecondaryText(widget.tree.name)),
+            SecondaryText('${widget.tree.grade}')
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class Warehouse extends StatefulWidget {
   final Widget child;
@@ -62,7 +115,7 @@ class _WarehouseState extends State<Warehouse> {
             ]).show();
   }
 
-  _showWarehouse(List<Tree> treeList, List<Tree> warehouseTreeList) {
+  _showWarehouse(List<Tree> warehouseTreeList) {
     print('_showWarehouse');
     Modal(
         onCancel: () {},
@@ -95,50 +148,11 @@ class _WarehouseState extends State<Warehouse> {
                 height: ScreenUtil().setWidth(740),
                 width: ScreenUtil().setWidth(840),
                 child: ListView.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      Tree tree = warehouseTreeList[index];
-                      return GestureDetector(
-                        onTap: () {
-                          bool isSelect = treeList.contains(tree);
-                          setState(() {
-                            isSelect
-                                ? treeList.remove(tree)
-                                : treeList.add(tree);
-                          });
-                        },
-                        child: Container(
-                          height: ScreenUtil().setWidth(200),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(70)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                width: ScreenUtil().setWidth(180),
-                                height: ScreenUtil().setWidth(180),
-                                decoration: BoxDecoration(
-                                    border: treeList.contains(tree)
-                                        ? Border.all(
-                                            width: 1,
-                                            color: MyTheme.primaryColor)
-                                        : null),
-                                child: Center(
-                                  child: TreeWidget(
-                                    tree: tree,
-                                    imgHeight: ScreenUtil().setWidth(142),
-                                    imgWidth: ScreenUtil().setWidth(130),
-                                    labelWidth: ScreenUtil().setWidth(80),
-                                    primary: true,
-                                  ),
-                                ),
-                              ),
-                              Expanded(child: SecondaryText(tree.name)),
-                              SecondaryText('${tree.grade}')
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                    itemBuilder: (BuildContext context, int index) => ListItem(
+                        warehouseTreeList[index],
+                        onClick: (bool isSelect) => isSelect
+                            ? treeList.add(warehouseTreeList[index])
+                            : treeList.remove(warehouseTreeList[index])),
                     separatorBuilder: (BuildContext context, int index) =>
                         Divider(color: MyTheme.mainItemColor),
                     itemCount: warehouseTreeList.length),
@@ -148,7 +162,7 @@ class _WarehouseState extends State<Warehouse> {
                     TreeGroup treeGroup =
                         Provider.of<TreeGroup>(context, listen: false);
                     treeGroup.outWarehouse(treeList);
-                    // modal.hide();
+                    modal.hide();
                   },
                   child: Container(
                       margin: EdgeInsets.only(
@@ -173,11 +187,10 @@ class _WarehouseState extends State<Warehouse> {
               return GestureDetector(
                 child: widget.child,
                 onTap: () {
-                  // setState(() {
-                  //   treeList = [];
-                  // });
-                  // _showWarehouse(treeList, warehouseTreeList);
-                  Layer.levelUp(10, 1000);
+                  setState(() {
+                    treeList = [];
+                  });
+                  _showWarehouse(warehouseTreeList);
                 },
               );
             });
