@@ -17,12 +17,15 @@ class AdButton extends StatefulWidget {
   final String tips;
   // 取消按钮显示的时间
   final Duration interval;
+  // 点击确定按钮
+  final Function onOk;
   AdButton(
       {Key key,
       this.useAd = true,
       this.btnText,
       this.cancelText = 'No,Thanks',
       this.onCancel,
+      this.onOk,
       this.tips = 'Number of videos reset at 12:00 am&pm (9 times left)',
       this.interval = const Duration(seconds: 3)})
       : super(key: key);
@@ -56,6 +59,7 @@ class _AdButtonState extends State<AdButton> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           GestureDetector(
+              onTap: widget.onOk ?? () {},
               child: Container(
             width: ScreenUtil().setWidth(600),
             height: ScreenUtil().setWidth(124),
@@ -92,7 +96,10 @@ class _AdButtonState extends State<AdButton> {
                       child: FourthText(!showCancel ? '' : widget.cancelText)),
                 )
               : Container(),
-          widget.useAd ? ThirdText(widget.tips) : Container()
+          Container(
+            child: ThirdText(widget.tips),
+            margin: EdgeInsets.only(top: ScreenUtil().setWidth(35)),
+          )
         ],
       ),
     );
