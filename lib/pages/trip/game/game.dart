@@ -14,6 +14,8 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 // import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/theme/public/public.dart';
+import './warehouse.dart';
 
 num gridWidth = 200;
 num gridHeight = 210;
@@ -40,34 +42,34 @@ class _GameState extends State<Game> with MyNavigator {
     super.initState();
   }
 
-  List<Widget> renderGrid(BuildContext context) {
-    List<Widget> grids = [];
-    TreeGroup treeGroup = Provider.of<TreeGroup>(context);
-    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
-      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
-        // Selector<A, S> A 是我们从顶层获取的 Provider 的类型 S为获取到的类型
-        grids.add(Selector<TreeGroup, Tree>(
-            selector: (context, provider) => provider.treeMatrix[y][x],
-            builder: (context, Tree data, child) {
-              return DragTarget(
-                builder: (context, candidateData, rejectedData) {
-                  return GridItem(tree: data);
-                },
-                onWillAccept: (Tree source) {
-                  return true;
-                },
-                onAccept: (Tree source) {
-                  treeGroup.trans(source, data, pos: new TreePoint(x: x, y: y));
-                  return true;
-                },
-              );
-            }));
-        // print(treeGroup.treeMatrix);
-        // grids.add(Text('$x-$y'));
-      }
-    }
-    return grids;
-  }
+  // List<Widget> renderGrid(BuildContext context) {
+  //   List<Widget> grids = [];
+  //   TreeGroup treeGroup = Provider.of<TreeGroup>(context);
+  //   for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+  //     for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+  //       // Selector<A, S> A 是我们从顶层获取的 Provider 的类型 S为获取到的类型
+  //       grids.add(Selector<TreeGroup, Tree>(
+  //           selector: (context, provider) => provider.treeMatrix[y][x],
+  //           builder: (context, Tree data, child) {
+  //             return DragTarget(
+  //               builder: (context, candidateData, rejectedData) {
+  //                 return GridItem(tree: data);
+  //               },
+  //               onWillAccept: (Tree source) {
+  //                 return true;
+  //               },
+  //               onAccept: (Tree source) {
+  //                 treeGroup.trans(source, data, pos: new TreePoint(x: x, y: y));
+  //                 return true;
+  //               },
+  //             );
+  //           }));
+  //       // print(treeGroup.treeMatrix);
+  //       // grids.add(Text('$x-$y'));
+  //     }
+  //   }
+  //   return grids;
+  // }
 
   List<Widget> renderGridforPos(BuildContext context) {
     List<Widget> grids = [];
@@ -165,25 +167,14 @@ class _GameState extends State<Game> with MyNavigator {
                       ? GestureDetector(
                           onTap: selectorUse.addTree,
                           child: ShakeButton(
-                            child: Container(
+                            child: PrimaryButton(
                               // minWidth: ScreenUtil().setWidth(560),
-                              width: ScreenUtil().setWidth(400),
-                              height: ScreenUtil().setWidth(128),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment(0.0, -1.0),
-                                    end: Alignment(0.0, 1.0),
-                                    colors: <Color>[
-                                      Color.fromRGBO(51, 199, 86, 1),
-                                      Color.fromRGBO(36, 182, 69, 1)
-                                    ]),
-                                borderRadius: BorderRadius.all(
-                                  Radius.elliptical(
-                                    ScreenUtil().setWidth(64),
-                                    ScreenUtil().setWidth(64),
-                                  ),
-                                ),
-                              ),
+                              width: 400,
+                              height: 128,
+                              colors: <Color>[
+                                Color.fromRGBO(51, 199, 86, 1),
+                                Color.fromRGBO(36, 182, 69, 1)
+                              ],
                               child: Stack(
                                   overflow: Overflow.visible,
                                   children: <Widget>[
@@ -328,49 +319,29 @@ class _GameState extends State<Game> with MyNavigator {
                           return true;
                         });
 
-                  return Center(
-                    child: Container(
-                      width: ScreenUtil().setWidth(960),
-                      height: ScreenUtil().setWidth(128),
-                      decoration: BoxDecoration(
-                          color: MyTheme.grayColor,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(ScreenUtil().setWidth(64)))),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          GestureDetector(
-                            child: getBtn('assets/image/Illustration.png',
-                                'Illustration'),
-                            onTap: () {
-                              pushNamed(context, 'Illustration');
-                            },
-                          ),
-                          center,
-                          DragTarget(
-                            builder: (context, candidateData, rejectedData) {
-                              return GestureDetector(
-                                child: getBtn(
-                                    'assets/image/Warehouse.png', 'Warehouse'),
-                                onTap: () {
-                                  // TODO:Warehouse弹窗开发
-                                },
-                              );
-                            },
-                            onWillAccept: (Tree source) {
-                              Layer.recycleLayer(
-                                  () => selectorUse.recycle(source),
-                                  source.treeImgSrc,
-                                  source.recycleGold);
-                              return true;
-                            },
-                            onAccept: (Tree source) {
-                              return true;
-                            },
-                          )
-                        ],
-                      ),
+                  return Container(
+                    width: ScreenUtil().setWidth(960),
+                    height: ScreenUtil().setWidth(128),
+                    decoration: BoxDecoration(
+                        color: MyTheme.grayColor,
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(64)))),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: getBtn(
+                              'assets/image/Illustration.png', 'Illustration'),
+                          onTap: () {
+                            pushNamed(context, 'Illustration');
+                          },
+                        ),
+                        center,
+                        Warehouse(
+                            child: getBtn(
+                                'assets/image/Warehouse.png', 'Warehouse'))
+                      ],
                     ),
                   );
                 }),

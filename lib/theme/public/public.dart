@@ -10,3 +10,6 @@ export './secondary_text.dart';
 export './third_text.dart';
 // 四级文字
 export './fourth_text.dart';
+
+// 通用的圆角按钮
+export './primary_btn.dart';

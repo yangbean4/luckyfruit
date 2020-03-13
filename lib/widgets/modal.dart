@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/primary_btn.dart';
 
 class Modal {
   ToastFuture _future;
@@ -12,6 +13,10 @@ class Modal {
   final Function onOk;
   final Function onCancel;
   final Widget footer;
+  // 垂直填充
+  final double verticalPadding;
+  // 水平填充
+  final double horizontalPadding;
   List<Widget> children;
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
   final List<Widget> Function(Modal modal) childrenBuilder;
@@ -24,6 +29,8 @@ class Modal {
       this.children,
       this.footer,
       this.childrenBuilder,
+      this.verticalPadding = 90,
+      this.horizontalPadding = 120,
       this.autoHide = true});
 
   /// 隐藏Modal
@@ -55,8 +62,8 @@ class Modal {
               bottom: ScreenUtil().setWidth(70),
             ),
             padding: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setWidth(90),
-              horizontal: ScreenUtil().setWidth(120),
+              vertical: ScreenUtil().setWidth(verticalPadding),
+              horizontal: ScreenUtil().setWidth(horizontalPadding),
             ),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -82,11 +89,15 @@ class Modal {
             onCancel();
           }
         },
-        child: Image.asset(
-          'assets/image/close.png',
-          width: ScreenUtil().setWidth(54),
-          height: ScreenUtil().setWidth(54),
-        ),
+        child: Container(
+            width: ScreenUtil().setWidth(200),
+            height: ScreenUtil().setWidth(200),
+            child: Center(
+                child: Image.asset(
+              'assets/image/close.png',
+              width: ScreenUtil().setWidth(54),
+              height: ScreenUtil().setWidth(54),
+            ))),
       ));
     }
 
@@ -107,25 +118,42 @@ class Modal {
     );
   }
 
-  _createButton(String text, Function fn) => ButtonTheme(
-        minWidth: ScreenUtil().setWidth(600),
-        height: ScreenUtil().setWidth(124),
-        shape: RoundedRectangleBorder(
-          side: BorderSide.none,
-          borderRadius: BorderRadius.all(Radius.circular(62)),
-        ),
-        buttonColor: MyTheme.primaryColor,
-        disabledColor: const Color.fromRGBO(193, 193, 193, 1),
-        child: RaisedButton(
-          onPressed: fn,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setWidth(52),
-            ),
+  // _createButton(String text, Function fn) => ButtonTheme(
+  //       minWidth: ScreenUtil().setWidth(600),
+  //       height: ScreenUtil().setWidth(124),
+  //       shape: RoundedRectangleBorder(
+  //         side: BorderSide.none,
+  //         borderRadius: BorderRadius.all(Radius.circular(62)),
+  //       ),
+  //       buttonColor: MyTheme.primaryColor,
+  //       disabledColor: const Color.fromRGBO(193, 193, 193, 1),
+  //       child: RaisedButton(
+  //         onPressed: fn,
+  //         child: Text(
+  //           text,
+  //           style: TextStyle(
+  //             color: Colors.white,
+  //             fontWeight: FontWeight.bold,
+  //             fontSize: ScreenUtil().setWidth(52),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+
+  _createButton(String text, Function fn) => GestureDetector(
+      onTap: fn,
+      child: PrimaryButton(
+        width: 600,
+        height: 124,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            height: 1,
+            fontWeight: FontWeight.bold,
+            fontSize: ScreenUtil().setWidth(52),
           ),
         ),
-      );
+      ));
 }

@@ -30,22 +30,27 @@ class TreeGroup with ChangeNotifier {
   // 最后种树时间
   DateTime makeTreeTime = DateTime.now();
 
+  // 记录每个等级种树的次数
   Map<String, int> treeGradeNumber = {};
 
   // 当前生产树的等级
-  int _minLevel = 1;
-  int get minLevel => _minLevel;
-
-// 显示 添加/回收 树
-  Tree _isrecycle;
-  Tree get isrecycle => _isrecycle;
+  int get minLevel {
+    int usLv = maxLevel - TreeGroup.DIFF_LEVEL;
+    return usLv > 1 ? usLv : 1;
+  }
 
   Tree get minLevelTree =>
       new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 1);
 
+  // 显示 添加/回收 树
+  Tree _isrecycle;
+  Tree get isrecycle => _isrecycle;
+
   // 当前树中的最大等级
-  // int _maxLevel = 1;
-  int get maxLevel => treeList.map((t) => t.grade).reduce(max);
+  int get maxLevel {
+    final gjb = allTreeList.map((t) => t.grade);
+    return gjb.isEmpty ? 1 : gjb.reduce(max);
+  }
 
   Tree get maxLevelTree => new Tree(grade: maxLevel);
 
@@ -53,6 +58,11 @@ class TreeGroup with ChangeNotifier {
   List<Tree> _treeList = [];
   List<Tree> get treeList => _treeList;
 
+  // 仓库中的树
+  List<Tree> _warehouseTreeList = [];
+  List<Tree> get warehouseTreeList => _warehouseTreeList;
+
+  List<Tree> get allTreeList => _treeList + _warehouseTreeList;
   // 更新时间
   DateTime _upDateTime;
   DateTime get upDateTime => _upDateTime;
@@ -87,7 +97,9 @@ class TreeGroup with ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'upDateTime': this._upDateTime.toString(),
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
-        'treeGradeNumber': jsonEncode(treeGradeNumber).toString()
+        'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
+        'warehouseTreeList':
+            this._warehouseTreeList.map((map) => map.toJson()).toList()
       };
 
   // json 2 Obj
@@ -104,6 +116,13 @@ class TreeGroup with ChangeNotifier {
           ?.map((map) =>
               map == null ? null : Tree.formJson(map as Map<String, dynamic>))
           ?.toList();
+      _warehouseTreeList = group['warehouseTreeList'] == null
+          ? []
+          : (group['warehouseTreeList'] as List)
+              ?.map((map) => map == null
+                  ? null
+                  : Tree.formJson(map as Map<String, dynamic>))
+              ?.toList();
       Map<String, dynamic> _treeGradeNumber =
           jsonDecode(group['treeGradeNumber']);
       treeGradeNumber =
@@ -193,20 +212,15 @@ class TreeGroup with ChangeNotifier {
   }
 
 // 添加树
-  Future<bool> addTree({Tree tree}) {
+  bool addTree({Tree tree}) {
     TreePoint point = findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // REVIEW: 如果是抽奖时是否放入仓库?
     if (point == null) {
-      Layer.toastWarning('没有位置啦,试试把树拖到伐木场吧');
-      return Future.value(false);
+      Layer.toastWarning(
+          'The location is full, please merge the fruit tree or recycle the fruit tree before add it!');
+      return false;
     }
-    // if (makeTreeTime
-    //     .add(Duration(seconds: delayTime ?? 0))
-    //     .isAfter(DateTime.now())) {
-    //   Layer.toastWarning('冷却中....');
-    //   return Future.value(false);
-    // }
 
     if (tree == null) {
       tree = new Tree(
@@ -214,24 +228,25 @@ class TreeGroup with ChangeNotifier {
           y: point.y,
           grade: minLevel,
           gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
+
+      if (moneyGroup.gold < tree.consumeGold) {
+        Layer.toastWarning('金币不够哟...');
+        return false;
+      }
+
+      EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.consumeGold);
+      treeGradeNumber['$minLevel'] = (treeGradeNumber['$minLevel'] ?? 0) + 1;
     }
+
     if (tree?.x == null || tree?.y == null) {
       tree?.x = point.x;
       tree?.y = point.y;
     }
-    if (moneyGroup.gold < tree.consumeGold) {
-      Layer.toastWarning('金币不够哟...');
-      return Future.value(false);
-    }
 
-    EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.consumeGold);
-    treeGradeNumber['$minLevel'] = (treeGradeNumber['$minLevel'] ?? 0) + 1;
-
-    delayTime = tree.delay;
-    makeTreeTime = DateTime.now();
     // 添加并保存
     _treeList.add(tree);
-    return save();
+    save();
+    return true;
   }
 
 // 拖拽移动时的处理
@@ -246,10 +261,6 @@ class TreeGroup with ChangeNotifier {
       int _maxLevel = maxLevel;
       if (++target.grade > _maxLevel) {
         // _maxLevel = target.grade;
-        // 最低级别的树更新
-        if (maxLevel - _minLevel > TreeGroup.DIFF_LEVEL) {
-          _minLevel = maxLevel - TreeGroup.DIFF_LEVEL;
-        }
         Layer.newGrade(maxLevelTree);
       }
       _treeList.remove(source);
@@ -270,7 +281,7 @@ class TreeGroup with ChangeNotifier {
       return;
     }
     if (tree.grade == maxLevel) {
-      return Layer.toastWarning('最大等级的🌲不能回收');
+      return Layer.toastWarning('最大��级的🌲不能回收');
     }
     _treeList.remove(tree);
     EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
@@ -281,5 +292,27 @@ class TreeGroup with ChangeNotifier {
   void transRecycle(Tree tree) {
     _isrecycle = tree;
     notifyListeners();
+  }
+
+  // 存入仓库
+  void inWarehouse(Tree tree) {
+    _treeList.remove(tree);
+    _warehouseTreeList.add(tree);
+    // 去除位置信息
+    tree.x = null;
+    tree.y = null;
+    save();
+  }
+
+  // 从仓库取出
+  void outWarehouse(List<Tree> outTreeList) {
+    for (var tree in outTreeList) {
+      if (addTree(tree: tree)) {
+        _warehouseTreeList.remove(tree);
+      } else {
+        break;
+      }
+    }
+    save();
   }
 }

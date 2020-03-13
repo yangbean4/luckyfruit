@@ -44,9 +44,9 @@ class Tree extends TreePoint {
   String get treeImgSrc => 'assets/tree/tree${grade % 3 + 1}.png';
 
   factory Tree.formJson(Map<String, dynamic> json) => Tree()
-    ..x = int.parse(json['x'].toString())
-    ..y = int.parse(json['y'].toString())
-    ..grade = int.parse(json['grade'].toString());
+    ..x = json['x']
+    ..y = json['y']
+    ..grade = json['grade'];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'x': this.x,
