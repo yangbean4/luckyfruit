@@ -8,7 +8,7 @@ class GoldText extends StatelessWidget {
   final String text;
   final double iconSize;
   final double textSize;
-  const GoldText(this.text, {Key key, this.iconSize, this.textSize})
+  const GoldText(this.text, {Key key, this.iconSize = 64, this.textSize = 43})
       : super(key: key);
 
   @override
@@ -19,8 +19,8 @@ class GoldText extends StatelessWidget {
       children: <Widget>[
         Image.asset(
           'assets/image/gold.png',
-          width: ScreenUtil().setWidth(iconSize ?? 64),
-          height: ScreenUtil().setWidth(iconSize ?? 64),
+          width: ScreenUtil().setWidth(iconSize),
+          height: ScreenUtil().setWidth(iconSize),
         ),
         Container(
             margin: EdgeInsets.only(
@@ -30,7 +30,7 @@ class GoldText extends StatelessWidget {
               text,
               style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(textSize ?? 43),
+                fontSize: ScreenUtil().setWidth(textSize),
                 fontWeight: FontWeight.w600,
               ),
             )),

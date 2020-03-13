@@ -11,6 +11,7 @@ import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import './ad_btn.dart';
 
 /// 公共函数库
 class Layer {
@@ -336,15 +337,25 @@ class Layer {
         ..show();
 
   static levelUp(int level, double getGlod) {
-    Modal modal = Modal(children: <Widget>[
-      ModalTitle('Level Up $level'),
-      Image.asset(
-        'assets/image/more_gold.png',
-        width: ScreenUtil().setWidth(227),
-        height: ScreenUtil().setWidth(140),
-      ),
-      SecondaryText("Level up reward"),
-    ])
+    Modal(
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle('Level Up $level'),
+              Image.asset(
+                'assets/image/more_gold.png',
+                width: ScreenUtil().setWidth(227),
+                height: ScreenUtil().setWidth(140),
+              ),
+              SecondaryText("Level up reward"),
+              GoldText(
+                Util.formatNumber(getGlod),
+                iconSize: 72,
+                textSize: 66,
+              ),
+              AdButton(
+                btnText: '5x Reward',
+                onCancel: modal.hide,
+              )
+            ])
       ..show();
   }
 

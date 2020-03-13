@@ -12,15 +12,17 @@ class Modal {
   final Function onOk;
   final Function onCancel;
   final Widget footer;
-  final List<Widget> children;
+  List<Widget> children;
+  // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
+  final List<Widget> Function(Modal modal) childrenBuilder;
 
-  Modal({
-    this.okText,
-    this.onOk,
-    this.onCancel,
-    this.children,
-    this.footer,
-  });
+  Modal(
+      {this.okText,
+      this.onOk,
+      this.onCancel,
+      this.children,
+      this.footer,
+      this.childrenBuilder});
 
   /// 隐藏Modal
   hide() {
@@ -29,9 +31,9 @@ class Modal {
 
   // 显示modal
   show() {
-    List<Widget> btnList = [];
+    children = children ?? childrenBuilder(this);
     if (okText != null) {
-      btnList.add(_createButton(okText, () {
+      children?.add(_createButton(okText, () {
         this.hide();
         if (onOk != null) {
           onOk();
@@ -39,18 +41,12 @@ class Modal {
       }));
     }
 
-    children?.addAll(btnList);
-    final cancel = () {
-      this.hide();
-      if (onCancel != null) {
-        onCancel();
-      }
-    };
     final topWidget = Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
+            width: ScreenUtil().setWidth(840),
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setWidth(70),
             ),
@@ -76,7 +72,12 @@ class Modal {
       widgetList.add(footer);
     } else if (footer == null && onCancel != null) {
       widgetList.add(GestureDetector(
-        onTap: cancel,
+        onTap: () {
+          hide();
+          if (onCancel != null) {
+            onCancel();
+          }
+        },
         child: Image.asset(
           'assets/image/close.png',
           width: ScreenUtil().setWidth(54),

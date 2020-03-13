@@ -21,6 +21,12 @@ class MyTheme {
   static const Color redColor = Color.fromRGBO(255, 76, 47, 1);
   // 黄色
   static const Color yellowColor = Color.fromRGBO(255, 172, 30, 1);
+
+  // h灰色文字 三级文字 tips
+  static const Color tipsColor = Color.fromRGBO(124, 124, 124, 1);
+
+  // 浅灰色 广告处 小灰按钮
+  static const Color lightGrayColor = Color.fromRGBO(212, 212, 212, 1);
 }
 
 class FontFamily {
