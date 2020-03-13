@@ -7,7 +7,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-
+import 'package:luckyfruit/routes/my_navigator.dart';
 // 右上角的一些入口玩法
 
 class TripBtns extends StatefulWidget {
@@ -170,6 +170,7 @@ class _TripBtnsState extends State<TripBtns> {
         }, 'SPIN'),
         getItem('assets/image/rank.png', () {
           print('rank');
+          MyNavigator().pushNamed(context, "RankPage");
         }, 'RANK'),
         getItem('assets/image/help.png', () {
           print('help');

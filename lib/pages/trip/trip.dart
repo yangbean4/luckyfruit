@@ -42,6 +42,7 @@ class _TripState extends State<Trip> with MyNavigator {
               // height: ,
               child: Stack(
                 children: <Widget>[
+                  //城市图片
                   Selector<TourismMap, String>(
                     selector: (context, provider) => provider.cityImgSrc,
                     builder: (context, String cityImgSrc, child) {
@@ -57,6 +58,7 @@ class _TripState extends State<Trip> with MyNavigator {
                       );
                     },
                   ),
+                  // 车辆图片
                   Selector<TourismMap, String>(
                     selector: (context, provider) => provider.carImgSrc,
                     builder: (context, String carImgSrc, child) {
@@ -71,6 +73,7 @@ class _TripState extends State<Trip> with MyNavigator {
                       );
                     },
                   ),
+                  // 人物图片
                   Selector<TourismMap, String>(
                     selector: (context, provider) => provider.manImgSrc,
                     builder: (context, String manImgSrc, child) {
@@ -106,6 +109,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                   Container(
                                       width: ScreenUtil().setWidth(378),
                                       height: ScreenUtil().setWidth(250),
+                                      // 当前城市标识
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -154,6 +158,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                               ),
                                             ),
                                           ),
+                                          // 城市下方等级
                                           Container(
                                             width: ScreenUtil().setWidth(248),
                                             margin: EdgeInsets.only(
@@ -170,6 +175,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                                       ScreenUtil().setSp(24)),
                                             ),
                                           ),
+                                          // 等级进度条
                                           Container(
                                             width: ScreenUtil().setWidth(248),
                                             height: ScreenUtil().setWidth(20),
@@ -197,6 +203,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                                               .setWidth(10))),
                                                 )),
                                           ),
+                                          // 今日分红树收益提示
                                           GestureDetector(
                                             onTap: () =>
                                                 pushNamed(context, 'dividend'),
@@ -289,6 +296,7 @@ class _TripState extends State<Trip> with MyNavigator {
                                           ),
                                         ],
                                       )),
+                                  // 右上角入口按钮
                                   Container(
                                     width: ScreenUtil().setWidth(960 - 378),
                                     height: ScreenUtil().setWidth(106),
@@ -302,6 +310,7 @@ class _TripState extends State<Trip> with MyNavigator {
               ),
             ),
           ),
+          // 主游戏网格视图
           Game(),
         ])),
         Positioned(
@@ -313,6 +322,7 @@ class _TripState extends State<Trip> with MyNavigator {
               'gold': provider.gold,
             }),
             builder: (context, Map<String, double> map, child) {
+              // 金币产生速度视图
               return Container(
                 width: ScreenUtil().setWidth(600),
                 height: ScreenUtil().setWidth(150),
@@ -323,6 +333,7 @@ class _TripState extends State<Trip> with MyNavigator {
                 child: Stack(
                   overflow: Overflow.visible,
                   children: <Widget>[
+                    // 金币生成速度数字
                     Positioned(
                       right: 0,
                       child: Container(
@@ -365,6 +376,7 @@ class _TripState extends State<Trip> with MyNavigator {
                         ),
                       ),
                     ),
+                    // 金币产生速度中的金币图标
                     Positioned(
                       top: ScreenUtil().setWidth(-20),
                       left: ScreenUtil().setWidth(60),
