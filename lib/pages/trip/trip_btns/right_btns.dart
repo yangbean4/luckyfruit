@@ -49,6 +49,13 @@ class _RightBtnsState extends State<RightBtns>
             setState(() {
               showDouble = true;
             });
+            // 设置的时间后 隐藏
+            Future.delayed(Duration(seconds: issed?.automatic_remain_time))
+                .then((e) {
+              setState(() {
+                showDouble = false;
+              });
+            });
           });
         });
       }
@@ -60,6 +67,13 @@ class _RightBtnsState extends State<RightBtns>
               Duration(seconds: _issed?.automatic_two_adSpace), () {
             setState(() {
               showAuto = true;
+            });
+            // 设置的时间后 隐藏
+            Future.delayed(Duration(seconds: issed?.automatic_remain_time))
+                .then((e) {
+              setState(() {
+                showAuto = false;
+              });
             });
           });
         });

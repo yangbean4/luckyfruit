@@ -17,9 +17,18 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import './warehouse.dart';
 
-num gridWidth = 200;
-num gridHeight = 210;
-num xSpace = (960 - gridWidth * GameConfig.X_AMOUNT) ~/ 3;
+// 由位置 x , y 转为 left top
+class PositionLT {
+  int x;
+  int y;
+  num _gridWidth = 200;
+  num gridHeight = 210;
+  num get _xSpace => (960 - _gridWidth * GameConfig.X_AMOUNT) ~/ 3;
+
+  num get left => x * (_gridWidth + _xSpace);
+  num get top => y * gridHeight;
+  PositionLT({this.x, this.y});
+}
 
 class _SelectorUse {
   Tree minLevelTree;
@@ -81,9 +90,10 @@ class _GameState extends State<Game> with MyNavigator {
         grids.add(Selector<TreeGroup, Tree>(
             selector: (context, provider) => provider.treeMatrix[y][x],
             builder: (context, Tree data, child) {
+              PositionLT positionLT = PositionLT(x: x, y: y);
               return Positioned(
-                  top: ScreenUtil().setWidth(y * gridHeight),
-                  left: ScreenUtil().setWidth(x * (gridWidth + xSpace)),
+                  top: ScreenUtil().setWidth(positionLT.top),
+                  left: ScreenUtil().setWidth(positionLT.left),
                   child: DragTarget(
                     builder: (context, candidateData, rejectedData) {
                       return GridItem(tree: data);
@@ -146,7 +156,7 @@ class _GameState extends State<Game> with MyNavigator {
           // 树木所在的网格
           Container(
             width: ScreenUtil().setWidth(1080 - 120),
-            height: ScreenUtil().setWidth(gridHeight * 3),
+            height: ScreenUtil().setWidth(PositionLT().gridHeight * 3),
             child: Stack(
               overflow: Overflow.visible,
               children: renderGridforPos(context),

@@ -10,10 +10,12 @@ import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
+import './lucky_group.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
-  MoneyGroup moneyGroup;
+  MoneyGroup _moneyGroup;
+  LuckyGroup _luckyGroup;
   TreeGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
@@ -24,6 +26,15 @@ class TreeGroup with ChangeNotifier {
   static const String LOAD = 'LOAD';
 
   String acct_id;
+
+  //记录宝箱占用的位置
+  TreePoint treasurePosition;
+  // 记录宝箱领取的时间
+  DateTime treasureTime = DateTime.now();
+  // 设置的宝箱出现的时间间隔 单位 s
+  num get _treasureInterval => _luckyGroup.issed?.random_space_time;
+  // 宝箱停留时长;超出后隐藏
+  num get _treasuReremain => _luckyGroup.issed?.box_remain_time;
 
   // 冷却时间
   int delayTime;
@@ -154,9 +165,11 @@ class TreeGroup with ChangeNotifier {
   }
 
   //初始化 form请求&Storage
-  Future<TreeGroup> init(MoneyGroup _moneyGroup, String accId) async {
+  Future<TreeGroup> init(
+      MoneyGroup moneyGroup, LuckyGroup luckyGroup, String accId) async {
     acct_id = accId;
-    moneyGroup = _moneyGroup;
+    _moneyGroup = moneyGroup;
+    _luckyGroup = luckyGroup;
 
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
@@ -206,10 +219,13 @@ class TreeGroup with ChangeNotifier {
   // }
 
   // 找到空的位置
-  TreePoint findFirstEmty() {
+  TreePoint _findFirstEmty() {
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
-        if (treeMatrix[y][x] == null) {
+        if (treeMatrix[y][x] == null &&
+            treasurePosition != null &&
+            x != treasurePosition.x &&
+            y != treasurePosition.y) {
           return new TreePoint(x: x, y: y);
         }
       }
@@ -218,7 +234,7 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
-    TreePoint point = findFirstEmty();
+    TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // REVIEW: 如果是抽奖时是否放入仓库?
     if (point == null) {
@@ -233,7 +249,7 @@ class TreeGroup with ChangeNotifier {
           grade: minLevel,
           gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
 
-      if (moneyGroup.gold < tree.consumeGold) {
+      if (_moneyGroup.gold < tree.consumeGold) {
         Layer.toastWarning('金币不够哟...');
         return false;
       }
@@ -268,6 +284,8 @@ class TreeGroup with ChangeNotifier {
       if (++target.grade > _maxLevel) {
         // _maxLevel = target.grade;
         Layer.newGrade(maxLevelTree);
+      } else {
+        checkTreasure();
       }
       _treeList.remove(source);
     } else {
@@ -278,6 +296,30 @@ class TreeGroup with ChangeNotifier {
     }
     notifyListeners();
     save();
+  }
+
+  // 检查是否生成宝箱
+  checkTreasure() {
+    Duration diff = DateTime.now().difference(treasureTime);
+    TreePoint point = _findFirstEmty();
+    // 时间间隔 不存在宝箱 存在空的位置
+    if (diff > Duration(seconds: _treasureInterval) &&
+        treasurePosition == null &&
+        point != null) {
+      makeTreasure(point);
+    }
+  }
+
+  // 生成宝箱
+  makeTreasure(TreePoint point) {
+    treasurePosition = point;
+    notifyListeners();
+    // 设置时长结束后隐藏
+    Duration duration = Duration(seconds: _treasuReremain);
+    Future.delayed(duration).then((e) {
+      treasurePosition = null;
+      notifyListeners();
+    });
   }
 
   // 回收树木

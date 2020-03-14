@@ -9,7 +9,6 @@ class AlightingAnimation extends StatefulWidget {
   //
   final double begin;
   final double end;
-  final num left;
   final Duration animateTime;
   final Widget Function(BuildContext context, Animation<double> remaining)
       builder;
@@ -22,7 +21,6 @@ class AlightingAnimation extends StatefulWidget {
     this.animateTime =
         const Duration(milliseconds: AnimationConfig.AlightingTime * 1000),
     this.builder,
-    this.left = 400,
   }) : super(key: key);
 
   @override

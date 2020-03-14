@@ -25,7 +25,7 @@ void main() {
   TourismMap tourismMap = TourismMap()..init(moneyGroup);
   LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
-    treeGroup.init(moneyGroup, userModel.value?.acct_id);
+    treeGroup.init(moneyGroup, luckyGroup, userModel.value?.acct_id);
     moneyGroup.init(treeGroup, userModel.value?.acct_id);
   });
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/pages/trip/trip_btns/reward_status_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +14,7 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import './trip_btns/trip_btns.dart';
 import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
+import './other/treasure.dart';
 
 class _SelectorUse {
   String city;
@@ -405,7 +405,10 @@ class _TripState extends State<Trip>
             },
           ),
         ),
+        // 气球🎈
         Balloon(),
+        // 宝箱 📦
+        Treasure(),
         // Positioned(
         //   right: 0,
         //   top: ScreenUtil().setWidth(300),

@@ -50,11 +50,14 @@ class LuckyGroup with ChangeNotifier {
     "random_space_time": 300,
     "purchase_tree_level": 4,
     "compose_numbers": 5,
-    "coin_award": 200,
     "automatic_game_timelen": 200,
     "automatic_two_adSpace": 200,
-    "balloon_timeLen": 20,
+    "balloon_timeLen": 200,
     "balloon_adSpace": 200,
+    "automatic_remain_time": 200,
+    "balloon_remain_time": 20,
+    "box_remain_time": 200,
+    "balloon_time": 200,
   });
 
   Issued get issed => _issued;

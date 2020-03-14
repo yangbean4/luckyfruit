@@ -20,6 +20,9 @@ class Issued {
     num balloon_timeLen;
     num balloon_adSpace;
     num balloon_time;
+    num automatic_remain_time;
+    num balloon_remain_time;
+    num box_remain_time;
     
     factory Issued.fromJson(Map<String,dynamic> json) => _$IssuedFromJson(json);
     Map<String, dynamic> toJson() => _$IssuedToJson(this);

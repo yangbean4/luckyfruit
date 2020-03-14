@@ -12,5 +12,8 @@
   "automatic_two_adSpace": 200,
   "balloon_timeLen": 200,
   "balloon_adSpace": 200,
-  "balloon_time": 200
+  "balloon_time": 200,
+  "automatic_remain_time": 200,
+  "balloon_remain_time": 20,
+  "box_remain_time": 200
 }

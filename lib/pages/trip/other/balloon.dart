@@ -82,6 +82,8 @@ class _BalloonState extends State<Balloon> {
         ? AlightingAnimation(
             begin: 0.0,
             end: 1.0,
+            animateTime:
+                Duration(seconds: luckyGroup.issed?.balloon_remain_time),
             builder: (ctx, Animation<double> animation) {
               return Positioned(
                 top: ScreenUtil().setWidth((1920 + 216) * animation.value),
