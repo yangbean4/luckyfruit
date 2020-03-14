@@ -53,7 +53,7 @@ class LuckyGroup with ChangeNotifier {
     "coin_award": 200,
     "automatic_game_timelen": 200,
     "automatic_two_adSpace": 200,
-    "balloon_timeLen": 200,
+    "balloon_timeLen": 20,
     "balloon_adSpace": 200,
   });
 

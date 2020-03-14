@@ -12,7 +12,7 @@ class GameConfig {
 
 class AnimationConfig {
   static const num TreeAnimationTime = 8;
-  static const num AlightingTime = 16;
+  static const num AlightingTime = 20;
 }
 
 class App {

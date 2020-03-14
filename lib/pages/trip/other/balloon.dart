@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +22,12 @@ class Balloon extends StatefulWidget {
 class _BalloonState extends State<Balloon> {
   bool show = false;
   LuckyGroup luckyGroup;
+
   // 下发的配置
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     LuckyGroup _luckyGroup = Provider.of<LuckyGroup>(context);
 
     if (_luckyGroup != null) {
@@ -74,22 +77,27 @@ class _BalloonState extends State<Balloon> {
 
   @override
   Widget build(BuildContext context) {
+    num width = 1080 / 4;
     return show
-        ? AlightingAnimation(builder: (ctx, Animation<double> animation) {
-            return Positioned(
-              top: ScreenUtil().setWidth(1400 * animation.value),
-              left: ScreenUtil().setWidth(400),
-              child: GestureDetector(
-                  onTap: () {
-                    _showModal();
-                  },
-                  child: Image.asset(
-                    'assets/image/balloon.png',
-                    width: ScreenUtil().setWidth(216),
-                    height: ScreenUtil().setWidth(309),
-                  )),
-            );
-          })
+        ? AlightingAnimation(
+            begin: 0.0,
+            end: 1.0,
+            builder: (ctx, Animation<double> animation) {
+              return Positioned(
+                top: ScreenUtil().setWidth((1920 + 216) * animation.value),
+                left: ScreenUtil().setWidth(
+                    width * (2 + math.sin(animation.value * math.pi * 4))),
+                child: GestureDetector(
+                    onTap: () {
+                      _showModal();
+                    },
+                    child: Image.asset(
+                      'assets/image/balloon.png',
+                      width: ScreenUtil().setWidth(216),
+                      height: ScreenUtil().setWidth(309),
+                    )),
+              );
+            })
         : Container();
     ;
   }
