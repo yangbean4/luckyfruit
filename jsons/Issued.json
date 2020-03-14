@@ -1,0 +1,16 @@
+{
+  "game_timeLen": 1200,
+  "two_adSpace": 1200,
+  "reward_multiple": 3,
+  "limited_time": 200,
+  "automatic_time": 300,
+  "random_m_level": 3,
+  "random_space_time": 300,
+  "purchase_tree_level": 4,
+  "compose_numbers": 5,
+  "automatic_game_timelen": 200,
+  "automatic_two_adSpace": 200,
+  "balloon_timeLen": 200,
+  "balloon_adSpace": 200,
+  "balloon_time": 200
+}

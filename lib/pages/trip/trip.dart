@@ -12,6 +12,8 @@ import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import './trip_btns/trip_btns.dart';
+import './trip_btns/right_btns.dart';
+import './other/balloon.dart';
 
 class _SelectorUse {
   String city;
@@ -27,7 +29,10 @@ class Trip extends StatefulWidget {
   _TripState createState() => _TripState();
 }
 
-class _TripState extends State<Trip> with MyNavigator {
+class _TripState extends State<Trip>
+    with MyNavigator, AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -88,7 +93,14 @@ class _TripState extends State<Trip> with MyNavigator {
                       );
                     },
                   ),
-
+                  Positioned(
+                      right: 0,
+                      top: ScreenUtil().setWidth(223),
+                      child: Container(
+                        width: ScreenUtil().setWidth(288),
+                        height: ScreenUtil().setWidth(256),
+                        child: RightBtns(),
+                      )),
                   // 头部 多按钮等
                   Positioned(
                     top: ScreenUtil().setWidth(92),
@@ -392,6 +404,7 @@ class _TripState extends State<Trip> with MyNavigator {
             },
           ),
         ),
+        Balloon(),
       ],
     );
   }

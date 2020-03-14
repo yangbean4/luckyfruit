@@ -8,7 +8,12 @@ class GoldText extends StatelessWidget {
   final String text;
   final double iconSize;
   final double textSize;
-  const GoldText(this.text, {Key key, this.iconSize = 64, this.textSize = 43})
+  final Color textColor;
+  const GoldText(this.text,
+      {Key key,
+      this.iconSize = 64,
+      this.textSize = 43,
+      this.textColor = MyTheme.blackColor})
       : super(key: key);
 
   @override
@@ -29,7 +34,7 @@ class GoldText extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                color: MyTheme.blackColor,
+                color: textColor,
                 fontSize: ScreenUtil().setWidth(textSize),
                 fontWeight: FontWeight.w600,
               ),

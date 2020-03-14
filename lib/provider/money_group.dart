@@ -15,7 +15,8 @@ class MoneyGroup with ChangeNotifier {
   MoneyGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'MoneyGroup';
-
+  // 设置金币倍数
+  static const String SET_INCREASE = 'SET_INCREASE';
 // 用于增加/减少 金币金钱的事件句柄
   static const String ADD_GOLD = 'ADD_GOLD';
   static const String ACC_GOLD = 'ACC_GOLD';
@@ -37,6 +38,10 @@ class MoneyGroup with ChangeNotifier {
   DateTime get upDateTime => _upDateTime;
 
   // double _makeGoldSped;
+
+  // 多倍金币时的产生金币的 倍数
+  int _makeGoldIncrease = 1;
+  int get makeGoldIncrease => _makeGoldIncrease;
 
   double get makeGoldSped => treeGroup?.makeGoldSped;
 
@@ -107,13 +112,19 @@ class MoneyGroup with ChangeNotifier {
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
 
+    EVENT_BUS.on(MoneyGroup.SET_INCREASE, (increase) {
+      _makeGoldIncrease = increase;
+    });
+
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
     });
     const period = const Duration(seconds: AnimationConfig.TreeAnimationTime);
     Timer.periodic(period, (timer) {
-      addGold(treeGroup.makeGoldSped * AnimationConfig.TreeAnimationTime);
+      addGold(treeGroup.makeGoldSped *
+          makeGoldIncrease *
+          AnimationConfig.TreeAnimationTime);
       addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
     });
 
@@ -138,6 +149,10 @@ class MoneyGroup with ChangeNotifier {
     // 通知更新
     notifyListeners();
     return saveSuccess;
+  }
+
+  addTimeMakeGlod(inSeconds) {
+    addGold(inSeconds * treeGroup.makeGoldSped);
   }
 
   addGold(double gold) {

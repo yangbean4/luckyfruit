@@ -6,7 +6,27 @@ import 'package:intl/intl.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {
-    List<String> dan = ['', 'K', 'M', 'B', 'T', 'aa', 'ab'];
+    List<String> dan = [
+      '',
+      'K',
+      'M',
+      'B',
+      'T',
+      'aa',
+      'ab',
+      'ac',
+      'ad',
+      'ae',
+      'af',
+      'ag',
+      'ah',
+      'ai',
+      'aj',
+      'ak',
+      'al',
+      'am',
+      'an'
+    ];
     number = number ?? 0;
     int index = dan
         .asMap()

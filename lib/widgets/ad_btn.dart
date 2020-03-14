@@ -13,6 +13,8 @@ class AdButton extends StatefulWidget {
   final String cancelText;
   // 取消的回调
   final Function onCancel;
+  // 看广告的回调
+  final Function onOk;
   // 提示
   final String tips;
   // 取消按钮显示的时间
@@ -24,7 +26,8 @@ class AdButton extends StatefulWidget {
       this.cancelText = 'No,Thanks',
       this.onCancel,
       this.tips = 'Number of videos reset at 12:00 am&pm (9 times left)',
-      this.interval = const Duration(seconds: 3)})
+      this.interval = const Duration(seconds: 3),
+      this.onOk})
       : super(key: key);
 
   @override
@@ -56,33 +59,35 @@ class _AdButtonState extends State<AdButton> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           GestureDetector(
-              child: Container(
-            width: ScreenUtil().setWidth(600),
-            height: ScreenUtil().setWidth(124),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              alignment: Alignment.center,
-              image: AssetImage('assets/image/ad_btn.png'),
-              fit: BoxFit.cover,
-            )),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                widget.useAd
-                    ? Image.asset(
-                        'assets/image/ad_icon.png',
-                        width: ScreenUtil().setWidth(75),
-                        height: ScreenUtil().setWidth(75),
-                      )
-                    : Container(),
-                ModalTitle(
-                  widget.btnText,
-                  color: Colors.white,
-                )
-              ],
+            onTap: widget.onOk,
+            child: Container(
+              width: ScreenUtil().setWidth(600),
+              height: ScreenUtil().setWidth(124),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                alignment: Alignment.center,
+                image: AssetImage('assets/image/ad_btn.png'),
+                fit: BoxFit.cover,
+              )),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  widget.useAd
+                      ? Image.asset(
+                          'assets/image/ad_icon.png',
+                          width: ScreenUtil().setWidth(75),
+                          height: ScreenUtil().setWidth(75),
+                        )
+                      : Container(),
+                  ModalTitle(
+                    widget.btnText,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
-          )),
+          ),
           widget.useAd
               ? GestureDetector(
                   onTap: widget.onCancel,

@@ -217,8 +217,7 @@ class TreeGroup with ChangeNotifier {
     // 找空的位置 如果没有则无法添加 返回;
     // REVIEW: 如果是抽奖时是否放入仓库?
     if (point == null) {
-      Layer.toastWarning(
-          'The location is full, please merge the fruit tree or recycle the fruit tree before add it!');
+      Layer.toastWarning('The location is full!');
       return false;
     }
 

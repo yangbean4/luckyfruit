@@ -18,6 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   BottomNavigationBar bottomBar;
   int tabIndex = 0;
+  List<Widget> pageList = [Trip(), Text('MAP')];
 
   //监听
   @override
@@ -103,7 +104,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     ScreenUtil.init(context, width: 1080, height: 1920);
 
     return Scaffold(
-      body: bodyBuider,
+      // 通过IndexedStack 保持页面状态
+      body: IndexedStack(
+        children: pageList,
+        index: tabIndex,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _createBottomBar(),
     );

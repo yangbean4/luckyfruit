@@ -116,7 +116,6 @@ class _WarehouseState extends State<Warehouse> {
   }
 
   _showWarehouse(List<Tree> warehouseTreeList) {
-    print('_showWarehouse');
     Modal(
         onCancel: () {},
         verticalPadding: 0,
