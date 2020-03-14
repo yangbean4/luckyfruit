@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/pages/trip/trip_btns/reward_status_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -405,6 +406,13 @@ class _TripState extends State<Trip>
           ),
         ),
         Balloon(),
+        Positioned(
+          right: 0,
+          top: ScreenUtil().setWidth(300),
+          child: RewardStatusWidget(
+              rewardType: RewardStatusType.DOUBLE_REWARD_START,
+              countDownTimeInSeconds: 36000),
+        ),
       ],
     );
   }

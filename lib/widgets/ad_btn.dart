@@ -13,12 +13,12 @@ class AdButton extends StatefulWidget {
   final String cancelText;
   // 取消的回调
   final Function onCancel;
-  // 看广告的回调
-  final Function onOk;
   // 提示
   final String tips;
   // 取消按钮显示的时间
   final Duration interval;
+  // 点击确定按钮
+  final Function onOk;
   AdButton(
       {Key key,
       this.useAd = true,
@@ -59,7 +59,7 @@ class _AdButtonState extends State<AdButton> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           GestureDetector(
-            onTap: widget.onOk,
+            onTap: widget.onOk ?? () {},
             child: Container(
               width: ScreenUtil().setWidth(600),
               height: ScreenUtil().setWidth(124),
@@ -97,7 +97,10 @@ class _AdButtonState extends State<AdButton> {
                       child: FourthText(!showCancel ? '' : widget.cancelText)),
                 )
               : Container(),
-          widget.useAd ? ThirdText(widget.tips) : Container()
+          Container(
+            child: ThirdText(widget.tips),
+            margin: EdgeInsets.only(top: ScreenUtil().setWidth(35)),
+          )
         ],
       ),
     );

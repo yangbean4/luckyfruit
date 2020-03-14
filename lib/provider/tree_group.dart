@@ -54,6 +54,11 @@ class TreeGroup with ChangeNotifier {
 
   Tree get maxLevelTree => new Tree(grade: maxLevel);
 
+  /**
+   * 返回最大级别（38级）的树
+   */
+  Tree get topLevelTree => new Tree(grade: MAX_LEVEL);
+
   // Tree列表
   List<Tree> _treeList = [];
   List<Tree> get treeList => _treeList;

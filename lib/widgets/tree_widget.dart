@@ -6,6 +6,8 @@ import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 
+import 'count_down.dart';
+
 // 树+等级树根
 class TreeWidget extends StatelessWidget {
   final num imgWidth;
@@ -17,6 +19,8 @@ class TreeWidget extends StatelessWidget {
   final String label;
   final Tree tree;
   final Widget image;
+  // 是否显示右上角倒计时图案，限时分红树时需要使用
+  final bool showCountDown;
   const TreeWidget(
       {Key key,
       this.imgWidth,
@@ -27,6 +31,7 @@ class TreeWidget extends StatelessWidget {
       this.label,
       this.tree,
       this.primary,
+      this.showCountDown = false,
       this.image})
       : super(key: key);
 
@@ -36,7 +41,7 @@ class TreeWidget extends StatelessWidget {
     return Container(
       width: imgWidth,
       height: _labelHeight + imgHeight - imgHeight * 0.118,
-      child: Stack(children: <Widget>[
+      child: Stack(overflow: Overflow.visible, children: <Widget>[
         Positioned(
           bottom: _labelHeight - imgHeight * 0.118,
           // child: image ??
@@ -74,7 +79,28 @@ class TreeWidget extends StatelessWidget {
                     height: 1,
                     fontWeight: FontWeight.w600),
               )),
-            ))
+            )),
+        this.showCountDown
+            ? Positioned(
+                top: ScreenUtil().setWidth(0),
+                right: ScreenUtil().setWidth(0),
+                child: CountdownFormatted(
+                    duration: Duration(seconds: 100),
+                    onFinish: () {},
+                    builder: (context, String str) {
+                      return Text(
+                        str,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            backgroundColor: Colors.grey,
+                            height: 1,
+                            fontFamily: FontFamily.bold,
+                            fontSize: ScreenUtil().setWidth(20),
+                            fontWeight: FontWeight.bold),
+                      );
+                    }))
+            : Container()
       ]),
     );
   }

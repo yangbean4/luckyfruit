@@ -6,6 +6,7 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
+import 'package:provider/provider.dart';
 import './modal.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
@@ -476,5 +477,91 @@ class Layer {
           ),
         ])
       ..show();
+  }
+
+  /**
+   * 显示限时分红树开始
+   */
+  static limitedTimeBonusTreeShowUp(BuildContext context) {
+    Modal(
+        onCancel: () {},
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(45)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/image/countdown_time_limited_bouns_tree.png",
+                        width: ScreenUtil().setWidth(80),
+                        height: ScreenUtil().setWidth(80),
+                      ),
+                      Text(
+                        "04:40",
+                        style: TextStyle(
+                            color: MyTheme.yellowColor,
+                            fontFamily: FontFamily.bold,
+                            fontSize: ScreenUtil().setWidth(60),
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  )),
+              ModalTitle('Congratulations'),
+              Container(
+                margin:
+                    EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+                child: TreeWidget(
+                  tree: Provider.of<TreeGroup>(context, listen: false)
+                      .topLevelTree,
+                  imgHeight: ScreenUtil().setWidth(218),
+                  imgWidth: ScreenUtil().setWidth(237),
+                  labelWidth: ScreenUtil().setWidth(110),
+                  primary: true,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(60)),
+                child: SecondaryText("Limited time bouns tree"),
+              ),
+              AdButton(
+                useAd: false,
+                btnText: 'Claim',
+                onCancel: modal.hide,
+                onOk: (){
+                  TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+                  treeGroup.addTree(tree: Tree(grade: 38));
+                },
+                interval: Duration(seconds: 0),
+                tips:
+                    "get 5 minutes  advertising revenue from the advertising platform",
+              )
+            ])
+      ..show();
+  }
+
+  /**
+   * 显示限时分红树结束
+   */
+  static limitedTimeBonusTreeEndUp(BuildContext context) {
+    Modal(onOk: () {}, onCancel: () {}, okText: "Claim", children: [
+      ModalTitle('Congratulations'),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+        child: TreeWidget(
+          tree: Provider.of<TreeGroup>(context, listen: false).topLevelTree,
+          imgHeight: ScreenUtil().setWidth(218),
+          imgWidth: ScreenUtil().setWidth(237),
+          labelWidth: ScreenUtil().setWidth(110),
+          primary: true,
+        ),
+      ),
+      SecondaryText("Get \$ 0.51 in 5mins through the Limited time bouns tree"),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
+        child: ModalTitle('\$0.51', color: MyTheme.primaryColor),
+      )
+    ]).show();
   }
 }
