@@ -406,13 +406,13 @@ class _TripState extends State<Trip>
           ),
         ),
         Balloon(),
-        Positioned(
-          right: 0,
-          top: ScreenUtil().setWidth(300),
-          child: RewardStatusWidget(
-              rewardType: RewardStatusType.DOUBLE_REWARD_START,
-              countDownTimeInSeconds: 36000),
-        ),
+        // Positioned(
+        //   right: 0,
+        //   top: ScreenUtil().setWidth(300),
+        //   child: RewardStatusWidget(
+        //       rewardType: RewardStatusType.DOUBLE_REWARD_START,
+        //       countDownTimeInSeconds: 36000),
+        // ),
       ],
     );
   }
