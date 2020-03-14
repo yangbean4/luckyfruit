@@ -143,6 +143,7 @@ class _GameState extends State<Game> with MyNavigator {
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
             Widget>[
+          // 树木所在的网格
           Container(
             width: ScreenUtil().setWidth(1080 - 120),
             height: ScreenUtil().setWidth(gridHeight * 3),
@@ -151,6 +152,7 @@ class _GameState extends State<Game> with MyNavigator {
               children: renderGridforPos(context),
             ),
           ),
+          // 网格下方的添加树的按钮布局
           Container(
               margin: EdgeInsets.only(
                 top: ScreenUtil().setWidth(85),
@@ -159,6 +161,7 @@ class _GameState extends State<Game> with MyNavigator {
               child: Container(
                 width: ScreenUtil().setWidth(960),
                 height: ScreenUtil().setWidth(128),
+                // 外层的圆角
                 decoration: BoxDecoration(
                     color: MyTheme.grayColor,
                     borderRadius: BorderRadius.all(
@@ -167,6 +170,7 @@ class _GameState extends State<Game> with MyNavigator {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    // 左边的图鉴按钮
                     GestureDetector(
                       child: getBtn(
                           'assets/image/Illustration.png', 'Illustration'),
@@ -174,6 +178,7 @@ class _GameState extends State<Game> with MyNavigator {
                         pushNamed(context, 'Illustration');
                       },
                     ),
+                    // 中间的添加树组合图
                     Selector<TreeGroup, _SelectorUse>(
                         selector: (context, provider) => _SelectorUse(
                             minLevelTree: provider.minLevelTree,
@@ -196,6 +201,7 @@ class _GameState extends State<Game> with MyNavigator {
                                       child: Stack(
                                           overflow: Overflow.visible,
                                           children: <Widget>[
+                                            // 底层的金币数行
                                             Container(
                                               height: ScreenUtil().setWidth(50),
                                               margin: EdgeInsets.only(
@@ -238,6 +244,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                 ],
                                               ),
                                             ),
+                                            // 添加树的树
                                             Positioned(
                                               bottom: ScreenUtil().setWidth(80),
                                               left: ScreenUtil().setWidth(156),

@@ -86,6 +86,7 @@ class TreeWidget extends StatelessWidget {
                 right: ScreenUtil().setWidth(0),
                 child: CountdownFormatted(
                     duration: Duration(seconds: 100),
+                    onFinish: () {},
                     builder: (context, String str) {
                       return Text(
                         str,
