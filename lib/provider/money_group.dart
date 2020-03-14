@@ -50,6 +50,7 @@ class MoneyGroup with ChangeNotifier {
     if (upDateTime != null && sped != null) {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
       diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
+      // TODO:离线后重新登录时的离线奖励弹窗
       addGold(sped * diffTime);
       // 加过就卸载避免多次添加
       EVENT_BUS.off(TreeGroup.LOAD);

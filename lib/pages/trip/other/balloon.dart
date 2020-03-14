@@ -101,6 +101,5 @@ class _BalloonState extends State<Balloon> {
               );
             })
         : Container();
-    ;
   }
 }

@@ -250,6 +250,7 @@ class TreeGroup with ChangeNotifier {
           gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
 
       if (_moneyGroup.gold < tree.consumeGold) {
+        // TODO:购买树提示金币不足弹窗
         Layer.toastWarning('金币不够哟...');
         return false;
       }
@@ -285,6 +286,7 @@ class TreeGroup with ChangeNotifier {
         // _maxLevel = target.grade;
         Layer.newGrade(maxLevelTree);
       } else {
+        // TODO:合成树后随机出现的越级升级弹窗
         checkTreasure();
       }
       _treeList.remove(source);
@@ -300,6 +302,7 @@ class TreeGroup with ChangeNotifier {
 
   // 检查是否生成宝箱
   checkTreasure() {
+    // TODO: 改成定时
     Duration diff = DateTime.now().difference(treasureTime);
     TreePoint point = _findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
@@ -325,11 +328,12 @@ class TreeGroup with ChangeNotifier {
   // 回收树木
   recycle(Tree tree) {
     if (_treeList.length == 1) {
+      //TODO: 限时分红树弹窗、许愿树兑换成功或者位置不足弹窗
       Layer.toastWarning('你就要没��啦....');
       return;
     }
     if (tree.grade == maxLevel) {
-      return Layer.toastWarning('最大��级的🌲不能回收');
+      return Layer.toastWarning('最大等级的🌲不能回收');
     }
     _treeList.remove(tree);
     EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
