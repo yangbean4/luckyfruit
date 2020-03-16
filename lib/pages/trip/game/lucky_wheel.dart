@@ -1,23 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
 import 'dart:math';
 
-class LuckyWheelWidget extends StatefulWidget {
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:provider/provider.dart';
 
+class LuckyWheelWidget extends StatefulWidget {
   Animation<double> animation;
   AnimationController controller;
 
-
   startSpin() {
+    controller.value = 0;
     controller.forward();
   }
 
@@ -27,36 +23,70 @@ class LuckyWheelWidget extends StatefulWidget {
 
 class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     with SingleTickerProviderStateMixin {
-
-
   // 当前旋转的角度
   double angle = 0;
   // 结束后要选中的位置
-  int finalPos = 6;
+  int finalPos = 0;
+  Tween<double> curTween;
+
+  String testJson = """{
+        "gift_id": 2,
+        "coin": 9000
+    }""";
 
   initState() {
     super.initState();
     widget.controller = new AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 3000), vsync: this);
 
     Animation curve =
-        CurvedAnimation(parent: widget.controller, curve: Curves.easeInOutBack);
+        CurvedAnimation(parent: widget.controller, curve: Curves.easeInOut);
 
     // 要旋转的总弧度值
-    double endRadian = 6 * pi + _getAngelWithSelectedPosition(finalPos);
-    widget.animation = Tween(begin: 0.0, end: endRadian).animate(curve)
+    double endRadian = 3 * 2 * pi + _getAngelWithSelectedPosition(finalPos);
+    curTween = Tween<double>(begin: 0.0, end: endRadian);
+    widget.animation = curTween.animate(curve)
       ..addListener(() {
-        // print("addListener animation.value = ${animation.value}");
         setState(() {
-          angle = widget.animation.value;
+          print("setState() widget.animation.value= ${widget.animation.value}");
+          // angle = widget.animation.value;
         });
       })
       ..addStatusListener((status) {
         print("status= $status");
-        if(status == AnimationStatus.completed){
+        if (status == AnimationStatus.completed && finalPos == 0) {
           widget.controller.value = 0;
+          widget.controller.forward();
         }
       });
+
+    getLuckResult(context).then((coin) {
+      updateTween();
+    });
+  }
+
+  Future<int> getLuckResult(BuildContext context) async {
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    dynamic luckResultMap;
+    // luckResultMap = await Service()
+    //     .getLuckyWheelResult({'acct_id': treeGroup.acct_id, 'coin_speed': 100});
+
+    //TODO 测试用
+    luckResultMap = json.decode(testJson);
+    print("luckResultMap= $luckResultMap");
+    finalPos = luckResultMap['gift_id'] as num;
+    int coin = luckResultMap['coin'] as num;
+    print("返回的gift_id=$finalPos，coin=$coin");
+    return coin;
+  }
+
+  ///接口中取到结果后更新
+  updateTween() {
+    double needAngle = _getAngelWithSelectedPosition(finalPos);
+    curTween.end = curTween.end + needAngle;
+    if (widget.controller.isAnimating) {
+      widget.controller.forward();
+    }
   }
 
   @override
@@ -79,7 +109,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           ),
         ),
         Transform.rotate(
-          angle: angle,
+          angle: widget.animation.value,
           child: Container(
             width: ScreenUtil().setWidth(550),
             height: ScreenUtil().setWidth(550),
@@ -90,13 +120,18 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           ),
         ),
         Container(
-          width: ScreenUtil().setWidth(200),
-          height: ScreenUtil().setWidth(200),
-          // color: Colors.blue,
-          child: Image.asset(
-            "assets/image/lucky_wheel_arrow.png",
-          ),
-        ),
+            width: ScreenUtil().setWidth(200),
+            height: ScreenUtil().setWidth(200),
+            // color: Colors.blue,
+            child: GestureDetector(
+              onTap: () {
+                print("onTap onTap...");
+                updateTween();
+              },
+              child: Image.asset(
+                "assets/image/lucky_wheel_arrow.png",
+              ),
+            )),
       ],
     );
   }
