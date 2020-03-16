@@ -69,6 +69,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取好友排行和分红树排行
+  Future<Map<String, dynamic>> getRankInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/FriendsRank/getRank', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
