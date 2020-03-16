@@ -1,7 +1,16 @@
 {
-  "acct_id": "1",
-  "nickname": "Guest",
+  "acct_id": "18",
+  "nickname": "",
   "icon_path": "",
+  "rela_type": "",
+  "rela_account": "",
   "last_leave_time": "",
-  "acct_bal": 0
+  "active": "0",
+  "acct_bal": 0,
+  "separate_amount": "0.00",
+  "coin": "",
+  "version": "1",
+  "sign_times": 0,
+  "last_draw_time": "",
+  "level": "1"
 }

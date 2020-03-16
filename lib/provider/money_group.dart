@@ -22,12 +22,23 @@ class MoneyGroup with ChangeNotifier {
   static const String ACC_GOLD = 'ACC_GOLD';
   static const String ADD_MONEY = 'ADD_MONEY';
   static const String ACC_MONEY = 'ACC_MONEY';
+  // 升级时减少总金币
+  static const String ACC_ALL_GOLD = 'ACC_ALL_GOLD';
+  // 触发等级检查
+  static const String ADD_ALL_GOLD = 'ACC_ALL_GOLD';
 
   String acct_id;
+
+// 定时器引用
+  Timer _timer;
 
 // 金币
   double _gold = 400;
   double get gold => _gold;
+
+  // 总金币;用于升级使用
+  double _allgold = 0;
+  double get allgold => _gold;
 
 // 金钱
   double _money = 0;
@@ -78,6 +89,9 @@ class MoneyGroup with ChangeNotifier {
       _gold = group['_gold'] != null
           ? double.parse(group['_gold'].toString())
           : 400.0;
+      _allgold = group['_allgold'] != null
+          ? double.parse(group['_allgold'].toString())
+          : 0.0;
       _money = group['_money'] != null
           ? double.parse((group['_money']).toString())
           : 0.0;
@@ -87,7 +101,7 @@ class MoneyGroup with ChangeNotifier {
         // 如果此时没有makeGoldSped的值的话就等通知
         addUnLineGet(upDateTime, treeGroup.makeGoldSped);
         EVENT_BUS.on(TreeGroup.LOAD,
-            (gold) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
+            (_) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
       }
       notifyListeners();
     }
@@ -105,6 +119,7 @@ class MoneyGroup with ChangeNotifier {
     setTreeGroup(getUseGroup(res, {
       'upDateTime': ajaxData['last_leave_time'],
       '_gold': ajaxData['coin'],
+      '_allgold': ajaxData['_allgold']
     }));
 
     EVENT_BUS.on(MoneyGroup.ADD_GOLD, (gold) => addGold(gold));
@@ -112,17 +127,20 @@ class MoneyGroup with ChangeNotifier {
     EVENT_BUS.on(MoneyGroup.ADD_MONEY, (gold) => addMoney(gold));
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
-
+    // 升级时使用
+    EVENT_BUS.on(MoneyGroup.ACC_ALL_GOLD, (gold) => accAllGold(gold));
+    // 设置金币产生倍数
     EVENT_BUS.on(MoneyGroup.SET_INCREASE, (increase) {
       _makeGoldIncrease = increase;
     });
-
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
+      _timer.cancel();
     });
     const period = const Duration(seconds: AnimationConfig.TreeAnimationTime);
     Timer.periodic(period, (timer) {
+      _timer = _timer;
       addGold(treeGroup.makeGoldSped *
           makeGoldIncrease *
           AnimationConfig.TreeAnimationTime);
@@ -133,8 +151,12 @@ class MoneyGroup with ChangeNotifier {
   }
 
   // 将对象转为json
-  Map<String, dynamic> toJson() =>
-      {'upDateTime': _upDateTime.toString(), '_gold': _gold, '_money': _money};
+  Map<String, dynamic> toJson() => {
+        'upDateTime': _upDateTime.toString(),
+        '_gold': _gold,
+        '_money': _money,
+        '_allgold': _allgold
+      };
 
   Future<bool> save() async {
     _upDateTime = DateTime.now();
@@ -144,7 +166,8 @@ class MoneyGroup with ChangeNotifier {
     await Service().saveMoneyInfo({
       'acct_id': acct_id,
       'coin': _gold,
-      'last_leave_time': _upDateTime.toString()
+      'last_leave_time': _upDateTime.toString(),
+      '_allgold': _allgold
     });
 
     // 通知更新
@@ -156,8 +179,17 @@ class MoneyGroup with ChangeNotifier {
     addGold(inSeconds * treeGroup.makeGoldSped);
   }
 
+// 升级是清除金币
+  accAllGold(g) {
+    _allgold = 0;
+    save();
+  }
+
   addGold(double gold) {
     _gold += gold;
+    _allgold += gold;
+    // 通知等级检查
+    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
     save();
   }
 

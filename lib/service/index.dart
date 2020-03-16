@@ -81,6 +81,20 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取游戏时长等相关配置数据
+  Future<Map<String, dynamic>> getDefaultDeploy(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Deployinfo/defaultDeploy', data: data);
+    return response.data['data'];
+  }
+
+  // 获取用户升级金币数据相关
+  Future<List> getCoinRule(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Deployinfo/coinRule', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

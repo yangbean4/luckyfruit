@@ -14,7 +14,10 @@ class UserModel with ChangeNotifier {
 
   /// 初始化用户
   Future<User> initUser() async {
-    String res = await Storage.getItem(UserModel.CACHE_KEY);
+    // String res = await Storage.getItem(UserModel.CACHE_KEY);
+    // 因为有 ‘上一次领取时间戳’ ‘当前配置版本号’ 需要在初始化获取 所有先全走请求不走缓存
+    // REVIEW:后续改为 先取混存,再去获取 最后更新 并协同其他依赖于user的模块更新配置等
+    String res;
     if (res != null) {
       _user = User.fromJson(json.decode(res));
     } else {

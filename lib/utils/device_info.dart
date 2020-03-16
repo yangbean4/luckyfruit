@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
+import 'package:package_info/package_info.dart';
 
 class DeviceIofo {
   static Map<String, dynamic> device;
@@ -28,19 +29,25 @@ class DeviceIofo {
     return device;
   }
 
+  // static Future<PackageInfo> initPakeageInfo() async {
+  //   PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  //   return packageInfo;
+  // }
+
   static String getValue({String androidName, String iosName}) =>
       Platform.isAndroid ? device[androidName] : device[iosName];
 
   static Future<Map<String, dynamic>> ininInfo() async {
     await initDeviceInfo();
-
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Map<String, dynamic> info = {
       "os_type": Platform.isAndroid ? 'android' : 'ios',
       'gaid': getValue(androidName: 'gaid'),
       'aid': getValue(androidName: 'androidId'),
       'mode': device['model'],
       'brand': getValue(androidName: 'brand', iosName: 'utsname.machine'),
-      'idfa': device['identifierForVendor']
+      'idfa': device['identifierForVendor'],
+      'app_version': packageInfo.version
     };
 
     return info;
