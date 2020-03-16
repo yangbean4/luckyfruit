@@ -143,17 +143,17 @@ class Modal {
   _createButton(String text, Function fn) => GestureDetector(
       onTap: fn,
       child: PrimaryButton(
-        width: 600,
-        height: 124,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            height: 1,
-            fontWeight: FontWeight.bold,
-            fontSize: ScreenUtil().setWidth(52),
-          ),
-        ),
-      ));
+          width: 600,
+          height: 124,
+          child: Center(
+              child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              height: 1,
+              fontWeight: FontWeight.bold,
+              fontSize: ScreenUtil().setWidth(52),
+            ),
+          ))));
 }
