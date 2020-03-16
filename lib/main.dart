@@ -11,7 +11,6 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/service/sse.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
