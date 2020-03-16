@@ -47,7 +47,7 @@ class LuckyGroup with ChangeNotifier {
     "limited_time": 200,
     "automatic_time": 300,
     "random_m_level": 3,
-    "random_space_time": 300,
+    "random_space_time": 10,
     "purchase_tree_level": 4,
     "compose_numbers": 5,
     "automatic_game_timelen": 200,

@@ -23,9 +23,9 @@ class PositionLT {
   int y;
   num _gridWidth = 200;
   num gridHeight = 210;
-  num get _xSpace => (960 - _gridWidth * GameConfig.X_AMOUNT) ~/ 3;
+  num get xSpace => (960 - _gridWidth * GameConfig.X_AMOUNT) ~/ 3;
 
-  num get left => x * (_gridWidth + _xSpace);
+  num get left => x * (_gridWidth + xSpace);
   num get top => y * gridHeight;
   PositionLT({this.x, this.y});
 }

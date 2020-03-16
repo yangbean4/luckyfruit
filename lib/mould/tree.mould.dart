@@ -5,17 +5,23 @@ class TreePoint {
   int x;
   // 垂直位置
   int y;
-  TreePoint({this.x, this.y});
+
+  TreePoint({
+    this.x,
+    this.y,
+  });
 }
 
 class Tree extends TreePoint {
-  Tree({this.grade, this.gradeNumber = 1, int x, int y}) : super(x: x, y: y);
+  Tree({this.grade, this.gradeNumber = 1, int x, int y, this.type})
+      : super(x: x, y: y);
 
   // 等级
   int grade;
   // 该等级生产的次数
   int gradeNumber;
-  //
+  // 标志是否是特殊的树
+  String type;
 
   // 指数
   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
@@ -41,7 +47,9 @@ class Tree extends TreePoint {
   // 种一棵需要的钱
   double get consumeGold => end >= 23 * f ? 23 * f : end;
   //
-  String get treeImgSrc => 'assets/tree/tree${grade % 3 + 1}.png';
+  String get treeImgSrc => type != null
+      ? 'assets/tree/$type.png'
+      : 'assets/tree/tree${grade % 3 + 1}.png';
 
   factory Tree.formJson(Map<String, dynamic> json) => Tree()
     ..x = json['x']

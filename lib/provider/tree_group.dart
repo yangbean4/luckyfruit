@@ -27,14 +27,16 @@ class TreeGroup with ChangeNotifier {
 
   String acct_id;
 
-  //记录宝箱占用的位置
-  TreePoint treasurePosition;
+  //宝箱的树
+  Tree treasureTree;
   // 记录宝箱领取的时间
   DateTime treasureTime = DateTime.now();
   // 设置的宝箱出现的时间间隔 单位 s
   num get _treasureInterval => _luckyGroup.issed?.random_space_time;
   // 宝箱停留时长;超出后隐藏
   num get _treasuReremain => _luckyGroup.issed?.box_remain_time;
+  // 随机的等级
+  num get _treasugrade => _luckyGroup.issed?.random_m_level;
 
   // 冷却时间
   int delayTime;
@@ -223,9 +225,8 @@ class TreeGroup with ChangeNotifier {
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         if (treeMatrix[y][x] == null &&
-            treasurePosition != null &&
-            x != treasurePosition.x &&
-            y != treasurePosition.y) {
+            (treasureTree == null ||
+                (x != treasureTree.x && y != treasureTree.y))) {
           return new TreePoint(x: x, y: y);
         }
       }
@@ -307,7 +308,7 @@ class TreeGroup with ChangeNotifier {
     TreePoint point = _findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
     if (diff > Duration(seconds: _treasureInterval) &&
-        treasurePosition == null &&
+        treasureTree == null &&
         point != null) {
       makeTreasure(point);
     }
@@ -315,14 +316,26 @@ class TreeGroup with ChangeNotifier {
 
   // 生成宝箱
   makeTreasure(TreePoint point) {
-    treasurePosition = point;
+    treasureTree = Tree(
+        x: point.x,
+        y: point.y,
+        type: 'mango',
+        // 等级为 最小等级+随机的_treasugrade等级 与最大等级减1 的最小值
+        grade: min(maxLevel - 1, minLevel + Random().nextInt(_treasugrade)));
     notifyListeners();
     // 设置时长结束后隐藏
     Duration duration = Duration(seconds: _treasuReremain);
     Future.delayed(duration).then((e) {
-      treasurePosition = null;
+      treasureTree = null;
       notifyListeners();
     });
+  }
+
+  // 领取宝箱
+  pickTreasure(bool pick) {
+    if (pick) addTree(tree: treasureTree);
+    treasureTree = null;
+    notifyListeners();
   }
 
   // 回收树木

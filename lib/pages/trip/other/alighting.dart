@@ -50,6 +50,13 @@ class _AlightingAnimationState extends State<AlightingAnimation>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // return GrowTransition(
     //     child: widget.child, animation: animation, left: widget.left);
@@ -62,24 +69,24 @@ class _AlightingAnimationState extends State<AlightingAnimation>
   }
 }
 
-class GrowTransition extends StatelessWidget {
-  GrowTransition({this.child, this.animation, this.left});
+// class GrowTransition extends StatelessWidget {
+//   GrowTransition({this.child, this.animation, this.left});
 
-  final Widget child;
-  final Animation<double> animation;
-  final num left;
+//   final Widget child;
+//   final Animation<double> animation;
+//   final num left;
 
-  Widget build(BuildContext context) {
-    return new Center(
-      child: new AnimatedBuilder(
-          animation: animation,
-          builder: (BuildContext context, Widget child) {
-            return new Transform.scale(
-                alignment: Alignment.center,
-                scale: animation.value,
-                child: child);
-          },
-          child: child),
-    );
-  }
-}
+//   Widget build(BuildContext context) {
+//     return new Center(
+//       child: new AnimatedBuilder(
+//           animation: animation,
+//           builder: (BuildContext context, Widget child) {
+//             return new Transform.scale(
+//                 alignment: Alignment.center,
+//                 scale: animation.value,
+//                 child: child);
+//           },
+//           child: child),
+//     );
+//   }
+// }
