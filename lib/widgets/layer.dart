@@ -338,7 +338,7 @@ class Layer {
       ])
         ..show();
 
-  static levelUp(int level, double getGlod) {
+  static levelUp({String level, double getGlod, Function onOk}) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),
@@ -358,6 +358,7 @@ class Layer {
                   child: AdButton(
                     btnText: '5x Reward',
                     onCancel: modal.hide,
+                    onOk: onOk,
                   ))
             ])
       ..show();
@@ -529,8 +530,9 @@ class Layer {
                 useAd: false,
                 btnText: 'Claim',
                 onCancel: modal.hide,
-                onOk: (){
-                  TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+                onOk: () {
+                  TreeGroup treeGroup =
+                      Provider.of<TreeGroup>(context, listen: false);
                   treeGroup.addTree(tree: Tree(grade: 38));
                 },
                 interval: Duration(seconds: 0),

@@ -22,11 +22,14 @@ void main() {
   UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();
-  TourismMap tourismMap = TourismMap()..init(moneyGroup);
+  TourismMap tourismMap = TourismMap();
   LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
+    luckyGroup.init(userModel.value.last_draw_time, userModel.value?.version);
     treeGroup.init(moneyGroup, luckyGroup, userModel.value?.acct_id);
     moneyGroup.init(treeGroup, userModel.value?.acct_id);
+    tourismMap.init(moneyGroup, luckyGroup, userModel.value?.level,
+        userModel.value?.acct_id);
   });
 
   runApp(MultiProvider(

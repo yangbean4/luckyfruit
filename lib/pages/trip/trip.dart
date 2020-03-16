@@ -19,7 +19,7 @@ import './other/treasure.dart';
 class _SelectorUse {
   String city;
   double schedule;
-  int level;
+  String level;
   _SelectorUse({this.level, this.city, this.schedule});
 }
 
@@ -190,32 +190,34 @@ class _TripState extends State<Trip>
                                           ),
                                           // 等级进度条
                                           Container(
-                                            width: ScreenUtil().setWidth(248),
-                                            height: ScreenUtil().setWidth(20),
-                                            margin: EdgeInsets.only(
-                                                bottom:
-                                                    ScreenUtil().setWidth(36)),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(ScreenUtil()
-                                                      .setWidth(10))),
-                                            ),
-                                            child: Container(
-                                                width: ScreenUtil().setWidth(
-                                                    248 /
-                                                        100 *
-                                                        _selectorUse.schedule),
-                                                height:
-                                                    ScreenUtil().setWidth(20),
-                                                decoration: BoxDecoration(
-                                                  color: MyTheme.yellowColor,
-                                                  borderRadius: BorderRadius
-                                                      .all(Radius.circular(
-                                                          ScreenUtil()
-                                                              .setWidth(10))),
-                                                )),
-                                          ),
+                                              width: ScreenUtil().setWidth(248),
+                                              height: ScreenUtil().setWidth(20),
+                                              margin: EdgeInsets.only(
+                                                  bottom: ScreenUtil()
+                                                      .setWidth(36)),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(ScreenUtil()
+                                                        .setWidth(10))),
+                                              ),
+                                              child: Stack(children: <Widget>[
+                                                Container(
+                                                  width: ScreenUtil().setWidth(
+                                                      2.48 *
+                                                          _selectorUse
+                                                              .schedule),
+                                                  height:
+                                                      ScreenUtil().setWidth(20),
+                                                  decoration: BoxDecoration(
+                                                    color: MyTheme.yellowColor,
+                                                    borderRadius: BorderRadius
+                                                        .all(Radius.circular(
+                                                            ScreenUtil()
+                                                                .setWidth(10))),
+                                                  ),
+                                                )
+                                              ])),
                                           // 今日分红树收益提示
                                           GestureDetector(
                                             onTap: () =>

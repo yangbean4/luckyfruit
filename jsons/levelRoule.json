@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "level": "0",
+  "need_coin_prefix": "36",
+  "need_coin_times": "2",
+  "deblock_city": "1",
+  "award_coin_prefix": "18",
+  "award_coin_time": "1"
+}
