@@ -333,6 +333,7 @@ class TreeGroup with ChangeNotifier {
 
   // 领取宝箱
   pickTreasure(bool pick) {
+    // 是否领取树
     if (pick) addTree(tree: treasureTree);
     treasureTree = null;
     notifyListeners();
