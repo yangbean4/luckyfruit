@@ -8,6 +8,7 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
+import 'package:luckyfruit/widgets/shake_button.dart';
 
 class RightBtns extends StatefulWidget {
   RightBtns({Key key}) : super(key: key);
@@ -146,19 +147,23 @@ class _RightBtnsState extends State<RightBtns>
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         showDouble
-            ? GestureDetector(
-                onTap: () {
-                  luckyGroup.doubleStart();
-                  setState(() {
-                    showDouble = false;
-                    isDouble = true;
-                  });
-                },
-                child: renderItem('assets/image/vadio.png',
-                    bottomString: 'in ${issed?.limited_time} s',
-                    top: GoldText('x${issed?.reward_multiple}',
-                        iconSize: 36, textSize: 36, textColor: Colors.white),
-                    color: Color.fromRGBO(49, 200, 84, 1)),
+            ? ShakeAnimation(
+                timeInterval: Duration(milliseconds: 1400),
+                animateTime: Duration(milliseconds: 300),
+                child: GestureDetector(
+                  onTap: () {
+                    luckyGroup.doubleStart();
+                    setState(() {
+                      showDouble = false;
+                      isDouble = true;
+                    });
+                  },
+                  child: renderItem('assets/image/vadio.png',
+                      bottomString: 'in ${issed?.limited_time} s',
+                      top: GoldText('x${issed?.reward_multiple}',
+                          iconSize: 36, textSize: 36, textColor: Colors.white),
+                      color: Color.fromRGBO(49, 200, 84, 1)),
+                ),
               )
             : Container(),
         isDouble

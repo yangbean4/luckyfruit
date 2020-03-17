@@ -222,7 +222,7 @@ class _GameState extends State<Game> with MyNavigator {
                           Widget center = selectorUse.isrecycle == null
                               ? GestureDetector(
                                   onTap: selectorUse.addTree,
-                                  child: ShakeButton(
+                                  child: ShakeAnimation(
                                     child: PrimaryButton(
                                       // minWidth: ScreenUtil().setWidth(560),
                                       width: 400,

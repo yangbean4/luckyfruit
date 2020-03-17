@@ -3,15 +3,25 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
-class ShakeButton extends StatefulWidget {
+class ShakeAnimation extends StatefulWidget {
   final Widget child;
-  ShakeButton({Key key, this.child}) : super(key: key);
+  final Duration timeInterval;
+  final Duration animateTime;
+  ShakeAnimation({
+    Key key,
+    this.child,
+    this.timeInterval = const Duration(seconds: 10),
+    this.animateTime = const Duration(milliseconds: 800),
+  })  :
+        // 由于动画是 往复两遍  所以 动画间隔应该大于动画时间的4倍
+        assert(timeInterval > animateTime * 4),
+        super(key: key);
 
   @override
-  _ShakeButtonState createState() => _ShakeButtonState();
+  _ShakeAnimationState createState() => _ShakeAnimationState();
 }
 
-class _ShakeButtonState extends State<ShakeButton>
+class _ShakeAnimationState extends State<ShakeAnimation>
     with TickerProviderStateMixin {
   AnimationController controller;
   Timer timer;
@@ -23,8 +33,7 @@ class _ShakeButtonState extends State<ShakeButton>
   void initState() {
     super.initState();
     isDispose = false;
-    controller = AnimationController(
-        duration: Duration(milliseconds: _milliseconds), vsync: this)
+    controller = AnimationController(duration: widget.animateTime, vsync: this)
       ..value = 0.0;
     // ..fling(velocity: 0.1);
     final CurvedAnimation curve =
@@ -36,8 +45,7 @@ class _ShakeButtonState extends State<ShakeButton>
         }
       });
 
-    const period = const Duration(seconds: 10);
-    Timer.periodic(period, (_timer) {
+    Timer.periodic(widget.timeInterval, (_timer) {
       if (!isDispose) {
         timer = _timer;
         // controller.value = 0.0;
