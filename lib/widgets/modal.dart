@@ -21,6 +21,7 @@ class Modal {
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
   final List<Widget> Function(Modal modal) childrenBuilder;
   final bool autoHide;
+  final Color decorationColor;
 
   Modal(
       {this.okText,
@@ -31,7 +32,8 @@ class Modal {
       this.childrenBuilder,
       this.verticalPadding = 90,
       this.horizontalPadding = 120,
-      this.autoHide = true});
+      this.autoHide = true,
+      this.decorationColor = Colors.white});
 
   /// 隐藏Modal
   hide() {
@@ -66,7 +68,7 @@ class Modal {
               horizontal: ScreenUtil().setWidth(horizontalPadding),
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: decorationColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(ScreenUtil().setWidth(100)),
               ),

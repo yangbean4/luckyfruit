@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/pages/trip/game/continents_merge_.dart';
+import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
+import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -567,5 +570,18 @@ class Layer {
         child: ModalTitle('\$0.51', color: MyTheme.primaryColor),
       )
     ]).show();
+  }
+
+  /// 五洲树合成弹窗
+  static showContinentsMergeWindow() {
+    Modal(
+            onCancel: () {},
+            children: [
+              ContinentsMergeWidget(),
+            ],
+            verticalPadding: 0,
+            horizontalPadding: 0,
+            decorationColor: Colors.transparent)
+        .show();
   }
 }
