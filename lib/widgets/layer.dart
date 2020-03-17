@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:luckyfruit/pages/trip/game/continents_merge_.dart';
 import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
+import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:oktoast/oktoast.dart';
@@ -578,6 +579,19 @@ class Layer {
             onCancel: () {},
             children: [
               ContinentsMergeWidget(),
+            ],
+            verticalPadding: 0,
+            horizontalPadding: 0,
+            decorationColor: Colors.transparent)
+        .show();
+  }  
+  
+  /// 啤酒花树合成弹窗
+  static showHopsMergeWindow() {
+    Modal(
+            onCancel: () {},
+            children: [
+              HopsMergeWidget(),
             ],
             verticalPadding: 0,
             horizontalPadding: 0,

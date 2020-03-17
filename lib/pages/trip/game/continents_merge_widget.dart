@@ -44,7 +44,8 @@ class ContinentsMergeWidget extends StatelessWidget {
                   children: [
                     Image.asset("assets/image/dividend_tree.png"),
                     Align(
-                      child: Image.asset("assets/image/continents_name_bg_african.png"),
+                      child: Image.asset(
+                          "assets/image/continents_name_bg_african.png"),
                       alignment: Alignment.centerRight,
                     )
                   ],
@@ -55,29 +56,69 @@ class ContinentsMergeWidget extends StatelessWidget {
             ),
             Positioned(
               child: new CircleButton(
-                  onTap: () => print("Cool"),
-                  iconData: Image.asset("assets/image/dividend_tree.png")),
+                onTap: () => print("Cool"),
+                iconData: Stack(
+                  children: [
+                    Image.asset("assets/image/dividend_tree.png"),
+                    Align(
+                      child: Image.asset(
+                          "assets/image/continents_name_bg_asian.png"),
+                      alignment: Alignment.centerRight,
+                    )
+                  ],
+                ),
+              ),
               left: list[1].x,
               top: list[1].y,
             ),
             Positioned(
               child: new CircleButton(
-                  onTap: () => print("Cool"),
-                  iconData: Image.asset("assets/image/dividend_tree.png")),
+                onTap: () => print("Cool"),
+                iconData: Stack(
+                  children: [
+                    Image.asset("assets/image/dividend_tree.png"),
+                    Align(
+                      child: Image.asset(
+                          "assets/image/continents_name_bg_oceania.png"),
+                      alignment: Alignment.centerRight,
+                    )
+                  ],
+                ),
+              ),
               left: list[2].x,
               top: list[2].y,
             ),
             Positioned(
               child: new CircleButton(
-                  onTap: () => print("Cool"),
-                  iconData: Image.asset("assets/image/dividend_tree.png")),
+                onTap: () => print("Cool"),
+                iconData: Stack(
+                  children: [
+                    Image.asset("assets/image/dividend_tree.png"),
+                    Align(
+                      child: Image.asset(
+                          "assets/image/continents_name_bg_american.png"),
+                      alignment: Alignment.centerRight,
+                    )
+                  ],
+                ),
+              ),
               left: list[3].x,
               top: list[3].y,
             ),
             Positioned(
               child: new CircleButton(
-                  onTap: () => print("Cool"),
-                  iconData: Image.asset("assets/image/dividend_tree.png")),
+                onTap: () => print("Cool"),
+                iconData: Stack(
+                  children: [
+                    Image.asset("assets/image/dividend_tree.png"),
+                    Align(
+                      child: Image.asset(
+                          "assets/image/continents_name_bg_european.png"),
+                      alignment: Alignment.centerRight,
+                    )
+                  ],
+                ),
+              ),
               left: list[4].x,
               top: list[4].y,
             ),
@@ -86,8 +127,19 @@ class ContinentsMergeWidget extends StatelessWidget {
                 onTap: () {
                   print("开始合成五洲树");
                 },
-                child: Image.asset(
-                    "assets/image/continents_btn_trigger_merge.png"),
+                child: Stack(children: [
+                  Image.asset("assets/image/continents_btn_trigger_merge.png"),
+                  Align(
+                      alignment: Alignment(0, 0),
+                      child: Text(
+                        "Start",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenUtil().setWidth(50),
+                        ),
+                      )),
+                ]),
               ),
               width: ScreenUtil().setWidth(200),
               height: ScreenUtil().setWidth(200),
