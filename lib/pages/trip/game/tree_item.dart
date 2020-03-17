@@ -125,6 +125,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                       2,
                   child: TreeWidget(
                     tree: widget.tree,
+                    showCountDown: widget.tree.showCountDown,
                     imgHeight: ScreenUtil().setWidth(140 * treeAnimation.value),
                     imgWidth: ScreenUtil().setWidth(200 * treeAnimation.value),
                     labelWidth: ScreenUtil().setWidth(72),

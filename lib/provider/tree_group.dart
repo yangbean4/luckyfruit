@@ -289,6 +289,8 @@ class TreeGroup with ChangeNotifier {
       } else {
         // TODO:合成树后随机出现的越级升级弹窗
         checkTreasure();
+        // 检测是否出现限时分红树
+        Layer.limitedTimeBonusTreeShowUp(this);
       }
       _treeList.remove(source);
     } else {
@@ -352,6 +354,12 @@ class TreeGroup with ChangeNotifier {
     _treeList.remove(tree);
     EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
     save();
+  }
+
+  ///限时分红树倒计时结束后删除该树
+  deleteTreeAfterTimeLimitedTreeFinished(Tree tree) {
+    _treeList.remove(tree);
+    notifyListeners();
   }
 
   // 切换添加/回收树按钮 树是否在拖拽.

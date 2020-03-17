@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:luckyfruit/pages/trip/game/continents_merge_.dart';
 import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
 import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
@@ -489,7 +488,14 @@ class Layer {
   /**
    * 显示限时分红树开始
    */
-  static limitedTimeBonusTreeShowUp(BuildContext context) {
+  static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) {
+    //TODO 从接口中接受该值，作为下一次合成时的条件
+    bool shouldAppearTimeLimitedBonusTree = true;
+
+    if (!shouldAppearTimeLimitedBonusTree) {
+      return;
+    }
+
     Modal(
         onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
@@ -520,8 +526,7 @@ class Layer {
                 margin:
                     EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
                 child: TreeWidget(
-                  tree: Provider.of<TreeGroup>(context, listen: false)
-                      .topLevelTree,
+                  tree: treeGroup.topLevelTree,
                   imgHeight: ScreenUtil().setWidth(218),
                   imgWidth: ScreenUtil().setWidth(237),
                   labelWidth: ScreenUtil().setWidth(110),
@@ -537,9 +542,8 @@ class Layer {
                 btnText: 'Claim',
                 onCancel: modal.hide,
                 onOk: () {
-                  TreeGroup treeGroup =
-                      Provider.of<TreeGroup>(context, listen: false);
-                  treeGroup.addTree(tree: Tree(grade: 38));
+                  modal.hide();
+                  treeGroup.addTree(tree: Tree(grade: 5, showCountDown: true));
                 },
                 interval: Duration(seconds: 0),
                 tips:
@@ -552,25 +556,35 @@ class Layer {
   /**
    * 显示限时分红树结束
    */
-  static limitedTimeBonusTreeEndUp(BuildContext context) {
-    Modal(onOk: () {}, onCancel: () {}, okText: "Claim", children: [
-      ModalTitle('Congratulations'),
-      Container(
-        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
-        child: TreeWidget(
-          tree: Provider.of<TreeGroup>(context, listen: false).topLevelTree,
-          imgHeight: ScreenUtil().setWidth(218),
-          imgWidth: ScreenUtil().setWidth(237),
-          labelWidth: ScreenUtil().setWidth(110),
-          primary: true,
-        ),
-      ),
-      SecondaryText("Get \$ 0.51 in 5mins through the Limited time bouns tree"),
-      Container(
-        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
-        child: ModalTitle('\$0.51', color: MyTheme.primaryColor),
-      )
-    ]).show();
+  static limitedTimeBonusTreeEndUp(BuildContext context, Tree tree) {
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    Modal(
+        onOk: () {
+          treeGroup.deleteTreeAfterTimeLimitedTreeFinished(tree);
+        },
+        onCancel: () {
+          treeGroup.deleteTreeAfterTimeLimitedTreeFinished(tree);
+        },
+        okText: "Claim",
+        children: [
+          ModalTitle('Congratulations'),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+            child: TreeWidget(
+              tree: treeGroup.topLevelTree,
+              imgHeight: ScreenUtil().setWidth(218),
+              imgWidth: ScreenUtil().setWidth(237),
+              labelWidth: ScreenUtil().setWidth(110),
+              primary: true,
+            ),
+          ),
+          SecondaryText(
+              "Get \$ 0.51 in 5mins through the Limited time bouns tree"),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
+            child: ModalTitle('\$0.51', color: MyTheme.primaryColor),
+          )
+        ]).show();
   }
 
   /// 五洲树合成弹窗
@@ -584,8 +598,8 @@ class Layer {
             horizontalPadding: 0,
             decorationColor: Colors.transparent)
         .show();
-  }  
-  
+  }
+
   /// 啤酒花树合成弹窗
   static showHopsMergeWindow() {
     Modal(

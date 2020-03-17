@@ -13,7 +13,13 @@ class TreePoint {
 }
 
 class Tree extends TreePoint {
-  Tree({this.grade, this.gradeNumber = 1, int x, int y, this.type})
+  Tree(
+      {this.grade,
+      this.gradeNumber = 1,
+      int x,
+      int y,
+      this.type,
+      this.showCountDown = false})
       : super(x: x, y: y);
 
   // 等级
@@ -22,6 +28,7 @@ class Tree extends TreePoint {
   int gradeNumber;
   // 标志是否是特殊的树
   String type;
+  bool showCountDown;
 
   // 指数
   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;

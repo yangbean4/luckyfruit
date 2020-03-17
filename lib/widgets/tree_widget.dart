@@ -7,6 +7,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 
 import 'count_down.dart';
+import 'layer.dart';
 
 // 树+等级树根
 class TreeWidget extends StatelessWidget {
@@ -85,8 +86,11 @@ class TreeWidget extends StatelessWidget {
                 top: ScreenUtil().setWidth(0),
                 right: ScreenUtil().setWidth(0),
                 child: CountdownFormatted(
-                    duration: Duration(seconds: 100),
-                    onFinish: () {},
+                    duration: Duration(seconds: 20),
+                    onFinish: () {
+                      print("限时分红树倒计时完成");
+                      Layer.limitedTimeBonusTreeEndUp(context, tree);
+                    },
                     builder: (context, String str) {
                       return Text(
                         str,
