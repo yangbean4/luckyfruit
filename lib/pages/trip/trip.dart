@@ -204,7 +204,7 @@ class _TripState extends State<Trip>
                                               child: Stack(children: <Widget>[
                                                 Container(
                                                   width: ScreenUtil().setWidth(
-                                                      2.48 *
+                                                      248 *
                                                           _selectorUse
                                                               .schedule),
                                                   height:

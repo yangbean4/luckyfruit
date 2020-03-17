@@ -358,10 +358,12 @@ class Layer {
                   child: AdButton(
                     btnText: '5x Reward',
                     onCancel: modal.hide,
-                    onOk: onOk,
+                    onOk: () {
+                      onOk();
+                      modal.hide();
+                    },
                   ))
-            ])
-      ..show();
+            ]).show();
   }
 
   /// toast弹窗
@@ -431,7 +433,7 @@ class Layer {
       duration: Duration(
         milliseconds: type == 'loading' ? 300000 : 3000,
       ),
-      dismissOtherToast: true,
+      dismissOtherToast: false,
       handleTouch: true,
     );
   }

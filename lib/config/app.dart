@@ -16,6 +16,8 @@ class AnimationConfig {
 }
 
 class App {
+  // 存储金币的时间间隔 单位秒
+  static const int SAVE_INTERVAL = 30;
   // 离线也有收益的时长 单位秒
   static const num UN_LINE_TIME = 20 * 60;
   static const String AESKEY = '06BB48CFA768694D';

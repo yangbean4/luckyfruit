@@ -25,7 +25,7 @@ class MoneyGroup with ChangeNotifier {
   // 升级时减少总金币
   static const String ACC_ALL_GOLD = 'ACC_ALL_GOLD';
   // 触发等级检查
-  static const String ADD_ALL_GOLD = 'ACC_ALL_GOLD';
+  static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
 
   String acct_id;
 
@@ -129,22 +129,22 @@ class MoneyGroup with ChangeNotifier {
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
     // 升级时使用
     EVENT_BUS.on(MoneyGroup.ACC_ALL_GOLD, (gold) => accAllGold(gold));
+
     // 设置金币产生倍数
     EVENT_BUS.on(MoneyGroup.SET_INCREASE, (increase) {
       _makeGoldIncrease = increase;
     });
-    // 退出时保存数据
+    // 退出时保存数据 并取消记时器
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
       _timer.cancel();
     });
-    const period = const Duration(seconds: AnimationConfig.TreeAnimationTime);
+    const period = const Duration(seconds: App.SAVE_INTERVAL);
     Timer.periodic(period, (timer) {
       _timer = _timer;
-      addGold(treeGroup.makeGoldSped *
-          makeGoldIncrease *
-          AnimationConfig.TreeAnimationTime);
-      addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
+      addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL);
+      // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
+      // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
     });
 
     return this;
@@ -186,8 +186,8 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addGold(double gold) {
-    _gold += gold;
-    _allgold += gold;
+    _gold += gold.toInt();
+    _allgold += gold.toInt();
     // 通知等级检查
     EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
     save();

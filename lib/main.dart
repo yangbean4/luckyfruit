@@ -27,7 +27,7 @@ void main() {
     luckyGroup.init(userModel.value.last_draw_time, userModel.value?.version);
     treeGroup.init(moneyGroup, luckyGroup, userModel.value?.acct_id);
     moneyGroup.init(treeGroup, userModel.value?.acct_id);
-    tourismMap.init(moneyGroup, luckyGroup, userModel.value?.level,
+    tourismMap.init(moneyGroup, luckyGroup, userModel.value?.level ?? '1',
         userModel.value?.acct_id);
   });
 

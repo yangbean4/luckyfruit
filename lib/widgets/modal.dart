@@ -112,7 +112,7 @@ class Modal {
 
     _future = showToastWidget(
       widget,
-      dismissOtherToast: true,
+      dismissOtherToast: false,
       duration: Duration(days: 1),
       handleTouch: true,
     );
