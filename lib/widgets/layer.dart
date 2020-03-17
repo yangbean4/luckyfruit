@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
-import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
-import 'package:luckyfruit/pages/trip/top_level_merger.dart';
-import 'package:luckyfruit/utils/index.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -17,6 +13,9 @@ import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import './ad_btn.dart';
 import 'package:luckyfruit/pages/trip/game/lucky_wheel.dart';
+import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
+import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 /// 公共函数库
 class Layer {
