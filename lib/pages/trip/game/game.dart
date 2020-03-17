@@ -102,8 +102,31 @@ class _GameState extends State<Game> with MyNavigator {
                       return true;
                     },
                     onAccept: (Tree source) {
-                      treeGroup.trans(source, data,
-                          pos: new TreePoint(x: x, y: y));
+                      //TODO 是否弹出越级升级框需要从接口取数据
+                      bool shouldAppearBypassLevelUpWidget = false;
+                      if (shouldAppearBypassLevelUpWidget &&
+                          source != null &&
+                          data != null &&
+                          source != data &&
+                          source.grade == data.grade &&
+                          source.grade < treeGroup.maxLevel) {
+                        Layer.showBypassLevelUp(context, () {
+                          // 进行越级升级
+                          source.grade += 1;
+                          data.grade += 1;
+                          treeGroup.trans(source, data,
+                              pos: new TreePoint(x: x, y: y));
+                        }, () {
+                          // 取消越级升级，走正常升级流程
+                          treeGroup.trans(source, data,
+                              pos: new TreePoint(x: x, y: y));
+                        }, source.grade + 1);
+                      } else {
+                        // 不弹出越级升级框
+                        treeGroup.trans(source, data,
+                            pos: new TreePoint(x: x, y: y));
+                      }
+
                       return true;
                     },
                   ));

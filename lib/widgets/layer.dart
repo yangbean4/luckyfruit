@@ -490,7 +490,7 @@ class Layer {
    */
   static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) {
     //TODO 从接口中接受该值，作为下一次合成时的条件
-    bool shouldAppearTimeLimitedBonusTree = true;
+    bool shouldAppearTimeLimitedBonusTree = false;
 
     if (!shouldAppearTimeLimitedBonusTree) {
       return;
@@ -611,5 +611,71 @@ class Layer {
             horizontalPadding: 0,
             decorationColor: Colors.transparent)
         .show();
+  }
+
+  /// 随机出现的越级升级弹窗
+  static showBypassLevelUp(BuildContext context, Function onOk,
+      Function onCancel, int involvedGrade) {
+    Modal(
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle("Free Upgrade"),
+              Container(height: ScreenUtil().setWidth(37)),
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(children: [
+                      TreeWidget(
+                        tree: Tree(grade: involvedGrade),
+                        imgHeight: ScreenUtil().setWidth(236),
+                        imgWidth: ScreenUtil().setWidth(216),
+                        labelWidth: ScreenUtil().setWidth(80),
+                        primary: true,
+                      ),
+                      Container(height: ScreenUtil().setWidth(32)),
+                      FourthText(
+                        "Pomegranate tree",
+                        fontsize: 30,
+                        color: Color.fromARGB(38, 38, 38, 1),
+                      ),
+                    ]),
+                    Image.asset(
+                      'assets/image/arrow.png',
+                      width: ScreenUtil().setWidth(76),
+                      height: ScreenUtil().setWidth(48),
+                    ),
+                    Column(children: [
+                      TreeWidget(
+                        // TODO 添加控制条件
+                        tree: Tree(grade: involvedGrade + 1),
+                        imgHeight: ScreenUtil().setWidth(236),
+                        imgWidth: ScreenUtil().setWidth(216),
+                        labelWidth: ScreenUtil().setWidth(80),
+                        primary: true,
+                      ),
+                      Container(height: ScreenUtil().setWidth(32)),
+                      FourthText(
+                        "Litchi tree",
+                        fontsize: 30,
+                        color: Color.fromARGB(38, 38, 38, 1),
+                      ),
+                    ]),
+                  ]),
+              Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
+                  child: AdButton(
+                    btnText: 'Upgrade',
+                    onCancel: () {
+                      print("取消了越级升级");
+                      modal.hide();
+                      onCancel();
+                    },
+                    onOk: () {
+                      print("点击了越级升级");
+                      modal.hide();
+                      onOk();
+                    },
+                  ))
+            ]).show();
   }
 }

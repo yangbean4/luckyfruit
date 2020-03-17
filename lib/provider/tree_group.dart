@@ -286,11 +286,10 @@ class TreeGroup with ChangeNotifier {
       if (++target.grade > _maxLevel) {
         // _maxLevel = target.grade;
         Layer.newGrade(maxLevelTree);
-      } else {
-        // TODO:合成树后随机出现的越级升级弹窗
-        checkTreasure();
-        // 检测是否出现限时分红树
+        // 检测是否出现限时分红树（只在升级到最新等级时触发）
         Layer.limitedTimeBonusTreeShowUp(this);
+      } else {
+        checkTreasure();
       }
       _treeList.remove(source);
     } else {
