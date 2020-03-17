@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,7 +9,6 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
-import 'package:provider/provider.dart';
 
 class ListItem extends StatefulWidget {
   final Tree tree;

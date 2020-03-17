@@ -24,7 +24,8 @@ Issued _$IssuedFromJson(Map<String, dynamic> json) {
     ..balloon_timeLen = json['balloon_timeLen'] as num
     ..balloon_adSpace = json['balloon_adSpace'] as num
     ..balloon_time = json['balloon_time'] as num
-    ..balloon_remain_time = json['balloon_remain_time'] as num;
+    ..balloon_remain_time = json['balloon_remain_time'] as num
+    ..coin_award = json['coin_award'] as num;
 }
 
 Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
@@ -44,5 +45,6 @@ Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
       'balloon_timeLen': instance.balloon_timeLen,
       'balloon_adSpace': instance.balloon_adSpace,
       'balloon_time': instance.balloon_time,
-      'balloon_remain_time': instance.balloon_remain_time
+      'balloon_remain_time': instance.balloon_remain_time,
+      'coin_award': instance.coin_award
     };

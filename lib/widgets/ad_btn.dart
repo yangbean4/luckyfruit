@@ -19,6 +19,11 @@ class AdButton extends StatefulWidget {
   final Duration interval;
   // 点击确定按钮
   final Function onOk;
+
+  final num width;
+  final num height;
+  final Widget child;
+  final num fontSize;
   AdButton(
       {Key key,
       this.useAd = true,
@@ -28,7 +33,11 @@ class AdButton extends StatefulWidget {
       //TODO 广告次数应该动态变化
       this.tips = 'Number of videos reset at 12:00 am&pm (9 times left)',
       this.interval = const Duration(seconds: 3),
-      this.onOk})
+      this.onOk,
+      this.width = 600,
+      this.height = 124,
+      this.child,
+      this.fontSize = 70})
       : super(key: key);
 
   @override
@@ -52,57 +61,66 @@ class _AdButtonState extends State<AdButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: ScreenUtil().setWidth(widget.useAd ? 260 : 124),
-      width: ScreenUtil().setWidth(720),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          GestureDetector(
+    return widget.child != null
+        ? GestureDetector(
             onTap: widget.onOk ?? () {},
-            child: Container(
-              width: ScreenUtil().setWidth(600),
-              height: ScreenUtil().setWidth(124),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                alignment: Alignment.center,
-                image: AssetImage('assets/image/ad_btn.png'),
-                fit: BoxFit.cover,
-              )),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  widget.useAd
-                      ? Image.asset(
-                          'assets/image/ad_icon.png',
-                          width: ScreenUtil().setWidth(75),
-                          height: ScreenUtil().setWidth(75),
-                        )
-                      : Container(),
-                  ModalTitle(
-                    widget.btnText,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          widget.useAd && widget.onCancel != null
-              ? GestureDetector(
-                  onTap: widget.onCancel,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(28)),
-                      child: FourthText(!showCancel ? '' : widget.cancelText)),
-                )
-              : Container(),
-          Container(
-            child: ThirdText(widget.tips),
-            margin: EdgeInsets.only(top: ScreenUtil().setWidth(35)),
+            child: widget.child,
           )
-        ],
-      ),
-    );
+        : Container(
+            // height: ScreenUtil().setWidth(widget.useAd ? 260 : 124),
+            width: ScreenUtil().setWidth(720),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: widget.onOk ?? () {},
+                  child: Container(
+                    width: ScreenUtil().setWidth(600),
+                    height: ScreenUtil().setWidth(124),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      alignment: Alignment.center,
+                      image: AssetImage('assets/image/ad_btn.png'),
+                      fit: BoxFit.cover,
+                    )),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        widget.useAd
+                            ? Image.asset(
+                                'assets/image/ad_icon.png',
+                                width: ScreenUtil().setWidth(75),
+                                height: ScreenUtil().setWidth(75),
+                              )
+                            : Container(),
+                        ModalTitle(
+                          widget.btnText,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                widget.useAd && widget.onCancel != null
+                    ? GestureDetector(
+                        onTap: widget.onCancel,
+                        child: Padding(
+                            padding:
+                                EdgeInsets.only(top: ScreenUtil().setWidth(28)),
+                            child: FourthText(
+                                !showCancel ? '' : widget.cancelText)),
+                      )
+                    : Container(),
+                widget.tips != null
+                    ? Container(
+                        child: ThirdText(widget.tips),
+                        margin: EdgeInsets.only(top: ScreenUtil().setWidth(35)),
+                      )
+                    : Container(),
+              ],
+            ),
+          );
   }
 }

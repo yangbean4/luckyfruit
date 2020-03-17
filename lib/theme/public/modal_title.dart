@@ -7,7 +7,7 @@ import '../index.dart';
 class ModalTitle extends StatelessWidget {
   final String text;
   final Color color;
-  final double fontsize;
+  final num fontsize;
   final FontWeight fontWeight;
   const ModalTitle(this.text,
       {Key key,

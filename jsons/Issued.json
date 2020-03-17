@@ -15,5 +15,6 @@
   "balloon_timeLen": 10,
   "balloon_adSpace": 10,
   "balloon_time": 10,
-  "balloon_remain_time": 0
+  "balloon_remain_time": 0,
+  "coin_award": 100
 }

@@ -76,8 +76,10 @@ class Service {
   }
 
   // 获取大转盘结果
-  Future<Map<String, dynamic>> getLuckyWheelResult(Map<String, dynamic> data) async {
-    Response response = await _client.post('/Roulette/playRoulette', data: data);
+  Future<Map<String, dynamic>> getLuckyWheelResult(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Roulette/playRoulette', data: data);
     return response.data['data'];
   }
 
@@ -92,6 +94,12 @@ class Service {
   // 获取用户升级金币数据相关
   Future<List> getCoinRule(Map<String, dynamic> data) async {
     Response response = await _client.post('/Deployinfo/coinRule', data: data);
+    return response.data['data'];
+  }
+
+  // 获取用户升级金币数据相关
+  Future<Map<String, dynamic>> getDrawInfo(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/info', data: data);
     return response.data['data'];
   }
 

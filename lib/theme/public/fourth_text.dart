@@ -25,6 +25,7 @@ class FourthText extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: TextStyle(
+          fontFamily: fontFamily,
           color: color,
           fontSize: ScreenUtil().setWidth(fontsize),
           fontWeight: fontWeight),

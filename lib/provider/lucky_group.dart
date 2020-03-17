@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:luckyfruit/models/index.dart' show LevelRoule, Issued;
+import 'package:luckyfruit/models/index.dart' show LevelRoule, Issued, DrawInfo;
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -15,6 +15,11 @@ class LuckyGroup with ChangeNotifier {
   static const String CACHE_COIN_RULE = 'CACHE_COIN_RULE';
   // 存储 等级数据 version 的key
   static const String CACHE_COIN_RULE_VERSION = 'CACHE_COIN_RULE_VERSION';
+
+  // 存储 手机抽奖 的key
+  static const String CACHE_DRAW_INFO = 'CACHE_DRAW_INFO';
+  // 存储 手机抽奖 version 的key
+  static const String CACHE_DRAW_INFO_VERSION = 'CACHE_DRAW_INFO_VERSION';
 
   // 存储 Issued 的key
   static const String CACHE_DEPLY = 'CACHE_DEPLY';
@@ -30,6 +35,9 @@ class LuckyGroup with ChangeNotifier {
   // 等级数据
   List<LevelRoule> _levelRouleList;
   List<LevelRoule> get levelRouleList => _levelRouleList;
+
+  DrawInfo _drawInfo;
+  DrawInfo get drawInfo => _drawInfo;
 
 // 展示广告时间
   DateTime _showAdtime;
@@ -97,6 +105,15 @@ class LuckyGroup with ChangeNotifier {
           .then((issuedJson) {
         _levelRouleList =
             (issuedJson as List).map((e) => LevelRoule.fromJson(e)).toList();
+      }),
+      // 获取签到/手机抽奖的数据
+      checkVersion(
+              cacheKey: LuckyGroup.CACHE_DRAW_INFO,
+              cacheVersionKey: LuckyGroup.CACHE_DRAW_INFO_VERSION,
+              version: configVersion,
+              ajax: Service().getDrawInfo)
+          .then((issuedJson) {
+        _drawInfo = DrawInfo.fromJson(issuedJson);
       }),
     ]);
     // 等所有的请求结束,通知更新

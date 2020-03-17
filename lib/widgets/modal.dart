@@ -18,6 +18,10 @@ class Modal {
   // 水平填充
   final double horizontalPadding;
   List<Widget> children;
+  final num width;
+  final Color color;
+  final List<Widget> stack;
+
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
   final List<Widget> Function(Modal modal) childrenBuilder;
   final bool autoHide;
@@ -30,10 +34,15 @@ class Modal {
       this.children,
       this.footer,
       this.childrenBuilder,
+      this.color = Colors.white,
+      this.width = 840,
+      this.stack = const [],
       this.verticalPadding = 90,
       this.horizontalPadding = 120,
       this.autoHide = true,
-      this.decorationColor = Colors.white});
+      this.decorationColor = Colors.white})
+      // 要求 stack 定位元素必须是 Positioned
+      : assert(stack.every((it) => it is Positioned));
 
   /// 隐藏Modal
   hide() {
@@ -59,7 +68,7 @@ class Modal {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            width: ScreenUtil().setWidth(840),
+            width: ScreenUtil().setWidth(width),
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setWidth(70),
             ),
@@ -103,14 +112,20 @@ class Modal {
       ));
     }
 
-    Widget widget = Container(
-        color: Color.fromRGBO(0, 0, 0, 0.5),
-        child: Center(
-            child: Column(
+    List<Widget> stackC = [
+      SingleChildScrollView(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: widgetList,
-        )));
+        ),
+      )
+    ]..addAll(stack);
+
+    Widget widget = Container(
+      color: Color.fromRGBO(0, 0, 0, 0.5),
+      child: Center(child: Stack(overflow: Overflow.visible, children: stackC)),
+    );
 
     _future = showToastWidget(
       widget,

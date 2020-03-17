@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/models/index.dart';
 
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -26,6 +27,8 @@ class MoneyGroup with ChangeNotifier {
   static const String ACC_ALL_GOLD = 'ACC_ALL_GOLD';
   // 触发等级检查
   static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
+// 保存 接口获取的用户信息
+  UserInfo userInfo;
 
   String acct_id;
 
@@ -115,6 +118,8 @@ class MoneyGroup with ChangeNotifier {
     String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
     Map<String, dynamic> ajaxData =
         await Service().getMoneyInfo({'acct_id': accId, 'city': '123'});
+    // 保存数据
+    userInfo = UserInfo.fromJson(ajaxData);
 
     setTreeGroup(getUseGroup(res, {
       'upDateTime': ajaxData['last_leave_time'],
