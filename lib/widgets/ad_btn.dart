@@ -89,12 +89,11 @@ class _AdButtonState extends State<AdButton> {
               ),
             ),
           ),
-          widget.useAd
+          widget.useAd && widget.onCancel != null
               ? GestureDetector(
                   onTap: widget.onCancel,
                   child: Padding(
-                      padding: EdgeInsets.only(
-                          top: ScreenUtil().setWidth(28)),
+                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(28)),
                       child: FourthText(!showCancel ? '' : widget.cancelText)),
                 )
               : Container(),

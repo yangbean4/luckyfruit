@@ -678,4 +678,86 @@ class Layer {
                   ))
             ]).show();
   }
+
+  /// 购买树提示金币不足弹窗
+  static showCoinInsufficientWindow() {
+    Modal(
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle("Coin Shortage"),
+              Container(height: ScreenUtil().setWidth(4)),
+              Image.asset(
+                'assets/image/coin_insufficient.png',
+                width: ScreenUtil().setWidth(316),
+                height: ScreenUtil().setWidth(208),
+              ),
+              Container(height: ScreenUtil().setWidth(30)),
+              SecondaryText(
+                "45 mins reward",
+                color: MyTheme.blackColor,
+              ),
+              Container(height: ScreenUtil().setWidth(40)),
+              GoldText(
+                "1078.98t",
+                textSize: 66,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
+                  child: AdButton(
+                    btnText: 'Get it',
+                    onCancel: () {
+                      modal.hide();
+                    },
+                    onOk: () {
+                      modal.hide();
+                    },
+                  )),
+            ]).show();
+  }
+
+  /// 离线奖励弹窗
+  static showOffLineRewardWindow() {
+    Modal(
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle("Offline Earnings"),
+              Container(height: ScreenUtil().setWidth(29)),
+              SecondaryText(
+                "You Earned",
+                color: MyTheme.blackColor,
+              ),
+              Container(height: ScreenUtil().setWidth(40)),
+              Image.asset(
+                'assets/image/more_gold.png',
+                width: ScreenUtil().setWidth(272),
+                height: ScreenUtil().setWidth(140),
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+              SecondaryText(
+                "+1078.98t",
+                fontsize: 66,
+                color: MyTheme.blackColor,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: ScreenUtil().setWidth(50)),
+                child: Stack(overflow: Overflow.visible, children: [
+                  AdButton(
+                    btnText: '+2157.96t',
+                    onCancel: () {
+                      modal.hide();
+                    },
+                    onOk: () {
+                      modal.hide();
+                    },
+                  ),
+                  Positioned(
+                      top: -10,
+                      right: -8,
+                      child: Image.asset(
+                        'assets/image/twice_value_reward_icon.png',
+                        width: ScreenUtil().setWidth(90),
+                        height: ScreenUtil().setWidth(90),
+                      ))
+                ]),
+              ),
+            ]).show();
+  }
 }
