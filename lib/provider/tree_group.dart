@@ -114,7 +114,7 @@ class TreeGroup with ChangeNotifier {
 
   // 将对象转为json
   Map<String, dynamic> toJson() => {
-        'upDateTime': this._upDateTime.toString(),
+        'upDateTime': this._upDateTime.millisecondsSinceEpoch.toString(),
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
         'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
         'warehouseTreeList':
@@ -129,7 +129,7 @@ class TreeGroup with ChangeNotifier {
   void setTreeGroup(Map<String, dynamic> group) {
     if (group != null && group.isNotEmpty) {
       _upDateTime = group['upDateTime'] != null
-          ? DateTime.parse(group['upDateTime'])
+          ? DateTime.fromMicrosecondsSinceEpoch(int.parse(group['upDateTime']))
           : null;
       _treeList = (group['treeList'] as List)
           ?.map((map) =>
@@ -160,8 +160,10 @@ class TreeGroup with ChangeNotifier {
     if (isDirty(group1) || isDirty(group2)) {
       group = isDirty(group1) ? group2 : group1;
     } else {
-      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
-      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');
+      DateTime upDateTime1 = DateTime.fromMicrosecondsSinceEpoch(
+          int.tryParse(group1['upDateTime'] ?? ''));
+      DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
+          int.tryParse(group2['upDateTime'] ?? ''));
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
     }
     return group;

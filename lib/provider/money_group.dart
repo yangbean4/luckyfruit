@@ -79,8 +79,10 @@ class MoneyGroup with ChangeNotifier {
     if (isDirty(group1) || isDirty(group2)) {
       group = isDirty(group1) ? group2 : group1;
     } else {
-      DateTime upDateTime1 = DateTime.tryParse(group1['upDateTime'] ?? '');
-      DateTime upDateTime2 = DateTime.tryParse(group2['upDateTime'] ?? '');
+      DateTime upDateTime1 = DateTime.fromMicrosecondsSinceEpoch(
+          int.tryParse(group1['upDateTime'] ?? ''));
+      DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
+          int.tryParse(group2['upDateTime'] ?? ''));
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
     }
     return group;
@@ -98,7 +100,8 @@ class MoneyGroup with ChangeNotifier {
       _money = group['_money'] != null
           ? double.parse((group['_money']).toString())
           : 0.0;
-      DateTime upDateTime = t == null ? null : DateTime.tryParse(t);
+      DateTime upDateTime =
+          t == null ? null : DateTime.fromMicrosecondsSinceEpoch(int.parse(t));
 
       if (upDateTime != null) {
         // 如果此时没有makeGoldSped的值的话就等通知
@@ -172,7 +175,7 @@ class MoneyGroup with ChangeNotifier {
 
   // 将对象转为json
   Map<String, dynamic> toJson() => {
-        'upDateTime': _upDateTime.toString(),
+        'upDateTime': _upDateTime.millisecondsSinceEpoch.toString(),
         '_gold': _gold,
         '_money': _money,
         '_allgold': _allgold
@@ -186,7 +189,7 @@ class MoneyGroup with ChangeNotifier {
     await Service().saveMoneyInfo({
       'acct_id': acct_id,
       'coin': _gold,
-      'last_leave_time': _upDateTime.toString(),
+      'last_leave_time': _upDateTime.millisecondsSinceEpoch.toString(),
       '_allgold': _allgold
     });
 
