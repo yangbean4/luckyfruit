@@ -24,7 +24,7 @@ class FreePhone extends StatelessWidget {
         verticalPadding: 0,
         horizontalPadding: 0,
         width: 874,
-        color: Color.fromRGBO(0, 0, 0, 0),
+        decorationColor: Color.fromRGBO(0, 0, 0, 0),
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(3100),
@@ -267,26 +267,27 @@ class _Reward extends StatefulWidget {
 
 class __RewardState extends State<_Reward> {
   int index;
-  int startInterval = 50;
+  int startInterval = 20;
   int endInterval = 400;
-  int speed = 40;
+  int speed = 30;
   int server = 1;
 
   _goRun() {
-    Layer.loading('loading...');
+    // Layer.loading('loading...');
     index = 1;
     _runAnimation(startInterval);
   }
 
   _runAnimation(int interval) {
     Future.delayed(Duration(milliseconds: interval)).then((e) {
-      if (interval > endInterval && index == server) {
+      if (interval >= endInterval && index == server) {
         print('end');
       } else {
         _runAnimation(interval > endInterval ? endInterval : interval + speed);
         setState(() {
           // 等级是从1 开始的; 最大为8
-          index = (index + 1) % 8 + 1;
+          index = index % 8 + 1;
+          print('setState $index');
         });
       }
     });
@@ -351,7 +352,7 @@ class __RewardState extends State<_Reward> {
                                   ))
                               .toList();
                         }
-
+                        print(index);
                         return Wrap(
                             spacing: ScreenUtil().setWidth(8),
                             runSpacing: ScreenUtil().setWidth(8),
@@ -434,7 +435,7 @@ class _RewardItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    imgMap[reward.module],
+                    imgMap[reward.module] ?? Container(),
                     Container(
                       child: Text(reward.content,
                           textAlign: TextAlign.center,
