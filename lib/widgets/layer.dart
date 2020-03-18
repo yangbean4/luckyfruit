@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/pages/trip/game/huge_win.dart';
+import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -388,7 +390,7 @@ class Layer {
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),
               Image.asset(
-                'assets/image/more_gold.png',
+                'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(227),
                 height: ScreenUtil().setWidth(140),
               ),
@@ -483,47 +485,17 @@ class Layer {
     );
   }
 
+  ///大转盘抽奖
   static showLuckyWheel() {
     var luckyWheelObj = new LuckyWheelWidget();
 
     Modal(
-        onOk: () {
-          luckyWheelObj.startSpin();
-        },
         onCancel: () {},
-        okText: "开始",
-        autoHide: false,
-        children: <Widget>[
-          luckyWheelObj,
-          Container(
-            // color: Colors.blue,
-            margin: EdgeInsets.only(
-              top: ScreenUtil().setWidth(63),
-              bottom: ScreenUtil().setWidth(50),
-            ),
-            child: Text(
-              "TICKET x 10",
-              style: TextStyle(
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(46),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Container(
-            // color: Colors.red,
-            margin: EdgeInsets.only(
-              bottom: ScreenUtil().setWidth(50),
-            ),
-            child: Text(
-              "After depleted，you'll get 10 free tickets at 00:00",
-              style: TextStyle(
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(24),
-              ),
-            ),
-          ),
-        ])
+        horizontalPadding: ScreenUtil().setWidth(70),
+        verticalPadding: ScreenUtil().setWidth(0),
+        childrenBuilder: (modal) => <Widget>[
+              luckyWheelObj,
+            ])
       ..show();
   }
 
@@ -750,7 +722,7 @@ class Layer {
               ModalTitle("Coin Shortage"),
               Container(height: ScreenUtil().setWidth(4)),
               Image.asset(
-                'assets/image/coin_insufficient.png',
+                'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(316),
                 height: ScreenUtil().setWidth(208),
               ),
@@ -790,7 +762,7 @@ class Layer {
               ),
               Container(height: ScreenUtil().setWidth(40)),
               Image.asset(
-                'assets/image/more_gold.png',
+                'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(272),
                 height: ScreenUtil().setWidth(140),
               ),
@@ -823,5 +795,29 @@ class Layer {
                 ]),
               ),
             ]).show();
+  }
+
+  /// 5倍或10倍宝箱弹框
+  static show5TimesTreasureWindow(int type) {
+    Modal(
+        childrenBuilder: (modal) => <Widget>[
+              TimesRewardWidget(
+                typeOfTimes: type,
+                onOk: () {
+                  modal.hide();
+                },
+                onCancel: () {
+                  modal.hide();
+                },
+              )
+            ]).show();
+  }
+
+  /// 大转盘抽奖结果弹框
+  static showLuckWheelWinResultWindow(int winType) {
+    Modal(
+        onCancel: () {},
+        okText: "Claim",
+        children: <Widget>[LuckyWheelWinResultWindow(winType: winType)]).show();
   }
 }
