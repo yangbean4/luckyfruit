@@ -22,6 +22,7 @@ class Balloon extends StatefulWidget {
 class _BalloonState extends State<Balloon> {
   bool show = false;
   LuckyGroup luckyGroup;
+  bool visibity = true;
 
   // 下发的配置
   @override
@@ -36,9 +37,11 @@ class _BalloonState extends State<Balloon> {
       if (issed?.balloon_timeLen != null) {
         Future.delayed(Duration(seconds: issed?.balloon_timeLen)).then((e) {
           luckyGroup.adTimeCheck(Duration(seconds: issed?.balloon_adSpace), () {
-            setState(() {
-              show = true;
-            });
+            if (mounted) {
+              setState(() {
+                show = true;
+              });
+            }
           });
         });
       }
@@ -93,13 +96,13 @@ class _BalloonState extends State<Balloon> {
                     onTap: () {
                       _showModal();
                       setState(() {
-                        show = false;
+                        visibity = false;
                       });
                     },
                     child: Image.asset(
                       'assets/image/balloon.png',
-                      width: ScreenUtil().setWidth(216),
-                      height: ScreenUtil().setWidth(309),
+                      width: ScreenUtil().setWidth(visibity ? 216 : 0),
+                      height: ScreenUtil().setWidth(visibity ? 309 : 0),
                     )),
               );
             })

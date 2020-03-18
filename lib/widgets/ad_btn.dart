@@ -52,9 +52,11 @@ class _AdButtonState extends State<AdButton> {
     super.initState();
     if (widget.interval != null) {
       Future.delayed(widget.interval).then((e) {
-        setState(() {
-          showCancel = true;
-        });
+        if (mounted) {
+          setState(() {
+            showCancel = true;
+          });
+        }
       });
     }
   }
