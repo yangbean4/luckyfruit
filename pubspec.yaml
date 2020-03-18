@@ -99,6 +99,10 @@ flutter:
     - family: semibold
       fonts:
         - asset: assets/font/SEMIBOLD.OTF
+    - family: regular
+      fonts:
+        - asset: assets/font/Regular.ttf
+        
     # - family: CN-Bold
     #   fonts:
     #     - asset: assets/font/CN-Bold.otf

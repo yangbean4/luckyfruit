@@ -33,6 +33,7 @@ class FontFamily {
   static const String black = 'black';
   static const String bold = 'bold';
   static const String semibold = 'semibold';
+  static const String regular = 'regular';
   // static String CNBold = 'CN-Bold';
   // static String CNHeavy = 'CN-Heavy';
 }

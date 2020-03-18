@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 
 class Modal {
@@ -19,7 +18,6 @@ class Modal {
   final double horizontalPadding;
   List<Widget> children;
   final num width;
-  final Color color;
   final List<Widget> stack;
 
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
@@ -34,7 +32,6 @@ class Modal {
       this.children,
       this.footer,
       this.childrenBuilder,
-      this.color = Colors.white,
       this.width = 840,
       this.stack = const [],
       this.verticalPadding = 90,
