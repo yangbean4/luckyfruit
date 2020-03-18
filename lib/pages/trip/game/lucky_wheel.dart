@@ -8,6 +8,7 @@ import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'dart:math';
 
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/public/fourth_text.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
@@ -21,8 +22,10 @@ class LuckyWheelWidget extends StatefulWidget {
 
   startSpin() {
     if (ticketCount == 0) {
-      Layer.toastWarning("Tickets not enough");
-      // return;
+      Layer.toastWarning("Tickets not enough, watch ad to get more");
+      dynamic addTicketMap = Service().addTicket({'acct_id': 67});
+      // print("接口请求结果：${addTicketMap['msg']}");
+      return;
     }
     ticketCount--;
     controller.value = 0;

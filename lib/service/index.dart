@@ -120,6 +120,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 大转盘券添加接口
+  Future<Map<String, dynamic>> addTicket(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Roulette/addTicket', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
