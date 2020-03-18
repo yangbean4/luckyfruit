@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HopsMergeWidget extends StatelessWidget {
+  final Function onStartMergeFun;
+  HopsMergeWidget({Key key, this.onStartMergeFun}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Widget bigCircle = new Container(
@@ -32,8 +34,7 @@ class HopsMergeWidget extends StatelessWidget {
                 children: [
                   Image.asset("assets/image/dividend_tree.png"),
                   Align(
-                    child: Image.asset(
-                        "assets/image/hops_name_bg_hops.png"),
+                    child: Image.asset("assets/image/hops_name_bg_hops.png"),
                     alignment: Alignment.centerRight,
                   )
                 ],
@@ -63,6 +64,7 @@ class HopsMergeWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 print("开始合成啤酒花树");
+                onStartMergeFun();
               },
               child: Stack(children: [
                 Image.asset("assets/image/hops_merge_trigger_btn.png"),

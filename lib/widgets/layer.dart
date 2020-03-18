@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -586,13 +587,31 @@ class Layer {
         ]).show();
   }
 
+  /// 显示合成38级时的抽奖弹窗
+  static showTopLevelMergeWindow(BuildContext context) {
+    Modal(
+        onCancel: () {},
+        horizontalPadding: ScreenUtil().setWidth(70),
+        childrenBuilder: (modal) => <Widget>[
+              TopLevelMergeWidget(onReceivedResultFun: () {
+                Layer.toastSuccess("抽到38级的树");
+                modal.hide();
+                // TODO 种上一颗38级树
+              }),
+            ]).show();
+  }
+
   /// 五洲树合成弹窗
   static showContinentsMergeWindow() {
     Modal(
             onCancel: () {},
-            children: [
-              ContinentsMergeWidget(),
-            ],
+            childrenBuilder: (modal) => <Widget>[
+                  ContinentsMergeWidget(onStartMergeFun: () {
+                    Layer.toastSuccess("合成五洲树");
+                    modal.hide();
+                  }),
+                ],
+            width: 1000,
             verticalPadding: 0,
             horizontalPadding: 0,
             decorationColor: Colors.transparent)
@@ -603,10 +622,14 @@ class Layer {
   static showHopsMergeWindow() {
     Modal(
             onCancel: () {},
-            children: [
-              HopsMergeWidget(),
-            ],
+            childrenBuilder: (modal) => <Widget>[
+                  HopsMergeWidget(onStartMergeFun: () {
+                    Layer.toastSuccess("合成啤酒花树");
+                    modal.hide();
+                  }),
+                ],
             verticalPadding: 0,
+            width: 1000,
             horizontalPadding: 0,
             decorationColor: Colors.transparent)
         .show();

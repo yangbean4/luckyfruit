@@ -2,9 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 
 class ContinentsMergeWidget extends StatelessWidget {
   static double itemSize = ScreenUtil().setWidth(180);
+  final Function onStartMergeFun;
+  ContinentsMergeWidget({Key key, this.onStartMergeFun}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,10 @@ class ContinentsMergeWidget extends StatelessWidget {
 
     return new Material(
       color: Colors.transparent,
-      child: new Center(
+      child: new Container(
+        // color: Colors.red,
+        alignment: Alignment.center,
+        height: ScreenUtil().setWidth(1100),
         child: new Stack(
           overflow: Overflow.visible,
           children: <Widget>[
@@ -42,12 +48,12 @@ class ContinentsMergeWidget extends StatelessWidget {
                 onTap: () => print("Cool"),
                 iconData: Stack(
                   children: [
-                    Image.asset("assets/image/dividend_tree.png"),
-                    Align(
-                      child: Image.asset(
-                          "assets/image/continents_name_bg_african.png"),
-                      alignment: Alignment.centerRight,
-                    )
+                    // Image.asset("assets/image/dividend_tree.png"),
+                    // Align(
+                    //   child: Image.asset(
+                    //       "assets/image/continents_name_bg_african.png"),
+                    //   alignment: Alignment.centerRight,
+                    // )
                   ],
                 ),
               ),
@@ -126,6 +132,7 @@ class ContinentsMergeWidget extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   print("开始合成五洲树");
+                  onStartMergeFun();
                 },
                 child: Stack(children: [
                   Image.asset("assets/image/continents_btn_trigger_merge.png"),

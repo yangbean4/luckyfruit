@@ -65,6 +65,126 @@ class RankPageState extends State<RankPage>
                 "amount": "0.00",
                 "separate_amount": "1234",
                 "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
+            },{
+                "acct_id": "67",
+                "superior1": "0",
+                "rela_account": "name1",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "0.00",
+                "separate_amount": "1234",
+                "hasTree": 0
             }
         ],
         "bounsTrees": [
@@ -107,6 +227,7 @@ class RankPageState extends State<RankPage>
         ]}
         """;
 
+  int positionSelf = 3;
   @override
   void initState() {
     super.initState();
@@ -128,7 +249,7 @@ class RankPageState extends State<RankPage>
     // Ranklist rankList = Ranklist.fromJson(rankMap);
     Ranklist rankList = Ranklist.fromJson(json.decode(testJson));
     // 测试空白页面使用
-    await Future.delayed(Duration(seconds:3));
+    await Future.delayed(Duration(seconds: 3));
     return rankList;
   }
 
@@ -209,6 +330,9 @@ class RankPageState extends State<RankPage>
                       return Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(50)),
+                          color: ((index == positionSelf)
+                              ? MyTheme.primaryColor
+                              : Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
@@ -232,7 +356,7 @@ class RankPageState extends State<RankPage>
                           ));
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                        const Divider()),
+                        const Divider(height: 1,)),
 
                 // 第二个tab
                 ListView.separated(
@@ -259,13 +383,13 @@ class RankPageState extends State<RankPage>
 
                       return Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(50), vertical: ScreenUtil().setWidth(20)),
+                              horizontal: ScreenUtil().setWidth(50),
+                              vertical: ScreenUtil().setWidth(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-
-                              ClipOval(child:avatarWidget),
+                              ClipOval(child: avatarWidget),
                               Text(bounsTreeList[index].rela_account),
                               Text("1"),
                               Text(bounsTreeList[index].separate_amount,
