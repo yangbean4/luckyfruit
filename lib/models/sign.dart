@@ -8,6 +8,7 @@ class Sign {
 
     String type;
     String sign;
+    String count;
     String content;
     
     factory Sign.fromJson(Map<String,dynamic> json) => _$SignFromJson(json);

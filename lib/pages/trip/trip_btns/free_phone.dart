@@ -11,8 +11,11 @@ import 'package:luckyfruit/models/index.dart'
     show UserInfo, DrawInfo, Sign, Reward;
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/service/index.dart';
 
 class FreePhone extends StatelessWidget {
   final Widget child;
@@ -199,7 +202,8 @@ class _Phone extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          print('Address');
+                          Layer.toastWarning("The phone pieces isn't enough," +
+                              'plaease join the "collect phone pieces" to get it');
                         },
                         child: Text('Address >>',
                             textAlign: TextAlign.right,
@@ -272,25 +276,46 @@ class __RewardState extends State<_Reward> {
   int speed = 30;
   int server = 1;
 
-  _goRun() {
-    // Layer.loading('loading...');
-    index = 1;
+  _goRun() async {
+    Layer.loading('loading...');
+
+    MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+
+    Map<String, dynamic> ajax = await Service().lotteryDraw({
+      'acct_id': moneyGroup.acct_id,
+    });
+    setState(() {
+      index = 1;
+      server = ajax['sign'];
+    });
+    Layer.loadingHide();
+
     _runAnimation(startInterval);
   }
 
   _runAnimation(int interval) {
     Future.delayed(Duration(milliseconds: interval)).then((e) {
       if (interval >= endInterval && index == server) {
-        print('end');
+        _runEnd();
       } else {
         _runAnimation(interval > endInterval ? endInterval : interval + speed);
         setState(() {
           // 等级是从1 开始的; 最大为8
           index = index % 8 + 1;
-          print('setState $index');
         });
       }
     });
+  }
+
+  _runEnd() {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    Reward reward = luckyGroup.drawInfo.reward[server];
+    if (reward.type == '4') {
+    } else if (reward.type == '5') {
+    } else {
+      MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+      moneyGroup.updateUserInfo();
+    }
   }
 
   @override
@@ -352,7 +377,6 @@ class __RewardState extends State<_Reward> {
                                   ))
                               .toList();
                         }
-                        print(index);
                         return Wrap(
                             spacing: ScreenUtil().setWidth(8),
                             runSpacing: ScreenUtil().setWidth(8),
@@ -389,7 +413,17 @@ Map<String, Widget> imgMap = {
     width: ScreenUtil().setWidth(111),
     height: ScreenUtil().setWidth(122),
   ),
-  "3": Image.asset(
+  '3': Image.asset(
+    'assets/image/phone11.png',
+    width: ScreenUtil().setWidth(87),
+    height: ScreenUtil().setWidth(120),
+  ),
+  "4": Image.asset(
+    'assets/image/more_gold.png',
+    width: ScreenUtil().setWidth(170),
+    height: ScreenUtil().setWidth(87),
+  ),
+  "5": Image.asset(
     'assets/image/more_gold.png',
     width: ScreenUtil().setWidth(170),
     height: ScreenUtil().setWidth(87),
@@ -455,6 +489,13 @@ class _RewardItem extends StatelessWidget {
 class _Wishing extends StatelessWidget {
   final int wishTreeNum;
   const _Wishing({Key key, this.wishTreeNum}) : super(key: key);
+
+  _redeemTree(BuildContext context) async {
+    if (wishTreeNum == 100) {
+      TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+      treeGroup.addWishTree();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -558,7 +599,7 @@ class _Wishing extends StatelessWidget {
                   ),
                   GestureDetector(
                       onTap: () {
-                        wishTreeNum == 100 ? print('qwe') : print('qwe');
+                        _redeemTree(context);
                       },
                       child: Container(
                         width: ScreenUtil().setWidth(240),
@@ -648,6 +689,15 @@ class _Sign extends StatelessWidget {
                 tips: null,
                 width: 364,
                 height: 100,
+                onOk: () {
+                  LuckyGroup luckyGroup =
+                      Provider.of<LuckyGroup>(context, listen: false);
+
+                  Sign sign = luckyGroup.drawInfo.sign[sign_times + 1];
+                  MoneyGroup moneyGroup =
+                      Provider.of<MoneyGroup>(context, listen: false);
+                  moneyGroup.beginSign(sign.sign, sign.count);
+                },
                 fontSize: 50)
           ],
         ));
@@ -663,60 +713,81 @@ class _PhoneItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-            width: ScreenUtil().setWidth(160),
-            height: ScreenUtil().setWidth(236),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20))),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: ScreenUtil().setWidth(160),
-                  height: ScreenUtil().setWidth(48),
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 172, 30, 1),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(ScreenUtil().setWidth(20)),
-                        topRight: Radius.circular(ScreenUtil().setWidth(20)),
-                      )),
-                  child: Center(
-                      child: Text('Day $index',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: FontFamily.bold,
-                              color: Colors.white,
-                              height: 1,
-                              fontSize: ScreenUtil().setSp(28),
-                              fontWeight: FontWeight.bold))),
-                ),
-                Image.asset('assets/image/phone11.png',
-                    width: ScreenUtil().setWidth(73),
-                    height: ScreenUtil().setWidth(100)),
-                EllipticalWidget(
-                  width: ScreenUtil().setWidth(80),
-                  height: ScreenUtil().setWidth(10),
-                  color: MyTheme.grayColor,
-                ),
-                Container(
-                  child: Text(sign.content,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: FontFamily.bold,
-                          color: Color.fromRGBO(209, 109, 20, 1),
-                          height: 1,
-                          fontSize: ScreenUtil().setSp(28),
-                          fontWeight: FontWeight.bold)),
-                )
-              ],
-            ))
-      ],
+    return Container(
+      width: ScreenUtil().setWidth(160),
+      height: ScreenUtil().setWidth(236),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20))),
+      ),
+      child: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: ScreenUtil().setWidth(160),
+                height: ScreenUtil().setWidth(48),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(255, 172, 30, 1),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(ScreenUtil().setWidth(20)),
+                      topRight: Radius.circular(ScreenUtil().setWidth(20)),
+                    )),
+                child: Center(
+                    child: Text('Day $index',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            color: Colors.white,
+                            height: 1,
+                            fontSize: ScreenUtil().setSp(28),
+                            fontWeight: FontWeight.bold))),
+              ),
+              Image.asset('assets/image/phone11.png',
+                  width: ScreenUtil().setWidth(73),
+                  height: ScreenUtil().setWidth(100)),
+              EllipticalWidget(
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setWidth(10),
+                color: MyTheme.grayColor,
+              ),
+              Container(
+                child: Text(sign.content,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: FontFamily.bold,
+                        color: Color.fromRGBO(209, 109, 20, 1),
+                        height: 1,
+                        fontSize: ScreenUtil().setSp(28),
+                        fontWeight: FontWeight.bold)),
+              )
+            ],
+          ),
+          disable
+              ? Positioned(
+                  child: Container(
+                    width: ScreenUtil().setWidth(160),
+                    height: ScreenUtil().setWidth(236),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(ScreenUtil().setWidth(20))),
+                    ),
+                    child: Center(
+                        child: Image.asset(
+                      'assets/image/success.png',
+                      width: ScreenUtil().setWidth(80),
+                      height: ScreenUtil().setWidth(80),
+                    )),
+                  ),
+                  left: 0,
+                  top: 0)
+              : Container(),
+        ],
+      ),
     );
   }
 }

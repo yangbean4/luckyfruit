@@ -92,6 +92,9 @@ class _BalloonState extends State<Balloon> {
                 child: GestureDetector(
                     onTap: () {
                       _showModal();
+                      setState(() {
+                        show = false;
+                      });
                     },
                     child: Image.asset(
                       'assets/image/balloon.png',

@@ -396,6 +396,7 @@ class _GameState extends State<Game> with MyNavigator {
                                   Layer.recycleLayer(
                                       () => selectorUse.recycle(source),
                                       source.treeImgSrc,
+                                      source.recycleMoney,
                                       source.recycleGold);
                                   return true;
                                 }, onAccept: (Tree source) {

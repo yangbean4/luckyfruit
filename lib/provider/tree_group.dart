@@ -19,7 +19,6 @@ class TreeGroup with ChangeNotifier {
   TreeGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
-  static const int MAX_LEVEL = 38;
   // 当前最大等级和最小等级的差
   static const int DIFF_LEVEL = 5;
 
@@ -61,7 +60,9 @@ class TreeGroup with ChangeNotifier {
 
   // 当前树中的最大等级
   int get maxLevel {
-    final gjb = allTreeList.map((t) => t.grade);
+    final gjb = allTreeList
+        .where((tree) => tree.grade != Tree.MAX_LEVEL)
+        .map((t) => t.grade);
     return gjb.isEmpty ? 1 : gjb.reduce(max);
   }
 
@@ -70,7 +71,7 @@ class TreeGroup with ChangeNotifier {
   /**
    * 返回最大级别（38级）的树
    */
-  Tree get topLevelTree => new Tree(grade: MAX_LEVEL);
+  Tree get topLevelTree => new Tree(grade: Tree.MAX_LEVEL);
 
   // Tree列表
   List<Tree> _treeList = [];
@@ -282,16 +283,23 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
-      int _maxLevel = maxLevel;
-      if (++target.grade > _maxLevel) {
-        // _maxLevel = target.grade;
-        Layer.newGrade(maxLevelTree);
-        // 检测是否出现限时分红树（只在升级到最新等级时触发）
-        Layer.limitedTimeBonusTreeShowUp(this);
+      if (target.grade == Tree.MAX_LEVEL) {
+        // 判断是什么类型
+        // TODO: 五大洲树弹窗
+
+        // 啤酒花树弹窗
       } else {
-        checkTreasure();
+        int _maxLevel = maxLevel;
+        if (++target.grade > _maxLevel) {
+          // _maxLevel = target.grade;
+          Layer.newGrade(maxLevelTree);
+          // 检测是否出现限时分红树（只在升级到最新等级时触发）
+          Layer.limitedTimeBonusTreeShowUp(this);
+        } else {
+          checkTreasure();
+        }
+        _treeList.remove(source);
       }
-      _treeList.remove(source);
     } else {
       target.x = source.x;
       target.y = source.y;
@@ -344,7 +352,7 @@ class TreeGroup with ChangeNotifier {
   recycle(Tree tree) {
     if (_treeList.length == 1) {
       //TODO: 限时分红树弹窗、许愿树兑换成功或者位置不足弹窗
-      Layer.toastWarning('你就要没��啦....');
+      Layer.toastWarning('你就要没🌲啦....');
       return;
     }
     if (tree.grade == maxLevel) {
@@ -387,5 +395,26 @@ class TreeGroup with ChangeNotifier {
       }
     }
     save();
+  }
+
+  void addWishTree() async {
+    TreePoint point = _findFirstEmty();
+    // 找空的位置 如果没有则无法添加 返回;
+    // REVIEW: 如果是抽奖时是否放入仓库?
+    if (point == null) {
+      Layer.locationFull();
+      return;
+    } else {
+      Map<String, dynamic> ajax = await Service().wishTreeDraw({
+        'acct_id': acct_id,
+      });
+      Tree tree = Tree(
+          grade: Tree.MAX_LEVEL,
+          type: 'wishing',
+          recycleMoney: double.parse(ajax['amount'].toString()));
+      Layer.getWishing(() {
+        addTree(tree: tree);
+      }, tree);
+    }
   }
 }

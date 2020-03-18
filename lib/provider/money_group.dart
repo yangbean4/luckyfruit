@@ -155,6 +155,21 @@ class MoneyGroup with ChangeNotifier {
     return this;
   }
 
+  // 用户签到
+  beginSign(String reward_id, String number) async {
+    await Service().beginSign(
+        {'acct_id': acct_id, "reward_id": reward_id, "count": number});
+    await updateUserInfo();
+  }
+
+// 更新userInfo
+  updateUserInfo() async {
+    Map<String, dynamic> ajaxData =
+        await Service().getMoneyInfo({'acct_id': acct_id, 'city': '123'});
+    // 保存数据
+    userInfo = UserInfo.fromJson(ajaxData);
+  }
+
   // 将对象转为json
   Map<String, dynamic> toJson() => {
         'upDateTime': _upDateTime.toString(),

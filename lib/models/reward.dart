@@ -9,7 +9,7 @@ class Reward {
     String type;
     String sign;
     String module;
-    String num;
+    String count;
     String content;
     
     factory Reward.fromJson(Map<String,dynamic> json) => _$RewardFromJson(json);

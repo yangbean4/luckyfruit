@@ -103,6 +103,23 @@ class Service {
     return response.data['data'];
   }
 
+  // 用户签到接口
+  Future<Map<String, dynamic>> beginSign(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/beginSign', data: data);
+    return response.data['data'];
+  }
+
+  // 用户抽奖接口
+  Future<Map<String, dynamic>> lotteryDraw(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/lotteryDraw', data: data);
+    return response.data['data'];
+  }
+
+  Future<Map<String, dynamic>> wishTreeDraw(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/wishTreeDraw', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

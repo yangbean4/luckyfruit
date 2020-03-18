@@ -142,7 +142,8 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                   ),
                 );
               }),
-          showGold
+          // 为 0  的话不显示动画
+          showGold && widget.tree.gold != 0
               ? AnimatedBuilder(
                   animation: goldAnimation,
                   builder: (BuildContext context, Widget child) {

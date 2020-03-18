@@ -128,7 +128,7 @@ class Layer {
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    '还差${TreeGroup.MAX_LEVEL - tree.grade}级',
+                    '还差${Tree.MAX_LEVEL - tree.grade}级',
                     style: TextStyle(
                         color: MyTheme.blackColor,
                         fontSize: ScreenUtil().setWidth(38),
@@ -248,7 +248,7 @@ class Layer {
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    '${(tree.grade / TreeGroup.MAX_LEVEL * 100).toStringAsFixed(2)}%',
+                    '${(tree.grade / Tree.MAX_LEVEL * 100).toStringAsFixed(2)}%',
                     style: TextStyle(
                         color: MyTheme.secondaryColor,
                         fontSize: ScreenUtil().setWidth(24),
@@ -273,7 +273,7 @@ class Layer {
                     top: 0,
                     child: Container(
                       width: ScreenUtil()
-                          .setWidth((tree.grade / TreeGroup.MAX_LEVEL) * 740),
+                          .setWidth((tree.grade / Tree.MAX_LEVEL) * 740),
                       height: ScreenUtil().setWidth(20),
                       decoration: BoxDecoration(
                         color: MyTheme.secondaryColor,
@@ -322,8 +322,29 @@ class Layer {
       ))
     ..show();
 
+  static locationFull() {
+    Modal(
+        autoHide: true,
+        onCancel: () {},
+        onOk: () {},
+        okText: 'Ok',
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(70)),
+            child: Text(
+              'The location is full, please merge the fruit tree or recycle the fruit tree before redeeming id!!',
+              style: TextStyle(
+                  color: MyTheme.blackColor,
+                  fontSize: ScreenUtil().setWidth(46),
+                  fontWeight: FontWeight.w500),
+            ),
+          )
+        ]).show();
+  }
+
 // 回收弹窗
-  static recycleLayer(Function onOk, String imgSrc, num goldNumber) =>
+  static recycleLayer(
+          Function onOk, String imgSrc, num recycleMoney, num goldNumber) =>
       Modal(onOk: onOk, onCancel: () {}, okText: '确定回收', children: <Widget>[
         Image.asset(
           imgSrc,
@@ -335,11 +356,32 @@ class Layer {
             top: ScreenUtil().setWidth(63),
             bottom: ScreenUtil().setWidth(50),
           ),
-          child: SecondaryText('回收价格', color: MyTheme.secondaryColor),
+          child: SecondaryText(recycleMoney != null ? "回收获得" : '回收价格',
+              color: MyTheme.secondaryColor),
         ),
-        GoldText(Util.formatNumber(goldNumber))
+        GoldText(recycleMoney != null
+            ? '\$ ${Util.formatNumber(recycleMoney)}'
+            : Util.formatNumber(goldNumber))
       ])
         ..show();
+
+  static getWishing(Function onOk, Tree tree) {
+    Modal(onOk: onOk, onCancel: () {}, okText: "Claim", children: [
+      ModalTitle('Wishing Tree'),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+        child: TreeWidget(
+          tree: tree,
+          imgHeight: ScreenUtil().setWidth(218),
+          imgWidth: ScreenUtil().setWidth(237),
+          labelWidth: ScreenUtil().setWidth(110),
+          primary: true,
+        ),
+      ),
+      SecondaryText(
+          "The pieces are gathered, wishing tree is successfully redeemed!"),
+    ]).show();
+  }
 
   static levelUp({String level, double getGlod, Function onOk}) {
     Modal(

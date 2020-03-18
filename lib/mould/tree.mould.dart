@@ -13,12 +13,15 @@ class TreePoint {
 }
 
 class Tree extends TreePoint {
+  static const int MAX_LEVEL = 38;
+
   Tree(
       {this.grade,
       this.gradeNumber = 1,
       int x,
       int y,
       this.type,
+      this.recycleMoney,
       this.showCountDown = false})
       : super(x: x, y: y);
 
@@ -30,14 +33,18 @@ class Tree extends TreePoint {
   String type;
   bool showCountDown;
 
+  // 回收可以得到的钱
+  double recycleMoney;
+
   // 指数
   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
-  // 单位时间产生金币
-  double get gold => (25 * pow(2, (grade - 1))).toDouble();
+  // 单位时间产生金币  38级的树不产生金币
+  double get gold =>
+      grade == Tree.MAX_LEVEL ? 0 : (25 * pow(2, (grade - 1))).toDouble();
   // 单位时间产生金币
   double get money => grade.toDouble();
   // 回收可以得到的钱
-  double get recycleMoney => grade.toDouble();
+  // double get recycleMoney => grade.toDouble();
   // 树的名字
   String get name => '石榴树';
 
@@ -61,11 +68,15 @@ class Tree extends TreePoint {
   factory Tree.formJson(Map<String, dynamic> json) => Tree()
     ..x = json['x']
     ..y = json['y']
+    ..type = json['type']
+    ..recycleMoney = json['recycleMoney']
     ..grade = json['grade'];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'x': this.x,
         'y': this.y,
+        'type': this.type,
+        'recycleMoney': this.recycleMoney,
         'grade': this.grade,
       };
 }

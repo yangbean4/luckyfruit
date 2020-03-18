@@ -74,11 +74,12 @@ class _TreasureState extends State<Treasure> {
                       onTap: () {
                         _showModal(tree);
                       },
-                      child: Image.asset(
+                      child: Center(
+                          child: Image.asset(
                         'assets/image/game_treasure.png',
-                        width: ScreenUtil().setWidth(148 + 20 * size.value),
-                        height: ScreenUtil().setWidth(143),
-                      )),
+                        width: ScreenUtil().setWidth(148),
+                        height: ScreenUtil().setWidth(143 + 20 * size.value),
+                      ))),
                 );
               },
             );
@@ -138,13 +139,15 @@ class _GrowTransition extends StatelessWidget {
           begin: 0.0,
           end: 1.0,
         ).animate(CurvedAnimation(
-            parent: controller, curve: Interval(0.0, 0.9, curve: Curves.ease))),
+            parent: controller,
+            curve: Interval(0.0, 0.9, curve: Curves.easeInToLinear))),
         // 大小
         enlargeSize = Tween<double>(
           begin: -1.0,
           end: 0.0,
         ).animate(CurvedAnimation(
-            parent: controller, curve: Interval(0.9, 1.0, curve: Curves.ease))),
+            parent: controller,
+            curve: Interval(0.9, 1.0, curve: Curves.easeInToLinear))),
         super(key: key);
 
   final Animation<double> controller;

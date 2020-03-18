@@ -169,7 +169,7 @@ class _RightBtnsState extends State<RightBtns>
         isDouble
             ? renderItem(
                 'assets/image/double_glod.png',
-                topString: 'EarningsX${issed?.reward_multiple} s',
+                topString: 'EarningsX${issed?.reward_multiple}',
                 bottom: CountdownFormatted(
                   duration: Duration(seconds: issed?.limited_time),
                   onFinish: () {
@@ -189,19 +189,22 @@ class _RightBtnsState extends State<RightBtns>
               )
             : Container(),
         showAuto
-            ? GestureDetector(
-                onTap: () {
-                  luckyGroup.autoStart();
-                  setState(() {
-                    showAuto = false;
-                    isAuto = true;
-                  });
-                },
-                child: renderItem('assets/image/vadio.png',
-                    bottomString: 'in ${issed?.automatic_game_timelen} s',
-                    topString: 'Auto Merge',
-                    color: Color.fromRGBO(49, 200, 84, 1)),
-              )
+            ? ShakeAnimation(
+                timeInterval: Duration(milliseconds: 1400),
+                animateTime: Duration(milliseconds: 300),
+                child: GestureDetector(
+                  onTap: () {
+                    luckyGroup.autoStart();
+                    setState(() {
+                      showAuto = false;
+                      isAuto = true;
+                    });
+                  },
+                  child: renderItem('assets/image/vadio.png',
+                      bottomString: 'in ${issed?.automatic_game_timelen} s',
+                      topString: 'Auto Merge',
+                      color: Color.fromRGBO(49, 200, 84, 1)),
+                ))
             : Container(),
         isAuto
             ? renderItem(

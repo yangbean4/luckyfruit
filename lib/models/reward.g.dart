@@ -11,7 +11,7 @@ Reward _$RewardFromJson(Map<String, dynamic> json) {
     ..type = json['type'] as String
     ..sign = json['sign'] as String
     ..module = json['module'] as String
-    ..num = json['num'] as String
+    ..count = json['count'] as String
     ..content = json['content'] as String;
 }
 
@@ -19,6 +19,6 @@ Map<String, dynamic> _$RewardToJson(Reward instance) => <String, dynamic>{
       'type': instance.type,
       'sign': instance.sign,
       'module': instance.module,
-      'num': instance.num,
+      'count': instance.count,
       'content': instance.content
     };
