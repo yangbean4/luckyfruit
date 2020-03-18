@@ -126,6 +126,13 @@ class Service {
     return response.data['data'];
   }
 
+  // 种限时分红树接口
+  Future<Map<String, dynamic>> plantTimeLimitTree(Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Dividend/plantTimeLimitTree', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

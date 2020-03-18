@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -504,7 +507,7 @@ class Layer {
    */
   static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) {
     //TODO 从接口中接受该值，作为下一次合成时的条件
-    bool shouldAppearTimeLimitedBonusTree = false;
+    bool shouldAppearTimeLimitedBonusTree = true;
 
     if (!shouldAppearTimeLimitedBonusTree) {
       return;
@@ -557,7 +560,13 @@ class Layer {
                 onCancel: modal.hide,
                 onOk: () {
                   modal.hide();
-                  treeGroup.addTree(tree: Tree(grade: 5, showCountDown: true));
+                  // 调用种限时分红树接口
+                  plantTimeLimitTree(treeGroup).then((code) {
+                    if (code == 0) {
+                      treeGroup.addTree(
+                          tree: Tree(grade: 5, showCountDown: true));
+                    }
+                  });
                 },
                 interval: Duration(seconds: 0),
                 tips:
@@ -565,6 +574,26 @@ class Layer {
               )
             ])
       ..show();
+  }
+
+  static Future<int> plantTimeLimitTree(TreeGroup treeGroup) async {
+    dynamic plantTimeLimitMap;
+    // plantTimeLimitMap = await Service()
+    //     .plantTimeLimitTree({'acct_id': treeGroup.acct_id, 'tree_id': 100});
+    //TODO 测试用
+    plantTimeLimitMap = json.decode("""{
+        "code":0,
+        "msg":"success"
+    }""");
+    print("plantTimeLimitTree= $plantTimeLimitMap");
+    int code = plantTimeLimitMap['code'] as num;
+    String msg = plantTimeLimitMap['msg'] as String;
+    print("plantTimeLimitTree返回的code=$code，msg=$msg");
+    if (code == 1) {
+      // 请求失败，
+      toastWarning("plant failed causing netwoek issue...");
+    }
+    return code;
   }
 
   /**
@@ -608,6 +637,10 @@ class Layer {
         horizontalPadding: ScreenUtil().setWidth(70),
         childrenBuilder: (modal) => <Widget>[
               TopLevelMergeWidget(onReceivedResultFun: () {
+
+                // TODO 测试
+                Layer.showHopsMergeWindow();
+                Layer.showContinentsMergeWindow();
                 Layer.toastSuccess("抽到38级的树");
                 modal.hide();
                 // TODO 种上一颗38级树
