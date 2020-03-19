@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/config/app.dart' show Event_Name;
 
 class Modal {
   ToastFuture _future;
@@ -44,6 +46,7 @@ class Modal {
   /// 隐藏Modal
   hide() {
     _future.dismiss();
+    EVENT_BUS.emit(Event_Name.MODAL_HIDE);
   }
 
   // 显示modal
@@ -123,6 +126,8 @@ class Modal {
       color: Color.fromRGBO(0, 0, 0, 0.5),
       child: Center(child: Stack(overflow: Overflow.visible, children: stackC)),
     );
+
+    EVENT_BUS.emit(Event_Name.MODAL_SHOW);
 
     _future = showToastWidget(
       widget,

@@ -202,21 +202,31 @@ class _TripState extends State<Trip>
                                                         .setWidth(10))),
                                               ),
                                               child: Stack(children: <Widget>[
-                                                Container(
-                                                  width: ScreenUtil().setWidth(
-                                                      248 *
-                                                          _selectorUse
-                                                              .schedule),
-                                                  height:
-                                                      ScreenUtil().setWidth(20),
-                                                  decoration: BoxDecoration(
-                                                    color: MyTheme.yellowColor,
-                                                    borderRadius: BorderRadius
-                                                        .all(Radius.circular(
-                                                            ScreenUtil()
-                                                                .setWidth(10))),
-                                                  ),
-                                                )
+                                                Selector<TourismMap, double>(
+                                                    selector:
+                                                        (context, provider) =>
+                                                            provider.schedule,
+                                                    builder: (context,
+                                                        double schedule,
+                                                        child) {
+                                                      return Container(
+                                                        width: ScreenUtil()
+                                                            .setWidth(
+                                                                248 * schedule),
+                                                        height: ScreenUtil()
+                                                            .setWidth(20),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: MyTheme
+                                                              .yellowColor,
+                                                          borderRadius: BorderRadius
+                                                              .all(Radius.circular(
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          10))),
+                                                        ),
+                                                      );
+                                                    })
                                               ])),
                                           // 今日分红树收益提示
                                           GestureDetector(

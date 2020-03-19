@@ -16,6 +16,8 @@ import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import './warehouse.dart';
+import './auto_merge.dart';
+import './tree_no_animation.dart';
 
 // 由位置 x , y 转为 left top
 class PositionLT {
@@ -134,6 +136,22 @@ class _GameState extends State<Game> with MyNavigator {
         // print(treeGroup.treeMatrix);
         // grids.add(Text('$x-$y'));
       }
+    }
+    if (treeGroup.autoSourceTree != null) {
+      grids.add(
+        AutoMerge(
+            startPosition: PositionLT(
+                x: treeGroup.autoSourceTree.x, y: treeGroup.autoSourceTree.y),
+            endPosition: PositionLT(
+                x: treeGroup.autoTargetTree.x, y: treeGroup.autoTargetTree.y),
+            child: TreeNoAnimation(treeGroup.autoSourceTree),
+            onFinish: () {
+              treeGroup.autoMergeEnd(
+                treeGroup.autoSourceTree,
+                treeGroup.autoTargetTree,
+              );
+            }),
+      );
     }
     return grids;
   }

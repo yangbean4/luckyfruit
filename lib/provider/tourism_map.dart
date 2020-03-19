@@ -10,16 +10,16 @@ import 'package:luckyfruit/service/index.dart';
 
 class TourismMap with ChangeNotifier {
   // 对TreeGroup Provider引用
-  MoneyGroup _moneyGroup;
+  MoneyGroup moneyGroup;
   LuckyGroup _luckyGroup;
   String _acct_id;
   TourismMap();
-
+  double _allgold;
   // 是否已经init
   bool _hasInit = false;
 
   //当前金币总数
-  double get goldNum => _moneyGroup?.allgold ?? 0;
+  double get goldNum => moneyGroup?.allgold ?? 0;
   // 等级配置
   List<LevelRoule> get levelRouleList => _luckyGroup?.levelRouleList ?? [];
   LevelRoule get levelRoule =>
@@ -36,7 +36,9 @@ class TourismMap with ChangeNotifier {
   String get level => _level;
 
   // 当前等级进度  0.xx
-  double get schedule => ((goldNum * 100) ~/ levelUpUse) / 100;
+  double get schedule => _allgold == null || levelUpUse == null
+      ? 0
+      : ((_allgold * 100) ~/ levelUpUse) / 100;
 
   // 当前城市
   String _city = 'hawaii';
@@ -54,20 +56,21 @@ class TourismMap with ChangeNotifier {
         .saveMoneyInfo({'acct_id': _acct_id, '_allgold': 0, 'level': _level});
   }
 
-  void init(MoneyGroup moneyGroup, LuckyGroup luckyGroup, String level,
+  void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, String level,
       String acct_id) {
     _acct_id = acct_id;
-    _moneyGroup = moneyGroup;
+    moneyGroup = _moneyGroup;
     _luckyGroup = luckyGroup;
     _level = level;
     _hasInit = true;
+    notifyListeners();
+
     // 金币增加检查是否升级
-    EVENT_BUS.on(MoneyGroup.ADD_ALL_GOLD, (_allgold) {
-      print(_allgold);
+    EVENT_BUS.on(MoneyGroup.ADD_ALL_GOLD, (allgold) {
+      _allgold = allgold;
       if (goldNum > levelUpUse) {
         _level = (int.parse(_level) + 1).toString();
         levelUp();
-        notifyListeners();
 
         // 清除金币
         EVENT_BUS.emit(MoneyGroup.ACC_ALL_GOLD);
@@ -82,8 +85,9 @@ class TourismMap with ChangeNotifier {
               EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
             });
         // TODO: 调用接口保存等级数据
-
       }
+
+      notifyListeners();
     });
   }
 }

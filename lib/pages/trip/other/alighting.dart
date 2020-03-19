@@ -30,9 +30,10 @@ class AlightingAnimation extends StatefulWidget {
 class _AlightingAnimationState extends State<AlightingAnimation>
     with TickerProviderStateMixin {
   AnimationController controller;
+  Animation<double> animation;
+
   Timer timer;
   bool isDispose;
-  Animation<double> animation;
 
   @override
   void initState() {

@@ -154,6 +154,7 @@ class MoneyGroup with ChangeNotifier {
       // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
       // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
     });
+    save();
 
     return this;
   }
@@ -193,6 +194,9 @@ class MoneyGroup with ChangeNotifier {
       '_allgold': _allgold
     });
 
+    // 通知等级检查
+    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
+
     // 通知更新
     notifyListeners();
     return saveSuccess;
@@ -209,10 +213,8 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addGold(double gold) {
-    _gold += gold.toInt();
-    _allgold += gold.toInt();
-    // 通知等级检查
-    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
+    _gold = double.parse((_gold + gold).toStringAsFixed(2));
+    _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
     save();
   }
 

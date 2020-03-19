@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
+import 'dart:async';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -19,6 +20,11 @@ class TreeGroup with ChangeNotifier {
   TreeGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
+
+  static const String AUTO_MERGE_START = 'AUTO_MERGE_START';
+
+  static const String AUTO_MERGE_END = 'AUTO_MERGE_END';
+
   // 当前最大等级和最小等级的差
   static const int DIFF_LEVEL = 5;
 
@@ -41,6 +47,17 @@ class TreeGroup with ChangeNotifier {
   int delayTime;
   // 最后种树时间
   DateTime makeTreeTime = DateTime.now();
+
+  // 是否在自动合成
+  bool _isAuto = false;
+  // 自动合成是否暂停 有弹窗时暂停 路由跳转时暂停
+  bool _autoTimeOut = false;
+  // 保存 自动合成检查的定时器
+  Timer timer;
+  // 正在执行合成动画的树
+  Tree autoSourceTree;
+  // 正在执行合成动画的树 的合成目标
+  Tree autoTargetTree;
 
   // 记录每个等级种树的次数
   Map<String, int> treeGradeNumber = {};
@@ -187,11 +204,36 @@ class TreeGroup with ChangeNotifier {
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
     });
+    // 自动合成  开始/结束
+    EVENT_BUS.on(TreeGroup.AUTO_MERGE_START, (_) {
+      _isAuto = true;
+      _autoMerge();
+    });
+    EVENT_BUS.on(TreeGroup.AUTO_MERGE_END, (_) {
+      mergeEnd();
+    });
+    // 弹窗显示时自动合成暂停
+    EVENT_BUS.on(Event_Name.MODAL_SHOW, (_) {
+      // _autoTimeOut = true;
+    });
+    EVENT_BUS.on(Event_Name.MODAL_HIDE, (_) {
+      if (_autoTimeOut) {
+        _autoTimeOut = false;
+        // 如果仅仅是暂停但是 自动合成还未结束(_isAuto) 在暂停结束时重新开始
+        if (_isAuto) _autoMerge();
+      }
+    });
+    EVENT_BUS.on(Event_Name.Router_Change, (_) {
+      mergeEnd();
+    });
+
     return this;
   }
 
   // 保存
   Future<bool> save() async {
+    // 如果实在自动合成 则返回 避免频繁触发
+    if (_isAuto) return false;
     _upDateTime = DateTime.now();
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(TreeGroup.CACHE_KEY, data);
@@ -240,7 +282,7 @@ class TreeGroup with ChangeNotifier {
   bool addTree({Tree tree, bool saveData = true}) {
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
-    // REVIEW: 如果是抽奖时是否放入仓库?
+    // REVIEW: 如果是抽奖时是否���入仓库?
     if (point == null) {
       Layer.toastWarning('The location is full!');
       return false;
@@ -274,6 +316,61 @@ class TreeGroup with ChangeNotifier {
       save();
     }
     return true;
+  }
+
+  _autoMerge() {
+    // 动画时间的1.2倍时间检查一次
+    final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
+    final period = Duration(milliseconds: ti);
+    Timer.periodic(period, (_tim) {
+      timer = _tim;
+      if (_isAuto) {
+        if (!_autoTimeOut) {
+          //自动合成状态且不是暂停状态
+          _checkMerge();
+        }
+      } else {
+        _tim.cancel();
+      }
+    });
+  }
+
+// 检查是否有自可以自动合成的🌲 如果有执行自动合成
+  _checkMerge() {
+    for (int index = 0; index < _treeList.length; index++) {
+      Tree target = _treeList[index];
+      Tree source = _treeList.firstWhere(
+          (t) =>
+              t != target &&
+              t.grade == target.grade &&
+              t.grade != Tree.MAX_LEVEL,
+          orElse: () => null);
+      if (source != null) {
+        autoSourceTree = source;
+        autoTargetTree = target;
+
+        // 从列表中删除 开始自动合成动画
+        _treeList.remove(source);
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
+  autoMergeEnd(Tree source, Tree target) {
+    autoSourceTree = null;
+    autoTargetTree = null;
+    int _maxLevel = maxLevel;
+    if (++target.grade > _maxLevel) {
+      Layer.newGrade(maxLevelTree);
+    }
+    notifyListeners();
+  }
+
+  mergeEnd() {
+    _isAuto = false;
+    timer.cancel();
+    save();
   }
 
 // 拖拽移动时的处理

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:luckyfruit/models/index.dart' show LevelRoule, Issued, DrawInfo;
+import 'package:luckyfruit/provider/tree_group.dart';
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -72,11 +73,11 @@ class LuckyGroup with ChangeNotifier {
   }
 
   void autoStart() {
-    EVENT_BUS.emit(MoneyGroup.SET_INCREASE, _issued.reward_multiple);
+    EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
   }
 
   void autoEnd() {
-    EVENT_BUS.emit(MoneyGroup.SET_INCREASE, 1);
+    EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
   }
 
 /**

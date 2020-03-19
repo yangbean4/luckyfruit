@@ -1,7 +1,15 @@
 // 放全局的事件句柄
-enum Event_Name {
+class Event_Name {
   // APP退出
-  APP_PAUSED,
+  static const APP_PAUSED = 'APP_PAUSED';
+  // 显示弹窗
+  static const MODAL_SHOW = 'MODAL_SHOW';
+
+  // 隐藏弹窗
+  static const MODAL_HIDE = 'MODAL_HIDE';
+
+  // 路由跳转
+  static const String Router_Change = 'Router_Change';
 }
 
 // 游戏相关设置
@@ -11,8 +19,12 @@ class GameConfig {
 }
 
 class AnimationConfig {
+  // 树动画时间间隔
   static const num TreeAnimationTime = 8;
+  // 气球降落 默认时间 单位秒
   static const num AlightingTime = 20;
+  // 自动合成 动画时间 单位毫秒
+  static const num AutoMergeTime = 200;
 }
 
 class App {
