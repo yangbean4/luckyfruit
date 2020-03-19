@@ -781,7 +781,7 @@ class Layer {
   }
 
   /// 购买树提示金币不足弹窗
-  static showCoinInsufficientWindow() {
+  static showCoinInsufficientWindow(num time, num gold, Function onOk) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Coin Shortage"),
@@ -793,12 +793,12 @@ class Layer {
               ),
               Container(height: ScreenUtil().setWidth(30)),
               SecondaryText(
-                "45 mins reward",
+                "${Util.formatNumber(time)} mins reward",
                 color: MyTheme.blackColor,
               ),
               Container(height: ScreenUtil().setWidth(40)),
               GoldText(
-                "1078.98t",
+                Util.formatNumber(gold),
                 textSize: 66,
               ),
               Padding(
@@ -810,6 +810,7 @@ class Layer {
                     },
                     onOk: () {
                       modal.hide();
+                      onOk();
                     },
                   )),
             ]).show();

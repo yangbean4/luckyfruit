@@ -95,11 +95,13 @@ class LuckyGroup with ChangeNotifier {
 // 计算领取倒计时
   _transTime(String _last_draw_time) async {
     String cache = await Storage.getItem(LuckyGroup.RECRIVE_TIME_CACHE);
-    DateTime lastTime = DateTime.parse(cache);
+    DateTime lastTime;
     if (cache == null) {
       // 如果没有上次领取的时间 就从现在开始计时
       lastTime = DateTime.now();
       Storage.setItem(LuckyGroup.RECRIVE_TIME_CACHE, DateTime.now().toString());
+    } else {
+      lastTime = DateTime.parse(cache);
     }
     DateTime nextTime =
         lastTime.add(Duration(seconds: int.parse(_last_draw_time ?? '0')));

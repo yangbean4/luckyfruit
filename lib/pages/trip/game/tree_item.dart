@@ -150,7 +150,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                     return Positioned(
                         top: ScreenUtil().setWidth(goldAnimation.value),
                         child: Container(
-                          width: ScreenUtil().setWidth(200),
+                          width: ScreenUtil().setWidth(240),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,

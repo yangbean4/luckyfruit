@@ -64,10 +64,13 @@ class MoneyGroup with ChangeNotifier {
   addUnLineGet(DateTime upDateTime, num sped) {
     if (upDateTime != null && sped != null) {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
-      diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
-      Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
-        addGold(sped * diffTime * (isDouble ? 2 : 1));
-      });
+      // 小于10分钟没有奖励
+      if (diffTime > App.NO_UN_LINE_TIME) {
+        diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
+        Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
+          addGold(sped * diffTime * (isDouble ? 2 : 1));
+        });
+      }
       // 加过就卸载避免多次添加
       EVENT_BUS.off(TreeGroup.LOAD);
     }

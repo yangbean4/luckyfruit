@@ -275,8 +275,7 @@ class TreeGroup with ChangeNotifier {
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         if (treeMatrix[y][x] == null &&
-            (treasureTree == null ||
-                (x != treasureTree.x && y != treasureTree.y))) {
+            (x != treasureTree?.x || y != treasureTree?.y)) {
           return new TreePoint(x: x, y: y);
         }
       }
@@ -287,8 +286,8 @@ class TreeGroup with ChangeNotifier {
   bool addTree({Tree tree, bool saveData = true}) {
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
-    // REVIEW: 如果是抽奖时是否���入仓库?
-    if (point == null) {
+    // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
+    if (point == null && tree?.x == null) {
       Layer.toastWarning('The location is full!');
       return false;
     }
@@ -301,8 +300,11 @@ class TreeGroup with ChangeNotifier {
           gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
 
       if (_moneyGroup.gold < tree.consumeGold) {
-        // TODO:购买树提示金币不足弹窗
-        Layer.toastWarning('金币不够哟...');
+        int coin_award = _luckyGroup.issed.coin_award ?? 10;
+        num coin = coin_award * makeGoldSped;
+        Layer.showCoinInsufficientWindow(coin_award / 60, coin, () {
+          EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coin);
+        });
         return false;
       }
 
