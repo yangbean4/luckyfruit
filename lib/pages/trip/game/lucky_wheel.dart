@@ -8,6 +8,7 @@ import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'dart:math';
 
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/public/fourth_text.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
@@ -18,16 +19,8 @@ import 'package:provider/provider.dart';
 class LuckyWheelWidget extends StatefulWidget {
   Animation<double> animation;
   AnimationController controller;
-  int ticketCount = 8;
 
   startSpin() {
-    if (ticketCount == 0) {
-      Layer.toastWarning("Tickets not enough, watch ad to get more");
-      dynamic addTicketMap = Service().addTicket({'acct_id': 67});
-      // print("接口请求结果：${addTicketMap['msg']}");
-      return;
-    }
-    ticketCount--;
     controller.value = 0;
     controller.forward();
   }
@@ -48,7 +41,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 弱网环境下，最大尝试圈数，超过后还没有返回抽奖结果则放弃
   int maxRetryNum = 3;
-
+  // 当前剩下的券的数量
+  int ticketCount;
   String testJson = """{
         "gift_id": 2,
         "coin": 9000
@@ -56,6 +50,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   initState() {
     super.initState();
+
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    ticketCount = userModel?.value?.ticket;
+
     widget.controller = new AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
 
@@ -103,7 +101,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     print("luckResultMap= $luckResultMap");
     finalPos = luckResultMap['gift_id'] as num;
     //TODO 测试
-    finalPos = widget.ticketCount;
+    finalPos = ticketCount;
 
     int coin = luckResultMap['coin'] as num;
     print("返回的gift_id=$finalPos，coin=$coin");
@@ -165,7 +163,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           top: ScreenUtil().setWidth(40),
           bottom: ScreenUtil().setWidth(40),
         ),
-        child: ModalTitle("TICKET x ${widget.ticketCount}"),
+        child: ModalTitle("TICKET x ${ticketCount}"),
       ),
       Container(
         // color: Colors.red,
@@ -180,9 +178,17 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       Padding(
           padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(90)),
           child: AdButton(
-            btnText: widget.ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
-            useAd: widget.ticketCount <= 0,
+            btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
+            useAd: ticketCount <= 0,
             onOk: () {
+              if (ticketCount <= 0) {
+                Layer.toastWarning("Tickets not enough, watch ad to get more");
+                dynamic addTicketMap = Service().addTicket({'acct_id': 67});
+                // print("接口请求结果：${addTicketMap['msg']}");
+                return;
+              }
+              ticketCount--;
+
               // 重置为3
               maxRetryNum = 3;
               getLuckResult(context).then((coin) {

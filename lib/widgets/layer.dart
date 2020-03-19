@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -631,16 +632,15 @@ class Layer {
   }
 
   /// 显示合成38级时的抽奖弹窗
-  static showTopLevelMergeWindow(BuildContext context) {
+  static showTopLevelMergeWindow() {
     Modal(
         onCancel: () {},
         horizontalPadding: ScreenUtil().setWidth(70),
         childrenBuilder: (modal) => <Widget>[
               TopLevelMergeWidget(onReceivedResultFun: () {
-
                 // TODO 测试
-                Layer.showHopsMergeWindow();
-                Layer.showContinentsMergeWindow();
+                // Layer.showHopsMergeWindow();
+                // Layer.showContinentsMergeWindow();
                 Layer.toastSuccess("抽到38级的树");
                 modal.hide();
                 // TODO 种上一颗38级树
@@ -682,9 +682,30 @@ class Layer {
         .show();
   }
 
-  /// 随机出现的越级升级弹窗
+  /// 随机出现的越级升级弹窗, 出现越级弹窗的几个条件：
+  /// 1. 新合成的树的等级要低于当前最高等级两级及以上；
+  /// 2. 可购买等级要小于等于接口返回的purchase_tree_level
+  /// 3. 每合成 compose_numbers次数后触发一次
+  /// 4. 本地请求到广告了 // TODO
   static showBypassLevelUp(BuildContext context, Function onOk,
-      Function onCancel, int involvedGrade) {
+      Function onCancel, Tree source, Tree target) {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+
+    if (source == null ||
+        target == null ||
+        source == target ||
+        source.grade != target.grade ||
+        // 1. 新合成的树的等级要低于当前最高等级两级及以上；
+        source.grade >= treeGroup.maxLevel - 2 ||
+        // 2. 可购买等级要小于等于接口返回的purchase_tree_level
+        treeGroup.minLevel > luckyGroup?.issed?.purchase_tree_level ||
+        // 3. 每合成 compose_numbers次数后触发一次
+        treeGroup.totalMergeCount % luckyGroup?.issed?.compose_numbers != 0) {
+      // 不满足条件，不弹出弹框，走正常流程
+      onCancel();
+      return;
+    }
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Free Upgrade"),
@@ -695,7 +716,7 @@ class Layer {
                   children: [
                     Column(children: [
                       TreeWidget(
-                        tree: Tree(grade: involvedGrade),
+                        tree: Tree(grade: source.grade + 1),
                         imgHeight: ScreenUtil().setWidth(236),
                         imgWidth: ScreenUtil().setWidth(216),
                         labelWidth: ScreenUtil().setWidth(80),
@@ -716,7 +737,7 @@ class Layer {
                     Column(children: [
                       TreeWidget(
                         // TODO 添加控制条件
-                        tree: Tree(grade: involvedGrade + 1),
+                        tree: Tree(grade: source.grade + 1 + 1),
                         imgHeight: ScreenUtil().setWidth(236),
                         imgWidth: ScreenUtil().setWidth(216),
                         labelWidth: ScreenUtil().setWidth(80),

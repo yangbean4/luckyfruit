@@ -32,6 +32,9 @@ class TreeGroup with ChangeNotifier {
 
   String acct_id;
 
+  // 合成的总次数
+  int totalMergeCount = 1;
+
   //宝箱的树
   Tree treasureTree;
   // 记录宝箱领取的时间
@@ -382,11 +385,22 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
+      // 每合成一次统计一下
+      totalMergeCount++;
       if (target.grade == Tree.MAX_LEVEL) {
         // 判断是什么类型
-        // TODO: 五大洲树弹窗
-
-        // 啤酒花树弹窗
+        if (target.type.contains("continents") &&
+            source.type.contains("continents")) {
+          // 五大洲树弹窗
+          Layer.showContinentsMergeWindow();
+        } else if (target.type.contains("hops") &&
+            source.type.contains("hops")) {
+          // 啤酒花树
+          Layer.showHopsMergeWindow();
+        }
+      } else if (target.grade == Tree.MAX_LEVEL - 1) {
+        // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
+        Layer.showTopLevelMergeWindow();
       } else {
         int _maxLevel = maxLevel;
         if (++target.grade > _maxLevel) {
@@ -427,7 +441,7 @@ class TreeGroup with ChangeNotifier {
     treasureTree = Tree(
         x: point.x,
         y: point.y,
-        type: 'mango',
+        type: TreeType.Type_Mango,
         // 等级为 最小等级+随机的_treasugrade等级 与最大等级减1 的最小值
         grade: min(maxLevel - 1, minLevel + Random().nextInt(_treasugrade)));
     notifyListeners();
@@ -509,7 +523,7 @@ class TreeGroup with ChangeNotifier {
       });
       Tree tree = Tree(
           grade: Tree.MAX_LEVEL,
-          type: 'wishing',
+          type: TreeType.Type_Wishing,
           recycleMoney: double.parse(ajax['amount'].toString()));
       Layer.getWishing(() {
         addTree(tree: tree);

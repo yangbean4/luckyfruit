@@ -20,6 +20,7 @@ class User {
     num sign_times;
     String last_draw_time;
     String level;
+    num ticket;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);
