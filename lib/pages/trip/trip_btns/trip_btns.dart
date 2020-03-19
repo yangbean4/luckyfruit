@@ -5,11 +5,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import './free_phone.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/modal.dart';
+import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/config/app.dart' show App;
 // 右上角的一些入口玩法
+
+class _SelectorUse {
+  Duration getGoldCountdown;
+  Function receiveCoin;
+  int receriveTime;
+  _SelectorUse({this.getGoldCountdown, this.receiveCoin, this.receriveTime});
+}
 
 class TripBtns extends StatefulWidget {
   TripBtns({Key key}) : super(key: key);
@@ -20,22 +33,21 @@ class TripBtns extends StatefulWidget {
 
 class _TripBtnsState extends State<TripBtns> {
   String goldLabel = '';
-  Duration getGoldCountdown;
-  bool isCountdown = false;
+  bool isCountdown = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((c) {
-      Duration _getGoldCountdown =
-          Provider.of<LuckyGroup>(context, listen: false).getGoldCountdown;
-      if (_getGoldCountdown != null) {
-        setState(() {
-          getGoldCountdown = _getGoldCountdown;
-          isCountdown = true;
-        });
-      }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((c) {
+    //   Duration _getGoldCountdown =
+    //       Provider.of<LuckyGroup>(context, listen: false).getGoldCountdown;
+    //   if (_getGoldCountdown != null) {
+    //     setState(() {
+    //       getGoldCountdown = _getGoldCountdown;
+    //       isCountdown = true;
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -144,33 +156,79 @@ class _TripBtnsState extends State<TripBtns> {
           );
   }
 
+  _showWindow(num glod, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle("Awesome"),
+              Container(height: ScreenUtil().setWidth(29)),
+              Container(height: ScreenUtil().setWidth(40)),
+              Image.asset(
+                'assets/image/coin_full_bag.png',
+                width: ScreenUtil().setWidth(272),
+                height: ScreenUtil().setWidth(140),
+              ),
+              SecondaryText(
+                "You‘ve got",
+                color: MyTheme.blackColor,
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+              GoldText(Util.formatNumber(glod)),
+            ]).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        getItem(
-          'assets/image/gold.png',
-          isCountdown
-              ? CountdownFormatted(
-                  duration: getGoldCountdown,
-                  builder: (context, String str) {
-                    return Text(
-                      str,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          height: 1,
-                          fontFamily: FontFamily.bold,
-                          fontSize: ScreenUtil().setWidth(20),
-                          fontWeight: FontWeight.bold),
-                    );
-                  })
-              : 'GET',
-          labelColor: MyTheme.yellowColor,
-          onTap: () {
-            print('gold');
+        Selector<LuckyGroup, _SelectorUse>(
+          selector: (context, provider) => _SelectorUse(
+            getGoldCountdown: provider.getGoldCountdown,
+            receiveCoin: provider.receiveCoin,
+          ),
+          builder: (_, _SelectorUse selectorUse, __) {
+            return getItem(
+              'assets/image/gold.png',
+              isCountdown && selectorUse.getGoldCountdown != null
+                  ? CountdownFormatted(
+                      duration: selectorUse.getGoldCountdown,
+                      onFinish: () {
+                        setState(() {
+                          isCountdown = false;
+                        });
+                      },
+                      builder: (context, String str) {
+                        return Text(
+                          str,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontFamily: FontFamily.bold,
+                              fontSize: ScreenUtil().setWidth(20),
+                              fontWeight: FontWeight.bold),
+                        );
+                      })
+                  : 'GET',
+              labelColor: MyTheme.yellowColor,
+              onTap: () {
+                if (!isCountdown) {
+                  double _getGoldCountdown =
+                      Provider.of<TreeGroup>(context, listen: false)
+                          .makeGoldSped;
+                  num coin = selectorUse.receriveTime * _getGoldCountdown;
+                  _showWindow(coin, () {
+                    selectorUse.receiveCoin(coin);
+                    setState(() {
+                      isCountdown = true;
+                    });
+                  });
+                }
+              },
+            );
           },
         ),
         FreePhone(

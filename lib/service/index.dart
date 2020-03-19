@@ -127,9 +127,16 @@ class Service {
   }
 
   // 种限时分红树接口
-  Future<Map<String, dynamic>> plantTimeLimitTree(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> plantTimeLimitTree(
+      Map<String, dynamic> data) async {
     Response response =
         await _client.post('/Dividend/plantTimeLimitTree', data: data);
+    return response.data['data'];
+  }
+
+  // 种限时分红树接口
+  Future<Map<String, dynamic>> receiveCoin(Map<String, dynamic> data) async {
+    Response response = await _client.post('/User/receiveCoin', data: data);
     return response.data['data'];
   }
 

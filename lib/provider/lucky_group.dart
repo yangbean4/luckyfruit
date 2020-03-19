@@ -26,6 +26,11 @@ class LuckyGroup with ChangeNotifier {
   static const String CACHE_DEPLY = 'CACHE_DEPLY';
   // 存储 Issued version 的key
   static const String CACHE_DEPLY_VERSION = 'CACHE_DEPLY_VERSION';
+
+  static const String RECRIVE_TIME_CACHE = 'RECRIVE_TIME_CACHE';
+
+  String acct_id;
+
   // 全球分红树昨日分红
   double _dividend = 400;
   double get dividend => _dividend;
@@ -56,9 +61,16 @@ class LuckyGroup with ChangeNotifier {
 //   bool _isAuto = false;
 //   bool get isAuto => _isAuto;
 
+  // 后端返回的数据 如果为空说明是第一次领取
+  String last_draw_time;
   // 领奖倒计时
-  Duration _getGoldCountdown = Duration(seconds: 1000);
+  Duration _getGoldCountdown;
   Duration get getGoldCountdown => _getGoldCountdown;
+  // 领取时长
+  int get receriveTime =>
+      last_draw_time == null || last_draw_time == '' || last_draw_time == '0'
+          ? 1800
+          : int.parse(last_draw_time);
 
   // 从后端获取的配置Json
   Issued _issued;
@@ -80,12 +92,48 @@ class LuckyGroup with ChangeNotifier {
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
   }
 
+// 计算领取倒计时
+  _transTime(String _last_draw_time) async {
+    String cache = await Storage.getItem(LuckyGroup.RECRIVE_TIME_CACHE);
+    DateTime lastTime = DateTime.parse(cache);
+    if (cache == null) {
+      // 如果没有上次领取的时间 就从现在开始计时
+      lastTime = DateTime.now();
+      Storage.setItem(LuckyGroup.RECRIVE_TIME_CACHE, DateTime.now().toString());
+    }
+    DateTime nextTime =
+        lastTime.add(Duration(seconds: int.parse(_last_draw_time ?? '0')));
+
+    last_draw_time = _last_draw_time;
+    _getGoldCountdown = DateTime.now().isBefore(nextTime)
+        ? nextTime.difference(DateTime.now())
+        : Duration(seconds: 0);
+
+    notifyListeners();
+  }
+
+// 领取金币
+  receiveCoin(num coin) {
+    // 这次是第一次领取 接下来是30分钟
+    bool noLast =
+        last_draw_time == null || last_draw_time == '' || last_draw_time == '0';
+    _getGoldCountdown = Duration(minutes: noLast ? 30 : 60);
+    Service().receiveCoin({
+      'acct_id': acct_id,
+      'coin': coin,
+    });
+    Storage.setItem(LuckyGroup.RECRIVE_TIME_CACHE, DateTime.now().toString());
+    notifyListeners();
+  }
+
 /**
  * last_draw_time : 上一次领取时间戳 用于 30/60分钟的领取
  * configVersion: 后端下发的配置版本号
  */
-  init(String last_draw_time, String configVersion) async {
+  init(String last_draw_time, String configVersion, String _acct_id) async {
+    acct_id = _acct_id;
     // TODO:判断时间显示领取的倒计时
+    _transTime(last_draw_time);
     // 利用Future.wait 的并发 同时处理
     await Future.wait([
       // Issued

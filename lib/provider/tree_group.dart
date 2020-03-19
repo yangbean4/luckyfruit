@@ -149,7 +149,8 @@ class TreeGroup with ChangeNotifier {
   void setTreeGroup(Map<String, dynamic> group) {
     if (group != null && group.isNotEmpty) {
       _upDateTime = group['upDateTime'] != null
-          ? DateTime.fromMicrosecondsSinceEpoch(int.parse(group['upDateTime']))
+          ? DateTime.fromMicrosecondsSinceEpoch(
+              int.parse(group['upDateTime']) * 1000)
           : null;
       _treeList = (group['treeList'] as List)
           ?.map((map) =>
@@ -171,7 +172,8 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
-  bool isDirty(group) => group.isEmpty || group['upDateTime'] == null;
+  bool isDirty(group) =>
+      group.isEmpty || group['upDateTime'] == null || group['upDateTime'] == '';
 
   Map<String, dynamic> getUseGroup(String str1, String str2) {
     Map<String, dynamic> group1 = Util.decodeStr(str1);
@@ -181,9 +183,9 @@ class TreeGroup with ChangeNotifier {
       group = isDirty(group1) ? group2 : group1;
     } else {
       DateTime upDateTime1 = DateTime.fromMicrosecondsSinceEpoch(
-          int.tryParse(group1['upDateTime'] ?? ''));
+          int.tryParse(group1['upDateTime']) * 1000);
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
-          int.tryParse(group2['upDateTime'] ?? ''));
+          int.tryParse(group2['upDateTime']) * 1000);
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
     }
     return group;

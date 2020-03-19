@@ -65,7 +65,6 @@ class MoneyGroup with ChangeNotifier {
     if (upDateTime != null && sped != null) {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
       diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
-      // TODO:离线后重新登录时的离线奖励弹窗
       Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
         addGold(sped * diffTime * (isDouble ? 2 : 1));
       });
@@ -74,7 +73,8 @@ class MoneyGroup with ChangeNotifier {
     }
   }
 
-  bool isDirty(group) => group.isEmpty || group['upDateTime'] == null;
+  bool isDirty(group) =>
+      group.isEmpty || group['upDateTime'] == null || group['upDateTime'] == '';
 
   Map<String, dynamic> getUseGroup(String str1, Map<String, dynamic> group2) {
     Map<String, dynamic> group1 = Util.decodeStr(str1);
@@ -83,9 +83,9 @@ class MoneyGroup with ChangeNotifier {
       group = isDirty(group1) ? group2 : group1;
     } else {
       DateTime upDateTime1 = DateTime.fromMicrosecondsSinceEpoch(
-          int.tryParse(group1['upDateTime'] ?? ''));
+          int.tryParse(group1['upDateTime']) * 1000);
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
-          int.tryParse(group2['upDateTime'] ?? ''));
+          int.tryParse(group2['upDateTime']) * 1000);
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
     }
     return group;
@@ -103,8 +103,9 @@ class MoneyGroup with ChangeNotifier {
       _money = group['_money'] != null
           ? double.parse((group['_money']).toString())
           : 0.0;
-      DateTime upDateTime =
-          t == null ? null : DateTime.fromMicrosecondsSinceEpoch(int.parse(t));
+      DateTime upDateTime = t == null
+          ? null
+          : DateTime.fromMicrosecondsSinceEpoch(int.parse(t) * 1000);
 
       if (upDateTime != null) {
         // 如果此时没有makeGoldSped的值的话就等通知

@@ -48,8 +48,9 @@ class Util {
   }
 
   /// 格式化时间戳
-  static String formatDate(int time, String format) {
-    var data = new DateTime.fromMillisecondsSinceEpoch(time * 1000);
+  static String formatDate(
+      {int time, DateTime dateTime, String format = 'yyyy-MM-dd HH:mm'}) {
+    var data = dateTime ?? new DateTime.fromMillisecondsSinceEpoch(time * 1000);
     var formater = new DateFormat(format);
     return formater.format(data);
   }
