@@ -805,7 +805,7 @@ class Layer {
   }
 
   /// 离线奖励弹窗
-  static showOffLineRewardWindow() {
+  static showOffLineRewardWindow(num glod, Function onOk) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Offline Earnings"),
@@ -822,7 +822,7 @@ class Layer {
               ),
               Container(height: ScreenUtil().setWidth(45)),
               SecondaryText(
-                "+1078.98t",
+                "+${Util.formatNumber(glod)}",
                 fontsize: 66,
                 color: MyTheme.blackColor,
               ),
@@ -830,12 +830,14 @@ class Layer {
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(50)),
                 child: Stack(overflow: Overflow.visible, children: [
                   AdButton(
-                    btnText: '+2157.96t',
+                    btnText: '+${Util.formatNumber(glod * 2)}',
                     onCancel: () {
                       modal.hide();
+                      onOk(true);
                     },
                     onOk: () {
                       modal.hide();
+                      onOk(false);
                     },
                   ),
                   Positioned(

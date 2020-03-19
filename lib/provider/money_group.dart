@@ -5,6 +5,7 @@ import 'package:luckyfruit/models/index.dart';
 
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import './tree_group.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -65,7 +66,9 @@ class MoneyGroup with ChangeNotifier {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
       diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
       // TODO:离线后重新登录时的离线奖励弹窗
-      addGold(sped * diffTime);
+      Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
+        addGold(sped * diffTime * (isDouble ? 2 : 1));
+      });
       // 加过就卸载避免多次添加
       EVENT_BUS.off(TreeGroup.LOAD);
     }
@@ -90,7 +93,7 @@ class MoneyGroup with ChangeNotifier {
 
   void setTreeGroup(Map<String, dynamic> group) {
     if (group != null && group.isNotEmpty) {
-      String t = group['_upDateTime'];
+      String t = group['upDateTime'];
       _gold = group['_gold'] != null
           ? double.parse(group['_gold'].toString())
           : 400.0;
@@ -145,7 +148,7 @@ class MoneyGroup with ChangeNotifier {
     // 退出时保存数据 并取消记时器
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       save();
-      _timer.cancel();
+      _timer?.cancel();
     });
     const period = const Duration(seconds: App.SAVE_INTERVAL);
     Timer.periodic(period, (timer) {
