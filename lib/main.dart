@@ -44,6 +44,9 @@ void main() {
       ),
       ChangeNotifierProvider<LuckyGroup>.value(
         value: luckyGroup,
+      ),
+      ChangeNotifierProvider<UserModel>.value(
+        value: userModel,
       )
     ],
     child: MyApp(),

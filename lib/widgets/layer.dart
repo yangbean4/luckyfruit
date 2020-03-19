@@ -671,7 +671,7 @@ class Layer {
             onCancel: () {},
             childrenBuilder: (modal) => <Widget>[
                   HopsMergeWidget(onStartMergeFun: () {
-                    Layer.toastSuccess("合成啤酒花树");
+                    Layer.showMoneyRewardAfterHopsMerge();
                     modal.hide();
                   }),
                 ],
@@ -873,5 +873,29 @@ class Layer {
         onCancel: () {},
         okText: "Claim",
         children: <Widget>[LuckyWheelWinResultWindow(winType: winType)]).show();
+  }
+
+  /// 雌雄啤酒花树合成后的现金奖励弹窗
+  static showMoneyRewardAfterHopsMerge() {
+    Modal(onOk: () {}, onCancel: () {}, okText: "Claim", children: <Widget>[
+      Image.asset(
+        'assets/image/bg_dollar.png',
+        width: ScreenUtil().setWidth(278),
+        height: ScreenUtil().setWidth(170),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(30)),
+        child: SecondaryText(
+          "You‘ve got",
+        ),
+      ),
+      GoldText(
+        "7.00",
+        imgUrl: "assets/image/icon_dollar.png",
+        iconSize: 72,
+        textSize: 66,
+      ),
+      Container(height: ScreenUtil().setWidth(35)),
+    ]).show();
   }
 }

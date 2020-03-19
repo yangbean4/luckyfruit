@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'dart:math';
 
 import 'package:luckyfruit/provider/tree_group.dart';
@@ -53,7 +54,6 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
-
     widget.controller = new AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
 
@@ -183,8 +183,16 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             onOk: () {
               if (ticketCount <= 0) {
                 Layer.toastWarning("Tickets not enough, watch ad to get more");
-                dynamic addTicketMap = Service().addTicket({'acct_id': 67});
-                // print("接口请求结果：${addTicketMap['msg']}");
+                //TODO 添加抽奖券的逻辑
+                Service().addTicket({'acct_id': 67}).then((value) {
+                  if (value == null || value['code'] != 0) {
+                    // 添加失败
+                    Layer.toastWarning("Times used up");
+                  } else {
+                    // 添加成功
+                    Layer.toastSuccess("Get Ticket Success");
+                  }
+                });
                 return;
               }
               ticketCount--;

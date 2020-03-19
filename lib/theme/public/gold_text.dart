@@ -9,8 +9,10 @@ class GoldText extends StatelessWidget {
   final double iconSize;
   final double textSize;
   final Color textColor;
+  final String imgUrl;
   const GoldText(this.text,
       {Key key,
+      this.imgUrl = "assets/image/gold.png",
       this.iconSize = 64,
       this.textSize = 43,
       this.textColor = MyTheme.blackColor})
@@ -23,7 +25,7 @@ class GoldText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Image.asset(
-          'assets/image/gold.png',
+          imgUrl,
           width: ScreenUtil().setWidth(iconSize),
           height: ScreenUtil().setWidth(iconSize),
         ),
