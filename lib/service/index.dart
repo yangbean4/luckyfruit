@@ -140,6 +140,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 检测是否需要弹出限时分红树
+  Future<Map<String, dynamic>> checkTimeLimitTree(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Dividend/plantTimeLimitTree', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

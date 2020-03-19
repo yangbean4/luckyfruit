@@ -503,17 +503,28 @@ class Layer {
       ..show();
   }
 
-  /**
-   * 显示限时分红树开始
-   */
-  static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) {
-    //TODO 从接口中接受该值，作为下一次合成时的条件
-    bool shouldAppearTimeLimitedBonusTree = true;
-
-    if (!shouldAppearTimeLimitedBonusTree) {
-      return;
+  /// 通过接口检查限时分红树状态
+  static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) async {
+    bool enable = await checkLimitedTimeBonusTreeState();
+    if (enable) {
+      showLimitedTimeBonusTree(treeGroup);
     }
+  }
 
+  /// 检测是否需要弹出限时分红树
+  static Future<bool> checkLimitedTimeBonusTreeState() async {
+    dynamic stateMap = await Service().checkTimeLimitTree({'acct_id': 67});
+    //TODO 从接口中接受该值，作为下一次合成时的条件
+    stateMap = json.decode("""{
+        "code":0,
+        "msg":"success"
+    }""");
+    int code = stateMap['code'] as num;
+    return code == 0;
+  }
+
+  /// 显示限时分红树开始
+  static void showLimitedTimeBonusTree(TreeGroup treeGroup) {
     Modal(
         onCancel: () {},
         childrenBuilder: (modal) => <Widget>[

@@ -374,7 +374,7 @@ class TreeGroup with ChangeNotifier {
 
   mergeEnd() {
     _isAuto = false;
-    timer.cancel();
+    timer?.cancel();
     save();
   }
 
