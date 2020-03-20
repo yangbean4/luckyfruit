@@ -31,10 +31,6 @@ class LuckyGroup with ChangeNotifier {
 
   String acct_id;
 
-  // 全球分红树昨日分红
-  double _dividend = 400;
-  double get dividend => _dividend;
-
   // 检查广告间隔的_Check数组
   List<_Check> _checkList = [];
 

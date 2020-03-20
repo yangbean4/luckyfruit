@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/theme/index.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +7,7 @@ import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
+import 'package:luckyfruit/theme/index.dart';
 
 class RightBtns extends StatefulWidget {
   RightBtns({Key key}) : super(key: key);

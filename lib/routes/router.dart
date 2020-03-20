@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luckyfruit/pages/illustration/illustration.dart';
 import '../pages/Home.dart';
 import '../pages/rank_page.dart';
-import 'package:luckyfruit/pages/trip/phone.dart';
+import 'package:luckyfruit/pages/trip/dividend.dart';
 
 final routes = {
   'Home': (context) => Home(),
@@ -11,7 +11,8 @@ final routes = {
   // 'app.content': (content, {arguments}) => AppPage(arguments: arguments),
   '404': (context) => Text("404"),
   'RankPage': (context) => RankPage(),
-  'phonePage': () => PhonePage(),
+  'Dividend': (context) => Dividend(),
+  // schedule 五边形页面
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

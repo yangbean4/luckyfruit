@@ -151,8 +151,21 @@ class Service {
   // 获取用户的Partner信息
   Future<Map<String, dynamic>> getPartnerListInfo(
       Map<String, dynamic> data) async {
+    Response response = await _client.post('/Partner/getInfo', data: data);
+    return response.data['data'];
+  }
+
+  // 获取个人中心数据
+  Future<Map<String, dynamic>> getPersonalInfo(
+      Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/info', data: data);
+    return response.data['data'];
+  }
+
+  Future<Map<String, dynamic>> getGlobalDividendTree(
+      Map<String, dynamic> data) async {
     Response response =
-        await _client.post('/Partner/getInfo', data: data);
+        await _client.post('/Dividend/globalDividendTree', data: data);
     return response.data['data'];
   }
 

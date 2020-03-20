@@ -1,5 +1,6 @@
 export 'levelRoule.dart' ; 
 export 'rank_friends.dart' ; 
+export 'globalDividendTree.dart' ; 
 export 'reward.dart' ; 
 export 'partnerWrap.dart' ; 
 export 'partnerSubordinateItem.dart' ; 
@@ -11,3 +12,4 @@ export 'rank_bonus_trees.dart' ;
 export 'partnerSubordinateList.dart' ; 
 export 'user.dart' ; 
 export 'sign.dart' ; 
+export 'personalInfo.dart' ; 

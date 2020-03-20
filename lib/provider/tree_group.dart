@@ -12,6 +12,7 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import './lucky_group.dart';
+import 'package:luckyfruit/models/index.dart' show GlobalDividendTree;
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
@@ -34,6 +35,10 @@ class TreeGroup with ChangeNotifier {
 
   // 合成的总次数
   int totalMergeCount = 1;
+
+  // 全球分红树 数据
+  GlobalDividendTree _globalDividendTree;
+  GlobalDividendTree get globalDividendTree => _globalDividendTree;
 
   //宝箱的树
   Tree treasureTree;
@@ -197,7 +202,7 @@ class TreeGroup with ChangeNotifier {
     acct_id = accId;
     _moneyGroup = moneyGroup;
     _luckyGroup = luckyGroup;
-
+    _getGlobalDividendTree();
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
     Map<String, dynamic> ajaxData =
@@ -233,6 +238,16 @@ class TreeGroup with ChangeNotifier {
     });
 
     return this;
+  }
+
+  Future<GlobalDividendTree> _getGlobalDividendTree() async {
+    dynamic userMap =
+        await Service().getGlobalDividendTree({"acct_id": acct_id});
+    GlobalDividendTree globalDividendTree =
+        GlobalDividendTree.fromJson(userMap);
+    _globalDividendTree = globalDividendTree;
+    notifyListeners();
+    return globalDividendTree;
   }
 
   // 保存

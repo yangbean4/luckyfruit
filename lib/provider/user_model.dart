@@ -1,16 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/models/index.dart' show User, PersonalInfo;
 import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/device_info.dart';
 
 class UserModel with ChangeNotifier {
-  User _user;
   static const String CACHE_KEY = 'user';
 
+  User _user;
   User get value => _user;
+
+  PersonalInfo _personalInfo;
+  PersonalInfo get personalInfo => _personalInfo;
 
   /// 初始化用户
   Future<User> initUser() async {
@@ -25,6 +27,15 @@ class UserModel with ChangeNotifier {
       _user = await getUser(info);
       notifyListeners();
     }
+  }
+
+  Future<PersonalInfo> getPersonalInfo() async {
+    dynamic userMap =
+        await Service().getPersonalInfo({"acct_id": value.acct_id});
+    PersonalInfo personalInfo = PersonalInfo.fromJson(userMap);
+    _personalInfo = personalInfo;
+    notifyListeners();
+    return personalInfo;
   }
 
   /// 获取用户信息

@@ -50,11 +50,6 @@ class _TripBtnsState extends State<TripBtns> {
     // });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   Widget getItem(
     String imgSrc,
     label, {

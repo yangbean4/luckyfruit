@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -283,7 +284,7 @@ class _TripState extends State<Trip>
                                           // 今日分红树收益提示
                                           GestureDetector(
                                             onTap: () =>
-                                                pushNamed(context, 'dividend'),
+                                                pushNamed(context, 'Dividend'),
                                             child: Container(
                                               width: ScreenUtil().setWidth(378),
                                               height: ScreenUtil().setWidth(96),
@@ -306,7 +307,7 @@ class _TripState extends State<Trip>
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Image.asset(
-                                                    'assets/image/dividend_tree.png',
+                                                    'assets/tree/bouns.png',
                                                     width: ScreenUtil()
                                                         .setWidth(44),
                                                     height: ScreenUtil()
@@ -335,13 +336,14 @@ class _TripState extends State<Trip>
                                                                       .bold,
                                                               color: MyTheme
                                                                   .redColor)),
-                                                      Selector<LuckyGroup,
-                                                              double>(
+                                                      Selector<TreeGroup, num>(
                                                           selector: (context,
                                                                   provider) =>
-                                                              provider.dividend,
+                                                              provider
+                                                                  .globalDividendTree
+                                                                  ?.amount,
                                                           builder: (context,
-                                                              double dividend,
+                                                              num dividend,
                                                               child) {
                                                             return Text(
                                                                 '\$${Util.formatNumber(dividend)}',
