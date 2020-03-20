@@ -646,6 +646,7 @@ class Layer {
   static showTopLevelMergeWindow() {
     Modal(
         onCancel: () {},
+        width: 940,
         horizontalPadding: ScreenUtil().setWidth(70),
         childrenBuilder: (modal) => <Widget>[
               TopLevelMergeWidget(onReceivedResultFun: () {

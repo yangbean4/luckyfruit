@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
-import 'package:luckyfruit/widgets/layer.dart';
 
 class TopLevelMergeWidget extends StatefulWidget {
   final Function onReceivedResultFun;
@@ -86,32 +85,33 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     List wrap = List(10).map((val) {
       print("gridWrapperView index= $index");
       return Container(
+          padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
           decoration: BoxDecoration(
-            border: index++ == inOrder[runCount % inOrder.length]
-                ? Border.all(
-                    color: const Color.fromRGBO(255, 172, 30, 1),
-                    width: 2,
-                    style: BorderStyle.solid,
+            // color: Colors.red,
+            image: index++ == inOrder[runCount % inOrder.length]
+                ? DecorationImage(
+                    alignment: Alignment.center,
+                    image: AssetImage(
+                        "assets/image/top_level_merge_item_selected.png"),
+                    fit: BoxFit.cover,
                   )
-                : Border.all(
-                    color: Colors.transparent,
-                    width: 2,
-                    style: BorderStyle.solid,
-                  ),
-            borderRadius:
-                BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20))),
+                : null,
           ),
-          child: Image.asset(
-            "assets/image/dividend_tree.png",
-            width: ScreenUtil().setWidth(130),
-            height: ScreenUtil().setWidth(142),
-          ));
+          child: Container(
+              // color: Colors.green,
+              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+              child: Image.asset(
+                "assets/image/dividend_tree.png",
+                width: ScreenUtil().setWidth(130),
+                height: ScreenUtil().setWidth(142),
+              )));
     }).toList();
 
     wrap.insert(
         5,
         Container(
-            width: ScreenUtil().setWidth(290),
+            // colofr: Colors.yellow,
+            width: ScreenUtil().setWidth(365),
             height: ScreenUtil().setWidth(142),
             alignment: Alignment.center,
             child: Center(
