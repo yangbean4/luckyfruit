@@ -40,9 +40,9 @@ class FreePhone extends StatelessWidget {
                       width: ScreenUtil().setWidth(840),
                       height: ScreenUtil().setWidth(2906),
                       margin: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(40),
-                          vertical: ScreenUtil().setWidth(96)),
+                      padding: EdgeInsets.only(
+                        bottom: ScreenUtil().setWidth(96),
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
@@ -58,8 +58,8 @@ class FreePhone extends StatelessWidget {
                           height: ScreenUtil().setWidth(118),
                           child: Center(
                               child: ModalTitle(
-                            'Get your phone for free',
-                            fontsize: 64,
+                            'Get Mobile Phone For Free',
+                            fontsize: 58,
                             color: Colors.white,
                           )),
                           decoration: BoxDecoration(
@@ -91,30 +91,55 @@ class _Phone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil().setWidth(760),
-      height: ScreenUtil().setWidth(400),
-      padding: EdgeInsets.all(ScreenUtil().setWidth(18)),
+      width: ScreenUtil().setWidth(840),
+      height: ScreenUtil().setWidth(476),
+      // padding: EdgeInsets.all(ScreenUtil().setWidth(18)),
+      padding: EdgeInsets.fromLTRB(
+        ScreenUtil().setWidth(56),
+        ScreenUtil().setWidth(108),
+        ScreenUtil().setWidth(76),
+        ScreenUtil().setWidth(36),
+      ),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(252, 247, 238, 1),
-          boxShadow: _shadow,
-          borderRadius:
-              BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
-          border: Border.all(
-            color: const Color.fromRGBO(255, 172, 30, 1),
-            width: ScreenUtil().setWidth(6),
-            style: BorderStyle.solid,
-          )),
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(ScreenUtil().setWidth(100)),
+            topRight: Radius.circular(ScreenUtil().setWidth(100))),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            spreadRadius: 0.0,
+            blurRadius: ScreenUtil().setWidth(40),
+            offset: Offset(ScreenUtil().setWidth(0), ScreenUtil().setWidth(14)),
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+          ),
+          // BoxShadow(
+          //   spreadRadius: 0.0,
+          //   blurRadius: ScreenUtil().setWidth(40),
+          //   offset:
+          //       Offset(ScreenUtil().setWidth(0), ScreenUtil().setWidth(-14)),
+          //   color: Colors.white,
+          // ),
+        ],
+        // borderRadius:
+        //     BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
+        border: Border.all(
+          // color: const Color.fromRGBO(255, 172, 30, 1),
+          color: Colors.white,
+          width: ScreenUtil().setWidth(8),
+          style: BorderStyle.solid,
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(271),
+            width: ScreenUtil().setWidth(272),
             height: ScreenUtil().setWidth(332),
             decoration: BoxDecoration(
               image: DecorationImage(
                 alignment: Alignment.center,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 image: AssetImage('assets/image/phone_bg.png'),
               ),
             ),
@@ -188,7 +213,7 @@ class _Phone extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: FontFamily.bold,
-                                  color: MyTheme.blackColor,
+                                  color: MyTheme.tipsColor,
                                   height: 1,
                                   fontSize: ScreenUtil().setSp(36),
                                   fontWeight: FontWeight.bold))),
@@ -202,14 +227,31 @@ class _Phone extends StatelessWidget {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          Layer.toastWarning("The phone pieces isn't enough," +
-                              'plaease join the "collect phone pieces" to get it');
+                          Modal(
+                              // onCancel: () {},
+                              onOk: () {},
+                              okText: 'Ok',
+                              autoHide: true,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: ScreenUtil().setWidth(70)),
+                                  child: Text(
+                                    "You don't have enough mobile phone chips," +
+                                        'join the“collect phone chips"activity to get more clips.',
+                                    style: TextStyle(
+                                        color: MyTheme.blackColor,
+                                        fontSize: ScreenUtil().setWidth(46),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ]).show();
                         },
                         child: Text('Address >>',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontFamily: FontFamily.semibold,
-                                color: Color.fromRGBO(209, 109, 20, 1),
+                                color: MyTheme.primaryColor,
                                 height: 1,
                                 fontSize: ScreenUtil().setSp(34),
                                 fontWeight: FontWeight.normal)),
@@ -225,14 +267,6 @@ class _Phone extends StatelessWidget {
     );
   }
 }
-
-List<BoxShadow> _shadow = <BoxShadow>[
-  BoxShadow(
-    blurRadius: ScreenUtil().setWidth(8),
-    offset: Offset(0, ScreenUtil().setWidth(8)),
-    color: Color.fromRGBO(0, 0, 0, 0.5),
-  )
-];
 
 class _Group extends StatefulWidget {
   _Group({Key key}) : super(key: key);
@@ -309,7 +343,8 @@ class __RewardState extends State<_Reward> {
 
   _runEnd() {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    Reward reward = luckyGroup.drawInfo.reward[server];
+    Reward reward = luckyGroup.drawInfo.reward
+        .firstWhere((i) => i.sign == server.toString());
     if (reward.type == '4') {
       // TODO: 获取金币
     } else if (reward.type == '5') {
@@ -331,27 +366,28 @@ class __RewardState extends State<_Reward> {
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(760),
-            height: ScreenUtil().setWidth(866),
-            margin: EdgeInsets.only(top: ScreenUtil().setWidth(24)),
+            height: ScreenUtil().setWidth(840),
+            margin: EdgeInsets.only(
+                // top: ScreenUtil().setWidth(24),
+                bottom: ScreenUtil().setWidth(50)),
             padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(53),
               ScreenUtil().setWidth(53),
               ScreenUtil().setWidth(53),
-              ScreenUtil().setWidth(82),
+              ScreenUtil().setWidth(22),
             ),
             decoration: BoxDecoration(
-                image: DecorationImage(
-              alignment: Alignment.center,
-              image: AssetImage('assets/image/reward_bg.png'),
-              fit: BoxFit.cover,
-            )),
+              color: MyTheme.grayColor,
+              borderRadius:
+                  BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
+            ),
             child: Column(
               children: <Widget>[
                 Text('3 lucky draw chances per day',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: FontFamily.bold,
-                        color: Colors.white,
+                        color: MyTheme.blackColor,
                         height: 1,
                         fontSize: ScreenUtil().setSp(48),
                         fontWeight: FontWeight.bold)),
@@ -390,7 +426,7 @@ class __RewardState extends State<_Reward> {
             ),
           ),
           AdButton(
-              btnText: 'Sign in',
+              btnText: 'Free 3/3',
               tips: null,
               width: 400,
               height: 100,
@@ -446,21 +482,21 @@ class _RewardItem extends StatelessWidget {
           ? Center(
               child: Image.asset(
                 'assets/image/reward_null.png',
-                width: ScreenUtil().setWidth(111),
-                height: ScreenUtil().setWidth(141),
+                width: ScreenUtil().setWidth(210),
+                height: ScreenUtil().setWidth(215),
               ),
             )
           : Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(251, 236, 209, 1),
+                // color: Color.fromRGBO(251, 236, 209, 1),
                 image: DecorationImage(
                     alignment: Alignment.center,
                     fit: BoxFit.cover,
                     image: AssetImage('assets/image/draw_bg.png')),
                 border: active
                     ? Border.all(
-                        color: const Color.fromRGBO(255, 172, 30, 1),
-                        width: 2,
+                        color: MyTheme.primaryColor,
+                        width: ScreenUtil().setWidth(6),
                         style: BorderStyle.solid,
                       )
                     : null,
@@ -505,10 +541,9 @@ class _Wishing extends StatelessWidget {
       width: ScreenUtil().setWidth(760),
       height: ScreenUtil().setWidth(348),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(252, 247, 238, 1),
-        boxShadow: _shadow,
+        color: MyTheme.grayColor,
         borderRadius:
-            BorderRadius.all(Radius.circular(ScreenUtil().setWidth(40))),
+            BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
       ),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -518,7 +553,7 @@ class _Wishing extends StatelessWidget {
               width: ScreenUtil().setWidth(760),
               height: ScreenUtil().setWidth(100),
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 172, 30, 1),
+                  color: MyTheme.primaryColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(ScreenUtil().setWidth(40)),
                     topRight: Radius.circular(ScreenUtil().setWidth(40)),
@@ -543,11 +578,11 @@ class _Wishing extends StatelessWidget {
                 vertical: ScreenUtil().setWidth(14),
               ),
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(251, 236, 209, 1),
+                  // color: Color.fromRGBO(251, 236, 209, 1),
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(ScreenUtil().setWidth(30)),
-                    bottomRight: Radius.circular(ScreenUtil().setWidth(30)),
-                  )),
+                bottomLeft: Radius.circular(ScreenUtil().setWidth(30)),
+                bottomRight: Radius.circular(ScreenUtil().setWidth(30)),
+              )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -618,7 +653,7 @@ class _Wishing extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: FontFamily.bold,
-                                    color: MyTheme.blackColor,
+                                    color: MyTheme.tipsColor,
                                     height: 1,
                                     fontSize: ScreenUtil().setSp(36),
                                     fontWeight: FontWeight.bold))),
@@ -638,32 +673,35 @@ class _Sign extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(760),
-        height: ScreenUtil().setWidth(848),
+        height: ScreenUtil().setWidth(840),
         padding: EdgeInsets.fromLTRB(
           ScreenUtil().setWidth(0),
-          ScreenUtil().setWidth(39),
+          ScreenUtil().setWidth(58),
           ScreenUtil().setWidth(0),
-          ScreenUtil().setWidth(52),
+          ScreenUtil().setWidth(54),
         ),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(251, 236, 209, 1),
-            boxShadow: _shadow,
-            borderRadius:
-                BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
-            border: Border.all(
-              color: const Color.fromRGBO(255, 172, 30, 1),
-              width: 2,
-              style: BorderStyle.solid,
-            )),
+          color: MyTheme.grayColor,
+          borderRadius:
+              BorderRadius.all(Radius.circular(ScreenUtil().setWidth(60))),
+          // border: Border.all(
+          //   color: const Color.fromRGBO(255, 172, 30, 1),
+          //   width: 2,
+          //   style: BorderStyle.solid,
+          // ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/image/7day.png',
-              width: ScreenUtil().setWidth(698),
-              height: ScreenUtil().setWidth(83),
-            ),
+            Text('Sign Up For 7 Days To Get Reward',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: FontFamily.black,
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontSize: ScreenUtil().setSp(46),
+                    fontWeight: FontWeight.bold)),
             Container(
                 width: ScreenUtil().setWidth(760),
                 height: ScreenUtil().setWidth(500),
@@ -733,7 +771,7 @@ class _PhoneItem extends StatelessWidget {
                 width: ScreenUtil().setWidth(160),
                 height: ScreenUtil().setWidth(48),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 172, 30, 1),
+                    color: Color.fromRGBO(124, 186, 124, 1),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(ScreenUtil().setWidth(20)),
                       topRight: Radius.circular(ScreenUtil().setWidth(20)),

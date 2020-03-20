@@ -11,10 +11,13 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+
 import './trip_btns/trip_btns.dart';
 import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
 import './other/treasure.dart';
+import 'package:luckyfruit/models/index.dart' show User;
 
 class _SelectorUse {
   String city;
@@ -108,7 +111,7 @@ class _TripState extends State<Trip>
                     child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(60)),
-                        height: ScreenUtil().setWidth(250),
+                        height: ScreenUtil().setWidth(280),
                         child: Selector<TourismMap, _SelectorUse>(
                             selector: (context, provider) => _SelectorUse(
                                 city: provider.city,
@@ -121,7 +124,7 @@ class _TripState extends State<Trip>
                                 children: <Widget>[
                                   Container(
                                       width: ScreenUtil().setWidth(378),
-                                      height: ScreenUtil().setWidth(250),
+                                      height: ScreenUtil().setWidth(280),
                                       // 当前城市标识
                                       child: Column(
                                         crossAxisAlignment:
@@ -177,57 +180,106 @@ class _TripState extends State<Trip>
                                             margin: EdgeInsets.only(
                                               top: ScreenUtil().setWidth(10),
                                             ),
-                                            child: Text(
-                                              'LV.${_selectorUse.level}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: FontFamily.bold,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: MyTheme.blackColor,
-                                                  fontSize:
-                                                      ScreenUtil().setSp(24)),
-                                            ),
+                                            child: Selector<UserModel, User>(
+                                                builder: (_, User user, __) {
+                                                  return Text(
+                                                    // 'LV.${_selectorUse.level}',
+                                                    user.nickname,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            FontFamily.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            MyTheme.blackColor,
+                                                        fontSize: ScreenUtil()
+                                                            .setSp(24)),
+                                                  );
+                                                },
+                                                selector: (context, provider) =>
+                                                    provider.value),
                                           ),
                                           // 等级进度条
                                           Container(
-                                              width: ScreenUtil().setWidth(248),
-                                              height: ScreenUtil().setWidth(20),
+                                              width: ScreenUtil().setWidth(288),
+                                              height: ScreenUtil().setWidth(36),
                                               margin: EdgeInsets.only(
                                                   bottom: ScreenUtil()
-                                                      .setWidth(36)),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(ScreenUtil()
-                                                        .setWidth(10))),
-                                              ),
-                                              child: Stack(children: <Widget>[
-                                                Selector<TourismMap, double>(
-                                                    selector:
-                                                        (context, provider) =>
-                                                            provider.schedule,
-                                                    builder: (context,
-                                                        double schedule,
-                                                        child) {
-                                                      return Container(
+                                                      .setWidth(27)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: ScreenUtil()
+                                                        .setWidth(288),
+                                                    height: ScreenUtil()
+                                                        .setWidth(20),
+                                                    margin: EdgeInsets.only(
+                                                        top: ScreenUtil()
+                                                            .setWidth(8)),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          10))),
+                                                    ),
+                                                    child: Stack(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            width: ScreenUtil()
+                                                                .setWidth(248 *
+                                                                    _selectorUse
+                                                                        .schedule),
+                                                            height: ScreenUtil()
+                                                                .setWidth(20),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: MyTheme
+                                                                  .primaryColor,
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      ScreenUtil()
+                                                                          .setWidth(
+                                                                              10))),
+                                                            ),
+                                                          )
+                                                        ]),
+                                                  ),
+                                                  Positioned(
+                                                      left: 0,
+                                                      top: 0,
+                                                      child: Container(
                                                         width: ScreenUtil()
-                                                            .setWidth(
-                                                                248 * schedule),
+                                                            .setWidth(36),
                                                         height: ScreenUtil()
-                                                            .setWidth(20),
+                                                            .setWidth(36),
                                                         decoration:
                                                             BoxDecoration(
                                                           color: MyTheme
-                                                              .yellowColor,
+                                                              .primaryColor,
                                                           borderRadius: BorderRadius
                                                               .all(Radius.circular(
                                                                   ScreenUtil()
                                                                       .setWidth(
-                                                                          10))),
+                                                                          18))),
                                                         ),
-                                                      );
-                                                    })
-                                              ])),
+                                                        child: Center(
+                                                          child: Text(
+                                                              _selectorUse
+                                                                  .level,
+                                                              style: TextStyle(
+                                                                  fontSize: ScreenUtil()
+                                                                      .setWidth(
+                                                                          20),
+                                                                  color: Colors
+                                                                      .white)),
+                                                        ),
+                                                      ))
+                                                ],
+                                              )),
                                           // 今日分红树收益提示
                                           GestureDetector(
                                             onTap: () =>
