@@ -34,8 +34,8 @@ class Illustration extends StatelessWidget {
   ];
 
   List wayList = [
-    "1.Merge 5 continental trees ，100% chance to get it\n2.Merge any 2 trees in Level 37 \n3.Stay active in the game,100%chance to get",
-    "1.Merge any 2 trees in Level 37 2.Collect 100 wishing tree chips",
+    "1.Merge 5 continental trees, 100% chance to get it\n2.Merge any 2 trees in Level 37 \n3.Stay active in the game, 100% chance to get",
+    "1.Merge any 2 trees in Level 37 \n2.Collect 100 wishing tree chips",
     "Merge any 2 trees in Level 37",
     "Merge any 2 trees in Level 37",
     "Merge any 2 trees in Level 37",
@@ -43,7 +43,20 @@ class Illustration extends StatelessWidget {
     "Merge any 2 trees in Level 37",
     "Merge any 2 trees in Level 37",
     "Merge any 2 trees in Level 37",
-    "1、Upgrade trees to Level 5 2、Unlock  in every new tree level 3、Unlock new cities"
+    "1.Upgrade trees to Level 5 \n2.Unlock  in every new tree level \n3.Unlock new cities"
+  ];
+
+  List imageUrlList = [
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
+    "assets/image/dividend_tree.png",
   ];
 
   @override
@@ -98,7 +111,7 @@ class Illustration extends StatelessWidget {
                     Container(
                       child: Column(children: [
                         Image.asset(
-                          "assets/image/dividend_tree.png",
+                          imageUrlList[index],
                           width: ScreenUtil().setWidth(240),
                           height: ScreenUtil().setWidth(260),
                           fit: BoxFit.cover,

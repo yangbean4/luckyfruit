@@ -54,6 +54,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
+    //TODO 测试
+    ticketCount = 8;
     widget.controller = new AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
 

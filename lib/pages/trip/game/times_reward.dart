@@ -17,34 +17,57 @@ class TimesRewardWidget extends StatelessWidget {
   static const TYPE_10_TIMES = 2;
 
   TimesRewardWidget({Key key, this.typeOfTimes, this.onOk, this.onCancel})
-        // : assert(typeOfTimes > 0 && typeOfTimes < 3,"传入的TimesRewardWidget的type不合法：$typeOfTimes"),
-        :super(key: key);
-
+      // : assert(typeOfTimes > 0 && typeOfTimes < 3,"传入的TimesRewardWidget的type不合法：$typeOfTimes"),
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String title;
     String imageUrl;
+    String desc;
 
     if (typeOfTimes == TYPE_10_TIMES) {
-      title = "10x Treasure Chest";
+      title = "10x";
       imageUrl = "assets/image/lucky_wheel_10x_treasure.png";
+      desc = "Keep it going!\n10X Rwards next turn";
     } else {
-      title = "5x Treasure Chest";
+      title = "5x";
       imageUrl = "assets/image/lucky_wheel_5x_treasure.png";
+      desc = "Keep it going!\n5X Rwards next turn";
     }
 
     return Column(children: [
-      ModalTitle(title),
+      RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+                text: title,
+                style: TextStyle(
+                    fontSize: ScreenUtil().setWidth(70),
+                    fontFamily: FontFamily.bold,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFFAC1E))),
+            TextSpan(
+                text: ' Reward',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setWidth(70),
+                    color: MyTheme.blackColor,
+                    fontFamily: FontFamily.bold,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
       Container(height: ScreenUtil().setWidth(24)),
       Image.asset(
         imageUrl,
         width: ScreenUtil().setWidth(295),
         height: ScreenUtil().setWidth(243),
       ),
-      Container(height: ScreenUtil().setWidth(60)),
+      Container(height: ScreenUtil().setWidth(24)),
       SecondaryText(
-        "Get rich, next time the reward will be ten times!",
+        desc,
+        fontWeight: FontWeight.w400,
+        fontsize: 46,
         color: MyTheme.blackColor,
       ),
       Padding(

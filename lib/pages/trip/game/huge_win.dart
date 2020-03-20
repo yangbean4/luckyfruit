@@ -28,23 +28,46 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      ModalTitle("Congratulations"),
+      ModalTitle("Awesome"),
       Container(height: ScreenUtil().setWidth(45)),
       Image.asset(
-        'assets/image/more_gold.png',
+        'assets/image/coin_full_bag.png',
         width: ScreenUtil().setWidth(268),
         height: ScreenUtil().setWidth(133),
       ),
       Container(height: ScreenUtil().setWidth(66)),
-      SecondaryText(
-        getDescString(),
-        color: MyTheme.blackColor,
+      RichText(
+        text: TextSpan(
+          text: "You've got",
+          style: TextStyle(
+              fontSize: ScreenUtil().setWidth(50),
+              color: MyTheme.blackColor,
+              fontFamily: FontFamily.regular,
+              fontWeight: FontWeight.w400),
+          children: <TextSpan>[
+            TextSpan(
+                text: getDescString(),
+                style: TextStyle(
+                    fontSize: ScreenUtil().setWidth(50),
+                    fontFamily: FontFamily.bold,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFFAC1E))),
+            TextSpan(
+                text: 'earnings',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setWidth(50),
+                    color: MyTheme.blackColor,
+                    fontFamily: FontFamily.regular,
+                    fontWeight: FontWeight.w400)),
+          ],
+        ),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: ScreenUtil().setWidth(44),
           bottom: ScreenUtil().setWidth(60),
         ),
+        //TODO 数值要对上
         child: GoldText("1078.98t"),
       ),
     ]);
@@ -54,28 +77,28 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
     String desc;
     switch (winType) {
       case TYPE_BIG_WIN:
-        desc = "You've got 15min earnings";
+        desc = " 15min ";
         break;
       case TYPE_BIG_WIN:
-        desc = "You've got 15min X10 earnings";
+        desc = " 10X15min ";
         break;
       case TYPE_MEGE_WIN:
-        desc = "You've got 30min earnings";
+        desc = " 30min ";
         break;
       case TYPE_MEGE_WIN_10X:
-        desc = "You've got 30min X10 earnings";
+        desc = " 10X30min ";
         break;
       case TYPE_HUGE_WIN:
-        desc = "You've got 45min earnings";
+        desc = " 45min ";
         break;
       case TYPE_HUGE_WIN_10X:
-        desc = "You've got 45min X10 earnings";
+        desc = " 10X45min ";
         break;
       case TYPE_JACKPOT_WIN:
-        desc = "You've got 60min earnings";
+        desc = " 60min ";
         break;
       case TYPE_JACKPOT_WIN_10X:
-        desc = "You've got 60min X10 earnings";
+        desc = " 10X60min ";
         break;
       default:
     }
