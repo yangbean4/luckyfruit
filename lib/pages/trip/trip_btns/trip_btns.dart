@@ -162,19 +162,19 @@ class _TripBtnsState extends State<TripBtns> {
         onOk: onOk,
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Awesome"),
-              Container(height: ScreenUtil().setWidth(29)),
-              Container(height: ScreenUtil().setWidth(40)),
+              Container(height: ScreenUtil().setWidth(39)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
-                width: ScreenUtil().setWidth(272),
-                height: ScreenUtil().setWidth(140),
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
               ),
               SecondaryText(
                 "You‘ve got",
                 color: MyTheme.blackColor,
               ),
               Container(height: ScreenUtil().setWidth(45)),
-              GoldText(Util.formatNumber(glod)),
+              GoldText(Util.formatNumber(glod), textSize: 66),
+              Container(height: ScreenUtil().setWidth(45)),
             ]).show();
   }
 
@@ -188,6 +188,7 @@ class _TripBtnsState extends State<TripBtns> {
           selector: (context, provider) => _SelectorUse(
             getGoldCountdown: provider.getGoldCountdown,
             receiveCoin: provider.receiveCoin,
+            receriveTime: provider.receriveTime,
           ),
           builder: (_, _SelectorUse selectorUse, __) {
             return getItem(

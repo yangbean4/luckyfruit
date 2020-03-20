@@ -853,12 +853,12 @@ class Layer {
                     },
                   ),
                   Positioned(
-                      top: -10,
-                      right: -8,
+                      top: 0,
+                      right: 0,
                       child: Image.asset(
-                        'assets/image/twice_value_reward_icon.png',
-                        width: ScreenUtil().setWidth(90),
-                        height: ScreenUtil().setWidth(90),
+                        'assets/image/value2.png',
+                        width: ScreenUtil().setWidth(124),
+                        height: ScreenUtil().setWidth(108),
                       ))
                 ]),
               ),

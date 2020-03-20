@@ -311,7 +311,9 @@ class __RewardState extends State<_Reward> {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     Reward reward = luckyGroup.drawInfo.reward[server];
     if (reward.type == '4') {
+      // TODO: 获取金币
     } else if (reward.type == '5') {
+      // TODO: 获取金币
     } else {
       MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
       moneyGroup.updateUserInfo();

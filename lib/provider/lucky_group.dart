@@ -66,11 +66,10 @@ class LuckyGroup with ChangeNotifier {
   // 领奖倒计时
   Duration _getGoldCountdown;
   Duration get getGoldCountdown => _getGoldCountdown;
+
+  int _receriveTime;
   // 领取时长
-  int get receriveTime =>
-      last_draw_time == null || last_draw_time == '' || last_draw_time == '0'
-          ? 1800
-          : int.parse(last_draw_time);
+  int get receriveTime => _receriveTime;
 
   // 从后端获取的配置Json
   Issued _issued;
@@ -106,6 +105,11 @@ class LuckyGroup with ChangeNotifier {
     DateTime nextTime =
         lastTime.add(Duration(seconds: int.parse(_last_draw_time ?? '0')));
 
+    _receriveTime =
+        last_draw_time == null || last_draw_time == '' || last_draw_time == '0'
+            ? 1800
+            : int.parse(last_draw_time);
+
     last_draw_time = _last_draw_time;
     _getGoldCountdown = DateTime.now().isBefore(nextTime)
         ? nextTime.difference(DateTime.now())
@@ -120,6 +124,7 @@ class LuckyGroup with ChangeNotifier {
     bool noLast =
         last_draw_time == null || last_draw_time == '' || last_draw_time == '0';
     _getGoldCountdown = Duration(minutes: noLast ? 30 : 60);
+    _receriveTime = (noLast ? 30 : 60) * 60;
     Service().receiveCoin({
       'acct_id': acct_id,
       'coin': coin,
