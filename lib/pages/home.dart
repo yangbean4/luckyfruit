@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/pages/partner/partner.dart';
 
 import './trip/trip.dart';
 import '../theme/index.dart';
-import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/config/app.dart';
 
@@ -18,7 +18,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   BottomNavigationBar bottomBar;
   int tabIndex = 0;
-  List<Widget> pageList = [Trip(), Text('MAP')];
+  List<Widget> pageList = [
+    Trip(),
+    Text("map"),
+    Partner(),
+  ];
 
   //监听
   @override
@@ -99,7 +103,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    Widget bodyBuider = tabIndex == 0 ? Trip() : Text('MAP');
     // 设置屏幕适配插件
     ScreenUtil.init(context, width: 1080, height: 1920);
 

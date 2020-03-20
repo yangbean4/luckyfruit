@@ -148,6 +148,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取用户的Partner信息
+  Future<Map<String, dynamic>> getPartnerListInfo(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Partner/getInfo', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

@@ -184,7 +184,7 @@ class _TripState extends State<Trip>
                                                 builder: (_, User user, __) {
                                                   return Text(
                                                     // 'LV.${_selectorUse.level}',
-                                                    user.nickname,
+                                                    user?.nickname ?? "",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontFamily:

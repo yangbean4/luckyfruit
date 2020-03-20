@@ -1,10 +1,13 @@
 export 'levelRoule.dart' ; 
 export 'rank_friends.dart' ; 
 export 'reward.dart' ; 
+export 'partnerWrap.dart' ; 
+export 'partnerSubordinateItem.dart' ; 
 export 'ranklist.dart' ; 
 export 'drawInfo.dart' ; 
 export 'Issued.dart' ; 
 export 'userInfo.dart' ; 
 export 'rank_bonus_trees.dart' ; 
+export 'partnerSubordinateList.dart' ; 
 export 'user.dart' ; 
 export 'sign.dart' ; 
