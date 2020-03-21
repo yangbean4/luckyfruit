@@ -122,6 +122,9 @@ class PartnerState extends State<Partner> {
         "indirect_profit": 20,
         "total_profit": 30,
         "friends_total": 25,
+        "fb_no_login_all_profit": 199,
+        "fb_login_today_profit": 299,
+        "fb_login_history_profit": 39,
         "superior": {
             "avatar": "http://hbimg.huabanimg.com/1a8606097dc7697aa4061ad48353f2800c20820877cbc-czt9tg_fw236",
             "name": "superior name",
@@ -185,7 +188,8 @@ class PartnerState extends State<Partner> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SecondaryText("Number of friends: 200"),
+                            SecondaryText(
+                                "Number of friends: ${_partnerWrap?.friends_total}"),
                             SizedBox(
                               width: ScreenUtil().setWidth(100),
                             ),
@@ -219,8 +223,7 @@ class PartnerState extends State<Partner> {
                                     padding: EdgeInsets.only(
                                         left: ScreenUtil().setWidth(45),
                                         top: ScreenUtil().setWidth(30),
-                                        bottom: ScreenUtil().setWidth(30)
-                                        ),
+                                        bottom: ScreenUtil().setWidth(30)),
                                     child: Image.asset(
                                       "assets/image/partner_right_arrow_icon.png",
                                       width: ScreenUtil().setWidth(20),
@@ -260,7 +263,7 @@ class PartnerState extends State<Partner> {
                           child: RichText(
                             text: TextSpan(
                               text:
-                                  "the number of friends who have logged in facebook is 10 people, those people earned ",
+                                  "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
                               style: TextStyle(
                                   fontSize: ScreenUtil().setWidth(30),
                                   color: Color(0xFF7C7C7C),
@@ -268,7 +271,8 @@ class PartnerState extends State<Partner> {
                                   fontWeight: FontWeight.w400),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: " \$30 ",
+                                    text:
+                                        " \$${_partnerWrap?.fb_no_login_all_profit}",
                                     style: TextStyle(
                                         fontSize: ScreenUtil().setWidth(50),
                                         fontFamily: FontFamily.bold,
@@ -276,7 +280,7 @@ class PartnerState extends State<Partner> {
                                         color: Color(0xFFFF4C2F))),
                                 TextSpan(
                                     text:
-                                        'for you, inform them  logging in facebook to get those cash.',
+                                        ' for you, inform them  logging in facebook to get those cash.',
                                     style: TextStyle(
                                         fontSize: ScreenUtil().setWidth(30),
                                         color: Color(0xFF7C7C7C),
@@ -341,7 +345,7 @@ class PartnerState extends State<Partner> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   ModalTitle(
-                                    "\$10.00",
+                                    "\$${_partnerWrap?.fb_login_history_profit}",
                                     color: Color(0xFFFF4C2F),
                                   ),
                                   Text(
@@ -417,7 +421,7 @@ class PartnerState extends State<Partner> {
                             height: ScreenUtil().setWidth(20),
                           ),
                           Text(
-                              "the number of friends who have logged in facebook is 10 people, those people earned ",
+                              "20% unlocked. Earnings over \$50 will be applied to your account automatically and enter to the next level.",
                               style: TextStyle(
                                   fontSize: ScreenUtil().setWidth(30),
                                   color: Color(0xFF7C7C7C),
@@ -466,7 +470,7 @@ class PartnerState extends State<Partner> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           ModalTitle(
-                                            "\$15.13",
+                                            "\$${_partnerWrap?.direct_profit??0 + _partnerWrap?.indirect_profit??0}",
                                             color: Color(0xFFFF4C2F),
                                           ),
                                           Text(
@@ -488,7 +492,7 @@ class PartnerState extends State<Partner> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           ModalTitle(
-                                            "\$8.13",
+                                            "\$${_partnerWrap?.direct_profit}",
                                           ),
                                           Text(
                                             "Direct friend contribution",
@@ -509,7 +513,7 @@ class PartnerState extends State<Partner> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           ModalTitle(
-                                            "\$7.00",
+                                            "\$${_partnerWrap?.indirect_profit}",
                                           ),
                                           Text(
                                             "Indirect friend contributions",
@@ -556,7 +560,8 @@ class PartnerState extends State<Partner> {
                                     children: <Widget>[
                                       ClipOval(
                                         child: Image.network(
-                                          "http://hbimg.huabanimg.com/1a8606097dc7697aa4061ad48353f2800c20820877cbc-czt9tg_fw236",
+                                          // TODO 头像判空,增加默认头像
+                                          _partnerWrap?.superior?.avatar,
                                           width: ScreenUtil().setWidth(180),
                                           height: ScreenUtil().setWidth(180),
                                           fit: BoxFit.cover,
@@ -578,7 +583,8 @@ class PartnerState extends State<Partner> {
                                                     fontWeight: FontWeight.w400,
                                                     color: Color(0xFF7C7C7C))),
                                             TextSpan(
-                                                text: '\$15.0',
+                                                text:
+                                                    '\$${_partnerWrap?.superior?.today_profit}',
                                                 style: TextStyle(
                                                     fontSize: ScreenUtil()
                                                         .setWidth(50),
@@ -594,11 +600,4 @@ class PartnerState extends State<Partner> {
                               ])),
                     ]))));
   }
-}
-
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments(this.title, this.message);
 }

@@ -16,4 +16,5 @@ export 'partnerProfitList.dart' ;
 export 'partnerSubordinateList.dart' ; 
 export 'user.dart' ; 
 export 'sign.dart' ; 
+export 'partnerSuperiorItem.dart' ; 
 export 'personalInfo.dart' ; 

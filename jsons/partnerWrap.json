@@ -1,8 +1,12 @@
 {
     "friends": "$partnerSubordinateList",
+    "superior":"$partnerSuperiorItem",
     "fb_no_login": 5,
     "direct_profit": 0,
     "indirect_profit": 0,
     "total_profit": 0,
-    "friends_total": 5
+    "friends_total": 5,
+    "fb_no_login_all_profit": 0,
+    "fb_login_today_profit": 0,
+    "fb_login_history_profit": 0
 }
