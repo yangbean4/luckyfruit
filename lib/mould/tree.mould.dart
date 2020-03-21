@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:luckyfruit/config/app.dart';
 
 class TreePoint {
   // 水平位置
@@ -22,9 +23,21 @@ class Tree extends TreePoint {
       int y,
       this.type,
       this.recycleMoney,
+      this.amount,
+      this.duration = 200,
       this.showCountDown = false})
-      : super(x: x, y: y);
+      // 要求传 amount的 时候 type必须为分红树
+      // 有倒计时时必须是分红树
+      : assert(
+            amount == null || (amount != null && type == TreeType.Type_BONUS)),
+        assert(showCountDown == false ||
+            (showCountDown && type == TreeType.Type_BONUS)),
+        super(x: x, y: y);
 
+// 分红树倒计时时长
+  int duration;
+  // 分红树 多少钱
+  double amount;
   // 等级
   int grade;
   // 该等级生产的次数
@@ -79,25 +92,4 @@ class Tree extends TreePoint {
         'recycleMoney': this.recycleMoney,
         'grade': this.grade,
       };
-}
-
-class TreeType {
-  /// 芒果树
-  static const Type_Mango = "mango";
-
-  /// 许愿树
-  static const Type_Wishing = "wishing";
-
-  /// 啤酒花雄树
-  static const Type_Hops_Male = "hops_male";
-
-  /// 啤酒花雌树
-  static const Type_Hops_Female = "hops_female";
-
-  /// 五洲树
-  static const Type_Continents_Asian = "continents_asian";
-  static const Type_Continents_African = "continents_african";
-  static const Type_Continents_American = "continents_american";
-  static const Type_Continents_European = "continents_european";
-  static const Type_Continents_Oceania = "continents_oceania";
 }

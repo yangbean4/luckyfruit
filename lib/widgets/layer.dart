@@ -637,7 +637,7 @@ class Layer {
               "Get \$ 0.51 in 5mins through the Limited time bouns tree"),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
-            child: ModalTitle('\$0.51', color: MyTheme.primaryColor),
+            child: ModalTitle('\$${tree.amount}', color: MyTheme.primaryColor),
           )
         ]).show();
   }

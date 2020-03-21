@@ -451,8 +451,8 @@ class __MapPrizeState extends State<_MapPrize> {
   }
 
   _runEnd() {
-    TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
-    tourismMap.openCityBox(server);
+    // TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
+    // tourismMap.openCityBox(server);
     widget.modal.hide();
   }
 

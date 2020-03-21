@@ -10,6 +10,8 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/config/app.dart';
 
 class TourismMap with ChangeNotifier {
   static const int MAX_LEVEL = 50;
@@ -89,18 +91,26 @@ class TourismMap with ChangeNotifier {
       'is_full': _treeGroup.isFull ? 1 : 0
     });
     if (ajax != null) {
-      // 种树
-    }
-    return ajax == null;
-  }
-
-  // 打开宝箱 领奖
-  openCityBox(int type) {
-    if (type == 1) {
+      _treeGroup.addTree(
+          tree: Tree(
+        grade: Tree.MAX_LEVEL,
+        type: TreeType.Type_BONUS,
+        duration: ajax['duration'],
+        amount: ajax['amount'],
+      ));
+    } else {
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);
     }
     getDeblokCityList();
+
+    return ajax == null;
   }
+
+  // // 打开宝箱 领奖
+  // openCityBox(int type) {
+  //   if (type == 1) {
+  //   }
+  // }
 
   levelUp() {
     Map<String, dynamic> data = {

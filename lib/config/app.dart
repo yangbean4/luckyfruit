@@ -41,3 +41,27 @@ class App {
   static const String METHOD_CHANNEL = "com.xyjy.flutterchannel/method";
   static const String EVENT_CHANNEL = "com.xyjy.flutterchannel/event";
 }
+
+class TreeType {
+  /// 芒果树
+  static const Type_Mango = "mango";
+
+  /// 许愿树
+  static const Type_Wishing = "wishing";
+
+  /// 啤酒花雄树
+  static const Type_Hops_Male = "hops_male";
+
+  /// 啤酒花雄树
+  static const Type_BONUS = "hops_male";
+
+  /// 啤酒花雌树
+  static const Type_Hops_Female = "hops_female";
+
+  /// 五洲树
+  static const Type_Continents_Asian = "continents_asian";
+  static const Type_Continents_African = "continents_african";
+  static const Type_Continents_American = "continents_american";
+  static const Type_Continents_European = "continents_european";
+  static const Type_Continents_Oceania = "continents_oceania";
+}

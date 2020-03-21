@@ -86,7 +86,7 @@ class TreeWidget extends StatelessWidget {
                 top: ScreenUtil().setWidth(0),
                 right: ScreenUtil().setWidth(0),
                 child: CountdownFormatted(
-                    duration: Duration(seconds: 20),
+                    duration: Duration(seconds: tree.duration),
                     onFinish: () {
                       print("限时分红树倒计时完成");
                       Layer.limitedTimeBonusTreeEndUp(context, tree);
