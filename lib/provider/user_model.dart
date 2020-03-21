@@ -30,12 +30,17 @@ class UserModel with ChangeNotifier {
   }
 
   Future<PersonalInfo> getPersonalInfo() async {
-    dynamic userMap =
-        await Service().getPersonalInfo({"acct_id": value.acct_id});
-    PersonalInfo personalInfo = PersonalInfo.fromJson(userMap);
-    _personalInfo = personalInfo;
-    notifyListeners();
-    return personalInfo;
+    if (_personalInfo != null) {
+      // 有就直接返回
+      return Future.value(_personalInfo);
+    } else {
+      dynamic userMap =
+          await Service().getPersonalInfo({"acct_id": value.acct_id});
+      PersonalInfo personalInfo = PersonalInfo.fromJson(userMap);
+      _personalInfo = personalInfo;
+      notifyListeners();
+      return personalInfo;
+    }
   }
 
   /// 获取用户信息

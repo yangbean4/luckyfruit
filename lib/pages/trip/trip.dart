@@ -11,7 +11,6 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 
 import './trip_btns/trip_btns.dart';

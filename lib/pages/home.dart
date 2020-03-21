@@ -6,7 +6,9 @@ import './trip/trip.dart';
 import '../theme/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/pages/map/map.dart' show MapPage;
+import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
+import 'package:luckyfruit/pages/partner/partner.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -17,7 +19,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   BottomNavigationBar bottomBar;
+  int tabIndex = 0;
+  List<Widget> pageList = [Trip(), MapPage(), Partner(), MinePage()];
 
+  final pageController = PageController();
   //监听
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -37,6 +42,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this); // 移除监听器
     super.dispose();
+  }
+
+  void onPageChanged(int index) {
+    setState(() {
+      tabIndex = index;
+    });
   }
 
   BottomNavigationBarItem _createBarItem(
@@ -86,13 +97,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             activeIconUrl: 'assets/image/mine_active.png',
             name: 'MINE'),
       ],
-      currentIndex: 0,
-      onTap: (int index) {
-        String path = index == 1 ? 'map' : index == 2 ? 'partner' : 'mine';
-        if (index != 0) {
-          MyNavigator().pushNamed(context, path);
-        }
-      },
+      currentIndex: this.tabIndex,
+      onTap: (int index) => pageController.jumpToPage(index),
     );
   }
 
@@ -102,8 +108,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     ScreenUtil.init(context, width: 1080, height: 1920);
 
     return Scaffold(
-      // 通过IndexedStack 保持页面状态
-      body: Trip(),
+      // 通过IndexedStack 保持页面状态 但是会所有页面都初始化 so: pass
+      // body: IndexedStack(
+      //   children: pageList,
+      //   index: tabIndex,
+      // ),
+      body: PageView(
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: pageList,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _createBottomBar(),
     );

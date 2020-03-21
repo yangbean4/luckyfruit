@@ -18,12 +18,12 @@ final routes = {
   'RankPage': (context) => RankPage(),
   'Dividend': (context) => Dividend(),
   'map': (context) => MapPage(),
-  'mine': (context) => MinePage(),
   'partner': (context) => Partner(),
   'InvitatioinPage': (context, {arguments}) => InvitationRecordListPage(
         partnerSubordinateList: arguments,
       ),
   'PartnerProfit': (context) => PartnerProfitPageWidget(),
+  'mine': (context) => MinePage(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {
