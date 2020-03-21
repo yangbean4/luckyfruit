@@ -28,8 +28,8 @@ void main() {
         userModel.value?.acct_id);
     treeGroup.init(moneyGroup, luckyGroup, userModel.value?.acct_id);
     moneyGroup.init(treeGroup, userModel.value?.acct_id);
-    tourismMap.init(moneyGroup, luckyGroup, userModel.value?.level ?? '1',
-        userModel.value?.acct_id);
+    tourismMap.init(moneyGroup, luckyGroup, treeGroup,
+        userModel.value?.level ?? '1', userModel.value?.acct_id);
   });
 
   runApp(MultiProvider(

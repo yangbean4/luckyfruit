@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:dio/adapter.dart';
+// import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/models/index.dart';
+// import 'package:luckyfruit/models/index.dart';
 
 class Service {
   static final Service _instance = Service._internal();
@@ -183,6 +183,16 @@ class Service {
     return response.data;
   }
 
+  Future<List> getDeblokCityList(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/deblokCity', data: data);
+    return response.data['data'];
+  }
+
+  Future<Map<String, dynamic>> unlockNewCity(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Reward/unlockNewCity', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
@@ -222,7 +232,7 @@ class Service {
       //   res.data = json.decode(res.data);
       // }
       print('请求路径:${request.path}');
-      print('请求参数:${request.data}');
+      print('请求��数:${request.data}');
       print('返回数据：${res.data}');
 
       Map<String, dynamic> a = res.data;
@@ -232,7 +242,7 @@ class Service {
       }
       return res;
     }, onError: (DioError e) {
-      print('发生错误：' + e.message);
+      print('发生错误���' + e.message);
       print('请求路径:${e.request.path}');
       print('请求参数:${e.request.data}');
 

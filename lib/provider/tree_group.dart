@@ -101,6 +101,9 @@ class TreeGroup with ChangeNotifier {
   // Tree列表
   List<Tree> _treeList = [];
   List<Tree> get treeList => _treeList;
+// 是否是满的
+  bool get isFull => _findFirstEmty() == null;
+  // treeList.length == GameConfig.Y_AMOUNT * GameConfig.X_AMOUNT;
 
   // 仓库中的树
   List<Tree> _warehouseTreeList = [];

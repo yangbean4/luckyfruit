@@ -24,6 +24,7 @@ class Issued {
     num balloon_time;
     num balloon_remain_time;
     num coin_award;
+    num box_time;
     
     factory Issued.fromJson(Map<String,dynamic> json) => _$IssuedFromJson(json);
     Map<String, dynamic> toJson() => _$IssuedToJson(this);

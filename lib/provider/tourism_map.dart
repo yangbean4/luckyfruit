@@ -3,7 +3,9 @@ import 'dart:math';
 
 import './money_group.dart';
 import './lucky_group.dart';
-import 'package:luckyfruit/models/index.dart' show LevelRoule, CityInfo;
+import './tree_group.dart';
+import 'package:luckyfruit/models/index.dart'
+    show LevelRoule, CityInfo, DeblokCity;
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -16,11 +18,15 @@ class TourismMap with ChangeNotifier {
   // 对TreeGroup Provider引用
   MoneyGroup moneyGroup;
   LuckyGroup _luckyGroup;
+  TreeGroup _treeGroup;
   String _acct_id;
   TourismMap();
   double _allgold;
   // 是否已经init
   bool _hasInit = false;
+// 解锁城市奖励金币
+  num get boxMoney =>
+      (_luckyGroup.issed?.box_time ?? 200) * moneyGroup.makeGoldSped;
 
   //当前金币总数
   double get goldNum => moneyGroup?.allgold ?? 0;
@@ -46,7 +52,13 @@ class TourismMap with ChangeNotifier {
 
   List<CityInfo> get cityInfoList => _luckyGroup.cityInfoList;
 
+// 获取已解锁城市列表
+  List<DeblokCity> _deblokCityList;
+  List<DeblokCity> get deblokCityList => _deblokCityList;
+
   String _cityId = '1';
+
+  String get cityId => _cityId;
 
   CityInfo get cityInfo => cityInfoList.firstWhere((c) => c.id == _cityId,
       orElse: () => cityInfoList[0]);
@@ -62,6 +74,34 @@ class TourismMap with ChangeNotifier {
 
   String get manImgSrc => 'assets/city/$city/man.png';
 
+// 获取已经解锁的城市列表
+  Future<List<DeblokCity>> getDeblokCityList() async {
+    List cityJson = await Service().getDeblokCityList({'acct_id': _acct_id});
+    _deblokCityList = (cityJson).map((e) => DeblokCity.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+// 解锁新的城市 查询是否中限时分红树
+  Future<bool> goDeblokCity() async {
+    Map ajax = await Service().unlockNewCity({
+      'acct_id': _acct_id,
+      'city': _cityId,
+      'is_full': _treeGroup.isFull ? 1 : 0
+    });
+    if (ajax != null) {
+      // 种树
+    }
+    return ajax == null;
+  }
+
+  // 打开宝箱 领奖
+  openCityBox(int type) {
+    if (type == 1) {
+      EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);
+    }
+    getDeblokCityList();
+  }
+
   levelUp() {
     Map<String, dynamic> data = {
       'acct_id': _acct_id,
@@ -73,19 +113,20 @@ class TourismMap with ChangeNotifier {
       _cityId = (int.parse(_level) / TourismMap.LEVEL_SPLIT + 1).toString();
 
       data['deblock_city'] = _cityId;
-
-      // 抽奖弹窗
-      MapPrizeModal().show();
       notifyListeners();
+      // 先触发更新 保证在弹窗中显示的是新城市
+      // 抽奖弹窗
+      MapPrizeModal().show(cityInfo);
     }
     Service().saveMoneyInfo(data);
   }
 
-  void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, String level,
-      String acct_id) {
+  void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,
+      String level, String acct_id) {
     _acct_id = acct_id;
     moneyGroup = _moneyGroup;
     _luckyGroup = luckyGroup;
+    _treeGroup = treeGroup;
     _level = level;
     _hasInit = true;
     notifyListeners();

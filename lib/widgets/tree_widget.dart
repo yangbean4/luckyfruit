@@ -31,7 +31,7 @@ class TreeWidget extends StatelessWidget {
       this.labelHeight,
       this.label,
       this.tree,
-      this.primary,
+      this.primary = true,
       this.showCountDown = false,
       this.image})
       : super(key: key);

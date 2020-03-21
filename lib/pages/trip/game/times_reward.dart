@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/secondary_text.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 
