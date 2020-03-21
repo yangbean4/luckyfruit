@@ -175,6 +175,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取好友每日贡献收益记录
+  Future<Map<String, dynamic>> getPartnerProfitListInfo(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Partner/getPartnerProfit', data: data);
+    return response.data;
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

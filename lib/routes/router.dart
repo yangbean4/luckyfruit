@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:luckyfruit/pages/illustration/illustration.dart';
+import 'package:luckyfruit/pages/partner/invitation_record.dart';
+import 'package:luckyfruit/pages/partner/partner_profit_page.dart';
 import '../pages/Home.dart';
 import '../pages/rank_page.dart';
 import 'package:luckyfruit/pages/trip/dividend.dart';
@@ -18,6 +20,10 @@ final routes = {
   'map': (context) => MapPage(),
   'mine': (context) => MinePage(),
   'partner': (context) => Partner(),
+  'InvitatioinPage': (context, {arguments}) => InvitationRecordListPage(
+        partnerSubordinateList: arguments,
+      ),
+  'PartnerProfit': (context) => PartnerProfitPageWidget(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

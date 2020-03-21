@@ -276,7 +276,14 @@ class RankPageState extends State<RankPage>
       body: TabBarView(
         controller: _tabController,
         children: !enableToShow
-            ? List<Widget>.from([SizedBox(), SizedBox()])
+            ? List<Widget>.from([
+                Center(
+                  child: Text("Loading..."),
+                ),
+                Center(
+                  child: Text("Loading..."),
+                )
+              ])
             : List<Widget>.from([
                 ListView.separated(
                     itemCount: friendsList?.length,
@@ -356,7 +363,9 @@ class RankPageState extends State<RankPage>
                           ));
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(height: 1,)),
+                        const Divider(
+                          height: 1,
+                        )),
 
                 // 第二个tab
                 ListView.separated(

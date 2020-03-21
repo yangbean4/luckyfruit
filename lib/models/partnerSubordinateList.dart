@@ -6,9 +6,9 @@ part 'partnerSubordinateList.g.dart';
 class PartnerSubordinateList {
     PartnerSubordinateList();
 
-    PartnerSubordinateItem lower1;
-    PartnerSubordinateItem lower2;
-    PartnerSubordinateItem pending;
+    List<PartnerSubordinateItem> lower1;
+    List<PartnerSubordinateItem> lower2;
+    List<PartnerSubordinateItem> pending;
     
     factory PartnerSubordinateList.fromJson(Map<String,dynamic> json) => _$PartnerSubordinateListFromJson(json);
     Map<String, dynamic> toJson() => _$PartnerSubordinateListToJson(this);

@@ -9,18 +9,21 @@ part of 'partnerSubordinateList.dart';
 PartnerSubordinateList _$PartnerSubordinateListFromJson(
     Map<String, dynamic> json) {
   return PartnerSubordinateList()
-    ..lower1 = json['lower1'] == null
-        ? null
-        : PartnerSubordinateItem.fromJson(
-            json['lower1'] as Map<String, dynamic>)
-    ..lower2 = json['lower2'] == null
-        ? null
-        : PartnerSubordinateItem.fromJson(
-            json['lower2'] as Map<String, dynamic>)
-    ..pending = json['pending'] == null
-        ? null
-        : PartnerSubordinateItem.fromJson(
-            json['pending'] as Map<String, dynamic>);
+    ..lower1 = (json['lower1'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PartnerSubordinateItem.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..lower2 = (json['lower2'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PartnerSubordinateItem.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..pending = (json['pending'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PartnerSubordinateItem.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$PartnerSubordinateListToJson(
