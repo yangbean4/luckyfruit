@@ -5,6 +5,7 @@ export 'reward.dart' ;
 export 'partnerWrap.dart' ; 
 export 'partnerSubordinateItem.dart' ; 
 export 'ranklist.dart' ; 
+export 'cityInfo.dart' ; 
 export 'drawInfo.dart' ; 
 export 'Issued.dart' ; 
 export 'userInfo.dart' ; 

@@ -3,12 +3,16 @@ import 'dart:math';
 
 import './money_group.dart';
 import './lucky_group.dart';
-import 'package:luckyfruit/models/index.dart' show LevelRoule;
+import 'package:luckyfruit/models/index.dart' show LevelRoule, CityInfo;
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
 
 class TourismMap with ChangeNotifier {
+  static const int MAX_LEVEL = 50;
+  // 1个城市对应多少等级
+  static const int LEVEL_SPLIT = 5;
   // 对TreeGroup Provider引用
   MoneyGroup moneyGroup;
   LuckyGroup _luckyGroup;
@@ -40,6 +44,13 @@ class TourismMap with ChangeNotifier {
       ? 0
       : ((_allgold * 100) ~/ levelUpUse) / 100;
 
+  List<CityInfo> get cityInfoList => _luckyGroup.cityInfoList;
+
+  String _cityId = '1';
+
+  CityInfo get cityInfo => cityInfoList.firstWhere((c) => c.id == _cityId,
+      orElse: () => cityInfoList[0]);
+
   // 当前城市
   String _city = 'hawaii';
 
@@ -52,8 +63,22 @@ class TourismMap with ChangeNotifier {
   String get manImgSrc => 'assets/city/$city/man.png';
 
   levelUp() {
-    Service()
-        .saveMoneyInfo({'acct_id': _acct_id, '_allgold': 0, 'level': _level});
+    Map<String, dynamic> data = {
+      'acct_id': _acct_id,
+      '_allgold': 0,
+      'level': _level
+    };
+    if (int.parse(_level) % (TourismMap.LEVEL_SPLIT) == 0) {
+      // 解锁城市
+      _cityId = (int.parse(_level) / TourismMap.LEVEL_SPLIT + 1).toString();
+
+      data['deblock_city'] = _cityId;
+
+      // 抽奖弹窗
+      MapPrizeModal().show();
+      notifyListeners();
+    }
+    Service().saveMoneyInfo(data);
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, String level,
@@ -68,7 +93,7 @@ class TourismMap with ChangeNotifier {
     // 金币增加检查是否升级
     EVENT_BUS.on(MoneyGroup.ADD_ALL_GOLD, (allgold) {
       _allgold = allgold;
-      if (goldNum > levelUpUse) {
+      if (goldNum > levelUpUse && int.parse(_level) < TourismMap.MAX_LEVEL) {
         _level = (int.parse(_level) + 1).toString();
         levelUp();
 
@@ -84,7 +109,6 @@ class TourismMap with ChangeNotifier {
             onOk: () {
               EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
             });
-        // TODO: 调用接口保存等级数据
       }
 
       notifyListeners();

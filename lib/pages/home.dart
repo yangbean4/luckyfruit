@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/pages/partner/partner.dart';
 
 import './trip/trip.dart';
 import '../theme/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -17,12 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   BottomNavigationBar bottomBar;
-  int tabIndex = 0;
-  List<Widget> pageList = [
-    Trip(),
-    Text("map"),
-    Partner(),
-  ];
 
   //监听
   @override
@@ -92,11 +86,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             activeIconUrl: 'assets/image/mine_active.png',
             name: 'MINE'),
       ],
-      currentIndex: this.tabIndex,
+      currentIndex: 0,
       onTap: (int index) {
-        setState(() {
-          this.tabIndex = index;
-        });
+        String path = index == 1 ? 'map' : index == 2 ? 'partner' : 'mine';
+        if (index != 0) {
+          MyNavigator().pushNamed(context, path);
+        }
       },
     );
   }
@@ -108,10 +103,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
     return Scaffold(
       // 通过IndexedStack 保持页面状态
-      body: IndexedStack(
-        children: pageList,
-        index: tabIndex,
-      ),
+      body: Trip(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _createBottomBar(),
     );

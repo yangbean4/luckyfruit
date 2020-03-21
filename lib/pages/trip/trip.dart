@@ -38,6 +38,14 @@ class _TripState extends State<Trip>
     with MyNavigator, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('Trip--initState-');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(

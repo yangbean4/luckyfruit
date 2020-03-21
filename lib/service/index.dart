@@ -97,6 +97,12 @@ class Service {
     return response.data['data'];
   }
 
+// 获取城市图配置
+  Future<List> getcityList(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Deployinfo/cityList', data: data);
+    return response.data['data'];
+  }
+
   // 获取用户升级金币数据相关
   Future<Map<String, dynamic>> getDrawInfo(Map<String, dynamic> data) async {
     Response response = await _client.post('/Draw/info', data: data);

@@ -4,6 +4,9 @@ import 'package:luckyfruit/pages/illustration/illustration.dart';
 import '../pages/Home.dart';
 import '../pages/rank_page.dart';
 import 'package:luckyfruit/pages/trip/dividend.dart';
+import 'package:luckyfruit/pages/map/map.dart' show MapPage;
+import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
+import 'package:luckyfruit/pages/partner/partner.dart';
 
 final routes = {
   'Home': (context) => Home(),
@@ -12,7 +15,9 @@ final routes = {
   '404': (context) => Text("404"),
   'RankPage': (context) => RankPage(),
   'Dividend': (context) => Dividend(),
-  // schedule 五边形页面
+  'map': (context) => MapPage(),
+  'mine': (context) => MinePage(),
+  'partner': (context) => Partner(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

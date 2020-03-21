@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:luckyfruit/models/index.dart' show LevelRoule, Issued, DrawInfo;
+import 'package:luckyfruit/models/index.dart'
+    show LevelRoule, Issued, DrawInfo, CityInfo;
 import 'package:luckyfruit/provider/tree_group.dart';
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -22,6 +23,11 @@ class LuckyGroup with ChangeNotifier {
   // 存储 手机抽奖 version 的key
   static const String CACHE_DRAW_INFO_VERSION = 'CACHE_DRAW_INFO_VERSION';
 
+  // 存储 城市图配置 的key
+  static const String CACHE_CITY_INFO = 'CACHE_CITY_INFO';
+  // 存储 城市图配置 version 的key
+  static const String CACHE_CITY_INFO_VERSION = 'CACHE_CITY_INFO_VERSION';
+
   // 存储 Issued 的key
   static const String CACHE_DEPLY = 'CACHE_DEPLY';
   // 存储 Issued version 的key
@@ -37,6 +43,9 @@ class LuckyGroup with ChangeNotifier {
   // 等级数据
   List<LevelRoule> _levelRouleList;
   List<LevelRoule> get levelRouleList => _levelRouleList;
+
+  List<CityInfo> _cityInfoList;
+  List<CityInfo> get cityInfoList => _cityInfoList;
 
   DrawInfo _drawInfo;
   DrawInfo get drawInfo => _drawInfo;
@@ -166,6 +175,16 @@ class LuckyGroup with ChangeNotifier {
               ajax: Service().getDrawInfo)
           .then((issuedJson) {
         _drawInfo = DrawInfo.fromJson(issuedJson);
+      }),
+      // 城市图配置
+      checkVersion(
+              cacheKey: LuckyGroup.CACHE_CITY_INFO,
+              cacheVersionKey: LuckyGroup.CACHE_CITY_INFO_VERSION,
+              version: configVersion,
+              ajax: Service().getcityList)
+          .then((issuedJson) {
+        _cityInfoList =
+            (issuedJson as List).map((e) => CityInfo.fromJson(e)).toList();
       }),
     ]);
     // 等所有的请求结束,通知更新

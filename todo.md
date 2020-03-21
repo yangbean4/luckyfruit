@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-03-13 10:05:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-03-20 14:59:19
+ * @LastEditTime: 2020-03-20 20:32:32
  -->
 
 - 界面
@@ -43,7 +43,7 @@
 3.20
   - 手机碎片抽奖时的金币处理 UI更新 -bean
   - 分红树 对接 -bonan
-  - get it 页面 0.5 --bean
+  - ~~get it 页面~~ 0.5 --bean
   - Partner页面 + 收入/好友 明细 2.5 -bonan
   - map 我的全球分红树 +解锁城市+ 弹窗 +玩法介绍 -1.5 --bean
   - mine 消息中心 明细 - 1 -bean
