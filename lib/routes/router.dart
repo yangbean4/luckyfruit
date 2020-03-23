@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:luckyfruit/pages/illustration/illustration.dart';
+import 'package:luckyfruit/pages/mine/widthdraw.dart';
 import 'package:luckyfruit/pages/partner/invitation_record.dart';
 import 'package:luckyfruit/pages/partner/partner_profit_page.dart';
 import '../pages/Home.dart';
@@ -25,6 +26,7 @@ final routes = {
         partnerSubordinateList: arguments,
       ),
   'PartnerProfit': (context) => PartnerProfitPageWidget(),
+  'WithDrawPage': (context, {arguments}) => WithDrawPage(amount:arguments),
   'mine': (context) => MinePage(),
   'message': (context) => MessagePage(),
   'records': (context) => RecordsPage(),

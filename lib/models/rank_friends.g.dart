@@ -14,7 +14,7 @@ Rank_friends _$Rank_friendsFromJson(Map<String, dynamic> json) {
     ..avatar = json['avatar'] as String
     ..amount = json['amount'] as String
     ..separate_amount = json['separate_amount'] as String
-    ..hasTree = json['hasTree'] as num;
+    ..tree_num = json['tree_num'] as num;
 }
 
 Map<String, dynamic> _$Rank_friendsToJson(Rank_friends instance) =>
@@ -25,5 +25,5 @@ Map<String, dynamic> _$Rank_friendsToJson(Rank_friends instance) =>
       'avatar': instance.avatar,
       'amount': instance.amount,
       'separate_amount': instance.separate_amount,
-      'hasTree': instance.hasTree
+      'tree_num': instance.tree_num
     };

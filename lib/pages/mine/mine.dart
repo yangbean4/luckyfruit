@@ -109,6 +109,12 @@ class _MinePageState extends State<MinePage> {
                                 title: 'My wallet',
                                 hasArrow: true,
                                 border: true,
+                                onTap: () {
+                                  MyNavigator().pushNamed(
+                                    context,
+                                    "WithDrawPage",arguments: amount
+                                  );
+                                },
                                 rightText: '\$${amount}',
                                 onTap: () =>
                                     MyNavigator().pushNamed(context, 'records'),

@@ -32,7 +32,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -40,7 +40,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -48,7 +48,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -56,7 +56,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -64,7 +64,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -72,7 +72,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -80,7 +80,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -88,7 +88,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -96,7 +96,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -104,7 +104,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -112,7 +112,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -120,7 +120,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -128,7 +128,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -136,7 +136,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -144,7 +144,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -152,7 +152,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -160,7 +160,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -168,7 +168,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -176,7 +176,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             },{
                 "acct_id": "67",
                 "superior1": "0",
@@ -184,7 +184,7 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
-                "hasTree": 0
+                "tree_num": 0
             }
         ],
         "bounsTrees": [
@@ -350,8 +350,8 @@ class RankPageState extends State<RankPage>
                                   leading: ClipOval(child: avatarWidget),
                                   title: Text(friendsList[index].rela_account),
                                   //TODO 这行描述是否从接口中返回？还是前端写死的？
-                                  subtitle: Text(friendsList[index].hasTree == 1
-                                      ? "A global dividend dog"
+                                  subtitle: Text(friendsList[index].tree_num > 0
+                                      ? "${friendsList[index].tree_num} global dividend tree(s)"
                                       : "No global dividend dog"),
                                 ),
                               ),

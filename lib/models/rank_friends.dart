@@ -12,7 +12,7 @@ class Rank_friends {
     String avatar;
     String amount;
     String separate_amount;
-    num hasTree;
+    num tree_num;
     
     factory Rank_friends.fromJson(Map<String,dynamic> json) => _$Rank_friendsFromJson(json);
     Map<String, dynamic> toJson() => _$Rank_friendsToJson(this);
