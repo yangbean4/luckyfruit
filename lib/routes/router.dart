@@ -9,6 +9,8 @@ import 'package:luckyfruit/pages/trip/dividend.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
+import 'package:luckyfruit/pages/mine/message.dart';
+import 'package:luckyfruit/pages/mine/records.dart';
 
 final routes = {
   'Home': (context) => Home(),
@@ -24,6 +26,8 @@ final routes = {
       ),
   'PartnerProfit': (context) => PartnerProfitPageWidget(),
   'mine': (context) => MinePage(),
+  'message': (context) => MessagePage(),
+  'records': (context) => RecordsPage(),
   // 'chance'
 };
 

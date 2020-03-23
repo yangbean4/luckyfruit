@@ -46,15 +46,20 @@ class _RightBtnsState extends State<RightBtns>
       if (issed?.game_timeLen != null) {
         Future.delayed(Duration(seconds: issed?.game_timeLen)).then((e) {
           luckyGroup.adTimeCheck(Duration(seconds: _issed?.two_adSpace), () {
-            setState(() {
-              showDouble = true;
-            });
+            if (mounted) {
+              setState(() {
+                showDouble = true;
+              });
+            }
+
             // 设置的时间后 隐藏
             Future.delayed(Duration(seconds: issed?.automatic_remain_time))
                 .then((e) {
-              setState(() {
-                showDouble = false;
-              });
+              if (mounted) {
+                setState(() {
+                  showDouble = false;
+                });
+              }
             });
           });
         });
@@ -65,15 +70,20 @@ class _RightBtnsState extends State<RightBtns>
             .then((e) {
           luckyGroup.adTimeCheck(
               Duration(seconds: _issed?.automatic_two_adSpace), () {
-            setState(() {
-              showAuto = true;
-            });
+            if (mounted) {
+              setState(() {
+                showAuto = true;
+              });
+            }
+
             // 设置的时间后 隐藏
             Future.delayed(Duration(seconds: issed?.automatic_remain_time))
                 .then((e) {
-              setState(() {
-                showAuto = false;
-              });
+              if (mounted) {
+                setState(() {
+                  showAuto = false;
+                });
+              }
             });
           });
         });

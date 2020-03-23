@@ -52,8 +52,8 @@ class _AlightingAnimationState extends State<AlightingAnimation>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
