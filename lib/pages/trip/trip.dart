@@ -17,7 +17,7 @@ import './trip_btns/trip_btns.dart';
 import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
 import './other/treasure.dart';
-import 'package:luckyfruit/models/index.dart' show User;
+import 'package:luckyfruit/models/index.dart' show UserInfo;
 
 class _SelectorUse {
   String city;
@@ -188,8 +188,10 @@ class _TripState extends State<Trip>
                                             margin: EdgeInsets.only(
                                               top: ScreenUtil().setWidth(10),
                                             ),
-                                            child: Selector<UserModel, User>(
-                                                builder: (_, User user, __) {
+                                            child: Selector<UserModel,
+                                                    UserInfo>(
+                                                builder:
+                                                    (_, UserInfo user, __) {
                                                   return Text(
                                                     // 'LV.${_selectorUse.level}',
                                                     user?.nickname ?? "",
@@ -206,7 +208,7 @@ class _TripState extends State<Trip>
                                                   );
                                                 },
                                                 selector: (context, provider) =>
-                                                    provider.value),
+                                                    provider.userInfo),
                                           ),
                                           // 等级进度条
                                           Container(

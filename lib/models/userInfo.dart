@@ -12,6 +12,9 @@ class UserInfo {
     num wishTreeNum;
     num phoneNum;
     num sign_times;
+    String nickname;
+    String avatar;
+    String invite_code;
     
     factory UserInfo.fromJson(Map<String,dynamic> json) => _$UserInfoFromJson(json);
     Map<String, dynamic> toJson() => _$UserInfoToJson(this);

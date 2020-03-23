@@ -24,6 +24,7 @@ final routes = {
       ),
   'PartnerProfit': (context) => PartnerProfitPageWidget(),
   'mine': (context) => MinePage(),
+  // 'chance'
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

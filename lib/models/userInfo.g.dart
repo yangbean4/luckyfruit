@@ -13,7 +13,10 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
     ..coin = json['coin'] as String
     ..wishTreeNum = json['wishTreeNum'] as num
     ..phoneNum = json['phoneNum'] as num
-    ..sign_times = json['sign_times'] as num;
+    ..sign_times = json['sign_times'] as num
+    ..nickname = json['nickname'] as String
+    ..avatar = json['avatar'] as String
+    ..invite_code = json['invite_code'] as String;
 }
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -22,5 +25,8 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'coin': instance.coin,
       'wishTreeNum': instance.wishTreeNum,
       'phoneNum': instance.phoneNum,
-      'sign_times': instance.sign_times
+      'sign_times': instance.sign_times,
+      'nickname': instance.nickname,
+      'avatar': instance.avatar,
+      'invite_code': instance.invite_code
     };

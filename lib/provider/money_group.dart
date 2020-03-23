@@ -127,7 +127,7 @@ class MoneyGroup with ChangeNotifier {
 
     String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
     Map<String, dynamic> ajaxData =
-        await Service().getMoneyInfo({'acct_id': accId, 'city': '123'});
+        await Service().getMoneyInfo({'acct_id': accId});
     // 保存数据
     userInfo = UserInfo.fromJson(ajaxData);
 
@@ -176,7 +176,7 @@ class MoneyGroup with ChangeNotifier {
 // 更新userInfo
   updateUserInfo() async {
     Map<String, dynamic> ajaxData =
-        await Service().getMoneyInfo({'acct_id': acct_id, 'city': '123'});
+        await Service().getMoneyInfo({'acct_id': acct_id});
     // 保存数据
     userInfo = UserInfo.fromJson(ajaxData);
   }

@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-03-13 10:05:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-03-20 20:32:32
+ * @LastEditTime: 2020-03-23 15:06:43
  -->
 
 - 界面
@@ -45,8 +45,8 @@
   - 分红树 对接 -bonan
   - ~~get it 页面~~ 0.5 --bean
   - Partner页面 + 收入/好友 明细 2.5 -bonan
-  - map 我的全球分红树 +解锁城市+ 弹窗 +玩法介绍 -1.5 --bean
-  - mine 消息中心 明细 - 1 -bean
+  - ~~map+解锁城市+ 弹窗~~ 我的全球分红树+玩法介绍 -1.5 --bean
+  - ~~mine~~ 消息中心 明细 - 1 -bean
   - 邀请码 0.5 -bean
   - setting 提现  1 -bonan
 

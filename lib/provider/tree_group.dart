@@ -209,7 +209,7 @@ class TreeGroup with ChangeNotifier {
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
     Map<String, dynamic> ajaxData =
-        await Service().getTreeInfo({'acct_id': accId, 'city': '123'});
+        await Service().getTreeInfo({'acct_id': accId});
 
     setTreeGroup(getUseGroup(res, ajaxData['code']));
     EVENT_BUS.emit(TreeGroup.LOAD);
@@ -261,12 +261,8 @@ class TreeGroup with ChangeNotifier {
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(TreeGroup.CACHE_KEY, data);
 
-    await Service().saveTreeInfo({
-      'acct_id': acct_id,
-      'code': data,
-      'city': '123',
-      'last_time': 'last_time'
-    });
+    await Service().saveTreeInfo(
+        {'acct_id': acct_id, 'code': data, 'last_time': 'last_time'});
     // 通知更新
     notifyListeners();
     return saveSuccess;

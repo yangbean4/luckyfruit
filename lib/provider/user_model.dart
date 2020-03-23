@@ -1,12 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import 'package:luckyfruit/models/index.dart' show User, PersonalInfo;
+import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/device_info.dart';
 
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
+
+  UserInfo _userInfo;
+  UserInfo get userInfo => _userInfo;
+
+// 分享链接
+  String _shareLink;
+  String get shareLink => _shareLink;
 
   User _user;
   User get value => _user;
@@ -26,15 +33,27 @@ class UserModel with ChangeNotifier {
       Map<String, dynamic> info = await DeviceIofo.getInfo();
       _user = await getUser(info);
       notifyListeners();
+      getUserInfo();
     }
   }
 
+  // 更新userInfo
+  getUserInfo() async {
+    Map<String, dynamic> ajaxData = await Service().getMoneyInfo({
+      'acct_id': value.acct_id,
+    });
+    // 保存数据
+    _userInfo = UserInfo.fromJson(ajaxData);
+    notifyListeners();
+  }
+
+// // 获取个人中心数据
   Future<PersonalInfo> getPersonalInfo() async {
     if (_personalInfo != null) {
       // 有就直接返回
       return Future.value(_personalInfo);
     } else {
-      dynamic userMap =
+      Map<String, dynamic> userMap =
           await Service().getPersonalInfo({"acct_id": value.acct_id});
       PersonalInfo personalInfo = PersonalInfo.fromJson(userMap);
       _personalInfo = personalInfo;

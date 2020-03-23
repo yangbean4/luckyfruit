@@ -4,5 +4,8 @@
   "coin": "2323.00",
   "wishTreeNum": 0,
   "phoneNum": 4,
-  "sign_times": 0
+  "sign_times": 0,
+  "nickname": "",
+  "avatar": "",
+  "invite_code": "123"
 }
