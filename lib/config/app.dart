@@ -65,3 +65,60 @@ class TreeType {
   static const Type_Continents_European = "continents_european";
   static const Type_Continents_Oceania = "continents_oceania";
 }
+
+/// 放置常量的类
+class Consts {
+  ///partner页面的加速等级对照表
+  static const StageInfoListOfPartner = [
+    [
+      1,
+      1.0,
+      20.0,
+    ],
+    [
+      2,
+      1.1,
+      50.0,
+    ],
+    [
+      3,
+      1.2,
+      100.0,
+    ],
+    [
+      4,
+      1.3,
+      200.0,
+    ],
+    [
+      5,
+      1.4,
+      500.0,
+    ],
+    [
+      6,
+      1.5,
+      1000.0,
+    ],
+    [
+      7,
+      1.6,
+      2000.0,
+    ],
+    [
+      8,
+      1.7,
+      3000.0,
+    ],
+    [
+      9,
+      1.8,
+      4000.0,
+    ],
+    [
+      10,
+      2.0,
+      5000.0,
+    ],
+  ];
+}

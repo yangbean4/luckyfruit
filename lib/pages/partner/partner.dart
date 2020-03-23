@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/partnerWrap.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -124,7 +125,7 @@ class PartnerState extends State<Partner> {
         "friends_total": 25,
         "fb_no_login_all_profit": 199,
         "fb_login_today_profit": 299,
-        "fb_login_history_profit": 39,
+        "fb_login_history_profit": 119,
         "superior": {
             "avatar": "http://hbimg.huabanimg.com/1a8606097dc7697aa4061ad48353f2800c20820877cbc-czt9tg_fw236",
             "name": "superior name",
@@ -135,14 +136,15 @@ class PartnerState extends State<Partner> {
         }
     }
   """;
-
   PartnerWrap _partnerWrap;
   @override
   void initState() {
     super.initState();
 
     getInvitationListInfoData().then((res) {
-      _partnerWrap = res;
+      setState(() {
+        _partnerWrap = res;
+      });
     });
   }
 
@@ -158,17 +160,46 @@ class PartnerState extends State<Partner> {
     return partnerWrap;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    var avatarWidget = ClipOval(
+  List<num> getStateInfoOfPartnerEarning(num history_profit) {
+    if (history_profit == null) {
+      return [0, 0, 0, 0];
+    }
+    int flag = 0;
+
+    for (var i = 0; i < Consts.StageInfoListOfPartner.length; i++) {
+      if (history_profit - Consts.StageInfoListOfPartner[i][2] <= 0) {
+        break;
+      }
+      flag++;
+    }
+    return [
+      Consts.StageInfoListOfPartner[flag][0],
+      Consts.StageInfoListOfPartner[flag][1],
+      Consts.StageInfoListOfPartner[flag][2],
+      history_profit / Consts.StageInfoListOfPartner[flag][2] * 100.0
+    ];
+  }
+
+  Widget getAvatarWidgetListOfFriends(int index) {
+    String imageUrl = "";
+
+    if (_partnerWrap?.friends != null &&
+        index < _partnerWrap.friends.getAvatarListOfFriends().length) {
+      imageUrl = _partnerWrap.friends.getAvatarListOfFriends()[index];
+    }
+
+    return ClipOval(
       child: Image.network(
-        "http://hbimg.huabanimg.com/1a8606097dc7697aa4061ad48353f2800c20820877cbc-czt9tg_fw236",
+        imageUrl,
         width: ScreenUtil().setWidth(100),
         height: ScreenUtil().setWidth(100),
         fit: BoxFit.cover,
       ),
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           //导航栏
@@ -201,14 +232,14 @@ class PartnerState extends State<Partner> {
                                     Positioned(
                                       // width: ScreenUtil().setWidth(100),
                                       left: ScreenUtil().setWidth(120),
-                                      child: avatarWidget,
+                                      child: getAvatarWidgetListOfFriends(0),
                                     ),
                                     Positioned(
                                       left: ScreenUtil().setWidth(60),
-                                      child: avatarWidget,
+                                      child: getAvatarWidgetListOfFriends(1),
                                     ),
                                     Positioned(
-                                      child: avatarWidget,
+                                      child: getAvatarWidgetListOfFriends(2),
                                     ),
                                   ],
                                 )),
@@ -365,10 +396,11 @@ class PartnerState extends State<Partner> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   ModalTitle(
-                                    "\$50.00",
+                                    "\$${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[2]}",
                                   ),
                                   Text(
-                                    "accelerate magnification ratio in stage 2 is 1.1",
+                                    "accelerate magnification ratio in stage ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[0]}" +
+                                        " is ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Color(0XFF7C7C7C),
@@ -397,8 +429,10 @@ class PartnerState extends State<Partner> {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   padding: EdgeInsets.only(right: 4),
-                                  width:
-                                      ScreenUtil().setWidth(860 * (30 / 100)),
+                                  width: ScreenUtil().setWidth(860 *
+                                      (getStateInfoOfPartnerEarning(_partnerWrap
+                                              ?.fb_login_history_profit)[3] /
+                                          100)),
                                   height: ScreenUtil().setWidth(26),
                                   decoration: BoxDecoration(
                                     color: MyTheme.primaryColor,
@@ -407,7 +441,7 @@ class PartnerState extends State<Partner> {
                                             ScreenUtil().setWidth(13))),
                                   ),
                                   child: Text(
-                                    '30%',
+                                    '${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[3]}%',
                                     style: TextStyle(
                                         fontFamily: FontFamily.bold,
                                         color: Colors.white,
@@ -456,9 +490,36 @@ class PartnerState extends State<Partner> {
                                 children: [
                                   // 第一行
                                   SecondaryText("Partner help me earnings"),
-                                  SizedBox(
-                                    height: ScreenUtil().setWidth(45),
-                                  ),
+                                  // 加速倍率图标
+                                  Align(
+                                      alignment: Alignment(-0.6, 0),
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            top: ScreenUtil().setWidth(30)),
+                                        padding: EdgeInsets.only(
+                                            left: ScreenUtil().setWidth(40),
+                                            right: ScreenUtil().setWidth(10)),
+                                        width: ScreenUtil().setWidth(140),
+                                        height: ScreenUtil().setWidth(40),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            alignment: Alignment.center,
+                                            image: AssetImage(
+                                                "assets/image/partner_profit_from_friends_rate_bg.png"),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]} rate",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize:
+                                                  ScreenUtil().setWidth(24),
+                                              fontFamily: FontFamily.semibold,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white),
+                                        ),
+                                      )),
                                   // 第二行
                                   Row(
                                     crossAxisAlignment:
@@ -470,7 +531,7 @@ class PartnerState extends State<Partner> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           ModalTitle(
-                                            "\$${_partnerWrap?.direct_profit??0 + _partnerWrap?.indirect_profit??0}",
+                                            "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
                                             color: Color(0xFFFF4C2F),
                                           ),
                                           Text(
@@ -561,7 +622,7 @@ class PartnerState extends State<Partner> {
                                       ClipOval(
                                         child: Image.network(
                                           // TODO 头像判空,增加默认头像
-                                          _partnerWrap?.superior?.avatar,
+                                          _partnerWrap?.superior?.avatar ?? "",
                                           width: ScreenUtil().setWidth(180),
                                           height: ScreenUtil().setWidth(180),
                                           fit: BoxFit.cover,
