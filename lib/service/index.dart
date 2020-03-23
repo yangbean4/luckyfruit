@@ -193,6 +193,19 @@ class Service {
     return response.data['data'];
   }
 
+  // 个人中心消息中心页面
+  Future<List> messageCentre(Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Personal/messageCentre', data: data);
+    return response.data['data'];
+  }
+
+// 获取用户收益数据
+  Future<List> profitLog(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/profitLog', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

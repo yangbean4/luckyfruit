@@ -8,7 +8,7 @@ part of 'userInfo.dart';
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
   return UserInfo()
-    ..acct_bal = json['acct_bal'] as String
+    ..acct_bal = json['acct_bal'] as num
     ..separate_amount = json['separate_amount'] as String
     ..coin = json['coin'] as String
     ..wishTreeNum = json['wishTreeNum'] as num

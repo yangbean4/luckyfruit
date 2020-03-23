@@ -110,6 +110,8 @@ class _MinePageState extends State<MinePage> {
                                 hasArrow: true,
                                 border: true,
                                 rightText: '\$${amount}',
+                                onTap: () =>
+                                    MyNavigator().pushNamed(context, 'records'),
                               );
                             }),
                         Selector<UserModel, String>(
