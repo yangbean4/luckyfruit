@@ -6,6 +6,7 @@ import 'package:luckyfruit/models/index.dart' show PersonalInfo;
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 
 class BonusTree extends StatefulWidget {
@@ -16,6 +17,62 @@ class BonusTree extends StatefulWidget {
 }
 
 class _BonusTreeState extends State<BonusTree> {
+  _showModal() {
+    Modal(okText: 'Ok', horizontalPadding: 90, children: [
+      Text('My Bouns Tree',
+          style: TextStyle(
+              fontFamily: FontFamily.bold,
+              fontWeight: FontWeight.bold,
+              color: MyTheme.blackColor,
+              fontSize: ScreenUtil().setSp(70))),
+      RichText(
+        text: TextSpan(
+            text: 'I. How to Get Bonus Tree\n',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setWidth(40),
+                fontFamily: FontFamily.semibold,
+                height: 2.5,
+                fontWeight: FontWeight.w500),
+            children: [
+              TextSpan(
+                  text:
+                      '1,Merge any 2 trees in Level 37\n2,Merge continental trees from Asia, Africa, Europe, America and Oceania;100% chance to get \n3,Stay active in the game,100%chance to get',
+                  style: TextStyle(
+                      color: Color.fromRGBO(83, 83, 83, 1),
+                      fontSize: ScreenUtil().setWidth(40),
+                      height: 1.5,
+                      fontFamily: FontFamily.regular,
+                      fontWeight: FontWeight.w400))
+            ]),
+      ),
+      RichText(
+        text: TextSpan(
+            text: 'II.100% chance to get the Bouns Tree\n',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setWidth(40),
+                fontFamily: FontFamily.semibold,
+                height: 2.5,
+                fontWeight: FontWeight.w500),
+            children: [
+              TextSpan(
+                  text:
+                      "belongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
+                  style: TextStyle(
+                      color: Color.fromRGBO(83, 83, 83, 1),
+                      fontSize: ScreenUtil().setWidth(40),
+                      height: 1.5,
+                      fontFamily: FontFamily.regular,
+                      fontWeight: FontWeight.w400))
+            ]),
+      ),
+      Container(
+        height: ScreenUtil().setWidth(46),
+      ),
+    ]).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusbarHeight =
@@ -155,98 +212,101 @@ class _BonusTreeState extends State<BonusTree> {
                   topLeft: Radius.circular(ScreenUtil().setWidth(40)),
                 )),
             child: Column(children: [
-              Container(
-                width: ScreenUtil().setWidth(960),
-                height: ScreenUtil().setWidth(160),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/image/dividend_tree.png',
-                        width: ScreenUtil().setWidth(147),
-                        height: ScreenUtil().setWidth(160),
-                      ),
-                      Selector<UserModel, num>(
-                        selector: (context, provider) =>
-                            provider.personalInfo?.count_ratio ?? 0,
-                        builder: (_, num count_ratio, __) {
-                          return Container(
-                            width: ScreenUtil().setWidth(774),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                    height: ScreenUtil().setWidth(50),
-                                    child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+              GestureDetector(
+                onTap: () => _showModal(),
+                child: Container(
+                  width: ScreenUtil().setWidth(960),
+                  height: ScreenUtil().setWidth(160),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/image/dividend_tree.png',
+                          width: ScreenUtil().setWidth(147),
+                          height: ScreenUtil().setWidth(160),
+                        ),
+                        Selector<UserModel, num>(
+                          selector: (context, provider) =>
+                              provider.personalInfo?.count_ratio ?? 0,
+                          builder: (_, num count_ratio, __) {
+                            return Container(
+                              width: ScreenUtil().setWidth(774),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                      height: ScreenUtil().setWidth(50),
+                                      child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text('My Bouns Tree',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontFamily.semibold,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: MyTheme.blackColor,
+                                                    height: 1.0,
+                                                    fontSize: ScreenUtil()
+                                                        .setSp(46))),
+                                            Text('${count_ratio} %',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontFamily.semibold,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: MyTheme.blackColor,
+                                                    height: 1.0,
+                                                    fontSize: ScreenUtil()
+                                                        .setSp(46))),
+                                          ])),
+                                  Container(height: ScreenUtil().setWidth(22)),
+                                  Container(
+                                      height: ScreenUtil().setWidth(46),
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Text('My Bouns Tree',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      FontFamily.semibold,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: MyTheme.blackColor,
-                                                  height: 1.0,
-                                                  fontSize:
-                                                      ScreenUtil().setSp(46))),
-                                          Text('${count_ratio} %',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      FontFamily.semibold,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: MyTheme.blackColor,
-                                                  height: 1.0,
-                                                  fontSize:
-                                                      ScreenUtil().setSp(46))),
-                                        ])),
-                                Container(height: ScreenUtil().setWidth(22)),
-                                Container(
-                                    height: ScreenUtil().setWidth(46),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                            width: ScreenUtil().setWidth(774),
-                                            height: ScreenUtil().setWidth(26),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(ScreenUtil()
-                                                      .setWidth(13))),
-                                            ),
-                                            child: Stack(children: <Widget>[
-                                              Container(
-                                                width: ScreenUtil().setWidth(
-                                                    774 *
-                                                        ((count_ratio ?? 0) /
-                                                            100)),
-                                                height:
-                                                    ScreenUtil().setWidth(26),
-                                                decoration: BoxDecoration(
-                                                  color: MyTheme.primaryColor,
-                                                  borderRadius: BorderRadius
-                                                      .all(Radius.circular(
-                                                          ScreenUtil()
-                                                              .setWidth(13))),
-                                                ),
+                                          Container(
+                                              width: ScreenUtil().setWidth(774),
+                                              height: ScreenUtil().setWidth(26),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(ScreenUtil()
+                                                        .setWidth(13))),
                                               ),
-                                            ])),
-                                      ],
-                                    ))
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ]),
+                                              child: Stack(children: <Widget>[
+                                                Container(
+                                                  width: ScreenUtil().setWidth(
+                                                      774 *
+                                                          ((count_ratio ?? 0) /
+                                                              100)),
+                                                  height:
+                                                      ScreenUtil().setWidth(26),
+                                                  decoration: BoxDecoration(
+                                                    color: MyTheme.primaryColor,
+                                                    borderRadius: BorderRadius
+                                                        .all(Radius.circular(
+                                                            ScreenUtil()
+                                                                .setWidth(13))),
+                                                  ),
+                                                ),
+                                              ])),
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ]),
+                ),
               ),
               Container(
                 width: ScreenUtil().setWidth(960),
