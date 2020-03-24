@@ -111,13 +111,12 @@ class _MinePageState extends State<MinePage> {
                                 border: true,
                                 onTap: () {
                                   MyNavigator().pushNamed(
-                                    context,
-                                    "WithDrawPage",arguments: amount
-                                  );
+                                      context, "WithDrawPage",
+                                      arguments: amount);
                                 },
                                 rightText: '\$${amount}',
-                                onTap: () =>
-                                    MyNavigator().pushNamed(context, 'records'),
+                                // onTap: () =>
+                                //     MyNavigator().pushNamed(context, 'records'),
                               );
                             }),
                         Selector<UserModel, String>(
