@@ -47,6 +47,8 @@ dependencies:
   eventsource: ^0.2.2
   #用于查询有关应用程序包的信息 
   package_info: ^0.4.0+16
+  # 可同时播放多个音频文件
+  audioplayers: ^0.14.2
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +73,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/bgm/
     - assets/city/
     - assets/tree/
     - assets/city/hawaii/

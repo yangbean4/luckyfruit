@@ -18,6 +18,7 @@ import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
 import './other/treasure.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
+import 'package:luckyfruit/utils/bgm.dart';
 
 class _SelectorUse {
   String city;
@@ -38,11 +39,13 @@ class _TripState extends State<Trip>
   @override
   bool get wantKeepAlive => true;
 
+  bool isPlay = Bgm.isPlay;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print('Trip--initState-');
+    isPlay = Bgm.isPlay;
   }
 
   @override
@@ -113,6 +116,29 @@ class _TripState extends State<Trip>
                         height: ScreenUtil().setWidth(256),
                         child: RightBtns(),
                       )),
+                  Positioned(
+                    bottom: ScreenUtil().setWidth(50),
+                    right: 0,
+                    child: GestureDetector(
+                        onTap: () {
+                          final _isplay = !isPlay;
+                          setState(() {
+                            isPlay = _isplay;
+                          });
+                          _isplay ? Bgm.play() : Bgm.stop();
+                        },
+                        child: Container(
+                          width: ScreenUtil().setWidth(144),
+                          height: ScreenUtil().setWidth(124),
+                          child: Center(
+                            child: Image.asset(
+                              "assets/image/${isPlay ? 'isPlay' : 'isStop'}.png",
+                              width: ScreenUtil().setWidth(60),
+                              height: ScreenUtil().setWidth(50),
+                            ),
+                          ),
+                        )),
+                  ),
                   // 头部 多按钮等
                   Positioned(
                     top: ScreenUtil().setWidth(92),

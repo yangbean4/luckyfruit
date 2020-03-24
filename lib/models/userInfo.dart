@@ -6,7 +6,7 @@ part 'userInfo.g.dart';
 class UserInfo {
     UserInfo();
 
-    String acct_bal;
+    num acct_bal;
     String separate_amount;
     String coin;
     num wishTreeNum;

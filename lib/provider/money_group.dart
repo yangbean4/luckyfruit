@@ -10,6 +10,7 @@ import './tree_group.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 
 class MoneyGroup with ChangeNotifier {
   // 对TreeGroup Provider引用
@@ -222,6 +223,7 @@ class MoneyGroup with ChangeNotifier {
   addGold(double gold) {
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
+    Bgm.coinIncrease();
     save();
   }
 

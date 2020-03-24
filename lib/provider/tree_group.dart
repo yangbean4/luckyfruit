@@ -13,6 +13,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import './lucky_group.dart';
 import 'package:luckyfruit/models/index.dart' show GlobalDividendTree;
+import 'package:luckyfruit/utils/bgm.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
@@ -324,6 +325,8 @@ class TreeGroup with ChangeNotifier {
 
       EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.consumeGold);
       treeGradeNumber['$minLevel'] = (treeGradeNumber['$minLevel'] ?? 0) + 1;
+
+      Bgm.puchaseTree();
     }
 
     if (tree?.x == null || tree?.y == null) {
@@ -385,6 +388,7 @@ class TreeGroup with ChangeNotifier {
     if (++target.grade > _maxLevel) {
       Layer.newGrade(maxLevelTree);
     }
+    Bgm.mergeTree();
     notifyListeners();
   }
 
@@ -403,6 +407,8 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
+      Bgm.mergeTree();
+
       // 每合成一次统计一下
       totalMergeCount++;
       if (target.grade == Tree.MAX_LEVEL) {

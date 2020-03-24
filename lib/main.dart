@@ -11,6 +11,7 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,8 @@ void main() {
     tourismMap.init(moneyGroup, luckyGroup, treeGroup,
         userModel.value?.level ?? '1', userModel.value?.acct_id);
   });
+
+  Bgm.init();
 
   runApp(MultiProvider(
     providers: [
