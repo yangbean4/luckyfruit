@@ -19,4 +19,5 @@ export 'sign.dart' ;
 export 'profitLog.dart' ; 
 export 'partnerSuperiorItem.dart' ; 
 export 'personalInfo.dart' ; 
+export 'inviterData.dart' ; 
 export 'message.dart' ; 

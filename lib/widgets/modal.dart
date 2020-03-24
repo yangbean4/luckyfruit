@@ -13,6 +13,7 @@ class Modal {
   final String okText;
   final Function onOk;
   final Function onCancel;
+  // final BuildContext context;
   final Widget footer;
   // 垂直填充
   final double verticalPadding;
@@ -29,6 +30,7 @@ class Modal {
 
   Modal(
       {this.okText,
+      // this.context,
       this.onOk,
       this.onCancel,
       this.children,
@@ -134,6 +136,7 @@ class Modal {
       dismissOtherToast: false,
       duration: Duration(days: 1),
       handleTouch: true,
+      // context: context,
     );
   }
 

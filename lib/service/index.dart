@@ -206,6 +206,18 @@ class Service {
     return response.data['data'];
   }
 
+// 获取邀请人信息
+  Future<Map<String, dynamic>> getinviterData(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/inviterData', data: data);
+    return response.data['data'];
+  }
+
+  //添加邀请码追溯来源
+  Future<Map<String, dynamic>> inviteCode(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/inviteCode', data: data);
+    return response.data['data'];
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

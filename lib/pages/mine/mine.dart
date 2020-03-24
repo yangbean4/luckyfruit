@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:luckyfruit/widgets/layer.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +8,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo, PersonalInfo;
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -130,6 +130,8 @@ class _MinePageState extends State<MinePage> {
                                 hasArrow: true,
                                 border: true,
                                 rightText: '\$${invite_code}',
+                                onTap: () => MyNavigator()
+                                    .pushNamed(context, 'invitationCodePage'),
                               );
                             }),
                         Selector<UserModel, String>(
