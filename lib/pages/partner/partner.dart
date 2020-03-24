@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/partnerSubordinateList.dart';
 import 'package:luckyfruit/models/partnerWrap.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -184,8 +185,8 @@ class PartnerState extends State<Partner> {
     String imageUrl = "";
 
     if (_partnerWrap?.friends != null &&
-        index < _partnerWrap.friends.getAvatarListOfFriends().length) {
-      imageUrl = _partnerWrap.friends.getAvatarListOfFriends()[index];
+        index < getAvatarListOfFriends(_partnerWrap.friends).length) {
+      imageUrl = getAvatarListOfFriends(_partnerWrap.friends)[index];
     }
 
     return ClipOval(
@@ -196,6 +197,23 @@ class PartnerState extends State<Partner> {
         fit: BoxFit.cover,
       ),
     );
+  }
+
+  List<String> getAvatarListOfFriends(PartnerSubordinateList friends) {
+    List<String> resultList = [];
+    for (var i = 0; friends.lower1 != null && i < friends.lower1.length; i++) {
+      resultList.add(friends.lower1[i]?.avatar ?? "");
+    }
+    for (var i = 0; friends.lower2 != null && i < friends.lower2.length; i++) {
+      resultList.add(friends.lower2[i]?.avatar ?? "");
+    }
+    for (var i = 0;
+        friends.pending != null && i < friends.pending.length;
+        i++) {
+      resultList.add(friends.pending[i]?.avatar ?? "");
+    }
+
+    return resultList;
   }
 
   @override

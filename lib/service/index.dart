@@ -200,7 +200,7 @@ class Service {
     return response.data['data'];
   }
 
-// 获取用户收益数据
+  // 获取用户收益数据
   Future<List> profitLog(Map<String, dynamic> data) async {
     Response response = await _client.post('/Personal/profitLog', data: data);
     return response.data['data'];
@@ -215,6 +215,12 @@ class Service {
   //添加邀请码追溯来源
   Future<Map<String, dynamic>> inviteCode(Map<String, dynamic> data) async {
     Response response = await _client.post('/Personal/inviteCode', data: data);
+    return response.data['data'];
+  }
+
+  // 用户提现
+  Future<Map<String, dynamic>> withDraw(Map<String, dynamic> data) async {
+    Response response = await _client.post('/user/withdarw', data: data);
     return response.data['data'];
   }
 

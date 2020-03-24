@@ -445,7 +445,7 @@ class Layer {
 
     Widget widget = Center(
       child: Container(
-        width: ScreenUtil().setWidth(400),
+        // width: ScreenUtil().setWidth(400),
         height: ScreenUtil().setWidth(400),
         padding: EdgeInsets.all(ScreenUtil().setWidth(68)),
         decoration: BoxDecoration(

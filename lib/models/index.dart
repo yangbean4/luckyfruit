@@ -2,6 +2,7 @@ export 'levelRoule.dart' ;
 export 'rank_friends.dart' ; 
 export 'globalDividendTree.dart' ; 
 export 'deblokCity.dart' ; 
+export 'withdrawResult.dart' ; 
 export 'reward.dart' ; 
 export 'partnerWrap.dart' ; 
 export 'partnerProfitItem.dart' ; 

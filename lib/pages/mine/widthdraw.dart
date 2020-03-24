@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 class WithDrawPage extends StatefulWidget {
@@ -32,63 +38,69 @@ class _WithDrawPageState extends State<WithDrawPage> {
                 fontSize: ScreenUtil().setWidth(70))),
         elevation: 0,
         actions: <Widget>[
-          Container(
-              margin: EdgeInsets.only(right: ScreenUtil().setWidth(77)),
-              // color: Colors.red,
-              alignment: Alignment.center,
-              child: Text(
-                "Records",
-                style: TextStyle(
-                    fontFamily: FontFamily.semibold,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    fontSize: ScreenUtil().setWidth(36)),
-              ))
+          GestureDetector(
+            onTap: () {
+              MyNavigator().pushNamed(context, 'records');
+            },
+            child: Container(
+                margin: EdgeInsets.only(right: ScreenUtil().setWidth(77)),
+                // color: Colors.red,
+                alignment: Alignment.center,
+                child: Text(
+                  "Records",
+                  style: TextStyle(
+                      fontFamily: FontFamily.semibold,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: ScreenUtil().setWidth(36)),
+                )),
+          )
         ],
         backgroundColor: MyTheme.primaryColor,
       ),
-      body: Stack(children: [
-        Positioned(
-            top: 0,
-            child: Container(
-              width: ScreenUtil().setWidth(1080),
-              height: ScreenUtil().setWidth(300),
-              color: MyTheme.primaryColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Balance",
-                    style: TextStyle(
-                        fontFamily: FontFamily.regular,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                        fontSize: ScreenUtil().setWidth(50)),
+      body: ChangeNotifierProvider(
+          create: (_) => WithDrawProvider(),
+          child: Stack(children: [
+            Positioned(
+                top: 0,
+                child: Container(
+                  width: ScreenUtil().setWidth(1080),
+                  height: ScreenUtil().setWidth(300),
+                  color: MyTheme.primaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Balance",
+                        style: TextStyle(
+                            fontFamily: FontFamily.regular,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setWidth(50)),
+                      ),
+                      Text(
+                        "\$${widget.amount}",
+                        style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setWidth(90)),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "\$${widget.amount}",
-                    style: TextStyle(
-                        fontFamily: FontFamily.bold,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: ScreenUtil().setWidth(90)),
-                  ),
-                ],
-              ),
-            )),
-        Positioned(
-            top: ScreenUtil().setWidth(250),
-            child: Container(
-                padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
-                width: ScreenUtil().setWidth(1080),
-                height: ScreenUtil().setWidth(1920),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(ScreenUtil().setWidth(40)),
-                        topRight: Radius.circular(ScreenUtil().setWidth(40)))),
-                child: ChangeNotifierProvider(
-                  create: (_) => WithDrawProvider(),
+                )),
+            Positioned(
+                top: ScreenUtil().setWidth(250),
+                child: Container(
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
+                  width: ScreenUtil().setWidth(1080),
+                  height: ScreenUtil().setWidth(1920),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(ScreenUtil().setWidth(40)),
+                          topRight:
+                              Radius.circular(ScreenUtil().setWidth(40)))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -164,9 +176,8 @@ class _WithDrawPageState extends State<WithDrawPage> {
                             TextSpan(
                                 text: '1.It takes up to 3 business days to cash out and the service fee is 3%\n' +
                                     '2.No service fee for the first cashout.',
-                                
                                 style: TextStyle(
-                                  wordSpacing: 1,
+                                    wordSpacing: 1,
                                     fontSize: ScreenUtil().setWidth(40),
                                     color: Color(0xFF535353),
                                     fontFamily: FontFamily.regular,
@@ -176,26 +187,74 @@ class _WithDrawPageState extends State<WithDrawPage> {
                       ),
                     ],
                   ),
-                ))),
-        Positioned(
-            bottom: ScreenUtil().setWidth(108),
-            left: ScreenUtil().setWidth(240),
-            child: PrimaryButton(
-                width: 600,
-                height: 124,
-                child: Center(
-                    child: Text(
-                  "Cash Out",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    height: 1,
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setWidth(56),
-                  ),
-                ))))
-      ]),
+                )),
+            Positioned(
+              bottom: ScreenUtil().setWidth(108),
+              left: ScreenUtil().setWidth(240),
+              child: Selector<WithDrawProvider, WithDrawProvider>(
+                selector: (context, provider) => provider,
+                shouldRebuild: (pre, next) {
+                  return true;
+                },
+                builder: (context, provider, child) {
+                  return GestureDetector(
+                    onTap: () {
+                      num amount = provider._amountList.firstWhere((e) {
+                        return e.selected == true;
+                      }, orElse: () {
+                        return null;
+                      })?.amount;
+
+                      WithDrawTypes type = provider._typesList.firstWhere((e) {
+                        return e.selected == true;
+                      }, orElse: () {
+                        return null;
+                      })?.type;
+                      getRankListInfoData(amount, type);
+                    },
+                    child: PrimaryButton(
+                        width: 600,
+                        height: 124,
+                        child: Center(
+                            child: Text(
+                          "Cash Out",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            height: 1,
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setWidth(56),
+                          ),
+                        ))),
+                  );
+                },
+              ),
+            ),
+          ])),
     );
+  }
+
+  Future<WithdrawResult> getRankListInfoData(
+      num amount, WithDrawTypes type) async {
+    if (amount == null) {
+      Layer.toastWarning("Please Select Cash Withdrawal Amount");
+      return null;
+    }
+    if (type == null) {
+      Layer.toastWarning("Please Select Cash Withdrawal Way");
+      return null;
+    }
+
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    dynamic rankMap = await Service().withDraw({
+      'acct_id': treeGroup.acct_id,
+      "cash_method": amount,
+      "wdl_amt": type.index + 1
+    });
+    WithdrawResult withDrawResult = WithdrawResult.fromJson(rankMap);
+    // 测试空白页面使用
+    await Future.delayed(Duration(seconds: 3));
+    return withDrawResult;
   }
 }
 
