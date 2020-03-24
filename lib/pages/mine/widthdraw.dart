@@ -6,8 +6,11 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 
 class WithDrawPage extends StatefulWidget {
@@ -192,69 +195,229 @@ class _WithDrawPageState extends State<WithDrawPage> {
               bottom: ScreenUtil().setWidth(108),
               left: ScreenUtil().setWidth(240),
               child: Selector<WithDrawProvider, WithDrawProvider>(
-                selector: (context, provider) => provider,
-                shouldRebuild: (pre, next) {
-                  return true;
-                },
-                builder: (context, provider, child) {
-                  return GestureDetector(
-                    onTap: () {
-                      num amount = provider._amountList.firstWhere((e) {
-                        return e.selected == true;
-                      }, orElse: () {
-                        return null;
-                      })?.amount;
-
-                      WithDrawTypes type = provider._typesList.firstWhere((e) {
-                        return e.selected == true;
-                      }, orElse: () {
-                        return null;
-                      })?.type;
-                      getRankListInfoData(amount, type);
-                    },
-                    child: PrimaryButton(
-                        width: 600,
-                        height: 124,
-                        child: Center(
-                            child: Text(
-                          "Cash Out",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            height: 1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setWidth(56),
-                          ),
-                        ))),
-                  );
-                },
-              ),
-            ),
+                  selector: (context, provider) => provider,
+                  shouldRebuild: (pre, next) {
+                    return true;
+                  },
+                  builder: (context, provider, child) {
+                    return GestureDetector(
+                      onTap: () {
+                        showInfoInputingWindow(provider);
+                      },
+                      child: PrimaryButton(
+                          width: 600,
+                          height: 124,
+                          child: Center(
+                              child: Text(
+                            "Cash Out",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setWidth(56),
+                            ),
+                          ))),
+                    );
+                  }),
+            )
           ])),
     );
   }
 
-  Future<WithdrawResult> getRankListInfoData(
-      num amount, WithDrawTypes type) async {
-    if (amount == null) {
-      Layer.toastWarning("Please Select Cash Withdrawal Amount");
-      return null;
-    }
-    if (type == null) {
-      Layer.toastWarning("Please Select Cash Withdrawal Way");
-      return null;
-    }
+  void showInfoInputingWindow(WithDrawProvider provider) {
+    showDialog(context: context, builder: (_) => InputingInfoWidget(provider));
+  }
+}
 
-    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
-    dynamic rankMap = await Service().withDraw({
-      'acct_id': treeGroup.acct_id,
-      "cash_method": amount,
-      "wdl_amt": type.index + 1
-    });
-    WithdrawResult withDrawResult = WithdrawResult.fromJson(rankMap);
-    // 测试空白页面使用
-    await Future.delayed(Duration(seconds: 3));
-    return withDrawResult;
+class InputingInfoWidget extends StatelessWidget {
+  final TextEditingController _controllerFirst = new TextEditingController();
+  final TextEditingController _controllerRepeat = new TextEditingController();
+
+  final WithDrawProvider provider;
+  InputingInfoWidget(this.provider);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
+      body: Container(
+          width: ScreenUtil().setWidth(1080),
+          height: ScreenUtil()
+              .setWidth(1920 - MediaQuery.of(context).viewInsets.bottom),
+          child: Center(
+            child: Stack(children: [
+              Container(
+                  width: ScreenUtil().setWidth(840),
+                  height: ScreenUtil().setWidth(890),
+                  padding: EdgeInsets.symmetric(
+                    vertical: ScreenUtil().setWidth(90),
+                    horizontal: ScreenUtil().setWidth(120),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setWidth(100)),
+                    ),
+                  ),
+                  child: Container(
+                    width: ScreenUtil().setWidth(600),
+                    // color: Colors.red,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        ModalTitle("Paypal"),
+                        InputFiledWidget("Paypal Account", _controllerFirst),
+                        InputFiledWidget(
+                            "Confirm Paypal Account", _controllerRepeat),
+                        GestureDetector(
+                          onTap: () {
+                            // _onTap();
+                            print("first= ${_controllerFirst.text}, repeat=${_controllerRepeat.text}," +
+                                " 比较值: ${_controllerFirst.text.compareTo(_controllerRepeat.text)}");
+
+                            if (_controllerFirst?.text == null ||
+                                _controllerFirst.text.trim().isEmpty) {
+                              Layer.toastWarning("Account cannot be empty");
+                              return;
+                            }
+                            if (_controllerFirst.text
+                                    .compareTo(_controllerRepeat.text) !=
+                                0) {
+                              Layer.toastWarning(
+                                  "Please Confirm Your Account Is Correct");
+                              return;
+                            }
+
+                            num amount = provider._amountList.firstWhere((e) {
+                              return e.selected == true;
+                            }, orElse: () {
+                              return null;
+                            })?.amount;
+
+                            WithDrawTypes type =
+                                provider._typesList.firstWhere((e) {
+                              return e.selected == true;
+                            }, orElse: () {
+                              return null;
+                            })?.type;
+                            postWithDrawInfo(context, amount, type).then((e) {
+                              if (e != null) {
+                                handleAfterSummitWithDraw();
+                              }
+                            });
+                          },
+                          child: PrimaryButton(
+                              width: 600,
+                              height: 124,
+                              child: Center(
+                                  child: Text(
+                                'Claim',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  height: 1,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: ScreenUtil().setWidth(52),
+                                ),
+                              ))),
+                        ),
+                        // })
+                      ],
+                    ),
+                  )),
+              Positioned(
+                  top: ScreenUtil().setWidth(60),
+                  right: ScreenUtil().setWidth(60),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/image/close_icon_windows_corner.png',
+                      width: ScreenUtil().setWidth(40),
+                      height: ScreenUtil().setWidth(40),
+                    ),
+                  ))
+            ]),
+          )),
+    );
+  }
+}
+
+Future<WithdrawResult> postWithDrawInfo(
+    BuildContext context, num amount, WithDrawTypes type) async {
+  print("postWithDrawInfo amount=$amount, type=$type");
+  if (amount == null) {
+    Layer.toastWarning("Please Select Cash Withdrawal Amount");
+    return null;
+  }
+  if (type == null) {
+    Layer.toastWarning("Please Select Cash Withdrawal Way");
+    return null;
+  }
+
+  TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+  dynamic rankMap = await Service().withDraw({
+    'acct_id': treeGroup.acct_id,
+    "cash_method": amount,
+    "wdl_amt": type.index + 1
+  });
+  WithdrawResult withDrawResult = WithdrawResult.fromJson(rankMap);
+  return withDrawResult;
+}
+
+handleAfterSummitWithDraw() {
+  Modal(onOk: () {}, okText: "Got it", children: [
+    Image.asset(
+      'assets/image/success.png',
+      width: ScreenUtil().setWidth(147),
+      height: ScreenUtil().setWidth(160),
+    ),
+    SizedBox(height: ScreenUtil().setWidth(50)),
+    Text(
+        'Your withdrawal request has been submitted, it takes up to 3 business days to transit. Check status in Mine-Messages.',
+        style: TextStyle(
+            fontFamily: FontFamily.regular,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFF535353),
+            fontSize: ScreenUtil().setWidth(40))),
+    SizedBox(height: ScreenUtil().setWidth(50)),
+  ]).show();
+}
+
+class InputFiledWidget extends StatelessWidget {
+  final TextEditingController _controller;
+  final String title;
+  InputFiledWidget(this.title, this._controller);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          FourthText(
+            title,
+            fontFamily: FontFamily.regular,
+            fontWeight: FontWeight.w400,
+            color: MyTheme.blackColor,
+          ),
+          SizedBox(height: ScreenUtil().setWidth(30)),
+          Container(
+            width: ScreenUtil().setWidth(460),
+            height: ScreenUtil().setWidth(100),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                filled: true,
+                border: InputBorder.none,
+                fillColor: MyTheme.grayColor,
+              ),
+              style: TextStyle(
+                  fontSize: ScreenUtil().setWidth(60), color: Colors.black),
+            ),
+          ),
+        ]);
   }
 }
 

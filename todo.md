@@ -44,11 +44,11 @@
   - 手机碎片抽奖时的金币处理 UI更新 -bean
   - 分红树 对接 -bonan
   - ~~get it 页面~~ 0.5 --bean
-  - Partner页面 + 收入/好友 明细 2.5 -bonan
+  - ~~Partner页面 + 收入/好友 明细~~ 2.5 -bonan
   - ~~map+解锁城市+ 弹窗~~ 我的全球分红树+玩法介绍 -1.5 --bean
   - ~~mine 消息中心 明细~~  - 1 -bean
   - ~~邀请码~~ 0.5 -bean
-  - setting 提现  1 -bonan
+  - setting ~~提现~~  1 -bonan
 
 再议
 - ~~宝树五边形~~ -bean
