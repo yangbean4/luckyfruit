@@ -13,7 +13,7 @@ class User {
     String rela_account;
     String last_leave_time;
     String active;
-    num acct_bal;
+    String acct_bal;
     String separate_amount;
     String coin;
     String version;

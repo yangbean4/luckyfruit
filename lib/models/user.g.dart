@@ -15,7 +15,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..rela_account = json['rela_account'] as String
     ..last_leave_time = json['last_leave_time'] as String
     ..active = json['active'] as String
-    ..acct_bal = json['acct_bal'] as num
+    ..acct_bal = json['acct_bal'] as String
     ..separate_amount = json['separate_amount'] as String
     ..coin = json['coin'] as String
     ..version = json['version'] as String

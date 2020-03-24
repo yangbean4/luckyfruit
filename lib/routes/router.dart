@@ -13,6 +13,7 @@ import 'package:luckyfruit/pages/partner/partner.dart';
 import 'package:luckyfruit/pages/mine/message.dart';
 import 'package:luckyfruit/pages/mine/records.dart';
 import 'package:luckyfruit/pages/mine/invitation.dart';
+import 'package:luckyfruit/pages/map/bonus_tree.dart';
 
 final routes = {
   'Home': (context) => Home(),
@@ -27,12 +28,12 @@ final routes = {
         partnerSubordinateList: arguments,
       ),
   'PartnerProfit': (context) => PartnerProfitPageWidget(),
-  'WithDrawPage': (context, {arguments}) => WithDrawPage(amount:arguments),
+  'WithDrawPage': (context, {arguments}) => WithDrawPage(amount: arguments),
   'mine': (context) => MinePage(),
   'message': (context) => MessagePage(),
   'records': (context) => RecordsPage(),
   'invitationCodePage': (context) => InvitationCodePage(),
-  // 'chance'
+  'bonusTreePage': (context) => BonusTree(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

@@ -206,7 +206,7 @@ class _MinePageState extends State<MinePage> {
           top: ScreenUtil().setWidth(307),
           left: ScreenUtil().setWidth(60),
           child: GestureDetector(
-            onTap: () => MyNavigator().pushNamed(context, 'chance'),
+            onTap: () => MyNavigator().pushNamed(context, 'bonusTreePage'),
             child: Container(
               width: ScreenUtil().setWidth(960),
               height: ScreenUtil().setWidth(260),
