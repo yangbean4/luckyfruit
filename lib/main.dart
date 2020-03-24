@@ -33,7 +33,7 @@ void main() {
         userModel.value?.level ?? '1', userModel.value?.acct_id);
   });
 
-  Bgm.init();
+  // Bgm.init();
 
   runApp(MultiProvider(
     providers: [

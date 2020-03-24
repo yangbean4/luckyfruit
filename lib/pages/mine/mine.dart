@@ -194,7 +194,10 @@ class _MinePageState extends State<MinePage> {
                         iconName: 'setting',
                         title: 'Setting',
                         hasArrow: true,
-                      ),
+                        onTap: () {
+                          MyNavigator().pushNamed(context, 'settings');
+                        },
+                      )
                     ]))
                   ],
                 )),

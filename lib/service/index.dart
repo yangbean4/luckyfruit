@@ -60,7 +60,7 @@ class Service {
   // 获取用户树数据
   Future<Map<String, dynamic>> saveMoneyInfo(Map<String, dynamic> data) async {
     Response response = await _client.post('/User/update', data: data);
-    return response.data['data'];
+    return response.data;
   }
 
   // 埋点 上报

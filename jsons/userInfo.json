@@ -7,5 +7,7 @@
   "sign_times": 0,
   "nickname": "",
   "avatar": "",
-  "invite_code": "123"
+  "invite_code": "123",
+  "worker_visible": 1,
+  "direct_friend_visible": 1
 }
