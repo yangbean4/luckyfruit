@@ -21,6 +21,11 @@ class PersonalInfo {
     String Invite_code;
     String superior1;
     String superior2;
+    num videoTimesDayRatio;
+    num treeComposerDayRatio;
+    num deblockCityDayRatio;
+    num profitDayRatio;
+    num friendsNumberDayRatio;
     
     factory PersonalInfo.fromJson(Map<String,dynamic> json) => _$PersonalInfoFromJson(json);
     Map<String, dynamic> toJson() => _$PersonalInfoToJson(this);

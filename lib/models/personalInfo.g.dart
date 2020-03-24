@@ -22,7 +22,12 @@ PersonalInfo _$PersonalInfoFromJson(Map<String, dynamic> json) {
     ..amount = json['amount'] as String
     ..Invite_code = json['Invite_code'] as String
     ..superior1 = json['superior1'] as String
-    ..superior2 = json['superior2'] as String;
+    ..superior2 = json['superior2'] as String
+    ..videoTimesDayRatio = json['videoTimesDayRatio'] as num
+    ..treeComposerDayRatio = json['treeComposerDayRatio'] as num
+    ..deblockCityDayRatio = json['deblockCityDayRatio'] as num
+    ..profitDayRatio = json['profitDayRatio'] as num
+    ..friendsNumberDayRatio = json['friendsNumberDayRatio'] as num;
 }
 
 Map<String, dynamic> _$PersonalInfoToJson(PersonalInfo instance) =>
@@ -41,5 +46,10 @@ Map<String, dynamic> _$PersonalInfoToJson(PersonalInfo instance) =>
       'amount': instance.amount,
       'Invite_code': instance.Invite_code,
       'superior1': instance.superior1,
-      'superior2': instance.superior2
+      'superior2': instance.superior2,
+      'videoTimesDayRatio': instance.videoTimesDayRatio,
+      'treeComposerDayRatio': instance.treeComposerDayRatio,
+      'deblockCityDayRatio': instance.deblockCityDayRatio,
+      'profitDayRatio': instance.profitDayRatio,
+      'friendsNumberDayRatio': instance.friendsNumberDayRatio
     };

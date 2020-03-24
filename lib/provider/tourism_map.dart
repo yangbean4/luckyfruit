@@ -79,7 +79,8 @@ class TourismMap with ChangeNotifier {
 // 获取已经解锁的城市列表
   Future<List<DeblokCity>> getDeblokCityList() async {
     List cityJson = await Service().getDeblokCityList({'acct_id': _acct_id});
-    _deblokCityList = (cityJson).map((e) => DeblokCity.fromJson(e)).toList();
+    _deblokCityList =
+        (cityJson ?? []).map((e) => DeblokCity.fromJson(e)).toList();
     notifyListeners();
   }
 

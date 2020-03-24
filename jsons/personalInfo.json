@@ -13,5 +13,10 @@
   "amount": "3434.00",
   "Invite_code": "12",
   "superior1": "2",
-  "superior2": "3"
+  "superior2": "3",
+  "videoTimesDayRatio": 0,
+  "treeComposerDayRatio": 0,
+  "deblockCityDayRatio": 0,
+  "profitDayRatio": 0,
+  "friendsNumberDayRatio": 0
 }
