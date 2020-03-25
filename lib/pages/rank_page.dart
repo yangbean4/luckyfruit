@@ -280,8 +280,6 @@ class RankPageState extends State<RankPage>
                   colors: [
                     Color.fromRGBO(103, 228, 127, 1),
                     Color.fromRGBO(59, 206, 100, 1),
-                    // Colors.red,
-                    // Colors.black
                   ]),
             ),
           )),
