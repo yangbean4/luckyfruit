@@ -75,10 +75,19 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //导航栏
-          title: Text("Partners Earning"),
-          backgroundColor: MyTheme.primaryColor,
-        ),
+            //导航栏
+            title: Text("Partners Earning"),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(-1.0, 0.0),
+                    end: Alignment(1.0, 0.0),
+                    colors: [
+                      Color.fromRGBO(103, 228, 127, 1),
+                      Color.fromRGBO(59, 206, 100, 1),
+                    ]),
+              ),
+            )),
         body: _partnerProfitList?.data?.length != null
             ? ListView.separated(
                 itemCount: _partnerProfitList?.data?.length,

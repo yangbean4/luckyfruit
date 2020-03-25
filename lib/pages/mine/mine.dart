@@ -185,7 +185,7 @@ class _MinePageState extends State<MinePage> {
                     _Card(
                         child: Column(children: <Widget>[
                       _CardItem(
-                        iconName: 'help',
+                        iconName: 'mine_faq_icon',
                         title: 'Help center',
                         hasArrow: true,
                         border: true,

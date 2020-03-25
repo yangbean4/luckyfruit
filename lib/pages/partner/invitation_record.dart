@@ -30,14 +30,55 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //导航栏
-        title: Text("Invitation Record"),
-        backgroundColor: MyTheme.primaryColor,
-        bottom: TabBar(
-            //生成Tab菜单
-            controller: _tabController,
-            tabs: tabs.map((e) => Tab(text: e)).toList()),
-      ),
+          //导航栏
+          title: Text("Invitation Record"),
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(ScreenUtil().setWidth(200)),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(ScreenUtil().setWidth(40)),
+                        topRight: Radius.circular(ScreenUtil().setWidth(40)))),
+                padding: EdgeInsets.only(
+                    top: ScreenUtil().setWidth(20),
+                    bottom: ScreenUtil().setWidth(20)),
+                child: TabBar(
+                    //生成Tab菜单
+                    controller: _tabController,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 5.0,
+                    indicatorColor: Colors.green,
+                    labelColor: MyTheme.primaryColor,
+                    unselectedLabelColor: MyTheme.blackColor,
+                    tabs: tabs
+                        .map((e) => Tab(
+                              child: Container(
+                                  // color: Colors.white,
+                                  child: Text(
+                                e,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: 1,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: FontFamily.semibold,
+                                  fontSize: ScreenUtil().setWidth(52),
+                                ),
+                              )),
+                            ))
+                        .toList()),
+              )),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(-1.0, 0.0),
+                  end: Alignment(1.0, 0.0),
+                  colors: [
+                    Color.fromRGBO(103, 228, 127, 1),
+                    Color.fromRGBO(59, 206, 100, 1),
+                  ]),
+            ),
+          )),
       body: TabBarView(controller: _tabController, children: [
         generateListViewWithInfoList(widget.partnerSubordinateList?.lower1),
         generateListViewWithInfoList(widget.partnerSubordinateList?.lower2),

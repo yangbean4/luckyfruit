@@ -6,6 +6,7 @@ import 'package:luckyfruit/models/rank_friends.dart';
 import 'package:luckyfruit/models/ranklist.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:provider/provider.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'dart:convert';
@@ -268,10 +269,43 @@ class RankPageState extends State<RankPage>
       appBar: AppBar(
           //导航栏
           title: Text("Rank"),
-          bottom: TabBar(
-              //生成Tab菜单
-              controller: _tabController,
-              tabs: tabs.map((e) => Tab(text: e)).toList()),
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(ScreenUtil().setWidth(200)),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(ScreenUtil().setWidth(40)),
+                        topRight: Radius.circular(ScreenUtil().setWidth(40)))),
+                padding: EdgeInsets.only(
+                    top: ScreenUtil().setWidth(10),
+                    bottom: ScreenUtil().setWidth(10)),
+                child: TabBar(
+                    //生成Tab菜单
+                    controller: _tabController,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 5.0,
+                    indicatorColor: Colors.green,
+                    // labelPadding: EdgeInsets.only(left:1, top:1, bottom:0),
+                    labelColor: MyTheme.primaryColor,
+                    unselectedLabelColor: MyTheme.blackColor,
+                    tabs: tabs
+                        .map((e) => Tab(
+                              child: Container(
+                                  // color: Colors.white,
+                                  child: Text(
+                                e,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: 1,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: FontFamily.semibold,
+                                  fontSize: ScreenUtil().setWidth(52),
+                                ),
+                              )),
+                            ))
+                        .toList()),
+              )),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -283,143 +317,161 @@ class RankPageState extends State<RankPage>
                   ]),
             ),
           )),
-      body: TabBarView(
-        controller: _tabController,
-        children: !enableToShow
-            ? List<Widget>.from([
-                Center(
-                  child: Text("Loading..."),
-                ),
-                Center(
-                  child: Text("Loading..."),
-                )
-              ])
-            : List<Widget>.from([
-                ListView.separated(
-                    itemCount: friendsList?.length,
-                    itemBuilder: (context, index) {
-                      var winnerImgSrc;
-                      var winnerWidget;
-                      if (index == 0) {
-                        winnerImgSrc =
-                            "assets/image/rank_page_winner_first.png";
-                      } else if (index == 1) {
-                        winnerImgSrc =
-                            "assets/image/rank_page_winner_second.png";
-                      } else if (index == 2) {
-                        winnerImgSrc =
-                            "assets/image/rank_page_winner_third.png";
-                      }
+      body: Stack(
+        children: [
+          TabBarView(
+            controller: _tabController,
+            children: !enableToShow
+                ? List<Widget>.from([
+                    Center(
+                      child: Text("Loading..."),
+                    ),
+                    Center(
+                      child: Text("Loading..."),
+                    )
+                  ])
+                : List<Widget>.from([
+                    ListView.separated(
+                        itemCount: friendsList?.length,
+                        itemBuilder: (context, index) {
+                          var winnerImgSrc;
+                          var winnerWidget;
+                          if (index == 0) {
+                            winnerImgSrc =
+                                "assets/image/rank_page_winner_first.png";
+                          } else if (index == 1) {
+                            winnerImgSrc =
+                                "assets/image/rank_page_winner_second.png";
+                          } else if (index == 2) {
+                            winnerImgSrc =
+                                "assets/image/rank_page_winner_third.png";
+                          }
 
-                      if (index < 3) {
-                        winnerWidget = Image.asset(
-                          winnerImgSrc,
-                          width: ScreenUtil().setWidth(110),
-                          height: ScreenUtil().setWidth(120),
-                        );
-                      } else {
-                        winnerWidget = Container(
-                            alignment: Alignment.center,
-                            width: ScreenUtil().setWidth(110),
-                            height: ScreenUtil().setWidth(120),
-                            child: Text("${index + 1}"));
-                      }
+                          if (index < 3) {
+                            winnerWidget = Image.asset(
+                              winnerImgSrc,
+                              width: ScreenUtil().setWidth(110),
+                              height: ScreenUtil().setWidth(120),
+                            );
+                          } else {
+                            winnerWidget = Container(
+                                alignment: Alignment.center,
+                                width: ScreenUtil().setWidth(110),
+                                height: ScreenUtil().setWidth(120),
+                                child: Text("${index + 1}"));
+                          }
 
-                      var avatarWidget;
-                      if (friendsList[index].avatar?.isEmpty ?? true) {
-                        // 如果为空，使用默认的头像
-                        avatarWidget = Image.asset(
-                          "assets/image/rank_page_portrait_default.png",
-                          width: ScreenUtil().setWidth(120),
-                          height: ScreenUtil().setWidth(120),
-                          fit: BoxFit.cover,
-                        );
-                      } else {
-                        // 如果不为空，使用返回的头像
-                        avatarWidget = Image.network(
-                          friendsList[index].avatar,
-                          width: ScreenUtil().setWidth(120),
-                          height: ScreenUtil().setWidth(120),
-                          fit: BoxFit.cover,
-                        );
-                      }
+                          var avatarWidget;
+                          if (friendsList[index].avatar?.isEmpty ?? true) {
+                            // 如果为空，使用默认的头像
+                            avatarWidget = Image.asset(
+                              "assets/image/rank_page_portrait_default.png",
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(120),
+                              fit: BoxFit.cover,
+                            );
+                          } else {
+                            // 如果不为空，使用返回的头像
+                            avatarWidget = Image.network(
+                              friendsList[index].avatar,
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(120),
+                              fit: BoxFit.cover,
+                            );
+                          }
 
-                      return Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(50)),
-                          color: ((index == positionSelf)
-                              ? Color(0xFFBCFFCC)
-                              : Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              winnerWidget,
-                              Expanded(
-                                child: ListTile(
-                                  // leading: ClipRRect(borderRadius:BorderRadius.circular(30), child: avatarWidget),
-                                  leading: ClipOval(child: avatarWidget),
-                                  title: Text(friendsList[index].rela_account),
-                                  //TODO 这行描述是否从接口中返回？还是前端写死的？
-                                  subtitle: Text(friendsList[index].tree_num > 0
-                                      ? "${friendsList[index].tree_num} global dividend tree(s)"
-                                      : "No global dividend dog"),
-                                ),
-                              ),
-                              Text(
-                                "\$${friendsList[index].separate_amount}",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ],
-                          ));
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(
-                          height: 1,
-                        )),
+                          return Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(50)),
+                              color: ((index == positionSelf)
+                                  ? Color(0xFFBCFFCC)
+                                  : Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  winnerWidget,
+                                  Expanded(
+                                    child: ListTile(
+                                      // leading: ClipRRect(borderRadius:BorderRadius.circular(30), child: avatarWidget),
+                                      leading: ClipOval(child: avatarWidget),
+                                      title:
+                                          Text(friendsList[index].rela_account),
+                                      //TODO 这行描述是否从接口中返回？还是前端写死的？
+                                      subtitle: Text(friendsList[index]
+                                                  .tree_num >
+                                              0
+                                          ? "${friendsList[index].tree_num} global dividend tree(s)"
+                                          : "No global dividend dog"),
+                                    ),
+                                  ),
+                                  Text(
+                                    "\$${friendsList[index].separate_amount}",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ));
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(
+                              height: 1,
+                            )),
 
-                // 第二个tab
-                ListView.separated(
-                    itemCount: bounsTreeList?.length,
-                    itemBuilder: (context, index) {
-                      var avatarWidget;
-                      if (bounsTreeList[index].avatar?.isEmpty ?? true) {
-                        // 如果为空，使用默认的头像
-                        avatarWidget = Image.asset(
-                          "assets/image/rank_page_portrait_default.png",
-                          width: ScreenUtil().setWidth(120),
-                          height: ScreenUtil().setWidth(120),
-                          fit: BoxFit.cover,
-                        );
-                      } else {
-                        // 如果不为空，使用返回的头像
-                        avatarWidget = Image.network(
-                          bounsTreeList[index].avatar,
-                          width: ScreenUtil().setWidth(120),
-                          height: ScreenUtil().setWidth(120),
-                          fit: BoxFit.cover,
-                        );
-                      }
+                    // 第二个tab
+                    ListView.separated(
+                        itemCount: bounsTreeList?.length,
+                        itemBuilder: (context, index) {
+                          var avatarWidget;
+                          if (bounsTreeList[index].avatar?.isEmpty ?? true) {
+                            // 如果为空，使用默认的头像
+                            avatarWidget = Image.asset(
+                              "assets/image/rank_page_portrait_default.png",
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(120),
+                              fit: BoxFit.cover,
+                            );
+                          } else {
+                            // 如果不为空，使用返回的头像
+                            avatarWidget = Image.network(
+                              bounsTreeList[index].avatar,
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(120),
+                              fit: BoxFit.cover,
+                            );
+                          }
 
-                      return Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(50),
-                              vertical: ScreenUtil().setWidth(20)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ClipOval(child: avatarWidget),
-                              Text(bounsTreeList[index].rela_account),
-                              Text("1"),
-                              Text(bounsTreeList[index].separate_amount,
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 76, 47, 1))),
-                            ],
-                          ));
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider())
-              ]),
+                          return Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(50),
+                                  vertical: ScreenUtil().setWidth(20)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ClipOval(child: avatarWidget),
+                                  Text(bounsTreeList[index].rela_account),
+                                  Text("1"),
+                                  Text(bounsTreeList[index].separate_amount,
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 76, 47, 1))),
+                                ],
+                              ));
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider())
+                  ]),
+          ),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                color: Colors.white,
+                width: ScreenUtil().setWidth(1080),
+                height: ScreenUtil().setWidth(244),
+                alignment: Alignment(0, 0),
+                child: PrimaryButton(text: "Invite", width: 600, height: 124),
+              ))
+        ],
       ),
     );
   }
