@@ -41,36 +41,10 @@ class Layer {
   /// 隐藏loading
   static loadingHide() => _future?.dismiss();
 
-  // 领取金币
-  static receiveLayer(num goldNumber, Function onOk) =>
-      Modal(onOk: onOk, okText: '确定', children: <Widget>[
-        Image.asset(
-          'assets/image/treasure.png',
-          width: ScreenUtil().setWidth(316),
-          height: ScreenUtil().setWidth(207),
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            top: ScreenUtil().setWidth(43),
-            bottom: ScreenUtil().setWidth(28),
-          ),
-          child: Text(
-            '领取成功',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(60),
-                fontWeight: FontWeight.w600),
-          ),
-        ),
-        SecondaryText('恭喜获得', color: MyTheme.secondaryColor),
-        GoldText(Util.formatNumber(goldNumber))
-      ])
-        ..show();
 // 新等级弹窗
   static newGrade(Tree tree) => Modal(
       onOk: () {},
-      okText: '确定',
+      okText: 'Claim',
       children: <Widget>[
         TreeWidget(
           tree: tree,
@@ -81,11 +55,11 @@ class Layer {
         ),
         Container(
           margin: EdgeInsets.only(
-            top: ScreenUtil().setWidth(31),
-            bottom: ScreenUtil().setWidth(54),
+            top: ScreenUtil().setWidth(30),
+            bottom: ScreenUtil().setWidth(47),
           ),
           child: Text(
-            tree.name,
+            'Update successed',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: MyTheme.blackColor,
@@ -93,7 +67,7 @@ class Layer {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        SecondaryText('升级成功', color: MyTheme.secondaryColor)
+        // SecondaryText('升级成功', color: MyTheme.secondaryColor)
       ],
       footer: Container(
         width: ScreenUtil().setWidth(840),
@@ -352,7 +326,7 @@ class Layer {
 // 回收弹窗
   static recycleLayer(
           Function onOk, String imgSrc, num recycleMoney, num goldNumber) =>
-      Modal(onOk: onOk, onCancel: () {}, okText: '确定回收', children: <Widget>[
+      Modal(onOk: onOk, onCancel: () {}, okText: 'Claim', children: <Widget>[
         Image.asset(
           imgSrc,
           width: ScreenUtil().setWidth(218),
@@ -363,8 +337,12 @@ class Layer {
             top: ScreenUtil().setWidth(63),
             bottom: ScreenUtil().setWidth(50),
           ),
-          child: SecondaryText(recycleMoney != null ? "回收获得" : '回收价格',
-              color: MyTheme.secondaryColor),
+          child: SecondaryText(
+            recycleMoney != null ? "Recycling price" : 'Recycling price',
+          ),
+        ),
+        Container(
+          height: ScreenUtil().setWidth(60),
         ),
         GoldText(recycleMoney != null
             ? '\$ ${Util.formatNumber(recycleMoney)}'
@@ -418,7 +396,7 @@ class Layer {
             ]).show();
   }
 
-  /// toast弹窗
+  /// toast���窗
   static _showToast(String type, String msg) {
     Widget icon;
     switch (type) {

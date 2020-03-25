@@ -471,8 +471,9 @@ class TreeGroup with ChangeNotifier {
     notifyListeners();
     // 设置时长结束后隐藏
     Duration duration = Duration(seconds: _treasuReremain);
+    Tree _tree = treasureTree;
     Future.delayed(duration).then((e) {
-      treasureTree = null;
+      if (treasureTree == _tree) treasureTree = null;
       notifyListeners();
     });
   }
@@ -522,7 +523,7 @@ class TreeGroup with ChangeNotifier {
     save();
   }
 
-  // 从仓库取出
+  // 从���库取出
   void outWarehouse(List<Tree> outTreeList) {
     for (var tree in outTreeList) {
       if (addTree(tree: tree, saveData: false)) {

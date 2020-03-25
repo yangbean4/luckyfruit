@@ -44,7 +44,6 @@ class _TripState extends State<Trip>
   @override
   void initState() {
     super.initState();
-    print('Trip--initState-');
     isPlay = Bgm.isPlay;
   }
 

@@ -82,12 +82,12 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
   Future<void> runAction() async {
     try {
       await treeAnimationController?.forward();
-      await treeAnimationController?.reverse();
-      await Future.delayed(Duration(milliseconds: 300));
-
       await goldAnimationController
         ..value = 0.0
         ..forward();
+      await treeAnimationController?.reverse();
+      // await Future.delayed(Duration(milliseconds: 300));
+
     } catch (e) {}
   }
 

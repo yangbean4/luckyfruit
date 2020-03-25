@@ -96,7 +96,7 @@ class _TreasureAnimation extends StatefulWidget {
   _TreasureAnimation(
       {Key key,
       @required this.builder,
-      this.animateTime = const Duration(milliseconds: 1800)})
+      this.animateTime = const Duration(milliseconds: 500)})
       : super(key: key);
 
   @override
@@ -140,14 +140,14 @@ class _GrowTransition extends StatelessWidget {
           end: 1.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 0.9, curve: Curves.easeInToLinear))),
+            curve: Interval(0.0, 0.2, curve: Curves.easeInToLinear))),
         // 大小
         enlargeSize = Tween<double>(
           begin: -1.0,
           end: 0.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.9, 1.0, curve: Curves.easeInToLinear))),
+            curve: Interval(0.8, 1.0, curve: Curves.bounceInOut))),
         super(key: key);
 
   final Animation<double> controller;

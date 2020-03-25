@@ -306,8 +306,8 @@ class _Reward extends StatefulWidget {
 class __RewardState extends State<_Reward> {
   int index;
   int startInterval = 20;
-  int endInterval = 400;
-  int speed = 30;
+  int endInterval = 150;
+  int speed = 15;
   int server = 1;
 
   _goRun() async {

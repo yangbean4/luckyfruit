@@ -33,6 +33,7 @@ void main() {
         userModel.value?.level ?? '1', userModel.value?.acct_id);
   });
 
+// 开启背景音乐
   // Bgm.init();
 
   runApp(MultiProvider(

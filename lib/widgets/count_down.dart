@@ -89,7 +89,7 @@ class CountdownFormatted extends StatelessWidget {
 
   Function(Duration) _formatter() {
     if (duration.inHours >= 1) return formatByHours;
-    if (duration.inMinutes >= 1) return formatByMinutes;
+    // if (duration.inMinutes >= 1) return formatByMinutes;
 
     return formatBySeconds;
   }
