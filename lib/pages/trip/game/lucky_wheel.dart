@@ -22,7 +22,7 @@ class LuckyWheelWidget extends StatefulWidget {
   AnimationController controller;
 
   startSpin() {
-    controller.value = 0;
+    // controller.value = 0;
     controller.forward();
   }
 
@@ -68,7 +68,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     widget.animation = curTween.animate(curve)
       ..addListener(() {
         setState(() {
-          print("setState() widget.animation.value= ${widget.animation.value}");
+          print(
+              "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
           // angle = widget.animation.value;
         });
       })
@@ -205,6 +206,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                 updateTween();
               });
               curTween.end = defaultNumOfTurns;
+
+              widget.controller.value =
+                  _getAngelWithSelectedPosition(finalPos) /
+                      ((widget.animation.value) +
+                          _getAngelWithSelectedPosition(finalPos));
               widget.startSpin();
             },
             tips: null,
