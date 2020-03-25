@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
@@ -505,22 +506,23 @@ class Layer {
 
   /// 通过接口检查限时分红树状态
   static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) async {
-    bool enable = await checkLimitedTimeBonusTreeState();
-    if (enable) {
-      showLimitedTimeBonusTree(treeGroup);
-    }
+    checkLimitedTimeBonusTreeState(treeGroup.acct_id, treeGroup.maxLevel)
+        .then((value) {
+      if (value?.tree_type == 1) {
+        // 如果是限时分红树
+        showLimitedTimeBonusTree(treeGroup);
+      }
+    });
   }
 
   /// 检测是否需要弹出限时分红树
-  static Future<bool> checkLimitedTimeBonusTreeState() async {
-    dynamic stateMap = await Service().checkTimeLimitTree({'acct_id': 67});
-    //TODO 从接口中接受该值，作为下一次合成时的条件
-    stateMap = json.decode("""{
-        "code":0,
-        "msg":"success"
-    }""");
-    int code = stateMap['code'] as num;
-    return code == 0;
+  static Future<UnlockNewTreeLevel> checkLimitedTimeBonusTreeState(
+      String acctId, int level) async {
+    dynamic stateMap =
+        await Service().unlockNewLevel({'acct_id': acctId, "level": level});
+
+    UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
+    return newLevel;
   }
 
   /// 显示限时分红树开始

@@ -45,11 +45,11 @@ class _DividendState extends State<Dividend> {
               ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment(0.0, -1.0),
-                    end: Alignment(0.0, 1.0),
+                    begin: Alignment(-1.0, 0.0),
+                    end: Alignment(1.0, 0.0),
                     colors: [
-                      Color.fromRGBO(255, 110, 86, 1),
-                      Color.fromRGBO(255, 76, 47, 1),
+                      Color.fromRGBO(255, 92, 65, 1),
+                      Color.fromRGBO(255, 116, 94, 1),
                     ]),
               ),
               child: Column(

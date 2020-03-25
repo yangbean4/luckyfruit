@@ -9,5 +9,6 @@
   "avatar": "",
   "invite_code": "123",
   "worker_visible": 1,
-  "direct_friend_visible": 1
+  "direct_friend_visible": 1,
+  "paypal_account": ""
 }

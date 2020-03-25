@@ -246,9 +246,10 @@ class RankPageState extends State<RankPage>
 
     dynamic rankMap =
         await Service().getRankInfo({'acct_id': treeGroup.acct_id});
+    //TODO 测试
     // Ranklist rankList = Ranklist.fromJson(rankMap);
     Ranklist rankList = Ranklist.fromJson(json.decode(testJson));
-    // 测试空白页面使用
+    // TODO 测试空白页面使用
     await Future.delayed(Duration(seconds: 3));
     return rankList;
   }
@@ -265,14 +266,25 @@ class RankPageState extends State<RankPage>
     }
     return Scaffold(
       appBar: AppBar(
-        //导航栏
-        title: Text("Rank"),
-        backgroundColor: MyTheme.primaryColor,
-        bottom: TabBar(
-            //生成Tab菜单
-            controller: _tabController,
-            tabs: tabs.map((e) => Tab(text: e)).toList()),
-      ),
+          //导航栏
+          title: Text("Rank"),
+          bottom: TabBar(
+              //生成Tab菜单
+              controller: _tabController,
+              tabs: tabs.map((e) => Tab(text: e)).toList()),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(-1.0, 0.0),
+                  end: Alignment(1.0, 0.0),
+                  colors: [
+                    Color.fromRGBO(103, 228, 127, 1),
+                    Color.fromRGBO(59, 206, 100, 1),
+                    // Colors.red,
+                    // Colors.black
+                  ]),
+            ),
+          )),
       body: TabBarView(
         controller: _tabController,
         children: !enableToShow
@@ -338,7 +350,7 @@ class RankPageState extends State<RankPage>
                           padding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(50)),
                           color: ((index == positionSelf)
-                              ? MyTheme.primaryColor
+                              ? Color(0xFFBCFFCC)
                               : Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,

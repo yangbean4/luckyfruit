@@ -14,6 +14,7 @@ export 'Issued.dart' ;
 export 'userInfo.dart' ; 
 export 'rank_bonus_trees.dart' ; 
 export 'partnerProfitList.dart' ; 
+export 'unlockNewTreeLevel.dart' ; 
 export 'partnerSubordinateList.dart' ; 
 export 'user.dart' ; 
 export 'sign.dart' ; 

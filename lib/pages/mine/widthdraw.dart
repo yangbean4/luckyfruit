@@ -194,39 +194,73 @@ class _WithDrawPageState extends State<WithDrawPage> {
             Positioned(
               bottom: ScreenUtil().setWidth(108),
               left: ScreenUtil().setWidth(240),
-              child: Selector<WithDrawProvider, WithDrawProvider>(
-                  selector: (context, provider) => provider,
-                  shouldRebuild: (pre, next) {
-                    return true;
-                  },
-                  builder: (context, provider, child) {
-                    return GestureDetector(
-                      onTap: () {
-                        showInfoInputingWindow(provider);
-                      },
-                      child: PrimaryButton(
-                          width: 600,
-                          height: 124,
-                          child: Center(
-                              child: Text(
-                            "Cash Out",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              height: 1,
-                              fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setWidth(56),
-                            ),
-                          ))),
-                    );
+              child: Selector<UserModel, UserInfo>(
+                  selector: (_, provider) => provider.userInfo,
+                  builder: (_, UserInfo userInfo, __) {
+                    return Selector<WithDrawProvider, WithDrawProvider>(
+                        selector: (context, provider) => provider,
+                        shouldRebuild: (pre, next) {
+                          return true;
+                        },
+                        builder: (context, provider, child) {
+                          return GestureDetector(
+                            onTap: () {
+                              showInfoInputingWindow(
+                                  provider, userInfo.paypal_account);
+                            },
+                            child: PrimaryButton(
+                                width: 600,
+                                height: 124,
+                                child: Center(
+                                    child: Text(
+                                  "Cash Out",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: ScreenUtil().setWidth(56),
+                                  ),
+                                ))),
+                          );
+                        });
                   }),
             )
           ])),
     );
   }
 
-  void showInfoInputingWindow(WithDrawProvider provider) {
-    showDialog(context: context, builder: (_) => InputingInfoWidget(provider));
+  void showInfoInputingWindow(
+      WithDrawProvider provider, String paypal_account) {
+    num amount = provider?._amountList?.firstWhere((e) {
+      return e.selected == true;
+    }, orElse: () {
+      return null;
+    })?.amount;
+
+    WithDrawTypes type = provider?._typesList?.firstWhere((e) {
+      return e.selected == true;
+    }, orElse: () {
+      return null;
+    })?.type;
+    if (type == null) {
+      Layer.toastWarning("Please Select Cash Withdrawal Way");
+      return null;
+    }
+    if (amount == null) {
+      Layer.toastWarning("Please Select Cash Withdrawal Amount");
+      return null;
+    }
+
+    if (type == WithDrawTypes.Type_Amazon) {
+      // 不弹框,直接给出toast
+      Navigator.pop(context);
+      Layer.toastSuccess("Submit Success, Please Check In Your Message Page");
+      return;
+    }
+    showDialog(
+        context: context,
+        builder: (_) => InputingInfoWidget(amount, type, paypal_account));
   }
 }
 
@@ -234,8 +268,10 @@ class InputingInfoWidget extends StatelessWidget {
   final TextEditingController _controllerFirst = new TextEditingController();
   final TextEditingController _controllerRepeat = new TextEditingController();
 
-  final WithDrawProvider provider;
-  InputingInfoWidget(this.provider);
+  final num amount;
+  final WithDrawTypes type;
+  final String paypal_account;
+  InputingInfoWidget(this.amount, this.type, this.paypal_account);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -267,7 +303,8 @@ class InputingInfoWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         ModalTitle("Paypal"),
-                        InputFiledWidget("Paypal Account", _controllerFirst),
+                        InputFiledWidget("Paypal Account", _controllerFirst,
+                            paypalAccount: paypal_account),
                         InputFiledWidget(
                             "Confirm Paypal Account", _controllerRepeat),
                         GestureDetector(
@@ -289,19 +326,9 @@ class InputingInfoWidget extends StatelessWidget {
                               return;
                             }
 
-                            num amount = provider._amountList.firstWhere((e) {
-                              return e.selected == true;
-                            }, orElse: () {
-                              return null;
-                            })?.amount;
-
-                            WithDrawTypes type =
-                                provider._typesList.firstWhere((e) {
-                              return e.selected == true;
-                            }, orElse: () {
-                              return null;
-                            })?.type;
-                            postWithDrawInfo(context, amount, type).then((e) {
+                            postWithDrawInfo(context, amount, type,
+                                    _controllerFirst.text)
+                                .then((e) {
                               if (e != null) {
                                 handleAfterSummitWithDraw();
                               }
@@ -345,24 +372,21 @@ class InputingInfoWidget extends StatelessWidget {
   }
 }
 
-Future<WithdrawResult> postWithDrawInfo(
-    BuildContext context, num amount, WithDrawTypes type) async {
+Future<WithdrawResult> postWithDrawInfo(BuildContext context, num amount,
+    WithDrawTypes type, String paypalAccount) async {
   print("postWithDrawInfo amount=$amount, type=$type");
-  if (amount == null) {
-    Layer.toastWarning("Please Select Cash Withdrawal Amount");
-    return null;
-  }
-  if (type == null) {
-    Layer.toastWarning("Please Select Cash Withdrawal Way");
-    return null;
-  }
 
   TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
-  dynamic rankMap = await Service().withDraw({
+
+  Map<String, String> map = {
     'acct_id': treeGroup.acct_id,
-    "cash_method": amount,
-    "wdl_amt": type.index + 1
-  });
+    "cash_method": "$amount",
+    "wdl_amt": "${type.index + 1}",
+  };
+  if (type == WithDrawTypes.Type_Paypal) {
+    map.addAll({"paypal_account": paypalAccount});
+  }
+  dynamic rankMap = await Service().withDraw(map);
   WithdrawResult withDrawResult = WithdrawResult.fromJson(rankMap);
   return withDrawResult;
 }
@@ -389,9 +413,11 @@ handleAfterSummitWithDraw() {
 class InputFiledWidget extends StatelessWidget {
   final TextEditingController _controller;
   final String title;
-  InputFiledWidget(this.title, this._controller);
+  final String paypalAccount;
+  InputFiledWidget(this.title, this._controller, {this.paypalAccount});
   @override
   Widget build(BuildContext context) {
+    _controller.text = paypalAccount;
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -436,6 +462,10 @@ class WithDrawProvider with ChangeNotifier {
   }
 
   selectAmountItem(WithDrawAmountItem item) {
+    if (item.disabled) {
+      Layer.toastWarning("Disabled");
+      return;
+    }
     _amountList.forEach((e) {
       e.selected = false;
     });
@@ -455,6 +485,15 @@ class WithDrawProvider with ChangeNotifier {
     });
 
     item.selected = true;
+
+    if (item.type == WithDrawTypes.Type_Amazon) {
+      _amountList.forEach((e) {
+        if (e.first) {
+          e.disabled = true;
+        }
+      });
+    }
+
     notifyListeners();
   }
 }
@@ -505,8 +544,11 @@ class WithDrawAmountItem {
   num amount;
   // 判断是第一个选项,特殊处理
   bool first = false;
+  // 选择亚马逊提现的时候第一个提现数量禁用
+  bool disabled = false;
 
-  WithDrawAmountItem(this.amount, this.selected, this.first);
+  WithDrawAmountItem(this.amount, this.selected, this.first,
+      {this.disabled = false});
 }
 
 class WithDrawAmountItemWidget extends StatelessWidget {
@@ -524,7 +566,9 @@ class WithDrawAmountItemWidget extends StatelessWidget {
           height: ScreenUtil().setWidth(100),
           //TODO 背景颜色渐变
           decoration: BoxDecoration(
-              color: item.selected ? MyTheme.primaryColor : Color(0xFFEFEEF3),
+              color: item.disabled
+                  ? Color(0xFFDDDDDD)
+                  : item.selected ? MyTheme.primaryColor : Color(0xFFEFEEF3),
               borderRadius:
                   BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20)))),
           child: Text("\$${item.amount}",

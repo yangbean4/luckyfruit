@@ -146,14 +146,6 @@ class Service {
     return response.data['data'];
   }
 
-  // 检测是否需要弹出限时分红树
-  Future<Map<String, dynamic>> checkTimeLimitTree(
-      Map<String, dynamic> data) async {
-    Response response =
-        await _client.post('/Dividend/plantTimeLimitTree', data: data);
-    return response.data['data'];
-  }
-
   // 获取用户的Partner信息
   Future<Map<String, dynamic>> getPartnerListInfo(
       Map<String, dynamic> data) async {
@@ -221,6 +213,13 @@ class Service {
   // 用户提现
   Future<Map<String, dynamic>> withDraw(Map<String, dynamic> data) async {
     Response response = await _client.post('/user/withdarw', data: data);
+    return response.data['data'];
+  }
+
+  // 树木解锁新等级,检测是否获取 [1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树]
+  Future<Map<String, dynamic>> unlockNewLevel(Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Reward/unlockNewLevel', data: data);
     return response.data['data'];
   }
 
