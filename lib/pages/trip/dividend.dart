@@ -48,8 +48,8 @@ class _DividendState extends State<Dividend> {
                     begin: Alignment(-1.0, 0.0),
                     end: Alignment(1.0, 0.0),
                     colors: [
-                      Color.fromRGBO(255, 92, 65, 1),
                       Color.fromRGBO(255, 116, 94, 1),
+                      Color.fromRGBO(255, 92, 65, 1),
                     ]),
               ),
               child: Column(
