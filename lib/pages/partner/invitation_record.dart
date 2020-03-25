@@ -18,7 +18,11 @@ class InvitationRecordListPage extends StatefulWidget {
 class InvitationRecordListPageState extends State<InvitationRecordListPage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List tabs = ["Direct Friends", "Indirect Friends", "Pending Activation"];
+  List tabs = [
+    "Direct \nFriends",
+    "Indirect \nFriends",
+    "Pending \nActivation"
+  ];
 
   @override
   void initState() {
@@ -30,10 +34,8 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          //导航栏
-          title: Text("Invitation Record"),
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(ScreenUtil().setWidth(200)),
+              preferredSize: Size.fromHeight(ScreenUtil().setWidth(240)),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -69,6 +71,9 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                         .toList()),
               )),
           flexibleSpace: Container(
+            width: ScreenUtil().setWidth(1080),
+            height: ScreenUtil().setWidth(1000),
+            alignment: Alignment(0, -0.2),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment(-1.0, 0.0),
@@ -77,6 +82,17 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                     Color.fromRGBO(103, 228, 127, 1),
                     Color.fromRGBO(59, 206, 100, 1),
                   ]),
+            ),
+            child: Text(
+              "Invitation Record",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                height: 1,
+                fontFamily: FontFamily.bold,
+                fontWeight: FontWeight.bold,
+                fontSize: ScreenUtil().setWidth(70),
+              ),
             ),
           )),
       body: TabBarView(controller: _tabController, children: [

@@ -267,56 +267,69 @@ class RankPageState extends State<RankPage>
     }
     return Scaffold(
       appBar: AppBar(
-          //导航栏
-          title: Text("Rank"),
-          bottom: PreferredSize(
-              preferredSize: Size.fromHeight(ScreenUtil().setWidth(200)),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(ScreenUtil().setWidth(40)),
-                        topRight: Radius.circular(ScreenUtil().setWidth(40)))),
-                padding: EdgeInsets.only(
-                    top: ScreenUtil().setWidth(10),
-                    bottom: ScreenUtil().setWidth(10)),
-                child: TabBar(
-                    //生成Tab菜单
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorWeight: 5.0,
-                    indicatorColor: Colors.green,
-                    // labelPadding: EdgeInsets.only(left:1, top:1, bottom:0),
-                    labelColor: MyTheme.primaryColor,
-                    unselectedLabelColor: MyTheme.blackColor,
-                    tabs: tabs
-                        .map((e) => Tab(
-                              child: Container(
-                                  // color: Colors.white,
-                                  child: Text(
-                                e,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  height: 1,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setWidth(52),
-                                ),
-                              )),
-                            ))
-                        .toList()),
-              )),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment(-1.0, 0.0),
-                  end: Alignment(1.0, 0.0),
-                  colors: [
-                    Color.fromRGBO(103, 228, 127, 1),
-                    Color.fromRGBO(59, 206, 100, 1),
-                  ]),
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(ScreenUtil().setWidth(300)),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(ScreenUtil().setWidth(40)),
+                      topRight: Radius.circular(ScreenUtil().setWidth(40)))),
+              padding: EdgeInsets.only(
+                  top: ScreenUtil().setWidth(10),
+                  bottom: ScreenUtil().setWidth(10)),
+              child: TabBar(
+                  //生成Tab菜单
+                  controller: _tabController,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 5.0,
+                  indicatorColor: Colors.green,
+                  // labelPadding: EdgeInsets.only(left:1, top:1, bottom:0),
+                  labelColor: MyTheme.primaryColor,
+                  unselectedLabelColor: MyTheme.blackColor,
+                  tabs: tabs
+                      .map((e) => Tab(
+                            child: Container(
+                                // color: Colors.white,
+                                child: Text(
+                              e,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                height: 1,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: FontFamily.semibold,
+                                fontSize: ScreenUtil().setWidth(52),
+                              ),
+                            )),
+                          ))
+                      .toList()),
+            )),
+        flexibleSpace: Container(
+          width: ScreenUtil().setWidth(1080),
+          height: ScreenUtil().setWidth(1000),
+          alignment: Alignment(0, -0.2),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment(-1.0, 0.0),
+                end: Alignment(1.0, 0.0),
+                colors: [
+                  Color.fromRGBO(103, 228, 127, 1),
+                  Color.fromRGBO(59, 206, 100, 1),
+                ]),
+          ),
+          child: Text(
+            "RANK",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              height: 1,
+              fontFamily: FontFamily.black,
+              fontWeight: FontWeight.bold,
+              fontSize: ScreenUtil().setWidth(100),
             ),
-          )),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           TabBarView(

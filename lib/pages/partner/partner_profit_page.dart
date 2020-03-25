@@ -74,10 +74,26 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  Colors.white,
         appBar: AppBar(
-            //导航栏
-            title: Text("Partners Earning"),
+            elevation: 0,
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(ScreenUtil().setWidth(100)),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(ScreenUtil().setWidth(40)),
+                          topRight:
+                              Radius.circular(ScreenUtil().setWidth(40)))),
+                  padding: EdgeInsets.only(
+                      top: ScreenUtil().setWidth(20),
+                      bottom: ScreenUtil().setWidth(20)),
+                )),
             flexibleSpace: Container(
+              width: ScreenUtil().setWidth(1080),
+              height: ScreenUtil().setWidth(1000),
+              alignment: Alignment(0, 0.2),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment(-1.0, 0.0),
@@ -86,6 +102,17 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                       Color.fromRGBO(103, 228, 127, 1),
                       Color.fromRGBO(59, 206, 100, 1),
                     ]),
+              ),
+              child: Text(
+                "Partners Earning",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  height: 1,
+                  fontFamily: FontFamily.bold,
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenUtil().setWidth(80),
+                ),
               ),
             )),
         body: _partnerProfitList?.data?.length != null
