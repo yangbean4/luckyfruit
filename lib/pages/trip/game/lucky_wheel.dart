@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,8 +48,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   int ticketCount;
   String testJson = """{
         "gift_id": 2,
-        "coin": 9000
+        "coin": 9300
     }""";
+
+  num coinNum = 0;
 
   initState() {
     super.initState();
@@ -91,7 +96,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       });
   }
 
-  Future<int> getLuckResult(BuildContext context) async {
+  Future<dynamic> getLuckResult(BuildContext context) async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     dynamic luckResultMap;
     luckResultMap = await Service().getLuckyWheelResult(
@@ -101,13 +106,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     // await Future.delayed(Duration(seconds: 2));
     // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
-    finalPos = luckResultMap['gift_id'] as num;
-    //TODO 测试
-    // finalPos = ticketCount;
-
-    int coin = luckResultMap['coin'] as num;
-    print("返回的gift_id=$finalPos，coin=$coin");
-    return coin;
+    return luckResultMap;
   }
 
   ///接口中取到结果后更新
@@ -207,11 +206,22 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     });
                     return;
                   }
-                  ticketCount--;
 
                   // 重置为3
                   maxRetryNum = 3;
-                  getLuckResult(context).then((coin) {
+                  getLuckResult(context).then((luckResultMap) {
+                    if (luckResultMap == null) {
+                      print("luckResultMap = null");
+                      // 动态设置断点
+                      debugger(when: luckResultMap == null);
+                      return;
+                    }
+                    finalPos = luckResultMap['gift_id'] as num;
+                    coinNum = luckResultMap['coin'] as num;
+                    print("返回的gift_id=$finalPos，coin=$coinNum");
+
+                    ticketCount--;
+
                     updateTween();
                   });
                   curTween.end = defaultNumOfTurns;
@@ -264,39 +274,36 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   }
 
   void showRewardWindowWithFinalPostion(int finalPosition) {
+    int luckyWheelType;
     switch (finalPosition) {
       case 8:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES);
         break;
       case 7:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_MEGE_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
         break;
       case 6:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_HUGE_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
         break;
       case 5:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
         break;
       case 4:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES);
         break;
       case 3:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_MEGE_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
         break;
       case 2:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_HUGE_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
         break;
       case 1:
-        Layer.showLuckWheelWinResultWindow(
-            LuckyWheelWinResultWindow.TYPE_BIG_WIN);
+        luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
         break;
       default:
         break;
     }
+
+    Layer.showLuckWheelWinResultWindow(luckyWheelType, coinNum);
   }
 }

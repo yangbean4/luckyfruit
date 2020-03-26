@@ -807,12 +807,12 @@ class Layer {
   }
 
   /// 大转盘抽���结果弹框
-  static showLuckWheelWinResultWindow(int winType) {
+  static showLuckWheelWinResultWindow(int winType, num coinNum) {
     Modal(
         onCancel: () {},
         okText: "Claim",
         horizontalPadding: 10,
-        children: <Widget>[LuckyWheelWinResultWindow(winType: winType)]).show();
+        children: <Widget>[LuckyWheelWinResultWindow(winType: winType, coinNum: coinNum,)]).show();
   }
 
   /// 雌雄啤酒花树合成后的现金奖励弹窗

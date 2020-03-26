@@ -6,10 +6,12 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/gold_text.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/secondary_text.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 // Huge Win奖励弹窗
 class LuckyWheelWinResultWindow extends StatelessWidget {
   final int winType;
+  final num coinNum;
 
   static const TYPE_BIG_WIN = 1;
   static const TYPE_BIG_WIN_10X = 2;
@@ -20,7 +22,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
   static const TYPE_JACKPOT_WIN = 7;
   static const TYPE_JACKPOT_WIN_10X = 8;
 
-  LuckyWheelWinResultWindow({Key key, this.winType})
+  LuckyWheelWinResultWindow({Key key, this.winType, this.coinNum})
       : assert(winType > 0 && winType < 9,
             "传入的LuckyWheelWinResultWindow的type不合法：$winType"),
         super(key: key);
@@ -68,7 +70,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
           bottom: ScreenUtil().setWidth(60),
         ),
         //TODO 数值要对上
-        child: GoldText("1078.98t"),
+        child: GoldText(Util.formatNumber(coinNum)),
       ),
     ]);
   }
