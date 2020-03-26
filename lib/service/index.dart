@@ -1,5 +1,5 @@
 import 'dart:convert';
-// import 'package:dio/adapter.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -240,11 +240,9 @@ class Service {
     //   client.findProxy = (Uri) {
     //     // 用1个开关设置是否开启代理
     //     // return "PROXY 10.200.14.199:8989";
-    //     return 'PROXY 10.200.10.61:8888';//周治荣
+    //     return 'PROXY 10.200.15.2:8888'; //周治荣
     //   };
     // };
-
-    // _client.transformer = Transformer()
 
     // 添加拦截器
     _client.interceptors

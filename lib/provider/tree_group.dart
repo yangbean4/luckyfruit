@@ -69,6 +69,14 @@ class TreeGroup with ChangeNotifier {
   // 正在执行合成动画的树 的合成目标
   Tree autoTargetTree;
 
+  //🚩 在执行合成动画时先设置这两个的值
+  // 这两个有值会使得对应的位置显示为动画合成
+  // 合成结束后 显示出合成出的树
+  // 在执行合成动画的两哥树
+  Tree animateSourceTree;
+  // 正在执行合成动画的树 的合成目标
+  Tree animateTargetTree;
+
   // 记录每个等级种树的次数
   Map<String, int> treeGradeNumber = {};
 
@@ -225,7 +233,7 @@ class TreeGroup with ChangeNotifier {
       _autoMerge();
     });
     EVENT_BUS.on(TreeGroup.AUTO_MERGE_END, (_) {
-      mergeEnd();
+      _autoMergeTimeout();
     });
     // 弹窗显示时自动合成暂停
     EVENT_BUS.on(Event_Name.MODAL_SHOW, (_) {
@@ -239,7 +247,7 @@ class TreeGroup with ChangeNotifier {
       }
     });
     EVENT_BUS.on(Event_Name.Router_Change, (_) {
-      mergeEnd();
+      _autoMergeTimeout();
     });
 
     return this;
@@ -343,6 +351,7 @@ class TreeGroup with ChangeNotifier {
     return true;
   }
 
+  // 自动合成开启
   _autoMerge() {
     // 动画时间的1.2倍时间检查一次
     final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
@@ -360,7 +369,14 @@ class TreeGroup with ChangeNotifier {
     });
   }
 
-// 检查是否有自可以自动合成的🌲 如果有执行自动合成
+// 自动合成结束
+  _autoMergeTimeout() {
+    _isAuto = false;
+    timer?.cancel();
+    save();
+  }
+
+// 检查是否有自可以自动合成的🌲 如果有执行自动合成动画
   _checkMerge() {
     for (int index = 0; index < _treeList.length; index++) {
       Tree target = _treeList[index];
@@ -382,21 +398,51 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
+  // 一组自动合成动画结束
   autoMergeEnd(Tree source, Tree target) {
     autoSourceTree = null;
     autoTargetTree = null;
-    int _maxLevel = maxLevel;
-    if (++target.grade > _maxLevel) {
-      Layer.newGrade(maxLevelTree);
-    }
-    Bgm.mergeTree();
+    mergeTree(source, target);
     notifyListeners();
   }
 
-  mergeEnd() {
-    _isAuto = false;
-    timer?.cancel();
-    save();
+// 合并树
+  mergeTree(Tree source, Tree target) {
+    // 每合成一次统计一下
+    totalMergeCount++;
+    if (target.grade == Tree.MAX_LEVEL) {
+      // 判断是什么类型
+      if (target.type.contains("continents") &&
+          source.type.contains("continents")) {
+        // 五大洲树弹窗
+        Layer.showContinentsMergeWindow();
+      } else if (target.type.contains("hops") && source.type.contains("hops")) {
+        // 啤酒花树
+        Layer.showHopsMergeWindow();
+      }
+    } else if (target.grade == Tree.MAX_LEVEL - 1) {
+      // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
+      Layer.showTopLevelMergeWindow();
+    } else {
+      // 解锁新等级
+      if (target.grade + 1 > maxLevel) {
+        Layer.newGrade(maxLevelTree);
+        // 检测是否出现限时分红树（只在升级到最新等级时触发）
+        limitedTimeBonusTreeShowUp();
+      } else {
+        // 检查出现宝箱
+        checkTreasure();
+      }
+      // 结束前一个合成队列的动画, 避免前一个后一个合成动作重叠
+      treeMergeAnimateEnd();
+      removeAnimateTargetTree();
+
+      // 设置animateTree 开始执行动画
+      animateSourceTree = source;
+      animateTargetTree = target;
+      // 设置animateTree的两个树 使得动画开始执行
+      _treeList.remove(source);
+    }
   }
 
 // 拖拽移动时的处理
@@ -408,36 +454,8 @@ class TreeGroup with ChangeNotifier {
       source.x = pos.x;
       source.y = pos.y;
     } else if (source.grade == target.grade) {
-      Bgm.mergeTree();
-
-      // 每合成一次统计一下
-      totalMergeCount++;
-      if (target.grade == Tree.MAX_LEVEL) {
-        // 判断是什么类型
-        if (target.type.contains("continents") &&
-            source.type.contains("continents")) {
-          // 五大洲树弹窗
-          Layer.showContinentsMergeWindow();
-        } else if (target.type.contains("hops") &&
-            source.type.contains("hops")) {
-          // 啤酒花树
-          Layer.showHopsMergeWindow();
-        }
-      } else if (target.grade == Tree.MAX_LEVEL - 1) {
-        // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
-        Layer.showTopLevelMergeWindow();
-      } else {
-        int _maxLevel = maxLevel;
-        if (++target.grade > _maxLevel) {
-          // _maxLevel = target.grade;
-          Layer.newGrade(maxLevelTree);
-          // 检测是否出现限时分红树（只在升级到最新等级时触发）
-          limitedTimeBonusTreeShowUp();
-        } else {
-          checkTreasure();
-        }
-        _treeList.remove(source);
-      }
+      // 同等级 合并
+      mergeTree(source, target);
     } else {
       target.x = source.x;
       target.y = source.y;
@@ -446,6 +464,26 @@ class TreeGroup with ChangeNotifier {
     }
     notifyListeners();
     save();
+  }
+
+// 合成动画结束
+  treeMergeAnimateEnd() {
+    if (animateTargetTree != null && animateSourceTree != null) {
+      Bgm.mergeTree();
+
+      // 设置等级+1
+      animateTargetTree.grade++;
+      _treeList;
+      // 移除动画用到的树
+      animateSourceTree = null;
+      notifyListeners();
+      save();
+    }
+  }
+
+  removeAnimateTargetTree() {
+    animateTargetTree = null;
+    notifyListeners();
   }
 
   /// 通过接口检查限时分红树状态
@@ -487,13 +525,13 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
-  // 生成宝箱
+  // 生成��箱
   makeTreasure(TreePoint point) {
     treasureTree = Tree(
         x: point.x,
         y: point.y,
         type: TreeType.Type_Mango,
-        // 等级为 最小等级+随机的_treasugrade等级 与最大等级减1 的最小值
+        // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
         grade: min(maxLevel - 1, minLevel + Random().nextInt(_treasugrade)));
     notifyListeners();
     // 设置时长结束后隐藏
@@ -507,7 +545,7 @@ class TreeGroup with ChangeNotifier {
 
   // 领取宝箱
   pickTreasure(bool pick) {
-    // 是否领取树
+    // 是否��取树
     if (pick) addTree(tree: treasureTree);
     treasureTree = null;
     notifyListeners();
@@ -517,7 +555,7 @@ class TreeGroup with ChangeNotifier {
   recycle(Tree tree) {
     if (_treeList.length == 1) {
       //TODO: 限时分红树弹窗、许愿树兑换成功或者位置不足弹窗
-      Layer.toastWarning('你就要没🌲啦....');
+      Layer.toastWarning('你就要没🌲��....');
       return;
     }
     if (tree.grade == maxLevel) {

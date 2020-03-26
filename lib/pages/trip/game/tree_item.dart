@@ -6,6 +6,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+
+import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';

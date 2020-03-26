@@ -122,6 +122,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       //   index: tabIndex,
       // ),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
         children: pageList,

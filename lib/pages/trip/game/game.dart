@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +85,9 @@ class _GameState extends State<Game> with MyNavigator {
   List<Widget> renderGridforPos(BuildContext context) {
     List<Widget> grids = [];
     TreeGroup treeGroup = Provider.of<TreeGroup>(context);
-
+    Tree animateTargetTree = treeGroup.animateTargetTree;
+    Tree animateSourceTree = treeGroup.animateSourceTree;
+    // REVIEW:还是否需要使用Selector
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         // Selector<A, S> A 是我们从顶层获取的 Provider 的类型 S为获取到的类型
@@ -99,7 +100,15 @@ class _GameState extends State<Game> with MyNavigator {
                   left: ScreenUtil().setWidth(positionLT.left),
                   child: DragTarget(
                     builder: (context, candidateData, rejectedData) {
-                      return GridItem(tree: data);
+                      return GridItem(
+                        tree: data,
+                        animateTargetTree: animateTargetTree == data
+                            ? animateTargetTree
+                            : null,
+                        animateSourceTree: animateTargetTree == data
+                            ? animateSourceTree
+                            : null,
+                      );
                     },
                     onWillAccept: (Tree source) {
                       return true;
@@ -209,7 +218,7 @@ class _GameState extends State<Game> with MyNavigator {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // 左边的图鉴按钮
+                    // ��边的图鉴按钮
                     GestureDetector(
                       child: getBtn(
                           'assets/image/Illustration.png', 'Illustration'),
