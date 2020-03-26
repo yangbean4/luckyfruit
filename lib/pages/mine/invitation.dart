@@ -314,68 +314,95 @@ class __InputModelState extends State<_InputModel> {
           height: ScreenUtil()
               .setWidth(1920 - MediaQuery.of(context).viewInsets.bottom),
           child: Center(
-              child: Container(
-            width: ScreenUtil().setWidth(840),
-            height: ScreenUtil().setWidth(630),
-            padding: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setWidth(90),
-              horizontal: ScreenUtil().setWidth(120),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(ScreenUtil().setWidth(100)),
-              ),
-            ),
-            child: Container(
-              width: ScreenUtil().setWidth(600),
-              height: ScreenUtil().setWidth(452),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: ModalTitle('Enter Invitation Code'),
+            child: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Container(
+                  width: ScreenUtil().setWidth(840),
+                  height: ScreenUtil().setWidth(630),
+                  padding: EdgeInsets.symmetric(
+                    vertical: ScreenUtil().setWidth(90),
+                    horizontal: ScreenUtil().setWidth(120),
                   ),
-                  Container(
-                    width: ScreenUtil().setWidth(460),
-                    height: ScreenUtil().setWidth(100),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        border: InputBorder.none,
-                        fillColor: MyTheme.grayColor,
-                      ),
-                      style: TextStyle(
-                          fontSize: ScreenUtil().setWidth(60),
-                          height: 1.0,
-                          color: Colors.black),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setWidth(100)),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _onTap();
-                    },
-                    child: PrimaryButton(
-                        width: 600,
-                        height: 124,
-                        child: Center(
-                            child: Text(
-                          'Claim',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            height: 1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setWidth(52),
+                  child: Container(
+                    width: ScreenUtil().setWidth(600),
+                    height: ScreenUtil().setWidth(452),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: ModalTitle('Enter Invitation Code',
+                              textAlign: TextAlign.center),
+                        ),
+                        Container(
+                          width: ScreenUtil().setWidth(460),
+                          height: ScreenUtil().setWidth(100),
+                          child: TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              filled: true,
+                              border: InputBorder.none,
+                              fillColor: MyTheme.grayColor,
+                            ),
+                            style: TextStyle(
+                                fontSize: ScreenUtil().setWidth(60),
+                                height: 1.0,
+                                color: Colors.black),
                           ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _onTap();
+                          },
+                          child: PrimaryButton(
+                              width: 600,
+                              height: 124,
+                              child: Center(
+                                  child: Text(
+                                'Claim',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  height: 1,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: ScreenUtil().setWidth(52),
+                                ),
+                              ))),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: ScreenUtil().setWidth(-20),
+                  right: ScreenUtil().setWidth(-20),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        width: ScreenUtil().setWidth(200),
+                        height: ScreenUtil().setWidth(200),
+                        // color: Colors.red,
+                        child: Center(
+                            child: Image.asset(
+                          'assets/image/close.png',
+                          width: ScreenUtil().setWidth(40),
+                          height: ScreenUtil().setWidth(40),
                         ))),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-          )),
+          ),
         ));
   }
 }

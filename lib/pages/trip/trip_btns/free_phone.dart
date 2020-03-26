@@ -26,20 +26,40 @@ class FreePhone extends StatelessWidget {
         onCancel: () {},
         verticalPadding: 0,
         horizontalPadding: 0,
-        width: 874,
+        width: 1080,
         decorationColor: Color.fromRGBO(0, 0, 0, 0),
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
+                width: ScreenUtil().setWidth(1080),
+                height: ScreenUtil().setWidth(200),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        modal.hide();
+                      },
+                      child: Container(
+                          width: ScreenUtil().setWidth(200),
+                          height: ScreenUtil().setWidth(200),
+                          child: Center(
+                              child: Image.asset(
+                            'assets/image/close.png',
+                            width: ScreenUtil().setWidth(54),
+                            height: ScreenUtil().setWidth(54),
+                          ))))
+                ]),
+              ),
+              Container(
                 height: ScreenUtil().setWidth(3100),
-                width: ScreenUtil().setWidth(874),
-                padding: EdgeInsets.only(top: ScreenUtil().setWidth(193)),
+                width: ScreenUtil().setWidth(1080),
+                // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                 child: Stack(
                   overflow: Overflow.visible,
                   children: <Widget>[
                     Container(
                       width: ScreenUtil().setWidth(840),
                       height: ScreenUtil().setWidth(2906),
-                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(120)),
                       padding: EdgeInsets.only(
                         bottom: ScreenUtil().setWidth(96),
                       ),
@@ -52,7 +72,7 @@ class FreePhone extends StatelessWidget {
                     ),
                     Positioned(
                         top: ScreenUtil().setWidth(-81),
-                        // left: ScreenUtil().setWidth(-17),
+                        left: ScreenUtil().setWidth(103),
                         child: Container(
                           width: ScreenUtil().setWidth(874),
                           height: ScreenUtil().setWidth(118),
@@ -68,7 +88,7 @@ class FreePhone extends StatelessWidget {
                                   fit: BoxFit.cover,
                                   image: AssetImage(
                                       'assets/image/phone_bvar.png'))),
-                        ))
+                        )),
                   ],
                 ),
               )
