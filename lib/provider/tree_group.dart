@@ -453,7 +453,7 @@ class TreeGroup with ChangeNotifier {
     checkLimitedTimeBonusTreeState(acct_id, maxLevel).then((value) {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
-        Layer.showLimitedTimeBonusTree(this);
+        Layer.showLimitedTimeBonusTree(this, value);
       }
     });
   }
@@ -464,6 +464,12 @@ class TreeGroup with ChangeNotifier {
     dynamic stateMap =
         await Service().unlockNewLevel({'acct_id': acctId, "level": level});
 
+    // String test = """{"tree_type": 1,"tree_id": 21,"amount": 11.0,"duration": 300}""";
+    // stateMap = json.decode(test);
+
+    if (stateMap == null) {
+      return null;
+    }
     UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
     return newLevel;
   }

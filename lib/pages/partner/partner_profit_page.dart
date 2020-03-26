@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:provider/provider.dart';
 
@@ -61,20 +62,20 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   Future<PartnerProfitList> getPartnerProfitListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    // dynamic profitMap = await Service()
-    //     .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
-    // Ranklist rankList = Ranklist.fromJson(rankMap);
-    PartnerProfitList profitList =
-        PartnerProfitList.fromJson(json.decode(testJson));
-    // 测试空白页面使用
-    await Future.delayed(Duration(seconds: 3));
+    dynamic profitMap = await Service()
+        .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
+    PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
+    // PartnerProfitList profitList =
+    //     PartnerProfitList.fromJson(json.decode(testJson));
+    // TODO 测试空白页面使用
+    // await Future.delayed(Duration(seconds: 3));
     return profitList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
             elevation: 0,
             bottom: PreferredSize(
@@ -155,7 +156,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider())
             : Center(
-                child: Text("Loading..."),
+                child: Text("No Data"),
               ));
   }
 }

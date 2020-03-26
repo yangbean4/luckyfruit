@@ -4,6 +4,7 @@ import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -42,11 +43,13 @@ class SettingsPage extends StatelessWidget {
                   ItemWidget(
                     title: "Photo",
                     trailingImg: ClipOval(
-                        child: Image.network(
-                      // userInfo?.avatar ?? "",
-                      "http://hbimg.huabanimg.com/1a8606097dc7697aa4061ad48353f2800c20820877cbc-czt9tg_fw236",
+                        child: CompatibleNetworkAvatarWidget(
+                      userInfo?.avatar,
+                      defaultImageUrl:
+                          "assets/image/rank_page_portrait_default.png",
                       width: ScreenUtil().setWidth(120),
                       height: ScreenUtil().setWidth(120),
+                      fit: BoxFit.cover,
                     )),
                   ),
                   ItemWidget(

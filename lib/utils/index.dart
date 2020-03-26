@@ -68,6 +68,30 @@ class Util {
     return '${red1}_${red2}_${time}';
   }
 
+  static String formatCountDownTimer(Duration duration) {
+    if (duration.inHours >= 1) return formatByHours(duration);
+    if (duration.inMinutes >= 0) return formatByMinutes(duration);
+
+    return formatBySeconds(duration);
+  }
+
+  static String formatBySeconds(Duration duration) =>
+      twoDigits(duration.inSeconds.remainder(60));
+
+  static String formatByMinutes(Duration duration) {
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    return '$twoDigitMinutes:${formatBySeconds(duration)}';
+  }
+
+  static String formatByHours(Duration duration) {
+    return '${twoDigits(duration.inHours)}:${formatByMinutes(duration)}';
+  }
+
+  static String twoDigits(int n) {
+    if (n >= 10) return '$n';
+    return '0$n';
+  }
+
   /// 打开url
   // static launchUrl(String url) async {
   //   try {

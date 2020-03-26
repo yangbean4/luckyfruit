@@ -341,7 +341,7 @@ class _TripState extends State<Trip>
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Image.asset(
-                                                    'assets/tree/bouns.png',
+                                                    'assets/tree/bonus.png',
                                                     width: ScreenUtil()
                                                         .setWidth(44),
                                                     height: ScreenUtil()

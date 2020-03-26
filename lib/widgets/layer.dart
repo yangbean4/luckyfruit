@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
@@ -424,7 +425,7 @@ class Layer {
 
     Widget widget = Center(
       child: Container(
-        // width: ScreenUtil().setWidth(400),
+        width: ScreenUtil().setWidth(400),
         height: ScreenUtil().setWidth(400),
         padding: EdgeInsets.all(ScreenUtil().setWidth(68)),
         decoration: BoxDecoration(
@@ -483,7 +484,8 @@ class Layer {
   }
 
   /// 显示限时分红树开始
-  static void showLimitedTimeBonusTree(TreeGroup treeGroup) {
+  static void showLimitedTimeBonusTree(
+      TreeGroup treeGroup, UnlockNewTreeLevel value) {
     Modal(
         onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
@@ -500,7 +502,8 @@ class Layer {
                         height: ScreenUtil().setWidth(80),
                       ),
                       Text(
-                        "04:40",
+                        Util.formatCountDownTimer(
+                            Duration(seconds: value?.duration)),
                         style: TextStyle(
                             color: MyTheme.yellowColor,
                             fontFamily: FontFamily.bold,
@@ -532,11 +535,21 @@ class Layer {
                 onOk: () {
                   modal.hide();
                   // 调用种限时分红树接口
-                  plantTimeLimitTree(treeGroup).then((code) {
-                    if (code == 0) {
-                      treeGroup.addTree(
-                          tree: Tree(grade: 5, showCountDown: true));
+                  plantTimeLimitTree(treeGroup, value).then((map) {
+                    if (map == null || map['data'] == null) {
+                      // 请求失败，
+                      toastWarning("Failed, Try Again Later");
+                      return;
                     }
+
+                    treeGroup.addTree(
+                        tree: Tree(
+                      grade: Tree.MAX_LEVEL,
+                      type: TreeType.Type_BONUS,
+                      duration: value?.duration,
+                      amount: value?.amount,
+                      showCountDown: true,
+                    ));
                   });
                 },
                 interval: Duration(seconds: 0),
@@ -547,24 +560,18 @@ class Layer {
       ..show();
   }
 
-  static Future<int> plantTimeLimitTree(TreeGroup treeGroup) async {
+  static Future<dynamic> plantTimeLimitTree(
+      TreeGroup treeGroup, UnlockNewTreeLevel value) async {
     dynamic plantTimeLimitMap;
-    // plantTimeLimitMap = await Service()
-    //     .plantTimeLimitTree({'acct_id': treeGroup.acct_id, 'tree_id': 100});
+    plantTimeLimitMap = await Service().plantTimeLimitTree(
+        {'acct_id': treeGroup.acct_id, 'tree_id': value?.tree_id});
     //TODO 测试用
-    plantTimeLimitMap = json.decode("""{
-        "code":0,
-        "msg":"success"
-    }""");
-    print("plantTimeLimitTree= $plantTimeLimitMap");
-    int code = plantTimeLimitMap['code'] as num;
-    String msg = plantTimeLimitMap['msg'] as String;
-    print("plantTimeLimitTree返回的code=$code，msg=$msg");
-    if (code == 1) {
-      // 请求失败，
-      toastWarning("plant failed causing netwoek issue...");
-    }
-    return code;
+    // plantTimeLimitMap = json.decode("""{
+    // "code": 0,
+    // "msg": "The tree has been planted",
+    // "data":{"tree_id": 1,"amount": 0.01,"duration": 300}}
+    // """);
+    return plantTimeLimitMap;
   }
 
   /**
@@ -593,7 +600,7 @@ class Layer {
             ),
           ),
           SecondaryText(
-              "Get \$ 0.51 in 5mins through the Limited time bouns tree"),
+              "Get \$ ${tree.amount} in 5mins through the Limited time bouns tree"),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
             child: ModalTitle('\$${tree.amount}', color: MyTheme.primaryColor),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -6,7 +5,9 @@ import 'package:luckyfruit/models/partnerSubordinateList.dart';
 import 'package:luckyfruit/models/partnerWrap.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:provider/provider.dart';
 
@@ -152,23 +153,23 @@ class PartnerState extends State<Partner> {
   Future<PartnerWrap> getInvitationListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    // dynamic partnerMap =
-    //     await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
-    // PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
-    PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
+    dynamic partnerMap =
+        await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
+    PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
+    // PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
     // 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));
     return partnerWrap;
   }
 
-  List<num> getStateInfoOfPartnerEarning(num history_profit) {
-    if (history_profit == null) {
+  List<num> getStateInfoOfPartnerEarning(num historyProfit) {
+    if (historyProfit == null) {
       return [0, 0, 0, 0];
     }
     int flag = 0;
 
     for (var i = 0; i < Consts.StageInfoListOfPartner.length; i++) {
-      if (history_profit - Consts.StageInfoListOfPartner[i][2] <= 0) {
+      if (historyProfit - Consts.StageInfoListOfPartner[i][2] <= 0) {
         break;
       }
       flag++;
@@ -177,7 +178,7 @@ class PartnerState extends State<Partner> {
       Consts.StageInfoListOfPartner[flag][0],
       Consts.StageInfoListOfPartner[flag][1],
       Consts.StageInfoListOfPartner[flag][2],
-      history_profit / Consts.StageInfoListOfPartner[flag][2] * 100.0
+      historyProfit / Consts.StageInfoListOfPartner[flag][2] * 100.0
     ];
   }
 
@@ -190,8 +191,9 @@ class PartnerState extends State<Partner> {
     }
 
     return ClipOval(
-      child: Image.network(
+      child: CompatibleNetworkAvatarWidget(
         imageUrl,
+        defaultImageUrl: "assets/image/rank_page_portrait_default.png",
         width: ScreenUtil().setWidth(100),
         height: ScreenUtil().setWidth(100),
         fit: BoxFit.cover,
@@ -721,9 +723,10 @@ class PartnerState extends State<Partner> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     ClipOval(
-                                      child: Image.network(
-                                        // TODO 头像判空,增加默认头像
-                                        _partnerWrap?.superior?.avatar ?? "",
+                                      child: CompatibleNetworkAvatarWidget(
+                                        _partnerWrap?.superior?.avatar,
+                                        defaultImageUrl:
+                                            "assets/image/rank_page_portrait_default.png",
                                         width: ScreenUtil().setWidth(180),
                                         height: ScreenUtil().setWidth(180),
                                         fit: BoxFit.cover,

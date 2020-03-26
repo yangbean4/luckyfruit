@@ -6,6 +6,7 @@ import 'package:luckyfruit/models/rank_friends.dart';
 import 'package:luckyfruit/models/ranklist.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:provider/provider.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -374,24 +375,14 @@ class RankPageState extends State<RankPage>
                                 child: Text("${index + 1}"));
                           }
 
-                          var avatarWidget;
-                          if (friendsList[index].avatar?.isEmpty ?? true) {
-                            // 如果为空，使用默认的头像
-                            avatarWidget = Image.asset(
-                              "assets/image/rank_page_portrait_default.png",
-                              width: ScreenUtil().setWidth(120),
-                              height: ScreenUtil().setWidth(120),
-                              fit: BoxFit.cover,
-                            );
-                          } else {
-                            // 如果不为空，使用返回的头像
-                            avatarWidget = Image.network(
-                              friendsList[index].avatar,
-                              width: ScreenUtil().setWidth(120),
-                              height: ScreenUtil().setWidth(120),
-                              fit: BoxFit.cover,
-                            );
-                          }
+                          var avatarWidget = CompatibleNetworkAvatarWidget(
+                            friendsList[index].avatar,
+                            defaultImageUrl:
+                                "assets/image/rank_page_portrait_default.png",
+                            width: ScreenUtil().setWidth(120),
+                            height: ScreenUtil().setWidth(120),
+                            fit: BoxFit.cover,
+                          );
 
                           return Container(
                               padding: EdgeInsets.symmetric(
@@ -433,24 +424,14 @@ class RankPageState extends State<RankPage>
                     ListView.separated(
                         itemCount: bounsTreeList?.length,
                         itemBuilder: (context, index) {
-                          var avatarWidget;
-                          if (bounsTreeList[index].avatar?.isEmpty ?? true) {
-                            // 如果为空，使用默认的头像
-                            avatarWidget = Image.asset(
-                              "assets/image/rank_page_portrait_default.png",
-                              width: ScreenUtil().setWidth(120),
-                              height: ScreenUtil().setWidth(120),
-                              fit: BoxFit.cover,
-                            );
-                          } else {
-                            // 如果不为空，使用返回的头像
-                            avatarWidget = Image.network(
-                              bounsTreeList[index].avatar,
-                              width: ScreenUtil().setWidth(120),
-                              height: ScreenUtil().setWidth(120),
-                              fit: BoxFit.cover,
-                            );
-                          }
+                          var avatarWidget = CompatibleNetworkAvatarWidget(
+                            bounsTreeList[index].avatar,
+                            defaultImageUrl:
+                                "assets/image/rank_page_portrait_default.png",
+                            width: ScreenUtil().setWidth(120),
+                            height: ScreenUtil().setWidth(120),
+                            fit: BoxFit.cover,
+                          );
 
                           return Container(
                               padding: EdgeInsets.symmetric(

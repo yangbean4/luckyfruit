@@ -262,7 +262,7 @@ class _DividendState extends State<Dividend> {
                                             width: ScreenUtil().setWidth(110),
                                             height: ScreenUtil().setWidth(120),
                                             child: Image.asset(
-                                              'assets/tree/bouns.png',
+                                              'assets/tree/bonus.png',
                                               width: ScreenUtil().setWidth(110),
                                               height:
                                                   ScreenUtil().setWidth(120),

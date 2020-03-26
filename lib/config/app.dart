@@ -54,8 +54,8 @@ class TreeType {
   /// 啤酒花雄树
   static const Type_Hops_Male = "hops_male";
 
-  /// 啤酒花雄树
-  static const Type_BONUS = "hops_male";
+  /// 能获取奖励的树
+  static const Type_BONUS = "bonus";
 
   /// 啤酒花雌树
   static const Type_Hops_Female = "hops_female";

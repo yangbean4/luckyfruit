@@ -137,7 +137,7 @@ class Service {
       Map<String, dynamic> data) async {
     Response response =
         await _client.post('/Dividend/plantTimeLimitTree', data: data);
-    return response.data['data'];
+    return response.data;
   }
 
   // 种限时分红树接口
@@ -210,6 +210,7 @@ class Service {
     return response.data['data'];
   }
 
+  // TODO所有的接口返回值都要看下所获取的map是否为null，是的话就不进行json序列化了
   // 用户提现
   Future<Map<String, dynamic>> withDraw(Map<String, dynamic> data) async {
     Response response = await _client.post('/user/withdarw', data: data);
@@ -262,8 +263,8 @@ class Service {
       //   res.data = json.decode(res.data);
       // }
       print('请求路径:${request.path}');
-      print('请求��数:${request.data}');
-      print('返回数据：${res.data}');
+      print('请求参数:${request.data}');
+      print('返回数据:${res.data}');
 
       Map<String, dynamic> a = res.data;
 
@@ -272,7 +273,7 @@ class Service {
       }
       return res;
     }, onError: (DioError e) {
-      print('发生错误���' + e.message);
+      print('发生错误:' + e.message);
       print('请求路径:${e.request.path}');
       print('请求参数:${e.request.data}');
 

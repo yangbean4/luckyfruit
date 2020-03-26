@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +52,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
     //TODO 测试
-    ticketCount = 8;
+    // ticketCount = 8;
     widget.controller = new AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
 
@@ -77,7 +75,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         if (status == AnimationStatus.completed) {
           if (finalPos <= 0) {
             if (maxRetryNum <= 0) {
-              Layer.toastWarning("抽奖失败，请重试");
+              Layer.toastWarning("Failed, Try Agagin Later");
               widget.controller.reset();
             } else {
               maxRetryNum--;
@@ -94,16 +92,16 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   Future<int> getLuckResult(BuildContext context) async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     dynamic luckResultMap;
-    // luckResultMap = await Service()
-    //     .getLuckyWheelResult({'acct_id': treeGroup.acct_id, 'coin_speed': 100});
+    luckResultMap = await Service().getLuckyWheelResult(
+        {'acct_id': treeGroup.acct_id, 'coin_speed': treeGroup.makeGoldSped});
 
     //TODO 测试用 模拟一个网络请求状态
-    await Future.delayed(Duration(seconds: 2));
-    luckResultMap = json.decode(testJson);
+    // await Future.delayed(Duration(seconds: 2));
+    // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
     finalPos = luckResultMap['gift_id'] as num;
     //TODO 测试
-    finalPos = ticketCount;
+    // finalPos = ticketCount;
 
     int coin = luckResultMap['coin'] as num;
     print("返回的gift_id=$finalPos，coin=$coin");
@@ -165,7 +163,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           top: ScreenUtil().setWidth(40),
           bottom: ScreenUtil().setWidth(40),
         ),
-        child: ModalTitle("TICKET x ${ticketCount}"),
+        child: ModalTitle("TICKET x $ticketCount"),
       ),
       Container(
         // color: Colors.red,
@@ -179,45 +177,51 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       ),
       Padding(
           padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(90)),
-          child: AdButton(
-            btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
-            useAd: ticketCount <= 0,
-            onOk: () {
-              if (widget.controller.isAnimating) {
-                print("controller.isAnimating");
-                return;
-              }
-
-              if (ticketCount <= 0) {
-                Layer.toastWarning("Tickets not enough, watch ad to get more");
-                //TODO 添加抽奖券的逻辑
-                Service().addTicket({'acct_id': 67}).then((value) {
-                  if (value == null || value['code'] != 0) {
-                    // 添加失败
-                    Layer.toastWarning("Times used up");
-                  } else {
-                    // 添加成功
-                    Layer.toastSuccess("Get Ticket Success");
+          child: Selector<UserModel, String>(
+            selector: (context, provider) => provider?.value?.acct_id,
+            builder: (_, acctId, __) {
+              return AdButton(
+                btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
+                useAd: ticketCount <= 0,
+                onOk: () {
+                  if (widget.controller.isAnimating) {
+                    print("controller.isAnimating");
+                    return;
                   }
-                });
-                return;
-              }
-              ticketCount--;
 
-              // 重置为3
-              maxRetryNum = 3;
-              getLuckResult(context).then((coin) {
-                updateTween();
-              });
-              curTween.end = defaultNumOfTurns;
+                  if (ticketCount <= 0) {
+                    Layer.toastWarning(
+                        "Tickets not enough, watch ad to get more");
+                    //TODO 观看广告添加抽奖券的逻辑
+                    Service().addTicket({'acct_id': acctId}).then((value) {
+                      if (value == null || value['code'] != 0) {
+                        // 添加失败
+                        Layer.toastWarning("Times used up");
+                      } else {
+                        // 添加成功
+                        Layer.toastSuccess("Get Ticket Success");
+                      }
+                    });
+                    return;
+                  }
+                  ticketCount--;
 
-              widget.controller.value =
-                  _getAngelWithSelectedPosition(finalPos) /
-                      ((widget.animation.value) +
-                          _getAngelWithSelectedPosition(finalPos));
-              widget.startSpin();
+                  // 重置为3
+                  maxRetryNum = 3;
+                  getLuckResult(context).then((coin) {
+                    updateTween();
+                  });
+                  curTween.end = defaultNumOfTurns;
+
+                  widget.controller.value =
+                      _getAngelWithSelectedPosition(finalPos) /
+                          ((widget.animation.value) +
+                              _getAngelWithSelectedPosition(finalPos));
+                  widget.startSpin();
+                },
+                tips: null,
+              );
             },
-            tips: null,
           ))
     ]);
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,8 +71,14 @@ class _MinePageState extends State<MinePage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(54)),
-                              child:
-                                  Image.network(_selectorUse.userInfo.avatar),
+                              child: CompatibleNetworkAvatarWidget(
+                                _selectorUse?.userInfo?.avatar,
+                                defaultImageUrl:
+                                    "assets/image/rank_page_portrait_default.png",
+                                width: ScreenUtil().setWidth(108),
+                                height: ScreenUtil().setWidth(108),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           )
                         ],

@@ -1,22 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
-String twoDigits(int n) {
-  if (n >= 10) return '$n';
-  return '0$n';
-}
-
-String formatBySeconds(Duration duration) =>
-    twoDigits(duration.inSeconds.remainder(60));
-
-String formatByMinutes(Duration duration) {
-  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-  return '$twoDigitMinutes:${formatBySeconds(duration)}';
-}
-
-String formatByHours(Duration duration) {
-  return '${twoDigits(duration.inHours)}:${formatByMinutes(duration)}';
-}
+import 'package:luckyfruit/utils/index.dart';
 
 class Countdown extends StatefulWidget {
   const Countdown({
@@ -87,13 +71,6 @@ class CountdownFormatted extends StatelessWidget {
   final void Function() onFinish;
   final Widget Function(BuildContext context, String remaining) builder;
 
-  Function(Duration) _formatter() {
-    if (duration.inHours >= 1) return formatByHours;
-    if (duration.inMinutes >= 0) return formatByMinutes;
-
-    return formatBySeconds;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Countdown(
@@ -101,7 +78,7 @@ class CountdownFormatted extends StatelessWidget {
       onFinish: onFinish,
       duration: duration,
       builder: (BuildContext ctx, Duration remaining) {
-        return builder(ctx, _formatter()(remaining));
+        return builder(ctx, Util.formatCountDownTimer(remaining));
       },
     );
   }
