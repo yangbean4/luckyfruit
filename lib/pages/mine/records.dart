@@ -127,9 +127,9 @@ class _RecordsPageState extends State<RecordsPage> {
 
 Map<String, String> _recordsTitle = {
   '1': 'Wishing Trees  earnings',
-  '2': 'Limited Time Bouns Tree earnings',
+  '2': 'Limited Time Bonus Tree earnings',
   '3': 'Hops Tree(female)&Hops Tree (male)  earnings',
-  '4': 'Bouns Tree earnings',
+  '4': 'Bonus Tree earnings',
   '5': 'Partner  earnings',
   '6': 'Cash out(cash out success)',
 };

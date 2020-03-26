@@ -18,6 +18,7 @@ class UserInfo {
     num worker_visible;
     num direct_friend_visible;
     String paypal_account;
+    num ad_times;
     
     factory UserInfo.fromJson(Map<String,dynamic> json) => _$UserInfoFromJson(json);
     Map<String, dynamic> toJson() => _$UserInfoToJson(this);

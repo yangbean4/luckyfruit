@@ -10,6 +10,7 @@ import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -386,14 +387,20 @@ class Layer {
               ),
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
-                  child: AdButton(
-                    btnText: '5x Reward',
-                    onCancel: modal.hide,
-                    onOk: () {
-                      onOk();
-                      modal.hide();
-                    },
-                  ))
+                  child: Selector<UserModel, UserInfo>(
+                      selector: (context, provider) => provider.userInfo,
+                      builder: (_, UserInfo userInfo, __) {
+                        return AdButton(
+                          btnText: '5x Reward',
+                          onCancel: modal.hide,
+                          onOk: () {
+                            onOk();
+                            modal.hide();
+                          },
+                          tips:
+                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                        );
+                      }))
             ]).show();
   }
 
@@ -526,7 +533,7 @@ class Layer {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(60)),
-                child: SecondaryText("Limited time bouns tree"),
+                child: SecondaryText("Limited time bonus tree"),
               ),
               AdButton(
                 useAd: false,
@@ -554,7 +561,7 @@ class Layer {
                 },
                 interval: Duration(seconds: 0),
                 tips:
-                    "get 5 minutes  advertising revenue from the advertising platform",
+                    "Continued received ${Util.formatCountDownTimer(Duration(seconds: value?.duration))} minutes ads earnings from Lcuky Fruit",
               )
             ])
       ..show();
@@ -600,7 +607,7 @@ class Layer {
             ),
           ),
           SecondaryText(
-              "Get \$ ${tree.amount} in 5mins through the Limited time bouns tree"),
+              "Get \$ ${tree.amount} in 5mins through the Limited time bonus tree"),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
             child: ModalTitle('\$${tree.amount}', color: MyTheme.primaryColor),
@@ -640,7 +647,7 @@ class Layer {
         .show();
   }
 
-  /// 啤酒花树合成弹窗
+  /// 啤酒花树合成弹���
   static showHopsMergeWindow() {
     Modal(
             onCancel: () {},
@@ -729,19 +736,25 @@ class Layer {
                   ]),
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
-                  child: AdButton(
-                    btnText: 'Upgrade',
-                    onCancel: () {
-                      print("取消了越级升级");
-                      modal.hide();
-                      onCancel();
-                    },
-                    onOk: () {
-                      print("点击了越级升级");
-                      modal.hide();
-                      onOk();
-                    },
-                  ))
+                  child: Selector<UserModel, UserInfo>(
+                      selector: (context, provider) => provider.userInfo,
+                      builder: (_, UserInfo userInfo, __) {
+                        return AdButton(
+                          btnText: 'Upgrade',
+                          onCancel: () {
+                            print("取消了越级升级");
+                            modal.hide();
+                            onCancel();
+                          },
+                          onOk: () {
+                            print("点击了越级升级");
+                            modal.hide();
+                            onOk();
+                          },
+                          tips:
+                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                        );
+                      }))
             ]).show();
   }
 
@@ -768,16 +781,22 @@ class Layer {
               ),
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
-                  child: AdButton(
-                    btnText: 'Get it',
-                    onCancel: () {
-                      modal.hide();
-                    },
-                    onOk: () {
-                      modal.hide();
-                      onOk();
-                    },
-                  )),
+                  child: Selector<UserModel, UserInfo>(
+                      selector: (context, provider) => provider.userInfo,
+                      builder: (_, UserInfo userInfo, __) {
+                        return AdButton(
+                          btnText: 'Get it',
+                          onCancel: () {
+                            modal.hide();
+                          },
+                          onOk: () {
+                            modal.hide();
+                            onOk();
+                          },
+                          tips:
+                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                        );
+                      })),
             ]).show();
   }
 
@@ -806,17 +825,23 @@ class Layer {
               Padding(
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(50)),
                 child: Stack(overflow: Overflow.visible, children: [
-                  AdButton(
-                    btnText: '+${Util.formatNumber(glod * 2)}',
-                    onCancel: () {
-                      modal.hide();
-                      onOk(true);
-                    },
-                    onOk: () {
-                      modal.hide();
-                      onOk(false);
-                    },
-                  ),
+                  Selector<UserModel, UserInfo>(
+                      selector: (context, provider) => provider.userInfo,
+                      builder: (_, UserInfo userInfo, __) {
+                        return AdButton(
+                          btnText: '+${Util.formatNumber(glod * 2)}',
+                          onCancel: () {
+                            modal.hide();
+                            onOk(true);
+                          },
+                          onOk: () {
+                            modal.hide();
+                            onOk(false);
+                          },
+                          tips:
+                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                        );
+                      }),
                   Positioned(
                       top: 0,
                       right: 0,
@@ -846,11 +871,12 @@ class Layer {
             ]).show();
   }
 
-  /// 大转盘抽奖结果弹框
+  /// 大转盘抽���结果弹框
   static showLuckWheelWinResultWindow(int winType) {
     Modal(
         onCancel: () {},
         okText: "Claim",
+        horizontalPadding: 10,
         children: <Widget>[LuckyWheelWinResultWindow(winType: winType)]).show();
   }
 

@@ -54,31 +54,33 @@ class _MapPageState extends State<MapPage> {
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () => MyNavigator().navigatorPop(context),
-                      child: Container(
-                        width: ScreenUtil().setWidth(147),
-                        height: ScreenUtil().setWidth(289),
-                        child: Center(
-                          child: Container(
-                            width: ScreenUtil().setWidth(29),
-                            height: ScreenUtil().setWidth(49),
-                            child: Text('<',
-                                style: TextStyle(
-                                    fontFamily: FontFamily.bold,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: ScreenUtil().setSp(60))),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () => MyNavigator().navigatorPop(context),
+                    //   child: Container(
+                    //     width: ScreenUtil().setWidth(147),
+                    //     height: ScreenUtil().setWidth(289),
+                    //     child: Center(
+                    //       child: Container(
+                    //         width: ScreenUtil().setWidth(29),
+                    //         height: ScreenUtil().setWidth(49),
+                    //         child: Text('<',
+                    //             style: TextStyle(
+                    //                 fontFamily: FontFamily.bold,
+                    //                 fontWeight: FontWeight.bold,
+                    //                 color: Colors.white,
+                    //                 fontSize: ScreenUtil().setSp(60))),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Expanded(
                         child: Container(
                       height: ScreenUtil().setWidth(500),
-                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(120)),
+                      padding: EdgeInsets.only(
+                          top: ScreenUtil().setWidth(120),
+                          left: ScreenUtil().setWidth(120)),
                       child: Text(
-                          'More trees your friends merge\nMore closer to the Bouns Tree!',
+                          'More trees your friends merge\nMore closer to the Bonus Tree!',
                           // textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: FontFamily.bold,
@@ -263,7 +265,7 @@ class _MapPageState extends State<MapPage> {
                   Container(
                     width: ScreenUtil().setWidth(517),
                     height: ScreenUtil().setWidth(89),
-                    child: Text('100% chance to get the Bouns Tree',
+                    child: Text('100% chance to get the Bonus Tree',
                         style: TextStyle(
                             fontFamily: FontFamily.semibold,
                             fontWeight: FontWeight.w500,

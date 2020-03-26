@@ -19,7 +19,7 @@ class BonusTree extends StatefulWidget {
 class _BonusTreeState extends State<BonusTree> {
   _showModal() {
     Modal(okText: 'Ok', horizontalPadding: 90, children: [
-      Text('My Bouns Tree',
+      Text('My Bonus Tree',
           style: TextStyle(
               fontFamily: FontFamily.bold,
               fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class _BonusTreeState extends State<BonusTree> {
       ),
       RichText(
         text: TextSpan(
-            text: 'II.100% chance to get the Bouns Tree\n',
+            text: 'II.100% chance to get the Bonus Tree\n',
             style: TextStyle(
                 color: MyTheme.blackColor,
                 fontSize: ScreenUtil().setWidth(40),
@@ -244,7 +244,7 @@ class _BonusTreeState extends State<BonusTree> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Text('My Bouns Tree',
+                                            Text('My Bonus Tree',
                                                 style: TextStyle(
                                                     fontFamily:
                                                         FontFamily.semibold,

@@ -53,7 +53,7 @@ class _BalloonState extends State<Balloon> {
     num getGlod = moneyGroup.makeGoldSped * luckyGroup.issed?.balloon_time;
     Modal(
         childrenBuilder: (Modal modal) => <Widget>[
-              ModalTitle('Cash Bouns'),
+              ModalTitle('Cash Bonus'),
               Image.asset(
                 'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(229),

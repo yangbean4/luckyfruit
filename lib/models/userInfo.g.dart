@@ -19,7 +19,8 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
     ..invite_code = json['invite_code'] as String
     ..worker_visible = json['worker_visible'] as num
     ..direct_friend_visible = json['direct_friend_visible'] as num
-    ..paypal_account = json['paypal_account'] as String;
+    ..paypal_account = json['paypal_account'] as String
+    ..ad_times = json['ad_times'] as num;
 }
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -34,5 +35,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'invite_code': instance.invite_code,
       'worker_visible': instance.worker_visible,
       'direct_friend_visible': instance.direct_friend_visible,
-      'paypal_account': instance.paypal_account
+      'paypal_account': instance.paypal_account,
+      'ad_times': instance.ad_times
     };

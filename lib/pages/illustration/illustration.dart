@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/theme/public/public.dart';
 
 class Illustration extends StatelessWidget {
   Illustration({Key key}) : super(key: key);
 
   List nameList = [
-    "Bouns tree",
+    "Bonus tree",
     "Wishing Tree",
-    "Hop Tree(male)",
-    "Hop Tree(Female)",
+    "Hop Tree\n(male)",
+    "Hop Tree\n(Female)",
     "American Tree",
-    "EuropeanTree",
+    "European \nTree",
     "Asian Tree",
     "African Tree",
     "Oceania Tree",
-    "Limited Time\nBouns Tree",
+    "Limited Time Bonus Tree",
   ];
 
   List titleList = [
@@ -30,7 +29,7 @@ class Illustration extends StatelessWidget {
     "Merge 5 continental trees (from Asia, Africa, Europe, American and Oceania),get Bonus Tree",
     "Merge 5 continental trees (from Asia, Africa, Europe, American and Oceania),get Bonus Tree",
     "Merge 5 continental trees (from Asia, Africa, Europe, American and Oceania),get Bonus Tree",
-    "Experience 5-15 minutes Bouns Tree"
+    "Experience 5-15 minutes Bonus Tree"
   ];
 
   List wayList = [
@@ -85,7 +84,7 @@ class Illustration extends StatelessWidget {
         body: Container(
           color: Color.fromRGBO(239, 238, 243, 1),
           padding: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setWidth(60),
+              // vertical: ScreenUtil().setWidth(60),
               horizontal: ScreenUtil().setWidth(60)),
           child: ListView.builder(
             itemCount: 10,
@@ -109,6 +108,9 @@ class Illustration extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
+                      // color: Colors.red,
+                      width: ScreenUtil().setWidth(240),
+                      // height: ScreenUtil().setWidth(260),
                       child: Column(children: [
                         Image.asset(
                           imageUrlList[index],
@@ -119,12 +121,16 @@ class Illustration extends StatelessWidget {
                         Container(
                           height: ScreenUtil().setWidth(18),
                         ),
-                        FourthText(
-                          nameList[index],
-                          fontFamily: FontFamily.bold,
-                          fontWeight: FontWeight.bold,
-                          color: MyTheme.blackColor,
-                          fontsize: 43,
+                        Text(
+                          nameList[index],softWrap: true,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setWidth(42),
+                            
+                            fontFamily: FontFamily.bold,
+                            fontWeight: FontWeight.bold,
+                            color: MyTheme.blackColor,
+                          ),
                         )
                       ]),
                     ),

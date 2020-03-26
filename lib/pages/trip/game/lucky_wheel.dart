@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'dart:math';
@@ -13,6 +14,7 @@ import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class LuckyWheelWidget extends StatefulWidget {
   Animation<double> animation;
@@ -171,15 +173,16 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           bottom: ScreenUtil().setWidth(50),
         ),
         child: FourthText(
-          "After depleted，you'll get 10 free tickets at 00:00",
+          "After depleted，\nyou'll get 10 free tickets at 00:00",
           color: Color(0xFF7C7C7C),
         ),
       ),
       Padding(
           padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(90)),
-          child: Selector<UserModel, String>(
-            selector: (context, provider) => provider?.value?.acct_id,
-            builder: (_, acctId, __) {
+          child: Selector<UserModel, Tuple2<UserInfo, String>>(
+            selector: (context, provider) =>
+                Tuple2(provider?.userInfo, provider?.value?.acct_id),
+            builder: (_, data, __) {
               return AdButton(
                 btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
                 useAd: ticketCount <= 0,
@@ -193,7 +196,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     Layer.toastWarning(
                         "Tickets not enough, watch ad to get more");
                     //TODO 观看广告添加抽奖券的逻辑
-                    Service().addTicket({'acct_id': acctId}).then((value) {
+                    Service().addTicket({'acct_id': data?.item2}).then((value) {
                       if (value == null || value['code'] != 0) {
                         // 添加失败
                         Layer.toastWarning("Times used up");
@@ -219,7 +222,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                               _getAngelWithSelectedPosition(finalPos));
                   widget.startSpin();
                 },
-                tips: null,
+                tips:
+                    "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times} times left)",
               );
             },
           ))

@@ -80,7 +80,7 @@ class _DividendState extends State<Dividend> {
                       ],
                     ),
                   ),
-                  Text('Upgrade to level 38 get Bouns Tree',
+                  Text('Upgrade to level 38 get Bonus Tree',
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           color: Colors.white,
@@ -181,7 +181,7 @@ class _DividendState extends State<Dividend> {
                                                               FontWeight.bold,
                                                           height: 1)),
                                                   Text(
-                                                      "Today's earnings (Per Bouns Tree)",
+                                                      "Today's earnings (Per Bonus Tree)",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -207,7 +207,7 @@ class _DividendState extends State<Dividend> {
                                                 children: <Widget>[
                                                   _BounsItem(
                                                       top: '0',
-                                                      bottom: 'My Bouns Tree'),
+                                                      bottom: 'My Bonus Tree'),
                                                   _BounsItem(
                                                       top:
                                                           '\$${globalDividendTree.today}',
@@ -243,7 +243,7 @@ class _DividendState extends State<Dividend> {
                                                 ]),
                                           ),
                                           child: Center(
-                                            child: Text('Bouns Tree',
+                                            child: Text('Bonus Tree',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontFamily:
@@ -282,7 +282,7 @@ class _DividendState extends State<Dividend> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text('What is Bouns Tree?',
+                                Text('What is Bonus Tree?',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontFamily: FontFamily.regular,
@@ -292,7 +292,7 @@ class _DividendState extends State<Dividend> {
                                         height: 1)),
                                 Container(height: ScreenUtil().setWidth(44)),
                                 Text(
-                                    'The Bouns Tree distribute 20% of the advertising revenue to users by 100K shares and up to 100 shares every day.',
+                                    'The Bonus Tree distribute 20% of the advertising revenue to users by 100K shares and up to 100 shares every day.',
                                     style: TextStyle(
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.tipsColor,
@@ -308,7 +308,7 @@ class _DividendState extends State<Dividend> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text('How to get Bouns Tree?',
+                                Text('How to get Bonus Tree?',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontFamily: FontFamily.regular,
@@ -350,7 +350,7 @@ class _DividendState extends State<Dividend> {
                                                 width:
                                                     ScreenUtil().setWidth(660),
                                                 child: Text(
-                                                    'How to stay active in game to getBouns Tree?',
+                                                    'How to stay active in game to get bonus Tree?',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         fontFamily:

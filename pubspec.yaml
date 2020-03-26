@@ -45,12 +45,15 @@ dependencies:
   device_info: ^0.4.1+5
   # Server-Sent Events
   eventsource: ^0.2.2
-  #用于查询有关应用程序包的信息 
+  #用于查询有关应用程序包的信息
   package_info: ^0.4.0+16
   # 可同时播放多个音频文件
   audioplayers: ^0.14.2
   #  lottie动画
   lottie: ^0.3.2
+  # To select multiple values Using Selector<> without having to
+  # write a class that implements ==, the easiest solution is to use a "Tuple"
+  tuple: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -60,13 +63,11 @@ dev_dependencies:
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -108,14 +109,11 @@ flutter:
     - family: regular
       fonts:
         - asset: assets/font/Regular.ttf
-        
     # - family: CN-Bold
     #   fonts:
     #     - asset: assets/font/CN-Bold.otf
     # - family: CN-Heavy
     #   fonts:
     #     - asset: assets/font/CN-Heavy.otf
-
-  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

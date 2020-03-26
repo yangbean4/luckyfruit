@@ -11,6 +11,7 @@ import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 
 class Home extends StatefulWidget {
+
   Home({Key key}) : super(key: key);
 
   @override
@@ -80,6 +81,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   Widget _createBottomBar() {
     return BottomNavigationBar(
+      key: Consts.globalKey,
       iconSize: ScreenUtil().setWidth(56),
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,

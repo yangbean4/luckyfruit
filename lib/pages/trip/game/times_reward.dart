@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/models/userInfo.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/secondary_text.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:provider/provider.dart';
 
 // 5倍或10倍奖励弹窗
 class TimesRewardWidget extends StatelessWidget {
@@ -73,16 +76,20 @@ class TimesRewardWidget extends StatelessWidget {
           padding: EdgeInsets.only(
             top: ScreenUtil().setWidth(60),
           ),
-          child: AdButton(
-            btnText: 'Get it',
-            onCancel: () {
-              onCancel();
-            },
-            onOk: () {
-              onOk();
-            },
-            tips: null,
-          )),
+          child: Selector<UserModel, UserInfo>(
+              selector: (context, provider) => provider.userInfo,
+              builder: (_, UserInfo userInfo, __) {
+                return AdButton(
+                  btnText: 'Get it',
+                  onCancel: () {
+                    onCancel();
+                  },
+                  onOk: () {
+                    onOk();
+                  },
+                  tips: "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                );
+              })),
     ]);
   }
 }

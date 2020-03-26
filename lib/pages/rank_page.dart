@@ -20,7 +20,7 @@ class RankPage extends StatefulWidget {
 class RankPageState extends State<RankPage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List tabs = ["Friends Rank", "Bouns Tree Rank"];
+  List tabs = ["Friends Rank", "Bonus Tree Rank"];
 
   List<Rank_friends> friendsList;
   List<Rank_bonus_trees> bounsTreeList;

@@ -1,4 +1,6 @@
 // 放全局的事件句柄
+import 'package:flutter/material.dart';
+
 class Event_Name {
   // APP退出
   static const APP_PAUSED = 'APP_PAUSED';
@@ -70,6 +72,9 @@ class TreeType {
 
 /// 放置常量的类
 class Consts {
+  // 手动切换底部栏使用
+  static GlobalKey globalKey = new GlobalKey(debugLabel: 'key_bottom_bar');
+
   ///partner页面的加速等级对照表
   static const StageInfoListOfPartner = [
     [

@@ -295,10 +295,12 @@ class PartnerState extends State<Partner> {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SecondaryText(
-                                    "Number of friends: ${_partnerWrap?.friends_total}"),
+                                Expanded(
+                                  child: SecondaryText(
+                                      "Number of friends: ${_partnerWrap?.friends_total}"),
+                                ),
                                 SizedBox(
-                                  width: ScreenUtil().setWidth(100),
+                                  width: ScreenUtil().setWidth(50),
                                 ),
                                 Container(
                                     width: ScreenUtil().setWidth(220),

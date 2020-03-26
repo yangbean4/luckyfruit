@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:provider/provider.dart';
 
@@ -166,8 +167,14 @@ class _TripState extends State<Trip>
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           GestureDetector(
-                                            onTap: () =>
-                                                pushNamed(context, 'map'),
+                                            onTap: () {
+                                              // 切换到map的tab栏
+                                              BottomNavigationBar
+                                                  navigationBar = Consts
+                                                      .globalKey.currentWidget;
+                                              navigationBar?.onTap(1);
+                                            },
+                                            // pushNamed(context, 'map'),
                                             child: Container(
                                               width: ScreenUtil().setWidth(378),
                                               height: ScreenUtil().setWidth(54),

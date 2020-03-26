@@ -49,7 +49,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
                 text: getDescString(),
                 style: TextStyle(
                     fontSize: ScreenUtil().setWidth(50),
-                    fontFamily: FontFamily.bold,
+                    fontFamily: FontFamily.regular,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFFFAC1E))),
             TextSpan(
@@ -79,7 +79,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
       case TYPE_BIG_WIN:
         desc = " 15min ";
         break;
-      case TYPE_BIG_WIN:
+      case TYPE_BIG_WIN_10X:
         desc = " 10X15min ";
         break;
       case TYPE_MEGE_WIN:
