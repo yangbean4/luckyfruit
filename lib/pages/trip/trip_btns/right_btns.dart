@@ -157,7 +157,7 @@ class _RightBtnsState extends State<RightBtns>
       children: <Widget>[
         showDouble
             ? ShakeAnimation(
-                timeInterval: Duration(milliseconds: 1400),
+                timeInterval: Duration(milliseconds: 1250),
                 animateTime: Duration(milliseconds: 300),
                 child: GestureDetector(
                   onTap: () {
@@ -199,7 +199,7 @@ class _RightBtnsState extends State<RightBtns>
             : Container(),
         showAuto
             ? ShakeAnimation(
-                timeInterval: Duration(milliseconds: 1400),
+                timeInterval: Duration(milliseconds: 1250),
                 animateTime: Duration(milliseconds: 300),
                 child: GestureDetector(
                   onTap: () {

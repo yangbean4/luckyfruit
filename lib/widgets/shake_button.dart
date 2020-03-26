@@ -44,6 +44,7 @@ class _ShakeAnimationState extends State<ShakeAnimation>
           controller.reverse();
         }
       });
+    runAnimation();
 
     Timer.periodic(widget.timeInterval, (_timer) {
       if (!isDispose) {
@@ -55,7 +56,6 @@ class _ShakeAnimationState extends State<ShakeAnimation>
         timer?.cancel();
       }
     });
-    // controller?.forward();
   }
 
   Future<void> runAnimation() async {

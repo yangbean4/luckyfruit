@@ -87,49 +87,52 @@ class _GameState extends State<Game> with MyNavigator {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context);
     Tree animateTargetTree = treeGroup.animateTargetTree;
     Tree animateSourceTree = treeGroup.animateSourceTree;
+    List<List<Tree>> treeMatrix = treeGroup.treeMatrix;
     // REVIEW:还是否需要使用Selector
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         // Selector<A, S> A 是我们从顶层获取的 Provider 的类型 S为获取到的类型
-        grids.add(Selector<TreeGroup, Tree>(
-            selector: (context, provider) => provider.treeMatrix[y][x],
-            builder: (context, Tree data, child) {
-              PositionLT positionLT = PositionLT(x: x, y: y);
-              return Positioned(
-                  top: ScreenUtil().setWidth(positionLT.top),
-                  left: ScreenUtil().setWidth(positionLT.left),
-                  child: DragTarget(
-                    builder: (context, candidateData, rejectedData) {
-                      return GridItem(
-                        tree: data,
-                        animateTargetTree: animateTargetTree == data
-                            ? animateTargetTree
-                            : null,
-                        animateSourceTree: animateTargetTree == data
-                            ? animateSourceTree
-                            : null,
-                      );
-                    },
-                    onWillAccept: (Tree source) {
-                      return true;
-                    },
-                    onAccept: (Tree source) {
-                      // 是否要弹出越级升级界面
-                      Layer.showBypassLevelUp(context, () {
-                        // 进行越级升级
-                        source.grade += 1;
-                        data.grade += 1;
-                        treeGroup.trans(source, data,
-                            pos: new TreePoint(x: x, y: y));
-                      }, () {
-                        // 取消越级升级或者不满足弹出条件，走正常升级流程
-                        treeGroup.trans(source, data,
-                            pos: new TreePoint(x: x, y: y));
-                      }, source, data);
-                      return true;
-                    },
-                  ));
-            }));
+        PositionLT positionLT = PositionLT(x: x, y: y);
+        Tree data = treeMatrix[y][x];
+        grids.add(
+            // Selector<TreeGroup, Tree>(
+            //   selector: (context, provider) => provider.treeMatrix[y][x],
+            //   builder: (context, Tree data, child) {
+            //     return
+            Positioned(
+                top: ScreenUtil().setWidth(positionLT.top),
+                left: ScreenUtil().setWidth(positionLT.left),
+                child: DragTarget(
+                  builder: (context, candidateData, rejectedData) {
+                    return GridItem(
+                      tree: data,
+                      animateTargetTree:
+                          animateTargetTree == data ? animateTargetTree : null,
+                      animateSourceTree:
+                          animateTargetTree == data ? animateSourceTree : null,
+                    );
+                  },
+                  onWillAccept: (Tree source) {
+                    return true;
+                  },
+                  onAccept: (Tree source) {
+                    // 是否要弹出越级升级界面
+                    Layer.showBypassLevelUp(context, () {
+                      // 进行越级升级
+                      source.grade += 1;
+                      data.grade += 1;
+                      treeGroup.trans(source, data,
+                          pos: new TreePoint(x: x, y: y));
+                    }, () {
+                      // 取消越级升级或者不满足弹出条件，走正常升级流程
+                      treeGroup.trans(source, data,
+                          pos: new TreePoint(x: x, y: y));
+                    }, source, data);
+                    return true;
+                  },
+                ))
+            // });
+            );
         // print(treeGroup.treeMatrix);
         // grids.add(Text('$x-$y'));
       }
