@@ -334,19 +334,19 @@ class Layer {
         ),
         Container(
           margin: EdgeInsets.only(
-            top: ScreenUtil().setWidth(63),
-            bottom: ScreenUtil().setWidth(50),
+            top: ScreenUtil().setWidth(30),
+            bottom: ScreenUtil().setWidth(38),
           ),
           child: SecondaryText(
-            recycleMoney != null ? "Recycling price" : 'Recycling price',
+            'Recycling price',
           ),
-        ),
-        Container(
-          height: ScreenUtil().setWidth(60),
         ),
         GoldText(recycleMoney != null
             ? '\$ ${Util.formatNumber(recycleMoney)}'
-            : Util.formatNumber(goldNumber))
+            : Util.formatNumber(goldNumber)),
+        SizedBox(
+          height: ScreenUtil().setWidth(47),
+        ),
       ])
         ..show();
 
@@ -604,14 +604,10 @@ class Layer {
   /// 显示合成38级时的抽奖弹窗
   static showTopLevelMergeWindow() {
     Modal(
-        onCancel: () {},
         width: 940,
         horizontalPadding: ScreenUtil().setWidth(70),
         childrenBuilder: (modal) => <Widget>[
               TopLevelMergeWidget(onReceivedResultFun: () {
-                // TODO 测试
-                // Layer.showHopsMergeWindow();
-                // Layer.showContinentsMergeWindow();
                 Layer.toastSuccess("抽到38级的树");
                 modal.hide();
                 // TODO 种上一颗38级树
@@ -623,6 +619,7 @@ class Layer {
   static showContinentsMergeWindow() {
     Modal(
             onCancel: () {},
+            closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
                   ContinentsMergeWidget(onStartMergeFun: () {
                     Layer.toastSuccess("合成五洲树");
@@ -640,6 +637,7 @@ class Layer {
   static showHopsMergeWindow() {
     Modal(
             onCancel: () {},
+            closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
                   HopsMergeWidget(onStartMergeFun: () {
                     Layer.showMoneyRewardAfterHopsMerge();
@@ -851,7 +849,7 @@ class Layer {
 
   /// 雌雄啤酒花树合成后的现金奖励弹窗
   static showMoneyRewardAfterHopsMerge() {
-    Modal(onOk: () {}, onCancel: () {}, okText: "Claim", children: <Widget>[
+    Modal(onOk: () {}, okText: "Claim", children: <Widget>[
       Image.asset(
         'assets/image/bg_dollar.png',
         width: ScreenUtil().setWidth(278),

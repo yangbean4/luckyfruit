@@ -28,6 +28,7 @@ class Modal {
   final List<Widget> Function(Modal modal) childrenBuilder;
   final bool autoHide;
   final Color decorationColor;
+  final closeType;
 
   Modal(
       {this.okText,
@@ -42,6 +43,7 @@ class Modal {
       this.verticalPadding = 90,
       this.horizontalPadding = 120,
       this.autoHide = true,
+      this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})
       // 要求 stack 定位元素必须是 Positioned
       : assert(stack.every((it) => it is Positioned));
@@ -67,9 +69,10 @@ class Modal {
     }
 
     final topWidget = Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Stack(children: [
           Container(
             width: ScreenUtil().setWidth(width),
             margin: EdgeInsets.only(
@@ -90,12 +93,39 @@ class Modal {
               children: children,
             ),
           ),
-        ]);
+          closeType == CloseType.CLOSE_TYPE_TOP_RIGHT && onCancel != null
+              ? Positioned(
+                  top: ScreenUtil().setWidth(60),
+                  right: ScreenUtil().setWidth(60),
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        hide();
+                        if (onCancel != null) {
+                          onCancel();
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/image/close_icon_modal.png',
+                        width: ScreenUtil().setWidth(50),
+                        height: ScreenUtil().setWidth(50),
+                      ),
+                    ),
+                  ))
+              : Container(
+                  width: 0,
+                  height: 0,
+                ),
+        ])
+      ],
+    );
 
     List<Widget> widgetList = [topWidget];
     if (footer != null) {
       widgetList.add(footer);
-    } else if (footer == null && onCancel != null) {
+    } else if (footer == null &&
+        closeType == CloseType.CLOSE_TYPE_BOTTOM_CENTER &&
+        onCancel != null) {
       widgetList.add(GestureDetector(
         onTap: () {
           hide();
@@ -183,6 +213,8 @@ class Modal {
             ),
           ))));
 }
+
+enum CloseType { CLOSE_TYPE_TOP_RIGHT, CLOSE_TYPE_BOTTOM_CENTER }
 
 class _Miui10AnimBuilder extends BaseAnimationBuilder {
   @override

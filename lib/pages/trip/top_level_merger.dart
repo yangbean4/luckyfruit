@@ -23,9 +23,9 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      _lotteryTimer();
-    });
+    // Future.delayed(Duration(seconds: 2), () {
+    //   _lotteryTimer();
+    // });
   }
 
   void start() {

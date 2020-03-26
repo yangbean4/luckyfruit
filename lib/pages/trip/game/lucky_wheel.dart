@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
-import 'package:luckyfruit/provider/money_group.dart';
 import 'dart:math';
 
 import 'package:luckyfruit/provider/tree_group.dart';
@@ -184,6 +183,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
             useAd: ticketCount <= 0,
             onOk: () {
+              if (widget.controller.isAnimating) {
+                print("controller.isAnimating");
+                return;
+              }
+
               if (ticketCount <= 0) {
                 Layer.toastWarning("Tickets not enough, watch ad to get more");
                 //TODO 添加抽奖券的逻辑
