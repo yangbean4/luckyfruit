@@ -37,7 +37,7 @@ class _ShakeAnimationState extends State<ShakeAnimation>
       ..value = 0.0;
     // ..fling(velocity: 0.1);
     final CurvedAnimation curve =
-        new CurvedAnimation(parent: controller, curve: ShakeCurve());
+        new CurvedAnimation(parent: controller, curve: _ShakeCurve());
     animation = new Tween(begin: 0.0, end: 1.0).animate(curve)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -75,12 +75,12 @@ class _ShakeAnimationState extends State<ShakeAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return GrowTransition(child: widget.child, animation: animation);
+    return _GrowTransition(child: widget.child, animation: animation);
   }
 }
 
-class GrowTransition extends StatelessWidget {
-  GrowTransition({this.child, this.animation});
+class _GrowTransition extends StatelessWidget {
+  _GrowTransition({this.child, this.animation});
 
   final Widget child;
   final Animation<double> animation;
@@ -100,7 +100,7 @@ class GrowTransition extends StatelessWidget {
   }
 }
 
-class ShakeCurve extends Curve {
+class _ShakeCurve extends Curve {
   @override
   double transformInternal(double t) {
     final d = t * math.sin(t * math.pi * 2);

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -156,9 +157,9 @@ class _RightBtnsState extends State<RightBtns>
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         showDouble
-            ? ShakeAnimation(
-                timeInterval: Duration(milliseconds: 1250),
-                animateTime: Duration(milliseconds: 300),
+            ? _ShakeAnimation(
+                animateTime: Duration(
+                    milliseconds: (issed?.automatic_remain_time ?? 10) * 1000),
                 child: GestureDetector(
                   onTap: () {
                     luckyGroup.doubleStart();
@@ -198,9 +199,9 @@ class _RightBtnsState extends State<RightBtns>
               )
             : Container(),
         showAuto
-            ? ShakeAnimation(
-                timeInterval: Duration(milliseconds: 1250),
-                animateTime: Duration(milliseconds: 300),
+            ? _ShakeAnimation(
+                animateTime: Duration(
+                    milliseconds: (issed?.automatic_remain_time ?? 10) * 1000),
                 child: GestureDetector(
                   onTap: () {
                     luckyGroup.autoStart();
@@ -239,5 +240,91 @@ class _RightBtnsState extends State<RightBtns>
             : Container(),
       ],
     );
+  }
+}
+
+class _ShakeAnimation extends StatefulWidget {
+  final Widget child;
+  final Duration animateTime;
+  _ShakeAnimation({
+    Key key,
+    this.child,
+    this.animateTime = const Duration(milliseconds: 800),
+  }) : super(key: key);
+
+  @override
+  __ShakeAnimationState createState() => __ShakeAnimationState();
+}
+
+class __ShakeAnimationState extends State<_ShakeAnimation>
+    with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(duration: widget.animateTime, vsync: this)
+      ..value = 0.0;
+    // ..fling(velocity: 0.1);
+    final CurvedAnimation curve = new CurvedAnimation(
+        parent: controller,
+        curve: _ShakeCurve(longTime: widget.animateTime.inMilliseconds));
+    animation = new Tween(begin: 0.0, end: 1.0).animate(curve)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller.reverse();
+        }
+      });
+    controller?.forward();
+    runAnimation();
+  }
+
+  Future<void> runAnimation() async {
+    await controller?.forward();
+    // await controller.reverse();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _GrowTransition(child: widget.child, animation: animation);
+  }
+}
+
+class _GrowTransition extends StatelessWidget {
+  _GrowTransition({this.child, this.animation});
+
+  final Widget child;
+  final Animation<double> animation;
+
+  Widget build(BuildContext context) {
+    return new Center(
+      child: new AnimatedBuilder(
+          animation: animation,
+          builder: (BuildContext context, Widget child) {
+            return new Transform.rotate(
+                alignment: Alignment.center,
+                angle: math.pi / 40 * (animation.value),
+                child: child);
+          },
+          child: child),
+    );
+  }
+}
+
+class _ShakeCurve extends Curve {
+  final int longTime;
+  _ShakeCurve({this.longTime});
+
+  @override
+  double transformInternal(double t) {
+    final d = math.sin(math.sqrt(t * longTime) * math.pi);
+    return d;
   }
 }
