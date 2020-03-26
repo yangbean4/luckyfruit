@@ -23,7 +23,6 @@ class FreePhone extends StatelessWidget {
 
   _showModal() {
     Modal(
-        onCancel: () {},
         verticalPadding: 0,
         horizontalPadding: 0,
         width: 1080,
@@ -31,7 +30,7 @@ class FreePhone extends StatelessWidget {
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
                 width: ScreenUtil().setWidth(1080),
-                height: ScreenUtil().setWidth(200),
+                height: ScreenUtil().setWidth(240),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -40,7 +39,7 @@ class FreePhone extends StatelessWidget {
                       },
                       child: Container(
                           width: ScreenUtil().setWidth(200),
-                          height: ScreenUtil().setWidth(200),
+                          height: ScreenUtil().setWidth(240),
                           child: Center(
                               child: Image.asset(
                             'assets/image/close.png',
@@ -50,7 +49,7 @@ class FreePhone extends StatelessWidget {
                 ]),
               ),
               Container(
-                height: ScreenUtil().setWidth(3100),
+                height: ScreenUtil().setWidth(1450),
                 width: ScreenUtil().setWidth(1080),
                 // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                 child: Stack(
@@ -58,10 +57,10 @@ class FreePhone extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       width: ScreenUtil().setWidth(840),
-                      height: ScreenUtil().setWidth(2906),
+                      height: ScreenUtil().setWidth(1450),
                       margin: EdgeInsets.only(left: ScreenUtil().setWidth(120)),
                       padding: EdgeInsets.only(
-                        bottom: ScreenUtil().setWidth(96),
+                        bottom: ScreenUtil().setWidth(20),
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -296,6 +295,32 @@ class _Group extends StatefulWidget {
 }
 
 class __GroupState extends State<_Group> {
+  ScrollController controller =
+      ScrollController(keepScrollOffset: false, initialScrollOffset: 0.0);
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MoneyGroup userModel = Provider.of<MoneyGroup>(context, listen: false);
+    if (userModel.userInfo?.sign_times == 7) {
+      Future.delayed(Duration(milliseconds: 300)).then((e) {
+        controller?.animateTo(ScreenUtil().setWidth(870.0),
+            duration: Duration(milliseconds: 800), curve: Curves.easeOutQuad);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    //为了避免内存泄露，需要调用_controller.dispose
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Selector<MoneyGroup, UserInfo>(
@@ -306,9 +331,22 @@ class __GroupState extends State<_Group> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _Phone(piecesx: userInfo?.phoneNum ?? 0),
-            _Sign(sign_times: userInfo?.sign_times ?? 0),
-            _Reward(),
-            _Wishing(wishTreeNum: userInfo?.wishTreeNum ?? 0),
+            Expanded(
+                child: SingleChildScrollView(
+              controller: controller,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(height: ScreenUtil().setWidth(30)),
+                    _Sign(sign_times: userInfo?.sign_times ?? 0),
+                    Container(height: ScreenUtil().setWidth(30)),
+                    _Reward(),
+                    Container(height: ScreenUtil().setWidth(30)),
+                    _Wishing(wishTreeNum: userInfo?.wishTreeNum ?? 0),
+                    Container(height: ScreenUtil().setWidth(30)),
+                  ]),
+            )),
           ],
         );
       },

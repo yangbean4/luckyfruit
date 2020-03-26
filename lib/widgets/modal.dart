@@ -146,12 +146,10 @@ class Modal {
     }
 
     List<Widget> stackC = [
-      SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: widgetList,
-        ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: widgetList,
       )
     ]..addAll(stack);
 
