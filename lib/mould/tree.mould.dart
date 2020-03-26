@@ -59,7 +59,7 @@ class Tree extends TreePoint {
   // 回收可以得到的钱
   // double get recycleMoney => grade.toDouble();
   // 树的名字
-  String get name => '石榴树';
+  String get name => 'Pomegranate';
 
   // Delay 多少秒后能买下一个果树
   int get delay => (21 * pow(1.5501, grade - 3)).toInt();

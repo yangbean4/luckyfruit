@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,15 +42,17 @@ class Layer {
   static loadingHide() => _future?.dismiss();
 
 // 新等级弹窗
-  static newGrade(Tree tree) => Modal(
+  static newGrade(Tree tree, {num amount, num progress}) => Modal(
       onOk: () {},
       okText: 'Claim',
       children: <Widget>[
+        ModalTitle('${tree.name} Tree'),
+        Container(height: ScreenUtil().setWidth(47)),
         TreeWidget(
           tree: tree,
-          imgHeight: ScreenUtil().setWidth(218),
-          imgWidth: ScreenUtil().setWidth(237),
-          labelWidth: ScreenUtil().setWidth(110),
+          imgHeight: ScreenUtil().setWidth(236),
+          imgWidth: ScreenUtil().setWidth(216),
+          labelWidth: ScreenUtil().setWidth(80),
           primary: true,
         ),
         Container(
@@ -64,9 +64,10 @@ class Layer {
             'Update successed',
             textAlign: TextAlign.center,
             style: TextStyle(
+                fontFamily: FontFamily.regular,
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(60),
-                fontWeight: FontWeight.w600),
+                fontSize: ScreenUtil().setWidth(50),
+                fontWeight: FontWeight.w400),
           ),
         ),
         // SecondaryText('升级成功', color: MyTheme.secondaryColor)
@@ -89,76 +90,68 @@ class Layer {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(44),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '距离可以获得',
+                width: ScreenUtil().setWidth(444),
+                height: ScreenUtil().setWidth(84),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: '12 grades away from the "Bouns Tree=',
                     style: TextStyle(
                         color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(38),
-                        fontWeight: FontWeight.w600),
-                    // 距离可以获得"全球分红树"还差33级
+                        fontSize: ScreenUtil().setWidth(40),
+                        fontFamily: FontFamily.bold,
+                        height: 1,
+                        fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                        text: '${amount}',
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 80, 52, 1),
+                            fontSize: ScreenUtil().setWidth(40),
+                            fontFamily: FontFamily.bold,
+                            height: 1,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: '"',
+                        style: TextStyle(
+                            color: MyTheme.blackColor,
+                            fontSize: ScreenUtil().setWidth(40),
+                            fontFamily: FontFamily.bold,
+                            height: 1,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
-                  Text(
-                    '"全球分红树"',
-                    style: TextStyle(
-                        color: MyTheme.secondaryColor,
-                        fontSize: ScreenUtil().setWidth(38),
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    '还差${Tree.MAX_LEVEL - tree.grade}级',
-                    style: TextStyle(
-                        color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(38),
-                        fontWeight: FontWeight.w600),
-                    // 距离可以获得"全球分红树"还差33级
-                  ),
-                ],
-              ),
-            ),
+                )),
             Container(
               width: ScreenUtil().setWidth(740),
               height: ScreenUtil().setWidth(170),
-              // margin: EdgeInsets.only(
-              //   top: ScreenUtil().setWidth(30),
-              //   bottom: ScreenUtil().setWidth(24),
-              // ),
+              padding: EdgeInsets.only(
+                right: ScreenUtil().setWidth(80),
+              ),
+              margin: EdgeInsets.only(
+                top: ScreenUtil().setWidth(18),
+                bottom: ScreenUtil().setWidth(7),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: ScreenUtil().setWidth(270),
-                    height: ScreenUtil().setWidth(130),
+                    width: ScreenUtil().setWidth(360),
+                    height: ScreenUtil().setWidth(90),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          '1、2只LV37级果树合成',
+                          '1.Merge 5 continental trees\n2.Merge any 2 trees in Level 37\n3.Stay active in the game',
                           style: TextStyle(
                               color: MyTheme.blackColor,
-                              fontSize: ScreenUtil().setWidth(20),
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          '2、五洲树合成 ',
-                          style: TextStyle(
-                              color: MyTheme.blackColor,
-                              fontSize: ScreenUtil().setWidth(20),
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          '3、个人努力达到100%获得',
-                          style: TextStyle(
-                              color: MyTheme.blackColor,
-                              fontSize: ScreenUtil().setWidth(20),
-                              fontWeight: FontWeight.w500),
+                              fontFamily: FontFamily.regular,
+                              fontSize: ScreenUtil().setWidth(26),
+                              fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),
@@ -173,73 +166,36 @@ class Layer {
                     width: ScreenUtil().setWidth(148),
                     height: ScreenUtil().setWidth(170),
                   ),
-                  Image.asset(
-                    'assets/image/arrow.png',
-                    width: ScreenUtil().setWidth(57),
-                    height: ScreenUtil().setWidth(48),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(190),
-                    height: ScreenUtil().setWidth(130),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '\$150.00',
-                          style: TextStyle(
-                              color: MyTheme.secondaryColor,
-                              fontSize: ScreenUtil().setWidth(30),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '昨天收益(美元/只)',
-                          style: TextStyle(
-                              color: MyTheme.blackColor,
-                              fontSize: ScreenUtil().setWidth(22),
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          '每天领取分红',
-                          style: TextStyle(
-                              color: MyTheme.secondaryColor,
-                              fontSize: ScreenUtil().setWidth(22),
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),
             Container(
-              width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(29),
-              // margin: EdgeInsets.only(
-              //   top: ScreenUtil().setWidth(20),
-              //   bottom: ScreenUtil().setWidth(13),
-              // ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    '当前进度：',
-                    style: TextStyle(
-                        color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(24),
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    '${(tree.grade / Tree.MAX_LEVEL * 100).toStringAsFixed(2)}%',
-                    style: TextStyle(
-                        color: MyTheme.secondaryColor,
-                        fontSize: ScreenUtil().setWidth(24),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
+                width: ScreenUtil().setWidth(740),
+                height: ScreenUtil().setWidth(36),
+                // margin: EdgeInsets.only(
+                //   top: ScreenUtil().setWidth(20),
+                //   bottom: ScreenUtil().setWidth(13),
+                // ),
+                child: RichText(
+                  text: TextSpan(
+                      text: 'your progress:',
+                      style: TextStyle(
+                          color: MyTheme.blackColor,
+                          fontSize: ScreenUtil().setWidth(30),
+                          fontFamily: FontFamily.semibold,
+                          height: 1.3,
+                          fontWeight: FontWeight.w500),
+                      children: [
+                        TextSpan(
+                            text: '${progress}%',
+                            style: TextStyle(
+                                color: MyTheme.primaryColor,
+                                fontSize: ScreenUtil().setWidth(40),
+                                height: 1,
+                                fontFamily: FontFamily.bold,
+                                fontWeight: FontWeight.bold))
+                      ]),
+                )),
             Stack(
               children: <Widget>[
                 Container(
@@ -255,11 +211,10 @@ class Layer {
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: ScreenUtil()
-                          .setWidth((tree.grade / Tree.MAX_LEVEL) * 740),
+                      width: ScreenUtil().setWidth(progress * 7.40),
                       height: ScreenUtil().setWidth(20),
                       decoration: BoxDecoration(
-                        color: MyTheme.secondaryColor,
+                        color: MyTheme.primaryColor,
                         borderRadius: BorderRadius.all(
                             Radius.circular(ScreenUtil().setWidth(10))),
                       ),
@@ -272,38 +227,18 @@ class Layer {
               // margin: EdgeInsets.only(
               //   top: ScreenUtil().setWidth(26),
               // ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '进度达到',
-                    style: TextStyle(
-                        color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(20),
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    '100%',
-                    style: TextStyle(
-                        color: MyTheme.secondaryColor,
-                        fontSize: ScreenUtil().setWidth(20),
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    '有概率获得1棵"全球分红数"限量10万只，领完为止！',
-                    style: TextStyle(
-                        color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(20),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
+              child: Text(
+                'when your progress reach 100%,you probably will get a “Bouns Tree”.',
+                style: TextStyle(
+                    color: MyTheme.tipsColor,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setWidth(23),
+                    fontWeight: FontWeight.w500),
               ),
             )
           ],
         ),
-      ))
-    ..show();
+      )).show();
 
   static locationFull() {
     Modal(

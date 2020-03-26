@@ -15,11 +15,13 @@ import './lucky_group.dart';
 import 'package:luckyfruit/models/index.dart'
     show GlobalDividendTree, UnlockNewTreeLevel;
 import 'package:luckyfruit/utils/bgm.dart';
+import './user_model.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
   LuckyGroup _luckyGroup;
+  UserModel _userModel;
   TreeGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
@@ -211,10 +213,12 @@ class TreeGroup with ChangeNotifier {
 
   //初始化 form请求&Storage
   Future<TreeGroup> init(
-      MoneyGroup moneyGroup, LuckyGroup luckyGroup, String accId) async {
+      MoneyGroup moneyGroup, LuckyGroup luckyGroup, UserModel userModel) async {
+    String accId = userModel.value?.acct_id;
     acct_id = accId;
     _moneyGroup = moneyGroup;
     _luckyGroup = luckyGroup;
+    _userModel = userModel;
     _getGlobalDividendTree();
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
@@ -308,6 +312,10 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
+    Layer.newGrade(maxLevelTree,
+        amount: globalDividendTree?.amount,
+        progress: _userModel?.personalInfo?.count_ratio ?? 0);
+    return false;
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
@@ -426,7 +434,9 @@ class TreeGroup with ChangeNotifier {
     } else {
       // 解锁新等级
       if (target.grade + 1 > maxLevel) {
-        Layer.newGrade(maxLevelTree);
+        Layer.newGrade(maxLevelTree,
+            amount: globalDividendTree?.amount,
+            progress: _userModel.personalInfo.count_ratio ?? 0);
         // 检测是否出现限时分红树（只在升级到最新等级时触发）
         limitedTimeBonusTreeShowUp();
       } else {

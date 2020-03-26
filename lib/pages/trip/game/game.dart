@@ -321,13 +321,18 @@ class _GameState extends State<Game> with MyNavigator {
                                     width: ScreenUtil().setWidth(400),
                                     height: ScreenUtil().setWidth(128),
                                     decoration: BoxDecoration(
-                                      color: Color.fromRGBO(16, 148, 241, 1),
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/image/isrecycle_bg.png'),
+                                          alignment: Alignment.center,
+                                          fit: BoxFit.contain),
+                                      // color: MyTheme.primaryColor,
                                       // gradient: LinearGradient(
                                       //     begin: Alignment(0.0, -1.0),
                                       //     end: Alignment(0.0, 1.0),
                                       //     colors: <Color>[
                                       //       Color.fromRGBO(18, 140, 140, 1),
-                                      //       Color.fromRGBO(16, 148, 241, 1)
+                                      //       Color.fromRGBO(11, 121, 214, 1)
                                       //     ]),
                                       borderRadius: BorderRadius.all(
                                         Radius.elliptical(
@@ -406,7 +411,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                 width:
                                                     ScreenUtil().setWidth(67),
                                                 height:
-                                                    ScreenUtil().setWidth(82),
+                                                    ScreenUtil().setWidth(91),
                                               ))
                                         ]),
                                   );
