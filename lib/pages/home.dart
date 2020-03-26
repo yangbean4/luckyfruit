@@ -27,19 +27,26 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    print("-----didChangeAppLifecycleState---------${state}------");
+
     if (state == AppLifecycleState.paused) {
       EVENT_BUS.emit(Event_Name.APP_PAUSED);
+    }
+    if (state == AppLifecycleState.resumed) {
+      EVENT_BUS.emit(Event_Name.APP_RESUMED);
     }
   }
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this); // 注册监听器
   }
 
   @override
   void dispose() {
+    print("-----Home--------dispose------");
     WidgetsBinding.instance.removeObserver(this); // 移除监听器
     super.dispose();
   }
@@ -75,6 +82,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     return BottomNavigationBar(
       iconSize: ScreenUtil().setWidth(56),
       showUnselectedLabels: true,
+      type: BottomNavigationBarType.fixed,
       selectedFontSize: ScreenUtil().setWidth(34),
       unselectedFontSize: ScreenUtil().setWidth(34),
       selectedItemColor: MyTheme.mainActiveColor,

@@ -9,6 +9,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
@@ -81,10 +82,13 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
 
   Future<void> runAction() async {
     try {
+      Bgm.coinIncrease();
       await treeAnimationController?.forward();
-      await goldAnimationController
+
+      goldAnimationController
         ..value = 0.0
         ..forward();
+
       await treeAnimationController?.reverse();
       // await Future.delayed(Duration(milliseconds: 300));
 

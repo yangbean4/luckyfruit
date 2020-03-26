@@ -98,18 +98,18 @@ class MoneyGroup with ChangeNotifier {
   void setTreeGroup(Map<String, dynamic> group) {
     if (group != null && group.isNotEmpty) {
       String t = group['upDateTime'];
-      _gold = group['_gold'] != null
-          ? double.parse(group['_gold'].toString())
+      _gold = group['_gold'] != null && group['_gold'] != ''
+          ? double.tryParse(group['_gold'].toString())
           : 400.0;
       _allgold = group['_allgold'] != null
-          ? double.parse(group['_allgold'].toString())
+          ? double.tryParse(group['_allgold'].toString())
           : 0.0;
       _money = group['_money'] != null
-          ? double.parse((group['_money']).toString())
+          ? double.tryParse((group['_money']).toString())
           : 0.0;
-      DateTime upDateTime = t == null
+      DateTime upDateTime = t == null || t == ''
           ? null
-          : DateTime.fromMicrosecondsSinceEpoch(int.parse(t) * 1000);
+          : DateTime.fromMicrosecondsSinceEpoch(int.tryParse(t) * 1000);
 
       if (upDateTime != null) {
         // 如果此时没有makeGoldSped的值的话就等通知
@@ -223,7 +223,7 @@ class MoneyGroup with ChangeNotifier {
   addGold(double gold) {
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
-    Bgm.coinIncrease();
+    // Bgm.coinIncrease();
     save();
   }
 

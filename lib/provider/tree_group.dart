@@ -12,7 +12,8 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import './lucky_group.dart';
-import 'package:luckyfruit/models/index.dart' show GlobalDividendTree;
+import 'package:luckyfruit/models/index.dart'
+    show GlobalDividendTree, UnlockNewTreeLevel;
 import 'package:luckyfruit/utils/bgm.dart';
 
 class TreeGroup with ChangeNotifier {
@@ -431,7 +432,7 @@ class TreeGroup with ChangeNotifier {
           // _maxLevel = target.grade;
           Layer.newGrade(maxLevelTree);
           // 检测是否出现限时分红树（只在升级到最新等级时触发）
-          Layer.limitedTimeBonusTreeShowUp(this);
+          limitedTimeBonusTreeShowUp();
         } else {
           checkTreasure();
         }
@@ -445,6 +446,26 @@ class TreeGroup with ChangeNotifier {
     }
     notifyListeners();
     save();
+  }
+
+  /// 通过接口检查限时分红树状态
+  limitedTimeBonusTreeShowUp() async {
+    checkLimitedTimeBonusTreeState(acct_id, maxLevel).then((value) {
+      if (value?.tree_type == 1) {
+        // 如果是限时分红树
+        Layer.showLimitedTimeBonusTree(this);
+      }
+    });
+  }
+
+  /// 检测是否需要弹出限时分红树
+  Future<UnlockNewTreeLevel> checkLimitedTimeBonusTreeState(
+      String acctId, int level) async {
+    dynamic stateMap =
+        await Service().unlockNewLevel({'acct_id': acctId, "level": level});
+
+    UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
+    return newLevel;
   }
 
   // 检查是否生成宝箱

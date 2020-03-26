@@ -482,27 +482,6 @@ class Layer {
       ..show();
   }
 
-  /// 通过接口检查限时分红树状态
-  static limitedTimeBonusTreeShowUp(TreeGroup treeGroup) async {
-    checkLimitedTimeBonusTreeState(treeGroup.acct_id, treeGroup.maxLevel)
-        .then((value) {
-      if (value?.tree_type == 1) {
-        // 如果是限时分红树
-        showLimitedTimeBonusTree(treeGroup);
-      }
-    });
-  }
-
-  /// 检测是否需要弹出限时分红树
-  static Future<UnlockNewTreeLevel> checkLimitedTimeBonusTreeState(
-      String acctId, int level) async {
-    dynamic stateMap =
-        await Service().unlockNewLevel({'acct_id': acctId, "level": level});
-
-    UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
-    return newLevel;
-  }
-
   /// 显示限时分红树开始
   static void showLimitedTimeBonusTree(TreeGroup treeGroup) {
     Modal(
@@ -677,7 +656,7 @@ class Layer {
   /// 随机出现的越级升级弹窗, 出现越级弹窗的几个条件：
   /// 1. 新合成的树的等级要低于当前最高等级两级及以上；
   /// 2. 可购买等级要小于等于接口返回的purchase_tree_level
-  /// 3. 每合成 compose_numbers次数后触发一次
+  /// 3. 每合成 compose_numbers次数后触发��次
   /// 4. 本地请求到广告了 // TODO
   static showBypassLevelUp(BuildContext context, Function onOk,
       Function onCancel, Tree source, Tree target) {

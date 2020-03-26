@@ -11,7 +11,8 @@ class Bgm {
   static String _merge_tree = 'merge_tree.mp3';
   static String _puchase_tree = 'puchase_tree.mp3';
 
-  static bool isPlay = true;
+  static bool isPlay = false;
+  static bool _canPlay = true;
 
   static init() {
     AudioPlayer.logEnabled = false;
@@ -19,8 +20,17 @@ class Bgm {
         [Bgm._main, Bgm._coin_increase, Bgm._merge_tree, Bgm._puchase_tree]);
     play();
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-      stop();
-      fixedPlayer.dispose();
+      _canPlay = false;
+      fixedPlayer.stop();
+      try {
+        fixedPlayer.dispose();
+      } catch (e) {}
+    });
+    EVENT_BUS.on(Event_Name.APP_RESUMED, (_) async {
+      _canPlay = true;
+      if (isPlay) {
+        fixedPlayer = await Bgm.player.loop(Bgm._main);
+      }
     });
   }
 
@@ -30,19 +40,25 @@ class Bgm {
   }
 
   static play() async {
+    isPlay = true;
     fixedPlayer = await Bgm.player.loop(Bgm._main);
   }
 
   static coinIncrease() {
-    if (!isPlay) {}
-    Bgm.player.play(Bgm._coin_increase);
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm._coin_increase);
+    }
   }
 
   static mergeTree() {
-    Bgm.player.play(Bgm._merge_tree);
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm._merge_tree);
+    }
   }
 
   static puchaseTree() {
-    Bgm.player.play(Bgm._puchase_tree);
+    if (isPlay) {
+      Bgm.player.play(Bgm._puchase_tree);
+    }
   }
 }

@@ -2,6 +2,8 @@
 class Event_Name {
   // APP退出
   static const APP_PAUSED = 'APP_PAUSED';
+  static const APP_RESUMED = 'APP_RESUMED';
+
   // 显示弹窗
   static const MODAL_SHOW = 'MODAL_SHOW';
 

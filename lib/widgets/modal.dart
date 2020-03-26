@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' show min;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
@@ -136,6 +137,9 @@ class Modal {
       dismissOtherToast: false,
       duration: Duration(days: 1),
       handleTouch: true,
+      animationCurve: Curves.easeIn,
+      // OffsetAnimationBuilder OpacityAnimationBuilder
+      animationBuilder: Miui10AnimBuilder(),
       // context: context,
     );
   }
@@ -178,4 +182,23 @@ class Modal {
               fontSize: ScreenUtil().setWidth(52),
             ),
           ))));
+}
+
+class _Miui10AnimBuilder extends BaseAnimationBuilder {
+  @override
+  Widget buildWidget(
+    BuildContext context,
+    Widget child,
+    AnimationController controller,
+    double percent,
+  ) {
+    final opacity = min(1.0, percent + 0.2);
+    final offset = (1 - percent) * 20;
+
+    return Opacity(
+      opacity: opacity,
+      child: Transform.scale(
+          alignment: Alignment.center, scale: percent, child: child),
+    );
+  }
 }
