@@ -30,10 +30,12 @@ class Layer {
   static ToastFuture _future;
 
   /// 显示完成弹窗
-  static toastSuccess(String msg) => _showToast('success', msg);
+  static toastSuccess(String msg, {int padding}) =>
+      _showToast('success', msg, padding: padding);
 
   /// 显示警告弹窗
-  static toastWarning(String msg) => _showToast('warning', msg);
+  static toastWarning(String msg, {int padding}) =>
+      _showToast('warning', msg, padding: padding);
 
   /// 显示loading
   static loading(msg) => _showToast('loading', msg);
@@ -340,7 +342,7 @@ class Layer {
   }
 
   /// toast���窗
-  static _showToast(String type, String msg) {
+  static _showToast(String type, String msg, {int padding = 68}) {
     Widget icon;
     switch (type) {
       case 'loading':
@@ -369,7 +371,7 @@ class Layer {
       child: Container(
         width: ScreenUtil().setWidth(400),
         height: ScreenUtil().setWidth(400),
-        padding: EdgeInsets.all(ScreenUtil().setWidth(68)),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(padding)),
         decoration: BoxDecoration(
           borderRadius:
               BorderRadius.all(Radius.circular(ScreenUtil().setWidth(30))),
@@ -391,7 +393,7 @@ class Layer {
               child: icon,
             )
           ],
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
         ),
       ),
     );
@@ -812,7 +814,12 @@ class Layer {
         onCancel: () {},
         okText: "Claim",
         horizontalPadding: 10,
-        children: <Widget>[LuckyWheelWinResultWindow(winType: winType, coinNum: coinNum,)]).show();
+        children: <Widget>[
+          LuckyWheelWinResultWindow(
+            winType: winType,
+            coinNum: coinNum,
+          )
+        ]).show();
   }
 
   /// 雌雄啤酒花树合成后的现金奖励弹窗

@@ -255,7 +255,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
     if (type == WithDrawTypes.Type_Amazon) {
       // 不弹框,直接给出toast
       Navigator.pop(context);
-      Layer.toastSuccess("Submit Success, Please Check In Your Message Page");
+      Layer.toastSuccess("Submit Success, Please Check In Your Message Page", padding: 40);
       return;
     }
     showDialog(
@@ -329,9 +329,9 @@ class InputingInfoWidget extends StatelessWidget {
                             postWithDrawInfo(context, amount, type,
                                     _controllerFirst.text)
                                 .then((e) {
-                              if (e != null) {
-                                handleAfterSummitWithDraw();
-                              }
+                              // 提现成功,关闭输入框
+                              Navigator.pop(context);
+                              handleAfterSummitWithDraw();
                             });
                           },
                           child: PrimaryButton(
@@ -491,6 +491,10 @@ class WithDrawProvider with ChangeNotifier {
         if (e.first) {
           e.disabled = true;
         }
+      });
+    } else if (item.type == WithDrawTypes.Type_Paypal) {
+      _amountList.forEach((e) {
+        e.disabled = false;
       });
     }
 
