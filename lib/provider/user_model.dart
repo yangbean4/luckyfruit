@@ -34,6 +34,7 @@ class UserModel with ChangeNotifier {
       _user = await getUser(info);
       notifyListeners();
       getUserInfo();
+      getPersonalInfo();
     }
   }
 

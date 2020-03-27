@@ -99,6 +99,7 @@ class Modal {
                   right: ScreenUtil().setWidth(60),
                   child: Container(
                     child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         hide();
                         if (onCancel != null) {

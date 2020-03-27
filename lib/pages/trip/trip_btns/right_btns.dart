@@ -54,7 +54,7 @@ class _RightBtnsState extends State<RightBtns>
             }
 
             // 设置的时间后 隐藏
-            Future.delayed(Duration(seconds: issed?.automatic_remain_time))
+            Future.delayed(Duration(seconds: issed?.double_coin_remain_time))
                 .then((e) {
               if (mounted) {
                 setState(() {
@@ -159,7 +159,8 @@ class _RightBtnsState extends State<RightBtns>
         showDouble
             ? _ShakeAnimation(
                 animateTime: Duration(
-                    milliseconds: (issed?.automatic_remain_time ?? 10) * 1000),
+                    milliseconds:
+                        (issed?.double_coin_remain_time ?? 10) * 1000),
                 child: GestureDetector(
                   onTap: () {
                     luckyGroup.doubleStart();
@@ -181,7 +182,7 @@ class _RightBtnsState extends State<RightBtns>
                 'assets/image/double_glod.png',
                 topString: 'EarningsX${issed?.reward_multiple}',
                 bottom: CountdownFormatted(
-                  duration: Duration(seconds: issed?.limited_time),
+                  duration: Duration(seconds: issed?.double_coin_time),
                   onFinish: () {
                     luckyGroup.doubleEnd();
                     setState(() {
