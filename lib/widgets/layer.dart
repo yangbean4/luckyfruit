@@ -30,11 +30,11 @@ class Layer {
   static ToastFuture _future;
 
   /// 显示完成弹窗
-  static toastSuccess(String msg, {int padding}) =>
+  static toastSuccess(String msg, {int padding = 68}) =>
       _showToast('success', msg, padding: padding);
 
   /// 显示警告弹窗
-  static toastWarning(String msg, {int padding}) =>
+  static toastWarning(String msg, {int padding = 68}) =>
       _showToast('warning', msg, padding: padding);
 
   /// 显示loading
@@ -383,6 +383,7 @@ class Layer {
           children: <Widget>[
             Text(
               msg,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: ScreenUtil().setSp(34),

@@ -72,8 +72,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     widget.animation = curTween.animate(curve)
       ..addListener(() {
         setState(() {
-          print(
-              "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
+          // print(
+          //     "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
           // angle = widget.animation.value;
         });
       })
@@ -178,9 +178,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       ),
       Padding(
           padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(90)),
-          child: Selector<UserModel, Tuple2<UserInfo, String>>(
-            selector: (context, provider) =>
-                Tuple2(provider?.userInfo, provider?.value?.acct_id),
+          child: Selector<UserModel, Tuple3<UserInfo, String, User>>(
+            selector: (context, provider) => Tuple3(
+                provider?.userInfo, provider?.value?.acct_id, provider.value),
             builder: (_, data, __) {
               return AdButton(
                 btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
@@ -202,35 +202,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       } else {
                         // 添加成功
                         Layer.toastSuccess("Get Ticket Success");
+                        handleStartSpin(data?.item3);
                       }
                     });
                     return;
                   }
 
-                  // 重置为3
-                  maxRetryNum = 3;
-                  getLuckResult(context).then((luckResultMap) {
-                    if (luckResultMap == null) {
-                      print("luckResultMap = null");
-                      // 动态设置断点
-                      debugger(when: luckResultMap == null);
-                      return;
-                    }
-                    finalPos = luckResultMap['gift_id'] as num;
-                    coinNum = luckResultMap['coin'] as num;
-                    print("返回的gift_id=$finalPos，coin=$coinNum");
-
-                    ticketCount--;
-
-                    updateTween();
-                  });
-                  curTween.end = defaultNumOfTurns;
-
-                  widget.controller.value =
-                      _getAngelWithSelectedPosition(finalPos) /
-                          ((widget.animation.value) +
-                              _getAngelWithSelectedPosition(finalPos));
-                  widget.startSpin();
+                  handleStartSpin(data?.item3);
                 },
                 tips:
                     "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times} times left)",
@@ -238,6 +216,34 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             },
           ))
     ]);
+  }
+
+  handleStartSpin(User user) {
+    // 重置为3
+    maxRetryNum = 3;
+    getLuckResult(context).then((luckResultMap) {
+      if (luckResultMap == null) {
+        print("luckResultMap = null");
+        // 动态设置断点
+        debugger(when: luckResultMap == null);
+        finalPos = -1;
+        updateTween();
+        return;
+      }
+      finalPos = luckResultMap['gift_id'] as num;
+      coinNum = luckResultMap['coin'] as num;
+      print("返回的gift_id=$finalPos，coin=$coinNum");
+
+      ticketCount--;
+      user?.ticket = ticketCount;
+
+      updateTween();
+    });
+    curTween.end = defaultNumOfTurns;
+
+    widget.controller.value = _getAngelWithSelectedPosition(finalPos) /
+        ((widget.animation.value) + _getAngelWithSelectedPosition(finalPos));
+    widget.startSpin();
   }
 
   double _getAngelWithSelectedPosition(int pos) {
@@ -278,7 +284,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     switch (finalPosition) {
       case 8:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES);
-        break;
+        return;
       case 7:
         luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
         break;
@@ -290,7 +296,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         break;
       case 4:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES);
-        break;
+        return;
       case 3:
         luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
         break;

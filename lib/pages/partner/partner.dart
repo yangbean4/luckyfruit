@@ -517,9 +517,9 @@ class PartnerState extends State<Partner> {
                                                       fontSize: ScreenUtil()
                                                           .setWidth(40),
                                                       fontFamily:
-                                                          FontFamily.bold,
+                                                          FontFamily.regular,
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 ),
@@ -547,8 +547,8 @@ class PartnerState extends State<Partner> {
                                                 color: Color(0XFF7C7C7C),
                                                 fontSize:
                                                     ScreenUtil().setWidth(40),
-                                                fontFamily: FontFamily.bold,
-                                                fontWeight: FontWeight.bold,
+                                                fontFamily: FontFamily.regular,
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             )
                                           ],

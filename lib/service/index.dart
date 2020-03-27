@@ -264,11 +264,10 @@ class Service {
       print('请求参数:${request.data}');
       print('返回数据:${res.data}');
 
-      Map<String, dynamic> a = res.data;
-
-      if (a['code'] != 0) {
-        return _client.reject(a['msg']);
-      }
+      // Map<String, dynamic> a = res.data;
+      // if (a['code'] != 0) {
+      //   return _client.reject(a['msg']);
+      // }
       return res;
     }, onError: (DioError e) {
       print('发生错误:' + e.message);
