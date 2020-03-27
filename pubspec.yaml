@@ -54,6 +54,9 @@ dependencies:
   # To select multiple values Using Selector<> without having to
   # write a class that implements ==, the easiest solution is to use a "Tuple"
   tuple: ^1.0.3
+  # wraps an existing Flutter widget 
+  # and fires a callback when the widget's visibility changes
+  visibility_detector: ^0.1.4
 
 dev_dependencies:
   flutter_test:
