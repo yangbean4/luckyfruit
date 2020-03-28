@@ -75,19 +75,30 @@ class _MapPageState extends State<MapPage> {
                     // ),
                     Expanded(
                         child: Container(
-                      height: ScreenUtil().setWidth(500),
-                      padding: EdgeInsets.only(
-                          top: ScreenUtil().setWidth(120),
-                          left: ScreenUtil().setWidth(120)),
-                      child: Text(
-                          'More trees your friends merge\nMore closer to the Bonus Tree!',
-                          // textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: FontFamily.bold,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(60))),
-                    ))
+                            height: ScreenUtil().setWidth(500),
+                            padding: EdgeInsets.only(
+                                top: ScreenUtil().setWidth(120),
+                                left: ScreenUtil().setWidth(120)),
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'More trees your friends merge',
+                                  style: TextStyle(
+                                      fontFamily: FontFamily.semibold,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                      fontSize: ScreenUtil().setSp(40)),
+                                  children: [
+                                    TextSpan(
+                                        text:
+                                            '\nMore closer to the Bonus Tree!',
+                                        // textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: FontFamily.semibold,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            fontSize: ScreenUtil().setSp(50))),
+                                  ]),
+                            )))
                   ]),
             ),
             Container(
@@ -96,6 +107,9 @@ class _MapPageState extends State<MapPage> {
             Expanded(
                 child: Container(
               width: ScreenUtil().setWidth(1080),
+              padding: EdgeInsets.only(
+                top: ScreenUtil().setWidth(76),
+              ),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -114,7 +128,7 @@ class _MapPageState extends State<MapPage> {
                             keepScrollOffset: true,
                             initialScrollOffset: ScreenUtil().setWidth(
                                 351 * (int.parse(selectorUse.cityId) - 1))),
-                        itemExtent: ScreenUtil().setWidth(351),
+                        itemExtent: ScreenUtil().setWidth(246),
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           CityInfo cityInfo = selectorUse.cityInfoList[index];
@@ -126,7 +140,7 @@ class _MapPageState extends State<MapPage> {
                               : Colors.white;
                           return Container(
                             width: ScreenUtil().setWidth(1080),
-                            height: ScreenUtil().setWidth(351),
+                            height: ScreenUtil().setWidth(246),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -335,16 +349,16 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
         Positioned(
-            top: ScreenUtil().setWidth(252),
-            right: ScreenUtil().setWidth(70),
+            top: ScreenUtil().setWidth(185),
+            right: ScreenUtil().setWidth(62),
             child: Container(
-                width: ScreenUtil().setWidth(344),
-                height: ScreenUtil().setWidth(370),
+                width: ScreenUtil().setWidth(278),
+                height: ScreenUtil().setWidth(226),
                 child: Center(
                   child: Image.asset(
                     'assets/image/money_bag.png',
-                    width: ScreenUtil().setWidth(344),
-                    height: ScreenUtil().setWidth(279),
+                    width: ScreenUtil().setWidth(278),
+                    height: ScreenUtil().setWidth(226),
                   ),
                 ))),
         // Map

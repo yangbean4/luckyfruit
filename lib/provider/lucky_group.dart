@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:luckyfruit/models/index.dart'
-    show LevelRoule, Issued, DrawInfo, CityInfo;
+    show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig;
 import 'package:luckyfruit/provider/tree_group.dart';
 import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -29,6 +29,11 @@ class LuckyGroup with ChangeNotifier {
   static const String CACHE_CITY_INFO_VERSION = 'CACHE_CITY_INFO_VERSION';
 
   // 存储 Issued 的key
+  static const String CACHE_TREE_CONFIG = 'CACHE_TREE_CONFIG';
+  // 存储 Issued version 的key
+  static const String CACHE_TREE_CONFIG_VERSION = 'CACHE_TREE_CONFIG_VERSION';
+
+  // 存储 Issued 的key
   static const String CACHE_DEPLY = 'CACHE_DEPLY';
   // 存储 Issued version 的key
   static const String CACHE_DEPLY_VERSION = 'CACHE_DEPLY_VERSION';
@@ -49,6 +54,8 @@ class LuckyGroup with ChangeNotifier {
 
   DrawInfo _drawInfo;
   DrawInfo get drawInfo => _drawInfo;
+
+  TreeConfig treeConfig;
 
 // 展示广告时间
   DateTime _showAdtime;
@@ -148,6 +155,20 @@ class LuckyGroup with ChangeNotifier {
     _transTime(last_draw_time);
     // 利用Future.wait 的并发 同时处理
     await Future.wait([
+      // treeConfig
+      checkVersion(
+              cacheKey: LuckyGroup.CACHE_TREE_CONFIG,
+              cacheVersionKey: LuckyGroup.CACHE_TREE_CONFIG_VERSION,
+              version: configVersion,
+              ajax: Service().fruiterUnivalent)
+          .then((issuedJson) {
+        treeConfig = TreeConfig.fromJson({
+          // issuedJson
+          "content": json.decode(issuedJson['content']),
+          "tree_content": json.decode(issuedJson['tree_content']),
+          "recover_content": json.decode(issuedJson['recover_content']),
+        });
+      }),
       // Issued
       checkVersion(
               cacheKey: LuckyGroup.CACHE_DEPLY,
@@ -202,8 +223,10 @@ class LuckyGroup with ChangeNotifier {
       String cacheVersionKey,
       String version,
       Future<dynamic> Function(Map<String, dynamic>) ajax}) async {
-    String res = await Storage.getItem(cacheVersionKey);
+    // dynamic ajaxJson = await ajax({'version': version});
+    // return ajaxJson;
 
+    String res = await Storage.getItem(cacheVersionKey);
     if (res == version) {
       String cache = await Storage.getItem(cacheKey);
       return json.decode(cache);
@@ -217,7 +240,7 @@ class LuckyGroup with ChangeNotifier {
 
   // 处理广告时长间隔
   adTimeCheck(Duration interval, Function callBack) {
-    // 如果此时check数组为空则启动检查
+    // 如果此时check数组为空���启动检查
     if (_checkList.length == 0) {
       goRunCheck();
     }
@@ -244,7 +267,7 @@ class LuckyGroup with ChangeNotifier {
       }
 
       if (_check != null) {
-        // 如果有则执行;切移除这条回调
+        // 如果有则执行;切移��这条回调
         _check.callBack();
         _checkList.remove(_check);
       }

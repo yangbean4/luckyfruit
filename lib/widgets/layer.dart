@@ -44,7 +44,7 @@ class Layer {
   static loadingHide() => _future?.dismiss();
 
 // 新等级弹窗
-  static newGrade(Tree tree, {num amount, num progress}) => Modal(
+  static newGrade(Tree tree, {num amount}) => Modal(
       onOk: () {},
       okText: 'Claim',
       children: <Widget>[
@@ -99,7 +99,8 @@ class Layer {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: '12 grades away from the "Bouns Tree=',
+                    text:
+                        '${Tree.MAX_LEVEL - tree.grade} grades away from the "Bouns Tree=',
                     style: TextStyle(
                         color: MyTheme.blackColor,
                         fontSize: ScreenUtil().setSp(40),
@@ -218,7 +219,8 @@ class Layer {
                           fontWeight: FontWeight.w500),
                       children: [
                         TextSpan(
-                            text: '${progress}%',
+                            text:
+                                '${(100 * tree.grade / Tree.MAX_LEVEL).toStringAsFixed(2)}%',
                             style: TextStyle(
                                 color: MyTheme.primaryColor,
                                 fontSize: ScreenUtil().setSp(40),
@@ -245,7 +247,8 @@ class Layer {
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: ScreenUtil().setWidth(progress * 7.40),
+                      width: ScreenUtil()
+                          .setWidth((tree.grade / Tree.MAX_LEVEL) * 740),
                       height: ScreenUtil().setWidth(20),
                       decoration: BoxDecoration(
                         color: MyTheme.primaryColor,
@@ -649,7 +652,7 @@ class Layer {
   }
 
   /// 随机出现的越级升级弹窗, 出现越级弹窗的几个条件：
-  /// 1. 新合成的树的等级要低于当前最高等级两级及以上；
+  /// 1. 新合���的树的等级要低于当前最高等级两级及以上；
   /// 2. 可购买等级要小于等于接口返回的purchase_tree_level
   /// 3. 每合成 compose_numbers次数后触发��次
   /// 4. 本地请求到广告了 // TODO
@@ -837,7 +840,7 @@ class Layer {
             ]).show();
   }
 
-  /// 5倍或10倍宝箱弹框
+  /// 5倍或10倍宝���弹框
   static show5TimesTreasureWindow(int type) {
     Modal(
         childrenBuilder: (modal) => <Widget>[

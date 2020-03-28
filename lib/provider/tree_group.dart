@@ -21,7 +21,6 @@ class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
   LuckyGroup _luckyGroup;
-  UserModel _userModel;
   TreeGroup();
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
@@ -39,6 +38,9 @@ class TreeGroup with ChangeNotifier {
 
   // 合成的总次数
   int totalMergeCount = 1;
+
+  bool _isLoad = false;
+  bool get isLoad => _isLoad;
 
   // 全球分红树 数据
   GlobalDividendTree _globalDividendTree;
@@ -132,9 +134,9 @@ class TreeGroup with ChangeNotifier {
   }
 
   // 单位时间产生钱数
-  double get makeMoneySped {
-    return treeList.map((sub) => sub.money).toList().fold(0, (a, b) => a + b);
-  }
+  // double get makeMoneySped {
+  //   return treeList.map((sub) => sub.money).toList().fold(0, (a, b) => a + b);
+  // }
 
   // 转成二维数组
   List<List<Tree>> get treeMatrix {
@@ -218,7 +220,6 @@ class TreeGroup with ChangeNotifier {
     acct_id = accId;
     _moneyGroup = moneyGroup;
     _luckyGroup = luckyGroup;
-    _userModel = userModel;
     _getGlobalDividendTree();
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
@@ -239,7 +240,7 @@ class TreeGroup with ChangeNotifier {
     EVENT_BUS.on(TreeGroup.AUTO_MERGE_END, (_) {
       _autoMergeTimeout();
     });
-    // 弹窗显示时自动合成暂停
+    // 弹窗显示时�������动合��暂停
     EVENT_BUS.on(Event_Name.MODAL_SHOW, (_) {
       // _autoTimeOut = true;
     });
@@ -254,6 +255,8 @@ class TreeGroup with ChangeNotifier {
       _autoMergeTimeout();
     });
 
+    _isLoad = true;
+    notifyListeners();
     return this;
   }
 
@@ -430,9 +433,10 @@ class TreeGroup with ChangeNotifier {
     } else {
       // 解锁新等级
       if (target.grade + 1 > maxLevel) {
-        Layer.newGrade(maxLevelTree,
-            amount: globalDividendTree?.amount,
-            progress: _userModel.personalInfo.count_ratio ?? 0);
+        Layer.newGrade(
+          new Tree(grade: maxLevel + 1),
+          amount: globalDividendTree?.amount,
+        );
         // 检测是否出现限时分红树（只在升级到最新等级时触发）
         limitedTimeBonusTreeShowUp();
       } else {
@@ -559,12 +563,7 @@ class TreeGroup with ChangeNotifier {
 
   // 回收树木
   recycle(Tree tree) {
-    // Layer.newGrade(maxLevelTree,
-    //     amount: globalDividendTree?.amount,
-    //     progress: _userModel.personalInfo.count_ratio ?? 0);
-    // return false;
     if (_treeList.length == 1) {
-      //TODO: 限时分红树弹窗、许愿树兑换成功或者位置不足弹窗
       Layer.toastWarning('你就要没🌲��....');
       return;
     }

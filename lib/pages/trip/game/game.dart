@@ -37,7 +37,13 @@ class _SelectorUse {
   Function addTree;
   Tree isrecycle;
   Function recycle;
-  _SelectorUse({this.minLevelTree, this.addTree, this.isrecycle, this.recycle});
+  bool isLoad;
+  _SelectorUse(
+      {this.minLevelTree,
+      this.addTree,
+      this.isrecycle,
+      this.recycle,
+      this.isLoad});
 }
 
 class Game extends StatefulWidget {
@@ -235,196 +241,229 @@ class _GameState extends State<Game> with MyNavigator {
                             minLevelTree: provider.minLevelTree,
                             addTree: provider.addTree,
                             recycle: provider.recycle,
+                            isLoad: provider.isLoad,
                             isrecycle: provider.isrecycle),
                         builder: (context, _SelectorUse selectorUse, child) {
-                          Widget center = selectorUse.isrecycle == null
-                              ? GestureDetector(
-                                  onTap: selectorUse.addTree,
-                                  child: ShakeAnimation(
-                                    child: PrimaryButton(
-                                      // minWidth: ScreenUtil().setWidth(560),
-                                      width: 400,
-                                      height: 128,
-                                      colors: <Color>[
-                                        Color.fromRGBO(51, 199, 86, 1),
-                                        Color.fromRGBO(36, 182, 69, 1)
-                                      ],
-                                      child: Stack(
-                                          overflow: Overflow.visible,
-                                          children: <Widget>[
-                                            // 底层的金币数行
-                                            Container(
-                                              height: ScreenUtil().setWidth(50),
-                                              margin: EdgeInsets.only(
-                                                top: ScreenUtil().setWidth(59),
-                                              ),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                    'assets/image/gold.png',
-                                                    width: ScreenUtil()
-                                                        .setWidth(50),
-                                                    height: ScreenUtil()
-                                                        .setWidth(50),
-                                                  ),
-                                                  Container(
-                                                      margin: EdgeInsets.only(
-                                                        left: ScreenUtil()
-                                                            .setWidth(14),
-                                                      ),
-                                                      child: Text(
-                                                        Util.formatNumber(selectorUse
-                                                                .minLevelTree
-                                                                ?.consumeGold ??
-                                                            0),
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              FontFamily.bold,
-                                                          color: Colors.white,
-                                                          fontSize: ScreenUtil()
-                                                              .setWidth(54),
-                                                          height: 1,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      )),
-                                                ],
-                                              ),
-                                            ),
-                                            // 添加树的树
-                                            Positioned(
-                                              bottom: ScreenUtil().setWidth(80),
-                                              left: ScreenUtil().setWidth(156),
-                                              child: TreeWidget(
-                                                tree: selectorUse.minLevelTree,
-                                                imgHeight:
-                                                    ScreenUtil().setWidth(96),
-                                                imgWidth:
-                                                    ScreenUtil().setWidth(88),
-                                                labelWidth:
-                                                    ScreenUtil().setWidth(72),
-                                                primary: false,
-                                              ),
-                                            )
-                                          ]),
-                                    ),
-                                  ),
-                                )
-                              : DragTarget(builder:
-                                  (context, candidateData, rejectedData) {
-                                  return Container(
-                                    // minWidth: ScreenUtil().setWidth(560),
-                                    width: ScreenUtil().setWidth(400),
-                                    height: ScreenUtil().setWidth(128),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/image/isrecycle_bg.png'),
-                                          alignment: Alignment.center,
-                                          fit: BoxFit.contain),
-                                      // color: MyTheme.primaryColor,
-                                      // gradient: LinearGradient(
-                                      //     begin: Alignment(0.0, -1.0),
-                                      //     end: Alignment(0.0, 1.0),
-                                      //     colors: <Color>[
-                                      //       Color.fromRGBO(18, 140, 140, 1),
-                                      //       Color.fromRGBO(11, 121, 214, 1)
-                                      //     ]),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.elliptical(
-                                          ScreenUtil().setWidth(64),
-                                          ScreenUtil().setWidth(64),
-                                        ),
-                                      ),
-                                    ),
-                                    child: Stack(
-                                        overflow: Overflow.visible,
-                                        children: <Widget>[
-                                          Container(
-                                            height: ScreenUtil().setWidth(50),
-                                            margin: EdgeInsets.only(
-                                              top: ScreenUtil().setWidth(59),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                          Widget center = !selectorUse.isLoad
+                              ? PrimaryButton(
+                                  // minWidth: ScreenUtil().setWidth(560),
+                                  width: 400,
+                                  height: 128,
+                                  colors: <Color>[
+                                    Color.fromRGBO(51, 199, 86, 1),
+                                    Color.fromRGBO(36, 182, 69, 1)
+                                  ],
+                                  child: Container())
+                              : selectorUse.isrecycle == null
+                                  ? GestureDetector(
+                                      onTap: selectorUse.addTree,
+                                      child: ShakeAnimation(
+                                        child: PrimaryButton(
+                                          // minWidth: ScreenUtil().setWidth(560),
+                                          width: 400,
+                                          height: 128,
+                                          colors: <Color>[
+                                            Color.fromRGBO(51, 199, 86, 1),
+                                            Color.fromRGBO(36, 182, 69, 1)
+                                          ],
+                                          child: Stack(
+                                              overflow: Overflow.visible,
                                               children: <Widget>[
+                                                // 底层的金币数行
                                                 Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: ScreenUtil()
-                                                          .setWidth(10)),
-                                                  child: Text(
-                                                    'Recycle',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontFamily:
-                                                            FontFamily.bold,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        height: 1.0,
-                                                        fontSize: ScreenUtil()
-                                                            .setSp(30)),
-                                                  ),
-                                                ),
-                                                Image.asset(
-                                                  'assets/image/gold.png',
-                                                  width:
-                                                      ScreenUtil().setWidth(50),
                                                   height:
                                                       ScreenUtil().setWidth(50),
-                                                ),
-                                                Container(
-                                                    margin: EdgeInsets.only(
-                                                      left: ScreenUtil()
-                                                          .setWidth(14),
-                                                    ),
-                                                    child: Text(
-                                                      Util.formatNumber(
-                                                          selectorUse.isrecycle
-                                                                  ?.recycleGold ??
-                                                              0),
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            FontFamily.bold,
-                                                        color: Colors.white,
-                                                        fontSize: ScreenUtil()
-                                                            .setWidth(44),
-                                                        height: 1,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                  margin: EdgeInsets.only(
+                                                    top: ScreenUtil()
+                                                        .setWidth(59),
+                                                  ),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Image.asset(
+                                                        'assets/image/gold.png',
+                                                        width: ScreenUtil()
+                                                            .setWidth(50),
+                                                        height: ScreenUtil()
+                                                            .setWidth(50),
                                                       ),
-                                                    )),
-                                              ],
+                                                      Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            left: ScreenUtil()
+                                                                .setWidth(14),
+                                                          ),
+                                                          child: Text(
+                                                            Util.formatNumber(
+                                                                selectorUse
+                                                                        .minLevelTree
+                                                                        ?.consumeGold ??
+                                                                    0),
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  FontFamily
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          54),
+                                                              height: 1,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                // 添加树的树
+                                                Positioned(
+                                                  bottom:
+                                                      ScreenUtil().setWidth(80),
+                                                  left: ScreenUtil()
+                                                      .setWidth(156),
+                                                  child: TreeWidget(
+                                                    tree: selectorUse
+                                                        .minLevelTree,
+                                                    imgHeight: ScreenUtil()
+                                                        .setWidth(96),
+                                                    imgWidth: ScreenUtil()
+                                                        .setWidth(88),
+                                                    labelWidth: ScreenUtil()
+                                                        .setWidth(72),
+                                                    primary: false,
+                                                  ),
+                                                )
+                                              ]),
+                                        ),
+                                      ),
+                                    )
+                                  : DragTarget(builder:
+                                      (context, candidateData, rejectedData) {
+                                      return Container(
+                                        // minWidth: ScreenUtil().setWidth(560),
+                                        width: ScreenUtil().setWidth(400),
+                                        height: ScreenUtil().setWidth(128),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/image/isrecycle_bg.png'),
+                                              alignment: Alignment.center,
+                                              fit: BoxFit.contain),
+                                          // color: MyTheme.primaryColor,
+                                          // gradient: LinearGradient(
+                                          //     begin: Alignment(0.0, -1.0),
+                                          //     end: Alignment(0.0, 1.0),
+                                          //     colors: <Color>[
+                                          //       Color.fromRGBO(18, 140, 140, 1),
+                                          //       Color.fromRGBO(11, 121, 214, 1)
+                                          //     ]),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.elliptical(
+                                              ScreenUtil().setWidth(64),
+                                              ScreenUtil().setWidth(64),
                                             ),
                                           ),
-                                          Positioned(
-                                              bottom: ScreenUtil().setWidth(83),
-                                              left: ScreenUtil().setWidth(167),
-                                              child: Image.asset(
-                                                'assets/image/isrecycle.png',
-                                                width:
-                                                    ScreenUtil().setWidth(67),
+                                        ),
+                                        child: Stack(
+                                            overflow: Overflow.visible,
+                                            children: <Widget>[
+                                              Container(
                                                 height:
-                                                    ScreenUtil().setWidth(91),
-                                              ))
-                                        ]),
-                                  );
-                                }, onWillAccept: (Tree source) {
-                                  Layer.recycleLayer(
-                                      () => selectorUse.recycle(source),
-                                      source.treeImgSrc,
-                                      source.recycleMoney,
-                                      source.recycleGold);
-                                  return true;
-                                }, onAccept: (Tree source) {
-                                  return true;
-                                });
+                                                    ScreenUtil().setWidth(50),
+                                                margin: EdgeInsets.only(
+                                                  top:
+                                                      ScreenUtil().setWidth(59),
+                                                ),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: ScreenUtil()
+                                                              .setWidth(10)),
+                                                      child: Text(
+                                                        'Recycle',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                FontFamily.bold,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            height: 1.0,
+                                                            fontSize:
+                                                                ScreenUtil()
+                                                                    .setSp(30)),
+                                                      ),
+                                                    ),
+                                                    Image.asset(
+                                                      'assets/image/gold.png',
+                                                      width: ScreenUtil()
+                                                          .setWidth(50),
+                                                      height: ScreenUtil()
+                                                          .setWidth(50),
+                                                    ),
+                                                    Container(
+                                                        margin: EdgeInsets.only(
+                                                          left: ScreenUtil()
+                                                              .setWidth(14),
+                                                        ),
+                                                        child: Text(
+                                                          Util.formatNumber(
+                                                              selectorUse
+                                                                      .isrecycle
+                                                                      ?.recycleGold ??
+                                                                  0),
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                FontFamily.bold,
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                ScreenUtil()
+                                                                    .setWidth(
+                                                                        44),
+                                                            height: 1,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              Positioned(
+                                                  bottom:
+                                                      ScreenUtil().setWidth(83),
+                                                  left: ScreenUtil()
+                                                      .setWidth(167),
+                                                  child: Image.asset(
+                                                    'assets/image/isrecycle.png',
+                                                    width: ScreenUtil()
+                                                        .setWidth(67),
+                                                    height: ScreenUtil()
+                                                        .setWidth(91),
+                                                  ))
+                                            ]),
+                                      );
+                                    }, onWillAccept: (Tree source) {
+                                      Layer.recycleLayer(
+                                          () => selectorUse.recycle(source),
+                                          source.treeImgSrc,
+                                          source.recycleMoney,
+                                          source.recycleGold);
+                                      return true;
+                                    }, onAccept: (Tree source) {
+                                      return true;
+                                    });
 
                           return center;
                         }),
