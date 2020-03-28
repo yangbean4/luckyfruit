@@ -35,6 +35,15 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+              iconSize: 20,
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
           bottom: PreferredSize(
               preferredSize: Size.fromHeight(ScreenUtil().setWidth(240)),
               child: Container(
@@ -124,8 +133,10 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
           );
 
           return Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
+              padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtil().setWidth(50),
+                // vertical: ScreenUtil().setWidth(40),
+              ),
               color: Colors.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

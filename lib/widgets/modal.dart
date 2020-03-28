@@ -20,6 +20,7 @@ class Modal {
   final double verticalPadding;
   // 水平填充
   final double horizontalPadding;
+  final double marginBottom;
   List<Widget> children;
   final num width;
   final List<Widget> stack;
@@ -42,6 +43,7 @@ class Modal {
       this.stack = const [],
       this.verticalPadding = 90,
       this.horizontalPadding = 40,
+      this.marginBottom = 70,
       this.autoHide = true,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})
@@ -76,7 +78,7 @@ class Modal {
           Container(
             width: ScreenUtil().setWidth(width),
             margin: EdgeInsets.only(
-              bottom: ScreenUtil().setWidth(70),
+              bottom: ScreenUtil().setWidth(marginBottom),
             ),
             padding: EdgeInsets.symmetric(
               vertical: ScreenUtil().setWidth(verticalPadding),
@@ -107,9 +109,9 @@ class Modal {
                         }
                       },
                       child: Image.asset(
-                        'assets/image/close_icon_modal.png',
-                        width: ScreenUtil().setWidth(50),
-                        height: ScreenUtil().setWidth(50),
+                        'assets/image/close_icon_modal_top_right.png',
+                        width: ScreenUtil().setWidth(40),
+                        height: ScreenUtil().setWidth(40),
                       ),
                     ),
                   ))
@@ -139,9 +141,9 @@ class Modal {
             height: ScreenUtil().setWidth(200),
             child: Center(
                 child: Image.asset(
-              'assets/image/close.png',
-              width: ScreenUtil().setWidth(54),
-              height: ScreenUtil().setWidth(54),
+              'assets/image/close_icon_modal_bottom_center.png',
+              width: ScreenUtil().setWidth(40),
+              height: ScreenUtil().setWidth(40),
             ))),
       ));
     }

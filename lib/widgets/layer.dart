@@ -456,14 +456,13 @@ class Layer {
 
   ///大转盘抽奖
   static showLuckyWheel() {
-    var luckyWheelObj = new LuckyWheelWidget();
-
     Modal(
         onCancel: () {},
         horizontalPadding: ScreenUtil().setWidth(70),
         verticalPadding: ScreenUtil().setWidth(0),
+        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
         childrenBuilder: (modal) => <Widget>[
-              luckyWheelObj,
+              LuckyWheelWidget(modal),
             ])
       ..show();
   }
@@ -594,15 +593,19 @@ class Layer {
   }
 
   /// 显示合成38级时的抽奖弹窗
-  static showTopLevelMergeWindow() {
+  static showTopLevelMergeWindow(TreeGroup treeGroup) {
     Modal(
         width: 940,
         horizontalPadding: ScreenUtil().setWidth(70),
         childrenBuilder: (modal) => <Widget>[
               TopLevelMergeWidget(onReceivedResultFun: () {
-                Layer.toastSuccess("抽到38级的树");
+                Layer.toastSuccess("Get Level 38 Tree");
                 modal.hide();
                 // TODO 种上一颗38级树
+                treeGroup.addTree(
+                    tree: Tree(
+                  grade: Tree.MAX_LEVEL,
+                ));
               }),
             ]).show();
   }
@@ -614,13 +617,14 @@ class Layer {
             closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
                   ContinentsMergeWidget(onStartMergeFun: () {
-                    Layer.toastSuccess("合成五洲树");
+                    Layer.toastSuccess("Merge Continents Trees");
                     modal.hide();
                   }),
                 ],
             width: 1000,
             verticalPadding: 0,
             horizontalPadding: 0,
+            marginBottom: 0,
             decorationColor: Colors.transparent)
         .show();
   }
@@ -639,6 +643,7 @@ class Layer {
             verticalPadding: 0,
             width: 1000,
             horizontalPadding: 0,
+            marginBottom: 0,
             decorationColor: Colors.transparent)
         .show();
   }
@@ -684,16 +689,19 @@ class Layer {
                         primary: true,
                       ),
                       Container(height: ScreenUtil().setWidth(32)),
+                      //TODO 替换树名称和图片
                       FourthText(
                         "Pomegranate tree",
-                        fontsize: 30,
-                        color: Color.fromARGB(38, 38, 38, 1),
+                        fontsize: 36,
+                        fontFamily: FontFamily.regular,
+                        fontWeight: FontWeight.w400,
+                        color: MyTheme.blackColor,
                       ),
                     ]),
                     Image.asset(
                       'assets/image/arrow.png',
-                      width: ScreenUtil().setWidth(76),
-                      height: ScreenUtil().setWidth(48),
+                      width: ScreenUtil().setWidth(84),
+                      height: ScreenUtil().setWidth(56),
                     ),
                     Column(children: [
                       TreeWidget(
@@ -707,13 +715,15 @@ class Layer {
                       Container(height: ScreenUtil().setWidth(32)),
                       FourthText(
                         "Litchi tree",
-                        fontsize: 30,
-                        color: Color.fromARGB(38, 38, 38, 1),
+                        fontsize: 36,
+                        fontFamily: FontFamily.regular,
+                        fontWeight: FontWeight.w400,
+                        color: MyTheme.blackColor,
                       ),
                     ]),
                   ]),
               Padding(
-                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
+                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(38)),
                   child: Selector<UserModel, UserInfo>(
                       selector: (context, provider) => provider.userInfo,
                       builder: (_, UserInfo userInfo, __) {
@@ -845,16 +855,12 @@ class Layer {
 
   /// 大转盘抽���结果弹框
   static showLuckWheelWinResultWindow(int winType, num coinNum) {
-    Modal(
-        onCancel: () {},
-        okText: "Claim",
-        horizontalPadding: 10,
-        children: <Widget>[
-          LuckyWheelWinResultWindow(
-            winType: winType,
-            coinNum: coinNum,
-          )
-        ]).show();
+    Modal(okText: "Claim", horizontalPadding: 10, children: <Widget>[
+      LuckyWheelWinResultWindow(
+        winType: winType,
+        coinNum: coinNum,
+      )
+    ]).show();
   }
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
@@ -869,6 +875,8 @@ class Layer {
         padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(30)),
         child: SecondaryText(
           "You‘ve got",
+          fontWeight: FontWeight.w400,
+          fontFamily: FontFamily.regular,
         ),
       ),
       GoldText(
@@ -876,6 +884,8 @@ class Layer {
         imgUrl: "assets/image/icon_dollar.png",
         iconSize: 72,
         textSize: 66,
+        fontFamily: FontFamily.semibold,
+        fontWeight: FontWeight.w500,
       ),
       Container(height: ScreenUtil().setWidth(35)),
     ]).show();

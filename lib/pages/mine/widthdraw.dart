@@ -33,13 +33,25 @@ class _WithDrawPageState extends State<WithDrawPage> {
     return Scaffold(
       appBar: AppBar(
         //导航栏
-        title: Text("Cash Out",
-            style: TextStyle(
-                fontFamily: FontFamily.bold,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: ScreenUtil().setSp(70))),
+        title: Align(
+          alignment: Alignment(0.05, 0),
+          child: Text("Cash Out",
+              style: TextStyle(
+                  fontFamily: FontFamily.bold,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setWidth(70))),
+        ),
         elevation: 0,
+        leading: IconButton(
+            iconSize: 20,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -68,10 +80,11 @@ class _WithDrawPageState extends State<WithDrawPage> {
                 top: 0,
                 child: Container(
                   width: ScreenUtil().setWidth(1080),
-                  height: ScreenUtil().setWidth(300),
+                  height: ScreenUtil().setWidth(280),
                   color: MyTheme.primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         "Balance",
@@ -81,6 +94,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                             color: Colors.white,
                             fontSize: ScreenUtil().setSp(50)),
                       ),
+                      SizedBox(height: ScreenUtil().setWidth(30)),
                       Text(
                         "\$${widget.amount}",
                         style: TextStyle(
@@ -93,9 +107,10 @@ class _WithDrawPageState extends State<WithDrawPage> {
                   ),
                 )),
             Positioned(
-                top: ScreenUtil().setWidth(250),
+                top: ScreenUtil().setWidth(220),
                 child: Container(
                   padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
+                  margin: EdgeInsets.only(top: ScreenUtil().setWidth(40)),
                   width: ScreenUtil().setWidth(1080),
                   height: ScreenUtil().setWidth(1920),
                   decoration: BoxDecoration(
@@ -164,30 +179,57 @@ class _WithDrawPageState extends State<WithDrawPage> {
                           // return WithDrawItemWidget();
                         },
                       ),
-                      //TODO 文字换行后对齐
                       SizedBox(height: ScreenUtil().setWidth(100)),
-                      RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "Tips\n",
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Tips\n",
                                 style: TextStyle(
                                     fontSize: ScreenUtil().setSp(40),
                                     fontFamily: FontFamily.semibold,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w500,
                                     color: Color(0xFF262626))),
-                            TextSpan(
-                                text: '1.It takes up to 3 business days to cash out and the service fee is 3%\n' +
-                                    '2.No service fee for the first cashout.',
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    fontSize: ScreenUtil().setSp(40),
-                                    color: Color(0xFF535353),
-                                    fontFamily: FontFamily.regular,
-                                    fontWeight: FontWeight.w400)),
-                          ],
-                        ),
-                      ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('1.\t',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          wordSpacing: 1,
+                                          fontSize: ScreenUtil().setWidth(40),
+                                          color: Color(0xFF535353),
+                                          fontFamily: FontFamily.regular,
+                                          fontWeight: FontWeight.w500)),
+                                  Expanded(
+                                    child: Text(
+                                        'It takes up to 3 business days to cash out and the service fee is 3%',
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            wordSpacing: 1,
+                                            fontSize: ScreenUtil().setWidth(40),
+                                            color: Color(0xFF535353),
+                                            fontFamily: FontFamily.regular,
+                                            fontWeight: FontWeight.w500)),
+                                  ),
+                                ]),
+                            Row(children: [
+                              Text('2.\t',
+                                  style: TextStyle(
+                                      wordSpacing: 1,
+                                      fontSize: ScreenUtil().setWidth(40),
+                                      color: Color(0xFF535353),
+                                      fontFamily: FontFamily.regular,
+                                      fontWeight: FontWeight.w500)),
+                              Text('No service fee for the first cashout.',
+                                  style: TextStyle(
+                                      wordSpacing: 1,
+                                      fontSize: ScreenUtil().setWidth(40),
+                                      color: Color(0xFF535353),
+                                      fontFamily: FontFamily.regular,
+                                      fontWeight: FontWeight.w500)),
+                            ]),
+                          ]),
                     ],
                   ),
                 )),
@@ -220,6 +262,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                                     height: 1,
                                     fontWeight: FontWeight.bold,
                                     fontSize: ScreenUtil().setSp(56),
+                                    fontFamily: FontFamily.bold,
                                   ),
                                 ))),
                           );

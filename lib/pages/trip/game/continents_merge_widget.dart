@@ -139,7 +139,7 @@ class ContinentsMergeWidget extends StatelessWidget {
                   Align(
                       alignment: Alignment(0, 0),
                       child: Text(
-                        "Start",
+                        "Merge",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

@@ -66,15 +66,19 @@ class TimesRewardWidget extends StatelessWidget {
         height: ScreenUtil().setWidth(243),
       ),
       Container(height: ScreenUtil().setWidth(24)),
-      SecondaryText(
+      Text(
         desc,
-        fontWeight: FontWeight.w400,
-        fontsize: 46,
-        color: MyTheme.blackColor,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: ScreenUtil().setWidth(46),
+          fontFamily: FontFamily.regular,
+          color: MyTheme.blackColor,
+        ),
       ),
       Padding(
           padding: EdgeInsets.only(
-            top: ScreenUtil().setWidth(60),
+            top: ScreenUtil().setWidth(45),
           ),
           child: Selector<UserModel, UserInfo>(
               selector: (context, provider) => provider.userInfo,

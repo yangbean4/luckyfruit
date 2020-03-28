@@ -12,6 +12,7 @@ class Rank_bonus_trees {
     String avatar;
     String amount;
     String separate_amount;
+    num tree_num;
     
     factory Rank_bonus_trees.fromJson(Map<String,dynamic> json) => _$Rank_bonus_treesFromJson(json);
     Map<String, dynamic> toJson() => _$Rank_bonus_treesToJson(this);

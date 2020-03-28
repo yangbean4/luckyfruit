@@ -10,11 +10,15 @@ class GoldText extends StatelessWidget {
   final double textSize;
   final Color textColor;
   final String imgUrl;
+  final String fontFamily;
+  final FontWeight fontWeight;
   const GoldText(this.text,
       {Key key,
       this.imgUrl = "assets/image/gold.png",
       this.iconSize = 64,
       this.textSize = 43,
+      this.fontFamily = FontFamily.semibold,
+      this.fontWeight = FontWeight.w600,
       this.textColor = MyTheme.blackColor})
       : super(key: key);
 
@@ -31,16 +35,15 @@ class GoldText extends StatelessWidget {
         ),
         Container(
             margin: EdgeInsets.only(
-              left: ScreenUtil().setWidth(25),
+              left: ScreenUtil().setWidth(15),
             ),
             child: Text(
               text,
               style: TextStyle(
                 color: textColor,
-                height: 1,
-                fontFamily: FontFamily.semibold,
                 fontSize: ScreenUtil().setSp(textSize),
-                fontWeight: FontWeight.w500,
+                fontFamily: fontFamily,
+                fontWeight: fontWeight,
               ),
             )),
       ],

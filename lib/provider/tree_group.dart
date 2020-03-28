@@ -426,7 +426,7 @@ class TreeGroup with ChangeNotifier {
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
-      Layer.showTopLevelMergeWindow();
+      Layer.showTopLevelMergeWindow(this);
     } else {
       // 解锁新等级
       if (target.grade + 1 > maxLevel) {

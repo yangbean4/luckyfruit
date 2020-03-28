@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -153,10 +155,10 @@ class PartnerState extends State<Partner> {
   Future<PartnerWrap> getInvitationListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    dynamic partnerMap =
-        await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
-    PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
-    // PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
+    // dynamic partnerMap =
+    //     await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
+    // PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
+    PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
     // 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));
     return partnerWrap;
@@ -262,19 +264,31 @@ class PartnerState extends State<Partner> {
                     ),
                     Align(
                       alignment: Alignment(-0.6, 0),
-                      child: Text(
-                        "More trees your friends merge, \nHigher earnings you will have",
-                        style: TextStyle(
-                            fontFamily: FontFamily.semibold,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: ScreenUtil().setSp(50)),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "More trees your friends merge,",
+                          style: TextStyle(
+                              fontFamily: FontFamily.semibold,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: ScreenUtil().setSp(46)),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\nHigher earnings you will have',
+                              style: TextStyle(
+                                  fontFamily: FontFamily.semibold,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setWidth(50)),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ]),
                 ),
                 Positioned(
-                  top: ScreenUtil().setWidth(330),
+                  top: ScreenUtil().setWidth(390),
                   child: Container(
                       width: ScreenUtil().setWidth(1080),
                       // height: ScreenUtil().setWidth(1920),
@@ -288,7 +302,7 @@ class PartnerState extends State<Partner> {
                               topRight:
                                   Radius.circular(ScreenUtil().setWidth(40)))),
                       padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setWidth(70),
+                        // vertical: ScreenUtil().setWidth(70),
                         horizontal: ScreenUtil().setWidth(60),
                       ),
                       alignment: Alignment.center,
@@ -297,8 +311,8 @@ class PartnerState extends State<Partner> {
                           children: [
                             Container(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: ScreenUtil().setWidth(35),
-                                    horizontal: ScreenUtil().setWidth(50)),
+                                    vertical: ScreenUtil().setWidth(37),
+                                    horizontal: ScreenUtil().setWidth(47)),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.all(
@@ -308,127 +322,133 @@ class PartnerState extends State<Partner> {
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: SecondaryText(
+                                      GestureDetector(
+                                        onTap: () {
+                                          MyNavigator().pushNamed(
+                                              context, "InvitatioinPage",
+                                              arguments: _partnerWrap?.friends);
+                                        },
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: SecondaryText(
                                                   "Number of friends: ${_partnerWrap?.friends_total}",
-                                                  textAlign: TextAlign.left),
-                                            ),
-                                            SizedBox(
-                                              width: ScreenUtil().setWidth(50),
-                                            ),
-                                            Container(
+                                                  textAlign: TextAlign.left,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(
                                                 width:
-                                                    ScreenUtil().setWidth(220),
-                                                child: Stack(
-                                                  // fit: StackFit.expand,
-                                                  children: [
-                                                    Positioned(
-                                                      // width: ScreenUtil().setWidth(100),
-                                                      left: ScreenUtil()
-                                                          .setWidth(120),
-                                                      child:
-                                                          getAvatarWidgetListOfFriends(
-                                                              0),
-                                                    ),
-                                                    Positioned(
-                                                      left: ScreenUtil()
-                                                          .setWidth(60),
-                                                      child:
-                                                          getAvatarWidgetListOfFriends(
-                                                              1),
-                                                    ),
-                                                    Positioned(
-                                                      child:
-                                                          getAvatarWidgetListOfFriends(
-                                                              2),
-                                                    ),
-                                                  ],
-                                                )),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  MyNavigator().pushNamed(
-                                                      context,
-                                                      "InvitatioinPage",
-                                                      arguments: _partnerWrap
-                                                          ?.friends);
-                                                },
-                                                child: Container(
-                                                    color: Colors.transparent,
-                                                    padding: EdgeInsets.only(
+                                                    ScreenUtil().setWidth(50),
+                                              ),
+                                              Container(
+                                                  width: ScreenUtil()
+                                                      .setWidth(220),
+                                                  child: Stack(
+                                                    children: [
+                                                      Positioned(
                                                         left: ScreenUtil()
-                                                            .setWidth(45),
-                                                        top: ScreenUtil()
+                                                            .setWidth(120),
+                                                        child:
+                                                            getAvatarWidgetListOfFriends(
+                                                                0),
+                                                      ),
+                                                      Positioned(
+                                                        left: ScreenUtil()
+                                                            .setWidth(60),
+                                                        child:
+                                                            getAvatarWidgetListOfFriends(
+                                                                1),
+                                                      ),
+                                                      Positioned(
+                                                        child:
+                                                            getAvatarWidgetListOfFriends(
+                                                                2),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              SizedBox(
+                                                  width: ScreenUtil()
+                                                      .setWidth(45)),
+                                              Image.asset(
+                                                "assets/image/partner_right_arrow_icon.png",
+                                                width:
+                                                    ScreenUtil().setWidth(20),
+                                                height:
+                                                    ScreenUtil().setWidth(35),
+                                                fit: BoxFit.cover,
+                                              )
+                                            ]),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          //TODO 调起FB分享
+                                        },
+                                        child: Column(children: [
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(36),
+                                          ),
+                                          PrimaryButton(
+                                              width: 600,
+                                              height: 124,
+                                              child: Center(
+                                                  child: Text(
+                                                "Invite Friends",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(52),
+                                                ),
+                                              ))),
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(44),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text:
+                                                  "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(30),
+                                                  color: Color(0xFF7C7C7C),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w400),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text:
+                                                        " \$${_partnerWrap?.fb_no_login_all_profit}",
+                                                    style: TextStyle(
+                                                        fontSize: ScreenUtil()
+                                                            .setWidth(50),
+                                                        fontFamily:
+                                                            FontFamily.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Color(0xFFFF4C2F))),
+                                                TextSpan(
+                                                    text:
+                                                        ' for you, inform them  logging in facebook to get those cash.',
+                                                    style: TextStyle(
+                                                        fontSize: ScreenUtil()
                                                             .setWidth(30),
-                                                        bottom: ScreenUtil()
-                                                            .setWidth(30)),
-                                                    child: Image.asset(
-                                                      "assets/image/partner_right_arrow_icon.png",
-                                                      width: ScreenUtil()
-                                                          .setWidth(20),
-                                                      height: ScreenUtil()
-                                                          .setWidth(35),
-                                                      fit: BoxFit.cover,
-                                                    ))),
-                                          ]),
-                                      SizedBox(
-                                        height: ScreenUtil().setWidth(36),
-                                      ),
-                                      PrimaryButton(
-                                          width: 600,
-                                          height: 124,
-                                          child: Center(
-                                              child: Text(
-                                            "Invite Friends",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              height: 1,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize:
-                                                  ScreenUtil().setWidth(52),
+                                                        color:
+                                                            Color(0xFF7C7C7C),
+                                                        fontFamily:
+                                                            FontFamily.regular,
+                                                        fontWeight:
+                                                            FontWeight.w400)),
+                                              ],
                                             ),
-                                          ))),
-                                      SizedBox(
-                                        height: ScreenUtil().setWidth(44),
+                                          )
+                                        ]),
                                       ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text:
-                                              "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
-                                          style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setWidth(30),
-                                              color: Color(0xFF7C7C7C),
-                                              fontFamily: FontFamily.regular,
-                                              fontWeight: FontWeight.w400),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text:
-                                                    " \$${_partnerWrap?.fb_no_login_all_profit}",
-                                                style: TextStyle(
-                                                    fontSize: ScreenUtil()
-                                                        .setWidth(50),
-                                                    fontFamily: FontFamily.bold,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xFFFF4C2F))),
-                                            TextSpan(
-                                                text:
-                                                    ' for you, inform them  logging in facebook to get those cash.',
-                                                style: TextStyle(
-                                                    fontSize: ScreenUtil()
-                                                        .setWidth(30),
-                                                    color: Color(0xFF7C7C7C),
-                                                    fontFamily:
-                                                        FontFamily.regular,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                          ],
-                                        ),
-                                      )
                                     ])),
                             SizedBox(
                               height: ScreenUtil().setWidth(30),
@@ -446,17 +466,24 @@ class PartnerState extends State<Partner> {
                               ),
                               child: Column(children: [
                                 // 第一行
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SecondaryText(
-                                      "Earning from Partners",
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Row(
+                                GestureDetector(
+                                  onTap: () {
+                                    // TODO 跳转到玩法介绍界面
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Earning from Partners",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setWidth(50),
+                                          fontFamily: FontFamily.bold,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Row(
                                         children: <Widget>[
                                           Text("Rules of play",
                                               style: TextStyle(
@@ -477,88 +504,99 @@ class PartnerState extends State<Partner> {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   height: ScreenUtil().setWidth(45),
                                 ),
                                 // 第二行
-                                IntrinsicHeight(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      Expanded(
-                                          child: Container(
-                                        // color: Colors.red[300],
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ModalTitle(
-                                              "\$${_partnerWrap?.fb_login_history_profit}",
-                                              color: Color(0xFFFF4C2F),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                // color: Colors.yellow,
-                                                child: Center(
-                                                  child: Text(
-                                                    "current total earning",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      // backgroundColor: Colors.green,
-                                                      color: Color(0XFF7C7C7C),
-                                                      fontSize: ScreenUtil()
-                                                          .setWidth(40),
-                                                      fontFamily:
-                                                          FontFamily.regular,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                GestureDetector(
+                                  onTap: () {
+                                    MyNavigator().pushNamed(
+                                      context,
+                                      "PartnerProfit",
+                                    );
+                                  },
+                                  child: IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Container(
+                                          // color: Colors.red[300],
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              ModalTitle(
+                                                "\$${_partnerWrap?.fb_login_history_profit}",
+                                                color: Color(0xFFFF4C2F),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  // color: Colors.yellow,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "current total earning",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        // backgroundColor: Colors.green,
+                                                        color:
+                                                            Color(0XFF7C7C7C),
+                                                        fontSize: ScreenUtil()
+                                                            .setWidth(40),
+                                                        fontFamily:
+                                                            FontFamily.regular,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
+                                              )
+                                            ],
+                                          ),
+                                        )),
+                                        Expanded(
+                                            child: Container(
+                                          // color: Colors.green[300],
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ModalTitle(
+                                                "\$${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[2]}",
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Container(
-                                        // color: Colors.green[300],
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            ModalTitle(
-                                              "\$${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[2]}",
-                                            ),
-                                            Text(
-                                              "accelerate magnification ratio in stage ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[0]}" +
-                                                  " is ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]}",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                // backgroundColor: Colors.red,
-                                                color: Color(0XFF7C7C7C),
-                                                fontSize:
-                                                    ScreenUtil().setWidth(40),
-                                                fontFamily: FontFamily.regular,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                                    ],
+                                              Text(
+                                                "accelerate magnification ratio in stage ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[0]}" +
+                                                    " is ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]}",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  // backgroundColor: Colors.red,
+                                                  color: Color(0XFF7C7C7C),
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: ScreenUtil().setWidth(30),
+                                  height: ScreenUtil().setWidth(38),
                                 ),
                                 // 第三行,进度条
                                 Container(
@@ -591,7 +629,8 @@ class PartnerState extends State<Partner> {
                                           style: TextStyle(
                                               fontFamily: FontFamily.bold,
                                               color: Colors.white,
-                                              fontSize: ScreenUtil().setSp(26),
+                                              fontSize:
+                                                  ScreenUtil().setWidth(26),
                                               height: 1,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -615,163 +654,151 @@ class PartnerState extends State<Partner> {
                             ),
 
                             // Partner Profit help me earnings部分
-                            GestureDetector(
-                                onTap: () {
-                                  MyNavigator().pushNamed(
-                                    context,
-                                    "PartnerProfit",
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setWidth(54),
-                                      horizontal: ScreenUtil().setWidth(47)),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            ScreenUtil().setWidth(40))),
-                                  ),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // 第一行
-                                        SecondaryText(
-                                            "Partner help me earnings",
-                                            textAlign: TextAlign.left),
-                                        // 加速倍率图标
-                                        Align(
-                                            alignment: Alignment(-0.6, 0),
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  top: ScreenUtil()
-                                                      .setWidth(30)),
-                                              padding: EdgeInsets.only(
-                                                  left:
-                                                      ScreenUtil().setWidth(40),
-                                                  right: ScreenUtil()
-                                                      .setWidth(10)),
-                                              width: ScreenUtil().setWidth(140),
-                                              height: ScreenUtil().setWidth(40),
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  alignment: Alignment.center,
-                                                  image: AssetImage(
-                                                      "assets/image/partner_profit_from_friends_rate_bg.png"),
-                                                  fit: BoxFit.fill,
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: ScreenUtil().setWidth(54),
+                                  horizontal: ScreenUtil().setWidth(47)),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(ScreenUtil().setWidth(40))),
+                              ),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Partner help me earnings",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setWidth(50),
+                                        fontFamily: FontFamily.bold,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                    // 加速倍率图标
+                                    Align(
+                                        alignment: Alignment(-0.6, 0),
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              top: ScreenUtil().setWidth(30)),
+                                          padding: EdgeInsets.only(
+                                              left: ScreenUtil().setWidth(40),
+                                              right: ScreenUtil().setWidth(10)),
+                                          width: ScreenUtil().setWidth(140),
+                                          height: ScreenUtil().setWidth(40),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              alignment: Alignment.center,
+                                              image: AssetImage(
+                                                  "assets/image/partner_profit_from_friends_rate_bg.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            "${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]} rate",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize:
+                                                    ScreenUtil().setWidth(24),
+                                                fontFamily: FontFamily.semibold,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white),
+                                          ),
+                                        )),
+                                    // 第二行
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Expanded(
+                                              child: Container(
+                                            // color: Colors.red[300],
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                ModalTitle(
+                                                  "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
+                                                  color: Color(0xFFFF4C2F),
                                                 ),
+                                                Expanded(
+                                                  child: Container(
+                                                    // color: Colors.yellow[300],
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Total earning",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        // backgroundColor: Colors.green,
+                                                        color:
+                                                            Color(0XFF7C7C7C),
+                                                        fontSize: ScreenUtil()
+                                                            .setWidth(40),
+                                                        fontFamily:
+                                                            FontFamily.regular,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                                          Expanded(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ModalTitle(
+                                                "\$${_partnerWrap?.direct_profit}",
                                               ),
-                                              child: Text(
-                                                "${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]} rate",
+                                              Text(
+                                                "Direct friend contribution",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: ScreenUtil()
-                                                        .setWidth(24),
-                                                    fontFamily:
-                                                        FontFamily.semibold,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white),
-                                              ),
-                                            )),
-                                        // 第二行
-                                        IntrinsicHeight(
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: Container(
-                                                // color: Colors.red[300],
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    ModalTitle(
-                                                      "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
-                                                      color: Color(0xFFFF4C2F),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        // color: Colors.yellow[300],
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          "Total earning",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            // backgroundColor: Colors.green,
-                                                            color: Color(
-                                                                0XFF7C7C7C),
-                                                            fontSize:
-                                                                ScreenUtil()
-                                                                    .setWidth(
-                                                                        40),
-                                                            fontFamily:
-                                                                FontFamily.bold,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                  color: Color(0XFF7C7C7C),
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
-                                              )),
-                                              Expanded(
-                                                  child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  ModalTitle(
-                                                    "\$${_partnerWrap?.direct_profit}",
-                                                  ),
-                                                  Text(
-                                                    "Direct friend contribution",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Color(0XFF7C7C7C),
-                                                      fontSize: ScreenUtil()
-                                                          .setWidth(40),
-                                                      fontFamily:
-                                                          FontFamily.bold,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
-                                              Expanded(
-                                                  child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  ModalTitle(
-                                                    "\$${_partnerWrap?.indirect_profit}",
-                                                  ),
-                                                  Text(
-                                                    "Indirect friend contributions",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Color(0XFF7C7C7C),
-                                                      fontSize: ScreenUtil()
-                                                          .setWidth(40),
-                                                      fontFamily:
-                                                          FontFamily.bold,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
+                                              )
                                             ],
-                                          ),
-                                        ),
-                                      ]),
-                                )),
+                                          )),
+                                          Expanded(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ModalTitle(
+                                                "\$${_partnerWrap?.indirect_profit}",
+                                              ),
+                                              Text(
+                                                "Indirect friend contributions",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color(0XFF7C7C7C),
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                            ],
+                                          )),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                            ),
                             SizedBox(
                               height: ScreenUtil().setWidth(30),
                             ),
@@ -791,10 +818,17 @@ class PartnerState extends State<Partner> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SecondaryText("My inviter",
-                                          textAlign: TextAlign.left),
+                                      Text(
+                                        "My inviter",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setWidth(50),
+                                          fontFamily: FontFamily.bold,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                       SizedBox(
-                                        height: ScreenUtil().setWidth(45),
+                                        height: ScreenUtil().setWidth(36),
                                       ),
                                       Row(
                                           crossAxisAlignment:

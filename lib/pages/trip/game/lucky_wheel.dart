@@ -12,16 +12,20 @@ import 'dart:math';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/theme/public/fourth_text.dart';
+import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class LuckyWheelWidget extends StatefulWidget {
   Animation<double> animation;
   AnimationController controller;
+  Modal modal;
+
+  LuckyWheelWidget(this.modal);
 
   startSpin() {
     // controller.value = 0;
@@ -161,23 +165,28 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       Container(
         // color: Colors.blue,
         margin: EdgeInsets.only(
-          top: ScreenUtil().setWidth(40),
-          bottom: ScreenUtil().setWidth(40),
-        ),
+            // top: ScreenUtil().setWidth(40),
+            // bottom: ScreenUtil().setWidth(30),
+            ),
         child: ModalTitle("TICKET x $ticketCount"),
       ),
       Container(
         // color: Colors.red,
         margin: EdgeInsets.only(
-          bottom: ScreenUtil().setWidth(50),
+          bottom: ScreenUtil().setWidth(45),
         ),
-        child: FourthText(
+        child: Text(
           "After depleted，\nyou'll get 10 free tickets at 00:00",
-          color: Color(0xFF7C7C7C),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Color(0xFF7C7C7C),
+              fontSize: ScreenUtil().setWidth(36),
+              fontFamily: FontFamily.regular,
+              fontWeight: FontWeight.w400),
         ),
       ),
       Padding(
-          padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(90)),
+          padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(36)),
           child: Selector<UserModel, Tuple3<UserInfo, String, User>>(
             selector: (context, provider) => Tuple3(
                 provider?.userInfo, provider?.value?.acct_id, provider.value),
@@ -185,6 +194,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
               return AdButton(
                 btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
                 useAd: ticketCount <= 0,
+                onCancel: () {
+                  widget?.modal?.hide();
+                },
                 onOk: () {
                   if (widget.controller.isAnimating) {
                     print("controller.isAnimating");

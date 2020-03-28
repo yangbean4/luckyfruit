@@ -71,7 +71,7 @@ class HopsMergeWidget extends StatelessWidget {
                 Align(
                     alignment: Alignment(0, -0.3),
                     child: Text(
-                      "Start",
+                      "Merge",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

@@ -31,13 +31,13 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       ModalTitle("Awesome"),
-      Container(height: ScreenUtil().setWidth(45)),
+      Container(height: ScreenUtil().setWidth(40)),
       Image.asset(
         'assets/image/coin_full_bag.png',
         width: ScreenUtil().setWidth(268),
         height: ScreenUtil().setWidth(133),
       ),
-      Container(height: ScreenUtil().setWidth(66)),
+      Container(height: ScreenUtil().setWidth(15)),
       RichText(
         text: TextSpan(
           text: "You've got",
@@ -52,7 +52,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
                 style: TextStyle(
                     fontSize: ScreenUtil().setSp(50),
                     fontFamily: FontFamily.regular,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                     color: Color(0xFFFFAC1E))),
             TextSpan(
                 text: 'earnings',
@@ -66,11 +66,15 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
       ),
       Padding(
         padding: EdgeInsets.only(
-          top: ScreenUtil().setWidth(44),
-          bottom: ScreenUtil().setWidth(60),
+          top: ScreenUtil().setWidth(38),
+          bottom: ScreenUtil().setWidth(45),
         ),
         //TODO 数值要对上
-        child: GoldText(Util.formatNumber(coinNum)),
+        child: GoldText(
+          Util.formatNumber(coinNum),
+          textSize: 66,
+          iconSize: 72,
+        ),
       ),
     ]);
   }

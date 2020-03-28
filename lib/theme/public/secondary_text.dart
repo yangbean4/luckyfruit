@@ -11,11 +11,13 @@ class SecondaryText extends StatelessWidget {
   final double fontsize;
   final FontWeight fontWeight;
   final textAlign;
+  final String fontFamily;
   const SecondaryText(this.text,
       {Key key,
       this.color = MyTheme.blackColor,
       this.fontsize = 50,
       this.textAlign = TextAlign.center,
+      this.fontFamily = FontFamily.regular,
       this.fontWeight = FontWeight.w600})
       : super(key: key);
 
@@ -27,6 +29,7 @@ class SecondaryText extends StatelessWidget {
       style: TextStyle(
           color: color,
           fontSize: ScreenUtil().setSp(fontsize),
+          fontFamily: fontFamily,
           fontWeight: fontWeight),
     );
   }

@@ -62,11 +62,11 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   Future<PartnerProfitList> getPartnerProfitListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    dynamic profitMap = await Service()
-        .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
-    PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
-    // PartnerProfitList profitList =
-    //     PartnerProfitList.fromJson(json.decode(testJson));
+    // dynamic profitMap = await Service()
+    //     .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
+    // PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
+    PartnerProfitList profitList =
+        PartnerProfitList.fromJson(json.decode(testJson));
     // TODO 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));
     return profitList;
@@ -77,6 +77,15 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+            leading: IconButton(
+                iconSize: 20,
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             elevation: 0,
             bottom: PreferredSize(
                 preferredSize: Size.fromHeight(ScreenUtil().setWidth(100)),
@@ -112,7 +121,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                   height: 1,
                   fontFamily: FontFamily.bold,
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setSp(80),
+                  fontSize: ScreenUtil().setSp(70),
                 ),
               ),
             )),
@@ -122,7 +131,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                 itemBuilder: (context, index) {
                   return Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(50),
+                          horizontal: ScreenUtil().setWidth(95),
                           vertical: ScreenUtil().setWidth(20)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,7 +155,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                               ]),
                           Text("\$${_partnerProfitList.data[index].amount}",
                               style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(50),
+                                  fontSize: ScreenUtil().setSp(56),
                                   fontFamily: FontFamily.semibold,
                                   fontWeight: FontWeight.w500,
                                   color: MyTheme.blackColor)),

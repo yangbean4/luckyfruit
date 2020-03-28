@@ -13,7 +13,8 @@ Rank_bonus_trees _$Rank_bonus_treesFromJson(Map<String, dynamic> json) {
     ..rela_account = json['rela_account'] as String
     ..avatar = json['avatar'] as String
     ..amount = json['amount'] as String
-    ..separate_amount = json['separate_amount'] as String;
+    ..separate_amount = json['separate_amount'] as String
+    ..tree_num = json['tree_num'] as num;
 }
 
 Map<String, dynamic> _$Rank_bonus_treesToJson(Rank_bonus_trees instance) =>
@@ -23,5 +24,6 @@ Map<String, dynamic> _$Rank_bonus_treesToJson(Rank_bonus_trees instance) =>
       'rela_account': instance.rela_account,
       'avatar': instance.avatar,
       'amount': instance.amount,
-      'separate_amount': instance.separate_amount
+      'separate_amount': instance.separate_amount,
+      'tree_num': instance.tree_num
     };

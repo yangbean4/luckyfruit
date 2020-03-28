@@ -19,7 +19,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   int runCount = 0;
   List inOrder = [0, 1, 2, 3, 5, 9, 8, 7, 6, 4];
   Timer timer;
-
+  bool enableOnTap = true;
   @override
   void initState() {
     super.initState();
@@ -54,15 +54,20 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
             vertical: ScreenUtil().setWidth(40),
             horizontal: ScreenUtil().setWidth(50)),
 
-        margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(60)),
+        margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(45)),
         child: gridWrapperView(),
       ),
       GestureDetector(
-          onTap: () {
-            Future.delayed(Duration(milliseconds: 200), () {
-              _lotteryTimer();
-            });
-          },
+          onTap: enableOnTap
+              ? () {
+                  setState(() {
+                    enableOnTap = false;
+                    Future.delayed(Duration(milliseconds: 200), () {
+                      _lotteryTimer();
+                    });
+                  });
+                }
+              : null,
           child: PrimaryButton(
               width: 600,
               height: 124,
@@ -74,7 +79,8 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                   color: Colors.white,
                   height: 1,
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setSp(52),
+                  fontFamily: FontFamily.bold,
+                  fontSize: ScreenUtil().setWidth(52),
                 ),
               ))))
     ]);
@@ -117,7 +123,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
             child: Center(
                 child: Stack(children: <Widget>[
               Text(
-                "Random \nSynthesis1",
+                "Random \nMerge",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1,
@@ -130,7 +136,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                "Random \nSynthesis1",
+                "Random \nMerge",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,

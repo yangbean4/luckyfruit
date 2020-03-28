@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -96,17 +95,23 @@ class _AdButtonState extends State<AdButton> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         widget.useAd
-                            ? Image.asset(
-                                'assets/image/ad_icon.png',
-                                width: ScreenUtil().setWidth(75),
-                                height: ScreenUtil().setWidth(75),
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    right: ScreenUtil().setWidth(33)),
+                                child: Image.asset(
+                                  'assets/image/ad_icon.png',
+                                  width: ScreenUtil().setWidth(75),
+                                  height: ScreenUtil().setWidth(75),
+                                ),
                               )
                             : Container(),
                         SizedBox(width: ScreenUtil().setWidth(24)),
                         ModalTitle(
                           widget.btnText,
                           color: Colors.white,
-                        ),
+                          fontsize: 64,
+                          textAlign: TextAlign.center,
+                        )
                       ],
                     ),
                   ),

@@ -34,7 +34,7 @@ class RankPageState extends State<RankPage>
             {
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -42,7 +42,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -50,7 +50,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -58,7 +58,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -66,7 +66,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -74,7 +74,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -82,7 +82,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -90,7 +90,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -98,7 +98,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -106,7 +106,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -114,7 +114,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -122,7 +122,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -130,7 +130,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -138,7 +138,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -146,7 +146,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -154,7 +154,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -162,7 +162,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -170,7 +170,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -178,7 +178,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -186,7 +186,7 @@ class RankPageState extends State<RankPage>
             },{
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "name1",
+                "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
                 "separate_amount": "1234",
@@ -317,6 +317,16 @@ class RankPageState extends State<RankPage>
     }
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
+        leading: IconButton(
+            iconSize: 20,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(ScreenUtil().setWidth(300)),
             child: Container(
@@ -345,10 +355,9 @@ class RankPageState extends State<RankPage>
                               e,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                height: 1,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: FontFamily.semibold,
-                                fontSize: ScreenUtil().setSp(52),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FontFamily.bold,
+                                fontSize: ScreenUtil().setWidth(56),
                               ),
                             )),
                           ))
@@ -372,10 +381,9 @@ class RankPageState extends State<RankPage>
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              height: 1,
               fontFamily: FontFamily.black,
-              fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setSp(100),
+              fontWeight: FontWeight.w900,
+              fontSize: ScreenUtil().setWidth(90),
             ),
           ),
         ),
@@ -482,7 +490,7 @@ class RankPageState extends State<RankPage>
                             itemCount: bounsTreeList?.length,
                             itemBuilder: (context, index) {
                               var avatarWidget = CompatibleNetworkAvatarWidget(
-                                bounsTreeList[index].avatar,
+                                bounsTreeList[index]?.avatar,
                                 defaultImageUrl:
                                     "assets/image/rank_page_portrait_default.png",
                                 width: ScreenUtil().setWidth(120),
@@ -492,20 +500,48 @@ class RankPageState extends State<RankPage>
 
                               return Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(50),
-                                      vertical: ScreenUtil().setWidth(20)),
+                                      horizontal: ScreenUtil().setWidth(95),
+                                      vertical: ScreenUtil().setWidth(40)),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      ClipOval(child: avatarWidget),
-                                      Text(bounsTreeList[index].rela_account),
-                                      Text("1"),
-                                      Text(bounsTreeList[index].separate_amount,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 76, 47, 1))),
+                                      Row(
+                                        children: <Widget>[
+                                          ClipOval(child: avatarWidget),
+                                          SizedBox(
+                                            width: ScreenUtil().setWidth(30),
+                                          ),
+                                          Text(
+                                            bounsTreeList[index]?.rela_account,
+                                            style: TextStyle(
+                                                color: MyTheme.blackColor,
+                                                fontSize:
+                                                    ScreenUtil().setWidth(50),
+                                                fontFamily: FontFamily.semibold,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        bounsTreeList[index]
+                                                ?.tree_num
+                                                ?.toString() ??
+                                            "0",
+                                        style: TextStyle(
+                                            color: MyTheme.blackColor,
+                                            fontSize: ScreenUtil().setWidth(50),
+                                            fontFamily: FontFamily.semibold,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        bounsTreeList[index]?.separate_amount,
+                                        style: TextStyle(
+                                            color: MyTheme.blackColor,
+                                            fontSize: ScreenUtil().setWidth(56),
+                                            fontFamily: FontFamily.semibold,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ],
                                   ));
                             },
@@ -553,13 +589,13 @@ class RankPageState extends State<RankPage>
       winnerWidget = Image.asset(
         winnerImgSrc,
         width: ScreenUtil().setWidth(110),
-        height: ScreenUtil().setWidth(120),
+        height: ScreenUtil().setWidth(124),
       );
     } else {
       winnerWidget = Container(
           alignment: Alignment.center,
           width: ScreenUtil().setWidth(110),
-          height: ScreenUtil().setWidth(120),
+          height: ScreenUtil().setWidth(124),
           child: Text("${index + 1}"));
     }
 
@@ -580,7 +616,7 @@ class RankPageState extends State<RankPage>
       child: Container(
           width: ScreenUtil().setWidth(1080),
           height: ScreenUtil().setWidth(200),
-          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
+          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(95)),
           color: ((index == positionSelf) ? Color(0xFFBCFFCC) : Colors.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -589,15 +625,34 @@ class RankPageState extends State<RankPage>
               Expanded(
                 child: ListTile(
                   leading: ClipOval(child: avatarWidget),
-                  title: Text(friendsList[index].rela_account),
-                  subtitle: Text(friendsList[index].tree_num > 0
-                      ? "${friendsList[index].tree_num} global dividend tree(s)"
-                      : "No global dividend dog"),
+                  title: Text(
+                    friendsList[index].rela_account,
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setWidth(50),
+                        fontFamily: FontFamily.semibold,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: Text(
+                    friendsList[index].tree_num > 0
+                        ? "${friendsList[index].tree_num} global dividend tree(s)"
+                        : "No global dividend tree",
+                    style: TextStyle(
+                        color: index == positionSelf
+                            ? Color.fromRGBO(38, 38, 38, 1)
+                            : Color.fromRGBO(124, 124, 124, 1),
+                        fontSize: ScreenUtil().setWidth(34),
+                        fontFamily: FontFamily.regular,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
               Text(
                 "\$${friendsList[index].separate_amount}",
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                    color: Color.fromRGBO(38, 38, 38, 1),
+                    fontSize: ScreenUtil().setWidth(56),
+                    fontFamily: FontFamily.semibold,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           )),
