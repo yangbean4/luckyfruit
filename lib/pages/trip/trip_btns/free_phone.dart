@@ -70,7 +70,7 @@ class FreePhone extends StatelessWidget {
                       child: _Group(),
                     ),
                     Positioned(
-                        top: ScreenUtil().setWidth(-81),
+                        top: ScreenUtil().setWidth(-61),
                         left: ScreenUtil().setWidth(103),
                         child: Container(
                           width: ScreenUtil().setWidth(874),
@@ -447,6 +447,7 @@ class __RewardState extends State<_Reward> {
               children: <Widget>[
                 Text('3 lucky draw chances per day',
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: FontFamily.bold,
                         color: MyTheme.blackColor,
@@ -759,12 +760,13 @@ class _Sign extends StatelessWidget {
           children: <Widget>[
             Text('Sign Up For 7 Days To Get Reward',
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: FontFamily.black,
                     color: MyTheme.blackColor,
                     height: 1,
                     fontSize: ScreenUtil().setSp(46),
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.w900)),
             Container(
                 width: ScreenUtil().setWidth(760),
                 height: ScreenUtil().setWidth(500),

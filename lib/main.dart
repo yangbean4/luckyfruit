@@ -11,7 +11,7 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/utils/bgm.dart';
+import 'mould/tree.mould.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +25,17 @@ void main() {
   TourismMap tourismMap = TourismMap();
   LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
-    luckyGroup.init(userModel.value.last_draw_time, userModel.value?.version,
-        userModel.value?.acct_id);
-    treeGroup.init(moneyGroup, luckyGroup, userModel);
-    moneyGroup.init(treeGroup, userModel.value?.acct_id);
-    tourismMap.init(moneyGroup, luckyGroup, treeGroup,
-        userModel.value?.level ?? '1', userModel.value?.acct_id);
+    luckyGroup
+        .init(userModel.value.last_draw_time, userModel.value?.version,
+            userModel.value?.acct_id)
+        .then((e) {
+      Tree.init(luckyGroup.treeConfig);
+
+      treeGroup.init(moneyGroup, luckyGroup, userModel);
+      tourismMap.init(moneyGroup, luckyGroup, treeGroup,
+          userModel.value?.level ?? '1', userModel.value?.acct_id);
+      moneyGroup.init(treeGroup, userModel);
+    });
   });
 
 // 开启背景音乐

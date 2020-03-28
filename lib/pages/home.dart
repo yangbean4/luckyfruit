@@ -27,7 +27,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    print("-----didChangeAppLifecycleState---------${state}------");
 
     if (state == AppLifecycleState.paused) {
       EVENT_BUS.emit(Event_Name.APP_PAUSED);
@@ -46,7 +45,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    print("-----Home--------dispose------");
     WidgetsBinding.instance.removeObserver(this); // 移除监听器
     super.dispose();
   }

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/index.dart' show TreeConfig;
 
 class TreePoint {
   // 水平位置
@@ -15,6 +16,10 @@ class TreePoint {
 
 class Tree extends TreePoint {
   static const int MAX_LEVEL = 38;
+  static TreeConfig treeConfig;
+  static init(TreeConfig _treeConfig) {
+    treeConfig = _treeConfig;
+  }
 
   Tree(
       {this.grade,
@@ -49,30 +54,49 @@ class Tree extends TreePoint {
   // 回收可以得到的钱
   double recycleMoney;
 
-  // 指数
-  double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
-  // 单位时间产生金币  38级的树不产生金币
-  double get gold =>
-      grade == Tree.MAX_LEVEL ? 0 : (25 * pow(2, (grade - 1))).toDouble();
-  // 单位时间产生金币
-  double get money => grade.toDouble();
-  // 回收可以得到的钱
-  // double get recycleMoney => grade.toDouble();
-  // 树的名字
   String get name => 'Pomegranate';
 
-  // Delay 多少秒后能买下一个果树
-  int get delay => (21 * pow(1.5501, grade - 3)).toInt();
+  double get recycleGold => recycleMoney != null
+      ? 0
+      : Tree.treeConfig.recover_content[grade.toString()];
 
-  // 种一棵需要的钱 初始值
-  double get f => gold * delay * p;
+  List get _makeTreeUseGoldList => Tree.treeConfig.content[grade.toString()];
 
-  double get recycleGold => f * 0.5;
-// ---------------------------------------------------------------------
-  // 种一棵需要的钱 终值
-  double get end => f * pow(1.07005, gradeNumber - 1);
-  // 种一棵需要的钱
-  double get consumeGold => end >= 23 * f ? 23 * f : end;
+  double get consumeGold =>
+      double.tryParse((gradeNumber > _makeTreeUseGoldList.length
+              ? _makeTreeUseGoldList[_makeTreeUseGoldList.length - 1]
+              : _makeTreeUseGoldList[gradeNumber])
+          .toString());
+
+//   // 单位时间产生金币  38级的树不产生金币
+//   double get gold =>
+//       grade == Tree.MAX_LEVEL ? 0 : (25 * pow(2, (grade - 1))).toDouble();
+  double get gold => grade == Tree.MAX_LEVEL
+      ? 0.0
+      : double.tryParse(
+          Tree.treeConfig.tree_content[grade.toString()].toString());
+//   // 指数
+//   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
+
+//   // 单位时间产生金币
+//   double get money => grade.toDouble();
+//   // 回收可以得到的钱
+//   // double get recycleMoney => grade.toDouble();
+//   // 树的名字
+
+//   // Delay 多少秒后能买下一个果树
+//   int get delay => (21 * pow(1.5501, grade - 3)).toInt();
+
+//   // 种一棵需要的钱 初始值
+//   double get f => gold * delay * p;
+
+//   double get recycleGold => f * 0.5;
+// // ---------------------------------------------------------------------
+//   // 种一棵需要的钱 终值
+//   double get end => f * pow(1.07005, gradeNumber - 1);
+//   // 种一棵需要的钱
+//   double get consumeGold => end >= 23 * f ? 23 * f : end;
+
   //
   String get treeImgSrc => type != null
       ? 'assets/tree/$type.png'

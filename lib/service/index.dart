@@ -153,6 +153,14 @@ class Service {
     return response.data['data'];
   }
 
+// 购买果树获取单价和产生金币数
+  Future<Map<String, dynamic>> fruiterUnivalent(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Deployinfo/fruiterUnivalent', data: data);
+    return response.data['data'];
+  }
+
   // 获取个人中心数据
   Future<Map<String, dynamic>> getPersonalInfo(
       Map<String, dynamic> data) async {
@@ -217,7 +225,7 @@ class Service {
     return response.data['data'];
   }
 
-  // 树木解锁新等级,检测是否获取 [1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树]
+  // 树木解锁新等级,检测是否获取 [1. 限时分红树 2. 全球分红树 3. 啤酒花雌��� 4. 啤酒花雄花 5. 许愿树]
   Future<Map<String, dynamic>> unlockNewLevel(Map<String, dynamic> data) async {
     Response response =
         await _client.post('/Reward/unlockNewLevel', data: data);
