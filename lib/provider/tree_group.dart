@@ -312,6 +312,8 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
+    Layer.levelUp('2', getGlod: 123.1, onOk: (e) {});
+    return false;
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
@@ -559,6 +561,10 @@ class TreeGroup with ChangeNotifier {
 
   // 回收树木
   recycle(Tree tree) {
+    // Layer.newGrade(maxLevelTree,
+    //     amount: globalDividendTree?.amount,
+    //     progress: _userModel.personalInfo.count_ratio ?? 0);
+    // return false;
     if (_treeList.length == 1) {
       //TODO: 限时分红树弹窗、许愿树兑换成功或者位置不足弹窗
       Layer.toastWarning('你就要没🌲��....');

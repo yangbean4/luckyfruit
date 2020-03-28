@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 
 class AdButton extends StatefulWidget {
@@ -73,7 +74,7 @@ class _AdButtonState extends State<AdButton> {
             width: ScreenUtil().setWidth(720),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 GestureDetector(
                   onTap: widget.onOk ?? () {},
@@ -97,10 +98,11 @@ class _AdButtonState extends State<AdButton> {
                                 height: ScreenUtil().setWidth(75),
                               )
                             : Container(),
+                        SizedBox(width: ScreenUtil().setWidth(24)),
                         ModalTitle(
                           widget.btnText,
                           color: Colors.white,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -110,15 +112,18 @@ class _AdButtonState extends State<AdButton> {
                         onTap: widget.onCancel,
                         child: Padding(
                             padding:
-                                EdgeInsets.only(top: ScreenUtil().setWidth(28)),
+                                EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                             child: FourthText(
                                 !showCancel ? '' : widget.cancelText)),
                       )
                     : Container(),
                 widget.tips != null
                     ? Container(
-                        child: ThirdText(widget.tips),
-                        margin: EdgeInsets.only(top: ScreenUtil().setWidth(35)),
+                        width: ScreenUtil().setWidth(720),
+                        child: ThirdText(widget.tips,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: FontFamily.regular),
+                        margin: EdgeInsets.only(top: ScreenUtil().setWidth(28)),
                       )
                     : Container(),
               ],

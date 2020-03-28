@@ -77,9 +77,11 @@ class Layer {
       footer: Container(
         width: ScreenUtil().setWidth(840),
         height: ScreenUtil().setWidth(497),
-        padding: EdgeInsets.symmetric(
-          vertical: ScreenUtil().setWidth(60),
-          horizontal: ScreenUtil().setWidth(50),
+        padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(50),
+          right: ScreenUtil().setWidth(50),
+          top: ScreenUtil().setWidth(50),
+          bottom: ScreenUtil().setWidth(57),
         ),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -89,7 +91,7 @@ class Layer {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
                 width: ScreenUtil().setWidth(444),
@@ -102,7 +104,7 @@ class Layer {
                         color: MyTheme.blackColor,
                         fontSize: ScreenUtil().setWidth(40),
                         fontFamily: FontFamily.bold,
-                        height: 1,
+                        height: 1.1,
                         fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
@@ -111,7 +113,7 @@ class Layer {
                             color: Color.fromRGBO(255, 80, 52, 1),
                             fontSize: ScreenUtil().setWidth(40),
                             fontFamily: FontFamily.bold,
-                            height: 1,
+                            height: 1.1,
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
@@ -128,17 +130,17 @@ class Layer {
                 )),
             Container(
               width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(170),
-              padding: EdgeInsets.only(
-                right: ScreenUtil().setWidth(80),
-              ),
+              height: ScreenUtil().setWidth(144),
+              // padding: EdgeInsets.only(
+              //   right: ScreenUtil().setWidth(119),
+              // ),
               margin: EdgeInsets.only(
                 top: ScreenUtil().setWidth(18),
-                bottom: ScreenUtil().setWidth(7),
+                bottom: ScreenUtil().setWidth(18),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     width: ScreenUtil().setWidth(360),
@@ -152,24 +154,51 @@ class Layer {
                           style: TextStyle(
                               color: MyTheme.blackColor,
                               fontFamily: FontFamily.regular,
+                              height: 1,
                               fontSize: ScreenUtil().setWidth(26),
                               fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(
+                    width: ScreenUtil().setWidth(66),
+                  ),
                   Image.asset(
                     'assets/image/arrow.png',
                     width: ScreenUtil().setWidth(57),
                     height: ScreenUtil().setWidth(48),
                   ),
-                  Image.asset(
-                    'assets/image/topTree.png',
-                    width: ScreenUtil().setWidth(148),
-                    height: ScreenUtil().setWidth(170),
+                  SizedBox(
+                    width: ScreenUtil().setWidth(86),
                   ),
+                  Container(
+                    width: ScreenUtil().setWidth(105),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/image/topTree.png',
+                            width: ScreenUtil().setWidth(105),
+                            height: ScreenUtil().setWidth(120),
+                          ),
+                          Text(
+                            'Bouns Tree',
+                            style: TextStyle(
+                                color: MyTheme.blackColor,
+                                fontFamily: FontFamily.regular,
+                                height: 1,
+                                fontSize: ScreenUtil().setSp(20),
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ]),
+                  )
                 ],
               ),
+            ),
+            SizedBox(
+              height: ScreenUtil().setWidth(7),
             ),
             Container(
                 width: ScreenUtil().setWidth(740),
@@ -198,6 +227,9 @@ class Layer {
                                 fontWeight: FontWeight.bold))
                       ]),
                 )),
+            SizedBox(
+              height: ScreenUtil().setWidth(10),
+            ),
             Stack(
               children: <Widget>[
                 Container(
@@ -223,6 +255,9 @@ class Layer {
                     ))
               ],
             ),
+            SizedBox(
+              height: ScreenUtil().setWidth(29),
+            ),
             Container(
               width: ScreenUtil().setWidth(740),
               height: ScreenUtil().setWidth(24),
@@ -234,6 +269,7 @@ class Layer {
                 style: TextStyle(
                     color: MyTheme.tipsColor,
                     fontFamily: FontFamily.regular,
+                    height: 1,
                     fontSize: ScreenUtil().setWidth(23),
                     fontWeight: FontWeight.w500),
               ),
@@ -280,9 +316,11 @@ class Layer {
             'Recycling price',
           ),
         ),
-        GoldText(recycleMoney != null
-            ? '\$ ${Util.formatNumber(recycleMoney)}'
-            : Util.formatNumber(goldNumber)),
+        GoldText(
+            recycleMoney != null
+                ? '\$ ${Util.formatNumber(recycleMoney)}'
+                : Util.formatNumber(goldNumber),
+            textSize: 66),
         SizedBox(
           height: ScreenUtil().setWidth(47),
         ),
@@ -307,37 +345,38 @@ class Layer {
     ]).show();
   }
 
-  static levelUp({String level, double getGlod, Function onOk}) {
+  static levelUp(String s, {String level, double getGlod, Function onOk}) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),
+              SizedBox(height: ScreenUtil().setWidth(38)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
-                width: ScreenUtil().setWidth(227),
-                height: ScreenUtil().setWidth(140),
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
               ),
               SecondaryText("Level up reward"),
+              SizedBox(height: ScreenUtil().setWidth(36)),
               GoldText(
                 Util.formatNumber(getGlod),
                 iconSize: 72,
                 textSize: 66,
               ),
-              Padding(
-                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
-                  child: Selector<UserModel, UserInfo>(
-                      selector: (context, provider) => provider.userInfo,
-                      builder: (_, UserInfo userInfo, __) {
-                        return AdButton(
-                          btnText: '5x Reward',
-                          onCancel: modal.hide,
-                          onOk: () {
-                            onOk();
-                            modal.hide();
-                          },
-                          tips:
-                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
-                        );
-                      }))
+              SizedBox(height: ScreenUtil().setWidth(46)),
+              Selector<UserModel, UserInfo>(
+                  selector: (context, provider) => provider.userInfo,
+                  builder: (_, UserInfo userInfo, __) {
+                    return AdButton(
+                      btnText: '5x Reward',
+                      onCancel: modal.hide,
+                      onOk: () {
+                        onOk();
+                        modal.hide();
+                      },
+                      tips:
+                          "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                    );
+                  })
             ]).show();
   }
 
@@ -617,7 +656,7 @@ class Layer {
         target == null ||
         source == target ||
         source.grade != target.grade ||
-        // 1. 新合成的树的等级要低于当前最高等级两级及以上；
+        // 1. 新合成��树的等级要低于当前最高等级两级及以上；
         source.grade >= treeGroup.maxLevel - 2 ||
         // 2. 可购买等级要小于等于接口返回的purchase_tree_level
         treeGroup.minLevel > luckyGroup?.issed?.purchase_tree_level ||
@@ -823,7 +862,7 @@ class Layer {
         ]).show();
   }
 
-  /// 雌雄啤酒花树合成后的现金奖励弹窗
+  /// 雌雄啤��花树合成后的现金奖励弹窗
   static showMoneyRewardAfterHopsMerge() {
     Modal(onOk: () {}, okText: "Claim", children: <Widget>[
       Image.asset(

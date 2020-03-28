@@ -36,6 +36,7 @@ void main() {
 // 开启背景音乐
   // Bgm.init();
 
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<TreeGroup>.value(

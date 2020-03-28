@@ -14,8 +14,8 @@ class PrimaryButton extends StatelessWidget {
       this.width,
       this.height,
       this.colors = const <Color>[
-        Color.fromRGBO(51, 199, 86, 1),
-        Color.fromRGBO(36, 182, 69, 1)
+        Color.fromRGBO(49, 200, 84, 1),
+        Color.fromRGBO(36, 185, 71, 1)
       ],
       this.text})
       : super(key: key);

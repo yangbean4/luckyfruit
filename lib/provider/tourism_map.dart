@@ -155,12 +155,9 @@ class TourismMap with ChangeNotifier {
         double getGlod = double.parse(levelRoule.award_coin_prefix) *
             pow(10, int.parse(levelRoule.award_coin_time));
         // 弹窗领取升级奖励
-        Layer.levelUp(
-            level: _level,
-            getGlod: getGlod,
-            onOk: () {
-              EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
-            });
+        Layer.levelUp(_level, getGlod: getGlod, onOk: () {
+          EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
+        });
       }
 
       notifyListeners();

@@ -156,16 +156,40 @@ class _TripBtnsState extends State<TripBtns> {
         okText: 'Claim',
         onOk: onOk,
         childrenBuilder: (modal) => <Widget>[
-              ModalTitle("Awesome"),
-              Container(height: ScreenUtil().setWidth(39)),
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(20)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(229),
                 height: ScreenUtil().setWidth(225),
               ),
-              SecondaryText(
+              // SecondaryText(
+              //   "You‘ve got",
+              //   color: MyTheme.blackColor,
+              // ),
+              Container(height: ScreenUtil().setWidth(14)),
+
+              Text(
                 "You‘ve got",
-                color: MyTheme.blackColor,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
               ),
               Container(height: ScreenUtil().setWidth(45)),
               GoldText(Util.formatNumber(glod), textSize: 66),

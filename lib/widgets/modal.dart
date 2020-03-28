@@ -70,7 +70,7 @@ class Modal {
 
     final topWidget = Column(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(children: [
           Container(
@@ -208,7 +208,7 @@ class Modal {
               color: Colors.white,
               height: 1,
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setWidth(52),
+              fontSize: ScreenUtil().setSp(56),
             ),
           ))));
 }

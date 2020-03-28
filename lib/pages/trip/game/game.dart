@@ -173,7 +173,7 @@ class _GameState extends State<Game> with MyNavigator {
               style: TextStyle(
                   fontFamily: FontFamily.bold,
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setWidth(34),
+                  fontSize: ScreenUtil().setSp(34),
                   color: MyTheme.blackColor),
             )
           ],
@@ -286,7 +286,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                               FontFamily.bold,
                                                           color: Colors.white,
                                                           fontSize: ScreenUtil()
-                                                              .setWidth(44),
+                                                              .setWidth(54),
                                                           height: 1,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -369,7 +369,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                             FontWeight.bold,
                                                         height: 1.0,
                                                         fontSize: ScreenUtil()
-                                                            .setWidth(30)),
+                                                            .setSp(30)),
                                                   ),
                                                 ),
                                                 Image.asset(

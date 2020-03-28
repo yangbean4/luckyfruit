@@ -103,8 +103,10 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                     width: ScreenUtil().setWidth(200),
                     height: ScreenUtil().setWidth(200),
                     child: Lottie.asset(
-                      'assets/lottiefiles/LottieLogo2.json',
+                      'assets/lottiefiles/ball.json',
                       controller: _controller,
+                      width: ScreenUtil().setWidth(200),
+                      height: ScreenUtil().setWidth(200),
                       onLoaded: (composition) {
                         _controller.duration = composition.duration;
                         _controller
@@ -140,12 +142,15 @@ class __TreeMergeState extends State<_TreeMerge> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     treeAnimationController = new AnimationController(
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 300),
       vsync: this,
     );
-    final CurvedAnimation treeCurve = new CurvedAnimation(
-        parent: treeAnimationController, curve: Curves.easeIn);
-    treeAnimation = new Tween(end: 1.1, begin: 0.0).animate(treeCurve);
+    final CurvedAnimation treeCurve =
+        new CurvedAnimation(parent: treeAnimationController, curve: _MyCurve());
+    treeAnimation = new Tween(
+      begin: 0.0,
+      end: 1.1,
+    ).animate(treeCurve);
     runAction();
   }
 
@@ -194,5 +199,12 @@ class __TreeMergeState extends State<_TreeMerge> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+}
+
+class _MyCurve extends Curve {
+  @override
+  double transformInternal(double t) {
+    return t < 0.8 ? 1 - 1.25 * t : 5 * t - 4;
   }
 }

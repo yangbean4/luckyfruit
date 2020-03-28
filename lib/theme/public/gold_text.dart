@@ -37,8 +37,10 @@ class GoldText extends StatelessWidget {
               text,
               style: TextStyle(
                 color: textColor,
+                height: 1,
+                fontFamily: FontFamily.semibold,
                 fontSize: ScreenUtil().setWidth(textSize),
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             )),
       ],
