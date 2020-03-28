@@ -268,7 +268,7 @@ class PartnerState extends State<Partner> {
                             fontFamily: FontFamily.semibold,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
-                            fontSize: ScreenUtil().setWidth(50)),
+                            fontSize: ScreenUtil().setSp(50)),
                       ),
                     )
                   ]),
@@ -603,7 +603,7 @@ class PartnerState extends State<Partner> {
                                 Text(
                                     "20% unlocked. Earnings over \$50 will be applied to your account automatically and enter to the next level.",
                                     style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(30),
+                                        fontSize: ScreenUtil().setSp(30),
                                         color: Color(0xFF7C7C7C),
                                         fontFamily: FontFamily.regular,
                                         fontWeight: FontWeight.w400)),

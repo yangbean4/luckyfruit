@@ -23,7 +23,7 @@ class ModalTitle extends StatelessWidget {
     return Text(text,
         textAlign: textAlign,
         style: TextStyle(
-            fontSize: ScreenUtil().setWidth(fontsize),
+            fontSize: ScreenUtil().setSp(fontsize),
             color: color,
             height: 1,
             fontFamily: FontFamily.bold,

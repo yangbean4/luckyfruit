@@ -56,7 +56,7 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: FontFamily.bold,
-                  fontSize: ScreenUtil().setWidth(36),
+                  fontSize: ScreenUtil().setSp(36),
                   fontWeight: FontWeight.bold)),
         ]);
         break;
@@ -69,7 +69,7 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
                 color: Color.fromRGBO(255, 76, 47, 1),
                 height: 1,
                 fontFamily: FontFamily.bold,
-                fontSize: ScreenUtil().setWidth(28),
+                fontSize: ScreenUtil().setSp(28),
                 fontWeight: FontWeight.bold));
         break;
       default:
@@ -131,7 +131,7 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: FontFamily.bold,
-                fontSize: ScreenUtil().setWidth(30),
+                fontSize: ScreenUtil().setSp(30),
                 fontWeight: FontWeight.bold),
           );
         });
@@ -141,7 +141,7 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
           color: Color.fromRGBO(255, 76, 47, 1),
           height: 1,
           fontFamily: FontFamily.bold,
-          fontSize: ScreenUtil().setWidth(28),
+          fontSize: ScreenUtil().setSp(28),
           fontWeight: FontWeight.bold),
     );
   }
@@ -152,7 +152,7 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
         style: TextStyle(
             color: Colors.white,
             fontFamily: FontFamily.bold,
-            fontSize: ScreenUtil().setWidth(30),
+            fontSize: ScreenUtil().setSp(30),
             fontWeight: FontWeight.bold));
   }
 }

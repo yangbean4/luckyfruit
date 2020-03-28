@@ -20,7 +20,8 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
     ..worker_visible = json['worker_visible'] as num
     ..direct_friend_visible = json['direct_friend_visible'] as num
     ..paypal_account = json['paypal_account'] as String
-    ..ad_times = json['ad_times'] as num;
+    ..ad_times = json['ad_times'] as num
+    ..residue_times = json['residue_times'] as num;
 }
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -36,5 +37,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'worker_visible': instance.worker_visible,
       'direct_friend_visible': instance.direct_friend_visible,
       'paypal_account': instance.paypal_account,
-      'ad_times': instance.ad_times
+      'ad_times': instance.ad_times,
+      'residue_times': instance.residue_times
     };

@@ -104,7 +104,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
             'My Invitation Code',
             style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(70),
+                fontSize: ScreenUtil().setSp(70),
                 fontFamily: FontFamily.bold,
                 fontWeight: FontWeight.bold),
           ),
@@ -121,7 +121,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: MyTheme.tipsColor,
-                        fontSize: ScreenUtil().setWidth(36),
+                        fontSize: ScreenUtil().setSp(36),
                         fontFamily: FontFamily.semibold,
                         fontWeight: FontWeight.w500),
                   )),
@@ -154,7 +154,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           Text(invite_code,
                               style: TextStyle(
                                   color: MyTheme.blackColor,
-                                  fontSize: ScreenUtil().setWidth(90),
+                                  fontSize: ScreenUtil().setSp(90),
                                   height: 1,
                                   fontFamily: FontFamily.black,
                                   fontWeight: FontWeight.w900)),
@@ -180,7 +180,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setWidth(36),
+                                  fontSize: ScreenUtil().setSp(36),
                                   height: 1.2,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500),
@@ -213,14 +213,14 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                               Text(personalInfo?.superior2 ?? '0',
                                   style: TextStyle(
                                       color: MyTheme.blackColor,
-                                      fontSize: ScreenUtil().setWidth(70),
+                                      fontSize: ScreenUtil().setSp(70),
                                       height: 1,
                                       fontFamily: FontFamily.bold,
                                       fontWeight: FontWeight.bold)),
                               Text('direct friends',
                                   style: TextStyle(
                                       color: MyTheme.tipsColor,
-                                      fontSize: ScreenUtil().setWidth(40),
+                                      fontSize: ScreenUtil().setSp(40),
                                       height: 1,
                                       fontFamily: FontFamily.regular,
                                       fontWeight: FontWeight.w400))
@@ -241,14 +241,14 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                               Text(personalInfo?.superior2 ?? '0',
                                   style: TextStyle(
                                       color: MyTheme.blackColor,
-                                      fontSize: ScreenUtil().setWidth(70),
+                                      fontSize: ScreenUtil().setSp(70),
                                       height: 1,
                                       fontFamily: FontFamily.bold,
                                       fontWeight: FontWeight.bold)),
                               Text('indirect friends',
                                   style: TextStyle(
                                       color: MyTheme.tipsColor,
-                                      fontSize: ScreenUtil().setWidth(40),
+                                      fontSize: ScreenUtil().setSp(40),
                                       height: 1,
                                       fontFamily: FontFamily.regular,
                                       fontWeight: FontWeight.w400))
@@ -268,7 +268,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                     text: 'Invitation Award Rules\n',
                     style: TextStyle(
                         color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(40),
+                        fontSize: ScreenUtil().setSp(40),
                         fontFamily: FontFamily.semibold,
                         height: 1.5,
                         fontWeight: FontWeight.w500),
@@ -278,7 +278,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                               "1. Who are valid users? Direct-invited and indirect friends who login with their Facebook accounts and merge trees to level 5.\n 2. The active earning of friends is depend on the activity of direct friends and indrect friends, total watched videos, total invited friends and etc. More friends invited, more earnings will be granted everyday.",
                           style: TextStyle(
                               color: Color.fromRGBO(83, 83, 83, 1),
-                              fontSize: ScreenUtil().setWidth(40),
+                              fontSize: ScreenUtil().setSp(40),
                               height: 1.5,
                               fontFamily: FontFamily.regular,
                               fontWeight: FontWeight.w400))
@@ -360,7 +360,7 @@ class __InputModelState extends State<_InputModel> {
                               fillColor: MyTheme.grayColor,
                             ),
                             style: TextStyle(
-                                fontSize: ScreenUtil().setWidth(60),
+                                fontSize: ScreenUtil().setSp(60),
                                 height: 1.0,
                                 color: Colors.black),
                           ),
@@ -380,7 +380,7 @@ class __InputModelState extends State<_InputModel> {
                                   color: Colors.white,
                                   height: 1,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setWidth(52),
+                                  fontSize: ScreenUtil().setSp(52),
                                 ),
                               ))),
                         )

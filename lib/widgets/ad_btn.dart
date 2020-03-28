@@ -1,9 +1,12 @@
 // 通用的 按钮部分
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 
 class AdButton extends StatefulWidget {
   // 是否使用广告
@@ -32,7 +35,8 @@ class AdButton extends StatefulWidget {
       this.cancelText = 'No,Thanks',
       this.onCancel,
       //TODO 广告次数应该动态变化
-      this.tips,
+      this.tips =
+          'Number of videos reset at 12:00 am&pm ({{times}} times left)',
       this.interval = const Duration(seconds: 3),
       this.onOk,
       this.width = 600,
@@ -71,7 +75,7 @@ class _AdButtonState extends State<AdButton> {
           )
         : Container(
             // height: ScreenUtil().setWidth(widget.useAd ? 260 : 124),
-            width: ScreenUtil().setWidth(720),
+            width: ScreenUtil().setWidth(760),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -119,10 +123,24 @@ class _AdButtonState extends State<AdButton> {
                     : Container(),
                 widget.tips != null
                     ? Container(
-                        width: ScreenUtil().setWidth(720),
-                        child: ThirdText(widget.tips,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: FontFamily.regular),
+                        width: ScreenUtil().setWidth(760),
+                        child: Selector<UserModel, int>(
+                            selector: (context, provider) =>
+                                provider.userInfo.ad_times,
+                            builder: (_, int ad_times, __) {
+                              return Text(
+                                widget.tips
+                                    .replaceAll('{{times}}', '$ad_times'),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: MyTheme.tipsColor,
+                                  height: 1,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.regular,
+                                  fontSize: ScreenUtil().setSp(30),
+                                ),
+                              );
+                            }),
                         margin: EdgeInsets.only(top: ScreenUtil().setWidth(28)),
                       )
                     : Container(),

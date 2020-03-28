@@ -76,7 +76,7 @@ class TreeWidget extends StatelessWidget {
                 style: TextStyle(
                     color: !primary ? MyTheme.primaryColor : Colors.white,
                     fontFamily: FontFamily.bold,
-                    fontSize: ScreenUtil().setWidth(40),
+                    fontSize: ScreenUtil().setSp(40),
                     height: 1,
                     fontWeight: FontWeight.w600),
               )),
@@ -100,7 +100,7 @@ class TreeWidget extends StatelessWidget {
                             backgroundColor: Colors.grey,
                             height: 1,
                             fontFamily: FontFamily.bold,
-                            fontSize: ScreenUtil().setWidth(20),
+                            fontSize: ScreenUtil().setSp(20),
                             fontWeight: FontWeight.bold),
                       );
                     }))

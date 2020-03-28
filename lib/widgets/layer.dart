@@ -68,7 +68,7 @@ class Layer {
             style: TextStyle(
                 fontFamily: FontFamily.regular,
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(50),
+                fontSize: ScreenUtil().setSp(50),
                 fontWeight: FontWeight.w400),
           ),
         ),
@@ -102,7 +102,7 @@ class Layer {
                     text: '12 grades away from the "Bouns Tree=',
                     style: TextStyle(
                         color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(40),
+                        fontSize: ScreenUtil().setSp(40),
                         fontFamily: FontFamily.bold,
                         height: 1.1,
                         fontWeight: FontWeight.bold),
@@ -111,7 +111,7 @@ class Layer {
                         text: '${amount}',
                         style: TextStyle(
                             color: Color.fromRGBO(255, 80, 52, 1),
-                            fontSize: ScreenUtil().setWidth(40),
+                            fontSize: ScreenUtil().setSp(40),
                             fontFamily: FontFamily.bold,
                             height: 1.1,
                             fontWeight: FontWeight.bold),
@@ -120,7 +120,7 @@ class Layer {
                         text: '"',
                         style: TextStyle(
                             color: MyTheme.blackColor,
-                            fontSize: ScreenUtil().setWidth(40),
+                            fontSize: ScreenUtil().setSp(40),
                             fontFamily: FontFamily.bold,
                             height: 1,
                             fontWeight: FontWeight.bold),
@@ -155,7 +155,7 @@ class Layer {
                               color: MyTheme.blackColor,
                               fontFamily: FontFamily.regular,
                               height: 1,
-                              fontSize: ScreenUtil().setWidth(26),
+                              fontSize: ScreenUtil().setSp(26),
                               fontWeight: FontWeight.w400),
                         ),
                       ],
@@ -212,7 +212,7 @@ class Layer {
                       text: 'your progress:',
                       style: TextStyle(
                           color: MyTheme.blackColor,
-                          fontSize: ScreenUtil().setWidth(30),
+                          fontSize: ScreenUtil().setSp(30),
                           fontFamily: FontFamily.semibold,
                           height: 1.3,
                           fontWeight: FontWeight.w500),
@@ -221,7 +221,7 @@ class Layer {
                             text: '${progress}%',
                             style: TextStyle(
                                 color: MyTheme.primaryColor,
-                                fontSize: ScreenUtil().setWidth(40),
+                                fontSize: ScreenUtil().setSp(40),
                                 height: 1,
                                 fontFamily: FontFamily.bold,
                                 fontWeight: FontWeight.bold))
@@ -270,7 +270,7 @@ class Layer {
                     color: MyTheme.tipsColor,
                     fontFamily: FontFamily.regular,
                     height: 1,
-                    fontSize: ScreenUtil().setWidth(23),
+                    fontSize: ScreenUtil().setSp(23),
                     fontWeight: FontWeight.w500),
               ),
             )
@@ -283,6 +283,7 @@ class Layer {
         autoHide: true,
         onCancel: () {},
         onOk: () {},
+        horizontalPadding: 100,
         okText: 'Ok',
         children: <Widget>[
           Container(
@@ -291,7 +292,7 @@ class Layer {
               'The location is full, please merge the fruit tree or recycle the fruit tree before redeeming id!!',
               style: TextStyle(
                   color: MyTheme.blackColor,
-                  fontSize: ScreenUtil().setWidth(46),
+                  fontSize: ScreenUtil().setSp(46),
                   fontWeight: FontWeight.w500),
             ),
           )
@@ -491,7 +492,7 @@ class Layer {
                         style: TextStyle(
                             color: MyTheme.yellowColor,
                             fontFamily: FontFamily.bold,
-                            fontSize: ScreenUtil().setWidth(60),
+                            fontSize: ScreenUtil().setSp(60),
                             fontWeight: FontWeight.bold),
                       )
                     ],
@@ -740,24 +741,24 @@ class Layer {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Coin Shortage"),
-              Container(height: ScreenUtil().setWidth(4)),
+              Container(height: ScreenUtil().setWidth(36)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
-                width: ScreenUtil().setWidth(316),
-                height: ScreenUtil().setWidth(208),
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
               ),
-              Container(height: ScreenUtil().setWidth(30)),
+              Container(height: ScreenUtil().setWidth(18)),
               SecondaryText(
                 "${Util.formatNumber(time)} mins reward",
                 color: MyTheme.blackColor,
               ),
-              Container(height: ScreenUtil().setWidth(40)),
+              Container(height: ScreenUtil().setWidth(36)),
               GoldText(
                 Util.formatNumber(gold),
                 textSize: 66,
               ),
               Padding(
-                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
+                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(46)),
                   child: Selector<UserModel, UserInfo>(
                       selector: (context, provider) => provider.userInfo,
                       builder: (_, UserInfo userInfo, __) {
@@ -770,8 +771,6 @@ class Layer {
                             modal.hide();
                             onOk();
                           },
-                          tips:
-                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
                         );
                       })),
             ]).show();
@@ -790,38 +789,34 @@ class Layer {
               Container(height: ScreenUtil().setWidth(40)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
-                width: ScreenUtil().setWidth(272),
-                height: ScreenUtil().setWidth(140),
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
               ),
-              Container(height: ScreenUtil().setWidth(45)),
+              Container(height: ScreenUtil().setWidth(20)),
               SecondaryText(
                 "+${Util.formatNumber(glod)}",
                 fontsize: 66,
                 color: MyTheme.blackColor,
               ),
               Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setWidth(50)),
+                padding: EdgeInsets.only(top: ScreenUtil().setWidth(46)),
                 child: Stack(overflow: Overflow.visible, children: [
-                  Selector<UserModel, UserInfo>(
-                      selector: (context, provider) => provider.userInfo,
-                      builder: (_, UserInfo userInfo, __) {
-                        return AdButton(
-                          btnText: '+${Util.formatNumber(glod * 2)}',
-                          onCancel: () {
-                            modal.hide();
-                            onOk(true);
-                          },
-                          onOk: () {
-                            modal.hide();
-                            onOk(false);
-                          },
-                          tips:
-                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
-                        );
-                      }),
+                  AdButton(
+                    btnText: '+${Util.formatNumber(glod * 2)}',
+                    onCancel: () {
+                      modal.hide();
+                      onOk(true);
+                    },
+                    onOk: () {
+                      modal.hide();
+                      onOk(false);
+                    },
+                    // tips:
+                    //     "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                  ),
                   Positioned(
                       top: 0,
-                      right: 0,
+                      right: ScreenUtil().setWidth(80),
                       child: Image.asset(
                         'assets/image/value2.png',
                         width: ScreenUtil().setWidth(124),

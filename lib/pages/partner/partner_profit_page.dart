@@ -112,7 +112,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                   height: 1,
                   fontFamily: FontFamily.bold,
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setWidth(80),
+                  fontSize: ScreenUtil().setSp(80),
                 ),
               ),
             )),
@@ -133,20 +133,20 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                               children: [
                                 Text("Partners Earning",
                                     style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(50),
+                                        fontSize: ScreenUtil().setSp(50),
                                         fontFamily: FontFamily.semibold,
                                         fontWeight: FontWeight.w500,
                                         color: MyTheme.blackColor)),
                                 Text(_partnerProfitList.data[index].date,
                                     style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(34),
+                                        fontSize: ScreenUtil().setSp(34),
                                         fontFamily: FontFamily.regular,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xFF7C7C7C))),
                               ]),
                           Text("\$${_partnerProfitList.data[index].amount}",
                               style: TextStyle(
-                                  fontSize: ScreenUtil().setWidth(50),
+                                  fontSize: ScreenUtil().setSp(50),
                                   fontFamily: FontFamily.semibold,
                                   fontWeight: FontWeight.w500,
                                   color: MyTheme.blackColor)),

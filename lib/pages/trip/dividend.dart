@@ -28,20 +28,22 @@ class _DividendState extends State<Dividend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       backgroundColor: MyTheme.grayColor,
       body: Container(
         width: ScreenUtil().setWidth(1080),
-        height: ScreenUtil().setWidth(2200),
+        height: ScreenUtil().setHeight(2100),
         child: Stack(
+          overflow: Overflow.visible,
           children: <Widget>[
             Container(
               width: ScreenUtil().setWidth(1080),
-              height: ScreenUtil().setWidth(636),
+              height: ScreenUtil().setHeight(636),
               padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(0),
-                ScreenUtil().setWidth(80),
+                ScreenUtil().setHeight(60),
                 ScreenUtil().setWidth(0),
-                ScreenUtil().setWidth(220),
+                ScreenUtil().setHeight(220),
               ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -58,7 +60,7 @@ class _DividendState extends State<Dividend> {
                 children: <Widget>[
                   Container(
                     width: ScreenUtil().setWidth(1080),
-                    height: ScreenUtil().setWidth(90),
+                    height: ScreenUtil().setHeight(90),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -67,15 +69,22 @@ class _DividendState extends State<Dividend> {
                             MyNavigator().navigatorPop(context);
                           },
                           child: Container(
-                            width: ScreenUtil().setWidth(80),
-                            height: ScreenUtil().setWidth(90),
-                            child: Text('<',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: ScreenUtil().setWidth(60),
-                                    height: 1)),
-                          ),
+                              padding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(30)),
+                              width: ScreenUtil().setWidth(90),
+                              height: ScreenUtil().setHeight(90),
+                              child: Icon(
+                                Icons.chevron_left,
+                                color: Colors.white,
+                                size: ScreenUtil().setHeight(90),
+                              )
+                              //   child: Text('<',
+                              //       textAlign: TextAlign.right,
+                              //       style: TextStyle(
+                              //           color: Colors.white,
+                              //           fontSize: ScreenUtil().setSp(60),
+                              //           height: 1)),
+                              ),
                         ),
                       ],
                     ),
@@ -84,15 +93,17 @@ class _DividendState extends State<Dividend> {
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setWidth(60),
+                          fontSize: ScreenUtil().setSp(60),
                           height: 1)),
                   Container(
                     width: ScreenUtil().setWidth(760),
-                    height: ScreenUtil().setWidth(120),
+                    height: ScreenUtil().setHeight(120),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(30)),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setWidth(50))),
+                          Radius.circular(ScreenUtil().setHeight(60))),
                     ),
                     child: Center(
                       child: Text(
@@ -101,7 +112,7 @@ class _DividendState extends State<Dividend> {
                           style: TextStyle(
                               fontFamily: FontFamily.semibold,
                               color: Color.fromRGBO(255, 76, 47, 1),
-                              fontSize: ScreenUtil().setWidth(40),
+                              fontSize: ScreenUtil().setSp(40),
                               height: 1)),
                     ),
                   )
@@ -113,7 +124,7 @@ class _DividendState extends State<Dividend> {
                 top: ScreenUtil().setWidth(496),
                 child: Container(
                   width: ScreenUtil().setWidth(1080),
-                  // height: ScreenUtil().setWidth(2200),
+                  height: ScreenUtil().setHeight(1484),
                   padding: EdgeInsets.fromLTRB(
                     ScreenUtil().setWidth(60),
                     ScreenUtil().setWidth(46),
@@ -157,7 +168,7 @@ class _DividendState extends State<Dividend> {
                                               MainAxisAlignment.spaceAround,
                                           children: <Widget>[
                                             Container(
-                                              width: ScreenUtil().setWidth(640),
+                                              width: ScreenUtil().setWidth(700),
                                               height:
                                                   ScreenUtil().setWidth(150),
                                               child: Column(
@@ -179,7 +190,7 @@ class _DividendState extends State<Dividend> {
                                                               .setWidth(70),
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          height: 1)),
+                                                          height: 1.2)),
                                                   Text(
                                                       "Today's earnings (Per Bonus Tree)",
                                                       textAlign:
@@ -190,7 +201,7 @@ class _DividendState extends State<Dividend> {
                                                           color: Colors.black,
                                                           fontSize: ScreenUtil()
                                                               .setWidth(40),
-                                                          height: 1)),
+                                                          height: 1.2)),
                                                 ],
                                               ),
                                             ),
@@ -288,7 +299,7 @@ class _DividendState extends State<Dividend> {
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.blackColor,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: ScreenUtil().setWidth(50),
+                                        fontSize: ScreenUtil().setSp(50),
                                         height: 1)),
                                 Container(height: ScreenUtil().setWidth(44)),
                                 Text(
@@ -297,7 +308,7 @@ class _DividendState extends State<Dividend> {
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.tipsColor,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: ScreenUtil().setWidth(40),
+                                        fontSize: ScreenUtil().setSp(40),
                                         height: 1.2)),
                               ]),
                         ),
@@ -314,7 +325,7 @@ class _DividendState extends State<Dividend> {
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.blackColor,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: ScreenUtil().setWidth(50),
+                                        fontSize: ScreenUtil().setSp(50),
                                         height: 1)),
                                 Container(height: ScreenUtil().setWidth(44)),
                                 Text(
@@ -324,7 +335,7 @@ class _DividendState extends State<Dividend> {
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.tipsColor,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: ScreenUtil().setWidth(36),
+                                        fontSize: ScreenUtil().setSp(36),
                                         height: 1.2)),
                               ]),
                         ),
@@ -453,6 +464,7 @@ class _DividendState extends State<Dividend> {
                                             style: TextStyle(
                                                 color: MyTheme.primaryColor,
                                                 fontFamily: FontFamily.regular,
+                                                height: 1,
                                                 fontSize:
                                                     ScreenUtil().setWidth(30))),
                                         TextSpan(
@@ -461,6 +473,8 @@ class _DividendState extends State<Dividend> {
                                             style: TextStyle(
                                                 color: MyTheme.tipsColor,
                                                 fontFamily: FontFamily.regular,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1,
                                                 fontSize:
                                                     ScreenUtil().setWidth(30)))
                                       ]))
@@ -468,7 +482,8 @@ class _DividendState extends State<Dividend> {
                               );
                             },
                             selector: (context, provider) =>
-                                provider.personalInfo)
+                                provider.personalInfo),
+                        Container(height: ScreenUtil().setWidth(210)),
                       ],
                     ),
                   ),
@@ -526,14 +541,14 @@ class _BounsItem extends StatelessWidget {
                 fontFamily: FontFamily.regular,
                 color: MyTheme.blackColor,
                 fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setWidth(46),
+                fontSize: ScreenUtil().setSp(46),
                 height: 1)),
         Text(bottom,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontFamily: FontFamily.regular,
                 color: MyTheme.tipsColor,
-                fontSize: ScreenUtil().setWidth(40),
+                fontSize: ScreenUtil().setSp(40),
                 height: 1)),
       ],
     );

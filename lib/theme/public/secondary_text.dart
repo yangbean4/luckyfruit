@@ -26,7 +26,7 @@ class SecondaryText extends StatelessWidget {
       textAlign: textAlign,
       style: TextStyle(
           color: color,
-          fontSize: ScreenUtil().setWidth(fontsize),
+          fontSize: ScreenUtil().setSp(fontsize),
           fontWeight: fontWeight),
     );
   }

@@ -110,7 +110,7 @@ class _TripBtnsState extends State<TripBtns> {
                                     ..strokeWidth = ScreenUtil().setWidth(3)
                                     ..color = Colors.white,
                                   fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setWidth(20),
+                                  fontSize: ScreenUtil().setSp(20),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -121,7 +121,7 @@ class _TripBtnsState extends State<TripBtns> {
                                       : Colors.white,
                                   height: 1,
                                   fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setWidth(20),
+                                  fontSize: ScreenUtil().setSp(20),
                                   fontWeight: FontWeight.bold),
                             )
                           ]))
@@ -134,7 +134,7 @@ class _TripBtnsState extends State<TripBtns> {
                                     : Colors.white,
                                 height: 1,
                                 fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setWidth(20),
+                                fontSize: ScreenUtil().setSp(20),
                                 fontWeight: FontWeight.bold),
                           ),
               ),
@@ -228,7 +228,7 @@ class _TripBtnsState extends State<TripBtns> {
                               color: Colors.white,
                               height: 1,
                               fontFamily: FontFamily.bold,
-                              fontSize: ScreenUtil().setWidth(20),
+                              fontSize: ScreenUtil().setSp(20),
                               fontWeight: FontWeight.bold),
                         );
                       })

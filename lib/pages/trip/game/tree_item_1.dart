@@ -175,7 +175,7 @@ class TreeAnimation extends StatelessWidget {
                                   fixed: 0),
                           style: TextStyle(
                             color: MyTheme.secondaryColor,
-                            fontSize: ScreenUtil().setWidth(22),
+                            fontSize: ScreenUtil().setSp(22),
                             fontWeight: FontWeight.w600,
                           ),
                         )),

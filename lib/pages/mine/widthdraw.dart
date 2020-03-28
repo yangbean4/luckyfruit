@@ -38,7 +38,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                 fontFamily: FontFamily.bold,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontSize: ScreenUtil().setWidth(70))),
+                fontSize: ScreenUtil().setSp(70))),
         elevation: 0,
         actions: <Widget>[
           GestureDetector(
@@ -55,7 +55,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                       fontFamily: FontFamily.semibold,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
-                      fontSize: ScreenUtil().setWidth(36)),
+                      fontSize: ScreenUtil().setSp(36)),
                 )),
           )
         ],
@@ -79,7 +79,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                             fontFamily: FontFamily.regular,
                             fontWeight: FontWeight.w400,
                             color: Colors.white,
-                            fontSize: ScreenUtil().setWidth(50)),
+                            fontSize: ScreenUtil().setSp(50)),
                       ),
                       Text(
                         "\$${widget.amount}",
@@ -87,7 +87,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                             fontFamily: FontFamily.bold,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: ScreenUtil().setWidth(90)),
+                            fontSize: ScreenUtil().setSp(90)),
                       ),
                     ],
                   ),
@@ -113,7 +113,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                               fontFamily: FontFamily.semibold,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
-                              fontSize: ScreenUtil().setWidth(50))),
+                              fontSize: ScreenUtil().setSp(50))),
                       SizedBox(height: ScreenUtil().setWidth(30)),
                       Selector<WithDrawProvider, WithDrawProvider>(
                         selector: (context, provider) => provider,
@@ -142,7 +142,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                               fontFamily: FontFamily.semibold,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
-                              fontSize: ScreenUtil().setWidth(50))),
+                              fontSize: ScreenUtil().setSp(50))),
                       SizedBox(height: ScreenUtil().setWidth(30)),
                       Selector<WithDrawProvider, WithDrawProvider>(
                         selector: (context, provider) => provider,
@@ -172,7 +172,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                             TextSpan(
                                 text: "Tips\n",
                                 style: TextStyle(
-                                    fontSize: ScreenUtil().setWidth(40),
+                                    fontSize: ScreenUtil().setSp(40),
                                     fontFamily: FontFamily.semibold,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xFF262626))),
@@ -181,7 +181,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                                     '2.No service fee for the first cashout.',
                                 style: TextStyle(
                                     wordSpacing: 1,
-                                    fontSize: ScreenUtil().setWidth(40),
+                                    fontSize: ScreenUtil().setSp(40),
                                     color: Color(0xFF535353),
                                     fontFamily: FontFamily.regular,
                                     fontWeight: FontWeight.w400)),
@@ -219,7 +219,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                                     color: Colors.white,
                                     height: 1,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: ScreenUtil().setWidth(56),
+                                    fontSize: ScreenUtil().setSp(56),
                                   ),
                                 ))),
                           );
@@ -255,7 +255,8 @@ class _WithDrawPageState extends State<WithDrawPage> {
     if (type == WithDrawTypes.Type_Amazon) {
       // 不弹框,直接给出toast
       Navigator.pop(context);
-      Layer.toastSuccess("Submit Success, Please Check In Your Message Page", padding: 40);
+      Layer.toastSuccess("Submit Success, Please Check In Your Message Page",
+          padding: 40);
       return;
     }
     showDialog(
@@ -345,7 +346,7 @@ class InputingInfoWidget extends StatelessWidget {
                                   color: Colors.white,
                                   height: 1,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setWidth(52),
+                                  fontSize: ScreenUtil().setSp(52),
                                 ),
                               ))),
                         ),
@@ -405,7 +406,7 @@ handleAfterSummitWithDraw() {
             fontFamily: FontFamily.regular,
             fontWeight: FontWeight.w400,
             color: Color(0xFF535353),
-            fontSize: ScreenUtil().setWidth(40))),
+            fontSize: ScreenUtil().setSp(40))),
     SizedBox(height: ScreenUtil().setWidth(50)),
   ]).show();
 }
@@ -440,7 +441,7 @@ class InputFiledWidget extends StatelessWidget {
                 fillColor: MyTheme.grayColor,
               ),
               style: TextStyle(
-                  fontSize: ScreenUtil().setWidth(60), color: Colors.black),
+                  fontSize: ScreenUtil().setSp(60), color: Colors.black),
             ),
           ),
         ]);
@@ -581,7 +582,7 @@ class WithDrawAmountItemWidget extends StatelessWidget {
                   fontFamily: FontFamily.semibold,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
-                  fontSize: ScreenUtil().setWidth(50))),
+                  fontSize: ScreenUtil().setSp(50))),
         ),
         item.first
             ? Positioned(

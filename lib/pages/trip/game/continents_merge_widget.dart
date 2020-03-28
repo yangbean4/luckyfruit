@@ -143,7 +143,7 @@ class ContinentsMergeWidget extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setWidth(50),
+                          fontSize: ScreenUtil().setSp(50),
                         ),
                       )),
                 ]),

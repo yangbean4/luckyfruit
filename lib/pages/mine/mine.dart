@@ -169,7 +169,7 @@ class _MinePageState extends State<MinePage> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontFamily: FontFamily.semibold,
-                                          fontSize: ScreenUtil().setWidth(36),
+                                          fontSize: ScreenUtil().setSp(36),
                                           height: 1.2,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500),
@@ -381,7 +381,7 @@ class _CardItem extends StatelessWidget {
         child: Container(
           width: ScreenUtil().setWidth(960),
           height: ScreenUtil().setWidth(180),
-          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(23)),
+          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(34)),
           decoration: this.border
               ? BoxDecoration(
                   border: Border(

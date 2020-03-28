@@ -42,7 +42,7 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
         text: TextSpan(
           text: "You've got",
           style: TextStyle(
-              fontSize: ScreenUtil().setWidth(50),
+              fontSize: ScreenUtil().setSp(50),
               color: MyTheme.blackColor,
               fontFamily: FontFamily.regular,
               fontWeight: FontWeight.w400),
@@ -50,14 +50,14 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
             TextSpan(
                 text: getDescString(),
                 style: TextStyle(
-                    fontSize: ScreenUtil().setWidth(50),
+                    fontSize: ScreenUtil().setSp(50),
                     fontFamily: FontFamily.regular,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFFFAC1E))),
             TextSpan(
                 text: 'earnings',
                 style: TextStyle(
-                    fontSize: ScreenUtil().setWidth(50),
+                    fontSize: ScreenUtil().setSp(50),
                     color: MyTheme.blackColor,
                     fontFamily: FontFamily.regular,
                     fontWeight: FontWeight.w400)),

@@ -30,6 +30,9 @@ class _TreasureState extends State<Treasure> {
     Modal(
         childrenBuilder: (Modal modal) => <Widget>[
               ModalTitle('Free Mango Tree'),
+              SizedBox(
+                height: ScreenUtil().setWidth(42),
+              ),
               TreeWidget(
                 tree: tree,
                 imgHeight: ScreenUtil().setWidth(236),

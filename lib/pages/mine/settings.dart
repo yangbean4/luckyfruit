@@ -25,7 +25,7 @@ class SettingsPage extends StatelessWidget {
           'Settings',
           style: TextStyle(
               color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setWidth(70),
+              fontSize: ScreenUtil().setSp(70),
               fontFamily: FontFamily.bold,
               fontWeight: FontWeight.bold),
         ),
@@ -99,7 +99,7 @@ class ItemWidget extends StatelessWidget {
       trailing = Text(trailingText,
           style: TextStyle(
               color: Color(0xFF7C7C7C),
-              fontSize: ScreenUtil().setWidth(50),
+              fontSize: ScreenUtil().setSp(50),
               fontFamily: FontFamily.regular,
               fontWeight: FontWeight.w400));
     }
@@ -114,7 +114,7 @@ class ItemWidget extends StatelessWidget {
       title: Text(title,
           style: TextStyle(
               color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setWidth(50),
+              fontSize: ScreenUtil().setSp(50),
               fontFamily: FontFamily.semibold,
               fontWeight: FontWeight.w500)),
     );

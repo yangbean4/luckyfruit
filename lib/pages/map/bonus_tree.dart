@@ -30,7 +30,7 @@ class _BonusTreeState extends State<BonusTree> {
             text: 'I. How to Get Bonus Tree\n',
             style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(40),
+                fontSize: ScreenUtil().setSp(40),
                 fontFamily: FontFamily.semibold,
                 height: 2.5,
                 fontWeight: FontWeight.w500),
@@ -40,7 +40,7 @@ class _BonusTreeState extends State<BonusTree> {
                       '1,Merge any 2 trees in Level 37\n2,Merge continental trees from Asia, Africa, Europe, America and Oceania;100% chance to get \n3,Stay active in the game,100%chance to get',
                   style: TextStyle(
                       color: Color.fromRGBO(83, 83, 83, 1),
-                      fontSize: ScreenUtil().setWidth(40),
+                      fontSize: ScreenUtil().setSp(40),
                       height: 1.5,
                       fontFamily: FontFamily.regular,
                       fontWeight: FontWeight.w400))
@@ -51,7 +51,7 @@ class _BonusTreeState extends State<BonusTree> {
             text: 'II.100% chance to get the Bonus Tree\n',
             style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(40),
+                fontSize: ScreenUtil().setSp(40),
                 fontFamily: FontFamily.semibold,
                 height: 2.5,
                 fontWeight: FontWeight.w500),
@@ -61,7 +61,7 @@ class _BonusTreeState extends State<BonusTree> {
                       "belongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
                   style: TextStyle(
                       color: Color.fromRGBO(83, 83, 83, 1),
-                      fontSize: ScreenUtil().setWidth(40),
+                      fontSize: ScreenUtil().setSp(40),
                       height: 1.5,
                       fontFamily: FontFamily.regular,
                       fontWeight: FontWeight.w400))
@@ -391,7 +391,7 @@ class _BonusTreeState extends State<BonusTree> {
       //           '100% Chance To Get The Bonus Tree',
       //           style: TextStyle(
       //               color: MyTheme.blackColor,
-      //               fontSize: ScreenUtil().setWidth(70),
+      //               fontSize: ScreenUtil().setSp(70),
       //               fontFamily: FontFamily.bold,
 
       //               height: 1,

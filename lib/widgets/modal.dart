@@ -41,7 +41,7 @@ class Modal {
       this.width = 840,
       this.stack = const [],
       this.verticalPadding = 90,
-      this.horizontalPadding = 120,
+      this.horizontalPadding = 40,
       this.autoHide = true,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})
@@ -189,7 +189,7 @@ class Modal {
   //           style: TextStyle(
   //             color: Colors.white,
   //             fontWeight: FontWeight.bold,
-  //             fontSize: ScreenUtil().setWidth(52),
+  //             fontSize: ScreenUtil().setSp(52),
   //           ),
   //         ),
   //       ),

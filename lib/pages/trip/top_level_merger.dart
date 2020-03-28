@@ -74,7 +74,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                   color: Colors.white,
                   height: 1,
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setWidth(52),
+                  fontSize: ScreenUtil().setSp(52),
                 ),
               ))))
     ]);
@@ -126,7 +126,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                       ..strokeWidth = ScreenUtil().setWidth(15)
                       ..color = Color(0xFF36B45A),
                     fontFamily: FontFamily.bold,
-                    fontSize: ScreenUtil().setWidth(56),
+                    fontSize: ScreenUtil().setSp(56),
                     fontWeight: FontWeight.bold),
               ),
               Text(
@@ -136,7 +136,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                     color: Colors.white,
                     height: 1,
                     fontFamily: FontFamily.bold,
-                    fontSize: ScreenUtil().setWidth(56),
+                    fontSize: ScreenUtil().setSp(56),
                     fontWeight: FontWeight.bold),
               )
             ]))));

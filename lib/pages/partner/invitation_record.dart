@@ -65,7 +65,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                                   height: 1,
                                   fontWeight: FontWeight.w500,
                                   fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setWidth(52),
+                                  fontSize: ScreenUtil().setSp(52),
                                 ),
                               )),
                             ))
@@ -92,7 +92,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                 height: 1,
                 fontFamily: FontFamily.bold,
                 fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setWidth(70),
+                fontSize: ScreenUtil().setSp(70),
               ),
             ),
           )),
@@ -141,13 +141,13 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontFamily: FontFamily.semibold,
-                                    fontSize: ScreenUtil().setWidth(50),
+                                    fontSize: ScreenUtil().setSp(50),
                                     color: MyTheme.blackColor)),
                             friendsList[index].fb_login != 1
                                 ? TextSpan(
                                     text: '(FB has not logged in)',
                                     style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(40),
+                                        fontSize: ScreenUtil().setSp(40),
                                         color: Color(0xFF7C7C7C),
                                         fontFamily: FontFamily.regular,
                                         fontWeight: FontWeight.w400))
@@ -159,7 +159,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontFamily: FontFamily.regular,
-                              fontSize: ScreenUtil().setWidth(34),
+                              fontSize: ScreenUtil().setSp(34),
                               color: Color(0XFF7C7C7C))),
                     ),
                   ),
@@ -168,7 +168,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontFamily: FontFamily.semibold,
-                        fontSize: ScreenUtil().setWidth(56),
+                        fontSize: ScreenUtil().setSp(56),
                         color: MyTheme.blackColor),
                   ),
                 ],

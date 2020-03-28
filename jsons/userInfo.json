@@ -11,5 +11,6 @@
   "worker_visible": 1,
   "direct_friend_visible": 1,
   "paypal_account": "",
-  "ad_times": 0
+  "ad_times": 0,
+  "residue_times": 3
 }

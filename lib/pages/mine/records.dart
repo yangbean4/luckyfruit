@@ -50,7 +50,7 @@ class _RecordsPageState extends State<RecordsPage> {
           'Records',
           style: TextStyle(
               color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setWidth(70),
+              fontSize: ScreenUtil().setSp(70),
               fontFamily: FontFamily.bold,
               fontWeight: FontWeight.bold),
         ),
@@ -87,7 +87,7 @@ class _RecordsPageState extends State<RecordsPage> {
                         _recordsTitle[profitLog.module] ?? 'Records',
                         style: TextStyle(
                             color: MyTheme.blackColor,
-                            fontSize: ScreenUtil().setWidth(46),
+                            fontSize: ScreenUtil().setSp(46),
                             fontFamily: FontFamily.semibold,
                             fontWeight: FontWeight.w500),
                       ),
@@ -95,7 +95,7 @@ class _RecordsPageState extends State<RecordsPage> {
                         profitLog.end_time,
                         style: TextStyle(
                             color: MyTheme.tipsColor,
-                            fontSize: ScreenUtil().setWidth(34),
+                            fontSize: ScreenUtil().setSp(34),
                             fontFamily: FontFamily.regular,
                             fontWeight: FontWeight.w400),
                       ),
@@ -107,7 +107,7 @@ class _RecordsPageState extends State<RecordsPage> {
                       '${profitLog.module == '6' ? '-' : '+'} ${profitLog.amount}',
                       style: TextStyle(
                           color: MyTheme.blackColor,
-                          fontSize: ScreenUtil().setWidth(56),
+                          fontSize: ScreenUtil().setSp(56),
                           fontFamily: FontFamily.semibold,
                           fontWeight: FontWeight.w500),
                     ),

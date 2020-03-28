@@ -45,14 +45,14 @@ class TimesRewardWidget extends StatelessWidget {
             TextSpan(
                 text: title,
                 style: TextStyle(
-                    fontSize: ScreenUtil().setWidth(70),
+                    fontSize: ScreenUtil().setSp(70),
                     fontFamily: FontFamily.bold,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFFFAC1E))),
             TextSpan(
                 text: ' Reward',
                 style: TextStyle(
-                    fontSize: ScreenUtil().setWidth(70),
+                    fontSize: ScreenUtil().setSp(70),
                     color: MyTheme.blackColor,
                     fontFamily: FontFamily.bold,
                     fontWeight: FontWeight.bold)),
@@ -87,7 +87,8 @@ class TimesRewardWidget extends StatelessWidget {
                   onOk: () {
                     onOk();
                   },
-                  tips: "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                  tips:
+                      "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
                 );
               })),
     ]);

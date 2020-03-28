@@ -348,7 +348,7 @@ class RankPageState extends State<RankPage>
                                 height: 1,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: FontFamily.semibold,
-                                fontSize: ScreenUtil().setWidth(52),
+                                fontSize: ScreenUtil().setSp(52),
                               ),
                             )),
                           ))
@@ -375,7 +375,7 @@ class RankPageState extends State<RankPage>
               height: 1,
               fontFamily: FontFamily.black,
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setWidth(100),
+              fontSize: ScreenUtil().setSp(100),
             ),
           ),
         ),

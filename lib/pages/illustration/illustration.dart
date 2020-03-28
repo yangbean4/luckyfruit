@@ -122,11 +122,11 @@ class Illustration extends StatelessWidget {
                           height: ScreenUtil().setWidth(18),
                         ),
                         Text(
-                          nameList[index],softWrap: true,
+                          nameList[index],
+                          softWrap: true,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: ScreenUtil().setWidth(42),
-                            
+                            fontSize: ScreenUtil().setSp(42),
                             fontFamily: FontFamily.bold,
                             fontWeight: FontWeight.bold,
                             color: MyTheme.blackColor,
@@ -147,7 +147,7 @@ class Illustration extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: FontFamily.bold,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setWidth(40),
+                                  fontSize: ScreenUtil().setSp(40),
                                   color: MyTheme.blackColor),
                             ),
                             Container(
@@ -157,7 +157,7 @@ class Illustration extends StatelessWidget {
                               "How to get it:",
                               style: TextStyle(
                                   fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setWidth(38),
+                                  fontSize: ScreenUtil().setSp(38),
                                   color: Color(0xFF7C7C7C)),
                             ),
                             Container(
@@ -166,7 +166,7 @@ class Illustration extends StatelessWidget {
                             Text(
                               wayList[index],
                               style: TextStyle(
-                                  fontSize: ScreenUtil().setWidth(32),
+                                  fontSize: ScreenUtil().setSp(32),
                                   color: MyTheme.blackColor),
                             ),
                           ]),

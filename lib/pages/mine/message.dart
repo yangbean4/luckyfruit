@@ -49,7 +49,7 @@ class _MessagePageState extends State<MessagePage> {
           'Invitation Record',
           style: TextStyle(
               color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setWidth(70),
+              fontSize: ScreenUtil().setSp(70),
               fontFamily: FontFamily.bold,
               fontWeight: FontWeight.bold),
         ),
@@ -90,7 +90,7 @@ class _MessagePageState extends State<MessagePage> {
                         : 'cash out failed',
                     style: TextStyle(
                         color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setWidth(70),
+                        fontSize: ScreenUtil().setSp(70),
                         fontFamily: FontFamily.bold,
                         fontWeight: FontWeight.bold),
                   ),
@@ -99,7 +99,7 @@ class _MessagePageState extends State<MessagePage> {
                           "Your \$${message.wdl_amt} cash out failed,Please check if you haven't login with FB",
                           style: TextStyle(
                               color: MyTheme.blackColor,
-                              fontSize: ScreenUtil().setWidth(34),
+                              fontSize: ScreenUtil().setSp(34),
                               fontFamily: FontFamily.regular,
                               fontWeight: FontWeight.w400))
                       : RichText(
@@ -109,7 +109,7 @@ class _MessagePageState extends State<MessagePage> {
                                   'your \$${message.wdl_amt} Amazon Gift card redeeded sucessfully,your came is:',
                               style: TextStyle(
                                   color: MyTheme.blackColor,
-                                  fontSize: ScreenUtil().setWidth(34),
+                                  fontSize: ScreenUtil().setSp(34),
                                   fontFamily: FontFamily.regular,
                                   fontWeight: FontWeight.w400),
                               children: [
@@ -117,7 +117,7 @@ class _MessagePageState extends State<MessagePage> {
                                     text: message.gift_id,
                                     style: TextStyle(
                                         color: MyTheme.blackColor,
-                                        fontSize: ScreenUtil().setWidth(34),
+                                        fontSize: ScreenUtil().setSp(34),
                                         fontFamily: FontFamily.semibold,
                                         fontWeight: FontWeight.w400))
                               ]),

@@ -180,7 +180,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                                     style: TextStyle(
                                       fontFamily: FontFamily.bold,
                                       color: MyTheme.secondaryColor,
-                                      fontSize: ScreenUtil().setWidth(40),
+                                      fontSize: ScreenUtil().setSp(40),
                                       height: 1,
                                       fontWeight: FontWeight.bold,
                                     ),

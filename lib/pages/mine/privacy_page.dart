@@ -21,7 +21,7 @@ class PrivacyPage extends StatelessWidget {
             'Privacy',
             style: TextStyle(
                 color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setWidth(70),
+                fontSize: ScreenUtil().setSp(70),
                 fontFamily: FontFamily.bold,
                 fontWeight: FontWeight.bold),
           ),
@@ -105,13 +105,13 @@ class _ItemWidgetState extends State<ItemWidget> {
             subtitle: Text(widget.subTitle,
                 style: TextStyle(
                     color: Color(0xFF7C7C7C),
-                    fontSize: ScreenUtil().setWidth(34),
+                    fontSize: ScreenUtil().setSp(34),
                     fontFamily: FontFamily.regular,
                     fontWeight: FontWeight.w400)),
             title: Text(widget.title,
                 style: TextStyle(
                     color: MyTheme.blackColor,
-                    fontSize: ScreenUtil().setWidth(46),
+                    fontSize: ScreenUtil().setSp(46),
                     fontFamily: FontFamily.semibold,
                     fontWeight: FontWeight.w500)),
           );

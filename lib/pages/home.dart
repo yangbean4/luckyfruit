@@ -11,7 +11,6 @@ import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 
 class Home extends StatefulWidget {
-
   Home({Key key}) : super(key: key);
 
   @override
@@ -75,7 +74,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               fontWeight: FontWeight.w600,
               fontFamily: 'semibold',
               height: 1.2,
-              fontSize: ScreenUtil().setWidth(34)),
+              fontSize: ScreenUtil().setSp(34)),
         ));
   }
 
@@ -85,8 +84,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       iconSize: ScreenUtil().setWidth(56),
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
-      selectedFontSize: ScreenUtil().setWidth(34),
-      unselectedFontSize: ScreenUtil().setWidth(34),
+      selectedFontSize: ScreenUtil().setSp(34),
+      unselectedFontSize: ScreenUtil().setSp(34),
       selectedItemColor: MyTheme.mainActiveColor,
       unselectedItemColor: MyTheme.mainItemColor,
       items: [

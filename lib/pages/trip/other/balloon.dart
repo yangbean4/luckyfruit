@@ -54,12 +54,14 @@ class _BalloonState extends State<Balloon> {
     Modal(
         childrenBuilder: (Modal modal) => <Widget>[
               ModalTitle('Cash Bonus'),
+              SizedBox(height: ScreenUtil().setWidth(40)),
               Image.asset(
                 'assets/image/coin_full_bag.png',
                 width: ScreenUtil().setWidth(229),
                 height: ScreenUtil().setWidth(225),
               ),
               SecondaryText("You‘ve got"),
+              SizedBox(height: ScreenUtil().setWidth(45)),
               GoldText(
                 Util.formatNumber(getGlod),
                 iconSize: 72,

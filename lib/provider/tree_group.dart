@@ -312,8 +312,6 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
-    Layer.levelUp('2', getGlod: 123.1, onOk: (e) {});
-    return false;
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用

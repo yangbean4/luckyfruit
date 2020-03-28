@@ -49,7 +49,7 @@ class FreePhone extends StatelessWidget {
                 ]),
               ),
               Container(
-                height: ScreenUtil().setWidth(1450),
+                height: ScreenUtil().setWidth(1600),
                 width: ScreenUtil().setWidth(1080),
                 // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                 child: Stack(
@@ -57,7 +57,7 @@ class FreePhone extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       width: ScreenUtil().setWidth(840),
-                      height: ScreenUtil().setWidth(1450),
+                      // height: ScreenUtil().setWidth(1450),
                       margin: EdgeInsets.only(left: ScreenUtil().setWidth(120)),
                       padding: EdgeInsets.only(
                         bottom: ScreenUtil().setWidth(20),
@@ -247,6 +247,7 @@ class _Phone extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Modal(
+                              horizontalPadding: 100,
                               // onCancel: () {},
                               onOk: () {},
                               okText: 'Ok',
@@ -260,7 +261,7 @@ class _Phone extends StatelessWidget {
                                         'join the“collect phone chips"activity to get more clips.',
                                     style: TextStyle(
                                         color: MyTheme.blackColor,
-                                        fontSize: ScreenUtil().setWidth(46),
+                                        fontSize: ScreenUtil().setSp(46),
                                         fontWeight: FontWeight.w500),
                                   ),
                                 )
@@ -341,7 +342,7 @@ class __GroupState extends State<_Group> {
                     Container(height: ScreenUtil().setWidth(30)),
                     _Sign(sign_times: userInfo?.sign_times ?? 0),
                     Container(height: ScreenUtil().setWidth(30)),
-                    _Reward(),
+                    _Reward(residue_times: userInfo.residue_times),
                     Container(height: ScreenUtil().setWidth(30)),
                     _Wishing(wishTreeNum: userInfo?.wishTreeNum ?? 0),
                     Container(height: ScreenUtil().setWidth(30)),
@@ -355,7 +356,8 @@ class __GroupState extends State<_Group> {
 }
 
 class _Reward extends StatefulWidget {
-  _Reward({Key key}) : super(key: key);
+  final int residue_times;
+  _Reward({Key key, this.residue_times}) : super(key: key);
 
   @override
   __RewardState createState() => __RewardState();
@@ -408,9 +410,11 @@ class __RewardState extends State<_Reward> {
     } else if (reward.type == '5') {
       // TODO: 获取金币
     } else {
-      MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
-      moneyGroup.updateUserInfo();
+      // MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+      // moneyGroup.updateUserInfo();
     }
+    MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+    moneyGroup.updateUserInfo();
   }
 
   @override
@@ -484,7 +488,8 @@ class __RewardState extends State<_Reward> {
             ),
           ),
           AdButton(
-              btnText: 'Free 3/3',
+              // residue_times
+              btnText: 'Free ${widget.residue_times}/3',
               tips: null,
               width: 400,
               height: 100,
