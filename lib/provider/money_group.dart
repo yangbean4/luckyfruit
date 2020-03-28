@@ -7,12 +7,14 @@ import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import './tree_group.dart';
+import './user_model.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 
 class MoneyGroup with ChangeNotifier {
+  UserModel _userModel;
   // 对TreeGroup Provider引用
   TreeGroup treeGroup;
   MoneyGroup();
@@ -29,8 +31,10 @@ class MoneyGroup with ChangeNotifier {
   static const String ACC_ALL_GOLD = 'ACC_ALL_GOLD';
   // 触发等级检查
   static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
+
+  UserInfo _userInfo;
 // 保存 接口获取的用户信息
-  UserInfo userInfo;
+  UserInfo get userInfo => _userInfo;
 
   String acct_id;
 
@@ -122,16 +126,15 @@ class MoneyGroup with ChangeNotifier {
   }
 
   //初始化 form请求&Storage
-  Future<MoneyGroup> init(TreeGroup _treeGroup, String accId) async {
-    acct_id = accId;
+  Future<MoneyGroup> init(TreeGroup _treeGroup, UserModel userModel) async {
+    acct_id = userModel.value.acct_id;
     treeGroup = _treeGroup;
-
+    _userModel = userModel;
     String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
     Map<String, dynamic> ajaxData =
-        await Service().getMoneyInfo({'acct_id': accId});
+        await Service().getMoneyInfo({'acct_id': acct_id});
     // 保存数据
-    userInfo = UserInfo.fromJson(ajaxData);
-
+    _userInfo = UserInfo.fromJson(ajaxData);
     setTreeGroup(getUseGroup(res, {
       'upDateTime': ajaxData['last_leave_time'],
       '_gold': ajaxData['coin'],
@@ -176,10 +179,8 @@ class MoneyGroup with ChangeNotifier {
 
 // 更新userInfo
   updateUserInfo() async {
-    Map<String, dynamic> ajaxData =
-        await Service().getMoneyInfo({'acct_id': acct_id});
-    // 保存数据
-    userInfo = UserInfo.fromJson(ajaxData);
+    _userInfo = await _userModel.getUserInfo();
+    notifyListeners();
   }
 
   // 将对象转为json

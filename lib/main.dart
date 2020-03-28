@@ -28,9 +28,9 @@ void main() {
     luckyGroup.init(userModel.value.last_draw_time, userModel.value?.version,
         userModel.value?.acct_id);
     treeGroup.init(moneyGroup, luckyGroup, userModel);
-    moneyGroup.init(treeGroup, userModel.value?.acct_id);
     tourismMap.init(moneyGroup, luckyGroup, treeGroup,
         userModel.value?.level ?? '1', userModel.value?.acct_id);
+    moneyGroup.init(treeGroup, userModel);
   });
 
 // 开启背景音乐

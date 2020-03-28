@@ -46,6 +46,7 @@ class UserModel with ChangeNotifier {
     // 保存数据
     _userInfo = UserInfo.fromJson(ajaxData);
     notifyListeners();
+    return _userInfo;
   }
 
 // // 获取个人中心数据

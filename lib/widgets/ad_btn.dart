@@ -23,6 +23,8 @@ class AdButton extends StatefulWidget {
   // 点击确定按钮
   final Function onOk;
 
+  final bool disable;
+
   final num width;
   final num height;
   final Widget child;
@@ -41,6 +43,7 @@ class AdButton extends StatefulWidget {
       this.width = 600,
       this.height = 124,
       this.child,
+      this.disable = false,
       this.fontSize = 70})
       : super(key: key);
 
@@ -69,7 +72,7 @@ class _AdButtonState extends State<AdButton> {
   Widget build(BuildContext context) {
     return widget.child != null
         ? GestureDetector(
-            onTap: widget.onOk ?? () {},
+            onTap: widget.onOk != null && !widget.disable ? widget.onOk : () {},
             child: widget.child,
           )
         : Container(
