@@ -469,6 +469,8 @@ class PartnerState extends State<Partner> {
                                 GestureDetector(
                                   onTap: () {
                                     // TODO 跳转到玩法介绍界面
+                                    MyNavigator()
+                                        .pushNamed(context, "instructionPage");
                                   },
                                   child: Row(
                                     mainAxisAlignment:

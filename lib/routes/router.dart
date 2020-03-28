@@ -4,6 +4,7 @@ import 'package:luckyfruit/pages/illustration/illustration.dart';
 import 'package:luckyfruit/pages/mine/privacy_page.dart';
 import 'package:luckyfruit/pages/mine/settings.dart';
 import 'package:luckyfruit/pages/mine/widthdraw.dart';
+import 'package:luckyfruit/pages/partner/instruction.dart';
 import 'package:luckyfruit/pages/partner/invitation_record.dart';
 import 'package:luckyfruit/pages/partner/partner_profit_page.dart';
 import '../pages/Home.dart';
@@ -38,6 +39,7 @@ final routes = {
   'bonusTreePage': (context) => BonusTree(),
   'settings': (context) => SettingsPage(),
   'privacyPage': (context) => PrivacyPage(),
+  'instructionPage': (context) => InstructionPage(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

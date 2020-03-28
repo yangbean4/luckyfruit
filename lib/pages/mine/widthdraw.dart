@@ -287,11 +287,11 @@ class _WithDrawPageState extends State<WithDrawPage> {
       return null;
     })?.type;
     if (type == null) {
-      Layer.toastWarning("Please Select Cash Withdrawal Way");
+      Layer.toastWarning("Please Select Cash Withdrawal Way", padding: 40);
       return null;
     }
     if (amount == null) {
-      Layer.toastWarning("Please Select Cash Withdrawal Amount");
+      Layer.toastWarning("Please Select Cash Withdrawal Amount", padding: 40);
       return null;
     }
 
