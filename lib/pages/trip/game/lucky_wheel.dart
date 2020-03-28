@@ -49,7 +49,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   // 弱网环境下，最大尝试圈数，超过后还没有返回抽奖结果则放弃
   int maxRetryNum = 3;
   // 当前剩下的券的数量
-  int ticketCount;
+  int ticketCount = 0;
   String testJson = """{
         "gift_id": 2,
         "coin": 9300
@@ -124,7 +124,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    widget?.controller?.dispose();
     super.dispose();
   }
 
@@ -143,7 +143,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             ),
           ),
           Transform.rotate(
-            angle: widget.animation.value,
+            angle: widget?.animation?.value ?? 0,
             child: Container(
               width: ScreenUtil().setWidth(700),
               height: ScreenUtil().setWidth(700),
@@ -165,10 +165,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       Container(
         // color: Colors.blue,
         margin: EdgeInsets.only(
-            // top: ScreenUtil().setWidth(40),
-            // bottom: ScreenUtil().setWidth(30),
-            ),
-        child: ModalTitle("TICKET x $ticketCount"),
+          top: ScreenUtil().setWidth(20),
+          // bottom: ScreenUtil().setWidth(30),
+        ),
+        child: ModalTitle("TICKET x ${ticketCount < 0 ? 0 : ticketCount}"),
       ),
       Container(
         // color: Colors.red,
@@ -222,8 +222,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
                   handleStartSpin(data?.item3);
                 },
-                tips:
-                    "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times} times left)",
+                tips: ticketCount <= 0
+                    ? "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times} times left)"
+                    : null,
               );
             },
           ))

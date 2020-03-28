@@ -29,7 +29,7 @@ class _RecordsPageState extends State<RecordsPage> {
     List jsonList = await Service().profitLog({
       'acct_id': userModel.value.acct_id,
     });
-    if (mounted) {
+    if (mounted && jsonList?.length != null) {
       setState(() {
         msgList = jsonList.map((e) => ProfitLog.fromJson(e)).toList();
       });
@@ -46,13 +46,16 @@ class _RecordsPageState extends State<RecordsPage> {
           color: MyTheme.blackColor,
         ),
         backgroundColor: MyTheme.grayColor,
-        title: Text(
-          'Records',
-          style: TextStyle(
-              color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setSp(70),
-              fontFamily: FontFamily.bold,
-              fontWeight: FontWeight.bold),
+        title: Align(
+          alignment: Alignment(-0.3, 0),
+          child: Text(
+            'Records',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(70),
+                fontFamily: FontFamily.bold,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: Container(

@@ -355,9 +355,9 @@ class RankPageState extends State<RankPage>
                               e,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setWidth(56),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: FontFamily.semibold,
+                                fontSize: ScreenUtil().setWidth(50),
                               ),
                             )),
                           ))

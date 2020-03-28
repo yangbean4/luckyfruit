@@ -228,7 +228,7 @@ class PartnerState extends State<Partner> {
           Container(
             color: Color(0xFFEFEEF3),
             width: ScreenUtil().setWidth(1080),
-            height: ScreenUtil().setWidth(2300),
+            height: ScreenUtil().setWidth(2350),
             child: Stack(
               children: [
                 Container(
