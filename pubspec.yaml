@@ -57,6 +57,7 @@ dependencies:
   # wraps an existing Flutter widget 
   # and fires a callback when the widget's visibility changes
   visibility_detector: ^0.1.4
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   flutter_test:

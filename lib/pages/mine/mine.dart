@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'dart:convert' as JSON;
 
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -10,6 +12,7 @@ import 'package:luckyfruit/models/index.dart' show UserInfo, PersonalInfo;
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -19,6 +22,27 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+  _loginWithFB() async {
+    final facebookLogin = FacebookLogin();
+    final result = await facebookLogin.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        print(profile);
+
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        break;
+      case FacebookLoginStatus.error:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -184,9 +208,11 @@ class _MinePageState extends State<MinePage> {
                                   });
                             }),
                         _CardItem(
-                          iconName: 'fb',
-                          title: 'Facebook login',
-                        ),
+                            iconName: 'fb',
+                            title: 'Facebook login',
+                            onTap: () {
+                              _loginWithFB();
+                            }),
                       ]),
                     ),
                     _Card(

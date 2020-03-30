@@ -1,4 +1,4 @@
-package com.example.luckyfruit;
+package com.mklucky.luckyfruit;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
