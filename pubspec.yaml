@@ -85,6 +85,7 @@ flutter:
     - assets/tree/
     - assets/city/hawaii/
     - assets/image/
+    - assets/image/merge/
     - assets/image/2.0x/
     - assets/image/3.0x/
 

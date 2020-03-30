@@ -295,8 +295,9 @@ class Layer {
               'The location is full, please merge the fruit tree or recycle the fruit tree before redeeming id!!',
               style: TextStyle(
                   color: MyTheme.blackColor,
+                  fontFamily: FontFamily.regular,
                   fontSize: ScreenUtil().setSp(46),
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w400),
             ),
           )
         ]).show();
@@ -349,7 +350,7 @@ class Layer {
     ]).show();
   }
 
-  static levelUp(String s, {String level, double getGlod, Function onOk}) {
+  static levelUp(String level, {double getGlod, Function onOk}) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),

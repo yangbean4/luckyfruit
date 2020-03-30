@@ -232,13 +232,14 @@ class LuckyGroup with ChangeNotifier {
     String res = await Storage.getItem(cacheVersionKey);
     if (res == version) {
       String cache = await Storage.getItem(cacheKey);
-      return json.decode(cache);
-    } else {
-      dynamic ajaxJson = await ajax({'version': version});
-      Storage.setItem(cacheVersionKey, version);
-      Storage.setItem(cacheKey, json.encode(ajaxJson));
-      return ajaxJson;
+      if (cache != 'null' && cache != null) {
+        return json.decode(cache);
+      }
     }
+    dynamic ajaxJson = await ajax({'version': version});
+    Storage.setItem(cacheVersionKey, version);
+    Storage.setItem(cacheKey, json.encode(ajaxJson));
+    return ajaxJson;
   }
 
   // 处理广告时长间隔

@@ -12,5 +12,6 @@
   "direct_friend_visible": 1,
   "paypal_account": "",
   "ad_times": 0,
-  "residue_times": 3
+  "residue_times": 3,
+  "is_today_sign": 0
 }

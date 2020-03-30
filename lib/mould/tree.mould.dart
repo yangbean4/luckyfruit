@@ -58,12 +58,13 @@ class Tree extends TreePoint {
 
   double get recycleGold => recycleMoney != null
       ? 0
-      : Tree.treeConfig.recover_content[grade.toString()];
+      : double.parse(
+          Tree.treeConfig.recover_content[grade.toString()].toString());
 
   List get _makeTreeUseGoldList => Tree.treeConfig?.content[grade.toString()];
 
   double get consumeGold =>
-      double.tryParse((gradeNumber > _makeTreeUseGoldList.length
+      double.tryParse((gradeNumber > _makeTreeUseGoldList.length - 1
               ? _makeTreeUseGoldList[_makeTreeUseGoldList.length - 1]
               : _makeTreeUseGoldList[gradeNumber])
           .toString());

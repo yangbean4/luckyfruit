@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +18,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 class FreePhone extends StatelessWidget {
   final Widget child;
@@ -258,11 +261,12 @@ class _Phone extends StatelessWidget {
                                       bottom: ScreenUtil().setWidth(70)),
                                   child: Text(
                                     "You don't have enough mobile phone chips," +
-                                        'join the“collect phone chips"activity to get more clips.',
+                                        'join the“collect phone chips"activity to get more chips.',
                                     style: TextStyle(
                                         color: MyTheme.blackColor,
+                                        fontFamily: FontFamily.regular,
                                         fontSize: ScreenUtil().setSp(46),
-                                        fontWeight: FontWeight.w500),
+                                        fontWeight: FontWeight.w400),
                                   ),
                                 )
                               ]).show();
@@ -340,7 +344,9 @@ class __GroupState extends State<_Group> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(height: ScreenUtil().setWidth(30)),
-                    _Sign(sign_times: userInfo?.sign_times ?? 0),
+                    _Sign(
+                        sign_times: userInfo?.sign_times ?? 0,
+                        is_today_sign: userInfo.is_today_sign ?? 1),
                     Container(height: ScreenUtil().setWidth(30)),
                     _Reward(residue_times: userInfo.residue_times),
                     Container(height: ScreenUtil().setWidth(30)),
@@ -378,13 +384,17 @@ class __RewardState extends State<_Reward> {
     Map<String, dynamic> ajax = await Service().lotteryDraw({
       'acct_id': moneyGroup.acct_id,
     });
-    setState(() {
-      index = 1;
-      server = ajax['sign'];
-    });
-    Layer.loadingHide();
+    if (ajax == null) {
+      Layer.toastWarning('Today you have drawn three times');
+    } else {
+      setState(() {
+        index = 1;
+        server = ajax['sign'];
+      });
+      Layer.loadingHide();
 
-    _runAnimation(startInterval);
+      _runAnimation(startInterval);
+    }
   }
 
   _runAnimation(int interval) {
@@ -405,15 +415,26 @@ class __RewardState extends State<_Reward> {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     Reward reward = luckyGroup.drawInfo.reward
         .firstWhere((i) => i.sign == server.toString());
-    if (reward.type == '4') {
-      // TODO: 获取金币
-    } else if (reward.type == '5') {
-      // TODO: 获取金币
-    } else {
-      // MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
-      // moneyGroup.updateUserInfo();
-    }
     MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+    if (reward.module == '5') {
+      double gold = moneyGroup.makeGoldSped * int.parse(reward.count);
+      _Modal.showGoldWindow(gold, () {
+        moneyGroup.addGold(gold);
+      });
+    } else if (reward.module == '4') {
+      double gold = double.parse(reward.count);
+      _Modal.showGoldWindow(gold, () {
+        moneyGroup.addGold(gold);
+      });
+    } else if (reward.module == '1') {
+      _Modal.showPhoneWindow(reward.count, () {
+        // moneyGroup.updateUserInfo();
+      });
+    } else if (reward.module == '2') {
+      _Modal.showTreeWindow(reward.count, () {
+        // moneyGroup.updateUserInfo();
+      });
+    }
     moneyGroup.updateUserInfo();
   }
 
@@ -492,6 +513,7 @@ class __RewardState extends State<_Reward> {
               // residue_times
               btnText: 'Free ${widget.residue_times}/3',
               tips: null,
+              disable: widget.residue_times == 0,
               width: 400,
               height: 100,
               onOk: () {
@@ -732,7 +754,8 @@ class _Wishing extends StatelessWidget {
 
 class _Sign extends StatelessWidget {
   final int sign_times;
-  _Sign({Key key, this.sign_times}) : super(key: key);
+  final int is_today_sign;
+  _Sign({Key key, this.sign_times, this.is_today_sign}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -792,6 +815,7 @@ class _Sign extends StatelessWidget {
             AdButton(
                 btnText: 'Sign in',
                 tips: null,
+                disable: is_today_sign == 1,
                 width: 364,
                 height: 100,
                 onOk: () {
@@ -801,7 +825,10 @@ class _Sign extends StatelessWidget {
                   Sign sign = luckyGroup.drawInfo.sign[sign_times + 1];
                   MoneyGroup moneyGroup =
                       Provider.of<MoneyGroup>(context, listen: false);
-                  moneyGroup.beginSign(sign.sign, sign.count);
+
+                  _Modal.showPhoneWindow(sign.count, () {
+                    moneyGroup.beginSign(sign.sign, sign.count);
+                  });
                 },
                 fontSize: 50)
           ],
@@ -894,5 +921,128 @@ class _PhoneItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _Modal {
+  static showGoldWindow(num glod, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(20)),
+              Image.asset(
+                'assets/image/coin_full_bag.png',
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
+              ),
+              Container(height: ScreenUtil().setWidth(14)),
+              Text(
+                "You‘ve got",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+              GoldText(Util.formatNumber(glod), textSize: 66),
+              Container(height: ScreenUtil().setWidth(45)),
+            ]).show();
+  }
+
+  static showPhoneWindow(String chips, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(36)),
+              Image.asset(
+                'assets/image/phone11.png',
+                width: ScreenUtil().setWidth(165),
+                height: ScreenUtil().setWidth(226),
+              ),
+              Container(height: ScreenUtil().setWidth(26)),
+              Text(
+                "You‘ve got $chips phone chips",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+            ]).show();
+  }
+
+  static showTreeWindow(String chips, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(36)),
+              TreeWidget(
+                  imgSrc: 'assets/tree/wishing.png',
+                  label: Tree.MAX_LEVEL.toString(),
+                  imgHeight: ScreenUtil().setWidth(236),
+                  imgWidth: ScreenUtil().setWidth(216),
+                  labelWidth: ScreenUtil().setWidth(80),
+                  primary: true),
+              Container(height: ScreenUtil().setWidth(36)),
+              Text(
+                "You‘ve got $chips Wishing Tree chips",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(46)),
+            ]).show();
   }
 }

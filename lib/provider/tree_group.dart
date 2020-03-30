@@ -431,6 +431,10 @@ class TreeGroup with ChangeNotifier {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
       Layer.showTopLevelMergeWindow(this);
     } else {
+      // 结束前一个合成队列的动画, 避免前一个后一个合成动作重叠
+      treeMergeAnimateEnd(animateTargetTree);
+      removeAnimateTargetTree(animateSourceTree);
+
       // 解锁新等级
       if (target.grade + 1 > maxLevel) {
         Layer.newGrade(
@@ -443,16 +447,33 @@ class TreeGroup with ChangeNotifier {
         // 检查出现宝箱
         checkTreasure();
       }
-      // 结束前一个合成队列的动画, 避免前一个后一个合成动作重叠
-      treeMergeAnimateEnd();
-      removeAnimateTargetTree();
 
       // 设置animateTree 开始执行动画
       animateSourceTree = source;
       animateTargetTree = target;
+      notifyListeners();
       // 设置animateTree的两个树 使得动画开始执行
       _treeList.remove(source);
     }
+  }
+
+  // 合成动画结束
+  treeMergeAnimateEnd(Tree tree) {
+    if (animateTargetTree != null && animateSourceTree != null) {
+      Bgm.mergeTree();
+
+      // 设置等级+1
+      animateTargetTree.grade++;
+      // 移除动画用到的树
+    }
+    animateSourceTree = null;
+
+    notifyListeners();
+  }
+
+  removeAnimateTargetTree(Tree tree) {
+    animateTargetTree = null;
+    notifyListeners();
   }
 
 // 拖拽移动时的处理
@@ -474,26 +495,6 @@ class TreeGroup with ChangeNotifier {
     }
     notifyListeners();
     save();
-  }
-
-// 合成动画结束
-  treeMergeAnimateEnd() {
-    if (animateTargetTree != null && animateSourceTree != null) {
-      Bgm.mergeTree();
-
-      // 设置等级+1
-      animateTargetTree.grade++;
-      _treeList;
-      // 移除动画用到的树
-      animateSourceTree = null;
-      notifyListeners();
-      save();
-    }
-  }
-
-  removeAnimateTargetTree() {
-    animateTargetTree = null;
-    notifyListeners();
   }
 
   /// 通过接口检查限时分红树状态

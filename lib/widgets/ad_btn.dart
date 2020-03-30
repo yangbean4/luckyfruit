@@ -83,21 +83,29 @@ class _AdButtonState extends State<AdButton> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 GestureDetector(
-                  onTap: widget.onOk ?? () {},
+                  onTap: widget.onOk != null && !widget.disable
+                      ? widget.onOk
+                      : () {},
                   child: Container(
                     width: ScreenUtil().setWidth(600),
                     height: ScreenUtil().setWidth(124),
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                      alignment: Alignment.center,
-                      image: AssetImage('assets/image/ad_btn.png'),
-                      fit: BoxFit.cover,
-                    )),
+                        borderRadius: BorderRadius.all(Radius.circular(
+                          ScreenUtil().setWidth(62),
+                        )),
+                        color: widget.disable ? MyTheme.darkGrayColor : null,
+                        image: widget.disable
+                            ? null
+                            : DecorationImage(
+                                alignment: Alignment.center,
+                                image: AssetImage('assets/image/ad_btn.png'),
+                                fit: BoxFit.cover,
+                              )),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        widget.useAd
+                        widget.useAd && !widget.disable
                             ? Padding(
                                 padding: EdgeInsets.only(
                                     right: ScreenUtil().setWidth(33)),

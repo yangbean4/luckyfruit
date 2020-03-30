@@ -9,6 +9,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import './tree_item.dart';
 import './tree_no_animation.dart';
+import 'package:luckyfruit/widgets/frame_animation_image.dart';
 
 class GridItem extends StatefulWidget {
   final Tree tree;
@@ -25,27 +26,6 @@ class GridItem extends StatefulWidget {
 }
 
 class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
-        treeGroup.removeAnimateTargetTree();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget _tree = TreeItem(widget.tree);
@@ -100,21 +80,20 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                   left: 0,
                   bottom: 0,
                   child: Container(
-                    width: ScreenUtil().setWidth(200),
-                    height: ScreenUtil().setWidth(200),
-                    child: Lottie.asset(
-                      'assets/lottiefiles/ball.json',
-                      controller: _controller,
                       width: ScreenUtil().setWidth(200),
                       height: ScreenUtil().setWidth(200),
-                      onLoaded: (composition) {
-                        _controller.duration = composition.duration;
-                        _controller
-                          ..value = 0
-                          ..forward();
-                      },
-                    ),
-                  ),
+                      child: FrameAnimationImage(
+                          List<String>.generate(
+                              19, (e) => 'assets/image/merge/merge_$e.png'),
+                          width: ScreenUtil().setWidth(200),
+                          interval: 300,
+                          height: ScreenUtil().setWidth(200), onFinish: () {
+                        TreeGroup treeGroup =
+                            Provider.of<TreeGroup>(context, listen: false);
+
+                        treeGroup
+                            .removeAnimateTargetTree(widget.animateSourceTree);
+                      })),
                 )
               : Container(),
           // Positioned(child: null)
@@ -142,7 +121,7 @@ class __TreeMergeState extends State<_TreeMerge> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     treeAnimationController = new AnimationController(
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 200),
       vsync: this,
     );
     final CurvedAnimation treeCurve =
@@ -164,7 +143,7 @@ class __TreeMergeState extends State<_TreeMerge> with TickerProviderStateMixin {
   runAction() async {
     await treeAnimationController.forward();
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
-    treeGroup.treeMergeAnimateEnd();
+    treeGroup.treeMergeAnimateEnd(widget.animateTargetTree);
   }
 
   @override

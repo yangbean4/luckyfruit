@@ -263,7 +263,6 @@ class Service {
       final request = res.request;
       // if (request.path == '/User/taskListEncrypt') {
       String str = _aes.decrypt(res.data.toString());
-      print(str);
       res.data = json.decode(str);
       // } else {
       //   res.data = json.decode(res.data);
