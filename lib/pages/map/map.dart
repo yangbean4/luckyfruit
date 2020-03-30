@@ -201,7 +201,7 @@ class _MapPageState extends State<MapPage> {
                                       }
                                     },
                                     child: Image.asset(
-                                      'assets/image/box_${deblokCity == null ? "disable" : deblokCity.is_open_box == '1' ? 'opend' : 'can'}.png',
+                                      'assets/image/box_${deblokCity == null ? "can" : deblokCity.is_open_box == '1' ? 'opend' : 'can'}.png',
                                       width: ScreenUtil().setWidth(103),
                                       height: ScreenUtil().setWidth(92),
                                     )),
@@ -258,6 +258,15 @@ class _MapPageState extends State<MapPage> {
                       _SelectorUse(tourismMap: provider)),
             ))
           ],
+        ),
+        Positioned(
+          top: ScreenUtil().setWidth(320),
+          left: ScreenUtil().setWidth(90),
+          child: Image.asset(
+            'assets/image/map_go.png',
+            width: ScreenUtil().setWidth(141),
+            height: ScreenUtil().setWidth(112),
+          ),
         ),
         Positioned(
           top: ScreenUtil().setWidth(390),
@@ -447,7 +456,7 @@ class __MapPrizeState extends State<_MapPrize> {
   int server = 1;
   _goRun() async {
     TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
-// 有返回值 true 中分红树
+    // 有返回值 true 中分红树
     bool sign = await tourismMap.goDeblokCity();
     setState(() {
       index = 0;

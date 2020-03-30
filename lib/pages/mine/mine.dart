@@ -13,6 +13,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/service/index.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -33,7 +34,13 @@ class _MinePageState extends State<MinePage> {
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
         final profile = JSON.jsonDecode(graphResponse.body);
         print(profile);
-
+        UserModel user = Provider.of<UserModel>(context, listen: false);
+        await Service().relaRelated({
+          'acct_id': user.value.acct_id,
+          'rela_type': 1,
+          'rela_account': profile['picture']['data']['url'],
+        });
+        user.getUserInfo();
         break;
 
       case FacebookLoginStatus.cancelledByUser:
@@ -90,17 +97,17 @@ class _MinePageState extends State<MinePage> {
                             ),
                           ),
                           Container(
-                            width: ScreenUtil().setWidth(108),
-                            height: ScreenUtil().setWidth(108),
+                            width: ScreenUtil().setWidth(180),
+                            height: ScreenUtil().setWidth(180),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(
-                                  ScreenUtil().setWidth(54)),
+                                  ScreenUtil().setWidth(90)),
                               child: CompatibleNetworkAvatarWidget(
                                 _selectorUse?.userInfo?.avatar,
                                 defaultImageUrl:
                                     "assets/image/rank_page_portrait_default.png",
-                                width: ScreenUtil().setWidth(108),
-                                height: ScreenUtil().setWidth(108),
+                                width: ScreenUtil().setWidth(180),
+                                height: ScreenUtil().setWidth(180),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -159,7 +166,7 @@ class _MinePageState extends State<MinePage> {
                                 title: 'My invitation code',
                                 hasArrow: true,
                                 border: true,
-                                rightText: '\$${invite_code}',
+                                rightText: '${invite_code}',
                                 onTap: () => MyNavigator()
                                     .pushNamed(context, 'invitationCodePage'),
                               );
@@ -294,15 +301,32 @@ class _MinePageState extends State<MinePage> {
                                       Container(
                                         width: ScreenUtil().setWidth(262),
                                         height: ScreenUtil().setWidth(30),
-                                        child: Text(
-                                            'your progress $count_ratio%',
-                                            style: TextStyle(
-                                                fontFamily: FontFamily.semibold,
-                                                color: MyTheme.blackColor,
-                                                height: 1.0,
-                                                fontSize:
-                                                    ScreenUtil().setSp(32))),
+                                        child: RichText(
+                                          text: TextSpan(
+                                              text: 'completed ',
+                                              style: TextStyle(
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  color: MyTheme.blackColor,
+                                                  height: 1.0,
+                                                  fontSize:
+                                                      ScreenUtil().setSp(32)),
+                                              children: [
+                                                TextSpan(
+                                                  text: '$count_ratio% ',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          FontFamily.semibold,
+                                                      color: MyTheme.blackColor,
+                                                      height: 1.0,
+                                                      fontSize: ScreenUtil()
+                                                          .setSp(32)),
+                                                ),
+                                              ]),
+                                        ),
                                       ),
+                                      // Text('completed ',
+
                                       Container(
                                           width: ScreenUtil().setWidth(400),
                                           height: ScreenUtil().setWidth(26),
@@ -458,7 +482,14 @@ class _CardItem extends StatelessWidget {
                   ? Container()
                   : Container(
                       width: ScreenUtil().setWidth(200),
-                      child: null,
+                      margin: EdgeInsets.only(right: ScreenUtil().setWidth(36)),
+                      child: Text(rightText,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontFamily: FontFamily.regular,
+                              color: MyTheme.tipsColor,
+                              height: 1.0,
+                              fontSize: ScreenUtil().setSp(50))),
                     ),
               hasArrow
                   ? Image.asset(

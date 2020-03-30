@@ -58,7 +58,7 @@ class _BonusTreeState extends State<BonusTree> {
             children: [
               TextSpan(
                   text:
-                      "belongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
+                      "【100% chance to get the Bonus Tree】\nbelongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
                   style: TextStyle(
                       color: Color.fromRGBO(83, 83, 83, 1),
                       fontSize: ScreenUtil().setSp(40),
@@ -85,9 +85,12 @@ class _BonusTreeState extends State<BonusTree> {
         child: Column(children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(1080),
-            height: ScreenUtil().setWidth(124) + statusbarHeight,
-            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(60),
-                statusbarHeight, ScreenUtil().setWidth(60), 0),
+            height: ScreenUtil().setWidth(200) + statusbarHeight,
+            padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(60),
+                statusbarHeight + ScreenUtil().setWidth(80),
+                ScreenUtil().setWidth(60),
+                0),
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -95,16 +98,15 @@ class _BonusTreeState extends State<BonusTree> {
                     onTap: () => MyNavigator().navigatorPop(context),
                     child: Container(
                       width: ScreenUtil().setWidth(150),
-                      height: ScreenUtil().setWidth(124),
+                      height: ScreenUtil().setWidth(50),
                       child: Container(
                         width: ScreenUtil().setWidth(29),
                         height: ScreenUtil().setWidth(49),
-                        child: Text('<',
-                            style: TextStyle(
-                                fontFamily: FontFamily.bold,
-                                fontWeight: FontWeight.bold,
-                                color: MyTheme.blackColor,
-                                fontSize: ScreenUtil().setSp(60))),
+                        child: Icon(
+                          Icons.chevron_left,
+                          color: MyTheme.blackColor,
+                          size: ScreenUtil().setHeight(70),
+                        ),
                       ),
                     ),
                   ),
@@ -577,7 +579,7 @@ class _MyPainter extends CustomPainter {
     _Point center = _pentagon.center;
     for (var i = 0; i < pointArr.length; i++) {
       _Point _point = pointArr[i];
-      num stage = stageArr[i];
+      num stage = stageArr[i] / 100;
       double x = center.x + (_point.x - center.x) * stage;
       double y = center.y + (_point.y - center.y) * stage;
 

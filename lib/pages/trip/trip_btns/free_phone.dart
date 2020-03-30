@@ -177,8 +177,9 @@ class _Phone extends StatelessWidget {
             width: ScreenUtil().setWidth(411),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                SizedBox(height: ScreenUtil().setWidth(20)),
                 Text('Apple iPhone 11 Pro Max 256G',
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -187,6 +188,8 @@ class _Phone extends StatelessWidget {
                         fontSize: ScreenUtil().setSp(36),
                         fontWeight: FontWeight.bold)),
                 // 进度条
+                SizedBox(height: ScreenUtil().setWidth(18)),
+
                 Container(
                     width: ScreenUtil().setWidth(410),
                     height: ScreenUtil().setWidth(26),
@@ -216,6 +219,8 @@ class _Phone extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       )),
                     ])),
+                SizedBox(height: ScreenUtil().setWidth(32)),
+
                 GestureDetector(
                     onTap: () {
                       piecesx == 100 ? print('qwe') : print('qwe');
@@ -543,12 +548,12 @@ Map<String, Widget> imgMap = {
     height: ScreenUtil().setWidth(120),
   ),
   "4": Image.asset(
-    'assets/image/more_gold.png',
+    'assets/image/coin_full_bag.png',
     width: ScreenUtil().setWidth(170),
     height: ScreenUtil().setWidth(87),
   ),
   "5": Image.asset(
-    'assets/image/more_gold.png',
+    'assets/image/coin_full_bag.png',
     width: ScreenUtil().setWidth(170),
     height: ScreenUtil().setWidth(87),
   )
@@ -798,7 +803,7 @@ class _Sign extends StatelessWidget {
                   builder: (context, DrawInfo drawInfo, _) {
                     List<Widget> wrap = [];
                     for (int index = 0;
-                        index < (drawInfo?.sign?.length ?? 0) - 1;
+                        index < (drawInfo?.sign?.length ?? 0);
                         index++) {
                       wrap.add(_PhoneItem(
                           disable: index < sign_times,
@@ -869,7 +874,7 @@ class _PhoneItem extends StatelessWidget {
                       topRight: Radius.circular(ScreenUtil().setWidth(20)),
                     )),
                 child: Center(
-                    child: Text('Day $index',
+                    child: Text('Day ${index + 1}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: FontFamily.bold,

@@ -34,6 +34,12 @@ class Service {
   }
 
   // 获取用户树数据
+  Future<Map<String, dynamic>> relaRelated(Map<String, dynamic> data) async {
+    Response response = await _client.post('/User/relaRelated', data: data);
+    return response.data['data'];
+  }
+
+  // 获取用户树数据
   Future<Map<String, dynamic>> getTreeInfo(Map<String, dynamic> data) async {
     Response response = await _client.post('/Tree/treeInfo', data: data);
     return response.data['data'];
