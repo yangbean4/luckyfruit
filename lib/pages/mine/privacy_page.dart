@@ -86,7 +86,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                 } else if (widget.type == 2) {
                   paraMap.addAll({'direct_friend_visible': "$result"});
                 }
-                Service().saveMoneyInfo(paraMap).then((e) {
+                Service().updateUserInfo(paraMap).then((e) {
                   print(e);
                   if (e != null && e["code"] == 0) {
                     if (widget.type == 1) {

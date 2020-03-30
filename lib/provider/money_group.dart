@@ -132,7 +132,7 @@ class MoneyGroup with ChangeNotifier {
     _userModel = userModel;
     String res = await Storage.getItem(MoneyGroup.CACHE_KEY);
     Map<String, dynamic> ajaxData =
-        await Service().getMoneyInfo({'acct_id': acct_id});
+        await Service().getUserInfo({'acct_id': acct_id});
     // 保存数据
     _userInfo = UserInfo.fromJson(ajaxData);
     setTreeGroup(getUseGroup(res, {
@@ -196,11 +196,12 @@ class MoneyGroup with ChangeNotifier {
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(MoneyGroup.CACHE_KEY, data);
 
-    await Service().saveMoneyInfo({
+    await Service().updateUserInfo({
       'acct_id': acct_id,
       'coin': _gold,
       'last_leave_time': _upDateTime.millisecondsSinceEpoch.toString(),
-      '_allgold': _allgold
+      '_allgold': _allgold,
+      'paypal_account': _userInfo?.paypal_account
     });
 
     // 通知等级检查

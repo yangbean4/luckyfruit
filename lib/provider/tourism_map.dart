@@ -129,7 +129,7 @@ class TourismMap with ChangeNotifier {
       // 抽奖弹窗
       MapPrizeModal().show(cityInfo);
     }
-    Service().saveMoneyInfo(data);
+    Service().updateUserInfo(data);
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,

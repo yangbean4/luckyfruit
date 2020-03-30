@@ -40,7 +40,7 @@ class UserModel with ChangeNotifier {
 
   // 更新userInfo
   getUserInfo() async {
-    Map<String, dynamic> ajaxData = await Service().getMoneyInfo({
+    Map<String, dynamic> ajaxData = await Service().getUserInfo({
       'acct_id': value.acct_id,
     });
     // 保存数据

@@ -320,98 +320,107 @@ class InputingInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
-      body: Container(
-          width: ScreenUtil().setWidth(1080),
-          height: ScreenUtil()
-              .setWidth(1920 - MediaQuery.of(context).viewInsets.bottom),
-          child: Center(
-            child: Stack(children: [
-              Container(
-                  width: ScreenUtil().setWidth(840),
-                  height: ScreenUtil().setWidth(890),
-                  padding: EdgeInsets.symmetric(
-                    vertical: ScreenUtil().setWidth(90),
-                    horizontal: ScreenUtil().setWidth(120),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(100)),
-                    ),
-                  ),
-                  child: Container(
-                    width: ScreenUtil().setWidth(600),
-                    // color: Colors.red,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        ModalTitle("Paypal"),
-                        InputFiledWidget("Paypal Account", _controllerFirst,
-                            paypalAccount: paypal_account),
-                        InputFiledWidget(
-                            "Confirm Paypal Account", _controllerRepeat),
-                        GestureDetector(
-                          onTap: () {
-                            // _onTap();
-                            print("first= ${_controllerFirst.text}, repeat=${_controllerRepeat.text}," +
-                                " 比较值: ${_controllerFirst.text.compareTo(_controllerRepeat.text)}");
-
-                            if (_controllerFirst?.text == null ||
-                                _controllerFirst.text.trim().isEmpty) {
-                              Layer.toastWarning("Account cannot be empty");
-                              return;
-                            }
-                            if (_controllerFirst.text
-                                    .compareTo(_controllerRepeat.text) !=
-                                0) {
-                              Layer.toastWarning(
-                                  "Please Confirm Your Account Is Correct");
-                              return;
-                            }
-
-                            postWithDrawInfo(context, amount, type,
-                                    _controllerFirst.text)
-                                .then((e) {
-                              // 提现成功,关闭输入框
-                              Navigator.pop(context);
-                              handleAfterSummitWithDraw();
-                            });
-                          },
-                          child: PrimaryButton(
-                              width: 600,
-                              height: 124,
-                              child: Center(
-                                  child: Text(
-                                'Claim',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  height: 1,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setSp(52),
-                                ),
-                              ))),
+      body: Selector<UserModel, UserInfo>(
+          selector: (_, provider) => provider.userInfo,
+          builder: (_, UserInfo userInfo, __) {
+            return Container(
+                width: ScreenUtil().setWidth(1080),
+                height: ScreenUtil()
+                    .setWidth(1920 - MediaQuery.of(context).viewInsets.bottom),
+                child: Center(
+                  child: Stack(children: [
+                    Container(
+                        width: ScreenUtil().setWidth(840),
+                        height: ScreenUtil().setWidth(890),
+                        padding: EdgeInsets.symmetric(
+                          vertical: ScreenUtil().setWidth(90),
+                          horizontal: ScreenUtil().setWidth(120),
                         ),
-                        // })
-                      ],
-                    ),
-                  )),
-              Positioned(
-                  top: ScreenUtil().setWidth(60),
-                  right: ScreenUtil().setWidth(60),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Image.asset(
-                      'assets/image/close_icon_windows_corner.png',
-                      width: ScreenUtil().setWidth(40),
-                      height: ScreenUtil().setWidth(40),
-                    ),
-                  ))
-            ]),
-          )),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(100)),
+                          ),
+                        ),
+                        child: Container(
+                          width: ScreenUtil().setWidth(600),
+                          // color: Colors.red,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              ModalTitle("Paypal"),
+                              InputFiledWidget(
+                                  "Paypal Account", _controllerFirst,
+                                  paypalAccount: paypal_account),
+                              InputFiledWidget(
+                                  "Confirm Paypal Account", _controllerRepeat),
+                              GestureDetector(
+                                onTap: () {
+                                  // _onTap();
+                                  print("first= ${_controllerFirst.text}, repeat=${_controllerRepeat.text}," +
+                                      " 比较值: ${_controllerFirst.text.compareTo(_controllerRepeat.text)}");
+
+                                  if (_controllerFirst?.text == null ||
+                                      _controllerFirst.text.trim().isEmpty) {
+                                    Layer.toastWarning(
+                                        "Account cannot be empty");
+                                    return;
+                                  }
+                                  if (_controllerFirst.text
+                                          .compareTo(_controllerRepeat.text) !=
+                                      0) {
+                                    Layer.toastWarning(
+                                        "Please Confirm Your Account Is Correct");
+                                    return;
+                                  }
+
+                                  postWithDrawInfo(context, amount, type,
+                                          _controllerFirst.text)
+                                      .then((e) {
+                                    // 更新本地的PayPal账号信息
+                                    userInfo.paypal_account =
+                                        _controllerFirst?.text;
+                                    // 提现成功,关闭输入框
+                                    Navigator.pop(context);
+                                    handleAfterSummitWithDraw();
+                                  });
+                                },
+                                child: PrimaryButton(
+                                    width: 600,
+                                    height: 124,
+                                    child: Center(
+                                        child: Text(
+                                      'Claim',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        height: 1,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: ScreenUtil().setSp(52),
+                                      ),
+                                    ))),
+                              ),
+                              // })
+                            ],
+                          ),
+                        )),
+                    Positioned(
+                        top: ScreenUtil().setWidth(60),
+                        right: ScreenUtil().setWidth(60),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset(
+                            'assets/image/close_icon_windows_corner.png',
+                            width: ScreenUtil().setWidth(40),
+                            height: ScreenUtil().setWidth(40),
+                          ),
+                        ))
+                  ]),
+                ));
+          }),
     );
   }
 }
@@ -576,7 +585,7 @@ class WithDrawTypesItemWidget extends StatelessWidget {
                   style: BorderStyle.solid,
                   color: Color.fromRGBO(41, 191, 76, 1),
                 )
-              : Border.all(width: 0),
+              : Border.all(width: 0, color: Colors.transparent),
           image: DecorationImage(
             alignment: Alignment.center,
             image: AssetImage(imgUrl),
