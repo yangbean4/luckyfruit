@@ -20,14 +20,28 @@ class SettingsPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: MyTheme.blackColor,
         ),
+        leading: IconButton(
+            iconSize: 20,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         backgroundColor: Color(0xffEFEEF3),
-        title: Text(
-          'Settings',
-          style: TextStyle(
-              color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setSp(70),
-              fontFamily: FontFamily.bold,
-              fontWeight: FontWeight.bold),
+        actions: <Widget>[
+          SizedBox(width:30, height: 20,)
+        ],
+        title: Align(
+                  child: Text(
+            'Settings',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(70),
+                fontFamily: FontFamily.bold,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: Container(

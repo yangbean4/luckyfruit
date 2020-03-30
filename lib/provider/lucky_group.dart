@@ -162,6 +162,9 @@ class LuckyGroup with ChangeNotifier {
               version: configVersion,
               ajax: Service().fruiterUnivalent)
           .then((issuedJson) {
+        if (issuedJson == null) {
+          return;
+        }
         treeConfig = TreeConfig.fromJson({
           // issuedJson
           "content": json.decode(issuedJson['content']),

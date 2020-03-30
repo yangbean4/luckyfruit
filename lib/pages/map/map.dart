@@ -566,7 +566,7 @@ class __MapPrizeState extends State<_MapPrize> {
           ),
         ),
         AdButton(
-          btnText: 'Get it',
+          btnText: 'Got it',
           onCancel: () => widget.modal.hide(),
           onOk: _goRun,
         )

@@ -77,15 +77,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            leading: IconButton(
-                iconSize: 20,
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+            leading: Container(),
             elevation: 0,
             bottom: PreferredSize(
                 preferredSize: Size.fromHeight(ScreenUtil().setWidth(100)),
@@ -113,15 +105,37 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                       Color.fromRGBO(59, 206, 100, 1),
                     ]),
               ),
-              child: Text(
-                "Partners Earning",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  height: 1,
-                  fontFamily: FontFamily.bold,
-                  fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setSp(70),
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: ScreenUtil().setWidth(60),
+                          right: ScreenUtil().setWidth(190),
+                        ),
+                        child: Image.asset(
+                          'assets/image/close_left_arrow_pages.png',
+                          width: ScreenUtil().setWidth(30),
+                          height: ScreenUtil().setWidth(50),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Partners Earning",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        height: 1,
+                        fontFamily: FontFamily.bold,
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(70),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )),

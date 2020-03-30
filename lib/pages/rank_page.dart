@@ -7,6 +7,7 @@ import 'package:luckyfruit/models/rank_bonus_trees.dart';
 import 'package:luckyfruit/models/rank_friends.dart';
 import 'package:luckyfruit/models/ranklist.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
@@ -56,7 +57,7 @@ class RankPageState extends State<RankPage>
                 "separate_amount": "1234",
                 "tree_num": 0
             },{
-                "acct_id": "67",
+                "acct_id": "508",
                 "superior1": "0",
                 "rela_account": "Linda",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
@@ -267,7 +268,7 @@ class RankPageState extends State<RankPage>
                 "separate_amount": "1111.00"
             },
                         {
-                "acct_id": "4",
+                "acct_id": "508",
                 "superior1": "3",
                 "rela_account": "name2",
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
@@ -305,7 +306,7 @@ class RankPageState extends State<RankPage>
         ]}
         """;
   // TODO 走接口
-  List positionSelf = [10, 0];
+  List positionSelf = [-1, -1];
 
   List showTopShield = [false, false];
   List showBottomShield = [false, false];
@@ -321,9 +322,33 @@ class RankPageState extends State<RankPage>
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     getRankListInfoData().then((res) {
-      if (!mounted) {
+      if (!mounted || res?.friends == null || res?.bounsTrees == null) {
         return;
       }
+
+      UserModel userModel = Provider.of<UserModel>(context, listen: false);
+
+      // 取出自己所在的position
+      positionSelf[0] = res.friends.indexWhere(((tree) {
+        if (tree?.acct_id != null &&
+            tree?.acct_id?.compareTo(userModel?.value?.acct_id) == 0) {
+          return true;
+        }
+        return false;
+      }));
+
+      positionSelf[1] = res.bounsTrees.indexWhere(((tree) {
+        if (tree?.acct_id != null &&
+            tree?.acct_id?.compareTo(userModel?.value?.acct_id) == 0) {
+          return true;
+        }
+        return false;
+      }));
+
+      print("positionSelf after= $positionSelf");
+
+      // TODO 测试
+      positionSelf = [10, 10];
       setState(() {
         friendsList = res.friends;
         bounsTreeList = res.bounsTrees;
@@ -332,19 +357,20 @@ class RankPageState extends State<RankPage>
   }
 
   _tabBarListener() {
-    setState(() {
-      showTopShield = [false, false];
-      showBottomShield = [false, false];
-      flagFirstTime = [false, false];
+    if (mounted)
+      setState(() {
+        showTopShield = [false, false];
+        showBottomShield = [false, false];
+        flagFirstTime = [false, false];
 
-      // if (_tabController.index == 1) {
-      //   showTopShield = false;
-      //   showBottomShield = false;
-      // } else {
-      //   showTopShield = false;
-      //   showBottomShield = true;
-      // }
-    });
+        // if (_tabController.index == 1) {
+        //   showTopShield = false;
+        //   showBottomShield = false;
+        // } else {
+        //   showTopShield = false;
+        //   showBottomShield = true;
+        // }
+      });
   }
 
   _scrollListener() {
@@ -512,14 +538,16 @@ class RankPageState extends State<RankPage>
                                         scrollNotification.metrics.pixels;
                                     if (value < thresholdValue &&
                                         !showTopShield[0]) {
-                                      setState(() {
-                                        showTopShield[0] = true;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showTopShield[0] = true;
+                                        });
                                     } else if (value > thresholdValue &&
                                         showTopShield[0]) {
-                                      setState(() {
-                                        showTopShield[0] = false;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showTopShield[0] = false;
+                                        });
                                     }
 
                                     double value1 = (positionSelf[0] + 1) *
@@ -530,14 +558,16 @@ class RankPageState extends State<RankPage>
 
                                     if (value1 < thresholdValue &&
                                         showBottomShield[0]) {
-                                      setState(() {
-                                        showBottomShield[0] = false;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showBottomShield[0] = false;
+                                        });
                                     } else if (value1 > thresholdValue &&
                                         !showBottomShield[0]) {
-                                      setState(() {
-                                        showBottomShield[0] = true;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showBottomShield[0] = true;
+                                        });
                                     }
                                   } else if (scrollNotification
                                       is ScrollEndNotification) {
@@ -605,14 +635,16 @@ class RankPageState extends State<RankPage>
                                         scrollNotification.metrics.pixels;
                                     if (value < thresholdValue &&
                                         !showTopShield[1]) {
-                                      setState(() {
-                                        showTopShield[1] = true;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showTopShield[1] = true;
+                                        });
                                     } else if (value > thresholdValue &&
                                         showTopShield[1]) {
-                                      setState(() {
-                                        showTopShield[1] = false;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showTopShield[1] = false;
+                                        });
                                     }
 
                                     double value1 = (positionSelf[1] + 1) *
@@ -623,14 +655,16 @@ class RankPageState extends State<RankPage>
 
                                     if (value1 < thresholdValue &&
                                         showBottomShield[1]) {
-                                      setState(() {
-                                        showBottomShield[1] = false;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showBottomShield[1] = false;
+                                        });
                                     } else if (value1 > thresholdValue &&
                                         !showBottomShield[1]) {
-                                      setState(() {
-                                        showBottomShield[1] = true;
-                                      });
+                                      if (mounted)
+                                        setState(() {
+                                          showBottomShield[1] = true;
+                                        });
                                     }
                                   } else if (scrollNotification
                                       is ScrollEndNotification) {

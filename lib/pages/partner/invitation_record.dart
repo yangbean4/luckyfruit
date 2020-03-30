@@ -35,15 +35,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-              iconSize: 20,
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
+          leading: Container(),
           bottom: PreferredSize(
               preferredSize: Size.fromHeight(ScreenUtil().setWidth(240)),
               child: Container(
@@ -83,7 +75,7 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
           flexibleSpace: Container(
             width: ScreenUtil().setWidth(1080),
             height: ScreenUtil().setWidth(1000),
-            alignment: Alignment(0, -0.2),
+            alignment: Alignment(0, -0.5),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment(-1.0, 0.0),
@@ -93,15 +85,38 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
                     Color.fromRGBO(59, 206, 100, 1),
                   ]),
             ),
-            child: Text(
-              "Invitation Record",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                height: 1,
-                fontFamily: FontFamily.bold,
-                fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setSp(70),
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(60),
+                        right: ScreenUtil().setWidth(190),
+                      ),
+                      child: Image.asset(
+                        'assets/image/close_left_arrow_pages.png',
+                        width: ScreenUtil().setWidth(30),
+                        height: ScreenUtil().setWidth(50),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Invitation Record",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      // backgroundColor: Colors.yellow,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                    ),
+                  ),
+                ],
               ),
             ),
           )),

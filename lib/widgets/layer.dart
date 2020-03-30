@@ -776,7 +776,7 @@ class Layer {
                       selector: (context, provider) => provider.userInfo,
                       builder: (_, UserInfo userInfo, __) {
                         return AdButton(
-                          btnText: 'Get it',
+                          btnText: 'Got it',
                           onCancel: () {
                             modal.hide();
                           },

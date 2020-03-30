@@ -108,8 +108,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         {'acct_id': treeGroup.acct_id, 'coin_speed': treeGroup.makeGoldSped});
 
     //TODO 测试用 模拟一个网络请求状态
-    // await Future.delayed(Duration(seconds: 2));
-    // luckResultMap = json.decode(testJson);
+    luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
     return luckResultMap;
   }
@@ -205,21 +204,30 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   }
 
                   if (ticketCount <= 0) {
-                    Layer.toastWarning(
-                        "Tickets not enough, watch ad to get more");
-                    //TODO 观看广告添加抽奖券的逻辑
+                    if (data?.item1?.ad_times == 0) {
+                      Layer.toastWarning("Number of videos has used up");
+                      return;
+                    }
+                    //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
                     Service().addTicket({'acct_id': data?.item2}).then((value) {
-                      if (value == null || value['code'] != 0) {
-                        // 添加失败
-                        Layer.toastWarning("Times used up");
-                      } else {
-                        // 添加成功
-                        Layer.toastSuccess("Get Ticket Success");
-                        handleStartSpin(data?.item3);
-                      }
+                      // TODO 测试,后面删除
+                      // if (value == null || value['code'] != 0) {
+                      //   // 添加失败
+                      //   Layer.toastWarning("Times used up");
+                      // } else {
+                      // 添加成功
+                      Layer.toastSuccess("Get Ticket Success");
+                      handleStartSpin(data?.item3);
+                      // }
                       if (mounted) {
                         setState(() {
-                          data?.item1?.ad_times--;
+                          if (data?.item1?.ad_times != null) {
+                            if (data?.item1?.ad_times > 0) {
+                              data?.item1?.ad_times--;
+                            } else {
+                              data?.item1?.ad_times = 0;
+                            }
+                          }
                         });
                       }
                     });
@@ -229,7 +237,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   handleStartSpin(data?.item3);
                 },
                 tips: ticketCount <= 0
-                    ? "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times} times left)"
+                    ? "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times ?? 0} times left)"
                     : null,
               );
             },

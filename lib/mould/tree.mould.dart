@@ -60,7 +60,7 @@ class Tree extends TreePoint {
       ? 0
       : Tree.treeConfig.recover_content[grade.toString()];
 
-  List get _makeTreeUseGoldList => Tree.treeConfig.content[grade.toString()];
+  List get _makeTreeUseGoldList => Tree.treeConfig?.content[grade.toString()];
 
   double get consumeGold =>
       double.tryParse((gradeNumber > _makeTreeUseGoldList.length
