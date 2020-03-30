@@ -229,14 +229,87 @@ class RankPageState extends State<RankPage>
                 "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "12.00",
                 "separate_amount": "1111.00"
+            },
+                        {
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },
+                        {
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
+            },{
+                "acct_id": "4",
+                "superior1": "3",
+                "rela_account": "name2",
+                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
+                "amount": "12.00",
+                "separate_amount": "1111.00"
             }
         ]}
         """;
   // TODO 走接口
-  int positionSelf = 10;
+  List positionSelf = [10, 0];
 
-  bool showTopShield = false;
-  bool showBottomShield = true;
+  List showTopShield = [false, false];
+  List showBottomShield = [false, false];
+  List flagFirstTime = [false, false];
 
   ScrollController _scrollController;
 
@@ -248,6 +321,9 @@ class RankPageState extends State<RankPage>
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     getRankListInfoData().then((res) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         friendsList = res.friends;
         bounsTreeList = res.bounsTrees;
@@ -257,13 +333,17 @@ class RankPageState extends State<RankPage>
 
   _tabBarListener() {
     setState(() {
-      if (_tabController.index == 1) {
-        showTopShield = false;
-        showBottomShield = false;
-      } else {
-        showTopShield = false;
-        showBottomShield = true;
-      }
+      showTopShield = [false, false];
+      showBottomShield = [false, false];
+      flagFirstTime = [false, false];
+
+      // if (_tabController.index == 1) {
+      //   showTopShield = false;
+      //   showBottomShield = false;
+      // } else {
+      //   showTopShield = false;
+      //   showBottomShield = true;
+      // }
     });
   }
 
@@ -405,149 +485,189 @@ class RankPageState extends State<RankPage>
                         )
                       ])
                     : List<Widget>.from([
-                        Stack(
-                          children: [
-                            NotificationListener<ScrollNotification>(
-                              onNotification: (scrollNotification) {
-                                if (scrollNotification
-                                    is ScrollStartNotification) {
-                                  print(
-                                      "notifyStart ${scrollNotification.metrics}");
-                                } else if (scrollNotification
-                                    is ScrollUpdateNotification) {
-                                  print(
-                                      "notifyUpdate ${scrollNotification.metrics}");
-                                  double thresholdValue = .5;
-                                  double value = positionSelf *
-                                          ScreenUtil().setWidth(200) -
-                                      scrollNotification.metrics.pixels;
-                                  if (value < thresholdValue &&
-                                      !showTopShield) {
-                                    setState(() {
-                                      showTopShield = true;
-                                    });
-                                  } else if (value > thresholdValue &&
-                                      showTopShield) {
-                                    setState(() {
-                                      showTopShield = false;
-                                    });
+                        LayoutBuilder(builder: (context, constraints) {
+                          int visiblePosition = (constraints.maxHeight /
+                                  ScreenUtil().setWidth(200))
+                              .ceil();
+                          print("visiblePosition= $visiblePosition");
+                          if (positionSelf[0] >= visiblePosition - 1 &&
+                              !flagFirstTime[0]) {
+                            flagFirstTime[0] = showBottomShield[0] = true;
+                          }
+                          return Stack(
+                            children: [
+                              NotificationListener<ScrollNotification>(
+                                onNotification: (scrollNotification) {
+                                  if (scrollNotification
+                                      is ScrollStartNotification) {
+                                    print(
+                                        "notifyStart ${scrollNotification.metrics}");
+                                  } else if (scrollNotification
+                                      is ScrollUpdateNotification) {
+                                    print(
+                                        "notifyUpdate ${scrollNotification.metrics}");
+                                    double thresholdValue = .5;
+                                    double value = positionSelf[0] *
+                                            ScreenUtil().setWidth(200) -
+                                        scrollNotification.metrics.pixels;
+                                    if (value < thresholdValue &&
+                                        !showTopShield[0]) {
+                                      setState(() {
+                                        showTopShield[0] = true;
+                                      });
+                                    } else if (value > thresholdValue &&
+                                        showTopShield[0]) {
+                                      setState(() {
+                                        showTopShield[0] = false;
+                                      });
+                                    }
+
+                                    double value1 = (positionSelf[0] + 1) *
+                                            ScreenUtil().setWidth(200) -
+                                        (scrollNotification.metrics.pixels +
+                                            scrollNotification
+                                                .metrics.extentInside);
+
+                                    if (value1 < thresholdValue &&
+                                        showBottomShield[0]) {
+                                      setState(() {
+                                        showBottomShield[0] = false;
+                                      });
+                                    } else if (value1 > thresholdValue &&
+                                        !showBottomShield[0]) {
+                                      setState(() {
+                                        showBottomShield[0] = true;
+                                      });
+                                    }
+                                  } else if (scrollNotification
+                                      is ScrollEndNotification) {
+                                    print(
+                                        "notifyEnd ${scrollNotification.metrics}");
                                   }
 
-                                  double value1 = (positionSelf + 1) *
-                                          ScreenUtil().setWidth(200) -
-                                      (scrollNotification.metrics.pixels +
-                                          scrollNotification
-                                              .metrics.extentInside);
-
-                                  if (value1 < thresholdValue &&
-                                      showBottomShield) {
-                                    setState(() {
-                                      showBottomShield = false;
-                                    });
-                                  } else if (value1 > thresholdValue &&
-                                      !showBottomShield) {
-                                    setState(() {
-                                      showBottomShield = true;
-                                    });
-                                  }
-                                } else if (scrollNotification
-                                    is ScrollEndNotification) {
-                                  print(
-                                      "notifyEnd ${scrollNotification.metrics}");
-                                }
-                              },
-                              child: ListView.separated(
-                                  controller: _scrollController,
-                                  itemCount: friendsList?.length,
-                                  itemBuilder: (context, index) =>
-                                      getListviewItem(index),
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          const Divider(
-                                            height: 0,
-                                          )),
-                            ),
-                            positionSelf >= 0 && showTopShield
-                                ? Positioned(
-                                    child: Container(
-                                        color: Colors.red,
-                                        child: getListviewItem(positionSelf)))
-                                : Container(width: 0, height: 0),
-                            positionSelf >= 0 && showBottomShield
-                                ? Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                        width: ScreenUtil().setWidth(1080),
-                                        height: ScreenUtil().setWidth(200),
-                                        child: getListviewItem(positionSelf)))
-                                : Container(width: 0, height: 0),
-                          ],
-                        ),
+                                  return false;
+                                },
+                                child: ListView.separated(
+                                    controller: _scrollController,
+                                    itemCount: friendsList?.length,
+                                    itemBuilder: (context, index) =>
+                                        getListviewItemInTab1(index),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const Divider(
+                                              height: 0,
+                                            )),
+                              ),
+                              positionSelf[0] >= 0 && showTopShield[0]
+                                  ? Positioned(
+                                      child: Container(
+                                          color: Colors.red,
+                                          child: getListviewItemInTab1(
+                                              positionSelf[0])))
+                                  : Container(width: 0, height: 0),
+                              positionSelf[0] >= 0 && showBottomShield[0]
+                                  ? Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                          child: getListviewItemInTab1(
+                                              positionSelf[0])))
+                                  : Container(width: 0, height: 0),
+                            ],
+                          );
+                        }),
                         // ),
 
                         // 第二个tab
-                        ListView.separated(
-                            itemCount: bounsTreeList?.length,
-                            itemBuilder: (context, index) {
-                              var avatarWidget = CompatibleNetworkAvatarWidget(
-                                bounsTreeList[index]?.avatar,
-                                defaultImageUrl:
-                                    "assets/image/rank_page_portrait_default.png",
-                                width: ScreenUtil().setWidth(120),
-                                height: ScreenUtil().setWidth(120),
-                                fit: BoxFit.cover,
-                              );
+                        LayoutBuilder(builder: (context, constraints) {
+                          int visiblePosition = (constraints.maxHeight /
+                                  ScreenUtil().setWidth(200))
+                              .ceil();
+                          print("visiblePosition= $visiblePosition");
+                          if (positionSelf[1] >= visiblePosition - 1 &&
+                              !flagFirstTime[1]) {
+                            flagFirstTime[1] = showBottomShield[1] = true;
+                          }
+                          return Stack(
+                            children: [
+                              NotificationListener<ScrollNotification>(
+                                onNotification: (scrollNotification) {
+                                  if (scrollNotification
+                                      is ScrollStartNotification) {
+                                    print(
+                                        "notifyStart ${scrollNotification.metrics}");
+                                  } else if (scrollNotification
+                                      is ScrollUpdateNotification) {
+                                    print(
+                                        "notifyUpdate ${scrollNotification.metrics}");
+                                    double thresholdValue = .5;
+                                    double value = positionSelf[1] *
+                                            ScreenUtil().setWidth(200) -
+                                        scrollNotification.metrics.pixels;
+                                    if (value < thresholdValue &&
+                                        !showTopShield[1]) {
+                                      setState(() {
+                                        showTopShield[1] = true;
+                                      });
+                                    } else if (value > thresholdValue &&
+                                        showTopShield[1]) {
+                                      setState(() {
+                                        showTopShield[1] = false;
+                                      });
+                                    }
 
-                              return Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(95),
-                                      vertical: ScreenUtil().setWidth(40)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          ClipOval(child: avatarWidget),
-                                          SizedBox(
-                                            width: ScreenUtil().setWidth(30),
-                                          ),
-                                          Text(
-                                            bounsTreeList[index]?.rela_account,
-                                            style: TextStyle(
-                                                color: MyTheme.blackColor,
-                                                fontSize:
-                                                    ScreenUtil().setWidth(50),
-                                                fontFamily: FontFamily.semibold,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        bounsTreeList[index]
-                                                ?.tree_num
-                                                ?.toString() ??
-                                            "0",
-                                        style: TextStyle(
-                                            color: MyTheme.blackColor,
-                                            fontSize: ScreenUtil().setWidth(50),
-                                            fontFamily: FontFamily.semibold,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        bounsTreeList[index]?.separate_amount,
-                                        style: TextStyle(
-                                            color: MyTheme.blackColor,
-                                            fontSize: ScreenUtil().setWidth(56),
-                                            fontFamily: FontFamily.semibold,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ));
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const Divider())
+                                    double value1 = (positionSelf[1] + 1) *
+                                            ScreenUtil().setWidth(200) -
+                                        (scrollNotification.metrics.pixels +
+                                            scrollNotification
+                                                .metrics.extentInside);
+
+                                    if (value1 < thresholdValue &&
+                                        showBottomShield[1]) {
+                                      setState(() {
+                                        showBottomShield[1] = false;
+                                      });
+                                    } else if (value1 > thresholdValue &&
+                                        !showBottomShield[1]) {
+                                      setState(() {
+                                        showBottomShield[1] = true;
+                                      });
+                                    }
+                                  } else if (scrollNotification
+                                      is ScrollEndNotification) {
+                                    print(
+                                        "notifyEnd ${scrollNotification.metrics}");
+                                  }
+
+                                  return false;
+                                },
+                                child: ListView.separated(
+                                    controller: _scrollController,
+                                    itemCount: bounsTreeList?.length,
+                                    itemBuilder: (context, index) =>
+                                        getListviewItemInTab2(index),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const Divider(
+                                              height: 0,
+                                            )),
+                              ),
+                              positionSelf[1] >= 0 && showTopShield[1]
+                                  ? Positioned(
+                                      child: Container(
+                                          color: Colors.red,
+                                          child: getListviewItemInTab2(
+                                              positionSelf[1])))
+                                  : Container(width: 0, height: 0),
+                              positionSelf[1] >= 0 && showBottomShield[1]
+                                  ? Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                          child: getListviewItemInTab2(
+                                              positionSelf[1])))
+                                  : Container(width: 0, height: 0),
+                            ],
+                          );
+                        }),
                       ]),
               ),
             ),
@@ -568,7 +688,7 @@ class RankPageState extends State<RankPage>
     );
   }
 
-  Widget getListviewItem(int index) {
+  Widget getListviewItemInTab1(int index) {
     if (index < 0 ||
         friendsList?.length == null ||
         index >= friendsList?.length) {
@@ -611,13 +731,23 @@ class RankPageState extends State<RankPage>
       key: Key("unique_key_$index"),
       onVisibilityChanged: (e) {
         debugPrint(
-            "debugPrint-visible: ${e.key}, ${e.visibleFraction}, ${e.size}, ${e.visibleBounds}");
+            "debugPrint-visible: ${e.key}, ${e.visibleFraction}, ${e.size}, ${e.visibleBounds}, mounted=$mounted");
+        // 如果positionSelf位置还不可见
+        // if (e.key.toString().contains("$positionSelf") &&
+        //     flag == false &&
+        //     mounted) {
+        //   setState(() {
+        //     print("!contains");
+        //     flag = showBottomShield = false;
+        //   });
+        // }
       },
       child: Container(
           width: ScreenUtil().setWidth(1080),
           height: ScreenUtil().setWidth(200),
           padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(95)),
-          color: ((index == positionSelf) ? Color(0xFFBCFFCC) : Colors.white),
+          color:
+              ((index == positionSelf[0]) ? Color(0xFFBCFFCC) : Colors.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -637,7 +767,7 @@ class RankPageState extends State<RankPage>
                         ? "${friendsList[index].tree_num} global dividend tree(s)"
                         : "No global dividend tree",
                     style: TextStyle(
-                        color: index == positionSelf
+                        color: index == positionSelf[0]
                             ? Color.fromRGBO(38, 38, 38, 1)
                             : Color.fromRGBO(124, 124, 124, 1),
                         fontSize: ScreenUtil().setWidth(34),
@@ -657,5 +787,60 @@ class RankPageState extends State<RankPage>
             ],
           )),
     );
+  }
+
+  Widget getListviewItemInTab2(int index) {
+    var avatarWidget = CompatibleNetworkAvatarWidget(
+      bounsTreeList[index]?.avatar,
+      defaultImageUrl: "assets/image/rank_page_portrait_default.png",
+      width: ScreenUtil().setWidth(120),
+      height: ScreenUtil().setWidth(120),
+      fit: BoxFit.cover,
+    );
+
+    return Container(
+        width: ScreenUtil().setWidth(1080),
+        height: ScreenUtil().setWidth(200),
+        color: ((index == positionSelf[1]) ? Color(0xFFBCFFCC) : Colors.white),
+        padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(95),
+            vertical: ScreenUtil().setWidth(40)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                ClipOval(child: avatarWidget),
+                SizedBox(
+                  width: ScreenUtil().setWidth(30),
+                ),
+                Text(
+                  bounsTreeList[index]?.rela_account,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      fontSize: ScreenUtil().setWidth(50),
+                      fontFamily: FontFamily.semibold,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            Text(
+              bounsTreeList[index]?.tree_num?.toString() ?? "0",
+              style: TextStyle(
+                  color: MyTheme.blackColor,
+                  fontSize: ScreenUtil().setWidth(50),
+                  fontFamily: FontFamily.semibold,
+                  fontWeight: FontWeight.w500),
+            ),
+            Text(
+              bounsTreeList[index]?.separate_amount,
+              style: TextStyle(
+                  color: MyTheme.blackColor,
+                  fontSize: ScreenUtil().setWidth(56),
+                  fontFamily: FontFamily.semibold,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ));
   }
 }

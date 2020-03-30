@@ -444,7 +444,8 @@ handleAfterSummitWithDraw() {
     ),
     SizedBox(height: ScreenUtil().setWidth(50)),
     Text(
-        'Your withdrawal request has been submitted, it takes up to 3 business days to transit. Check status in Mine-Messages.',
+        'Your withdrawal request has been submitted, it takes up to 3 business days to transit. Check status in Messages.',
+        textAlign: TextAlign.center,
         style: TextStyle(
             fontFamily: FontFamily.regular,
             fontWeight: FontWeight.w400,

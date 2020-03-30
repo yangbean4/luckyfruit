@@ -75,11 +75,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     curTween = Tween<double>(begin: 0.0, end: endRadian);
     widget.animation = curTween.animate(curve)
       ..addListener(() {
-        setState(() {
-          // print(
-          //     "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
-          // angle = widget.animation.value;
-        });
+        if (mounted)
+          setState(() {
+            // print(
+            //     "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
+            // angle = widget.animation.value;
+          });
       })
       ..addStatusListener((status) {
         print("status= $status, finalPos=$finalPos");
@@ -215,6 +216,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                         // 添加成功
                         Layer.toastSuccess("Get Ticket Success");
                         handleStartSpin(data?.item3);
+                      }
+                      if (mounted) {
+                        setState(() {
+                          data?.item1?.ad_times--;
+                        });
                       }
                     });
                     return;
