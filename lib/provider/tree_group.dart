@@ -482,7 +482,6 @@ class TreeGroup with ChangeNotifier {
     if (source == target) {
       return;
     }
-    Layer.showTopLevelMergeWindow(this);
 
     if (target == null) {
       source.x = pos.x;
