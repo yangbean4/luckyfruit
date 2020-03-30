@@ -441,8 +441,9 @@ class TreeGroup with ChangeNotifier {
           new Tree(grade: maxLevel + 1),
           amount: globalDividendTree?.amount,
         );
-        // 检测是否出现限时分红树（只在升级到最新等级时触发）
-        limitedTimeBonusTreeShowUp();
+        // 检测是否出现(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
+        // （只在升级到最新等级时触发）
+        checkBonusTree();
       } else {
         // 检查出现宝箱
         checkTreasure();
@@ -481,6 +482,8 @@ class TreeGroup with ChangeNotifier {
     if (source == target) {
       return;
     }
+    Layer.showTopLevelMergeWindow(this);
+
     if (target == null) {
       source.x = pos.x;
       source.y = pos.y;
@@ -497,9 +500,9 @@ class TreeGroup with ChangeNotifier {
     save();
   }
 
-  /// 通过接口检查限时分红树状态
-  limitedTimeBonusTreeShowUp() async {
-    checkLimitedTimeBonusTreeState(acct_id, maxLevel).then((value) {
+  /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
+  checkBonusTree() async {
+    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel + 1).then((value) {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
         Layer.showLimitedTimeBonusTree(this, value);
@@ -507,8 +510,8 @@ class TreeGroup with ChangeNotifier {
     });
   }
 
-  /// 检测是否需要弹出限时分红树
-  Future<UnlockNewTreeLevel> checkLimitedTimeBonusTreeState(
+  /// 通过接口��查是否获取奖励(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许���树)
+  Future<UnlockNewTreeLevel> checkBonusTreeWhenUnlockingNewLevel(
       String acctId, int level) async {
     dynamic stateMap =
         await Service().unlockNewLevel({'acct_id': acctId, "level": level});

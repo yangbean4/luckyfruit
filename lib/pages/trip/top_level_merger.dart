@@ -1,9 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/unlockNewTreeLevel.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/widgets/layer.dart';
+import 'package:provider/provider.dart';
 
 class TopLevelMergeWidget extends StatefulWidget {
   final Function onReceivedResultFun;
@@ -18,18 +26,62 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     with SingleTickerProviderStateMixin {
   int runCount = 0;
   List inOrder = [0, 1, 2, 3, 5, 9, 8, 7, 6, 4];
+  List circleOrder = [0, 1, 2, 3, 9, 4, 8, 7, 6, 5];
   Timer timer;
   bool enableOnTap = true;
+  UnlockNewTreeLevel newLevel;
+  int position;
+  // 选中的树的类型
+  String curTreeType;
+  // 选中的树的名字
+  String curTreeName;
+
+  List treeTypeListInOrder = [
+    TreeType.Type_Wishing,
+    TreeType.Type_Continents_Asian,
+    TreeType.Type_BONUS,
+    TreeType.Type_Continents_African,
+    TreeType.Type_Globle_Bonus,
+    TreeType.Type_Continents_American,
+    TreeType.Type_Hops_Male,
+    TreeType.Type_Continents_European,
+    TreeType.Type_Hops_Female,
+    TreeType.Type_Continents_Oceania,
+  ];
+
+  List treeNameListInOrder = [
+    "Wishing Tree",
+    "Asian Tree",
+    "Limited Time Bonus Tree",
+    "African Tree",
+    "Bonus tree",
+    "American Tree",
+    "Hop Tree(male)",
+    "European Tree",
+    "Hop Tree(Female)",
+    "Oceania Tree",
+  ];
   @override
   void initState() {
     super.initState();
-    // Future.delayed(Duration(seconds: 2), () {
-    //   _lotteryTimer();
-    // });
   }
 
   void start() {
-    _lotteryTimer();
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+
+    checkBonusTreeWhenUnlockingTopLevel(treeGroup?.acct_id, Tree.MAX_LEVEL)
+        .then((result) {
+      // 获取指定位置
+      if (result?.tree_type == null || result?.tree_type == 0) {
+        Layer.toastWarning("Unable to merge");
+        return;
+      }
+
+      newLevel = result;
+      position = getPositionWithType(result.tree_type);
+      // position = 1;
+      _lotteryTimer();
+    });
   }
 
   @override
@@ -37,6 +89,24 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     super.dispose();
     timer?.cancel();
     timer = null;
+  }
+
+  Future<UnlockNewTreeLevel> checkBonusTreeWhenUnlockingTopLevel(
+      String acctId, int level) async {
+    // dynamic stateMap =
+    //     await Service().unlockNewLevel({'acct_id': acctId, "level": level});
+
+    dynamic stateMap;
+    //TODO 测试代码
+    String test =
+        """{"tree_type": 1,"tree_id": 21,"amount": 11.0,"duration": 300}""";
+    stateMap = json.decode(test);
+
+    if (stateMap == null) {
+      return null;
+    }
+    UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
+    return newLevel;
   }
 
   @override
@@ -63,7 +133,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                   setState(() {
                     enableOnTap = false;
                     Future.delayed(Duration(milliseconds: 200), () {
-                      _lotteryTimer();
+                      start();
                     });
                   });
                 }
@@ -73,7 +143,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
               height: 124,
               child: Center(
                   child: Text(
-                "Claim",
+                "Spin",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -107,7 +177,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
               // color: Colors.green,
               padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
               child: Image.asset(
-                "assets/image/dividend_tree.png",
+                "assets/tree/${treeTypeListInOrder[circleOrder[index - 1]]}.png",
                 width: ScreenUtil().setWidth(130),
                 height: ScreenUtil().setWidth(142),
               )));
@@ -165,7 +235,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
       if (runCount <= 10) {
         // 首先转动基础圈数，这个时候顺便等待抽奖接口异步结果
         _lotteryTimer();
-      } else if (runCount <= 10 * (1 + 1) + 2 - 3) {
+      } else if (runCount <= 10 * (1 + 1) + position - 3) {
         // 转满基础圈数后，计算出多转一圈 + 结果索引 - 缓速步数，进行最后几步的匀速转动
         _lotteryTimer();
       } else {
@@ -175,23 +245,66 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     });
   }
 
-  // 九宫格缓速计时器
+  // 九��格缓速计时器
   void _slowLotteryTimer(ms) {
     print("_slowLotteryTimer 中runCount的值为 $runCount");
     timer = Timer(Duration(milliseconds: ms), () {
       setState(() {
         runCount++;
       });
-      if (runCount < 10 * (1 + 1) + 2) {
+      if (runCount < 10 * (1 + 1) + position) {
         // 如果当前步数没有达到结果位置，继续缓速转动，并在下一步增长缓速时间，实现越来越慢的开奖效果
         _slowLotteryTimer((ms * 1.7).ceil());
       } else {
         // 已转到开奖位置，弹窗提醒
-        print("开奖啦》》》");
-        widget.onReceivedResultFun();
+        print("开奖啦》����》");
+        widget.onReceivedResultFun(curTreeType, curTreeName, newLevel);
         timer?.cancel();
         timer = null;
       }
     });
+  }
+
+  int getPositionWithType(int type) {
+    // 界面上对应的位置,1开始
+    int position;
+    switch (type) {
+      case 1:
+        position = 3;
+        break;
+      case 2:
+        position = 5;
+        break;
+      case 3:
+        position = 9;
+        break;
+      case 4:
+        position = 7;
+        break;
+      case 5:
+        position = 1;
+        break;
+      case 6:
+        position = 6;
+        break;
+      case 7:
+        position = 8;
+        break;
+      case 8:
+        position = 2;
+        break;
+      case 9:
+        position = 10;
+        break;
+      case 10:
+        position = 4;
+        break;
+      default:
+        return null;
+    }
+
+    curTreeType = treeTypeListInOrder[position - 1];
+    curTreeName = treeNameListInOrder[position - 1];
+    return position;
   }
 }

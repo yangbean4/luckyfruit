@@ -362,14 +362,6 @@ class RankPageState extends State<RankPage>
         showTopShield = [false, false];
         showBottomShield = [false, false];
         flagFirstTime = [false, false];
-
-        // if (_tabController.index == 1) {
-        //   showTopShield = false;
-        //   showBottomShield = false;
-        // } else {
-        //   showTopShield = false;
-        //   showBottomShield = true;
-        // }
       });
   }
 

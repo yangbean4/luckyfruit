@@ -47,6 +47,9 @@ class App {
 }
 
 class TreeType {
+  /// 全球分红树
+  static const Type_Globle_Bonus = "globle_bonus_tree";
+
   /// 芒果树
   static const Type_Mango = "mango";
 
@@ -56,7 +59,7 @@ class TreeType {
   /// 啤酒花雄树
   static const Type_Hops_Male = "hops_male";
 
-  /// 能获取奖励的树
+  /// 能获取奖励的树(限时分红树等)
   static const Type_BONUS = "bonus";
 
   /// 啤酒花雌树

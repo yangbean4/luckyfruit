@@ -500,7 +500,7 @@ class Layer {
                       )
                     ],
                   )),
-              ModalTitle('Congratulations'),
+              ModalTitle('Awesome'),
               Container(
                 margin:
                     EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
@@ -576,7 +576,7 @@ class Layer {
         },
         okText: "Claim",
         children: [
-          ModalTitle('Congratulations'),
+          ModalTitle('Awesome'),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
             child: TreeWidget(
@@ -596,20 +596,59 @@ class Layer {
         ]).show();
   }
 
+  /// 37级合成38级后,弹出弹框通知用户
+  static topLevelMergeEndShowup(TreeGroup treeGroup, String type, String name) {
+    Modal(
+        onOk: () {
+          // 种上一颗38级树
+          treeGroup.addTree(tree: Tree(grade: Tree.MAX_LEVEL, type: type));
+        },
+        okText: "Claim",
+        children: [
+          ModalTitle('Awesome'),
+          Container(
+            margin: EdgeInsets.only(
+              // top: ScreenUtil().setWidth(45),
+              bottom: ScreenUtil().setWidth(25),
+            ),
+            child: TreeWidget(
+              tree: Tree(grade: Tree.MAX_LEVEL, type: type),
+              imgHeight: ScreenUtil().setWidth(218),
+              imgWidth: ScreenUtil().setWidth(237),
+              labelWidth: ScreenUtil().setWidth(110),
+              primary: true,
+            ),
+          ),
+          SecondaryText(
+            "Get $name",
+            fontWeight: FontWeight.w400,
+          ),
+          SizedBox(
+            height: ScreenUtil().setWidth(45),
+          ),
+        ]).show();
+  }
+
   /// 显示合成38级时的抽奖弹窗
   static showTopLevelMergeWindow(TreeGroup treeGroup) {
     Modal(
         width: 940,
         horizontalPadding: ScreenUtil().setWidth(70),
+        onCancel: () {},
+        closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
         childrenBuilder: (modal) => <Widget>[
-              TopLevelMergeWidget(onReceivedResultFun: () {
+              TopLevelMergeWidget(onReceivedResultFun: (type, name, newLevel) {
                 Layer.toastSuccess("Get Level 38 Tree");
+                print("Get Level 38 Tree: type=$type");
                 modal.hide();
-                // TODO 种上一颗38级树
-                treeGroup.addTree(
-                    tree: Tree(
-                  grade: Tree.MAX_LEVEL,
-                ));
+
+                if (type == TreeType.Type_BONUS) {
+                  // 限时分红树,单独处理
+                  showLimitedTimeBonusTree(treeGroup, newLevel);
+                } else {
+                  // 其他树都是统一弹出弹框
+                  topLevelMergeEndShowup(treeGroup, type, name);
+                }
               }),
             ]).show();
   }
@@ -652,7 +691,7 @@ class Layer {
         .show();
   }
 
-  /// 随机出现的越级升级弹窗, 出现越级弹窗的几个条件：
+  /// 随机���现的越级升级弹窗, 出现越级弹窗的几个条件：
   /// 1. 新合���的树的等级要低于当前最高等级两级及以上；
   /// 2. 可购买等级要小于等于接口返回的purchase_tree_level
   /// 3. 每合成 compose_numbers次数后触发��次
