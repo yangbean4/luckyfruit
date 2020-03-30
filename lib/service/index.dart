@@ -247,8 +247,8 @@ class Service {
     //     (client) {
     //   client.findProxy = (Uri) {
     //     // 用1个开关设置是否开启代理
-    //     // return "PROXY 10.200.14.199:8989";
-    //     return 'PROXY 10.200.15.2:8888'; //周治荣
+    //     return "PROXY 10.200.14.217:8989";
+    //     // return 'PROXY 10.200.15.2:8888'; //周治荣
     //   };
     // };
 
