@@ -71,6 +71,15 @@ class TreeType {
   static const Type_Continents_American = "continents_american";
   static const Type_Continents_European = "continents_european";
   static const Type_Continents_Oceania = "continents_oceania";
+
+  /// 五洲树列表
+  static const Continents_Trees_List = [
+    Type_Continents_Asian,
+    Type_Continents_African,
+    Type_Continents_American,
+    Type_Continents_European,
+    Type_Continents_Oceania
+  ];
 }
 
 /// 放置常量的类

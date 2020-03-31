@@ -135,8 +135,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         alignment: Alignment.center,
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(760),
-            height: ScreenUtil().setWidth(760),
+            width: ScreenUtil().setWidth(670),
+            height: ScreenUtil().setWidth(670),
             // color: Colors.red,
             child: Image.asset(
               "assets/image/lucky_wheel_round_board.png",
@@ -145,8 +145,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           Transform.rotate(
             angle: widget?.animation?.value ?? 0,
             child: Container(
-              width: ScreenUtil().setWidth(700),
-              height: ScreenUtil().setWidth(700),
+              width: ScreenUtil().setWidth(600),
+              height: ScreenUtil().setWidth(600),
               // color: Colors.green,
               child: Image.asset(
                 "assets/image/lucky_wheel_gift_bg.png",
@@ -154,8 +154,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             ),
           ),
           Container(
-              width: ScreenUtil().setWidth(300),
-              height: ScreenUtil().setWidth(300),
+              width: ScreenUtil().setWidth(270),
+              height: ScreenUtil().setWidth(270),
               // color: Colors.blue,
               child: Image.asset(
                 "assets/image/lucky_wheel_arrow.png",

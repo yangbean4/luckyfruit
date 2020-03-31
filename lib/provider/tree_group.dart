@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
@@ -146,6 +148,12 @@ class TreeGroup with ChangeNotifier {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         Tree tree = _treeList.firstWhere((t) => t.x == x && t.y == y,
             orElse: () => null);
+        // 如果出现限时分红树的showCountDown为false的情况
+        // (测试时有出现过,但还不清楚什么原因导致的), 删除这棵树
+        if (tree?.type == TreeType.Type_BONUS && !tree.showCountDown) {
+          _treeList.remove(tree);
+          continue;
+        }
         yMat[x] = tree;
       }
       treeMatrix[y] = yMat;
@@ -278,8 +286,11 @@ class TreeGroup with ChangeNotifier {
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(TreeGroup.CACHE_KEY, data);
 
-    await Service().saveTreeInfo(
-        {'acct_id': acct_id, 'code': data, 'last_time': 'last_time'});
+    await Service().saveTreeInfo({
+      'acct_id': acct_id,
+      'code': data,
+      'last_time': _upDateTime.millisecondsSinceEpoch.toString()
+    });
     // 通知更新
     notifyListeners();
     return saveSuccess;
@@ -522,6 +533,8 @@ class TreeGroup with ChangeNotifier {
       return null;
     }
     UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
+    //TODO 测试代码
+    newLevel.duration = 3000;
     return newLevel;
   }
 
@@ -567,21 +580,38 @@ class TreeGroup with ChangeNotifier {
   // 回收树木
   recycle(Tree tree) {
     if (_treeList.length == 1) {
-      Layer.toastWarning('你就要没🌲��....');
+      Layer.toastWarning('Keep at least one tree');
       return;
     }
     if (tree.grade == maxLevel) {
-      return Layer.toastWarning('最大等级的🌲不能回收');
+      return Layer.toastWarning('Maximal tree cannot recycle');
     }
     _treeList.remove(tree);
-    EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.recycleGold);
+    EVENT_BUS.emit(MoneyGroup.ADD_GOLD, tree.recycleGold);
     save();
   }
 
   ///限时分红树倒计时结束后删除该树
   deleteTreeAfterTimeLimitedTreeFinished(Tree tree) {
     _treeList.remove(tree);
-    notifyListeners();
+    save();
+  }
+
+  /// 五洲树合成全球分红树后,删除五洲树
+  deleteContinentsTrees() {
+    TreeType.Continents_Trees_List.forEach((item) {
+      Tree tree = _treeList.firstWhere((treeItem) {
+        return treeItem.type.compareTo(item) == 0;
+      }, orElse: () => null);
+
+      print("deleteContinentsTrees item=${tree.type}");
+      // 找到tree,删除
+      if (tree != null) {
+        _treeList.remove(tree);
+      }
+    });
+
+    save();
   }
 
   // 切换添加/回收树按钮 树是否在拖拽.

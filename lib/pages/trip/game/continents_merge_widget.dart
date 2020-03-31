@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:provider/provider.dart';
@@ -128,6 +129,15 @@ class ContinentsMergeWidget extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         print("开始合成五洲树");
+
+                        // 删除五洲树
+                        treeGroup.deleteContinentsTrees();
+                        // 添加上全球分红树
+                        treeGroup.addTree(
+                            tree: Tree(
+                          grade: Tree.MAX_LEVEL,
+                          type: TreeType.Type_Globle_Bonus,
+                        ));
                         onStartMergeFun();
                       },
                       child: Stack(children: [

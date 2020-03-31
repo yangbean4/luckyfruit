@@ -666,6 +666,8 @@ class Layer {
                   ContinentsMergeWidget(onStartMergeFun: () {
                     Layer.toastSuccess("Merge Continents Trees");
                     modal.hide();
+                    // 合成全球分红树,弹出弹窗
+                    gainGlobleBonusTreeWindow();
                   }),
                 ],
             width: 1000,
@@ -674,6 +676,22 @@ class Layer {
             marginBottom: 0,
             decorationColor: Colors.transparent)
         .show();
+  }
+
+  //五洲树合成全球分红树后弹框提示
+  static gainGlobleBonusTreeWindow() {
+    Modal(onOk: () {}, okText: "Claim", children: <Widget>[
+      ModalTitle("Bonus Tree"),
+      Container(
+        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(30)),
+        child: Image.asset(
+          'assets/image/globle_bonus_tree_gain.png',
+          width: ScreenUtil().setWidth(402),
+          height: ScreenUtil().setWidth(356),
+        ),
+      ),
+      Container(height: ScreenUtil().setWidth(25)),
+    ]).show();
   }
 
   /// 啤酒花树合成弹���
