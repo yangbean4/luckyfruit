@@ -203,13 +203,9 @@ class _TripBtnsState extends State<TripBtns> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Selector<LuckyGroup, _SelectorUse>(
-          selector: (context, provider) => _SelectorUse(
-            getGoldCountdown: provider.getGoldCountdown,
-            receiveCoin: provider.receiveCoin,
-            receriveTime: provider.receriveTime,
-          ),
-          builder: (_, _SelectorUse selectorUse, __) {
+        Selector<LuckyGroup, LuckyGroup>(
+          selector: (context, provider) => provider,
+          builder: (_, LuckyGroup selectorUse, __) {
             return getItem(
               'assets/image/gold.png',
               isCountdown && selectorUse.getGoldCountdown != null
@@ -220,9 +216,10 @@ class _TripBtnsState extends State<TripBtns> {
                           isCountdown = false;
                         });
                       },
-                      builder: (context, String str) {
+                      builder: (context, Duration duration) {
+                        selectorUse.setGoldContDownDuration (duration);
                         return Text(
-                          str,
+                          Util.formatCountDownTimer(duration),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,

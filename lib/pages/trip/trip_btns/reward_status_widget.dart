@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:provider/provider.dart';
 
@@ -124,9 +125,9 @@ class _RewardStatusWidgetState extends State<RewardStatusWidget> {
     bottomWidget = CountdownFormatted(
         duration: Duration(seconds: widget.countDownTimeInSeconds),
         onFinish: () {},
-        builder: (context, String str) {
+        builder: (context, Duration duration) {
           return Text(
-            str,
+            Util.formatCountDownTimer(duration),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,

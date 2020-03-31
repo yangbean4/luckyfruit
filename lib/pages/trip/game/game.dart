@@ -54,6 +54,13 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with MyNavigator {
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   @override
   void initState() {
     super.initState();

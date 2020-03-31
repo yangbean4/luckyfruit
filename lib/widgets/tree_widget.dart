@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/utils/index.dart';
 
 import 'count_down.dart';
 import 'layer.dart';
@@ -91,9 +92,11 @@ class TreeWidget extends StatelessWidget {
                       print("限时分红树倒计时完成");
                       Layer.limitedTimeBonusTreeEndUp(context, tree);
                     },
-                    builder: (context, String str) {
+                    builder: (context, Duration duration) {
+                      print("限时分红树倒计时: ${duration.inSeconds}");
+                      tree.duration = duration.inSeconds;
                       return Text(
-                        str,
+                        Util.formatCountDownTimer(duration),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,

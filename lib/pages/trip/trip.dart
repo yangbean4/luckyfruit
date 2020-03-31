@@ -43,6 +43,11 @@ class _TripState extends State<Trip>
   bool isPlay = Bgm.isPlay;
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     isPlay = Bgm.isPlay;

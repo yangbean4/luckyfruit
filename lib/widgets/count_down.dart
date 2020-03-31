@@ -41,14 +41,15 @@ class _CountdownState extends State<Countdown> {
   }
 
   void timerCallback(Timer timer) {
-    setState(() {
-      if (_duration.inSeconds == 0) {
-        timer.cancel();
-        if (widget.onFinish != null) widget.onFinish();
-      } else {
-        _duration -= widget.interval;
-      }
-    });
+    if (mounted)
+      setState(() {
+        if (_duration.inSeconds == 0) {
+          timer.cancel();
+          if (widget.onFinish != null) widget.onFinish();
+        } else {
+          _duration -= widget.interval;
+        }
+      });
   }
 
   @override
@@ -69,7 +70,7 @@ class CountdownFormatted extends StatelessWidget {
   final Duration duration;
   final Duration interval;
   final void Function() onFinish;
-  final Widget Function(BuildContext context, String remaining) builder;
+  final Widget Function(BuildContext context, Duration remaining) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class CountdownFormatted extends StatelessWidget {
       onFinish: onFinish,
       duration: duration,
       builder: (BuildContext ctx, Duration remaining) {
-        return builder(ctx, Util.formatCountDownTimer(remaining));
+        return builder(ctx, remaining);
       },
     );
   }

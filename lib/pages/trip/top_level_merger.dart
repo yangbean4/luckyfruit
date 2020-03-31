@@ -94,6 +94,19 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     timer = null;
   }
 
+  /**
+    const GIFT_TYPE_NONE = 0; // 没有奖品
+    const GIFT_TYPE_TIME_LIMIT_TREE = 1; // 限时分红树
+    const GIFT_TYPE_GLOBAL_TREE = 2; // 全球分红树
+    const GIFT_TYPE_FEMALE_FLOWER = 3;  // 雌花
+    const GIFT_TYPE_MALE_FLOWER = 4; // 雄花
+    const GIFT_TYPE_WISH_TREE = 5;  // 许愿树
+    const GIFT_TYPE_AMERICAN_TREE = 6; //美洲
+    const GIFT_TYPE_EUROPEAN_TREE = 7; //欧洲
+    const GIFT_TYPE_ASIAN_TREE = 8; // 亚洲
+    const GIFT_TYPE_OCEANIA_TREE = 9; // 大洋洲
+    const GIFT_TYPE_AFRICAN_TREE = 10; // 非洲树
+   */
   Future<UnlockNewTreeLevel> checkBonusTreeWhenUnlockingTopLevel(
       String acctId, int level) async {
     // dynamic stateMap =
@@ -102,7 +115,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     dynamic stateMap;
     //TODO 测试代码
     String test =
-        """{"tree_type": 4,"tree_id": 21,"amount": 11.0,"duration": 300}""";
+        """{"tree_type": 1,"tree_id": 21,"amount": 11.0,"duration": 300}""";
     stateMap = json.decode(test);
 
     if (stateMap == null) {

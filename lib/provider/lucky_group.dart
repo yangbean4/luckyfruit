@@ -79,6 +79,9 @@ class LuckyGroup with ChangeNotifier {
   Duration _getGoldCountdown;
   Duration get getGoldCountdown => _getGoldCountdown;
 
+  void setGoldContDownDuration(Duration duration) =>
+      _getGoldCountdown = duration;
+
   int _receriveTime;
   // 领取时长
   int get receriveTime => _receriveTime;

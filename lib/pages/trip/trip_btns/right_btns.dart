@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -191,8 +192,9 @@ class _RightBtnsState extends State<RightBtns>
                     });
                   },
                   builder: (ctx, time) {
+                    issed?.double_coin_time = time?.inSeconds;
                     return ThirdText(
-                      time,
+                      Util.formatCountDownTimer(time),
                       color: Colors.white,
                     );
                   },
@@ -231,8 +233,9 @@ class _RightBtnsState extends State<RightBtns>
                     });
                   },
                   builder: (ctx, time) {
+                    issed?.automatic_game_timelen = time?.inSeconds;
                     return ThirdText(
-                      time,
+                      Util.formatCountDownTimer(time),
                       color: Colors.white,
                     );
                   },
