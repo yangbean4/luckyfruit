@@ -20,6 +20,9 @@ class TopLevelMergeWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => TopLevelMergeWidgetState();
+
+  bool _enableClose = true;
+  bool enableClose() => _enableClose;
 }
 
 class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
@@ -99,7 +102,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     dynamic stateMap;
     //TODO 测试代码
     String test =
-        """{"tree_type": 1,"tree_id": 21,"amount": 11.0,"duration": 300}""";
+        """{"tree_type": 4,"tree_id": 21,"amount": 11.0,"duration": 300}""";
     stateMap = json.decode(test);
 
     if (stateMap == null) {
@@ -109,6 +112,10 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     return newLevel;
   }
 
+  List<Color> colorsDisabled = const <Color>[
+    Color.fromRGBO(49, 200, 84, 1),
+    Color.fromRGBO(36, 185, 71, 1)
+  ];
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -131,7 +138,12 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
           onTap: enableOnTap
               ? () {
                   setState(() {
+                    colorsDisabled = [
+                      Color.fromRGBO(143, 235, 162, 1),
+                      Color.fromRGBO(143, 235, 162, 1)
+                    ];
                     enableOnTap = false;
+                    widget._enableClose = false;
                     Future.delayed(Duration(milliseconds: 200), () {
                       start();
                     });
@@ -141,6 +153,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
           child: PrimaryButton(
               width: 600,
               height: 124,
+              colors: colorsDisabled,
               child: Center(
                   child: Text(
                 "Spin",
@@ -236,7 +249,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
         // 首先转动基础圈数，这个时候顺便等待抽奖接口异步结果
         _lotteryTimer();
       } else if (runCount <= 10 * (1 + 1) + position - 3) {
-        // 转满基础圈数后，计算出多转一圈 + 结果索引 - 缓速步数，进行最后几步的匀速转动
+        // 转满基础圈数���，计算出多转一圈 + 结果索引 - 缓速步数，进行最后几步的匀速转动
         _lotteryTimer();
       } else {
         // 匀速结果，进入开奖前缓速转动

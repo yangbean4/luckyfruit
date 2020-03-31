@@ -13,6 +13,7 @@ class Modal {
 
   final String okText;
   final Function onOk;
+  // 返回值:是否启用onCancel的点击事件
   final Function onCancel;
   // final BuildContext context;
   final Widget footer;
@@ -131,9 +132,8 @@ class Modal {
         onCancel != null) {
       widgetList.add(GestureDetector(
         onTap: () {
-          hide();
-          if (onCancel != null) {
-            onCancel();
+          if (onCancel() != false) {
+            hide();
           }
         },
         child: Container(

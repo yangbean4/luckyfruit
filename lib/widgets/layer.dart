@@ -524,7 +524,7 @@ class Layer {
                   modal.hide();
                   // 调用种限时分红树接口
                   plantTimeLimitTree(treeGroup, value).then((map) {
-                    if (map == null || map['data'] == null) {
+                    if (map == null || map['code'] != 0) {
                       // 请求失败，
                       toastWarning("Failed, Try Again Later");
                       return;
@@ -631,19 +631,23 @@ class Layer {
 
   /// 显示合成38级时的抽奖弹窗
   static showTopLevelMergeWindow(TreeGroup treeGroup) {
+    TopLevelMergeWidget widget;
     Modal(
         width: 940,
         horizontalPadding: ScreenUtil().setWidth(70),
-        onCancel: () {},
+        onCancel: () {
+          return widget.enableClose();
+        },
         closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
         childrenBuilder: (modal) => <Widget>[
-              TopLevelMergeWidget(onReceivedResultFun: (type, name, newLevel) {
+              widget = TopLevelMergeWidget(
+                  onReceivedResultFun: (type, name, newLevel) {
                 Layer.toastSuccess("Get Level 38 Tree");
                 print("Get Level 38 Tree: type=$type");
                 modal.hide();
 
                 if (type == TreeType.Type_BONUS) {
-                  // 限时分红树,单独处理
+                  // 限时分红树,单���处理
                   showLimitedTimeBonusTree(treeGroup, newLevel);
                 } else {
                   // 其他树都是统一弹出弹框
@@ -922,6 +926,7 @@ class Layer {
           fontFamily: FontFamily.regular,
         ),
       ),
+      // TODO 数值走接口
       GoldText(
         "7.00",
         imgUrl: "assets/image/icon_dollar.png",
