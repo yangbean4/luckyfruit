@@ -32,8 +32,7 @@ void main() {
       Tree.init(luckyGroup.treeConfig);
 
       treeGroup.init(moneyGroup, luckyGroup, userModel);
-      tourismMap.init(moneyGroup, luckyGroup, treeGroup,
-          userModel.value?.level ?? '1', userModel.value?.acct_id);
+      tourismMap.init(moneyGroup, luckyGroup, treeGroup, userModel);
       moneyGroup.init(treeGroup, userModel);
     });
   });

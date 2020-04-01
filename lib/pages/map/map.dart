@@ -127,7 +127,7 @@ class _MapPageState extends State<MapPage> {
                         controller: ScrollController(
                             keepScrollOffset: true,
                             initialScrollOffset: ScreenUtil().setWidth(
-                                351 * (int.parse(selectorUse.cityId) - 1))),
+                                246 * (int.parse(selectorUse.cityId) - 1))),
                         itemExtent: ScreenUtil().setWidth(246),
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {

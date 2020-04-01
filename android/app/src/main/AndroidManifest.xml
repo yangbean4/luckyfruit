@@ -45,5 +45,19 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-    </application>
+        <!-- 允许fb加载存储在内存中的资源 -->
+        <provider android:authorities="com.facebook.app.FacebookContentProvider261441784858768"
+        android:name="com.facebook.FacebookContentProvider"
+        android:exported="true"/>
+        <!-- 允许 social_share_plugin 读取 provider_paths 配置中设置的图片-->
+        <provider android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mklucky.luckyfruit.social.share.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+    </application> 
 </manifest>

@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-03-01 21:28:29
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-03-11 09:56:00
+ * @LastEditTime: 2020-03-31 15:53:49
  -->
 
 1. [dart中的日期对象](https://blog.csdn.net/hxl517116279/article/details/88378238)
@@ -30,5 +30,7 @@
 
 [Flutter 之 APP 生命周期](https://zhuanlan.zhihu.com/p/83603371)
 
+[Deep Link for Android](https://medium.com/@louis383/
+android-app-links-%E8%A8%AD%E5%AE%9A%E5%BF%83%E5%BE%97%E7%AD%86%E8%A8%98-6bd8ab212297)
 ### 有的没的
 https://juejin.im/post/5d26914de51d45775746b9be

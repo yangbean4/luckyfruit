@@ -1,6 +1,13 @@
 import 'dart:math';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_share_plugin/social_share_plugin.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:luckyfruit/models/index.dart' show PersonalInfo;
 import 'package:luckyfruit/provider/user_model.dart';
@@ -73,6 +80,62 @@ class _BonusTreeState extends State<BonusTree> {
     ]).show();
   }
 
+  _inviteFriends() async {
+    // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    // final ByteData bytes = await rootBundle.load('assets/instruction.jpg');
+    // final Uint8List list = bytes.buffer.asUint8List();
+
+    var request = await HttpClient().getUrl(Uri.parse(
+        'https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
+    var response = await request.close();
+    Uint8List list = await consolidateHttpClientResponseBytes(response);
+
+    final tempDir = await getTemporaryDirectory();
+    File file = await new File('${tempDir.path}/berwachung.jpg').create();
+    file.writeAsBytesSync(list);
+
+    await SocialSharePlugin.shareToFeedFacebook(
+        caption: 'caption',
+        path: '${tempDir.path}/berwachung.jpg',
+        onSuccess: (_) {
+          print('FACEBOOK SUCCESS');
+          return;
+        },
+        onCancel: () {
+          print('FACEBOOK CANCELLED');
+          return;
+        },
+        onError: (error) {
+          print('FACEBOOK ERROR $error');
+          return;
+        });
+
+// await SocialSharePlugin.shareToFeedFacebookLink(quote: 'quote', url: 'https://flutter.dev');
+  }
+
+  _improveActivity() async {
+    await SocialSharePlugin.shareToFeedFacebookLink(
+        quote: 'quote',
+        url:
+            'https://snow.me/?code=10086&a=1231042719857189752716426142671784264781628614267163427',
+        // url:
+        //     'https://play.google.com/store/apps/details?id=com.neuralprisma&code=10086?10086',
+        // 'https://dev.mklucky.com?amv=1&apn=com.mklucky.idlefarmclient?hahahahha',
+        onSuccess: (_) {
+          print('FACEBOOK SUCCESS');
+          return;
+        },
+        onCancel: () {
+          print('FACEBOOK CANCELLED');
+          return;
+        },
+        onError: (error) {
+          print('FACEBOOK ERROR $error');
+          return;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusbarHeight =
@@ -95,6 +158,7 @@ class _BonusTreeState extends State<BonusTree> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () => MyNavigator().navigatorPop(context),
                     child: Container(
                       width: ScreenUtil().setWidth(150),
@@ -354,22 +418,33 @@ class _BonusTreeState extends State<BonusTree> {
                       )
                     ]),
               ),
-              _Card(
-                iconName: 'Invite_friends',
-                title: 'Invite friends',
-                tips: 'more active partners, faster the progress',
-              ),
-              _Card(
-                iconName: 'Improve_activity',
-                title: 'Improve activity',
-                tips:
-                    'watch more videos and merge more trees to faster the progress.',
-              ),
-              _Card(
-                iconName: 'Unlocked_cities',
-                title: 'Unlocked cities',
-                tips:
-                    'more earned coins, more unlocked cities and faster the progress.',
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      _Card(
+                        iconName: 'Invite_friends',
+                        title: 'Invite friends',
+                        tips: 'more active partners, faster the progress',
+                        onTap: _inviteFriends,
+                      ),
+                      _Card(
+                        iconName: 'Improve_activity',
+                        title: 'Improve activity',
+                        tips:
+                            'watch more videos and merge more trees to faster the progress.',
+                        onTap: _improveActivity,
+                      ),
+                      _Card(
+                        iconName: 'Unlocked_cities',
+                        title: 'Unlocked cities',
+                        tips:
+                            'more earned coins, more unlocked cities and faster the progress.',
+                      ),
+                      SizedBox(height: ScreenUtil().setWidth(40))
+                    ],
+                  ),
+                ),
               ),
             ]),
           ))
@@ -430,6 +505,7 @@ class _Card extends StatelessWidget {
             borderRadius:
                 BorderRadius.all(Radius.circular(ScreenUtil().setWidth(40)))),
         child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               if (onTap != null) onTap();
             },
@@ -473,6 +549,7 @@ class _Card extends StatelessWidget {
                               fontSize: ScreenUtil().setSp(32))),
                     ],
                   )),
+                  SizedBox(width: ScreenUtil().setWidth(19)),
                   Image.asset(
                     'assets/image/partner_right_arrow_icon.png',
                     width: ScreenUtil().setWidth(19),

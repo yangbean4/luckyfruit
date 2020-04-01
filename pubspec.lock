@@ -588,6 +588,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  social_share_plugin:
+    dependency: "direct main"
+    description:
+      name: social_share_plugin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0+1"
   source_gen:
     dependency: transitive
     description:

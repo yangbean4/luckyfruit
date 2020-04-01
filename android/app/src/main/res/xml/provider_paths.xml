@@ -1,0 +1,5 @@
+<!-- 配置应用可以读取的文件夹位置 -->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--代表app 私有的存储区域 Context.getCacheDir()目录下的images目录 /data/user/0/com.mklucky.luckyfruit/cache/-->
+    <cache-path name="cache" path='.'/>
+</paths>

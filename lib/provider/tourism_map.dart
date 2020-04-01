@@ -12,6 +12,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/config/app.dart';
+import './user_model.dart';
 
 class TourismMap with ChangeNotifier {
   static const int MAX_LEVEL = 50;
@@ -121,7 +122,7 @@ class TourismMap with ChangeNotifier {
     };
     if (int.parse(_level) % (TourismMap.LEVEL_SPLIT) == 0) {
       // 解锁城市
-      _cityId = (int.parse(_level) / TourismMap.LEVEL_SPLIT + 1).toString();
+      _cityId = (int.parse(_level) ~/ TourismMap.LEVEL_SPLIT + 1).toString();
 
       data['deblock_city'] = _cityId;
       notifyListeners();
@@ -133,12 +134,13 @@ class TourismMap with ChangeNotifier {
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,
-      String level, String acct_id) {
-    _acct_id = acct_id;
+      UserModel userModel) {
+    _acct_id = userModel.value.acct_id;
     moneyGroup = _moneyGroup;
     _luckyGroup = luckyGroup;
     _treeGroup = treeGroup;
-    _level = level;
+    _level = userModel.value.level ?? '1';
+    _cityId = userModel.value.deblock_city ?? '1';
     _hasInit = true;
     notifyListeners();
 
