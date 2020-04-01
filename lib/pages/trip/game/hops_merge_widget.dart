@@ -40,11 +40,8 @@ class HopsMergeWidget extends StatelessWidget {
                           children: checkWhetherTreeTypeExits(
                                   treeGroup, TreeType.Type_Hops_Male)
                               ? getTreeLayoutWidget(
-                                  TreeType.Type_Hops_Male,
-                                  "hops_name_bg_hops")
+                                  TreeType.Type_Hops_Male, "hops_name_bg_hops")
                               : [Container()],
-
-                              
                         ),
                       ),
                       left: 0,
@@ -56,8 +53,7 @@ class HopsMergeWidget extends StatelessWidget {
                         iconData: Stack(
                           children: checkWhetherTreeTypeExits(
                                   treeGroup, TreeType.Type_Hops_Female)
-                              ? getTreeLayoutWidget(
-                                  TreeType.Type_Hops_Female,
+                              ? getTreeLayoutWidget(TreeType.Type_Hops_Female,
                                   "hops_name_bg_female_hops")
                               : [Container()],
                         ),
@@ -69,6 +65,8 @@ class HopsMergeWidget extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           print("开始合成啤酒花树");
+                          // 删除雌雄花树
+                          treeGroup.deleteHopsTrees();
                           onStartMergeFun();
                         },
                         child: Stack(children: [

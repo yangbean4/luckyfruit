@@ -221,6 +221,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       // }
                       if (mounted) {
                         setState(() {
+                          // 得到了5张券,更新本地数量
+                          // TODO 是否是增加5次?还是从接口取?
+                          data.item3.ticket += 5;
+                          ticketCount = data.item3.ticket;
+
                           if (data?.item1?.ad_times != null) {
                             if (data?.item1?.ad_times > 0) {
                               data?.item1?.ad_times--;
@@ -262,7 +267,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       print("返回的gift_id=$finalPos，coin=$coinNum");
 
       ticketCount--;
-      user?.ticket = ticketCount;
+      user?.ticket = ticketCount < 0 ? 0 : ticketCount;
 
       updateTween();
     });

@@ -80,6 +80,9 @@ class TreeType {
     Type_Continents_European,
     Type_Continents_Oceania
   ];
+
+  /// 雌雄花树
+  static const Hops_Trees_List = [Type_Hops_Male, Type_Hops_Female];
 }
 
 /// 放置常量的类

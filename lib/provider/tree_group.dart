@@ -614,6 +614,23 @@ class TreeGroup with ChangeNotifier {
     save();
   }
 
+  /// 雌雄花树合成后删除
+  deleteHopsTrees() {
+    TreeType.Hops_Trees_List.forEach((item) {
+      Tree tree = _treeList.firstWhere((treeItem) {
+        return treeItem.type.compareTo(item) == 0;
+      }, orElse: () => null);
+
+      print("deleteHopsTrees item=${tree.type}");
+      // 找到tree,删除
+      if (tree != null) {
+        _treeList.remove(tree);
+      }
+    });
+
+    save();
+  }
+
   // 切换添加/回收树按钮 树是否在拖拽.
   void transRecycle(Tree tree) {
     _isrecycle = tree;
