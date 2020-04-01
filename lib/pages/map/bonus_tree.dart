@@ -15,6 +15,7 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
 
 class BonusTree extends StatefulWidget {
   BonusTree({Key key}) : super(key: key);
@@ -24,68 +25,15 @@ class BonusTree extends StatefulWidget {
 }
 
 class _BonusTreeState extends State<BonusTree> {
-  _showModal() {
-    Modal(okText: 'Ok', horizontalPadding: 90, children: [
-      Text('My Bonus Tree',
-          style: TextStyle(
-              fontFamily: FontFamily.bold,
-              fontWeight: FontWeight.bold,
-              color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setSp(70))),
-      RichText(
-        text: TextSpan(
-            text: 'I. How to Get Bonus Tree\n',
-            style: TextStyle(
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setSp(40),
-                fontFamily: FontFamily.semibold,
-                height: 2.5,
-                fontWeight: FontWeight.w500),
-            children: [
-              TextSpan(
-                  text:
-                      '1,Merge any 2 trees in Level 37\n2,Merge continental trees from Asia, Africa, Europe, America and Oceania;100% chance to get \n3,Stay active in the game,100%chance to get',
-                  style: TextStyle(
-                      color: Color.fromRGBO(83, 83, 83, 1),
-                      fontSize: ScreenUtil().setSp(40),
-                      height: 1.5,
-                      fontFamily: FontFamily.regular,
-                      fontWeight: FontWeight.w400))
-            ]),
-      ),
-      RichText(
-        text: TextSpan(
-            text: 'II.100% chance to get the Bonus Tree\n',
-            style: TextStyle(
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setSp(40),
-                fontFamily: FontFamily.semibold,
-                height: 2.5,
-                fontWeight: FontWeight.w500),
-            children: [
-              TextSpan(
-                  text:
-                      "【100% chance to get the Bonus Tree】\nbelongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
-                  style: TextStyle(
-                      color: Color.fromRGBO(83, 83, 83, 1),
-                      fontSize: ScreenUtil().setSp(40),
-                      height: 1.5,
-                      fontFamily: FontFamily.regular,
-                      fontWeight: FontWeight.w400))
-            ]),
-      ),
-      Container(
-        height: ScreenUtil().setWidth(46),
-      ),
-    ]).show();
-  }
-
   _inviteFriends() async {
+    // 系统选择图片
     // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    // 读取包中图片 写入app的cache文件夹 再分享
     // final ByteData bytes = await rootBundle.load('assets/instruction.jpg');
     // final Uint8List list = bytes.buffer.asUint8List();
 
+    // 读取网络图片 写入app的cache文件夹 再分享
     var request = await HttpClient().getUrl(Uri.parse(
         'https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
     var response = await request.close();
@@ -115,10 +63,14 @@ class _BonusTreeState extends State<BonusTree> {
   }
 
   _improveActivity() async {
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+
+    final String url = await DynamicLink.getLinks(userModel.value.acct_id);
+
+    // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
     await SocialSharePlugin.shareToFeedFacebookLink(
         quote: 'quote',
-        url:
-            'https://snow.me/?code=10086&a=1231042719857189752716426142671784264781628614267163427',
+        url: url,
         // url:
         //     'https://play.google.com/store/apps/details?id=com.neuralprisma&code=10086?10086',
         // 'https://dev.mklucky.com?amv=1&apn=com.mklucky.idlefarmclient?hahahahha',
@@ -477,6 +429,62 @@ class _BonusTreeState extends State<BonusTree> {
       //       ))),
       // ),
     );
+  }
+
+  _showModal() {
+    Modal(okText: 'Ok', horizontalPadding: 90, children: [
+      Text('My Bonus Tree',
+          style: TextStyle(
+              fontFamily: FontFamily.bold,
+              fontWeight: FontWeight.bold,
+              color: MyTheme.blackColor,
+              fontSize: ScreenUtil().setSp(70))),
+      RichText(
+        text: TextSpan(
+            text: 'I. How to Get Bonus Tree\n',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(40),
+                fontFamily: FontFamily.semibold,
+                height: 2.5,
+                fontWeight: FontWeight.w500),
+            children: [
+              TextSpan(
+                  text:
+                      '1,Merge any 2 trees in Level 37\n2,Merge continental trees from Asia, Africa, Europe, America and Oceania;100% chance to get \n3,Stay active in the game,100%chance to get',
+                  style: TextStyle(
+                      color: Color.fromRGBO(83, 83, 83, 1),
+                      fontSize: ScreenUtil().setSp(40),
+                      height: 1.5,
+                      fontFamily: FontFamily.regular,
+                      fontWeight: FontWeight.w400))
+            ]),
+      ),
+      RichText(
+        text: TextSpan(
+            text: 'II.100% chance to get the Bonus Tree\n',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(40),
+                fontFamily: FontFamily.semibold,
+                height: 2.5,
+                fontWeight: FontWeight.w500),
+            children: [
+              TextSpan(
+                  text:
+                      "【100% chance to get the Bonus Tree】\nbelongs to the thrid way,the progress will calculate by your personal behavior and your partner bahavior.Among them ,personal behavior including but not limited to:the trees merge times,watch video times,unlocking the city progress,the number of friends,friend's earnings.",
+                  style: TextStyle(
+                      color: Color.fromRGBO(83, 83, 83, 1),
+                      fontSize: ScreenUtil().setSp(40),
+                      height: 1.5,
+                      fontFamily: FontFamily.regular,
+                      fontWeight: FontWeight.w400))
+            ]),
+      ),
+      Container(
+        height: ScreenUtil().setWidth(46),
+      ),
+    ]).show();
   }
 }
 

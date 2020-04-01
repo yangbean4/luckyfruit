@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
+import 'package:luckyfruit/utils/firebase_msg.dart';
 
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -25,9 +27,13 @@ void main() {
   TourismMap tourismMap = TourismMap();
   LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
+    final String userId = userModel.value?.acct_id;
+    // 初始化firebase_messaging
+    FbMsg.init(userId);
+    // 监听来源 :是否是DynamicLink
+    DynamicLink.initDynamicLinks(userId);
     luckyGroup
-        .init(userModel.value.last_draw_time, userModel.value?.version,
-            userModel.value?.acct_id)
+        .init(userModel.value.last_draw_time, userModel.value?.version, userId)
         .then((e) {
       Tree.init(luckyGroup.treeConfig);
 

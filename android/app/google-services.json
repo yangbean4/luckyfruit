@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "701165969003",
+    "firebase_url": "https://luckyfruit-67e29.firebaseio.com",
+    "project_id": "luckyfruit-67e29",
+    "storage_bucket": "luckyfruit-67e29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701165969003:android:df805e8c2e53fefb24db2e",
+        "android_client_info": {
+          "package_name": "com.mklucky.luckyfruit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701165969003-n114baot312gt3n1c4cf1hehb7hj6aj2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mklucky.luckyfruit",
+            "certificate_hash": "4ad4eaafde0384510682f1c5f37a60c97a893f5c"
+          }
+        },
+        {
+          "client_id": "701165969003-9q89kdj37lfb5nuoj2rvgvtgkge6agio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg8cllqsWFz-H-bJ2rkXA_m8bCezSDR1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701165969003-9q89kdj37lfb5nuoj2rvgvtgkge6agio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,8 +8,9 @@
          FlutterApplication and put your custom class here. -->
     <!-- 使用网络 -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--        android:name="io.flutter.app.FlutterApplication"-->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="luckyfruit"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -29,6 +30,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!-- 使用facebook登录 -->
