@@ -38,7 +38,9 @@ class _MinePageState extends State<MinePage> {
         await Service().relaRelated({
           'acct_id': user.value.acct_id,
           'rela_type': 1,
-          'rela_account': profile['picture']['data']['url'],
+          'avatar': profile['picture']['data']['url'],
+          'name': profile['name'],
+          'rela_account': profile['email']
         });
         user.getUserInfo();
         break;

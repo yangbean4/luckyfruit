@@ -77,8 +77,8 @@ class _MapPageState extends State<MapPage> {
                         child: Container(
                             height: ScreenUtil().setWidth(500),
                             padding: EdgeInsets.only(
-                                top: ScreenUtil().setWidth(120),
-                                left: ScreenUtil().setWidth(120)),
+                                top: ScreenUtil().setWidth(140),
+                                left: ScreenUtil().setWidth(60)),
                             child: RichText(
                               text: TextSpan(
                                   text: 'More trees your friends merge',
@@ -86,7 +86,7 @@ class _MapPageState extends State<MapPage> {
                                       fontFamily: FontFamily.semibold,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white,
-                                      fontSize: ScreenUtil().setSp(40)),
+                                      fontSize: ScreenUtil().setSp(48)),
                                   children: [
                                     TextSpan(
                                         text:
@@ -96,7 +96,7 @@ class _MapPageState extends State<MapPage> {
                                             fontFamily: FontFamily.semibold,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white,
-                                            fontSize: ScreenUtil().setSp(50))),
+                                            fontSize: ScreenUtil().setSp(60))),
                                   ]),
                             )))
                   ]),
@@ -121,8 +121,8 @@ class _MapPageState extends State<MapPage> {
                     return ListView.builder(
                         itemCount: selectorUse.cityInfoList.length,
                         padding: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(146),
-                            right: ScreenUtil().setWidth(87)),
+                            left: ScreenUtil().setWidth(142),
+                            right: ScreenUtil().setWidth(84)),
                         reverse: true,
                         controller: ScrollController(
                             keepScrollOffset: true,
@@ -145,23 +145,18 @@ class _MapPageState extends State<MapPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                deblokCity == null || cityInfo.bg_img == null
-                                    ? Image.asset(
-                                        'assets/image/deblokCity.png',
-                                        width: ScreenUtil().setWidth(301),
-                                        height: ScreenUtil().setWidth(220),
-                                      )
-                                    : Image.network(
-                                        cityInfo.bg_img,
-                                        width: ScreenUtil().setWidth(301),
-                                        height: ScreenUtil().setWidth(220),
-                                      ),
+                                Image.asset(
+                                  deblokCity == null || cityInfo.bg_img == null
+                                      ? 'assets/image/deblokCity.png'
+                                      : cityInfo.bg_img,
+                                  width: ScreenUtil().setWidth(318),
+                                  height: ScreenUtil().setWidth(240),
+                                ),
                                 Container(
                                   width: ScreenUtil().setWidth(79),
                                   height: ScreenUtil().setWidth(351),
                                   margin: EdgeInsets.only(
-                                    left: ScreenUtil().setWidth(48),
-                                    right: ScreenUtil().setWidth(26),
+                                    left: ScreenUtil().setWidth(37),
                                   ),
                                   child: Stack(children: <Widget>[
                                     Center(
@@ -171,7 +166,7 @@ class _MapPageState extends State<MapPage> {
                                       color: MyTheme.darkGrayColor,
                                     )),
                                     Positioned(
-                                      top: ScreenUtil().setWidth(136),
+                                      top: ScreenUtil().setWidth(76),
                                       left: 0,
                                       width: ScreenUtil().setWidth(79),
                                       height: ScreenUtil().setWidth(79),
@@ -183,7 +178,7 @@ class _MapPageState extends State<MapPage> {
                                     ),
                                     cityInfo.id == selectorUse.cityId
                                         ? Positioned(
-                                            top: ScreenUtil().setWidth(86),
+                                            top: ScreenUtil().setWidth(36),
                                             left: ScreenUtil().setWidth(8),
                                             child: Image.asset(
                                               'assets/image/position_icon.png',
@@ -202,8 +197,8 @@ class _MapPageState extends State<MapPage> {
                                     },
                                     child: Image.asset(
                                       'assets/image/box_${deblokCity == null ? "can" : deblokCity.is_open_box == '1' ? 'opend' : 'can'}.png',
-                                      width: ScreenUtil().setWidth(103),
-                                      height: ScreenUtil().setWidth(92),
+                                      width: ScreenUtil().setWidth(117),
+                                      height: ScreenUtil().setWidth(106),
                                     )),
                                 GestureDetector(
                                     onTap: () {
@@ -212,8 +207,8 @@ class _MapPageState extends State<MapPage> {
                                       }
                                     },
                                     child: Container(
-                                      width: ScreenUtil().setWidth(290),
-                                      height: ScreenUtil().setWidth(130),
+                                      width: ScreenUtil().setWidth(297),
+                                      height: ScreenUtil().setWidth(139),
                                       decoration: BoxDecoration(
                                           image: DecorationImage(
                                               alignment: Alignment.center,
@@ -272,11 +267,14 @@ class _MapPageState extends State<MapPage> {
           top: ScreenUtil().setWidth(390),
           left: ScreenUtil().setWidth(60),
           child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () => MyNavigator().pushNamed(context, 'bonusTreePage'),
             child: Container(
               width: ScreenUtil().setWidth(960),
               height: ScreenUtil().setWidth(254),
-              padding: EdgeInsets.all(ScreenUtil().setWidth(45)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(45),
+                  vertical: ScreenUtil().setWidth(60)),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(
@@ -286,7 +284,6 @@ class _MapPageState extends State<MapPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: ScreenUtil().setWidth(517),
                     height: ScreenUtil().setWidth(89),
                     child: Text('100% chance to get the Bonus Tree',
                         style: TextStyle(
@@ -297,7 +294,7 @@ class _MapPageState extends State<MapPage> {
                             fontSize: ScreenUtil().setSp(46))),
                   ),
                   Container(
-                      height: ScreenUtil().setWidth(46),
+                      height: ScreenUtil().setWidth(34),
                       child: Selector<UserModel, num>(
                         selector: (context, provider) =>
                             provider.personalInfo?.count_ratio ?? 0,
@@ -307,14 +304,13 @@ class _MapPageState extends State<MapPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                width: ScreenUtil().setWidth(220),
-                                height: ScreenUtil().setWidth(30),
+                                width: ScreenUtil().setWidth(240),
                                 child: Text('your progress',
                                     style: TextStyle(
                                         fontFamily: FontFamily.regular,
                                         color: MyTheme.blackColor,
                                         height: 1.0,
-                                        fontSize: ScreenUtil().setSp(34))),
+                                        fontSize: ScreenUtil().setSp(36))),
                               ),
                               Container(
                                   width: ScreenUtil().setWidth(500),
@@ -328,7 +324,7 @@ class _MapPageState extends State<MapPage> {
                                   child: Stack(children: <Widget>[
                                     Container(
                                       width: ScreenUtil().setWidth(
-                                          410 * ((count_ratio ?? 0) / 100)),
+                                          500 * ((count_ratio ?? 0) / 100)),
                                       height: ScreenUtil().setWidth(26),
                                       decoration: BoxDecoration(
                                         color: MyTheme.primaryColor,
@@ -343,10 +339,10 @@ class _MapPageState extends State<MapPage> {
                                 height: ScreenUtil().setWidth(34),
                                 child: Text('$count_ratio%',
                                     style: TextStyle(
-                                        fontFamily: FontFamily.regular,
+                                        fontFamily: FontFamily.semibold,
                                         color: MyTheme.blackColor,
                                         height: 1.0,
-                                        fontSize: ScreenUtil().setSp(34))),
+                                        fontSize: ScreenUtil().setSp(46))),
                               ),
                             ],
                           );
@@ -358,18 +354,14 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
         Positioned(
-            top: ScreenUtil().setWidth(185),
-            right: ScreenUtil().setWidth(62),
-            child: Container(
-                width: ScreenUtil().setWidth(278),
-                height: ScreenUtil().setWidth(226),
-                child: Center(
-                  child: Image.asset(
-                    'assets/image/money_bag.png',
-                    width: ScreenUtil().setWidth(278),
-                    height: ScreenUtil().setWidth(226),
-                  ),
-                ))),
+          top: ScreenUtil().setWidth(241),
+          right: ScreenUtil().setWidth(69),
+          child: Image.asset(
+            'assets/image/money_bag.png',
+            width: ScreenUtil().setWidth(301),
+            height: ScreenUtil().setWidth(240),
+          ),
+        ),
         // Map
         Positioned(
             top: ScreenUtil().setWidth(674),
@@ -381,12 +373,19 @@ class _MapPageState extends State<MapPage> {
                   color: Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
+                      spreadRadius: 0,
+                      blurRadius: ScreenUtil().setWidth(0),
+                      offset: Offset(
+                          ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
+                      color: Color.fromRGBO(174, 174, 174, 1),
+                    ),
+                    BoxShadow(
                       spreadRadius: 0.0,
                       blurRadius: ScreenUtil().setWidth(0),
                       offset: Offset(
-                          ScreenUtil().setWidth(0), ScreenUtil().setWidth(7)),
+                          ScreenUtil().setWidth(0), ScreenUtil().setWidth(9)),
                       color: Color.fromRGBO(235, 235, 235, 1),
-                    )
+                    ),
                   ],
                   borderRadius: BorderRadius.all(
                       Radius.circular(ScreenUtil().setWidth(30))),
