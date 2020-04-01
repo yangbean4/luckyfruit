@@ -92,17 +92,20 @@ class Util {
     return '0$n';
   }
 
-  /// 打开url
-  // static launchUrl(String url) async {
-  //   try {
-  //     if (await canLaunch(url)) {
-  //       return await launch(url);
-  //     } else {
-  //       print('无法打开 $url');
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
+  /// 获取用户观看广告记录接口上报的参数
+  //TODO 广告看完之后上报接口, 各个字段需要再完善
+  static Map<String, String> getVideoLogParams() {
+    return {
+      "acct_id": "temp",
+      "app_id": "temp",
+      "offerid": "temp",
+      "country": "temp",
+      "app_version": "temp",
+      "sdk_san_version": "temp",
+      "session_id": Util.getUUid(),
+      "platform": "temp",
+      "placement_id": "temp",
+      "pidType": "temp",
+    };
+  }
 }

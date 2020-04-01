@@ -1,5 +1,7 @@
 // 通用的 按钮部分
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,7 +86,13 @@ class _AdButtonState extends State<AdButton> {
               children: <Widget>[
                 GestureDetector(
                   onTap: widget.onOk != null && !widget.disable
-                      ? widget.onOk
+                      ? () {
+                          if (widget.useAd) {
+                            // 观看广告后上报观看次数接口
+                            Service().videoAdsLog(Util.getVideoLogParams());
+                          }
+                          widget.onOk();
+                        }
                       : () {},
                   child: Container(
                     width: ScreenUtil().setWidth(600),

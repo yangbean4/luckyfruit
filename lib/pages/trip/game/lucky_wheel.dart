@@ -16,6 +16,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
@@ -212,30 +213,32 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     }
                     //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
                     Service().addTicket({'acct_id': data?.item2}).then((value) {
-                      // TODO 测试,后面删除
-                      // if (value == null || value['code'] != 0) {
-                      //   // 添加失败
-                      //   Layer.toastWarning("Times used up");
-                      // } else {
-                      // 添加成功
-                      Layer.toastSuccess("Get Ticket Success");
-                      handleStartSpin(data?.item3);
-                      // }
-                      if (mounted) {
-                        setState(() {
-                          // 得到了5张券,更新本地数量
-                          // TODO 是否是增加5次?还是从接口取?
-                          data.item3.ticket += 5;
-                          ticketCount = data.item3.ticket;
+                      // 到这里不管addTicket接口返回成功或失败, 广告次数都已经用过一次了
+                      if (data?.item1?.ad_times != null) {
+                        if (data?.item1?.ad_times > 0) {
+                          data?.item1?.ad_times--;
+                        } else {
+                          data?.item1?.ad_times = 0;
+                        }
+                      }
 
-                          if (data?.item1?.ad_times != null) {
-                            if (data?.item1?.ad_times > 0) {
-                              data?.item1?.ad_times--;
-                            } else {
-                              data?.item1?.ad_times = 0;
-                            }
-                          }
-                        });
+                      if (value == null || value['code'] != 0) {
+                        // 添加失败
+                        Layer.toastWarning("Times used up");
+                        setState(() {});
+                      } else {
+                        // 添加成功
+                        Layer.toastSuccess("Get Ticket Success");
+                        handleStartSpin(data?.item3);
+
+                        if (mounted) {
+                          setState(() {
+                            // 得到了5张券,更新本地数量
+                            // TODO 是否是增加5次?还是从接口取?
+                            data.item3.ticket += 5;
+                            ticketCount = data.item3.ticket;
+                          });
+                        }
                       }
                     });
                     return;

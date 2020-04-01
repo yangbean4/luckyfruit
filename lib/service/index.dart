@@ -232,6 +232,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 用户观看广告记录
+  Future<Map<String, dynamic>> videoAdsLog(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Video/videoLog', data: data);
+    return response.data;
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
