@@ -647,7 +647,7 @@ class Layer {
                 modal.hide();
 
                 if (type == TreeType.Type_BONUS) {
-                  // 限时分红树,单���处理
+                  // 限������分红树,单���处理
                   showLimitedTimeBonusTree(treeGroup, newLevel);
                 } else {
                   // 其他树都是统一弹出弹框
@@ -955,5 +955,186 @@ class Layer {
       ),
       Container(height: ScreenUtil().setWidth(35)),
     ]).show();
+  }
+}
+
+class GetReward {
+  static void showLimitedTimeBonusTree(int duration, Function onOk) {
+    Modal(
+        onCancel: () {},
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(45)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/image/countdown_time_limited_bouns_tree.png",
+                        width: ScreenUtil().setWidth(80),
+                        height: ScreenUtil().setWidth(80),
+                      ),
+                      Text(
+                        Util.formatCountDownTimer(Duration(seconds: duration)),
+                        style: TextStyle(
+                            color: MyTheme.yellowColor,
+                            fontFamily: FontFamily.bold,
+                            fontSize: ScreenUtil().setSp(60),
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  )),
+              ModalTitle('Awesome'),
+              Container(
+                margin:
+                    EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+                child: TreeWidget(
+                  imgSrc: 'assets/image/dividend_tree.png',
+                  label: '38',
+                  imgHeight: ScreenUtil().setWidth(218),
+                  imgWidth: ScreenUtil().setWidth(237),
+                  labelWidth: ScreenUtil().setWidth(110),
+                  primary: true,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(60)),
+                child: SecondaryText("Limited time bonus tree"),
+              ),
+              AdButton(
+                useAd: false,
+                btnText: 'Claim',
+                onOk: () {
+                  modal.hide();
+                  onOk();
+                },
+                interval: Duration(seconds: 0),
+                tips:
+                    "Continued received ${Util.formatCountDownTimer(Duration(seconds: duration))} minutes ads earnings from Lcuky Fruit",
+              )
+            ])
+      ..show();
+  }
+
+  static showGoldWindow(num glod, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(20)),
+              Image.asset(
+                'assets/image/coin_full_bag.png',
+                width: ScreenUtil().setWidth(229),
+                height: ScreenUtil().setWidth(225),
+              ),
+              Container(height: ScreenUtil().setWidth(14)),
+              Text(
+                "You‘ve got",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+              GoldText(Util.formatNumber(glod), textSize: 66),
+              Container(height: ScreenUtil().setWidth(45)),
+            ]).show();
+  }
+
+  static showPhoneWindow(String chips, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(36)),
+              Image.asset(
+                'assets/image/phone11.png',
+                width: ScreenUtil().setWidth(165),
+                height: ScreenUtil().setWidth(226),
+              ),
+              Container(height: ScreenUtil().setWidth(26)),
+              Text(
+                "You‘ve got $chips phone chips",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(45)),
+            ]).show();
+  }
+
+  static showTreeWindow(String chips, Function onOk) {
+    Modal(
+        okText: 'Claim',
+        onOk: onOk,
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(36)),
+              TreeWidget(
+                  imgSrc: 'assets/tree/wishing.png',
+                  label: Tree.MAX_LEVEL.toString(),
+                  imgHeight: ScreenUtil().setWidth(236),
+                  imgWidth: ScreenUtil().setWidth(216),
+                  labelWidth: ScreenUtil().setWidth(80),
+                  primary: true),
+              Container(height: ScreenUtil().setWidth(36)),
+              Text(
+                "You‘ve got $chips Wishing Tree chips",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(46)),
+            ]).show();
   }
 }

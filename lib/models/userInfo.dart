@@ -21,6 +21,7 @@ class UserInfo {
     num ad_times;
     num residue_times;
     num is_today_sign;
+    String level;
     
     factory UserInfo.fromJson(Map<String,dynamic> json) => _$UserInfoFromJson(json);
     Map<String, dynamic> toJson() => _$UserInfoToJson(this);

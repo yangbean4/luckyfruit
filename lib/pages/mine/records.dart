@@ -129,10 +129,18 @@ class _RecordsPageState extends State<RecordsPage> {
 }
 
 Map<String, String> _recordsTitle = {
-  '1': 'Wishing Trees  earnings',
-  '2': 'Limited Time Bonus Tree earnings',
+  // 限时分红树收益
+  '1': 'Limited Time Bonus Tree earnings',
+  // 分红树收益
+  '2': 'Bonus Tree earnings',
+  // 雌雄花树收益
   '3': 'Hops Tree(female)&Hops Tree (male)  earnings',
-  '4': 'Bonus Tree earnings',
-  '5': 'Partner  earnings',
-  '6': 'Cash out(cash out success)',
+  // 雌雄花树收益
+  '4': 'Hops Tree(female)&Hops Tree (male)  earnings',
+  // 许愿树收益
+  '5': 'Wishing Trees  earnings',
+  //合伙人收益
+  '6': 'Partner earnings',
+  // 提现
+  '7': 'Cash out(cash out success)',
 };

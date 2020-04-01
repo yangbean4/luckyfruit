@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/models/index.dart' show Issued;
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:tuple/tuple.dart';
 
 class RightBtns extends StatefulWidget {
   RightBtns({Key key}) : super(key: key);
@@ -23,75 +24,12 @@ class _RightBtnsState extends State<RightBtns>
   @override
   bool get wantKeepAlive => true;
 
-  // 是否显示双倍的入口按钮
-  bool showDouble = false;
-  // 当前是双倍
   bool isDouble = false;
 
-  bool showAuto = false;
-
   bool isAuto = false;
-  LuckyGroup luckyGroup;
+  // LuckyGroup luckyGroup;
   // 下发的配置
-  Issued issed;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    LuckyGroup _luckyGroup = Provider.of<LuckyGroup>(context);
-
-    if (_luckyGroup != null) {
-      Issued _issed = _luckyGroup.issed;
-      setState(() {
-        luckyGroup = _luckyGroup;
-        issed = _issed;
-      });
-      if (issed?.game_timeLen != null) {
-        Future.delayed(Duration(seconds: issed?.game_timeLen)).then((e) {
-          luckyGroup.adTimeCheck(Duration(seconds: _issed?.two_adSpace), () {
-            if (mounted) {
-              setState(() {
-                showDouble = true;
-              });
-            }
-
-            // 设置的时间后 隐藏
-            Future.delayed(Duration(seconds: issed?.double_coin_remain_time))
-                .then((e) {
-              if (mounted) {
-                setState(() {
-                  showDouble = false;
-                });
-              }
-            });
-          });
-        });
-      }
-
-      if (issed?.automatic_game_timelen != null) {
-        Future.delayed(Duration(seconds: issed?.automatic_game_timelen))
-            .then((e) {
-          luckyGroup.adTimeCheck(
-              Duration(seconds: _issed?.automatic_two_adSpace), () {
-            if (mounted) {
-              setState(() {
-                showAuto = true;
-              });
-            }
-
-            // 设置的时间后 隐藏
-            Future.delayed(Duration(seconds: issed?.automatic_remain_time))
-                .then((e) {
-              if (mounted) {
-                setState(() {
-                  showAuto = false;
-                });
-              }
-            });
-          });
-        });
-      }
-    }
-  }
+  // Issued issed;
 
   renderItem(
     String imgSrc, {
@@ -154,95 +92,109 @@ class _RightBtnsState extends State<RightBtns>
   @override
   Widget build(BuildContext context) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        showDouble
-            ? _ShakeAnimation(
-                animateTime: Duration(
-                    milliseconds:
-                        (issed?.double_coin_remain_time ?? 10) * 1000),
-                child: GestureDetector(
-                  onTap: () {
-                    luckyGroup.doubleStart();
-                    setState(() {
-                      showDouble = false;
-                      isDouble = true;
-                    });
-                  },
-                  child: renderItem('assets/image/vadio.png',
-                      bottomString: 'in ${issed?.limited_time} s',
-                      top: GoldText('x${issed?.reward_multiple}',
-                          iconSize: 36, textSize: 36, textColor: Colors.white),
-                      color: Color.fromRGBO(49, 200, 84, 1)),
-                ),
-              )
-            : Container(),
-        isDouble
-            ? renderItem(
-                'assets/image/double_glod.png',
-                topString: 'EarningsX${issed?.reward_multiple}',
-                bottom: CountdownFormatted(
-                  duration: Duration(seconds: issed?.double_coin_time),
-                  onFinish: () {
-                    luckyGroup.doubleEnd();
-                    setState(() {
-                      showDouble = false;
-                      isDouble = false;
-                    });
-                  },
-                  builder: (ctx, time) {
-                    issed?.double_coin_time = time?.inSeconds;
-                    return ThirdText(
-                      Util.formatCountDownTimer(time),
-                      color: Colors.white,
-                    );
-                  },
-                ),
-              )
-            : Container(),
-        showAuto
-            ? _ShakeAnimation(
-                animateTime: Duration(
-                    milliseconds: (issed?.automatic_remain_time ?? 10) * 1000),
-                child: GestureDetector(
-                  onTap: () {
-                    luckyGroup.autoStart();
-                    setState(() {
-                      showAuto = false;
-                      isAuto = true;
-                    });
-                  },
-                  child: renderItem('assets/image/vadio.png',
-                      bottomString: 'in ${issed?.automatic_game_timelen} s',
-                      topString: 'Auto Merge',
-                      color: Color.fromRGBO(49, 200, 84, 1)),
-                ))
-            : Container(),
-        isAuto
-            ? renderItem(
-                'assets/image/auto.png',
-                topString: 'Auto Merge',
-                bottom: CountdownFormatted(
-                  duration: Duration(seconds: issed?.automatic_game_timelen),
-                  onFinish: () {
-                    luckyGroup.autoEnd();
-                    setState(() {
-                      showAuto = false;
-                      isAuto = false;
-                    });
-                  },
-                  builder: (ctx, time) {
-                    issed?.automatic_game_timelen = time?.inSeconds;
-                    return ThirdText(
-                      Util.formatCountDownTimer(time),
-                      color: Colors.white,
-                    );
-                  },
-                ),
-              )
-            : Container(),
-      ],
+    return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
+      selector: (context, luckyGroup) =>
+          Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
+      builder: (_, data, __) {
+        Issued issed = data.item1;
+        bool showDouble = data.item2;
+        bool showAuto = data.item3;
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            showDouble
+                ? _ShakeAnimation(
+                    animateTime: Duration(
+                        milliseconds:
+                            (issed?.double_coin_remain_time ?? 10) * 1000),
+                    child: GestureDetector(
+                      onTap: () {
+                        luckyGroup.doubleStart();
+                        setState(() {
+                          showDouble = false;
+                          isDouble = true;
+                        });
+                      },
+                      child: renderItem('assets/image/vadio.png',
+                          bottomString: 'in ${issed?.limited_time} s',
+                          top: GoldText('x${issed?.reward_multiple}',
+                              iconSize: 36,
+                              textSize: 36,
+                              textColor: Colors.white),
+                          color: Color.fromRGBO(49, 200, 84, 1)),
+                    ),
+                  )
+                : Container(),
+            isDouble
+                ? renderItem(
+                    'assets/image/double_glod.png',
+                    topString: 'EarningsX${issed?.reward_multiple}',
+                    bottom: CountdownFormatted(
+                      duration: Duration(seconds: issed?.double_coin_time),
+                      onFinish: () {
+                        luckyGroup.doubleEnd();
+                        setState(() {
+                          showDouble = false;
+                          isDouble = false;
+                        });
+                      },
+                      builder: (ctx, time) {
+                        // issed?.double_coin_time = time?.inSeconds;
+                        return ThirdText(
+                          Util.formatCountDownTimer(time),
+                          color: Colors.white,
+                        );
+                      },
+                    ),
+                  )
+                : Container(),
+            showAuto
+                ? _ShakeAnimation(
+                    animateTime: Duration(
+                        milliseconds:
+                            (issed?.automatic_remain_time ?? 10) * 1000),
+                    child: GestureDetector(
+                      onTap: () {
+                        luckyGroup.autoStart();
+                        setState(() {
+                          showAuto = false;
+                          isAuto = true;
+                        });
+                      },
+                      child: renderItem('assets/image/vadio.png',
+                          bottomString: 'in ${issed?.automatic_game_timelen} s',
+                          topString: 'Auto Merge',
+                          color: Color.fromRGBO(49, 200, 84, 1)),
+                    ))
+                : Container(),
+            isAuto
+                ? renderItem(
+                    'assets/image/auto.png',
+                    topString: 'Auto Merge',
+                    bottom: CountdownFormatted(
+                      duration:
+                          Duration(seconds: issed?.automatic_game_timelen),
+                      onFinish: () {
+                        luckyGroup.autoEnd();
+                        setState(() {
+                          showAuto = false;
+                          isAuto = false;
+                        });
+                      },
+                      builder: (ctx, time) {
+                        // issed?.automatic_game_timelen = time?.inSeconds;
+                        return ThirdText(
+                          Util.formatCountDownTimer(time),
+                          color: Colors.white,
+                        );
+                      },
+                    ),
+                  )
+                : Container(),
+          ],
+        );
+      },
     );
   }
 }

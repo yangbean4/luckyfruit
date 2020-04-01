@@ -11,6 +11,8 @@ import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
+import 'package:tuple/tuple.dart';
+import 'package:luckyfruit/models/index.dart' show Issued;
 
 class Balloon extends StatefulWidget {
   Balloon({Key key}) : super(key: key);
@@ -20,37 +22,11 @@ class Balloon extends StatefulWidget {
 }
 
 class _BalloonState extends State<Balloon> {
-  bool show = false;
-  LuckyGroup luckyGroup;
   bool visibity = true;
 
-  // 下发的配置
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    LuckyGroup _luckyGroup = Provider.of<LuckyGroup>(context);
-
-    if (_luckyGroup != null) {
-      final issed = _luckyGroup.issed;
-      luckyGroup = _luckyGroup;
-      if (issed?.balloon_timeLen != null) {
-        Future.delayed(Duration(seconds: issed?.balloon_timeLen)).then((e) {
-          luckyGroup.adTimeCheck(Duration(seconds: issed?.balloon_adSpace), () {
-            if (mounted) {
-              setState(() {
-                show = true;
-              });
-            }
-          });
-        });
-      }
-    }
-  }
-
-  _showModal() {
+  _showModal(num balloon_time) {
     MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
-    num getGlod = moneyGroup.makeGoldSped * luckyGroup.issed?.balloon_time;
+    num getGlod = moneyGroup.makeGoldSped * balloon_time;
     Modal(
         childrenBuilder: (Modal modal) => <Widget>[
               ModalTitle('Cash Bonus'),
@@ -73,6 +49,9 @@ class _BalloonState extends State<Balloon> {
                       btnText: 'Free',
                       onCancel: modal.hide,
                       onOk: () {
+                        LuckyGroup luckyGroup =
+                            Provider.of<LuckyGroup>(context, listen: false);
+
                         moneyGroup.addGold(getGlod);
                         modal.hide();
                         luckyGroup?.showAd();
@@ -83,31 +62,40 @@ class _BalloonState extends State<Balloon> {
   @override
   Widget build(BuildContext context) {
     num width = 1080 / 4;
-    return show
-        ? AlightingAnimation(
-            begin: 0.0,
-            end: 1.0,
-            animateTime:
-                Duration(seconds: luckyGroup.issed?.balloon_remain_time),
-            builder: (ctx, Animation<double> animation) {
-              return Positioned(
-                top: ScreenUtil().setWidth((1920 + 216) * animation.value),
-                left: ScreenUtil().setWidth(
-                    width * (2 + math.sin(animation.value * math.pi * 4))),
-                child: GestureDetector(
-                    onTap: () {
-                      _showModal();
-                      setState(() {
-                        visibity = false;
-                      });
-                    },
-                    child: Image.asset(
-                      'assets/image/balloon.png',
-                      width: ScreenUtil().setWidth(visibity ? 216 : 0),
-                      height: ScreenUtil().setWidth(visibity ? 309 : 0),
-                    )),
-              );
-            })
-        : Container();
+    return Selector<LuckyGroup, Tuple2<Issued, bool>>(
+        selector: (context, luckyGroup) =>
+            Tuple2(luckyGroup.issed, luckyGroup.showballoon),
+        builder: (_, data, __) {
+          Issued issed = data.item1;
+
+          final bool show = data.item2;
+
+          return show
+              ? AlightingAnimation(
+                  begin: 0.0,
+                  end: 1.0,
+                  animateTime: Duration(seconds: issed?.balloon_remain_time),
+                  builder: (ctx, Animation<double> animation) {
+                    return Positioned(
+                      top:
+                          ScreenUtil().setWidth((1920 + 216) * animation.value),
+                      left: ScreenUtil().setWidth(width *
+                          (2 + math.sin(animation.value * math.pi * 4))),
+                      child: GestureDetector(
+                          onTap: () {
+                            _showModal(issed.balloon_time);
+                            setState(() {
+                              visibity = false;
+                            });
+                          },
+                          child: Image.asset(
+                            'assets/image/balloon.png',
+                            width: ScreenUtil().setWidth(visibity ? 216 : 0),
+                            height: ScreenUtil().setWidth(visibity ? 309 : 0),
+                          )),
+                    );
+                  })
+              : Container();
+        });
   }
 }

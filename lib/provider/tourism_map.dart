@@ -22,6 +22,7 @@ class TourismMap with ChangeNotifier {
   MoneyGroup moneyGroup;
   LuckyGroup _luckyGroup;
   TreeGroup _treeGroup;
+  UserModel _userModel;
   String _acct_id;
   TourismMap();
   double _allgold;
@@ -36,7 +37,7 @@ class TourismMap with ChangeNotifier {
   // 等级配置
   List<LevelRoule> get levelRouleList => _luckyGroup?.levelRouleList ?? [];
   LevelRoule get levelRoule =>
-      levelRouleList.firstWhere((item) => item.level == _level,
+      levelRouleList.firstWhere((item) => item.level == level,
           orElse: () => levelRouleList.isEmpty ? null : levelRouleList[0]);
   // 升级需要的金币
   double get levelUpUse => levelRoule == null
@@ -45,8 +46,9 @@ class TourismMap with ChangeNotifier {
           pow(10, int.parse(levelRoule.need_coin_times));
 
   // 当前等级
-  String _level = '1';
-  String get level => _level;
+  // String _level = '1';
+  String get level =>
+      _userModel?.userInfo?.level ?? _userModel?.value?.level ?? '1';
 
   // 当前等级进度  0.xx
   double get schedule => _allgold == null || levelUpUse == null
@@ -86,12 +88,19 @@ class TourismMap with ChangeNotifier {
   }
 
 // 解锁新的城市 查询是否中限时分红树
-  Future<bool> goDeblokCity() async {
+  Future<Map> goDeblokCity(String city) async {
     Map ajax = await Service().unlockNewCity({
       'acct_id': _acct_id,
-      'city': _cityId,
+      'city': city ?? _cityId,
       'is_full': _treeGroup.isFull ? 1 : 0
     });
+
+    getDeblokCityList();
+
+    return ajax;
+  }
+
+  goDeblokCityEnd(Map ajax) {
     if (ajax != null) {
       _treeGroup.addTree(
           tree: Tree(
@@ -103,9 +112,6 @@ class TourismMap with ChangeNotifier {
     } else {
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);
     }
-    getDeblokCityList();
-
-    return ajax == null;
   }
 
   // // 打开宝箱 领奖
@@ -114,15 +120,16 @@ class TourismMap with ChangeNotifier {
   //   }
   // }
 
-  levelUp() {
+  levelUp() async {
+    final _level = int.parse(level) + 1;
     Map<String, dynamic> data = {
       'acct_id': _acct_id,
       '_allgold': 0,
-      'level': _level
+      'level': _level.toString()
     };
-    if (int.parse(_level) % (TourismMap.LEVEL_SPLIT) == 0) {
+    if (_level % (TourismMap.LEVEL_SPLIT) == 0) {
       // 解锁城市
-      _cityId = (int.parse(_level) ~/ TourismMap.LEVEL_SPLIT + 1).toString();
+      _cityId = (_level ~/ TourismMap.LEVEL_SPLIT + 1).toString();
 
       data['deblock_city'] = _cityId;
       notifyListeners();
@@ -130,7 +137,8 @@ class TourismMap with ChangeNotifier {
       // 抽奖弹窗
       MapPrizeModal().show(cityInfo);
     }
-    Service().updateUserInfo(data);
+    await Service().updateUserInfo(data);
+    _userModel.getUserInfo();
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,
@@ -139,7 +147,8 @@ class TourismMap with ChangeNotifier {
     moneyGroup = _moneyGroup;
     _luckyGroup = luckyGroup;
     _treeGroup = treeGroup;
-    _level = userModel.value.level ?? '1';
+    _userModel = userModel;
+
     _cityId = userModel.value.deblock_city ?? '1';
     _hasInit = true;
     notifyListeners();
@@ -147,8 +156,7 @@ class TourismMap with ChangeNotifier {
     // 金币增加检查是否升级
     EVENT_BUS.on(MoneyGroup.ADD_ALL_GOLD, (allgold) {
       _allgold = allgold;
-      if (goldNum > levelUpUse && int.parse(_level) < TourismMap.MAX_LEVEL) {
-        _level = (int.parse(_level) + 1).toString();
+      if (goldNum > levelUpUse && int.parse(level) < TourismMap.MAX_LEVEL) {
         levelUp();
 
         // 清除金币
@@ -157,7 +165,8 @@ class TourismMap with ChangeNotifier {
         double getGlod = double.parse(levelRoule.award_coin_prefix) *
             pow(10, int.parse(levelRoule.award_coin_time));
         // 弹窗领取升级奖励
-        Layer.levelUp(_level, getGlod: getGlod, onOk: () {
+        Layer.levelUp((int.parse(level) + 1).toString(), getGlod: getGlod,
+            onOk: () {
           EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
         });
       }

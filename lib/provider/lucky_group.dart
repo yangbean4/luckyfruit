@@ -9,6 +9,7 @@ import './money_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
+import 'package:luckyfruit/config/app.dart' show Event_Name;
 
 class LuckyGroup with ChangeNotifier {
   // 检查广告间隔的时间间隔 单位:秒
@@ -54,6 +55,21 @@ class LuckyGroup with ChangeNotifier {
 
   DrawInfo _drawInfo;
   DrawInfo get drawInfo => _drawInfo;
+
+  // 是否显示双倍的入口按钮
+  bool _showDouble = false;
+  bool get showDouble => _showDouble;
+  Timer _showDoubleTimer;
+
+  // 当前是双倍
+  bool _showAuto = false;
+  bool get showAuto => _showAuto;
+  Timer _showAutoTimer;
+
+  // 是否显示🎈
+  bool _showballoon = false;
+  bool get showballoon => _showballoon;
+  Timer _showballoonTimer;
 
   TreeConfig treeConfig;
 
@@ -155,8 +171,8 @@ class LuckyGroup with ChangeNotifier {
  */
   init(String last_draw_time, String configVersion, String _acct_id) async {
     acct_id = _acct_id;
-    // TODO:判断时间显示领取的倒计时
     _transTime(last_draw_time);
+    // 开启定时器;控制显示🎈和右侧按钮
     // 利用Future.wait 的并发 同时处理
     await Future.wait([
       // treeConfig
@@ -215,8 +231,75 @@ class LuckyGroup with ChangeNotifier {
             (issuedJson as List).map((e) => CityInfo.fromJson(e)).toList();
       }),
     ]);
+    _rightBtnShow();
+
     // 等所有的请求结束,通知更新
     notifyListeners();
+  }
+
+  _rightBtnShow() {
+    if (issed?.game_timeLen != null) {
+      // 退出时保存数据 并取消记时器
+      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+        _showDoubleTimer?.cancel();
+      });
+      Timer.periodic(Duration(seconds: issed?.game_timeLen), (timer) {
+        _showDoubleTimer = timer;
+        adTimeCheck(Duration(seconds: issed?.two_adSpace), () {
+          _showDouble = true;
+          notifyListeners();
+
+          // 设置的时间后 隐藏
+          Future.delayed(Duration(seconds: issed?.double_coin_remain_time))
+              .then((e) {
+            _showDouble = false;
+            notifyListeners();
+          });
+        });
+      });
+    }
+
+    if (issed?.automatic_game_timelen != null) {
+      // 退出时保存数据 并取消记时器
+      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+        _showAutoTimer?.cancel();
+      });
+      Timer.periodic(Duration(seconds: issed?.automatic_game_timelen), (timer) {
+        _showAutoTimer = timer;
+        adTimeCheck(Duration(seconds: issed?.automatic_two_adSpace), () {
+          _showAuto = true;
+          notifyListeners();
+
+          // 设置的时间后 隐藏
+          Future.delayed(Duration(seconds: issed?.automatic_remain_time))
+              .then((e) {
+            _showAuto = false;
+            notifyListeners();
+          });
+        });
+      });
+    }
+
+    if (issed?.balloon_timeLen != null) {
+      // 退出时保存数据 并取消记时器
+      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+        _showballoonTimer?.cancel();
+      });
+      Timer.periodic(Duration(seconds: issed?.balloon_timeLen), (timer) {
+        _showballoonTimer = timer;
+        adTimeCheck(Duration(seconds: issed?.balloon_adSpace), () {
+          _showballoon = true;
+          notifyListeners();
+
+          // 设置的时间后 隐藏
+          Future.delayed(Duration(seconds: issed?.automatic_remain_time))
+              .then((e) {
+            _showballoon = false;
+            notifyListeners();
+          });
+        });
+      });
+    }
   }
 
 /*

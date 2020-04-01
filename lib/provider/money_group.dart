@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/models/index.dart';
 
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -11,7 +10,7 @@ import './user_model.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/models/index.dart' show UserInfo;
 
 class MoneyGroup with ChangeNotifier {
   UserModel _userModel;

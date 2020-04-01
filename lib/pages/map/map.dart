@@ -12,6 +12,7 @@ import 'package:luckyfruit/widgets/modal.dart';
 import 'package:luckyfruit/models/index.dart' show CityInfo, DeblokCity;
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
+import 'package:luckyfruit/widgets/layer.dart' show GetReward;
 
 class _SelectorUse {
   List<CityInfo> cityInfoList;
@@ -410,7 +411,7 @@ class MapPrizeModal {
     Modal(
         okText: 'Open',
         onCancel: () {},
-        onOk: () => _nextModalShow(),
+        onOk: () => _nextModalShow(cityInfo.id),
         children: <Widget>[
           Text('Welcome To \n ${cityInfo.code}',
               style: TextStyle(
@@ -432,16 +433,17 @@ class MapPrizeModal {
         ]).show();
   }
 
-  _nextModalShow() {
-    print('_nextModalShow');
-    Modal(childrenBuilder: (Modal modal) => <Widget>[_MapPrize(modal: modal)])
-        .show();
+  _nextModalShow(String cityId) {
+    Modal(
+        childrenBuilder: (Modal modal) =>
+            <Widget>[_MapPrize(modal: modal, cityId: cityId)]).show();
   }
 }
 
 class _MapPrize extends StatefulWidget {
   final Modal modal;
-  _MapPrize({Key key, this.modal}) : super(key: key);
+  final String cityId;
+  _MapPrize({Key key, this.modal, this.cityId}) : super(key: key);
 
   @override
   __MapPrizeState createState() => __MapPrizeState();
@@ -453,13 +455,15 @@ class __MapPrizeState extends State<_MapPrize> {
   int endInterval = 400;
   int speed = 30;
   int server = 1;
+  Map sign;
   _goRun() async {
     TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
     // 有返回值 true 中分红树
-    bool sign = await tourismMap.goDeblokCity();
+    Map _sign = await tourismMap.goDeblokCity(widget.cityId);
     setState(() {
       index = 0;
-      server = sign ? 1 : 0;
+      server = _sign == null ? 1 : 0;
+      sign = _sign;
     });
 
     _runAnimation(startInterval);
@@ -479,8 +483,17 @@ class __MapPrizeState extends State<_MapPrize> {
   }
 
   _runEnd() {
-    // TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
+    TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
     // tourismMap.openCityBox(server);
+    if (server == 1) {
+      GetReward.showGoldWindow(tourismMap.boxMoney, () {
+        tourismMap.goDeblokCityEnd(null);
+      });
+    } else {
+      GetReward.showLimitedTimeBonusTree(sign['duration'], () {
+        tourismMap.goDeblokCityEnd(sign);
+      });
+    }
     widget.modal.hide();
   }
 
@@ -576,7 +589,7 @@ class __MapPrizeState extends State<_MapPrize> {
         AdButton(
           btnText: 'Got it',
           onCancel: () => widget.modal.hide(),
-          onOk: _goRun,
+          onOk: () => _goRun(),
         )
       ],
     );

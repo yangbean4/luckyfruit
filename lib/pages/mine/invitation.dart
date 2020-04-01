@@ -210,7 +210,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(personalInfo?.superior2 ?? '0',
+                              Text(personalInfo?.superior1 ?? '0',
                                   style: TextStyle(
                                       color: MyTheme.blackColor,
                                       fontSize: ScreenUtil().setSp(70),
