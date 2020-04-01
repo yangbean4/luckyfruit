@@ -51,6 +51,14 @@ class _MinePageState extends State<MinePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    UserModel user = Provider.of<UserModel>(context, listen: false);
+    // 每次切换到mine tab时请求一下该接口,防止长时间为更新接口导致本地记录的余额等数据没有更新
+    user.getPersonalInfo(forceFetch: true);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[

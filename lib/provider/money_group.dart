@@ -225,6 +225,7 @@ class MoneyGroup with ChangeNotifier {
   addGold(double gold) {
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
+    print("addGold: gold=$gold, _gold=$_gold, _allgold=$_allgold");
     // Bgm.coinIncrease();
     save();
   }

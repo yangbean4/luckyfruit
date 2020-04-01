@@ -35,10 +35,7 @@ class RankPageState extends State<RankPage>
             {
                 "acct_id": "67",
                 "superior1": "0",
-                "rela_account": "Linda",
-                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "0.00",
-                "separate_amount": "1234",
                 "tree_num": 0
             },{
                 "acct_id": "67",
@@ -198,8 +195,6 @@ class RankPageState extends State<RankPage>
             {
                 "acct_id": "4",
                 "superior1": "3",
-                "rela_account": "name2",
-                "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583923072944&di=5452b413b4ee332c39f5c04e490293b9&imgtype=0&src=http%3A%2F%2Fpic11.nipic.com%2F20101216%2F5191712_154719073035_2.jpg",
                 "amount": "12.00",
                 "separate_amount": "1111.00"
             },{
@@ -389,11 +384,11 @@ class RankPageState extends State<RankPage>
 
     dynamic rankMap =
         await Service().getRankInfo({'acct_id': treeGroup.acct_id});
+    Ranklist rankList = Ranklist.fromJson(rankMap);
+
     //TODO 测试
-    // Ranklist rankList = Ranklist.fromJson(rankMap);
-    Ranklist rankList = Ranklist.fromJson(json.decode(testJson));
-    // TODO 测试空白页面使用
-    await Future.delayed(Duration(seconds: 3));
+    // Ranklist rankList = Ranklist.fromJson(json.decode(testJson));
+    // await Future.delayed(Duration(seconds: 3));
     return rankList;
   }
 
@@ -782,7 +777,7 @@ class RankPageState extends State<RankPage>
                 child: ListTile(
                   leading: ClipOval(child: avatarWidget),
                   title: Text(
-                    friendsList[index].rela_account,
+                    friendsList[index].rela_account ?? "Anonymous",
                     style: TextStyle(
                         fontSize: ScreenUtil().setWidth(50),
                         fontFamily: FontFamily.semibold,
@@ -803,7 +798,7 @@ class RankPageState extends State<RankPage>
                 ),
               ),
               Text(
-                "\$${friendsList[index].separate_amount}",
+                "\$${friendsList[index]?.separate_amount??'--'}",
                 style: TextStyle(
                     color: Color.fromRGBO(38, 38, 38, 1),
                     fontSize: ScreenUtil().setWidth(56),
@@ -841,7 +836,7 @@ class RankPageState extends State<RankPage>
                   width: ScreenUtil().setWidth(30),
                 ),
                 Text(
-                  bounsTreeList[index]?.rela_account,
+                  bounsTreeList[index]?.rela_account ?? "Anonymous",
                   style: TextStyle(
                       color: MyTheme.blackColor,
                       fontSize: ScreenUtil().setWidth(50),
@@ -851,15 +846,15 @@ class RankPageState extends State<RankPage>
               ],
             ),
             Text(
-              bounsTreeList[index]?.tree_num?.toString() ?? "0",
+              bounsTreeList[index]?.tree_num?.toString() ?? "-",
               style: TextStyle(
-                  color: MyTheme.blackColor,
+                  color: MyTheme.blackColor, 
                   fontSize: ScreenUtil().setWidth(50),
                   fontFamily: FontFamily.semibold,
                   fontWeight: FontWeight.w500),
             ),
             Text(
-              bounsTreeList[index]?.separate_amount,
+              "\$${bounsTreeList[index]?.separate_amount??'--'}",
               style: TextStyle(
                   color: MyTheme.blackColor,
                   fontSize: ScreenUtil().setWidth(56),

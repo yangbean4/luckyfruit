@@ -534,7 +534,7 @@ class TreeGroup with ChangeNotifier {
     }
     UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
     //TODO 测试代码
-    newLevel.duration = 3000;
+    // newLevel.duration = 3000;
     return newLevel;
   }
 
@@ -556,7 +556,7 @@ class TreeGroup with ChangeNotifier {
     treasureTree = Tree(
         x: point.x,
         y: point.y,
-        type: TreeType.Type_Mango,
+        // type: TreeType.Type_Mango,
         // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
         grade: min(maxLevel - 1, minLevel + Random().nextInt(_treasugrade)));
     notifyListeners();

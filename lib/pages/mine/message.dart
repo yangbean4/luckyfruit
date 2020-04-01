@@ -29,7 +29,7 @@ class _MessagePageState extends State<MessagePage> {
     List jsonList = await Service().messageCentre({
       'acct_id': userModel.value.acct_id,
     });
-    if (mounted) {
+    if (mounted && jsonList != null) {
       setState(() {
         msgList = jsonList.map((e) => Message.fromJson(e)).toList();
       });

@@ -109,14 +109,14 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
    */
   Future<UnlockNewTreeLevel> checkBonusTreeWhenUnlockingTopLevel(
       String acctId, int level) async {
-    // dynamic stateMap =
-    //     await Service().unlockNewLevel({'acct_id': acctId, "level": level});
+    dynamic stateMap =
+        await Service().unlockNewLevel({'acct_id': acctId, "level": level});
 
-    dynamic stateMap;
-    //TODO 测试代码
-    String test =
-        """{"tree_type": 1,"tree_id": 21,"amount": 11.0,"duration": 300}""";
-    stateMap = json.decode(test);
+    // dynamic stateMap;
+    // //TODO 测试代码
+    // String test =
+    //     """{"tree_type": 10,"tree_id": 21,"amount": 11.0,"duration": 300}""";
+    // stateMap = json.decode(test);
 
     if (stateMap == null) {
       return null;

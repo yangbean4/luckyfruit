@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'dart:math';
 
 import 'package:luckyfruit/provider/tree_group.dart';
@@ -14,6 +15,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
@@ -108,7 +110,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         {'acct_id': treeGroup.acct_id, 'coin_speed': treeGroup.makeGoldSped});
 
     //TODO 测试用 模拟一个网络请求状态
-    luckResultMap = json.decode(testJson);
+    // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
     return luckResultMap;
   }
@@ -343,5 +345,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     }
 
     Layer.showLuckWheelWinResultWindow(luckyWheelType, coinNum);
+    //将获取的金币增加到账户上
+    EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coinNum.toDouble());
   }
 }

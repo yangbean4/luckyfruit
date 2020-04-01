@@ -155,10 +155,10 @@ class PartnerState extends State<Partner> {
   Future<PartnerWrap> getInvitationListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    // dynamic partnerMap =
-    //     await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
-    // PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
-    PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
+    dynamic partnerMap =
+        await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
+    PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
+    // PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
     // 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));
     return partnerWrap;

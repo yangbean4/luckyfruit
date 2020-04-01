@@ -93,7 +93,7 @@ class TreeWidget extends StatelessWidget {
                       Layer.limitedTimeBonusTreeEndUp(context, tree);
                     },
                     builder: (context, Duration duration) {
-                      print("限时分红树倒计时: ${duration.inSeconds}");
+                      // print("限时分红树倒计时: ${duration.inSeconds}");
                       tree.duration = duration.inSeconds;
                       return Text(
                         Util.formatCountDownTimer(duration),

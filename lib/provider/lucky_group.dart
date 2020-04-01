@@ -145,7 +145,8 @@ class LuckyGroup with ChangeNotifier {
       'coin': coin,
     });
     Storage.setItem(LuckyGroup.RECRIVE_TIME_CACHE, DateTime.now().toString());
-    notifyListeners();
+    //将获取的金币增加到账户上
+    EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coin.toDouble());
   }
 
 /**

@@ -50,8 +50,8 @@ class UserModel with ChangeNotifier {
   }
 
 // // 获取个人中心数据
-  Future<PersonalInfo> getPersonalInfo() async {
-    if (_personalInfo != null) {
+  Future<PersonalInfo> getPersonalInfo({forceFetch: false}) async {
+    if (_personalInfo != null && !forceFetch) {
       // 有就直接返回
       return Future.value(_personalInfo);
     } else {

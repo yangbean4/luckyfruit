@@ -114,14 +114,14 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
-          Positioned(
-              bottom: 0,
-              left: ScreenUtil().setWidth(50),
-              child: EllipticalWidget(
-                width: ScreenUtil().setWidth(100),
-                height: ScreenUtil().setWidth(50),
-                color: MyTheme.darkGrayColor,
-              )),
+          // Positioned(
+          //     bottom: 0,
+          //     left: ScreenUtil().setWidth(50),
+          //     child: EllipticalWidget(
+          //       width: ScreenUtil().setWidth(100),
+          //       height: ScreenUtil().setWidth(50),
+          //       color: MyTheme.darkGrayColor,
+          //     )),
           AnimatedBuilder(
               animation: treeAnimation,
               builder: (BuildContext context, Widget child) {

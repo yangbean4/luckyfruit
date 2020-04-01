@@ -140,7 +140,7 @@ class Service {
     return response.data;
   }
 
-  // 种限时分红树接口
+  // 用户30/60分领取金币
   Future<Map<String, dynamic>> receiveCoin(Map<String, dynamic> data) async {
     Response response = await _client.post('/User/receiveCoin', data: data);
     return response.data['data'];
