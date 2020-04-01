@@ -93,7 +93,7 @@ class TreeGroup with ChangeNotifier {
   }
 
   Tree get minLevelTree =>
-      new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 1);
+      new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
 
   // 显示 添加/回收 树
   Tree _isrecycle;

@@ -23,7 +23,7 @@ class Tree extends TreePoint {
 
   Tree(
       {this.grade,
-      this.gradeNumber = 1,
+      this.gradeNumber = 0,
       int x,
       int y,
       this.type,
