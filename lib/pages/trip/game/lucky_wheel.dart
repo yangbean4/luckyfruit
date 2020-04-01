@@ -229,7 +229,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       } else {
                         // 添加成功
                         Layer.toastSuccess("Get Ticket Success");
-                        handleStartSpin(data?.item3);
+                        // handleStartSpin(data?.item3);
 
                         if (mounted) {
                           setState(() {

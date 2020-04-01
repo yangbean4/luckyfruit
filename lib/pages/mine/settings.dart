@@ -5,14 +5,24 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   final UserInfo userInfo;
   SettingsPage({Key key, this.userInfo}) : super(key: key);
+  final TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _controller.addListener(() {
+      print("listener: ${_controller.text}");
+      Storage.setItem("proxy_ip", _controller.text);
+    });
+
+    Storage.getItem("proxy_ip").then((value) {
+      _controller.text = value;
+    });
     return Scaffold(
       backgroundColor: Color(0xffEFEEF3),
       appBar: AppBar(
@@ -31,10 +41,13 @@ class SettingsPage extends StatelessWidget {
             }),
         backgroundColor: Color(0xffEFEEF3),
         actions: <Widget>[
-          SizedBox(width:30, height: 20,)
+          SizedBox(
+            width: 30,
+            height: 20,
+          )
         ],
         title: Align(
-                  child: Text(
+          child: Text(
             'Settings',
             style: TextStyle(
                 color: MyTheme.blackColor,
@@ -89,6 +102,21 @@ class SettingsPage extends StatelessWidget {
                   ItemWidget(
                     title: "About Lucky Fruit",
                     trailingText: "v1.0.0",
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(100)),
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        filled: true,
+                        border: InputBorder.none,
+                        fillColor: MyTheme.grayColor,
+                      ),
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(60),
+                          color: Colors.black),
+                    ),
                   ),
                 ]);
               })),

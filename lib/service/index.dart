@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/config/app.dart';
 // import 'package:luckyfruit/models/index.dart';
@@ -249,14 +250,21 @@ class Service {
     // 创建请求对象
     _client = new Dio(options);
 
-    // (_client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-    //     (client) {
-    //   client.findProxy = (Uri) {
-    //     // 用1个开关设置是否开启代理
-    //     return "PROXY 10.200.14.217:8989";
-    //     // return 'PROXY 10.200.15.2:8888'; //周治荣
-    //   };
-    // };
+    Storage.getItem("proxy_ip").then((value) {
+      print("proxy_ip specified: $value");
+      if (value == null || value.length == 0) {
+        return;
+      }
+
+      (_client.httpClientAdapter as DefaultHttpClientAdapter)
+          .onHttpClientCreate = (client) {
+        client.findProxy = (Uri) {
+          // 用1个开关设置是否开启代理
+          return "PROXY $value";
+          // return 'PROXY 10.200.15.2:8888'; //周治荣
+        };
+      };
+    });
 
     // 添加拦截器
     _client.interceptors
