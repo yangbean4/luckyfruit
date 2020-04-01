@@ -68,7 +68,7 @@ class _MinePageState extends State<MinePage> {
           children: <Widget>[
             Container(
                 width: ScreenUtil().setWidth(1080),
-                height: ScreenUtil().setWidth(340),
+                height: ScreenUtil().setWidth(500),
                 color: MyTheme.primaryColor,
                 padding: EdgeInsets.fromLTRB(
                     ScreenUtil().setWidth(60),
@@ -79,12 +79,12 @@ class _MinePageState extends State<MinePage> {
                     builder: (_, _SelectorUse _selectorUse, __) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
                             width: ScreenUtil().setWidth(400),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(_selectorUse.userInfo.nickname,
@@ -96,6 +96,7 @@ class _MinePageState extends State<MinePage> {
                                         color: Colors.white,
                                         height: 1,
                                         fontSize: ScreenUtil().setSp(90))),
+                                SizedBox(height: ScreenUtil().setWidth(40)),
                                 Text('ID: ${_selectorUse.userId}',
                                     style: TextStyle(
                                         fontFamily: FontFamily.semibold,
@@ -132,7 +133,7 @@ class _MinePageState extends State<MinePage> {
                 width: ScreenUtil().setWidth(1080),
                 color: MyTheme.grayColor,
                 padding: EdgeInsets.only(
-                    top: ScreenUtil().setWidth(276),
+                    top: ScreenUtil().setWidth(160),
                     left: ScreenUtil().setWidth(60),
                     right: ScreenUtil().setWidth(60)),
                 child: SingleChildScrollView(
@@ -256,7 +257,7 @@ class _MinePageState extends State<MinePage> {
           ],
         ),
         Positioned(
-          top: ScreenUtil().setWidth(307),
+          top: ScreenUtil().setWidth(360),
           left: ScreenUtil().setWidth(60),
           child: GestureDetector(
             onTap: () => MyNavigator().pushNamed(context, 'bonusTreePage'),

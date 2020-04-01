@@ -245,15 +245,6 @@ class PartnerState extends State<Partner> {
                   ),
                   child: Stack(children: [
                     Positioned(
-                      bottom: ScreenUtil().setWidth(50),
-                      right: ScreenUtil().setWidth(60),
-                      child: Image.asset(
-                        'assets/image/money_bag.png',
-                        width: ScreenUtil().setWidth(280),
-                        height: ScreenUtil().setWidth(226),
-                      ),
-                    ),
-                    Positioned(
                       bottom: ScreenUtil().setWidth(40),
                       left: ScreenUtil().setWidth(90),
                       child: Image.asset(
@@ -263,7 +254,7 @@ class PartnerState extends State<Partner> {
                       ),
                     ),
                     Align(
-                      alignment: Alignment(-0.6, 0),
+                      alignment: Alignment(-0.6, -0.4),
                       child: RichText(
                         text: TextSpan(
                           text: "More trees your friends merge,",
@@ -271,7 +262,7 @@ class PartnerState extends State<Partner> {
                               fontFamily: FontFamily.semibold,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
-                              fontSize: ScreenUtil().setSp(46)),
+                              fontSize: ScreenUtil().setSp(48)),
                           children: <TextSpan>[
                             TextSpan(
                               text: '\nHigher earnings you will have',
@@ -279,7 +270,7 @@ class PartnerState extends State<Partner> {
                                   fontFamily: FontFamily.semibold,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
-                                  fontSize: ScreenUtil().setWidth(50)),
+                                  fontSize: ScreenUtil().setSp(60)),
                             ),
                           ],
                         ),
@@ -886,7 +877,16 @@ class PartnerState extends State<Partner> {
                                           ])
                                     ])),
                           ])),
-                )
+                ),
+                Positioned(
+                  right: ScreenUtil().setWidth(60),
+                  top: ScreenUtil().setWidth(230),
+                  child: Image.asset(
+                    'assets/image/money_bag.png',
+                    width: ScreenUtil().setWidth(280),
+                    height: ScreenUtil().setWidth(226),
+                  ),
+                ),
               ],
             ),
           ),
