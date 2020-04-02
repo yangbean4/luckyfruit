@@ -137,7 +137,8 @@ class MoneyGroup with ChangeNotifier {
     setTreeGroup(getUseGroup(res, {
       'upDateTime': ajaxData['last_leave_time'],
       '_gold': ajaxData['coin'],
-      '_allgold': ajaxData['_allgold']
+      '_allgold': ajaxData['_allgold'],
+      '_money': ajaxData['acct_bal'],
     }));
 
     EVENT_BUS.on(MoneyGroup.ADD_GOLD, (gold) => addGold(gold));

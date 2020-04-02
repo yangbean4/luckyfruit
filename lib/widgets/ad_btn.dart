@@ -89,7 +89,7 @@ class _AdButtonState extends State<AdButton> {
                       ? () {
                           if (widget.useAd) {
                             // 观看广告后上报观看次数接口
-                            Service().videoAdsLog(Util.getVideoLogParams());
+                            Service().videoAdsLog(Util.getVideoLogParams(context));
                           }
                           widget.onOk();
                         }

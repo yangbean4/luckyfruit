@@ -2,7 +2,10 @@ import 'dart:math';
 import 'dart:convert';
 
 // import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:provider/provider.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {
@@ -96,9 +99,10 @@ class Util {
 
   /// 获取用户观看广告记录接口上报的参数
   //TODO 广告看完之后上报接口, 各个字段需要再完善
-  static Map<String, String> getVideoLogParams() {
+  static Map<String, String> getVideoLogParams(BuildContext context) {
+    UserModel user = Provider.of<UserModel>(context, listen: false);
     return {
-      "acct_id": "temp",
+      "acct_id": user?.value?.acct_id,
       "app_id": "temp",
       "offerid": "temp",
       "country": "temp",

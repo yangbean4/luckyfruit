@@ -588,8 +588,19 @@ class TreeGroup with ChangeNotifier {
       return Layer.toastWarning('Maximal tree cannot recycle');
     }
     _treeList.remove(tree);
-    EVENT_BUS.emit(MoneyGroup.ADD_GOLD, tree.recycleGold);
-    save();
+
+    if (tree.type == TreeType.Type_Wishing) {
+      // 许愿树回收金钱
+      Service().wishTreeDraw({'acct_id': acct_id, 'tree_id': tree.treeId}).then(
+          (ajax) {
+        if (ajax != null) {
+          EVENT_BUS.emit(MoneyGroup.ADD_MONEY, ajax['amount']);
+        }
+      });
+    } else {
+      //回收金币
+      EVENT_BUS.emit(MoneyGroup.ADD_GOLD, tree.recycleGold);
+    }
   }
 
   ///删除指定的树木
@@ -668,13 +679,14 @@ class TreeGroup with ChangeNotifier {
       Layer.locationFull();
       return;
     } else {
-      Map<String, dynamic> ajax = await Service().wishTreeDraw({
-        'acct_id': acct_id,
-      });
+      // Map<String, dynamic> ajax = await Service().wishTreeDraw({
+      //   'acct_id': acct_id,
+      // });
       Tree tree = Tree(
-          grade: Tree.MAX_LEVEL,
-          type: TreeType.Type_Wishing,
-          recycleMoney: double.parse(ajax['amount'].toString()));
+        grade: Tree.MAX_LEVEL,
+        type: TreeType.Type_Wishing,
+        // recycleMoney: double.parse(ajax['amount'].toString())
+      );
       Layer.getWishing(() {
         addTree(tree: tree);
       }, tree);

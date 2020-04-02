@@ -28,6 +28,7 @@ class Tree extends TreePoint {
       int y,
       this.type,
       this.recycleMoney,
+      this.treeId,
       this.amount,
       this.duration = 200,
       this.showCountDown = false})
@@ -50,6 +51,8 @@ class Tree extends TreePoint {
   // 标志是否是特殊的树
   String type;
   bool showCountDown;
+  // 服务端返回的treeId字段
+  num treeId;
 
   // 回收可以得到的钱
   double recycleMoney;
