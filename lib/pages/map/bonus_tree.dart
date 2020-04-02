@@ -114,7 +114,7 @@ class _BonusTreeState extends State<BonusTree> {
                     onTap: () => MyNavigator().navigatorPop(context),
                     child: Container(
                       width: ScreenUtil().setWidth(150),
-                      height: ScreenUtil().setWidth(50),
+                      height: ScreenUtil().setWidth(150),
                       child: Container(
                         width: ScreenUtil().setWidth(29),
                         height: ScreenUtil().setWidth(49),
@@ -202,7 +202,7 @@ class _BonusTreeState extends State<BonusTree> {
                             info.profitDayRatio,
                             info.friendsNumberDayRatio,
                             info.treeComposerDayRatio
-                          ],
+                          ].map((e) => e > 100 ? 100 : e).toList(),
                           strokeColor: Color.fromRGBO(89, 187, 111, 1),
                           fillColor: Color.fromRGBO(159, 230, 175, 1),
                         ),
@@ -620,7 +620,7 @@ class _Point {
 class _MyPainter extends CustomPainter {
   final Color strokeColor;
   final Color fillColor;
-  // 顶部开始顺时针 小数
+  // 顶部开始顺时针 整数
   final List<num> stageArr;
   const _MyPainter(this.stageArr, {this.strokeColor, this.fillColor})
       : assert(stageArr.length == 5);

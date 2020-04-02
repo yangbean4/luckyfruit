@@ -107,19 +107,27 @@ class LuckyGroup with ChangeNotifier {
   Issued get issed => _issued;
 
   void doubleStart() {
+    _showDouble = false;
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, _issued.reward_multiple);
+    notifyListeners();
   }
 
   void doubleEnd() {
+    _showDouble = false;
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, 1);
+    notifyListeners();
   }
 
   void autoStart() {
+    _showAuto = false;
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
+    notifyListeners();
   }
 
   void autoEnd() {
+    _showAuto = false;
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
+    notifyListeners();
   }
 
 // 计算领取倒计时

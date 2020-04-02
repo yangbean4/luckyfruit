@@ -50,8 +50,7 @@ class TreeGroup with ChangeNotifier {
 
   //宝箱的树
   Tree treasureTree;
-  // 记录宝箱领取的时间
-  DateTime treasureTime = DateTime.now();
+  Timer _boxTimer;
   // 设置的宝箱出现的时间间隔 单位 s
   num get _treasureInterval => _luckyGroup.issed?.random_space_time;
   // 宝箱停留时长;超出后隐藏
@@ -238,6 +237,7 @@ class TreeGroup with ChangeNotifier {
     EVENT_BUS.emit(TreeGroup.LOAD);
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+      _boxTimer?.cancel();
       save();
     });
     // 自动合成  开始/结束
@@ -261,6 +261,11 @@ class TreeGroup with ChangeNotifier {
     });
     EVENT_BUS.on(Event_Name.Router_Change, (_) {
       _autoMergeTimeout();
+    });
+    Timer.periodic(Duration(seconds: _treasureInterval), (timer) {
+      // 检查出现宝箱
+      _boxTimer = timer;
+      checkTreasure();
     });
 
     _isLoad = true;
@@ -456,9 +461,6 @@ class TreeGroup with ChangeNotifier {
         // 检测是否出现(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
         // （只在升级到最新等级时触发）
         checkBonusTree();
-      } else {
-        // 检查出现宝箱
-        checkTreasure();
       }
 
       // 设置animateTree 开始执行动画
@@ -541,13 +543,9 @@ class TreeGroup with ChangeNotifier {
 
   // 检查是否生成宝箱
   checkTreasure() {
-    // TODO: 改成定时
-    Duration diff = DateTime.now().difference(treasureTime);
     TreePoint point = _findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
-    if (diff > Duration(seconds: _treasureInterval) &&
-        treasureTree == null &&
-        point != null) {
+    if (treasureTree == null && point != null) {
       makeTreasure(point);
     }
   }

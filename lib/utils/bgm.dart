@@ -28,7 +28,9 @@ class Bgm {
     });
     EVENT_BUS.on(Event_Name.APP_RESUMED, (_) async {
       _canPlay = true;
-      if (isPlay) {
+      if (isPlay &&
+          (fixedPlayer == null ||
+              fixedPlayer.state != AudioPlayerState.PLAYING)) {
         fixedPlayer = await Bgm.player.loop(Bgm._main);
       }
     });
@@ -41,7 +43,11 @@ class Bgm {
 
   static play() async {
     isPlay = true;
-    fixedPlayer = await Bgm.player.loop(Bgm._main);
+    if (isPlay &&
+        (fixedPlayer == null ||
+            fixedPlayer.state != AudioPlayerState.PLAYING)) {
+      fixedPlayer = await Bgm.player.loop(Bgm._main);
+    }
   }
 
   static coinIncrease() {

@@ -374,10 +374,9 @@ class _DividendState extends State<Dividend> {
                                                             .setWidth(50),
                                                         height: 1))),
                                             GestureDetector(
-                                                onTap: () {
-                                                  MyNavigator().pushNamed(
-                                                      context, 'schedule');
-                                                },
+                                                onTap: () => MyNavigator()
+                                                    .pushNamed(context,
+                                                        'bonusTreePage'),
                                                 child: Container(
                                                     width: ScreenUtil()
                                                         .setWidth(170),

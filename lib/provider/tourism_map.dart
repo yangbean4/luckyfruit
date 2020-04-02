@@ -33,7 +33,7 @@ class TourismMap with ChangeNotifier {
       (_luckyGroup.issed?.box_time ?? 200) * moneyGroup.makeGoldSped;
 
   //当前金币总数
-  double get goldNum => moneyGroup?.allgold ?? 0;
+  // double get goldNum => moneyGroup?.allgold ?? 0;
   // 等级配置
   List<LevelRoule> get levelRouleList => _luckyGroup?.levelRouleList ?? [];
   LevelRoule get levelRoule =>
@@ -68,7 +68,7 @@ class TourismMap with ChangeNotifier {
   CityInfo get cityInfo => cityInfoList.firstWhere((c) => c.id == _cityId,
       orElse: () => cityInfoList[0]);
 
-  // 当前城市
+  // 当前城市 cityInfo.name
   String _city = 'hawaii';
 
   String get city => _city;
@@ -155,12 +155,19 @@ class TourismMap with ChangeNotifier {
 
     // 金币增加检查是否升级
     EVENT_BUS.on(MoneyGroup.ADD_ALL_GOLD, (allgold) {
-      _allgold = allgold;
-      if (goldNum > levelUpUse && int.parse(level) < TourismMap.MAX_LEVEL) {
-        levelUp();
+      // 避免 EVENT_BUS的队列中出现 连续两次ADD_ALL_GOLD 都触发升级
+      // 这时 第一次触发时有 ACC_ALL_GOLD 但是其处理会迟于第二次的ADD_ALL_GOLD
+      if (_allgold == 0 && allgold > levelUpUse) {
+        return;
+      }
 
+      if (_allgold != 0 &&
+          allgold > levelUpUse &&
+          int.parse(level) < TourismMap.MAX_LEVEL) {
         // 清除金币
+        _allgold = 0;
         EVENT_BUS.emit(MoneyGroup.ACC_ALL_GOLD);
+        levelUp();
 
         double getGlod = double.parse(levelRoule.award_coin_prefix) *
             pow(10, int.parse(levelRoule.award_coin_time));
@@ -170,6 +177,7 @@ class TourismMap with ChangeNotifier {
           EVENT_BUS.emit(MoneyGroup.ADD_GOLD, getGlod);
         });
       }
+      _allgold = allgold;
 
       notifyListeners();
     });

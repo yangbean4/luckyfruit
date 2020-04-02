@@ -135,7 +135,6 @@ class _RightBtnsState extends State<RightBtns>
                       onFinish: () {
                         luckyGroup.doubleEnd();
                         setState(() {
-                          showDouble = false;
                           isDouble = false;
                         });
                       },
@@ -158,7 +157,6 @@ class _RightBtnsState extends State<RightBtns>
                       onTap: () {
                         luckyGroup.autoStart();
                         setState(() {
-                          showAuto = false;
                           isAuto = true;
                         });
                       },
@@ -178,7 +176,6 @@ class _RightBtnsState extends State<RightBtns>
                       onFinish: () {
                         luckyGroup.autoEnd();
                         setState(() {
-                          showAuto = false;
                           isAuto = false;
                         });
                       },
