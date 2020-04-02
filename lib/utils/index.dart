@@ -28,15 +28,15 @@ class Util {
       'an'
     ];
     number = number ?? 0;
-    int index = dan
-        .asMap()
-        .keys
-        .toList()
-        .lastIndexWhere((t) => number / pow(10, 3 * t + 1) > 1);
+    int index = dan.asMap().keys.toList().lastIndexWhere((t) {
+      // print(
+      //     "formatNumber: number=$number, t=$t, 相除=${number / pow(10.0, 3 * t + 1)}");
+      return number / pow(10.0, 3 * t + 1) > 1;
+    });
 
     return index <= 0
         ? number.toStringAsFixed(fixed ?? 2)
-        : (number / pow(10, 3 * index)).toStringAsFixed(2) + dan[index];
+        : (number / pow(10.0, 3 * index)).toStringAsFixed(2) + dan[index];
   }
 
   static Map<String, dynamic> decodeStr(String str) {

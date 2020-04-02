@@ -23,6 +23,51 @@ import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
+class LuckyWheelWrapperWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
+      body: Center(
+        child: Container(
+          width: ScreenUtil().setWidth(900),
+          height: ScreenUtil().setWidth(1140),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(ScreenUtil().setWidth(100)),
+            ),
+          ),
+          child: Stack(overflow: Overflow.visible, children: [
+            Positioned(
+                top: -ScreenUtil().setWidth(54),
+                child: Container(
+                    width: ScreenUtil().setWidth(900),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: LuckyWheelWidget(null))),
+            Positioned(
+                top: ScreenUtil().setWidth(60),
+                right: ScreenUtil().setWidth(60),
+                child: Container(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.pop(context);
+                    } ,
+                    child: Image.asset(
+                      'assets/image/close_icon_modal_top_right.png',
+                      width: ScreenUtil().setWidth(40),
+                      height: ScreenUtil().setWidth(40),
+                    ),
+                  ),
+                ))
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
 class LuckyWheelWidget extends StatefulWidget {
   Animation<double> animation;
   AnimationController controller;

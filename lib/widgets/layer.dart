@@ -880,11 +880,11 @@ class Layer {
                     btnText: '+${Util.formatNumber(glod * 2)}',
                     onCancel: () {
                       modal.hide();
-                      onOk(true);
+                      onOk(false);
                     },
                     onOk: () {
                       modal.hide();
-                      onOk(false);
+                      onOk(true);
                     },
                     // tips:
                     //     "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
