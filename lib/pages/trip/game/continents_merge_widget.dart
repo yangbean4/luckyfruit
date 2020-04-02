@@ -6,6 +6,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 class ContinentsMergeWidget extends StatelessWidget {
@@ -128,6 +129,11 @@ class ContinentsMergeWidget extends StatelessWidget {
                   Positioned(
                     child: GestureDetector(
                       onTap: () {
+                        if (!checkAllContinentsTreeExits(treeGroup)) {
+                          print("五洲树还没有集全");
+                          Layer.toastWarning("Collection Not Complete yet");
+                          return;
+                        }
                         print("开始合成五洲树");
 
                         // 删除五洲树
@@ -196,6 +202,18 @@ class ContinentsMergeWidget extends StatelessWidget {
         .where((tree) => tree?.type?.compareTo(treeType) == 0)
         .toList();
     return list != null && list.length > 0;
+  }
+
+  /// 是否五洲树已经全了
+  bool checkAllContinentsTreeExits(TreeGroup treeGroup) {
+    bool result = true;
+    TreeType.Continents_Trees_List.forEach((e) {
+      if (!checkWhetherTreeTypeExits(treeGroup, e)) {
+        result = false;
+      }
+    });
+
+    return result;
   }
 
   List<Widget> getTreeLayoutWidget(String treeType, String labelBgName) {

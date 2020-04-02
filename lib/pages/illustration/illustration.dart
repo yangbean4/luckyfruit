@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/theme/index.dart';
 
 class Illustration extends StatelessWidget {
@@ -113,7 +114,7 @@ class Illustration extends StatelessWidget {
                       // height: ScreenUtil().setWidth(260),
                       child: Column(children: [
                         Image.asset(
-                          imageUrlList[index],
+                          "assets/tree/${TreeType.All_Max_Level_Trees[index]}.png",
                           width: ScreenUtil().setWidth(240),
                           height: ScreenUtil().setWidth(260),
                           fit: BoxFit.cover,

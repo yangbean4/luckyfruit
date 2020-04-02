@@ -13,7 +13,7 @@ PartnerSuperiorItem _$PartnerSuperiorItemFromJson(Map<String, dynamic> json) {
     ..fb_login = json['fb_login'] as num
     ..date = json['date'] as String
     ..level = json['level'] as num
-    ..today_profit = json['today_profit'] as String;
+    ..today_profit = json['today_profit'] as num;
 }
 
 Map<String, dynamic> _$PartnerSuperiorItemToJson(

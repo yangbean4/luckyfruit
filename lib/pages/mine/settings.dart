@@ -5,6 +5,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
@@ -66,59 +67,90 @@ class SettingsPage extends StatelessWidget {
           child: Selector<UserModel, UserInfo>(
               selector: (_, provider) => provider.userInfo,
               builder: (_, UserInfo userInfo, __) {
-                return Column(children: [
-                  ItemWidget(
-                    title: "Photo",
-                    trailingImg: ClipOval(
-                        child: CompatibleNetworkAvatarWidget(
-                      userInfo?.avatar,
-                      defaultImageUrl:
-                          "assets/image/rank_page_portrait_default.png",
-                      width: ScreenUtil().setWidth(120),
-                      height: ScreenUtil().setWidth(120),
-                      fit: BoxFit.cover,
-                    )),
-                  ),
-                  ItemWidget(
-                    title: "Name",
-                    trailingText: userInfo?.nickname,
-                  ),
-                  ItemWidget(
-                    title: "Telephone",
-                    // trailingText: "${userInfo?.phoneNum ?? ""}",
-                    trailingText: "18899990000",
-                  ),
-                  ItemWidget(
-                    title: "Privacy",
-                    onTap: () {
-                      MyNavigator().pushNamed(context, 'privacyPage');
-                    },
-                    trailingImg: Image.asset(
-                      "assets/image/partner_right_arrow_icon.png",
-                      width: ScreenUtil().setWidth(20),
-                      height: ScreenUtil().setWidth(35),
-                    ),
-                  ),
-                  ItemWidget(
-                    title: "About Lucky Fruit",
-                    trailingText: "v1.0.0",
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(100)),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        border: InputBorder.none,
-                        fillColor: MyTheme.grayColor,
+                return Stack(
+                  children: <Widget>[
+                    Column(children: [
+                      ItemWidget(
+                        title: "Photo",
+                        trailingImg: ClipOval(
+                            child: CompatibleNetworkAvatarWidget(
+                          userInfo?.avatar,
+                          defaultImageUrl:
+                              "assets/image/rank_page_portrait_default.png",
+                          width: ScreenUtil().setWidth(120),
+                          height: ScreenUtil().setWidth(120),
+                          fit: BoxFit.cover,
+                        )),
                       ),
-                      style: TextStyle(
-                          fontSize: ScreenUtil().setSp(60),
-                          color: Colors.black),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "Name",
+                        trailingText: userInfo?.nickname,
+                      ),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "Telephone",
+                        // trailingText: "${userInfo?.phoneNum ?? ""}",
+                        trailingText: "18899990000",
+                      ),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "Privacy",
+                        onTap: () {
+                          MyNavigator().pushNamed(context, 'privacyPage');
+                        },
+                        trailingImg: Image.asset(
+                          "assets/image/partner_right_arrow_icon.png",
+                          width: ScreenUtil().setWidth(20),
+                          height: ScreenUtil().setWidth(35),
+                        ),
+                      ),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "About Lucky Fruit",
+                        trailingText: "v1.0.0",
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(100)),
+                        child: TextField(
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            hintText: _controller.text.isEmpty
+                                ? "10.200.15.61:8888"
+                                : null,
+                            hintStyle: TextStyle(color: Colors.red[100]),
+                            filled: true,
+                            border: InputBorder.none,
+                            fillColor: MyTheme.grayColor,
+                          ),
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(60),
+                              color: Colors.black),
+                        ),
+                      ),
+                    ]),
+                    Positioned(
+                      bottom: ScreenUtil().setWidth(108),
+                      child: Container(
+                        width: ScreenUtil().setWidth(1080),
+                        alignment: Alignment.bottomCenter,
+                        child: GestureDetector(
+                            onTap: () {},
+                            child: PrimaryButton(
+                                text: "Sign Out", width: 600, height: 124)),
+                      ),
                     ),
-                  ),
-                ]);
+                  ],
+                );
               })),
     );
   }

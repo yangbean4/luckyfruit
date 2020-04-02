@@ -19,5 +19,6 @@
   "coin_award": 100,
   "box_time": 100,
   "double_coin_remain_time": 100,
-  "double_coin_time": 100
+  "double_coin_time": 100,
+  "hops_reward":0
 }

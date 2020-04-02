@@ -27,6 +27,7 @@ class Issued {
     num box_time;
     num double_coin_remain_time;
     num double_coin_time;
+    num hops_reward;
     
     factory Issued.fromJson(Map<String,dynamic> json) => _$IssuedFromJson(json);
     Map<String, dynamic> toJson() => _$IssuedToJson(this);

@@ -569,10 +569,10 @@ class Layer {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     Modal(
         onOk: () {
-          treeGroup.deleteTreeAfterTimeLimitedTreeFinished(tree);
+          treeGroup.deleteSpecificTree(tree);
         },
         onCancel: () {
-          treeGroup.deleteTreeAfterTimeLimitedTreeFinished(tree);
+          treeGroup.deleteSpecificTree(tree);
         },
         okText: "Claim",
         children: [
@@ -597,11 +597,14 @@ class Layer {
   }
 
   /// 37级合成38级后,弹出弹框通知用户
-  static topLevelMergeEndShowup(TreeGroup treeGroup, String type, String name) {
+  static topLevelMergeEndShowup(
+      TreeGroup treeGroup, String type, String name, num amount) {
     Modal(
         onOk: () {
           // 种上一颗38级树
-          treeGroup.addTree(tree: Tree(grade: Tree.MAX_LEVEL, type: type));
+          treeGroup.addTree(
+              tree: Tree(
+                  grade: Tree.MAX_LEVEL, type: type, recycleMoney: amount));
         },
         okText: "Claim",
         children: [
@@ -630,7 +633,8 @@ class Layer {
   }
 
   /// 显示合成38级时的抽奖弹窗
-  static showTopLevelMergeWindow(TreeGroup treeGroup) {
+  static showTopLevelMergeWindow(
+      TreeGroup treeGroup, Tree source, Tree target) {
     TopLevelMergeWidget widget;
     Modal(
         width: 940,
@@ -646,12 +650,16 @@ class Layer {
                 print("Get Level 38 Tree: type=$type");
                 modal.hide();
 
+                // 这里删除两棵37级的树木
+                treeGroup?.deleteSpecificTree(source);
+                treeGroup?.deleteSpecificTree(target);
                 if (type == TreeType.Type_BONUS) {
                   // 限������分红树,单���处理
                   showLimitedTimeBonusTree(treeGroup, newLevel);
                 } else {
-                  // 其他树都是统一弹出弹框
-                  topLevelMergeEndShowup(treeGroup, type, name);
+                  // 许愿树,需要传递回收时的奖励金额, 其他树都是统一弹出弹框
+                  topLevelMergeEndShowup(treeGroup, type, name,
+                      type == TreeType.Type_Wishing ? newLevel?.amount : null);
                 }
               }),
             ]).show();
@@ -695,13 +703,13 @@ class Layer {
   }
 
   /// 啤酒花树合成弹���
-  static showHopsMergeWindow() {
+  static showHopsMergeWindow(String rewardDollar) {
     Modal(
             onCancel: () {},
             closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
                   HopsMergeWidget(onStartMergeFun: () {
-                    Layer.showMoneyRewardAfterHopsMerge();
+                    Layer.showMoneyRewardAfterHopsMerge(rewardDollar);
                     modal.hide();
                   }),
                 ],
@@ -929,7 +937,7 @@ class Layer {
   }
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
-  static showMoneyRewardAfterHopsMerge() {
+  static showMoneyRewardAfterHopsMerge(String rewardDollar) {
     Modal(onOk: () {}, okText: "Claim", children: <Widget>[
       Image.asset(
         'assets/image/bg_dollar.png',
@@ -944,9 +952,8 @@ class Layer {
           fontFamily: FontFamily.regular,
         ),
       ),
-      // TODO 数值走接口
       GoldText(
-        "7.00",
+        rewardDollar,
         imgUrl: "assets/image/icon_dollar.png",
         iconSize: 72,
         textSize: 66,

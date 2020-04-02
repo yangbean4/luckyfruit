@@ -83,6 +83,20 @@ class TreeType {
 
   /// 雌雄花树
   static const Hops_Trees_List = [Type_Hops_Male, Type_Hops_Female];
+
+  /// 全部最高等级树
+  static const All_Max_Level_Trees = [
+    Type_Globle_Bonus,
+    Type_Wishing,
+    Type_Hops_Male,
+    Type_Hops_Female,
+    Type_Continents_American,
+    Type_Continents_European,
+    Type_Continents_Asian,
+    Type_Continents_African,
+    Type_Continents_Oceania,
+    Type_BONUS,
+  ];
 }
 
 /// 放置常量的类

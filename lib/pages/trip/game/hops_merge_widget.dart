@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 class HopsMergeWidget extends StatelessWidget {
@@ -64,7 +65,13 @@ class HopsMergeWidget extends StatelessWidget {
                     Positioned(
                       child: GestureDetector(
                         onTap: () {
-                          print("开始合成啤酒花树");
+                          if (!checkAllHopsTreeExits(treeGroup)) {
+                            print("雌雄花树还没有集全");
+                            Layer.toastWarning("Collection Not Complete yet");
+                            return;
+                          }
+
+                          print("开始合成雌雄花树");
                           // 删除雌雄花树
                           treeGroup.deleteHopsTrees();
                           onStartMergeFun();
@@ -99,6 +106,18 @@ class HopsMergeWidget extends StatelessWidget {
         .where((tree) => tree?.type?.compareTo(treeType) == 0)
         .toList();
     return list != null && list.length > 0;
+  }
+
+  /// 是否雌雄花树已经全了
+  bool checkAllHopsTreeExits(TreeGroup treeGroup) {
+    bool result = true;
+    TreeType.Hops_Trees_List.forEach((e) {
+      if (!checkWhetherTreeTypeExits(treeGroup, e)) {
+        result = false;
+      }
+    });
+
+    return result;
   }
 
   List<Widget> getTreeLayoutWidget(String treeType, String labelBgName) {

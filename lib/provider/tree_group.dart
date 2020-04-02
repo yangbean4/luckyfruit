@@ -436,11 +436,12 @@ class TreeGroup with ChangeNotifier {
         Layer.showContinentsMergeWindow();
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
-        Layer.showHopsMergeWindow();
+        Layer.showHopsMergeWindow(
+            _luckyGroup?.issed?.hops_reward?.toString() ?? "--");
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
-      Layer.showTopLevelMergeWindow(this);
+      Layer.showTopLevelMergeWindow(this, source, target);
     } else {
       // 结束前一个合成队列的动画, 避免前一个后一个合成动作重叠
       treeMergeAnimateEnd(animateTargetTree);
@@ -591,8 +592,8 @@ class TreeGroup with ChangeNotifier {
     save();
   }
 
-  ///限时分红树倒计时结束后删除该树
-  deleteTreeAfterTimeLimitedTreeFinished(Tree tree) {
+  ///删除指定的树木
+  deleteSpecificTree(Tree tree) {
     _treeList.remove(tree);
     save();
   }
@@ -601,10 +602,10 @@ class TreeGroup with ChangeNotifier {
   deleteContinentsTrees() {
     TreeType.Continents_Trees_List.forEach((item) {
       Tree tree = _treeList.firstWhere((treeItem) {
-        return treeItem.type.compareTo(item) == 0;
+        return treeItem?.type?.compareTo(item) == 0;
       }, orElse: () => null);
 
-      print("deleteContinentsTrees item=${tree.type}");
+      print("deleteContinentsTrees item=${tree?.type}");
       // 找到tree,删除
       if (tree != null) {
         _treeList.remove(tree);

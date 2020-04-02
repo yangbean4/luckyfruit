@@ -33,10 +33,12 @@ class Util {
       //     "formatNumber: number=$number, t=$t, 相除=${number / pow(10.0, 3 * t + 1)}");
       return number / pow(10.0, 3 * t + 1) > 1;
     });
-
-    return index <= 0
+    String result = index <= 0
         ? number.toStringAsFixed(fixed ?? 2)
         : (number / pow(10.0, 3 * index)).toStringAsFixed(2) + dan[index];
+
+    print("format_result= $result");
+    return result;
   }
 
   static Map<String, dynamic> decodeStr(String str) {

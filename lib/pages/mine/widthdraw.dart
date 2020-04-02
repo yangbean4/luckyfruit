@@ -183,12 +183,13 @@ class _WithDrawPageState extends State<WithDrawPage> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Tips\n",
+                            Text("Tips",
                                 style: TextStyle(
                                     fontSize: ScreenUtil().setSp(40),
                                     fontFamily: FontFamily.semibold,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF262626))),
+                            SizedBox(height: ScreenUtil().setWidth(10)),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,

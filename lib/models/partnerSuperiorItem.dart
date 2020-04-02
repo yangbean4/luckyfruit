@@ -11,7 +11,7 @@ class PartnerSuperiorItem {
     num fb_login;
     String date;
     num level;
-    String today_profit;
+    num today_profit;
     
     factory PartnerSuperiorItem.fromJson(Map<String,dynamic> json) => _$PartnerSuperiorItemFromJson(json);
     Map<String, dynamic> toJson() => _$PartnerSuperiorItemToJson(this);
