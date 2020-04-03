@@ -5,6 +5,7 @@ import 'package:luckyfruit/utils/index.dart';
 
 class MoAd {
   static const String VIEW_AD = 'VIEW_AD';
+  static String USER_ID;
 
   static Future<bool> viewAd() async {
     Layer.loading('.....');
@@ -14,7 +15,7 @@ class MoAd {
     Layer.loadingHide();
 
     // 观看广告后上报观看次数接口
-    Service().videoAdsLog(Util.getVideoLogParams());
+    Service().videoAdsLog(Util.getVideoLogParams(MoAd.USER_ID));
     return true;
   }
 }

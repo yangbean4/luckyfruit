@@ -99,10 +99,10 @@ class Util {
 
   /// 获取用户观看广告记录接口上报的参数
   //TODO 广告看完之后上报接口, 各个字段需要再完善
-  static Map<String, String> getVideoLogParams(BuildContext context) {
-    UserModel user = Provider.of<UserModel>(context, listen: false);
+  static Map<String, String> getVideoLogParams(String userId) {
+    // UserModel user = Provider.of<UserModel>(context, listen: false);
     return {
-      "acct_id": user?.value?.acct_id,
+      "acct_id": userId,
       "app_id": "temp",
       "offerid": "temp",
       "country": "temp",

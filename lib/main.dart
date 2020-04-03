@@ -14,6 +14,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'mould/tree.mould.dart';
+import 'utils/mo_ad.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,7 @@ void main() {
     FbMsg.init(userId);
     // 监听来源 :是否是DynamicLink
     DynamicLink.initDynamicLinks(userId);
+    MoAd.USER_ID = userId;
     luckyGroup
         .init(userModel.value.last_draw_time, userModel.value?.version, userId)
         .then((e) {
