@@ -38,6 +38,8 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   String curTreeType;
   // 选中的树的名字
   String curTreeName;
+  // 基础圈数, 一圈走动10次
+  static const int Default_Turns = 10;
 
   List treeTypeListInOrder = [
     TreeType.Type_Wishing,
@@ -72,6 +74,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   void start() {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
+    _lotteryTimer();
     checkBonusTreeWhenUnlockingTopLevel(treeGroup?.acct_id, Tree.MAX_LEVEL)
         .then((result) {
       // 获取指定位置
@@ -83,7 +86,6 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
       newLevel = result;
       position = getPositionWithType(result.tree_type);
       // position = 1;
-      _lotteryTimer();
     });
   }
 
@@ -125,10 +127,34 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     return newLevel;
   }
 
-  List<Color> colorsDisabled = const <Color>[
+  List<Color> colorsOnSpinBtn = const <Color>[
     Color.fromRGBO(49, 200, 84, 1),
     Color.fromRGBO(36, 185, 71, 1)
   ];
+
+  toggleEnableStatue(bool enable) {
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      if (!enable) {
+        // 禁用时按钮颜色
+        colorsOnSpinBtn = [
+          Color.fromRGBO(143, 235, 162, 1),
+          Color.fromRGBO(143, 235, 162, 1)
+        ];
+      } else {
+        colorsOnSpinBtn = [
+          Color.fromRGBO(49, 200, 84, 1),
+          Color.fromRGBO(36, 185, 71, 1)
+        ];
+      }
+      enableOnTap = enable;
+      widget._enableClose = enable;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -150,23 +176,14 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
       GestureDetector(
           onTap: enableOnTap
               ? () {
-                  setState(() {
-                    colorsDisabled = [
-                      Color.fromRGBO(143, 235, 162, 1),
-                      Color.fromRGBO(143, 235, 162, 1)
-                    ];
-                    enableOnTap = false;
-                    widget._enableClose = false;
-                    Future.delayed(Duration(milliseconds: 200), () {
-                      start();
-                    });
-                  });
+                  start();
+                  toggleEnableStatue(false);
                 }
               : null,
           child: PrimaryButton(
               width: 600,
               height: 124,
-              colors: colorsDisabled,
+              colors: colorsOnSpinBtn,
               child: Center(
                   child: Text(
                 "Spin",
@@ -258,11 +275,19 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
         print("_lotteryTimer setState 中runCount的值为 $runCount");
       });
 
-      if (runCount <= 10) {
+      if (runCount <= Default_Turns) {
         // 首先转动基础圈数，这个时候顺便等待抽奖接口异步结果
         _lotteryTimer();
-      } else if (runCount <= 10 * (1 + 1) + position - 3) {
+      } else if (runCount <= Default_Turns * 2 + (position ?? 0) - 3) {
         // 转满基础圈数���，计算出多转一圈 + 结果索引 - 缓速步数，进行最后几步的匀速转动
+        _lotteryTimer();
+      } else if (position == null) {
+        if (runCount >= Default_Turns * 2) {
+          Layer.toastWarning("Failed, Try Again Later");
+          //失败后启用按钮点击
+          toggleEnableStatue(true);
+          return;
+        }
         _lotteryTimer();
       } else {
         // 匀速结果，进入开奖前缓速转动
@@ -278,12 +303,12 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
       setState(() {
         runCount++;
       });
-      if (runCount < 10 * (1 + 1) + position) {
+      if (runCount < Default_Turns * 2 + position) {
         // 如果当前步数没有达到结果位置，继续缓速转动，并在下一步增长缓速时间，实现越来越慢的开奖效果
         _slowLotteryTimer((ms * 1.7).ceil());
       } else {
         // 已转到开奖位置，弹窗提醒
-        print("开奖啦》����》");
+        print("开奖啦");
         widget.onReceivedResultFun(curTreeType, curTreeName, newLevel);
         timer?.cancel();
         timer = null;

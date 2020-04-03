@@ -588,10 +588,11 @@ class Layer {
             ),
           ),
           SecondaryText(
-              "Get \$ ${tree.amount} in 5mins through the Limited time bonus tree"),
+              "Get \$ ${tree.amount ?? "--"} in ${Duration(seconds: tree.duration).inMinutes ?? "--"}mins through the Limited time bonus tree"),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
-            child: ModalTitle('\$${tree.amount}', color: MyTheme.primaryColor),
+            child: ModalTitle('\$${tree.amount ?? "--"}',
+                color: MyTheme.primaryColor),
           )
         ]).show();
   }

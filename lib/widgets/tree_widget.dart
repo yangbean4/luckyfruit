@@ -84,8 +84,8 @@ class TreeWidget extends StatelessWidget {
             )),
         this.showCountDown
             ? Positioned(
-                top: ScreenUtil().setWidth(0),
-                right: ScreenUtil().setWidth(0),
+                top: -ScreenUtil().setWidth(20),
+                right: -ScreenUtil().setWidth(20),
                 child: CountdownFormatted(
                     duration: Duration(seconds: tree.duration),
                     onFinish: () {
@@ -95,16 +95,36 @@ class TreeWidget extends StatelessWidget {
                     builder: (context, Duration duration) {
                       // print("限时分红树倒计时: ${duration.inSeconds}");
                       tree.duration = duration.inSeconds;
-                      return Text(
-                        Util.formatCountDownTimer(duration),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            backgroundColor: Colors.grey,
-                            height: 1,
-                            fontFamily: FontFamily.bold,
-                            fontSize: ScreenUtil().setSp(20),
-                            fontWeight: FontWeight.bold),
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xFF6AD66A),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(12)),
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: ScreenUtil().setWidth(8),
+                            horizontal: ScreenUtil().setWidth(14)),
+                        child: Row(
+                          children: <Widget>[
+                            Image.asset(
+                              'assets/image/icon_bonus_tree_count_down.png',
+                              width: ScreenUtil().setWidth(27),
+                              height: ScreenUtil().setWidth(30),
+                            ),
+                            SizedBox(width: ScreenUtil().setWidth(10)),
+                            Text(
+                              Util.formatCountDownTimer(duration),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  height: 1,
+                                  fontFamily: FontFamily.semibold,
+                                  fontSize: ScreenUtil().setSp(28),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
                       );
                     }))
             : Container()

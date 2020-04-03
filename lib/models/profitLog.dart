@@ -9,7 +9,7 @@ class ProfitLog {
     String amount;
     String module;
     String start_time;
-    String end_time;
+    String add_time;
     
     factory ProfitLog.fromJson(Map<String,dynamic> json) => _$ProfitLogFromJson(json);
     Map<String, dynamic> toJson() => _$ProfitLogToJson(this);

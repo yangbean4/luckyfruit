@@ -11,12 +11,12 @@ ProfitLog _$ProfitLogFromJson(Map<String, dynamic> json) {
     ..amount = json['amount'] as String
     ..module = json['module'] as String
     ..start_time = json['start_time'] as String
-    ..end_time = json['end_time'] as String;
+    ..add_time = json['add_time'] as String;
 }
 
 Map<String, dynamic> _$ProfitLogToJson(ProfitLog instance) => <String, dynamic>{
       'amount': instance.amount,
       'module': instance.module,
       'start_time': instance.start_time,
-      'end_time': instance.end_time
+      'add_time': instance.add_time
     };

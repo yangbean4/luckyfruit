@@ -95,7 +95,7 @@ class _RecordsPageState extends State<RecordsPage> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        profitLog.end_time,
+                        profitLog.add_time,
                         style: TextStyle(
                             color: MyTheme.tipsColor,
                             fontSize: ScreenUtil().setSp(34),
