@@ -54,7 +54,7 @@ dependencies:
   # To select multiple values Using Selector<> without having to
   # write a class that implements ==, the easiest solution is to use a "Tuple"
   tuple: ^1.0.3
-  # wraps an existing Flutter widget 
+  # wraps an existing Flutter widget
   # and fires a callback when the widget's visibility changes
   visibility_detector: ^0.1.4
   # FB登录
@@ -66,7 +66,9 @@ dependencies:
   firebase_dynamic_links: ^0.5.0+11
   # 分享到Messageer
   facebook_share: ^1.0.0
-  
+  # A Flutter plugin for launching a URL in the mobile platform
+  url_launcher: ^5.4.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

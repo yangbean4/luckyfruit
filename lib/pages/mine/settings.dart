@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -8,6 +9,7 @@ import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   final UserInfo userInfo;
@@ -101,7 +103,7 @@ class SettingsPage extends StatelessWidget {
                         height: ScreenUtil().setWidth(2),
                       ),
                       ItemWidget(
-                        title: "Privacy",
+                        title: "Authority",
                         onTap: () {
                           MyNavigator().pushNamed(context, 'privacyPage');
                         },
@@ -117,6 +119,34 @@ class SettingsPage extends StatelessWidget {
                       ItemWidget(
                         title: "About Lucky Fruit",
                         trailingText: "v1.0.0",
+                      ),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "Privacy",
+                        onTap: () {
+                          launch(App.SETTING_PRIVACY_URL);
+                        },
+                        trailingImg: Image.asset(
+                          "assets/image/partner_right_arrow_icon.png",
+                          width: ScreenUtil().setWidth(20),
+                          height: ScreenUtil().setWidth(35),
+                        ),
+                      ),
+                      Divider(
+                        height: ScreenUtil().setWidth(2),
+                      ),
+                      ItemWidget(
+                        title: "Terms of Service",
+                        onTap: () {
+                          launch(App.SETTING_TERMS_URL);
+                        },
+                        trailingImg: Image.asset(
+                          "assets/image/partner_right_arrow_icon.png",
+                          width: ScreenUtil().setWidth(20),
+                          height: ScreenUtil().setWidth(35),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(

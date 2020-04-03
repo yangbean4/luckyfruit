@@ -475,7 +475,6 @@ class Layer {
   static void showLimitedTimeBonusTree(
       TreeGroup treeGroup, UnlockNewTreeLevel value) {
     Modal(
-        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -571,9 +570,6 @@ class Layer {
         onOk: () {
           treeGroup.deleteSpecificTree(tree);
         },
-        onCancel: () {
-          treeGroup.deleteSpecificTree(tree);
-        },
         okText: "Claim",
         children: [
           ModalTitle('Awesome'),
@@ -588,7 +584,7 @@ class Layer {
             ),
           ),
           SecondaryText(
-              "Get \$ ${tree.amount ?? "--"} in ${Duration(seconds: tree.duration).inMinutes ?? "--"}mins through the Limited time bonus tree"),
+              "Get \$ ${tree.amount ?? "--"} in ${Duration(seconds: tree?.originalDuration).inSeconds ?? "--"} second(s) through the Limited time bonus tree"),
           Container(
             margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
             child: ModalTitle('\$${tree.amount ?? "--"}',

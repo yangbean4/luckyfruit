@@ -38,10 +38,13 @@ class Tree extends TreePoint {
             amount == null || (amount != null && type == TreeType.Type_BONUS)),
         assert(showCountDown == false ||
             (showCountDown && type == TreeType.Type_BONUS)),
+        originalDuration = duration,
         super(x: x, y: y);
 
-// 分红树倒计时时长
+  // 分红树倒计时时长(走动的过程中会动态更新)
   int duration;
+  // 分红树倒计时时长,跟durat)ion初始值一致,但是不会改变
+  int originalDuration;
   // 分红树 多少钱
   double amount;
   // 等级

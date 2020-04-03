@@ -44,6 +44,9 @@ class App {
       'http://171.8.199.211:8109/public/index.php?r=';
   static const String METHOD_CHANNEL = "com.xyjy.flutterchannel/method";
   static const String EVENT_CHANNEL = "com.xyjy.flutterchannel/event";
+
+  static const SETTING_PRIVACY_URL ="https://docs.google.com/document/d/e/2PACX-1vRK9NVeaDGbetbE3uTfpd5q7PtbFkEUbmsFK9kOKJfcXLMAXqEewlrjzeOoUP2xLxfShrYmDYfBdY80/pub";
+  static const SETTING_TERMS_URL ="https://docs.google.com/document/d/e/2PACX-1vTYBsMQvFgHM65YgTbjjVaxp2hXH9k5jVgzKsHSI_rwnyTEE7KycVzNTj9fPxxlt8fSwiMTPBuHE3dA/pub";
 }
 
 class TreeType {
