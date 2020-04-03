@@ -30,7 +30,7 @@ class TourismMap with ChangeNotifier {
   bool _hasInit = false;
 // 解锁城市奖励金币
   num get boxMoney =>
-      (_luckyGroup.issed?.box_time ?? 200) * moneyGroup.makeGoldSped;
+      (_luckyGroup.issed?.box_time ?? 200) * _treeGroup.makeGoldSped;
 
   //当前金币总数
   // double get goldNum => moneyGroup?.allgold ?? 0;

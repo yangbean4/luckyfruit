@@ -1,13 +1,12 @@
 // 通用的 按钮部分
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/utils/mo_ad.dart';
 
 class AdButton extends StatefulWidget {
   // 是否使用广告
@@ -88,10 +87,17 @@ class _AdButtonState extends State<AdButton> {
                   onTap: widget.onOk != null && !widget.disable
                       ? () {
                           if (widget.useAd) {
-                            // 观看广告后上报观看次数接口
-                            Service().videoAdsLog(Util.getVideoLogParams(context));
+                            MoAd.viewAd().then((res) {
+                              // 看广告成功
+                              if (res) {
+                                widget.onOk();
+                              } else {
+                                widget.onCancel();
+                              }
+                            });
+                          } else {
+                            widget.onOk();
                           }
-                          widget.onOk();
                         }
                       : () {},
                   child: Container(

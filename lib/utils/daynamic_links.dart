@@ -8,8 +8,8 @@ class DynamicLink {
 
     if (deepLink != null) {
       // Navigator.pushNamed(context, deepLink.path);
-      print(deepLink);
-      print(deepLink.path);
+      print('deepLink-----------------------$deepLink');
+      print('deepLink.path------------------------${deepLink.path}');
     }
 
     FirebaseDynamicLinks.instance.onLink(
@@ -17,18 +17,18 @@ class DynamicLink {
       final Uri deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
-        print(deepLink);
-        print(deepLink.path);
+        print('deepLink-----------------------$deepLink');
+        print('deepLink.path------------------------${deepLink.path}');
       }
     }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
+      print('deepLink-----------------------onLinkError');
       print(e.message);
     });
   }
 
   static Future<String> getLinks(String code) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://dev.mklucky.com',
+      uriPrefix: 'luckyfruit-firelink.mklucky.com',
       link: Uri.parse(
           'https://luckymerge-cdn.mklucky.com/cdn/zip/index.html?code=$code'),
       androidParameters: AndroidParameters(
@@ -43,8 +43,10 @@ class DynamicLink {
       //   minimumVersion: '0',
       // ),
     );
-
-    final ShortDynamicLink shortLink = await parameters.buildShortLink();
-    return shortLink.shortUrl.toString();
+    final url = await parameters.buildUrl();
+    print(url);
+    return url.toString();
+    // final ShortDynamicLink shortLink = await parameters.buildShortLink();
+    // return shortLink.shortUrl.toString();
   }
 }

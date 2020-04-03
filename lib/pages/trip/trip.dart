@@ -441,12 +441,9 @@ class _TripState extends State<Trip>
         Positioned(
           bottom: ScreenUtil().setWidth(930),
           left: 0,
-          child: Selector<MoneyGroup, Map<String, double>>(
-            selector: (context, provider) => ({
-              'makeGoldSped': provider.makeGoldSped,
-              'gold': provider.gold,
-            }),
-            builder: (context, Map<String, double> map, child) {
+          child: Selector<MoneyGroup, double>(
+            selector: (context, provider) => provider.gold,
+            builder: (context, double gold, child) {
               // 金币产生速度视图
               return Container(
                 width: ScreenUtil().setWidth(600),
@@ -479,7 +476,7 @@ class _TripState extends State<Trip>
                                     ]).createShader(Rect.fromLTWH(
                                             0, 0, bounds.width, bounds.height)),
                                     child: Text(
-                                      Util.formatNumber(map['gold']),
+                                      Util.formatNumber(gold),
                                       style: TextStyle(
                                           // The color must be set to white for this to work
                                           color: Colors.white,
@@ -489,13 +486,19 @@ class _TripState extends State<Trip>
                                     ),
                                   )),
                             ),
-                            Text(
-                              '${Util.formatNumber(map['makeGoldSped'])}/s',
-                              style: TextStyle(
-                                  color: MyTheme.blackColor,
-                                  fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(46),
-                                  fontWeight: FontWeight.bold),
+                            Selector<TreeGroup, double>(
+                              selector: (context, povider) =>
+                                  povider.makeGoldSped,
+                              builder: (_, double makeGoldSped, __) {
+                                return Text(
+                                  '${Util.formatNumber(makeGoldSped)}/s',
+                                  style: TextStyle(
+                                      color: MyTheme.blackColor,
+                                      fontFamily: FontFamily.bold,
+                                      fontSize: ScreenUtil().setSp(46),
+                                      fontWeight: FontWeight.bold),
+                                );
+                              },
                             )
                           ],
                         ),

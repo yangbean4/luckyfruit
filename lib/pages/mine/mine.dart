@@ -46,8 +46,15 @@ class _MinePageState extends State<MinePage> {
         break;
 
       case FacebookLoginStatus.cancelledByUser:
+        print(FacebookLoginStatus.cancelledByUser);
+        Layer.toastWarning(
+            'There is a problem with facebook, please try again later');
         break;
       case FacebookLoginStatus.error:
+        print(FacebookLoginStatus.error);
+        Layer.toastWarning(
+            'There is a problem with facebook, please try again later');
+
         break;
     }
   }

@@ -10,6 +10,7 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/config/app.dart' show Event_Name;
+import 'package:luckyfruit/utils/mo_ad.dart';
 
 class LuckyGroup with ChangeNotifier {
   // 检查广告间隔的时间间隔 单位:秒
@@ -180,6 +181,10 @@ class LuckyGroup with ChangeNotifier {
   init(String last_draw_time, String configVersion, String _acct_id) async {
     acct_id = _acct_id;
     _transTime(last_draw_time);
+
+    //观看广告 ;重制最后看广告时间
+    EVENT_BUS.on(MoAd.VIEW_AD, (_) => showAd());
+
     // 开启定时器;控制显示🎈和右侧按钮
     // 利用Future.wait 的并发 同时处理
     await Future.wait([
@@ -361,12 +366,12 @@ class LuckyGroup with ChangeNotifier {
       } else {
         Duration diff = DateTime.now().difference(_showAdtime);
         // 每隔一个时间间隔检查是否有符合条件的回调;
-        _check = _checkList.firstWhere((check) => check.interval > diff,
+        _check = _checkList.firstWhere((check) => check.interval < diff,
             orElse: () => null);
       }
 
       if (_check != null) {
-        // 如果有则执行;切移��这条回调
+        // 如果有则执行移除这条回调
         _check.callBack();
         _checkList.remove(_check);
       }

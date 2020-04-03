@@ -211,6 +211,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.2"
+  facebook_share:
+    dependency: "direct main"
+    description:
+      name: facebook_share
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   firebase_dynamic_links:
     dependency: "direct main"
     description:

@@ -3,8 +3,24 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-03-13 10:05:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-03-25 11:10:15
+ * @LastEditTime: 2020-04-02 20:53:32
  -->
+
+
+4.2
+1. bug
+2. facebook + share link
+3. Messenge
+4. 树换图
+5. 引导页
+6. 三个动效
+7. 城市背景图
+8. 好评弹窗
+9. 广告SDK
+10. 埋点
+
+
+
 
 - 界面
   - 弹幕 
@@ -88,3 +104,8 @@
 19、partner中的Earning from Partners中的布局不
 20、Map页面布局不对，从Hawaii中点进map页面后，没有回退按钮
 21、Rank排行榜动效没加
+
+
+
+
+-----------------------

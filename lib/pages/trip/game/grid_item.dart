@@ -26,6 +26,27 @@ class GridItem extends StatefulWidget {
 }
 
 class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+        treeGroup.removeAnimateTargetTree(widget.animateSourceTree);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _tree = TreeItem(widget.tree);
@@ -80,20 +101,32 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                   left: 0,
                   bottom: 0,
                   child: Container(
-                      width: ScreenUtil().setWidth(200),
-                      height: ScreenUtil().setWidth(200),
-                      child: FrameAnimationImage(
-                          List<String>.generate(
-                              19, (e) => 'assets/image/merge/merge_$e.png'),
-                          width: ScreenUtil().setWidth(200),
-                          interval: 300,
-                          height: ScreenUtil().setWidth(200), onFinish: () {
-                        TreeGroup treeGroup =
-                            Provider.of<TreeGroup>(context, listen: false);
+                    width: ScreenUtil().setWidth(200),
+                    height: ScreenUtil().setWidth(200),
+                    // child: Lottie.asset(
+                    //   'assets/lottiefiles/merge.json',
+                    //   controller: _controller,
+                    //   onLoaded: (composition) {
+                    //     _controller.duration = composition.duration;
+                    //     _controller
+                    //       ..value = 0
+                    //       ..forward();
+                    //   },
+                    // ),
 
-                        treeGroup
-                            .removeAnimateTargetTree(widget.animateSourceTree);
-                      })),
+                    child: FrameAnimationImage(
+                        List<String>.generate(
+                            19, (e) => 'assets/image/merge/merge_$e.png'),
+                        width: ScreenUtil().setWidth(200),
+                        interval: 300,
+                        height: ScreenUtil().setWidth(200), onFinish: () {
+                      TreeGroup treeGroup =
+                          Provider.of<TreeGroup>(context, listen: false);
+
+                      treeGroup
+                          .removeAnimateTargetTree(widget.animateSourceTree);
+                    }),
+                  ),
                 )
               : Container(),
           // Positioned(child: null)

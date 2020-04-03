@@ -8,9 +8,9 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/models/index.dart' show Issued;
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
-import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:tuple/tuple.dart';
+import 'package:luckyfruit/utils/mo_ad.dart';
 
 class RightBtns extends StatefulWidget {
   RightBtns({Key key}) : super(key: key);
@@ -110,10 +110,13 @@ class _RightBtnsState extends State<RightBtns>
                             (issed?.double_coin_remain_time ?? 10) * 1000),
                     child: GestureDetector(
                       onTap: () {
-                        luckyGroup.doubleStart();
-                        setState(() {
-                          showDouble = false;
-                          isDouble = true;
+                        MoAd.viewAd().then((res) {
+                          if (res) {
+                            luckyGroup.doubleStart();
+                            setState(() {
+                              isDouble = true;
+                            });
+                          }
                         });
                       },
                       child: renderItem('assets/image/vadio.png',
@@ -155,9 +158,13 @@ class _RightBtnsState extends State<RightBtns>
                             (issed?.automatic_remain_time ?? 10) * 1000),
                     child: GestureDetector(
                       onTap: () {
-                        luckyGroup.autoStart();
-                        setState(() {
-                          isAuto = true;
+                        MoAd.viewAd().then((res) {
+                          if (res) {
+                            luckyGroup.autoStart();
+                            setState(() {
+                              isAuto = true;
+                            });
+                          }
                         });
                       },
                       child: renderItem('assets/image/vadio.png',

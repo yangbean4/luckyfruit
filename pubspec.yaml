@@ -64,6 +64,9 @@ dependencies:
   # 消息推送
   firebase_messaging: ^6.0.13
   firebase_dynamic_links: ^0.5.0+11
+  # 分享到Messageer
+  facebook_share: ^1.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -15,7 +15,7 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
+import 'package:facebook_share/facebook_share.dart';
 
 class BonusTree extends StatefulWidget {
   BonusTree({Key key}) : super(key: key);
@@ -65,7 +65,8 @@ class _BonusTreeState extends State<BonusTree> {
   _improveActivity() async {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
 
-    final String url = await DynamicLink.getLinks(userModel.value.acct_id);
+    // final String url = await DynamicLink.getLinks(userModel.value.acct_id);
+    final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
 
     // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
     await SocialSharePlugin.shareToFeedFacebookLink(
@@ -86,6 +87,22 @@ class _BonusTreeState extends State<BonusTree> {
           print('FACEBOOK ERROR $error');
           return;
         });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FacebookShare.pageId = '261441784858768';
+  }
+
+  _unlockedCitys() async {
+    await FacebookShare.sendMessage(
+        urlActionTitle: "Visit",
+        url: "https://nemob.id",
+        title: "Promotion",
+        subtitle: "Get your promotion now!",
+        imageUrl:
+            "https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/03/10173552/download6.jpg");
   }
 
   @override
@@ -392,6 +409,7 @@ class _BonusTreeState extends State<BonusTree> {
                         title: 'Unlocked cities',
                         tips:
                             'more earned coins, more unlocked cities and faster the progress.',
+                        onTap: _unlockedCitys,
                       ),
                       SizedBox(height: ScreenUtil().setWidth(40))
                     ],

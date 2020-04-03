@@ -25,6 +25,7 @@ class _ListItemState extends State<ListItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         bool _isSelect = !isSelect;
         setState(() {
@@ -94,6 +95,7 @@ class _WarehouseState extends State<Warehouse> {
                 child: SecondaryText('put it in the warehouse?'),
               ),
               GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     TreeGroup treeGroup =
                         Provider.of<TreeGroup>(context, listen: false);
@@ -137,11 +139,25 @@ class _WarehouseState extends State<Warehouse> {
                         Color.fromRGBO(49, 200, 84, 1)
                       ]),
                 ),
-                child: Center(
-                    child: ModalTitle(
-                  'Warehouse',
-                  color: Colors.white,
-                )),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ModalTitle(
+                        'Warehouse',
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: ScreenUtil().setWidth(10)),
+                      Text(
+                        'Capacity ${warehouseTreeList.length}/${TreeGroup.WAREHOUSE_MAX_LENGTH}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setSp(36),
+                            height: 1,
+                            fontFamily: FontFamily.semibold,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ]),
               ),
               Container(
                 height: ScreenUtil().setWidth(740),
@@ -157,6 +173,7 @@ class _WarehouseState extends State<Warehouse> {
                     itemCount: warehouseTreeList.length),
               ),
               GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     TreeGroup treeGroup =
                         Provider.of<TreeGroup>(context, listen: false);
@@ -184,6 +201,7 @@ class _WarehouseState extends State<Warehouse> {
             selector: (context, provider) => provider.warehouseTreeList,
             builder: (context, List<Tree> warehouseTreeList, child) {
               return GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 child: widget.child,
                 onTap: () {
                   setState(() {

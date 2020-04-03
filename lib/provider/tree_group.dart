@@ -34,6 +34,8 @@ class TreeGroup with ChangeNotifier {
   // 当前最大等级和最小等级的差
   static const int DIFF_LEVEL = 5;
 
+  static const int WAREHOUSE_MAX_LENGTH = 15;
+
   static const String LOAD = 'LOAD';
 
   String acct_id;
@@ -285,6 +287,8 @@ class TreeGroup with ChangeNotifier {
 
   // 保存
   Future<bool> save() async {
+    notifyListeners();
+
     // 如果实在自动合成 则返回 避免频繁触发
     if (_isAuto) return false;
     _upDateTime = DateTime.now();
@@ -649,12 +653,16 @@ class TreeGroup with ChangeNotifier {
 
   // 存入仓库
   void inWarehouse(Tree tree) {
-    _treeList.remove(tree);
-    _warehouseTreeList.add(tree);
-    // 去除位置信息
-    tree.x = null;
-    tree.y = null;
-    save();
+    if (_warehouseTreeList.length == TreeGroup.WAREHOUSE_MAX_LENGTH) {
+      Layer.toastWarning('Warehouse is full.');
+    } else {
+      _treeList.remove(tree);
+      _warehouseTreeList.add(tree);
+      // 去除位置信息
+      tree.x = null;
+      tree.y = null;
+      save();
+    }
   }
 
   // 从���库取出
@@ -672,7 +680,6 @@ class TreeGroup with ChangeNotifier {
   void addWishTree() async {
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
-    // REVIEW: 如果是抽奖时是否放入仓库?
     if (point == null) {
       Layer.locationFull();
       return;
