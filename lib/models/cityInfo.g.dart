@@ -15,6 +15,7 @@ CityInfo _$CityInfoFromJson(Map<String, dynamic> json) {
     ..bg_img = json['bg_img'] as String
     ..fruit_img = json['fruit_img'] as String
     ..sort = json['sort'] as String
+    ..level = json['level'] as String
     ..add_time = json['add_time'] as String;
 }
 
@@ -26,5 +27,6 @@ Map<String, dynamic> _$CityInfoToJson(CityInfo instance) => <String, dynamic>{
       'bg_img': instance.bg_img,
       'fruit_img': instance.fruit_img,
       'sort': instance.sort,
+      'level': instance.level,
       'add_time': instance.add_time
     };

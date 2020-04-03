@@ -517,7 +517,7 @@ class TreeGroup with ChangeNotifier {
     save();
   }
 
-  /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
+  /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全�����分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
   checkBonusTree() async {
     checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel + 1).then((value) {
       if (value?.tree_type == 1) {
@@ -603,6 +603,8 @@ class TreeGroup with ChangeNotifier {
       //回收金币
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, tree.recycleGold);
     }
+
+    notifyListeners();
   }
 
   ///删除指定的树木

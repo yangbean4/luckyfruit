@@ -98,8 +98,8 @@ class Modal {
           ),
           closeType == CloseType.CLOSE_TYPE_TOP_RIGHT && onCancel != null
               ? Positioned(
-                  top: ScreenUtil().setWidth(60),
-                  right: ScreenUtil().setWidth(60),
+                  top: ScreenUtil().setWidth(20),
+                  right: ScreenUtil().setWidth(20),
                   child: Container(
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -109,10 +109,15 @@ class Modal {
                           onCancel();
                         }
                       },
-                      child: Image.asset(
-                        'assets/image/close_icon_modal_top_right.png',
-                        width: ScreenUtil().setWidth(40),
-                        height: ScreenUtil().setWidth(40),
+                      child: Container(
+                        width: ScreenUtil().setWidth(120),
+                        height: ScreenUtil().setWidth(120),
+                        child: Center(
+                            child: Image.asset(
+                          'assets/image/close_icon_modal_top_right.png',
+                          width: ScreenUtil().setWidth(40),
+                          height: ScreenUtil().setWidth(40),
+                        )),
                       ),
                     ),
                   ))

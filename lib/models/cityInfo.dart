@@ -13,6 +13,7 @@ class CityInfo {
     String bg_img;
     String fruit_img;
     String sort;
+    String level;
     String add_time;
     
     factory CityInfo.fromJson(Map<String,dynamic> json) => _$CityInfoFromJson(json);

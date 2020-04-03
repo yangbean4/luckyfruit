@@ -196,11 +196,16 @@ class _MapPageState extends State<MapPage> {
                                         MapPrizeModal().show(cityInfo);
                                       }
                                     },
-                                    child: Image.asset(
-                                      'assets/image/box_${deblokCity == null ? "can" : deblokCity.is_open_box == '1' ? 'opend' : 'can'}.png',
-                                      width: ScreenUtil().setWidth(117),
-                                      height: ScreenUtil().setWidth(106),
-                                    )),
+                                    child: index == 0
+                                        ? Container(
+                                            width: ScreenUtil().setWidth(117),
+                                            height: ScreenUtil().setWidth(106),
+                                          )
+                                        : Image.asset(
+                                            'assets/image/box_${deblokCity == null ? "can" : deblokCity.is_open_box == '1' ? 'opend' : 'can'}.png',
+                                            width: ScreenUtil().setWidth(117),
+                                            height: ScreenUtil().setWidth(106),
+                                          )),
                                 GestureDetector(
                                     onTap: () {
                                       if (deblokCity?.is_open_box == '0') {
@@ -235,7 +240,7 @@ class _MapPageState extends State<MapPage> {
                                           Text(
                                               deblokCity != null
                                                   ? cityInfo.code
-                                                  : 'Lv.${int.parse(cityInfo.id) * TourismMap.LEVEL_SPLIT}',
+                                                  : 'Lv.${cityInfo.level}',
                                               style: TextStyle(
                                                   fontSize:
                                                       ScreenUtil().setSp(50),

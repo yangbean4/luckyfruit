@@ -127,18 +127,25 @@ class TourismMap with ChangeNotifier {
       '_allgold': 0,
       'level': _level.toString()
     };
-    if (_level % (TourismMap.LEVEL_SPLIT) == 0) {
-      // 解锁城市
-      _cityId = (_level ~/ TourismMap.LEVEL_SPLIT + 1).toString();
 
-      data['deblock_city'] = _cityId;
-      notifyListeners();
-      // 先触发更新 保证在弹窗中显示的是新城市
-      // 抽奖弹窗
+    // 解锁城市
+    // _cityId = (_level ~/ TourismMap.LEVEL_SPLIT + 1).toString();
+    LevelRoule levelRoule = levelRouleList.firstWhere(
+        (item) => item.level == _level.toString(),
+        orElse: () => levelRouleList.isEmpty ? null : levelRouleList[0]);
+
+    // 抽奖弹窗
+    if (levelRoule.deblock_city != _cityId) {
+      data['deblock_city'] = levelRoule.deblock_city;
+
       MapPrizeModal().show(cityInfo);
     }
+
     await Service().updateUserInfo(data);
     _userModel.getUserInfo();
+    // notifyListeners();
+
+    // 先触发更新 保证在弹窗中显示的是新城市
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,

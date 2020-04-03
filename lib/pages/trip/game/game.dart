@@ -37,11 +37,13 @@ class _SelectorUse {
   Function addTree;
   Tree isrecycle;
   Function recycle;
+  Function transRecycle;
   bool isLoad;
   _SelectorUse(
       {this.minLevelTree,
       this.addTree,
       this.isrecycle,
+      this.transRecycle,
       this.recycle,
       this.isLoad});
 }
@@ -54,12 +56,10 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with MyNavigator {
-
   @override
   void dispose() {
     super.dispose();
   }
-
 
   @override
   void initState() {
@@ -249,6 +249,7 @@ class _GameState extends State<Game> with MyNavigator {
                             addTree: provider.addTree,
                             recycle: provider.recycle,
                             isLoad: provider.isLoad,
+                            transRecycle: provider.transRecycle,
                             isrecycle: provider.isrecycle),
                         builder: (context, _SelectorUse selectorUse, child) {
                           Widget center = !selectorUse.isLoad
@@ -462,13 +463,14 @@ class _GameState extends State<Game> with MyNavigator {
                                             ]),
                                       );
                                     }, onWillAccept: (Tree source) {
+                                      return true;
+                                    }, onAccept: (Tree source) {
                                       Layer.recycleLayer(
                                           () => selectorUse.recycle(source),
                                           source.treeImgSrc,
                                           source.recycleMoney,
                                           source.recycleGold);
-                                      return true;
-                                    }, onAccept: (Tree source) {
+                                      selectorUse.transRecycle(null);
                                       return true;
                                     });
 
