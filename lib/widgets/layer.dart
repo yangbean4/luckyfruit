@@ -597,14 +597,17 @@ class Layer {
   }
 
   /// 37级合成38级后,弹出弹框通知用户
-  static topLevelMergeEndShowup(
-      TreeGroup treeGroup, String type, String name, num treeId) {
+  static topLevelMergeEndShowup(TreeGroup treeGroup, String type, String name,
+      UnlockNewTreeLevel treeLevel) {
     Modal(
         onOk: () {
           // 种上一颗38级树
           treeGroup.addTree(
               tree: Tree(
-                  grade: Tree.MAX_LEVEL, type: type, treeId: treeId));
+                  grade: Tree.MAX_LEVEL,
+                  type: type,
+                  recycleMoney: treeLevel?.amount,
+                  treeId: treeLevel?.tree_id));
         },
         okText: "Claim",
         children: [
@@ -658,7 +661,7 @@ class Layer {
                   showLimitedTimeBonusTree(treeGroup, newLevel);
                 } else {
                   // 许愿树,需要传递回收时的奖励金额, 其他树都是统一弹出弹框
-                  topLevelMergeEndShowup(treeGroup, type, name, newLevel.tree_id);
+                  topLevelMergeEndShowup(treeGroup, type, name, newLevel);
                 }
               }),
             ]).show();

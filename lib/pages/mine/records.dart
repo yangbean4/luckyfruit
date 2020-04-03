@@ -107,7 +107,7 @@ class _RecordsPageState extends State<RecordsPage> {
                   Container(
                     width: ScreenUtil().setWidth(160),
                     child: Text(
-                      '${profitLog.module == '6' ? '-' : '+'} ${profitLog.amount}',
+                      '${profitLog.module == '7' ? '-' : '+'} ${profitLog.amount}',
                       style: TextStyle(
                           color: MyTheme.blackColor,
                           fontSize: ScreenUtil().setSp(56),

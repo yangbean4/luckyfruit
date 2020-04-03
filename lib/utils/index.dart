@@ -40,7 +40,7 @@ class Util {
         ? number.toStringAsFixed(fixed ?? 2)
         : (number / pow(10.0, 3 * index)).toStringAsFixed(2) + dan[index];
 
-    print("format_result= $result");
+    // print("format_result= $result");
     return result;
   }
 

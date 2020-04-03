@@ -122,9 +122,17 @@ class Service {
     return response.data['data'];
   }
 
+  // 用户许愿树领奖接口
   Future<Map<String, dynamic>> wishTreeDraw(Map<String, dynamic> data) async {
     Response response = await _client.post('/Draw/wishTreeDraw', data: data);
     return response.data['data'];
+  }
+
+  // 许愿树回收接口
+  Future<Map<String, dynamic>> wishTreeRecycle(
+      Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/recoverWishTree', data: data);
+    return response.data;
   }
 
   // 大转盘券添加接口
