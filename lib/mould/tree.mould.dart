@@ -105,9 +105,8 @@ class Tree extends TreePoint {
 //   double get consumeGold => end >= 23 * f ? 23 * f : end;
 
   //
-  String get treeImgSrc => type != null
-      ? 'assets/tree/$type.png'
-      : 'assets/tree/tree${grade % 3 + 1}.png';
+  String get treeImgSrc =>
+      type != null ? 'assets/tree/$type.png' : 'assets/tree/tree$grade.png';
 
   factory Tree.formJson(Map<String, dynamic> json) => Tree()
     ..x = json['x']

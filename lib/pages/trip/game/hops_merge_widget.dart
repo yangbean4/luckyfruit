@@ -123,7 +123,7 @@ class HopsMergeWidget extends StatelessWidget {
   List<Widget> getTreeLayoutWidget(String treeType, String labelBgName) {
     return [
       Container(
-          padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(10)),
+          alignment: Alignment(0, 0),
           child: Image.asset("assets/tree/$treeType.png")),
       Align(
         child: Image.asset("assets/image/$labelBgName.png"),

@@ -304,33 +304,41 @@ class Layer {
   }
 
 // 回收弹窗
-  static recycleLayer(
-          Function onOk, String imgSrc, num recycleMoney, num goldNumber) =>
-      Modal(onOk: onOk, onCancel: () {}, okText: 'Claim', children: <Widget>[
-        Image.asset(
-          imgSrc,
-          width: ScreenUtil().setWidth(218),
-          height: ScreenUtil().setWidth(237),
+  static recycleLayer(Function onOk, String imgSrc, Tree tree) {
+    String message;
+    if (tree?.type == TreeType.Type_Wishing) {
+      // 是许愿树,则发放金额,其他类型的发放金币
+      if (tree?.recycleMoney == null) {
+        message = "\$--";
+      } else {
+        message = '\$${Util.formatNumber(tree?.recycleMoney)}';
+      }
+    } else {
+      message = Util.formatNumber(tree.recycleGold) ?? "--";
+    }
+
+    Modal(onOk: onOk, onCancel: () {}, okText: 'Claim', children: <Widget>[
+      Image.asset(
+        imgSrc,
+        width: ScreenUtil().setWidth(218),
+        height: ScreenUtil().setWidth(237),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: ScreenUtil().setWidth(30),
+          bottom: ScreenUtil().setWidth(38),
         ),
-        Container(
-          margin: EdgeInsets.only(
-            top: ScreenUtil().setWidth(30),
-            bottom: ScreenUtil().setWidth(38),
-          ),
-          child: SecondaryText(
-            'Recycling price',
-          ),
+        child: SecondaryText(
+          'Recycling price',
         ),
-        GoldText(
-            recycleMoney != null
-                ? '\$ ${Util.formatNumber(recycleMoney)}'
-                : Util.formatNumber(goldNumber),
-            textSize: 66),
-        SizedBox(
-          height: ScreenUtil().setWidth(47),
-        ),
-      ])
-        ..show();
+      ),
+      GoldText(message, textSize: 66),
+      SizedBox(
+        height: ScreenUtil().setWidth(47),
+      ),
+    ])
+      ..show();
+  }
 
   static getWishing(Function onOk, Tree tree) {
     Modal(onOk: onOk, onCancel: () {}, okText: "Claim", children: [
