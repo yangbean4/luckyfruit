@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -94,7 +95,7 @@ class _RightBtnsState extends State<RightBtns>
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
       selector: (context, luckyGroup) =>
-          Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
+          Tuple3(luckyGroup.issed, true, true),
       builder: (_, data, __) {
         Issued issed = data.item1;
         bool showDouble = data.item2;
@@ -110,12 +111,15 @@ class _RightBtnsState extends State<RightBtns>
                             (issed?.double_coin_remain_time ?? 10) * 1000),
                     child: GestureDetector(
                       onTap: () {
-                        MoAd.viewAd().then((res) {
+                        MoAd.viewAd(context).then((res) {
                           if (res) {
                             luckyGroup.doubleStart();
                             setState(() {
                               isDouble = true;
                             });
+                          } else {
+                            //看广告失败,弹框提示
+                            Layer.toastWarning("Number of videos has used up");
                           }
                         });
                       },
@@ -158,12 +162,15 @@ class _RightBtnsState extends State<RightBtns>
                             (issed?.automatic_remain_time ?? 10) * 1000),
                     child: GestureDetector(
                       onTap: () {
-                        MoAd.viewAd().then((res) {
+                        MoAd.viewAd(context).then((res) {
                           if (res) {
                             luckyGroup.autoStart();
                             setState(() {
                               isAuto = true;
                             });
+                          } else {
+                            //看广告失败,弹框提示
+                            Layer.toastWarning("Number of videos has used up");
                           }
                         });
                       },

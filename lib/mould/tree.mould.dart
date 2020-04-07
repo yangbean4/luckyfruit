@@ -60,7 +60,9 @@ class Tree extends TreePoint {
   // 回收可以得到的钱
   double recycleMoney;
 
-  String get name => 'Pomegranate';
+  String get name => type != null
+      ? Consts.TreeNameWithType[type]
+      : Consts.TreeNameWithGrade[grade - 1];
 
   double get recycleGold => recycleMoney != null
       ? 0

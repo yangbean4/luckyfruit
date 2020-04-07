@@ -53,7 +53,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.pop(context);
-                    } ,
+                    },
                     child: Image.asset(
                       'assets/image/close_icon_modal_top_right.png',
                       width: ScreenUtil().setWidth(40),
@@ -252,25 +252,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   }
 
                   if (ticketCount <= 0) {
-                    if (data?.item1?.ad_times == 0) {
-                      Layer.toastWarning("Number of videos has used up");
-                      return;
-                    }
                     //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
                     Service().addTicket({'acct_id': data?.item2}).then((value) {
                       // 到这里不管addTicket接口返回成功或失败, 广告次数都已经用过一次了
-                      if (data?.item1?.ad_times != null) {
-                        if (data?.item1?.ad_times > 0) {
-                          data?.item1?.ad_times--;
-                        } else {
-                          data?.item1?.ad_times = 0;
-                        }
-                      }
-
                       if (value == null || value['code'] != 0) {
                         // 添加失败
-                        Layer.toastWarning("Times used up");
-                        setState(() {});
+                        Layer.toastWarning("Tickets Times used up");
+                        if (mounted) setState(() {});
                       } else {
                         // 添加成功
                         Layer.toastSuccess("Get Ticket Success");

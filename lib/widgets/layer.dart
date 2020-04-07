@@ -771,7 +771,7 @@ class Layer {
                       Container(height: ScreenUtil().setWidth(32)),
                       //TODO 替换树名称和图片
                       FourthText(
-                        "Pomegranate tree",
+                        Tree(grade: source.grade + 1).name,
                         fontsize: 36,
                         fontFamily: FontFamily.regular,
                         fontWeight: FontWeight.w400,
@@ -794,7 +794,7 @@ class Layer {
                       ),
                       Container(height: ScreenUtil().setWidth(32)),
                       FourthText(
-                        "Litchi tree",
+                        Tree(grade: source.grade + 1 + 1).name,
                         fontsize: 36,
                         fontFamily: FontFamily.regular,
                         fontWeight: FontWeight.w400,

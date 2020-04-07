@@ -62,11 +62,11 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   Future<PartnerProfitList> getPartnerProfitListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
-    // dynamic profitMap = await Service()
-    //     .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
-    // PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
-    PartnerProfitList profitList =
-        PartnerProfitList.fromJson(json.decode(testJson));
+    dynamic profitMap = await Service()
+        .getPartnerProfitListInfo({'acct_id': treeGroup.acct_id});
+    PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
+    // PartnerProfitList profitList =
+    //     PartnerProfitList.fromJson(json.decode(testJson));
     // TODO 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));
     return profitList;

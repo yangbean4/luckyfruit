@@ -1,11 +1,7 @@
 import 'dart:math';
 import 'dart:convert';
 
-// import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:provider/provider.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {

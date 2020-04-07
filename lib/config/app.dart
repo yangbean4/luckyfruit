@@ -45,8 +45,10 @@ class App {
   static const String METHOD_CHANNEL = "com.xyjy.flutterchannel/method";
   static const String EVENT_CHANNEL = "com.xyjy.flutterchannel/event";
 
-  static const SETTING_PRIVACY_URL ="https://docs.google.com/document/d/e/2PACX-1vRK9NVeaDGbetbE3uTfpd5q7PtbFkEUbmsFK9kOKJfcXLMAXqEewlrjzeOoUP2xLxfShrYmDYfBdY80/pub";
-  static const SETTING_TERMS_URL ="https://docs.google.com/document/d/e/2PACX-1vTYBsMQvFgHM65YgTbjjVaxp2hXH9k5jVgzKsHSI_rwnyTEE7KycVzNTj9fPxxlt8fSwiMTPBuHE3dA/pub";
+  static const SETTING_PRIVACY_URL =
+      "https://docs.google.com/document/d/e/2PACX-1vRK9NVeaDGbetbE3uTfpd5q7PtbFkEUbmsFK9kOKJfcXLMAXqEewlrjzeOoUP2xLxfShrYmDYfBdY80/pub";
+  static const SETTING_TERMS_URL =
+      "https://docs.google.com/document/d/e/2PACX-1vTYBsMQvFgHM65YgTbjjVaxp2hXH9k5jVgzKsHSI_rwnyTEE7KycVzNTj9fPxxlt8fSwiMTPBuHE3dA/pub";
 }
 
 class TreeType {
@@ -160,4 +162,59 @@ class Consts {
       5000.0,
     ],
   ];
+
+  /// grade1到grade37级别的树木名称
+  static const TreeNameWithGrade = [
+    "Grape Tree",
+    "Noni Fruit Tree",
+    "Papaya Tree",
+    "Guava Tree",
+    "Cactus Tree",
+    "Mexican Persimmon Tree",
+    "Soursop Tree",
+    "Gerber Fruit Tree",
+    "Cherries Tree",
+    "Avocado Tree",
+    "Blueberry Tree",
+    "Apple Tree",
+    "Apricot Tree",
+    "Nectarine Tree",
+    "Fig Tree",
+    "Pear Tree",
+    "Pomegranate Tree",
+    "Blackcurrant Tree",
+    "Raspberry Tree",
+    "Olive Tree",
+    "Pineapple Tree",
+    "Pitaya Tree",
+    "Banana Tree",
+    "Date palm Tree",
+    "Coconut Tree",
+    "Orange Tree",
+    "litchi Tree",
+    "Grapefruit Tree",
+    "Longan Tree",
+    "Mango Tree",
+    "Rambutan Tree",
+    "Durian Tree",
+    "Mulberry Tree",
+    "Jackfruit Tree",
+    "Mangosteen Tree",
+    "Star Fruit Tree",
+    "Waxapple Tree"
+  ];
+
+  /// 全部38级别的树木,带有type
+  static const TreeNameWithType = {
+    TreeType.Type_Continents_Asian: "Asian Tree",
+    TreeType.Type_Continents_African: "African Tree",
+    TreeType.Type_Continents_Oceania: "Oceania Tree",
+    TreeType.Type_Continents_European: "European Tree",
+    TreeType.Type_Continents_American: "American Tree",
+    TreeType.Type_Hops_Female: "Hops Tree(female)",
+    TreeType.Type_Hops_Male: "Hops Tree(male)",
+    TreeType.Type_Wishing: "Wishing Tree",
+    TreeType.Type_BONUS: "Limited Time Bouns Tree",
+    TreeType.Type_Globle_Bonus: "Bouns Tree"
+  };
 }
