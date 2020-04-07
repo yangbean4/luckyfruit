@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:luckyfruit/models/index.dart' show ProfitLog;
@@ -95,7 +96,9 @@ class _RecordsPageState extends State<RecordsPage> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        profitLog.add_time,
+                        DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                int.tryParse(profitLog.add_time) * 1000)),
                         style: TextStyle(
                             color: MyTheme.tipsColor,
                             fontSize: ScreenUtil().setSp(34),

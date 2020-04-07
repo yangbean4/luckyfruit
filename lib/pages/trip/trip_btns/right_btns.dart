@@ -127,7 +127,7 @@ class _RightBtnsState extends State<RightBtns>
                           bottomString: 'in ${issed?.limited_time} s',
                           top: GoldText('x${issed?.reward_multiple}',
                               iconSize: 36,
-                              textSize: 36,
+                              textSize: 40,
                               textColor: Colors.white),
                           color: Color.fromRGBO(49, 200, 84, 1)),
                     ),

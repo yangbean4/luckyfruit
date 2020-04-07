@@ -970,6 +970,38 @@ class Layer {
       Container(height: ScreenUtil().setWidth(35)),
     ]).show();
   }
+
+  /// 提现时如果没有登录FB,则提示登录
+  static void remindFacebookLoginWhenWithDraw(UserModel userModel) {
+    Modal(
+        onOk: () {
+          userModel.loginWithFB();
+        },
+        onCancel: () {},
+        okText: "Login",
+        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
+        horizontalPadding: 73,
+        childrenBuilder: (modal) => <Widget>[
+              ModalTitle("Redeem Tips"),
+              SizedBox(height: ScreenUtil().setWidth(58)),
+              Text(
+                  "To ensure your account security and data synchronization across multiple devices, please login with your FB account.",
+                  softWrap: true,
+                  style: TextStyle(
+                      color: Color.fromRGBO(83, 83, 83, 1),
+                      fontSize: ScreenUtil().setSp(40),
+                      fontFamily: FontFamily.regular,
+                      fontWeight: FontWeight.w400)),
+              SizedBox(height: ScreenUtil().setWidth(118)),
+              Image.asset(
+                'assets/image/fb.png',
+                width: ScreenUtil().setWidth(140),
+                height: ScreenUtil().setWidth(140),
+              ),
+              SizedBox(height: ScreenUtil().setWidth(80))
+            ])
+      ..show();
+  }
 }
 
 class GetReward {

@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/device_info.dart';
+import 'dart:convert' as JSON;
+import 'package:http/http.dart' as http;
+import 'package:luckyfruit/widgets/layer.dart';
 
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
@@ -20,6 +24,8 @@ class UserModel with ChangeNotifier {
 
   PersonalInfo _personalInfo;
   PersonalInfo get personalInfo => _personalInfo;
+  // 是否已经登录了Facebook
+  bool hasLoginedFB = false;
 
   /// 初始化用户
   Future<User> initUser() async {
@@ -69,6 +75,43 @@ class UserModel with ChangeNotifier {
     dynamic userMap = await Service().getUser(data);
     User user = User.fromJson(userMap);
     return user;
+  }
+
+  loginWithFB() async {
+    final facebookLogin = FacebookLogin();
+    final result = await facebookLogin.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        print(profile);
+        await Service().relaRelated({
+          'acct_id': value.acct_id,
+          'rela_type': 1,
+          'avatar': profile['picture']['data']['url'],
+          'name': profile['name'],
+          'rela_account': profile['email']
+        });
+        getUserInfo();
+        // 登录成功
+        hasLoginedFB = true;
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        print(FacebookLoginStatus.cancelledByUser);
+        Layer.toastWarning(
+            'There is a problem with facebook, please try again later');
+        break;
+      case FacebookLoginStatus.error:
+        print(FacebookLoginStatus.error);
+        Layer.toastWarning(
+            'There is a problem with facebook, please try again later');
+
+        break;
+    }
   }
 
   // /// 设置用户信息

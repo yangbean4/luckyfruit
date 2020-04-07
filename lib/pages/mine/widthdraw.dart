@@ -238,9 +238,9 @@ class _WithDrawPageState extends State<WithDrawPage> {
             Positioned(
               bottom: ScreenUtil().setWidth(108),
               left: ScreenUtil().setWidth(240),
-              child: Selector<UserModel, UserInfo>(
-                  selector: (_, provider) => provider.userInfo,
-                  builder: (_, UserInfo userInfo, __) {
+              child: Selector<UserModel, UserModel>(
+                  selector: (_, provider) => provider,
+                  builder: (_, UserModel userModel, __) {
                     return Selector<WithDrawProvider, WithDrawProvider>(
                         selector: (context, provider) => provider,
                         shouldRebuild: (pre, next) {
@@ -249,8 +249,16 @@ class _WithDrawPageState extends State<WithDrawPage> {
                         builder: (context, provider, child) {
                           return GestureDetector(
                             onTap: () {
-                              showInfoInputingWindow(
-                                  provider, userInfo.paypal_account);
+                              // if (!userModel.hasLoginedFB) {
+                              // TODO FB未登录时,弹出提示登录弹窗
+                              if (false) {
+                                // 没有登录FB,弹框提醒
+                                Layer.remindFacebookLoginWhenWithDraw(
+                                    userModel);
+                              } else {
+                                showInfoInputingWindow(provider,
+                                    userModel?.userInfo?.paypal_account);
+                              }
                             },
                             child: PrimaryButton(
                                 width: 600,
@@ -504,8 +512,6 @@ class InputFiledWidget extends StatelessWidget {
 }
 
 class WithDrawProvider with ChangeNotifier {
-  //TODO 提现数目是否写死?
-  // List availableAmountList = [0.5, 20, 50, 100, 200, 300];
   List<Cash_amount> _cashAmountValueList;
   List<WithDrawAmountItem> _amountList;
 
@@ -520,10 +526,6 @@ class WithDrawProvider with ChangeNotifier {
     _typesList =
         availableTypesList.map((e) => WithDrawTypesItem(false, e)).toList();
   }
-
-  // set cashAmountValueList(List<Cash_amount> cashAmount) {
-  //   _cashAmountValueList = cashAmount;
-  // }
 
   selectAmountItem(WithDrawAmountItem item) {
     if (item.disabled) {
