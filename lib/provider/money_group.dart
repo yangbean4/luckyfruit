@@ -31,6 +31,9 @@ class MoneyGroup with ChangeNotifier {
   // 触发等级检查
   static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
 
+  bool _showGoldAnimation = false;
+  bool get showGoldAnimation => _showGoldAnimation;
+
   UserInfo _userInfo;
 // 保存 接口获取的用户信息
   UserInfo get userInfo => _userInfo;
@@ -161,7 +164,8 @@ class MoneyGroup with ChangeNotifier {
     const period = const Duration(seconds: App.SAVE_INTERVAL);
     Timer.periodic(period, (timer) {
       _timer = _timer;
-      addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL);
+      addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
+          showAnimate: false);
       // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
       // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
     });
@@ -222,10 +226,14 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
-  addGold(double gold) {
+  addGold(double gold, {bool showAnimate = true}) {
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
     print("addGold: gold=$gold, _gold=$_gold, _allgold=$_allgold");
+    if (showAnimate) {
+      _showGoldAnimation = true;
+      notifyListeners();
+    }
     // Bgm.coinIncrease();
     save();
   }
@@ -243,5 +251,10 @@ class MoneyGroup with ChangeNotifier {
   addMoney(double money) {
     _money += money;
     save();
+  }
+
+  hideGoldAnimation() {
+    _showGoldAnimation = false;
+    notifyListeners();
   }
 }

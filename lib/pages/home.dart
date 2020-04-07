@@ -26,9 +26,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   //监听
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('-----------------state------------$state----');
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
+      print('12313${AppLifecycleState.paused}');
       EVENT_BUS.emit(Event_Name.APP_PAUSED);
     }
     if (state == AppLifecycleState.resumed) {

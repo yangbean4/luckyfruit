@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/utils/firebase_msg.dart';
 
@@ -46,7 +47,7 @@ void main() {
   });
 
 // 开启背景音乐
-  // Bgm.init();
+  Bgm.init();
 
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(

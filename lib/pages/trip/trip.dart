@@ -20,6 +20,7 @@ import './other/balloon.dart';
 import './other/treasure.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/utils/bgm.dart';
+import './other/full_page.dart';
 
 class _SelectorUse {
   String city;
@@ -531,6 +532,21 @@ class _TripState extends State<Trip>
         //       rewardType: RewardStatusType.DOUBLE_REWARD_START,
         //       countDownTimeInSeconds: 36000),
         // ),
+        Selector<MoneyGroup, bool>(
+            builder: (_, show, __) {
+              return show
+                  ? FullPage(
+                      length: 17,
+                      interval: 5000,
+                      pathTmp: 'assets/image/gold/gold_{index}.png',
+                      onFinish: () {
+                        MoneyGroup moneyGroup =
+                            Provider.of<MoneyGroup>(context, listen: false);
+                        moneyGroup.hideGoldAnimation();
+                      })
+                  : Container();
+            },
+            selector: (context, provider) => provider.showGoldAnimation)
       ],
     );
   }

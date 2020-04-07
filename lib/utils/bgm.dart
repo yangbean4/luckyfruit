@@ -20,11 +20,10 @@ class Bgm {
         [Bgm._main, Bgm._coin_increase, Bgm._merge_tree, Bgm._puchase_tree]);
     play();
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+      print('Event_Name.APP_PAUSED  --------------------- bgm');
+
       _canPlay = false;
       fixedPlayer.stop();
-      try {
-        fixedPlayer.dispose();
-      } catch (e) {}
     });
     EVENT_BUS.on(Event_Name.APP_RESUMED, (_) async {
       _canPlay = true;
@@ -38,7 +37,7 @@ class Bgm {
 
   static stop() {
     isPlay = false;
-    fixedPlayer.stop();
+    fixedPlayer?.stop();
   }
 
   static play() async {
@@ -63,7 +62,7 @@ class Bgm {
   }
 
   static puchaseTree() {
-    if (isPlay) {
+    if (isPlay && _canPlay) {
       Bgm.player.play(Bgm._puchase_tree);
     }
   }
