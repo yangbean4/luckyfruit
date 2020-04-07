@@ -20,5 +20,6 @@
   "box_time": 100,
   "double_coin_remain_time": 100,
   "double_coin_time": 100,
-  "hops_reward":0
+  "hops_reward": 0,
+  "cash_amount_list": "$[]cash_amount"
 }

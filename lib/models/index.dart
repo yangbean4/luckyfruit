@@ -3,6 +3,7 @@ export 'rank_friends.dart' ;
 export 'globalDividendTree.dart' ; 
 export 'deblokCity.dart' ; 
 export 'withdrawResult.dart' ; 
+export 'cash_amount.dart' ; 
 export 'reward.dart' ; 
 export 'partnerWrap.dart' ; 
 export 'partnerProfitItem.dart' ; 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -74,7 +75,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
         backgroundColor: MyTheme.primaryColor,
       ),
       body: ChangeNotifierProvider(
-          create: (_) => WithDrawProvider(),
+          create: (_) => WithDrawProvider(context),
           child: Stack(children: [
             Positioned(
                 top: 0,
@@ -168,13 +169,13 @@ class _WithDrawPageState extends State<WithDrawPage> {
                           return Wrap(
                               spacing: ScreenUtil().setWidth(30),
                               runSpacing: ScreenUtil().setWidth(30),
-                              children: provider._amountList
-                                  .map((e) => GestureDetector(
+                              children: provider?._amountList
+                                  ?.map((e) => GestureDetector(
                                       onTap: () {
                                         provider.selectAmountItem(e);
                                       },
                                       child: WithDrawAmountItemWidget(e)))
-                                  .toList());
+                                  ?.toList());
 
                           // return WithDrawItemWidget();
                         },
@@ -276,7 +277,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
 
   void showInfoInputingWindow(
       WithDrawProvider provider, String paypal_account) {
-    num amount = provider?._amountList?.firstWhere((e) {
+    Cash_amount amount = provider?._amountList?.firstWhere((e) {
       return e.selected == true;
     }, orElse: () {
       return null;
@@ -313,7 +314,7 @@ class InputingInfoWidget extends StatelessWidget {
   final TextEditingController _controllerFirst = new TextEditingController();
   final TextEditingController _controllerRepeat = new TextEditingController();
 
-  final num amount;
+  final Cash_amount amount;
   final WithDrawTypes type;
   final String paypal_account;
   InputingInfoWidget(this.amount, this.type, this.paypal_account);
@@ -426,15 +427,15 @@ class InputingInfoWidget extends StatelessWidget {
   }
 }
 
-Future<WithdrawResult> postWithDrawInfo(BuildContext context, num amount,
-    WithDrawTypes type, String paypalAccount) async {
-  print("postWithDrawInfo amount=$amount, type=$type");
+Future<WithdrawResult> postWithDrawInfo(BuildContext context,
+    Cash_amount amount, WithDrawTypes type, String paypalAccount) async {
+  print("postWithDrawInfo amount=${amount?.value}, type=$type");
 
   TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
   Map<String, String> map = {
     'acct_id': treeGroup.acct_id,
-    "cash_method": "$amount",
+    "cash_method": "${amount?.value}",
     "wdl_amt": "${type.index + 1}",
   };
   if (type == WithDrawTypes.Type_Paypal) {
@@ -504,17 +505,25 @@ class InputFiledWidget extends StatelessWidget {
 
 class WithDrawProvider with ChangeNotifier {
   //TODO 提现数目是否写死?
-  List availableAmountList = [0.5, 20, 50, 100, 200, 300];
+  // List availableAmountList = [0.5, 20, 50, 100, 200, 300];
+  List<Cash_amount> _cashAmountValueList;
   List<WithDrawAmountItem> _amountList;
 
-  WithDrawProvider() {
-    _amountList = availableAmountList
-        .map((val) =>
-            WithDrawAmountItem(val, false, val == availableAmountList[0]))
-        .toList();
+  WithDrawProvider(BuildContext context) {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    _cashAmountValueList = luckyGroup?.issed?.cash_amount_list;
+
+    _amountList = _cashAmountValueList
+        ?.map((val) =>
+            WithDrawAmountItem(val, false, val == _cashAmountValueList[0]))
+        ?.toList();
     _typesList =
         availableTypesList.map((e) => WithDrawTypesItem(false, e)).toList();
   }
+
+  // set cashAmountValueList(List<Cash_amount> cashAmount) {
+  //   _cashAmountValueList = cashAmount;
+  // }
 
   selectAmountItem(WithDrawAmountItem item) {
     if (item.disabled) {
@@ -600,7 +609,7 @@ class WithDrawTypesItemWidget extends StatelessWidget {
 
 class WithDrawAmountItem {
   bool selected;
-  num amount;
+  Cash_amount amount;
   // 判断是第一个选项,特殊处理
   bool first = false;
   // 选择亚马逊提现的时候第一个提现数量禁用
@@ -630,7 +639,7 @@ class WithDrawAmountItemWidget extends StatelessWidget {
                   : item.selected ? MyTheme.primaryColor : Color(0xFFEFEEF3),
               borderRadius:
                   BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20)))),
-          child: Text("\$${item.amount}",
+          child: Text("\$${item?.amount?.show}",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: FontFamily.semibold,

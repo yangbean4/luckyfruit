@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
+import "cash_amount.dart";
 part 'Issued.g.dart';
 
 @JsonSerializable()
@@ -28,6 +28,7 @@ class Issued {
     num double_coin_remain_time;
     num double_coin_time;
     num hops_reward;
+    List<Cash_amount> cash_amount_list;
     
     factory Issued.fromJson(Map<String,dynamic> json) => _$IssuedFromJson(json);
     Map<String, dynamic> toJson() => _$IssuedToJson(this);
