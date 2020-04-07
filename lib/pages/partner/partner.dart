@@ -647,150 +647,163 @@ class PartnerState extends State<Partner> {
                             ),
 
                             // Partner Profit help me earnings部分
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: ScreenUtil().setWidth(54),
-                                  horizontal: ScreenUtil().setWidth(47)),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(ScreenUtil().setWidth(40))),
-                              ),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Partner help me earnings",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(50),
-                                        fontFamily: FontFamily.bold,
-                                        fontWeight: FontWeight.bold,
+                            GestureDetector(
+                              onTap: () {
+                                MyNavigator().pushNamed(
+                                  context,
+                                  "PartnerProfit",
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: ScreenUtil().setWidth(54),
+                                    horizontal: ScreenUtil().setWidth(47)),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          ScreenUtil().setWidth(40))),
+                                ),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Partner help me earnings",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setWidth(50),
+                                          fontFamily: FontFamily.bold,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
 
-                                    // 加速倍率图标
-                                    Align(
-                                        alignment: Alignment(-0.6, 0),
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              top: ScreenUtil().setWidth(30)),
-                                          padding: EdgeInsets.only(
-                                              left: ScreenUtil().setWidth(40),
-                                              right: ScreenUtil().setWidth(10)),
-                                          width: ScreenUtil().setWidth(140),
-                                          height: ScreenUtil().setWidth(40),
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              alignment: Alignment.center,
-                                              image: AssetImage(
-                                                  "assets/image/partner_profit_from_friends_rate_bg.png"),
-                                              fit: BoxFit.fill,
+                                      // 加速倍率图标
+                                      Align(
+                                          alignment: Alignment(-0.6, 0),
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                top: ScreenUtil().setWidth(30)),
+                                            padding: EdgeInsets.only(
+                                                left: ScreenUtil().setWidth(40),
+                                                right:
+                                                    ScreenUtil().setWidth(10)),
+                                            width: ScreenUtil().setWidth(140),
+                                            height: ScreenUtil().setWidth(40),
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                alignment: Alignment.center,
+                                                image: AssetImage(
+                                                    "assets/image/partner_profit_from_friends_rate_bg.png"),
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
-                                          ),
-                                          child: Text(
-                                            "${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]} rate",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ScreenUtil().setWidth(24),
-                                                fontFamily: FontFamily.semibold,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white),
-                                          ),
-                                        )),
-                                    // 第二行
-                                    IntrinsicHeight(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Container(
-                                            // color: Colors.red[300],
-                                            child: Column(
+                                            child: Text(
+                                              "${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[1]} rate",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(24),
+                                                  fontFamily:
+                                                      FontFamily.semibold,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white),
+                                            ),
+                                          )),
+                                      // 第二行
+                                      IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Expanded(
+                                                child: Container(
+                                              // color: Colors.red[300],
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  ModalTitle(
+                                                    "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
+                                                    color: Color(0xFFFF4C2F),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      // color: Colors.yellow[300],
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        "Total earning",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          // backgroundColor: Colors.green,
+                                                          color:
+                                                              Color(0XFF7C7C7C),
+                                                          fontSize: ScreenUtil()
+                                                              .setWidth(40),
+                                                          fontFamily: FontFamily
+                                                              .regular,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )),
+                                            Expanded(
+                                                child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 ModalTitle(
-                                                  "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
-                                                  color: Color(0xFFFF4C2F),
+                                                  "\$${_partnerWrap?.direct_profit}",
                                                 ),
-                                                Expanded(
-                                                  child: Container(
-                                                    // color: Colors.yellow[300],
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "Total earning",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        // backgroundColor: Colors.green,
-                                                        color:
-                                                            Color(0XFF7C7C7C),
-                                                        fontSize: ScreenUtil()
-                                                            .setWidth(40),
-                                                        fontFamily:
-                                                            FontFamily.regular,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
+                                                Text(
+                                                  "Direct friend contribution",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Color(0XFF7C7C7C),
+                                                    fontSize: ScreenUtil()
+                                                        .setWidth(40),
+                                                    fontFamily:
+                                                        FontFamily.regular,
+                                                    fontWeight: FontWeight.w400,
                                                   ),
                                                 )
                                               ],
-                                            ),
-                                          )),
-                                          Expanded(
-                                              child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              ModalTitle(
-                                                "\$${_partnerWrap?.direct_profit}",
-                                              ),
-                                              Text(
-                                                "Direct friend contribution",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(0XFF7C7C7C),
-                                                  fontSize:
-                                                      ScreenUtil().setWidth(40),
-                                                  fontFamily:
-                                                      FontFamily.regular,
-                                                  fontWeight: FontWeight.w400,
+                                            )),
+                                            Expanded(
+                                                child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                ModalTitle(
+                                                  "\$${_partnerWrap?.indirect_profit}",
                                                 ),
-                                              )
-                                            ],
-                                          )),
-                                          Expanded(
-                                              child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              ModalTitle(
-                                                "\$${_partnerWrap?.indirect_profit}",
-                                              ),
-                                              Text(
-                                                "Indirect friend contributions",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(0XFF7C7C7C),
-                                                  fontSize:
-                                                      ScreenUtil().setWidth(40),
-                                                  fontFamily:
-                                                      FontFamily.regular,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )
-                                            ],
-                                          )),
-                                        ],
+                                                Text(
+                                                  "Indirect friend contributions",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Color(0XFF7C7C7C),
+                                                    fontSize: ScreenUtil()
+                                                        .setWidth(40),
+                                                    fontFamily:
+                                                        FontFamily.regular,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ]),
+                                    ]),
+                              ),
                             ),
                             SizedBox(
                               height: ScreenUtil().setWidth(30),

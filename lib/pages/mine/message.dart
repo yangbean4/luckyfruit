@@ -45,13 +45,16 @@ class _MessagePageState extends State<MessagePage> {
           color: MyTheme.blackColor,
         ),
         backgroundColor: MyTheme.grayColor,
-        title: Text(
-          'Invitation Record',
-          style: TextStyle(
-              color: MyTheme.blackColor,
-              fontSize: ScreenUtil().setSp(70),
-              fontFamily: FontFamily.bold,
-              fontWeight: FontWeight.bold),
+        title: Align(
+          alignment: Alignment(-0.3, 0),
+          child: Text(
+            'Message',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(70),
+                fontFamily: FontFamily.bold,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: ListView.separated(

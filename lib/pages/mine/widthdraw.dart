@@ -29,6 +29,34 @@ class WithDrawPage extends StatefulWidget {
 }
 
 class _WithDrawPageState extends State<WithDrawPage> {
+  bool enableOnTap = true;
+  List<Color> colorsOnSpinBtn = const <Color>[
+    Color.fromRGBO(49, 200, 84, 1),
+    Color.fromRGBO(36, 185, 71, 1)
+  ];
+
+  toggleEnableStatue(bool enable) {
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      if (!enable) {
+        // 禁用时按钮颜色
+        colorsOnSpinBtn = [
+          Color.fromRGBO(143, 235, 162, 1),
+          Color.fromRGBO(143, 235, 162, 1)
+        ];
+      } else {
+        colorsOnSpinBtn = [
+          Color.fromRGBO(49, 200, 84, 1),
+          Color.fromRGBO(36, 185, 71, 1)
+        ];
+      }
+      enableOnTap = enable;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,7 +200,9 @@ class _WithDrawPageState extends State<WithDrawPage> {
                               children: provider?._amountList
                                   ?.map((e) => GestureDetector(
                                       onTap: () {
-                                        provider.selectAmountItem(e);
+                                        bool enable = provider.selectAmountItem(
+                                            e, widget.amount);
+                                        toggleEnableStatue(enable);
                                       },
                                       child: WithDrawAmountItemWidget(e)))
                                   ?.toList());
@@ -248,21 +278,24 @@ class _WithDrawPageState extends State<WithDrawPage> {
                         },
                         builder: (context, provider, child) {
                           return GestureDetector(
-                            onTap: () {
-                              // if (!userModel.hasLoginedFB) {
-                              // TODO FB未登录时,弹出提示登录弹窗
-                              if (false) {
-                                // 没有登录FB,弹框提醒
-                                Layer.remindFacebookLoginWhenWithDraw(
-                                    userModel);
-                              } else {
-                                showInfoInputingWindow(provider,
-                                    userModel?.userInfo?.paypal_account);
-                              }
-                            },
+                            onTap: enableOnTap
+                                ? () {
+                                    // if (!userModel.hasLoginedFB) {
+                                    // TODO FB未登录时,弹出提示登录弹窗
+                                    if (false) {
+                                      // 没有登录FB,弹框提醒
+                                      Layer.remindFacebookLoginWhenWithDraw(
+                                          userModel);
+                                    } else {
+                                      showInfoInputingWindow(provider,
+                                          userModel?.userInfo?.paypal_account);
+                                    }
+                                  }
+                                : () {},
                             child: PrimaryButton(
                                 width: 600,
                                 height: 124,
+                                colors: colorsOnSpinBtn,
                                 child: Center(
                                     child: Text(
                                   "Cash Out",
@@ -381,7 +414,8 @@ class InputingInfoWidget extends StatelessWidget {
                                           .compareTo(_controllerRepeat.text) !=
                                       0) {
                                     Layer.toastWarning(
-                                        "Please Confirm Your Account Is Correct");
+                                        "Please Confirm Your Account Is Correct",
+                                        padding: 40);
                                     return;
                                   }
 
@@ -527,16 +561,22 @@ class WithDrawProvider with ChangeNotifier {
         availableTypesList.map((e) => WithDrawTypesItem(false, e)).toList();
   }
 
-  selectAmountItem(WithDrawAmountItem item) {
+  bool selectAmountItem(WithDrawAmountItem item, String curAmount) {
     if (item.disabled) {
       Layer.toastWarning("Disabled");
-      return;
+      return false;
     }
     _amountList.forEach((e) {
       e.selected = false;
     });
     item.selected = true;
+
+    if (item.amount.show > double.tryParse(curAmount)) {
+      // 余额不足,不能提现
+      return false;
+    }
     notifyListeners();
+    return true;
   }
 
   List availableTypesList = [

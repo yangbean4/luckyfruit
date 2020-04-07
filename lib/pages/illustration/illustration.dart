@@ -46,19 +46,6 @@ class Illustration extends StatelessWidget {
     "1.Upgrade trees to Level 5 \n2.Unlock  in every new tree level \n3.Unlock new cities"
   ];
 
-  List imageUrlList = [
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-    "assets/image/dividend_tree.png",
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +92,7 @@ class Illustration extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
               child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -116,7 +103,7 @@ class Illustration extends StatelessWidget {
                         Image.asset(
                           "assets/tree/${TreeType.All_Max_Level_Trees[index]}.png",
                           width: ScreenUtil().setWidth(240),
-                          height: ScreenUtil().setWidth(260),
+                          height: ScreenUtil().setWidth(168),
                           fit: BoxFit.cover,
                         ),
                         Container(

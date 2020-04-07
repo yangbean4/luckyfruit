@@ -237,7 +237,7 @@ class _GameState extends State<Game> with MyNavigator {
                     // ��边的图鉴按钮
                     GestureDetector(
                       child: getBtn(
-                          'assets/image/Illustration.png', 'Illustration'),
+                          'assets/image/Illustration.png', 'Instruction'),
                       onTap: () {
                         pushNamed(context, 'Illustration');
                       },
