@@ -146,8 +146,8 @@ class TreeAnimation extends StatelessWidget {
               bottom: ScreenUtil().setWidth(10),
               child: TreeWidget(
                 tree: tree,
-                imgHeight: ScreenUtil().setWidth(140 * enlargeSize.value),
-                imgWidth: ScreenUtil().setWidth(200 * enlargeSize.value),
+                imgHeight: ScreenUtil().setWidth(168 * enlargeSize.value),
+                imgWidth: ScreenUtil().setWidth(240 * enlargeSize.value),
                 labelWidth: ScreenUtil().setWidth(60),
                 primary: true,
               )),

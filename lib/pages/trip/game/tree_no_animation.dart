@@ -24,8 +24,8 @@ Widget TreeNoAnimation(Tree tree) => Container(
               bottom: ScreenUtil().setWidth(10),
               child: TreeWidget(
                 tree: tree,
-                imgHeight: ScreenUtil().setWidth(140),
-                imgWidth: ScreenUtil().setWidth(200),
+                imgHeight: ScreenUtil().setWidth(186),
+                imgWidth: ScreenUtil().setWidth(240),
                 labelWidth: ScreenUtil().setWidth(60),
                 primary: true,
               ))
