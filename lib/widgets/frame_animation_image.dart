@@ -30,11 +30,8 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
 
     // 把所有图片都加载进内容，否则每一帧加载时会卡顿
     for (int i = 0; i < widget._assetList.length; ++i) {
-      images.add(Image.asset(
-        widget._assetList[i],
-        width: widget.width,
-        height: widget.height,
-      ));
+      images.add(Image.asset(widget._assetList[i],
+          width: widget.width, height: widget.height, gaplessPlayback: true));
     }
 
     final int imageCount = widget._assetList.length;

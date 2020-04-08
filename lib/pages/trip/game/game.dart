@@ -336,14 +336,14 @@ class _GameState extends State<Game> with MyNavigator {
                                                   bottom:
                                                       ScreenUtil().setWidth(80),
                                                   left: ScreenUtil()
-                                                      .setWidth(156),
+                                                      .setWidth(106),
                                                   child: TreeWidget(
                                                     tree: selectorUse
                                                         .minLevelTree,
                                                     imgHeight: ScreenUtil()
-                                                        .setWidth(96),
+                                                        .setWidth(196),
                                                     imgWidth: ScreenUtil()
-                                                        .setWidth(88),
+                                                        .setWidth(188),
                                                     labelWidth: ScreenUtil()
                                                         .setWidth(72),
                                                     primary: false,

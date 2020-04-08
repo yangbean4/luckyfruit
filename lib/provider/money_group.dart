@@ -24,6 +24,7 @@ class MoneyGroup with ChangeNotifier {
 // 用于增加/减少 金币金钱的事件句柄
   static const String ADD_GOLD = 'ADD_GOLD';
   static const String ACC_GOLD = 'ACC_GOLD';
+  static const String TREE_ADD_GOLD = 'TREE_ADD_GOLD';
   static const String ADD_MONEY = 'ADD_MONEY';
   static const String ACC_MONEY = 'ACC_MONEY';
   // 升级时减少总金币
@@ -161,17 +162,28 @@ class MoneyGroup with ChangeNotifier {
       save();
       _timer?.cancel();
     });
-    const period = const Duration(seconds: App.SAVE_INTERVAL);
-    Timer.periodic(period, (timer) {
-      _timer = _timer;
-      addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
-          showAnimate: false);
-      // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
-      // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
-    });
+    // const period = const Duration(seconds: App.SAVE_INTERVAL);
+    // Timer.periodic(period, (timer) {
+    //   _timer = _timer;
+    //   addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
+    //       showAnimate: false);
+    //   // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
+    //   // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
+    // });
+
+    // EVENT_BUS.on(MoneyGroup.TREE_ADD_GOLD, (makeGoldSped) {
+    //   addGold(makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
+    //       showAnimate: false);
+    // });
+
     save();
 
     return this;
+  }
+
+  treeAddGold(makeGoldSped) {
+    addGold(makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
+        showAnimate: false);
   }
 
   // 用户签到

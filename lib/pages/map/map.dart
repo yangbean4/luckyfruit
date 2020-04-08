@@ -551,8 +551,8 @@ class __MapPrizeState extends State<_MapPrize> {
                       TreeWidget(
                         imgSrc: 'assets/image/dividend_tree.png',
                         label: '38',
-                        imgHeight: ScreenUtil().setWidth(199),
-                        imgWidth: ScreenUtil().setWidth(182),
+                        imgHeight: ScreenUtil().setWidth(230),
+                        imgWidth: ScreenUtil().setWidth(282),
                         labelWidth: ScreenUtil().setWidth(72),
                       ),
                       Text('Limited Time Bonus Tree',

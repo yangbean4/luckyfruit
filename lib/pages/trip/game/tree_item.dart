@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,7 +94,8 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
 
       await treeAnimationController?.reverse();
       // await Future.delayed(Duration(milliseconds: 300));
-
+      MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+      moneyGroup.treeAddGold(widget.tree.gold);
     } catch (e) {}
   }
 
@@ -127,8 +129,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
               builder: (BuildContext context, Widget child) {
                 return Positioned(
                   bottom: 0,
-                  left: ScreenUtil().setWidth(200 * (1 - treeAnimation.value)) /
-                      2,
+                  left: ScreenUtil().setWidth(-40 * treeAnimation.value) / 2,
                   child: TreeWidget(
                     tree: widget.tree,
                     showCountDown: widget.tree.showCountDown,

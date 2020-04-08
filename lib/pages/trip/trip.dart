@@ -356,9 +356,9 @@ class _TripState extends State<Trip>
                                                   Image.asset(
                                                     'assets/tree/bonus.png',
                                                     width: ScreenUtil()
-                                                        .setWidth(44),
+                                                        .setWidth(90),
                                                     height: ScreenUtil()
-                                                        .setWidth(48),
+                                                        .setWidth(90),
                                                   ),
                                                   Expanded(
                                                       child: Column(

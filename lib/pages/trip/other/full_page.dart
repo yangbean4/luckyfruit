@@ -16,17 +16,17 @@ class FullPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         left: 0,
-        top: 0,
+        bottom: 0,
         child: Container(
           width: ScreenUtil().setWidth(1080),
-          height: ScreenUtil().setWidth(1920),
+          height: ScreenUtil().setWidth(1620),
           child: FrameAnimationImage(
               // 'assets/image/merge/merge_$e.png'
               List<String>.generate(
                   length, (e) => pathTmp.replaceAll('{index}', e.toString())),
               width: ScreenUtil().setWidth(1080),
-              height: ScreenUtil().setWidth(1920),
-              interval: interval ?? 800,
+              height: ScreenUtil().setWidth(1620),
+              interval: interval ?? 4000,
               onFinish: onFinish),
         ));
   }
