@@ -537,7 +537,8 @@ class _TripState extends State<Trip>
               return show
                   ? FullPage(
                       length: 17,
-                      interval: 5000,
+                      interval: 1000,
+                      // pathTmp: 'assets/image/rain/rain_{index}.png',
                       pathTmp: 'assets/image/gold/gold_{index}.png',
                       onFinish: () {
                         MoneyGroup moneyGroup =

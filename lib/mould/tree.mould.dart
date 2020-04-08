@@ -83,7 +83,7 @@ class Tree extends TreePoint {
   double get gold => grade == Tree.MAX_LEVEL
       ? 0.0
       : double.tryParse(
-          Tree.treeConfig.tree_content[grade.toString()].toString());
+          Tree.treeConfig?.tree_content[grade.toString()].toString());
 //   // 指数
 //   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
 

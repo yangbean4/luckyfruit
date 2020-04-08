@@ -30,8 +30,12 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
 
     // 把所有图片都加载进内容，否则每一帧加载时会卡顿
     for (int i = 0; i < widget._assetList.length; ++i) {
-      images.add(Image.asset(widget._assetList[i],
-          width: widget.width, height: widget.height, gaplessPlayback: true));
+      images.add(Container(
+        // color: Colors.orange,
+        width: widget.width, height: widget.height,
+        alignment: Alignment.topCenter,
+        child: Image.asset(widget._assetList[i], gaplessPlayback: true),
+      ));
     }
 
     final int imageCount = widget._assetList.length;
@@ -67,12 +71,15 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, _) {
-        int ix = _animation.value.floor() % widget._assetList.length;
-        return images[ix];
-      },
+    return Container(
+      // color: Colors.blue,
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, _) {
+          int ix = _animation.value.floor() % widget._assetList.length;
+          return images[ix];
+        },
+      ),
     );
     // return Stack(alignment: AlignmentDirectional.center, children: images);
   }
