@@ -7,17 +7,28 @@ class Bgm {
   static AudioCache player = new AudioCache(prefix: 'bgm/');
   static AudioPlayer fixedPlayer;
   static String _main = 'bgm.mp3';
-  static String _coin_increase = 'coin_increase.mp3';
-  static String _merge_tree = 'merge_tree.mp3';
-  static String _puchase_tree = 'puchase_tree.mp3';
+  static String coin_increase = 'coin_increase.mp3';
+  static String merge_tree = 'merge_tree.mp3';
+  static String puchase_tree = 'puchase_tree.mp3';
+
+  static String claimmoney = 'claimmoney.mp3';
+  static String captainlevelup = 'captainlevelup.mp3';
+  static String newleveluptree = 'newleveluptree.mp3';
 
   static bool isPlay = false;
   static bool _canPlay = true;
 
   static init() {
     AudioPlayer.logEnabled = false;
-    Bgm.player.loadAll(
-        [Bgm._main, Bgm._coin_increase, Bgm._merge_tree, Bgm._puchase_tree]);
+    Bgm.player.loadAll([
+      Bgm._main,
+      Bgm.coin_increase,
+      Bgm.merge_tree,
+      Bgm.puchase_tree,
+      Bgm.claimmoney,
+      Bgm.captainlevelup,
+      Bgm.newleveluptree
+    ]);
     play();
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       print('Event_Name.APP_PAUSED  --------------------- bgm');
@@ -51,19 +62,37 @@ class Bgm {
 
   static coinIncrease() {
     if (isPlay && _canPlay) {
-      Bgm.player.play(Bgm._coin_increase);
+      Bgm.player.play(Bgm.coin_increase);
     }
   }
 
   static mergeTree() {
     if (isPlay && _canPlay) {
-      Bgm.player.play(Bgm._merge_tree);
+      Bgm.player.play(Bgm.merge_tree);
     }
   }
 
   static puchaseTree() {
     if (isPlay && _canPlay) {
-      Bgm.player.play(Bgm._puchase_tree);
+      Bgm.player.play(Bgm.puchase_tree);
+    }
+  }
+
+  static playMoney() {
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm.claimmoney);
+    }
+  }
+
+  static userlevelup() {
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm.captainlevelup);
+    }
+  }
+
+  static treenewlevelup() {
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm.newleveluptree);
     }
   }
 }

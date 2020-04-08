@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'dart:math';
 
 import './money_group.dart';
@@ -180,6 +181,7 @@ class TourismMap with ChangeNotifier {
 
         double getGlod = double.parse(levelRoule.award_coin_prefix) *
             pow(10, int.parse(levelRoule.award_coin_time));
+        Bgm.userlevelup();
         // 弹窗领取升级奖励
         Layer.levelUp((int.parse(level) + 1).toString(), getGlod: getGlod,
             onOk: () {

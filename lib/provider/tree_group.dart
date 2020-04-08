@@ -459,6 +459,7 @@ class TreeGroup with ChangeNotifier {
 
       // 解锁新等级
       if (target.grade + 1 > maxLevel) {
+        Bgm.treenewlevelup();
         Layer.newGrade(
           new Tree(grade: maxLevel + 1),
           amount: globalDividendTree?.amount,

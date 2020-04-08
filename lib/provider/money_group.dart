@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -159,17 +160,14 @@ class MoneyGroup with ChangeNotifier {
     });
     // 退出时保存数据 并取消记时器
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-      save();
+      save(now: true);
       _timer?.cancel();
     });
-    // const period = const Duration(seconds: App.SAVE_INTERVAL);
-    // Timer.periodic(period, (timer) {
-    //   _timer = _timer;
-    //   addGold(treeGroup.makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
-    //       showAnimate: false);
-    //   // addMoney 暂时不是定时➕的 是在限时分红树时间结束是时加的
-    //   // addMoney(treeGroup.makeMoneySped * AnimationConfig.TreeAnimationTime);
-    // });
+    const period = const Duration(seconds: App.SAVE_INTERVAL);
+    Timer.periodic(period, (timer) {
+      _timer = _timer;
+      save();
+    });
 
     // EVENT_BUS.on(MoneyGroup.TREE_ADD_GOLD, (makeGoldSped) {
     //   addGold(makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
@@ -207,7 +205,15 @@ class MoneyGroup with ChangeNotifier {
         '_allgold': _allgold
       };
 
-  Future<bool> save() async {
+  save({bool now = false}) {
+    notifyListeners();
+
+    if (now) {
+      _saveThis();
+    } else {}
+  }
+
+  _saveThis() async {
     _upDateTime = DateTime.now();
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(MoneyGroup.CACHE_KEY, data);
@@ -221,10 +227,7 @@ class MoneyGroup with ChangeNotifier {
     });
 
     // 通知等级检查
-    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
 
-    // 通知更新
-    notifyListeners();
     return saveSuccess;
   }
 
@@ -246,6 +249,8 @@ class MoneyGroup with ChangeNotifier {
       _showGoldAnimation = true;
       notifyListeners();
     }
+    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
+
     // Bgm.coinIncrease();
     save();
   }
@@ -261,6 +266,7 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addMoney(double money) {
+    Bgm.playMoney();
     _money += money;
     save();
   }
