@@ -116,6 +116,7 @@ class _RightBtnsState extends State<RightBtns>
                             luckyGroup.doubleStart();
                             setState(() {
                               isDouble = true;
+                              luckyGroup.setShowCoinRain = true;
                             });
                           } else {
                             //看广告失败,弹框提示
@@ -143,6 +144,7 @@ class _RightBtnsState extends State<RightBtns>
                         luckyGroup.doubleEnd();
                         setState(() {
                           isDouble = false;
+                          luckyGroup.setShowCoinRain = false;
                         });
                       },
                       builder: (ctx, time) {

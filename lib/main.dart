@@ -31,7 +31,7 @@ void main() {
   userModel.initUser().then((e) {
     final String userId = userModel.value?.acct_id;
     // 初始化firebase_messaging
-    FbMsg.init(userId);
+    // FbMsg.init(userId);
     // 监听来源 :是否是DynamicLink
     DynamicLink.initDynamicLinks(userId);
     MoAd.USER_ID = userId;

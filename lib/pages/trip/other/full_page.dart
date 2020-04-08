@@ -8,31 +8,34 @@ class FullPage extends StatelessWidget {
   final int length;
   final String pathTmp;
   final int interval;
+  final double height;
+  final double width;
+  final bool repeat;
   const FullPage(
-      {Key key, this.onFinish, this.length, this.pathTmp, this.interval})
+      {Key key,
+      this.onFinish,
+      this.length,
+      this.pathTmp,
+      this.interval,
+      this.repeat,
+      this.width,
+      this.height})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        left: 0,
-        bottom: ScreenUtil().setWidth(360),
-        child: Container(
-          width: ScreenUtil().setWidth(900),
-          height: ScreenUtil().setWidth(1212),
-          // width: ScreenUtil().setWidth(1080),
-          // height: ScreenUtil().setWidth(1920),
-          // color: Colors.red,
-          child: FrameAnimationImage(
-              // 'assets/image/merge/merge_$e.png'
-              List<String>.generate(
-                  length, (e) => pathTmp.replaceAll('{index}', e.toString())),
-              width: ScreenUtil().setWidth(900),
-              height: ScreenUtil().setWidth(1212),
-              // width: ScreenUtil().setWidth(1080),
-              // height: ScreenUtil().setWidth(1920),
-              interval: interval ?? 800,
-              onFinish: onFinish),
-        ));
+    return Container(
+      width: width,
+      height: height,
+      // color: Colors.red,
+      child: FrameAnimationImage(
+          List<String>.generate(
+              length, (e) => pathTmp.replaceAll('{index}', e.toString())),
+          width: width,
+          height: height,
+          interval: interval ?? 800,
+          repeat: repeat,
+          onFinish: onFinish),
+    );
   }
 }

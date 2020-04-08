@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:provider/provider.dart';
 
@@ -534,20 +535,47 @@ class _TripState extends State<Trip>
         // ),
         Selector<MoneyGroup, bool>(
             builder: (_, show, __) {
-              return show
-                  ? FullPage(
-                      length: 17,
-                      interval: 1000,
-                      // pathTmp: 'assets/image/rain/rain_{index}.png',
-                      pathTmp: 'assets/image/gold/gold_{index}.png',
-                      onFinish: () {
-                        MoneyGroup moneyGroup =
-                            Provider.of<MoneyGroup>(context, listen: false);
-                        moneyGroup.hideGoldAnimation();
-                      })
+              return false
+                  ? Positioned(
+                      left: ScreenUtil().setWidth(390),
+                      bottom: ScreenUtil().setWidth(360),
+                      child: FullPage(
+                          length: 17,
+                          interval: 1000,
+                          repeat: false,
+                          width: ScreenUtil().setWidth(300),
+                          height: ScreenUtil().setWidth(808),
+                          pathTmp: 'assets/image/gold/gold_{index}.png',
+                          onFinish: () {
+                            MoneyGroup moneyGroup =
+                                Provider.of<MoneyGroup>(context, listen: false);
+                            moneyGroup.hideGoldAnimation();
+                          }),
+                    )
                   : Container();
             },
-            selector: (context, provider) => provider.showGoldAnimation)
+            selector: (context, provider) => provider.showGoldAnimation),
+
+        Selector<LuckyGroup, bool>(
+            builder: (_, show, __) {
+              return show
+                  ? Positioned(
+                      child: IgnorePointer(
+                        child: FullPage(
+                            length: 68,
+                            interval: 2000,
+                            repeat: true,
+                            width: ScreenUtil().setWidth(1080),
+                            height: ScreenUtil().setWidth(1920),
+                            pathTmp: 'assets/image/rain/rain_{index}.png',
+                            onFinish: () {
+                              print("gold rain recycle...");
+                            }),
+                      ),
+                    )
+                  : Container();
+            },
+            selector: (context, provider) => provider.showCoinRain),
       ],
     );
   }

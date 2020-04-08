@@ -6,10 +6,15 @@ class FrameAnimationImage extends StatefulWidget {
   final double width;
   final double height;
   final int interval;
+  final bool repeat;
   final void Function() onFinish;
 
   FrameAnimationImage(this._assetList,
-      {this.width, this.height, this.interval = 200, this.onFinish});
+      {this.width,
+      this.height,
+      this.interval = 200,
+      this.repeat = false,
+      this.onFinish});
 
   @override
   State<StatefulWidget> createState() {
@@ -33,8 +38,12 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
       images.add(Container(
         // color: Colors.orange,
         width: widget.width, height: widget.height,
-        alignment: Alignment.topCenter,
-        child: Image.asset(widget._assetList[i], gaplessPlayback: true),
+        // alignment: Alignment.topCenter,
+        child: Image.asset(
+          widget._assetList[i],
+          gaplessPlayback: true,
+          fit: BoxFit.fill,
+        ),
       ));
     }
 
@@ -46,20 +55,15 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
 
     _animation = new Tween<double>(begin: 0, end: imageCount.toDouble())
         .animate(_controller);
-
     runAction();
-    // ..addStatusListener((AnimationStatus status) {
-    //   if (status == AnimationStatus.completed) {
-    //     // _controller.forward(from: 0.0); // 完成后重新开始
-    //     widget.onFinish();
-    //   }
-    // });
-
-    // _controller.forward();
   }
 
   runAction() async {
-    await _controller.forward();
+    if (widget.repeat) {
+      await _controller.repeat().orCancel;
+    } else {
+      await _controller.forward().orCancel;
+    }
     widget.onFinish();
   }
 

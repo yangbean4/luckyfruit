@@ -62,6 +62,14 @@ class LuckyGroup with ChangeNotifier {
   bool get showDouble => _showDouble;
   Timer _showDoubleTimer;
 
+  /// 是否显示金币雨
+  bool _showCoinRain = false;
+  bool get showCoinRain => _showCoinRain;
+  set setShowCoinRain(bool show) {
+    _showCoinRain = show;
+    notifyListeners();
+  }
+
   // 当前是双倍
   bool _showAuto = false;
   bool get showAuto => _showAuto;
