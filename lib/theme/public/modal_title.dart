@@ -10,13 +10,14 @@ class ModalTitle extends StatelessWidget {
   final num fontsize;
   final FontWeight fontWeight;
   final TextAlign textAlign;
-  const ModalTitle(this.text,
-      {Key key,
-      this.color = MyTheme.blackColor,
-      this.fontsize = 70,
-      this.fontWeight,
-      this.textAlign})
-      : super(key: key);
+  const ModalTitle(
+    this.text, {
+    Key key,
+    this.color = MyTheme.blackColor,
+    this.fontsize = 70,
+    this.fontWeight,
+    this.textAlign,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

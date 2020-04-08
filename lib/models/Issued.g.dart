@@ -16,7 +16,6 @@ Issued _$IssuedFromJson(Map<String, dynamic> json) {
     ..game_timeLen = json['game_timeLen'] as num
     ..two_adSpace = json['two_adSpace'] as num
     ..reward_multiple = json['reward_multiple'] as num
-    ..limited_time = json['limited_time'] as num
     ..automatic_time = json['automatic_time'] as num
     ..automatic_game_timelen = json['automatic_game_timelen'] as num
     ..automatic_two_adSpace = json['automatic_two_adSpace'] as num
@@ -45,7 +44,6 @@ Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
       'game_timeLen': instance.game_timeLen,
       'two_adSpace': instance.two_adSpace,
       'reward_multiple': instance.reward_multiple,
-      'limited_time': instance.limited_time,
       'automatic_time': instance.automatic_time,
       'automatic_game_timelen': instance.automatic_game_timelen,
       'automatic_two_adSpace': instance.automatic_two_adSpace,

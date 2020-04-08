@@ -74,18 +74,18 @@ class FreePhone extends StatelessWidget {
                         top: ScreenUtil().setWidth(-61),
                         left: ScreenUtil().setWidth(103),
                         child: Container(
-                          width: ScreenUtil().setWidth(874),
-                          height: ScreenUtil().setWidth(118),
+                          width: ScreenUtil().setWidth(869),
+                          height: ScreenUtil().setWidth(182),
                           child: Center(
                               child: ModalTitle(
                             'Get Mobile Phone For Free',
                             fontsize: 58,
-                            color: Colors.white,
+                            color: MyTheme.blackColor,
                           )),
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   alignment: Alignment.center,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   image: AssetImage(
                                       'assets/image/phone_bvar.png'))),
                         )),

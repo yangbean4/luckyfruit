@@ -14,7 +14,6 @@ class Issued {
     num game_timeLen;
     num two_adSpace;
     num reward_multiple;
-    num limited_time;
     num automatic_time;
     num automatic_game_timelen;
     num automatic_two_adSpace;

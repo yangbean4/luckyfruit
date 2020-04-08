@@ -125,7 +125,7 @@ class _RightBtnsState extends State<RightBtns>
                         });
                       },
                       child: renderItem('assets/image/vadio.png',
-                          bottomString: 'in ${issed?.limited_time} s',
+                          bottomString: 'in ${issed?.double_coin_time} s',
                           top: GoldText('x${issed?.reward_multiple}',
                               iconSize: 36,
                               textSize: 40,
