@@ -300,7 +300,6 @@ class RankPageState extends State<RankPage>
             }
         ]}
         """;
-  // TODO 走接口
   List positionSelf = [-1, -1];
 
   List showTopShield = [false, false];
@@ -342,8 +341,8 @@ class RankPageState extends State<RankPage>
 
       print("positionSelf after= $positionSelf");
 
-      // TODO 测试
-      positionSelf = [10, 10];
+      // 测试
+      // positionSelf = [10, 10];
       setState(() {
         friendsList = res.friends;
         bounsTreeList = res.bounsTrees;
@@ -386,7 +385,7 @@ class RankPageState extends State<RankPage>
         await Service().getRankInfo({'acct_id': treeGroup.acct_id});
     Ranklist rankList = Ranklist.fromJson(rankMap);
 
-    //TODO 测试
+    // 测试
     // Ranklist rankList = Ranklist.fromJson(json.decode(testJson));
     // await Future.delayed(Duration(seconds: 3));
     return rankList;

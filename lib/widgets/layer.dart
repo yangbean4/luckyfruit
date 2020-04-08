@@ -560,7 +560,7 @@ class Layer {
     dynamic plantTimeLimitMap;
     plantTimeLimitMap = await Service().plantTimeLimitTree(
         {'acct_id': treeGroup.acct_id, 'tree_id': value?.tree_id});
-    //TODO 测试用
+    // 测试用
     // plantTimeLimitMap = json.decode("""{
     // "code": 0,
     // "msg": "The tree has been planted",
@@ -769,7 +769,6 @@ class Layer {
                         primary: true,
                       ),
                       Container(height: ScreenUtil().setWidth(32)),
-                      //TODO 替换树名称和图片
                       FourthText(
                         Tree(grade: source.grade + 1).name,
                         fontsize: 36,
@@ -785,7 +784,6 @@ class Layer {
                     ),
                     Column(children: [
                       TreeWidget(
-                        // TODO 添加控制条件
                         tree: Tree(grade: source.grade + 1 + 1),
                         imgHeight: ScreenUtil().setWidth(236),
                         imgWidth: ScreenUtil().setWidth(216),

@@ -211,57 +211,73 @@ class _WithDrawPageState extends State<WithDrawPage> {
                         },
                       ),
                       SizedBox(height: ScreenUtil().setWidth(100)),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Tips",
-                                style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(40),
-                                    fontFamily: FontFamily.semibold,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF262626))),
-                            SizedBox(height: ScreenUtil().setWidth(10)),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                      Selector<UserModel, UserInfo>(
+                          selector: (_, provider) => provider.userInfo,
+                          builder: (_, UserInfo userInfo, __) {
+                            return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('1.\t',
-                                      textAlign: TextAlign.start,
+                                  Text("Tips",
                                       style: TextStyle(
-                                          wordSpacing: 1,
-                                          fontSize: ScreenUtil().setWidth(40),
-                                          color: Color(0xFF535353),
-                                          fontFamily: FontFamily.regular,
-                                          fontWeight: FontWeight.w500)),
-                                  Expanded(
-                                    child: Text(
-                                        'It takes up to 3 business days to cash out and the service fee is 3%',
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            wordSpacing: 1,
-                                            fontSize: ScreenUtil().setWidth(40),
-                                            color: Color(0xFF535353),
-                                            fontFamily: FontFamily.regular,
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                ]),
-                            Row(children: [
-                              Text('2.\t',
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      fontSize: ScreenUtil().setWidth(40),
-                                      color: Color(0xFF535353),
-                                      fontFamily: FontFamily.regular,
-                                      fontWeight: FontWeight.w500)),
-                              Text('No service fee for the first cashout.',
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      fontSize: ScreenUtil().setWidth(40),
-                                      color: Color(0xFF535353),
-                                      fontFamily: FontFamily.regular,
-                                      fontWeight: FontWeight.w500)),
-                            ]),
-                          ]),
+                                          fontSize: ScreenUtil().setSp(40),
+                                          fontFamily: FontFamily.semibold,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF262626))),
+                                  SizedBox(height: ScreenUtil().setWidth(10)),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('1.\t',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                wordSpacing: 1,
+                                                fontSize:
+                                                    ScreenUtil().setWidth(40),
+                                                color: Color(0xFF535353),
+                                                fontFamily: FontFamily.regular,
+                                                fontWeight: FontWeight.w500)),
+                                        Expanded(
+                                          child: Text(
+                                              'It takes up to 3 business days to cash out and the service fee is 3%',
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                  wordSpacing: 1,
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  color: Color(0xFF535353),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
+                                      ]),
+                                  userInfo.first_mention == 1
+                                      ? Row(children: [
+                                          Text('2.\t',
+                                              style: TextStyle(
+                                                  wordSpacing: 1,
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  color: Color(0xFF535353),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w500)),
+                                          Text(
+                                              'No service fee for the first cashout.',
+                                              style: TextStyle(
+                                                  wordSpacing: 1,
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(40),
+                                                  color: Color(0xFF535353),
+                                                  fontFamily:
+                                                      FontFamily.regular,
+                                                  fontWeight: FontWeight.w500)),
+                                        ])
+                                      : Container(),
+                                ]);
+                          })
                     ],
                   ),
                 )),
@@ -551,12 +567,20 @@ class WithDrawProvider with ChangeNotifier {
 
   WithDrawProvider(BuildContext context) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
     _cashAmountValueList = luckyGroup?.issed?.cash_amount_list;
 
     _amountList = _cashAmountValueList
         ?.map((val) =>
             WithDrawAmountItem(val, false, val == _cashAmountValueList[0]))
         ?.toList();
+
+    if (userModel.userInfo.first_mention != 1) {
+      // 如果不是首次提现,
+      if (_amountList != null && _amountList.length > 0) {
+        _amountList.removeAt(0);
+      }
+    }
     _typesList =
         availableTypesList.map((e) => WithDrawTypesItem(false, e)).toList();
   }

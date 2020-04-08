@@ -95,7 +95,7 @@ class _RightBtnsState extends State<RightBtns>
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
       selector: (context, luckyGroup) =>
-          Tuple3(luckyGroup.issed, true, true),
+          Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
       builder: (_, data, __) {
         Issued issed = data.item1;
         bool showDouble = data.item2;

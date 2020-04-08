@@ -82,7 +82,7 @@ class _MapPageState extends State<MapPage> {
                                 left: ScreenUtil().setWidth(60)),
                             child: RichText(
                               text: TextSpan(
-                                  text: 'More trees your friends merge',
+                                  text: 'More cities you are unlocked',
                                   style: TextStyle(
                                       fontFamily: FontFamily.semibold,
                                       fontWeight: FontWeight.w500,

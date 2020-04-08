@@ -38,7 +38,6 @@ class AdButton extends StatefulWidget {
       this.btnText,
       this.cancelText = 'No,Thanks',
       this.onCancel,
-      //TODO 广告次数应该动态变化
       this.tips =
           'Number of videos reset at 12:00 am&pm ({{times}} times left)',
       this.interval = const Duration(seconds: 3),

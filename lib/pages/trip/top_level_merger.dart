@@ -114,8 +114,8 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     dynamic stateMap =
         await Service().unlockNewLevel({'acct_id': acctId, "level": level});
 
+    // 测试代码
     // dynamic stateMap;
-    // //TODO 测试代码
     // String test =
     //     """{"tree_type": 10,"tree_id": 21,"amount": 11.0,"duration": 300}""";
     // stateMap = json.decode(test);

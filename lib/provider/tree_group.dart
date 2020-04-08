@@ -541,8 +541,6 @@ class TreeGroup with ChangeNotifier {
       return null;
     }
     UnlockNewTreeLevel newLevel = UnlockNewTreeLevel.fromJson(stateMap);
-    //TODO 测试代码
-    // newLevel.duration = 3000;
     return newLevel;
   }
 

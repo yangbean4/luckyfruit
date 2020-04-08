@@ -86,6 +86,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme().apply(decoration: TextDecoration.none)),
       initialRoute: 'Home',
       onGenerateRoute: onGenerateRoute,
+      // showPerformanceOverlay: true,
     )));
   }
 }
