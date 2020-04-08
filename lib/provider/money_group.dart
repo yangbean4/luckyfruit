@@ -166,7 +166,7 @@ class MoneyGroup with ChangeNotifier {
     const period = const Duration(seconds: App.SAVE_INTERVAL);
     Timer.periodic(period, (timer) {
       _timer = _timer;
-      save();
+      save(now: true);
     });
 
     // EVENT_BUS.on(MoneyGroup.TREE_ADD_GOLD, (makeGoldSped) {

@@ -96,8 +96,8 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                       Text(
                         message.wdl_status == '2'
-                            ? 'cash out success'
-                            : 'cash out failed',
+                            ? 'cash out failed'
+                            : 'cash out success',
                         style: TextStyle(
                             color: MyTheme.blackColor,
                             fontSize: ScreenUtil().setSp(70),

@@ -493,8 +493,8 @@ Future<WithdrawResult> postWithDrawInfo(BuildContext context,
 
   Map<String, String> map = {
     'acct_id': treeGroup.acct_id,
-    "cash_method": "${amount?.value}",
-    "wdl_amt": "${type.index + 1}",
+    "wdl_amt": "${amount?.value}",
+    "cash_method": "${type.index + 1}",
   };
   if (type == WithDrawTypes.Type_Paypal) {
     map.addAll({"paypal_account": paypalAccount});
