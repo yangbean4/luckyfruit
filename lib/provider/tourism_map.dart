@@ -65,7 +65,7 @@ class TourismMap with ChangeNotifier {
 
   String get cityId => _cityId;
 
-  CityInfo get cityInfo => cityInfoList.firstWhere((c) => c.id == _cityId,
+  CityInfo get cityInfo => cityInfoList?.firstWhere((c) => c.id == _cityId,
       orElse: () => cityInfoList[0]);
 
   // 当前城市 cityInfo.name

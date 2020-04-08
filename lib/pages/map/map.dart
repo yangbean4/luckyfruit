@@ -146,13 +146,17 @@ class _MapPageState extends State<MapPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  deblokCity == null || cityInfo.bg_img == null
-                                      ? 'assets/image/deblokCity.png'
-                                      : cityInfo.bg_img,
-                                  width: ScreenUtil().setWidth(318),
-                                  height: ScreenUtil().setWidth(240),
-                                ),
+                                deblokCity == null || cityInfo.bg_img == null
+                                    ? Image.asset(
+                                        'assets/image/deblokCity.png',
+                                        width: ScreenUtil().setWidth(318),
+                                        height: ScreenUtil().setWidth(240),
+                                      )
+                                    : Image.network(
+                                        cityInfo.bg_img,
+                                        width: ScreenUtil().setWidth(318),
+                                        height: ScreenUtil().setWidth(240),
+                                      ),
                                 Container(
                                   width: ScreenUtil().setWidth(79),
                                   height: ScreenUtil().setWidth(351),
