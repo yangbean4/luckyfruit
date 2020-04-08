@@ -69,15 +69,17 @@ class TourismMap with ChangeNotifier {
       orElse: () => cityInfoList[0]);
 
   // 当前城市 cityInfo.name
-  String _city = 'hawaii';
+  // String _city => cityInfo.code;
 
-  String get city => _city;
+  String get city => cityInfo.code;
 
-  String get cityImgSrc => 'assets/city/$city/city.png';
+  String get _cityName => cityInfo.code.replaceAll(' ', '').toLowerCase();
 
-  String get carImgSrc => 'assets/city/$city/car.png';
+  String get cityImgSrc => 'assets/city/$_cityName.png';
 
-  String get manImgSrc => 'assets/city/$city/man.png';
+  String get carImgSrc => 'assets/city/car.png';
+
+  String get manImgSrc => 'assets/city/man.png';
 
 // 获取已经解锁的城市列表
   Future<List<DeblokCity>> getDeblokCityList() async {
