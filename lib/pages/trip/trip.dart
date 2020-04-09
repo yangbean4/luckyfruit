@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -537,7 +538,7 @@ class _TripState extends State<Trip>
         // ),
         Selector<MoneyGroup, bool>(
             builder: (_, show, __) {
-              return false
+              return show
                   ? Positioned(
                       left: ScreenUtil().setWidth(390),
                       bottom: ScreenUtil().setWidth(360),
@@ -558,26 +559,26 @@ class _TripState extends State<Trip>
             },
             selector: (context, provider) => provider.showGoldAnimation),
 
-        Selector<LuckyGroup, bool>(
-            builder: (_, show, __) {
-              return show
-                  ? Positioned(
-                      child: IgnorePointer(
-                        child: FullPage(
-                            length: 68,
-                            interval: 2000,
-                            repeat: true,
-                            width: ScreenUtil().setWidth(1080),
-                            height: ScreenUtil().setWidth(1920),
-                            pathTmp: 'assets/image/rain/rain_{index}.png',
-                            onFinish: () {
-                              print("gold rain recycle...");
-                            }),
-                      ),
-                    )
-                  : Container();
-            },
-            selector: (context, provider) => provider.showCoinRain),
+        // Selector<LuckyGroup, bool>(
+        //     builder: (_, show, __) {
+        //       return show
+        //           ? Positioned(
+        //               child: IgnorePointer(
+        //                 child: FullPage(
+        //                     length: 45,
+        //                     interval: 2000,
+        //                     repeat: true,
+        //                     width: ScreenUtil().setWidth(1080),
+        //                     height: ScreenUtil().setWidth(1920),
+        //                     pathTmp: 'assets/image/rain/rain_{index}.png',
+        //                     onFinish: () {
+        //                       print("gold rain recycle...");
+        //                     }),
+        //               ),
+        //             )
+        //           : Container();
+        //     },
+        //     selector: (context, provider) => provider.showCoinRain),
       ]),
     );
   }

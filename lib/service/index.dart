@@ -305,7 +305,7 @@ class Service {
       if (e.message.startsWith('SocketException') ||
           // e.message.startsWith('') ||
           e.message.startsWith('Connecting timed')) {
-        return Layer.toastWarning('Network disconnection, please try again');
+        return Layer.toastWarning('Network disconnected, try again later');
       }
       Layer.toastWarning(e.message);
     }));
