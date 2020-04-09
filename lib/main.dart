@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:luckyfruit/utils/bgm.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
-import 'package:luckyfruit/utils/firebase_msg.dart';
 
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +13,9 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'mould/tree.mould.dart';
 import 'utils/mo_ad.dart';
+import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
+import 'package:luckyfruit/utils/firebase_msg.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +66,7 @@ void main() {
       ),
       ChangeNotifierProvider<UserModel>.value(
         value: userModel,
-      )
+      ),
     ],
     child: MyApp(),
   ));
@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme: TextTheme().apply(decoration: TextDecoration.none)),
-      initialRoute: 'Home',
+      initialRoute: 'loadingPage',
       onGenerateRoute: onGenerateRoute,
       // showPerformanceOverlay: true,
     )));

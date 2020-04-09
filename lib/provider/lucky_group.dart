@@ -44,6 +44,10 @@ class LuckyGroup with ChangeNotifier {
 
   String acct_id;
 
+  // 该模块下的初始化数据加载完成
+  bool _dataLoad = false;
+  bool get dataLoad => _dataLoad;
+
   // 检查广告间隔的_Check数组
   List<_Check> _checkList = [];
 
@@ -253,7 +257,7 @@ class LuckyGroup with ChangeNotifier {
       }),
     ]);
     _rightBtnShow();
-
+    _dataLoad = true;
     // 等所有的请求结束,通知更新
     notifyListeners();
   }

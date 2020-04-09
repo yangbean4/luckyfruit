@@ -24,6 +24,11 @@ class TourismMap with ChangeNotifier {
   LuckyGroup _luckyGroup;
   TreeGroup _treeGroup;
   UserModel _userModel;
+
+  // 该模块下的初始化数据加载完成
+  bool _dataLoad = false;
+  bool get dataLoad => _dataLoad;
+
   String _acct_id;
   TourismMap();
   double _allgold;
@@ -161,6 +166,7 @@ class TourismMap with ChangeNotifier {
 
     _cityId = userModel.value.deblock_city ?? '1';
     _hasInit = true;
+    _dataLoad = true;
     notifyListeners();
 
     // 金币增加检查是否升级

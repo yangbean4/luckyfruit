@@ -46,7 +46,6 @@ class ChannelBus {
     // });
 
     basicMessageChannel.setMessageHandler((msg) async {
-      // print('==================================');
       print('Native post: $msg');
       _onEvent(msg); // todo confirm
     });

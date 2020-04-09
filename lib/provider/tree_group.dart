@@ -40,6 +40,10 @@ class TreeGroup with ChangeNotifier {
 
   String acct_id;
 
+  // 该模块下的初始化数据加载完成
+  bool _dataLoad = false;
+  bool get dataLoad => _dataLoad;
+
   // 合成的总次数
   int totalMergeCount = 1;
 
@@ -272,6 +276,7 @@ class TreeGroup with ChangeNotifier {
     });
 
     _isLoad = true;
+    _dataLoad = true;
     notifyListeners();
     return this;
   }

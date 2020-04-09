@@ -57,8 +57,10 @@ class _TripState extends State<Trip>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
+    return Container(
+      width: ScreenUtil().setWidth(1080),
+      height: ScreenUtil().setHeight(1920),
+      child: Stack(children: <Widget>[
         Container(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
@@ -576,7 +578,7 @@ class _TripState extends State<Trip>
                   : Container();
             },
             selector: (context, provider) => provider.showCoinRain),
-      ],
+      ]),
     );
   }
 }

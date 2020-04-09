@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
-  BottomNavigationBar bottomBar;
   int tabIndex = 0;
   List<Widget> pageList = [Trip(), MapPage(), Partner(), MinePage()];
 
@@ -26,7 +25,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   //监听
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('-----------------state------------$state----');
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
@@ -114,8 +112,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     // 设置屏幕适配插件
-    ScreenUtil.init(context, width: 1080, height: 1920);
-
+    // ScreenUtil.init(context, width: 1080, height: 1920);
     return Scaffold(
       // 通过IndexedStack 保持页面状态 但是会所有页面都初始化 so: pass
       // body: IndexedStack(

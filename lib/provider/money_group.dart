@@ -33,6 +33,10 @@ class MoneyGroup with ChangeNotifier {
   // 触发等级检查
   static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
 
+  // 该模块下的初始化数据加载完成
+  bool _dataLoad = false;
+  bool get dataLoad => _dataLoad;
+
   bool _showGoldAnimation = false;
   bool get showGoldAnimation => _showGoldAnimation;
 
@@ -175,7 +179,7 @@ class MoneyGroup with ChangeNotifier {
     // });
 
     save();
-
+    _dataLoad = true;
     return this;
   }
 

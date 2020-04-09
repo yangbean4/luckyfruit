@@ -17,6 +17,7 @@ import 'package:luckyfruit/pages/mine/message.dart';
 import 'package:luckyfruit/pages/mine/records.dart';
 import 'package:luckyfruit/pages/mine/invitation.dart';
 import 'package:luckyfruit/pages/map/bonus_tree.dart';
+import 'package:luckyfruit/pages/loading_page.dart';
 
 final routes = {
   'Home': (context) => Home(),
@@ -40,6 +41,7 @@ final routes = {
   'settings': (context) => SettingsPage(),
   'privacyPage': (context) => PrivacyPage(),
   'instructionPage': (context) => InstructionPage(),
+  'loadingPage': (context) => LoadingPage(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

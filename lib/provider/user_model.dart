@@ -15,6 +15,10 @@ class UserModel with ChangeNotifier {
   UserInfo _userInfo;
   UserInfo get userInfo => _userInfo;
 
+// 该模块下的初始化数据加载完成
+  bool _dataLoad = false;
+  bool get dataLoad => _dataLoad;
+
 // 分享链接
   String _shareLink;
   String get shareLink => _shareLink;
@@ -39,9 +43,15 @@ class UserModel with ChangeNotifier {
       Map<String, dynamic> info = await DeviceIofo.getInfo();
       _user = await getUser(info);
       notifyListeners();
-      getUserInfo();
-      getPersonalInfo();
+      loadOther();
     }
+  }
+
+  loadOther() async {
+    await getUserInfo();
+    await getPersonalInfo();
+    _dataLoad = true;
+    notifyListeners();
   }
 
   // 更新userInfo
