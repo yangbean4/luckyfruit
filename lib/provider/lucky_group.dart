@@ -74,6 +74,14 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 是否显示circle指引
+  bool _showCircleGuidance = false;
+  bool get showCircleGuidance => _showCircleGuidance;
+  set setShowCircleGuidance(bool show) {
+    _showCircleGuidance = show;
+    notifyListeners();
+  }
+
   // 当前是双倍
   bool _showAuto = false;
   bool get showAuto => _showAuto;

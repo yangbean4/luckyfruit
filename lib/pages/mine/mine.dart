@@ -62,7 +62,7 @@ class _MinePageState extends State<MinePage> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                         height: 1,
-                                        fontSize: ScreenUtil().setSp(90))),
+                                        fontSize: ScreenUtil().setSp(80))),
                                 SizedBox(height: ScreenUtil().setWidth(40)),
                                 Text('ID: ${_selectorUse.userId}',
                                     style: TextStyle(
