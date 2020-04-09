@@ -57,9 +57,14 @@ class TourismMap with ChangeNotifier {
       _userModel?.userInfo?.level ?? _userModel?.value?.level ?? '1';
 
   // 当前等级进度  0.xx
-  double get schedule => _allgold == null || levelUpUse == null
-      ? 0
-      : ((_allgold * 100) ~/ levelUpUse) / 100;
+  double get schedule {
+    double cc = _allgold == null || levelUpUse == null
+        ? 0
+        : ((_allgold * 100) ~/ levelUpUse) / 100;
+
+    print('_allgold:$_allgold;levelUpUse:$levelUpUse---------$cc');
+    return cc;
+  }
 
   List<CityInfo> get cityInfoList => _luckyGroup.cityInfoList;
 

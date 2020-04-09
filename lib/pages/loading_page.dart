@@ -38,15 +38,13 @@ class _LoadingPageState extends State<LoadingPage> {
             List<bool> trueArr = loadArr.where((i) => i).toList();
             if (trueArr.length == loadArr.length) {
               Future.delayed(Duration(microseconds: 100)).then((e) {
-                print('12312313213212312310000');
-
                 // 切换到map的tab栏
                 BottomNavigationBar navigationBar =
                     Consts.globalKey.currentWidget;
                 if (navigationBar != null) {
                   navigationBar?.onTap(0);
                 } else {
-                  MyNavigator().pushNamed(context, 'Home');
+                  MyNavigator().pushReplacementNamed(context, 'Home');
                 }
               });
             }

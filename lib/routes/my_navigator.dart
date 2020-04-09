@@ -9,6 +9,11 @@ class MyNavigator {
     Navigator.pushNamed(context, path, arguments: arguments);
   }
 
+  void pushReplacementNamed(BuildContext context, String path, {arguments}) {
+    _routerChange();
+    Navigator.pushReplacementNamed(context, path, arguments: arguments);
+  }
+
   void navigatorPop(BuildContext context) {
     _routerChange();
     Navigator.pop(context, true);
