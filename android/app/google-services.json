@@ -42,6 +42,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701165969003:android:868753d3f15f2f8224db2e",
+        "android_client_info": {
+          "package_name": "goodluck.lucky.money.mergegarden.win.cash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701165969003-0pe54umb48s2h2ib53ta8r5a6pbk45tc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "goodluck.lucky.money.mergegarden.win.cash",
+            "certificate_hash": "4ad4eaafde0384510682f1c5f37a60c97a893f5c"
+          }
+        },
+        {
+          "client_id": "701165969003-9q89kdj37lfb5nuoj2rvgvtgkge6agio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg8cllqsWFz-H-bJ2rkXA_m8bCezSDR1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701165969003-9q89kdj37lfb5nuoj2rvgvtgkge6agio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

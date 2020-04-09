@@ -231,6 +231,7 @@ class MoneyGroup with ChangeNotifier {
     });
 
     // 通知等级检查
+    print("addGold: gold=$gold, _gold=$_gold, _allgold=$_allgold");
 
     return saveSuccess;
   }
@@ -248,7 +249,6 @@ class MoneyGroup with ChangeNotifier {
   addGold(double gold, {bool showAnimate = true}) {
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
-    print("addGold: gold=$gold, _gold=$_gold, _allgold=$_allgold");
     if (showAnimate) {
       _showGoldAnimation = true;
       notifyListeners();

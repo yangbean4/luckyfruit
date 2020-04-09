@@ -32,7 +32,7 @@ class DynamicLink {
       link: Uri.parse(
           'https://luckymerge-cdn.mklucky.com/cdn/zip/index.html?code=$code'),
       androidParameters: AndroidParameters(
-        packageName: 'com.mklucky.luckyfruit',
+        packageName: 'goodluck.lucky.money.mergegarden.win.cash',
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(

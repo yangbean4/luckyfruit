@@ -62,7 +62,7 @@ class TourismMap with ChangeNotifier {
         ? 0
         : ((_allgold * 100) ~/ levelUpUse) / 100;
 
-    print('_allgold:$_allgold;levelUpUse:$levelUpUse---------$cc');
+    // print('_allgold:$_allgold;levelUpUse:$levelUpUse---------$cc');
     return cc;
   }
 

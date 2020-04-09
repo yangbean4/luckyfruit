@@ -193,21 +193,28 @@ class _TripState extends State<Trip>
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Text(
-                                                    _selectorUse.city
-                                                        .toUpperCase(),
-                                                    style: TextStyle(
-                                                        height: 1,
-                                                        fontFamily:
-                                                            FontFamily.black,
-                                                        fontWeight:
-                                                            FontWeight.w900,
-                                                        color: Colors.white,
-                                                        fontSize: ScreenUtil()
-                                                            .setSp(74)),
+                                                  Container(
+                                                    width: ScreenUtil()
+                                                        .setWidth(312),
+                                                    child: Text(
+                                                      _selectorUse.city
+                                                              .toUpperCase() +
+                                                          '123132',
+                                                      style: TextStyle(
+                                                          height: 1,
+                                                          fontFamily:
+                                                              FontFamily.black,
+                                                          fontWeight:
+                                                              FontWeight.w900,
+                                                          color: Colors.white,
+                                                          fontSize: ScreenUtil()
+                                                              .setSp(74)),
+                                                    ),
                                                   ),
                                                   Container(
                                                       margin: EdgeInsets.only(
+                                                          right: ScreenUtil()
+                                                              .setWidth(30),
                                                           top: ScreenUtil()
                                                               .setWidth(9),
                                                           left: ScreenUtil()

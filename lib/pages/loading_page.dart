@@ -86,10 +86,10 @@ class _LoadingPageState extends State<LoadingPage> {
                                       height: ScreenUtil().setWidth(147),
                                     ),
                                     onTap: () {
-                                      UserModel userModel =
-                                          Provider.of<UserModel>(context,
-                                              listen: false);
-                                      userModel.loginWithFB();
+                                      // UserModel userModel =
+                                      //     Provider.of<UserModel>(context,
+                                      //         listen: false);
+                                      // userModel.loginWithFB();
                                     }),
                               ],
                             ))

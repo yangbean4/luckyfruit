@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:social_share_plugin/social_share_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -65,8 +66,8 @@ class _BonusTreeState extends State<BonusTree> {
   _improveActivity() async {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
 
-    // final String url = await DynamicLink.getLinks(userModel.value.acct_id);
-    final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
+    final String url = await DynamicLink.getLinks(userModel.value.acct_id);
+    // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
 
     // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
     await SocialSharePlugin.shareToFeedFacebookLink(
