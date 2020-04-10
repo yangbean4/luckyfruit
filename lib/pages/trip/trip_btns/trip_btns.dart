@@ -217,7 +217,7 @@ class _TripBtnsState extends State<TripBtns> {
                         });
                       },
                       builder: (context, Duration duration) {
-                        selectorUse.setGoldContDownDuration (duration);
+                        selectorUse.setGoldContDownDuration(duration);
                         return Text(
                           Util.formatCountDownTimer(duration),
                           textAlign: TextAlign.center,
@@ -271,7 +271,7 @@ class _TripBtnsState extends State<TripBtns> {
           'assets/image/help.png',
           'HOW TO PLAY',
           onTap: () {
-            print('help');
+            // MyNavigator().pushNamed(context, "testPage");
           },
         ),
       ],

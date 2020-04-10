@@ -67,16 +67,9 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
 }
 
 class LuckyWheelWidget extends StatefulWidget {
-  Animation<double> animation;
-  AnimationController controller;
   Modal modal;
 
   LuckyWheelWidget(this.modal);
-
-  startSpin() {
-    // controller.value = 0;
-    controller.forward();
-  }
 
   @override
   State<StatefulWidget> createState() => LuckyWheelWidgetState();
@@ -90,7 +83,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   int finalPos = 0;
   Tween<double> curTween;
   // 默认3圈
-  static const defaultNumOfTurns = 3 * 2 * pi;
+  static const defaultNumOfTurns = 3 * 2.0;
+
+  Animation<double> animation;
+  AnimationController controller;
 
   // 弱网环境下，最大尝试圈数，超过后还没有返回抽奖结果则放弃
   int maxRetryNum = 3;
@@ -103,42 +99,46 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   num coinNum = 0;
 
+  startSpin() {
+    // controller.value = 0;
+    controller.forward();
+  }
+
   initState() {
     super.initState();
 
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
-    //TODO 测试
     // ticketCount = 8;
-    widget.controller = new AnimationController(
-        duration: const Duration(milliseconds: 3000), vsync: this);
+    controller = new AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this);
 
     Animation curve =
-        CurvedAnimation(parent: widget.controller, curve: Curves.easeInOut);
+        CurvedAnimation(parent: controller, curve: Curves.easeInOut);
 
     // 要旋转的总弧度值
     double endRadian = defaultNumOfTurns;
     curTween = Tween<double>(begin: 0.0, end: endRadian);
-    widget.animation = curTween.animate(curve)
-      ..addListener(() {
-        if (mounted)
-          setState(() {
-            // print(
-            //     "setState() widget.animation.value= ${widget.animation.value}, widget.controller.value= ${widget.controller.value}");
-            // angle = widget.animation.value;
-          });
-      })
+    animation = curTween.animate(curve)
+      // ..addListener(() {
+      //   if (mounted)
+      //     setState(() {
+      //       // print(
+      //       //     "setState() animation.value= ${animation.value}, controller.value= ${controller.value}");
+      //       // angle = animation.value;
+      //     });
+      // })
       ..addStatusListener((status) {
         print("status= $status, finalPos=$finalPos");
         if (status == AnimationStatus.completed) {
           if (finalPos <= 0) {
             if (maxRetryNum <= 0) {
               Layer.toastWarning("Failed, Try Agagin Later");
-              widget.controller.reset();
+              controller.reset();
             } else {
               maxRetryNum--;
-              widget.controller.value = 0;
-              widget.controller.forward();
+              controller.value = 0;
+              controller.forward();
             }
           } else {
             showRewardWindowWithFinalPostion(finalPos);
@@ -163,14 +163,14 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   updateTween() {
     double needAngle = _getAngelWithSelectedPosition(finalPos);
     curTween.end = curTween.end + needAngle;
-    if (widget.controller.isAnimating) {
-      widget.controller.forward();
+    if (controller.isAnimating) {
+      controller.forward();
     }
   }
 
   @override
   void dispose() {
-    widget?.controller?.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -188,16 +188,27 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
               "assets/image/lucky_wheel_round_board.png",
             ),
           ),
-          Transform.rotate(
-            angle: widget?.animation?.value ?? 0,
-            child: Container(
-              width: ScreenUtil().setWidth(600),
-              height: ScreenUtil().setWidth(600),
-              // color: Colors.green,
-              child: Image.asset(
-                "assets/image/lucky_wheel_gift_bg.png",
-              ),
-            ),
+          RepaintBoundary(
+            child: AnimatedBuilder(
+                animation: animation,
+                child: Container(
+                  width: ScreenUtil().setWidth(600),
+                  height: ScreenUtil().setWidth(600),
+                  // color: Colors.green,
+                  child: Image.asset(
+                    "assets/image/lucky_wheel_gift_bg.png",
+                    width: ScreenUtil().setWidth(600),
+                    height: ScreenUtil().setWidth(600),
+                  ),
+                ),
+                builder: (BuildContext context, Widget child) {
+                  print(animation.value);
+                  return Transform.rotate(
+                    angle: animation.value * pi,
+                    alignment: Alignment.center,
+                    child: child,
+                  );
+                }),
           ),
           Container(
               width: ScreenUtil().setWidth(270),
@@ -244,7 +255,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   widget?.modal?.hide();
                 },
                 onOk: () {
-                  if (widget.controller.isAnimating) {
+                  if (controller.isAnimating) {
                     print("controller.isAnimating");
                     return;
                   }
@@ -309,13 +320,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     });
     curTween.end = defaultNumOfTurns;
 
-    widget.controller.value = _getAngelWithSelectedPosition(finalPos) /
-        ((widget.animation.value) + _getAngelWithSelectedPosition(finalPos));
-    widget.startSpin();
+    controller.value = _getAngelWithSelectedPosition(finalPos) /
+        ((animation.value) + _getAngelWithSelectedPosition(finalPos));
+    startSpin();
   }
 
   double _getAngelWithSelectedPosition(int pos) {
-    var x = 0.14 * pi, y = 0.22 * pi, z = pi / 2;
+    var x = 0.14, y = 0.22, z = 1 / 2;
     switch (pos) {
       case 8:
         return x + y;
