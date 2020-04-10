@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-03-13 10:05:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-02 20:53:32
+ * @LastEditTime: 2020-04-09 20:23:36
  -->
 
 
@@ -19,6 +19,11 @@
 9. 广告SDK
 10. 埋点
 
+--------
+1. 引导       -bonan
+2. 推送、好评 how to play  -bean
+3. 俩弹窗
+4. 弹幕
 
 
 

@@ -479,6 +479,8 @@ class Layer {
       ..show();
   }
 
+  static howGetMoney() {}
+
   /// 显示限时分红树开始
   static void showLimitedTimeBonusTree(
       TreeGroup treeGroup, UnlockNewTreeLevel value) {

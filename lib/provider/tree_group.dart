@@ -27,6 +27,8 @@ class TreeGroup with ChangeNotifier {
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
 
+  static const String CACHE_IS_FIRST_TIMELIMT = 'CACHE_IS_FIRST_TIMELIMT';
+
   static const String AUTO_MERGE_START = 'AUTO_MERGE_START';
 
   static const String AUTO_MERGE_END = 'AUTO_MERGE_END';
@@ -526,10 +528,17 @@ class TreeGroup with ChangeNotifier {
 
   /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全�����分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
   checkBonusTree() async {
-    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel + 1).then((value) {
+    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel + 1)
+        .then((value) async {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
         Layer.showLimitedTimeBonusTree(this, value);
+        String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
+        if (res == null) {
+          // 如果是 显示弹窗; 则存储key 保证下次判断
+          Layer.howGetMoney();
+          Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
+        }
       }
     });
   }
