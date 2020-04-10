@@ -106,8 +106,8 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
     } on TickerCanceled {}
     bgColor = null;
 
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    luckyGroup.setShowCircleGuidance = true;
+    // LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    // luckyGroup.setShowCircleGuidance = true;
   }
 
   @override

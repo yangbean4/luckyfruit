@@ -31,7 +31,7 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     });
 
     scaleAnimation.addStatusListener((e) {
-      print("addStatusListener: $e");
+      // print("addStatusListener: $e");
       if (e == AnimationStatus.dismissed) {
         _playAnimation();
       }

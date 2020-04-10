@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/widgets/draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:provider/provider.dart';
 
@@ -593,7 +593,7 @@ class _TripState extends State<Trip>
         //     bottom: ScreenUtil().setWidth(0),
         //     child: GuidanceWelcomeWidget()),
 
-        // GuidanceDrawCircleWidget(),
+        // GuidanceDrawRRectWidget(),
       ]),
     );
   }

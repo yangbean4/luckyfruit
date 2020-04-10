@@ -10,11 +10,11 @@ class InvertedCircleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     return new Path()
-      ..addOval(new Rect.fromCircle(
+      ..addOval(Rect.fromCircle(
           center: Offset(
               ScreenUtil().setWidth(1080 / 2), ScreenUtil().setWidth(1920)),
           radius: radius))
-      ..addRect(new Rect.fromLTWH(
+      ..addRect(Rect.fromLTWH(
           0.0, 0.0, ScreenUtil().setWidth(1080), ScreenUtil().setWidth(2500)))
       ..fillType = PathFillType.evenOdd;
   }
@@ -33,7 +33,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
   CurvedAnimation curveEaseIn;
   AnimationController controller;
   Animation<double> scaleAnimation;
-
+  Tween<double> scaleTween;
   @override
   void initState() {
     super.initState();
@@ -43,16 +43,27 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
     curveEaseIn =
         new CurvedAnimation(parent: controller, curve: Curves.easeOutBack);
 
-    scaleAnimation = Tween<double>(
+    scaleTween = Tween<double>(
       begin: ScreenUtil().setWidth(2000),
       end: ScreenUtil().setWidth(200),
-    ).animate(curveEaseIn);
+    );
+
+    scaleAnimation = scaleTween.animate(curveEaseIn)..addListener((){
+      print("draw_circle addListener");
+      setState(() {
+        
+      });
+    });
   }
 
-  Future<Null> _playAnimation() async {
+  _playAnimation() async {
     try {
+      print("Draw Circle _playAnimation");
+
+      // controller.value = 0;
+      // controller.reset();
       //先正向执行动画
-      await controller.forward().orCancel;
+      await controller.forward();
       //再反向执行动画
       // await controller.reverse().orCancel;
     } on TickerCanceled {
@@ -62,27 +73,20 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      builder: (BuildContext context, Widget child) {
-        return Selector<LuckyGroup, bool>(
-            selector: (context, provider) => provider.showCircleGuidance,
-            builder: (_, bool showCircleGuidance, __) {
-              if (showCircleGuidance) {
-                // Future.delayed(Duration(seconds: 0), () {
-                  _playAnimation();
-                // });
-              }
-              return ClipPath(
-                clipper: InvertedCircleClipper(scaleAnimation.value),
-                child: Container(
-                  width: ScreenUtil().setWidth(1080),
-                  height: ScreenUtil().setWidth(2500),
-                  color: Color.fromRGBO(0, 0, 0, 0.5),
-                ),
-              );
-            });
-      },
-      animation: controller,
-    );
+    return Selector<LuckyGroup, bool>(
+        selector: (context, provider) => provider.showCircleGuidance,
+        builder: (_, bool showCircleGuidance, __) {
+          if (showCircleGuidance) {
+            _playAnimation();
+          }
+          return ClipPath(
+            clipper: InvertedCircleClipper(scaleAnimation.value),
+            child: Container(
+              width: ScreenUtil().setWidth(1080),
+              height: ScreenUtil().setWidth(2500),
+              color: Color.fromRGBO(0, 0, 0, 0.5),
+            ),
+          );
+        });
   }
 }
