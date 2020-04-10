@@ -32,6 +32,7 @@ class AnimationConfig {
 }
 
 class App {
+  static String appVersion = "";
   // 存储金币的时间间隔 单位秒
   static const int SAVE_INTERVAL = 30;
   // 离线也有收益的时长 单位秒
@@ -49,6 +50,9 @@ class App {
       "https://docs.google.com/document/d/e/2PACX-1vRK9NVeaDGbetbE3uTfpd5q7PtbFkEUbmsFK9kOKJfcXLMAXqEewlrjzeOoUP2xLxfShrYmDYfBdY80/pub";
   static const SETTING_TERMS_URL =
       "https://docs.google.com/document/d/e/2PACX-1vTYBsMQvFgHM65YgTbjjVaxp2hXH9k5jVgzKsHSI_rwnyTEE7KycVzNTj9fPxxlt8fSwiMTPBuHE3dA/pub";
+
+  // 运行在release模式时为true,为debug或Profile模式时为false
+  static const IS_IN_RELEASE = bool.fromEnvironment("dart.vm.product");
 }
 
 class TreeType {

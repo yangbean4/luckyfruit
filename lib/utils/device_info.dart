@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:package_info/package_info.dart';
 
 class DeviceIofo {
@@ -40,6 +41,7 @@ class DeviceIofo {
   static Future<Map<String, dynamic>> ininInfo() async {
     await initDeviceInfo();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    App.appVersion = packageInfo.version ?? "";
     Map<String, dynamic> info = {
       "os_type": Platform.isAndroid ? 'android' : 'ios',
       'gaid': getValue(androidName: 'gaid'),
