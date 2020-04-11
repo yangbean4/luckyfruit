@@ -134,7 +134,9 @@ class MoneyGroup with ChangeNotifier {
   }
 
   //初始化 form请求&Storage
-  Future<MoneyGroup> init(TreeGroup _treeGroup, UserModel userModel) async {
+  Future<MoneyGroup> init(
+      TreeGroup _treeGroup, UserModel userModel, num startCoin) async {
+    _gold = startCoin.toDouble();
     acct_id = userModel.value.acct_id;
     treeGroup = _treeGroup;
     _userModel = userModel;

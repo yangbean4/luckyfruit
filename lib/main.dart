@@ -42,7 +42,7 @@ void main() {
 
       treeGroup.init(moneyGroup, luckyGroup, userModel);
       tourismMap.init(moneyGroup, luckyGroup, treeGroup, userModel);
-      moneyGroup.init(treeGroup, userModel);
+      moneyGroup.init(treeGroup, userModel, luckyGroup.issed.first_reward_coin);
     });
   });
 
