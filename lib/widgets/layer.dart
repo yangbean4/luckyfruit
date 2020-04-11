@@ -487,7 +487,61 @@ class Layer {
       ..show();
   }
 
-  static howGetMoney() {}
+  static howGetMoney() {
+    Modal(
+        verticalPadding: 0,
+        horizontalPadding: 0,
+        marginBottom: 0,
+        width: 1080,
+        decorationColor: Color.fromRGBO(0, 0, 0, 0),
+        childrenBuilder: (Modal modal) => <Widget>[
+              Container(
+                  width: ScreenUtil().setWidth(1080),
+                  height: ScreenUtil().setWidth(1920),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: ScreenUtil().setWidth(1080),
+                          height: ScreenUtil().setWidth(240),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () {
+                                      modal.hide();
+                                    },
+                                    child: Container(
+                                        width: ScreenUtil().setWidth(200),
+                                        height: ScreenUtil().setWidth(240),
+                                        child: Center(
+                                            child: Image.asset(
+                                          'assets/image/close.png',
+                                          width: ScreenUtil().setWidth(54),
+                                          height: ScreenUtil().setWidth(54),
+                                        ))))
+                              ]),
+                        ),
+                        Container(
+                            height: ScreenUtil().setWidth(2849),
+                            width: ScreenUtil().setWidth(1080),
+                            // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
+                            child: Container(
+                              width: ScreenUtil().setWidth(992),
+                              height: ScreenUtil().setWidth(2849),
+                              child: Image.asset(
+                                'assets/image/how_get_money.png',
+                                width: ScreenUtil().setWidth(992),
+                                height: ScreenUtil().setWidth(2849),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ))
+            ]).show();
+  }
 
   /// 显示限时分红树开始
   static void showLimitedTimeBonusTree(
