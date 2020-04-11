@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luckyfruit/widgets/MoneyFlyingAnimation.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
 
 import 'package:oktoast/oktoast.dart';
@@ -93,11 +94,9 @@ class MyApp extends StatelessWidget {
           // showPerformanceOverlay: true,
         ),
         // 金币雨动效
-        Selector<LuckyGroup, bool>(
-            builder: (_, show, __) {
-              return show ? CoinRainWidget() : Container();
-            },
-            selector: (context, provider) => provider.showCoinRain),
+        CoinRainWidget(),
+        // 美元图标飞向右下角动效
+        MoneyFlyingAnimation(),
       ],
     )));
   }

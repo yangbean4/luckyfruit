@@ -560,26 +560,15 @@ class _TripState extends State<Trip>
                               x: ScreenUtil().setWidth(640),
                               y: ScreenUtil().setWidth(700)),
                           radius: ScreenUtil().setWidth(200),
+                          animateTime: Duration(milliseconds: 1500),
                           child: Image.asset(
                             'assets/image/gold.png',
                             width: ScreenUtil().setWidth(80),
                             height: ScreenUtil().setWidth(80),
                           ),
+                          type: PositionType.Type_Top,
                         ),
-                      )
-                      // child: FullPage(
-                      //     length: 17,
-                      //     interval: 1000,
-                      //     repeat: false,
-                      //     width: ScreenUtil().setWidth(300),
-                      //     height: ScreenUtil().setWidth(808),
-                      //     pathTmp: 'assets/image/gold/gold_{index}.png',
-                      //     onFinish: () {
-                      //       MoneyGroup moneyGroup =
-                      //           Provider.of<MoneyGroup>(context, listen: false);
-                      //       moneyGroup.hideGoldAnimation();
-                      //     }),
-                      )
+                      ))
                   : Container();
             },
             selector: (context, provider) => provider.showGoldAnimation),

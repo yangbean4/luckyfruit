@@ -274,11 +274,29 @@ class MoneyGroup with ChangeNotifier {
   addMoney(double money) {
     Bgm.playMoney();
     _money += money;
+    // 展示美元动画
+    _showDollarImgTrans = true;
     save();
   }
 
   hideGoldAnimation() {
     _showGoldAnimation = false;
+    notifyListeners();
+  }
+
+  /// 是否显示美元数目文案淡出效果
+  bool _showDollarAmountFading = false;
+  bool get showDollarAmountFading => _showDollarAmountFading;
+  set setShowDollarAmountFading(bool show) {
+    _showDollarAmountFading = show;
+    notifyListeners();
+  }
+
+  /// 是否显示美元图片移动效果
+  bool _showDollarImgTrans = false;
+  bool get showDollarImgTrans => _showDollarImgTrans;
+  set setShowDollarImgTrans(bool show) {
+    _showDollarImgTrans = show;
     notifyListeners();
   }
 }

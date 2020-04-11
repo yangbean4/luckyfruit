@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:provider/provider.dart';
 
 class CoinRainWidget extends StatefulWidget {
   @override
@@ -33,6 +35,13 @@ class CoinRainState extends State with TickerProviderStateMixin {
     ).animate(curveEaseIn);
 
     _playAnimation();
+
+    // controller.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    //     luckyGroup.setShowCoinRain = false;
+    //   }
+    // });
 
     for (int i = 0; i < count; i++) {
       double leftRandom =
@@ -86,10 +95,16 @@ class CoinRainState extends State with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        builder: (BuildContext context, Widget child) {
-          return Stack(children: getCoinList(posAnimation.value));
+    return Selector<LuckyGroup, bool>(
+        builder: (_, show, __) {
+          return show
+              ? AnimatedBuilder(
+                  builder: (BuildContext context, Widget child) {
+                    return Stack(children: getCoinList(posAnimation.value));
+                  },
+                  animation: controller)
+              : Container();
         },
-        animation: controller);
+        selector: (context, provider) => provider.showCoinRain);
   }
 }

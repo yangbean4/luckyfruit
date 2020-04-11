@@ -4,13 +4,15 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
 typedef Widget _BuilderFun(BuildContext context,
-    {Animation<double> top, Animation<double> size});
+    {Animation<double> top, Animation<double> size, Animation<double> axis});
 
 class Position {
   double x;
   double y;
   Position({this.x, this.y});
 }
+
+enum PositionType { Type_Top, Type_Bottom }
 
 class FlyGroup extends StatefulWidget {
   final Widget child;
@@ -24,6 +26,7 @@ class FlyGroup extends StatefulWidget {
   final int count;
   final Function onFinish;
   final Duration animateTime;
+  final PositionType type;
 
   FlyGroup(
       {Key key,
@@ -33,6 +36,7 @@ class FlyGroup extends StatefulWidget {
       this.radius,
       this.count = 10,
       this.child,
+      this.type,
       this.onFinish})
       : super(key: key);
 
@@ -49,6 +53,15 @@ class _FlyGroupState extends State<FlyGroup> {
         widget.count, (e) => _Star(widget.startCenter, widget.radius));
   }
 
+  Widget getPositionedWidgetWithType(
+      double horizontal, double vertical, Widget child) {
+    if (widget.type == PositionType.Type_Bottom) {
+      return Positioned(right: horizontal, bottom: vertical, child: child);
+    } else {
+      return Positioned(left: horizontal, top: vertical, child: child);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double ex = widget.endPos.x;
@@ -56,19 +69,25 @@ class _FlyGroupState extends State<FlyGroup> {
     return FlyAnimation(
         onFinish: widget.onFinish,
         animateTime: widget.animateTime,
-        builder: (ctx, {Animation<double> top, Animation<double> size}) {
+        builder: (ctx,
+            {Animation<double> top,
+            Animation<double> size,
+            Animation<double> axis}) {
           return Stack(
               children: starList.map((_Star star) {
-            double sx = star.position.x;
-            double sy = star.position.y;
+            double sx = (star.position.x - widget.startCenter.x) * axis.value +
+                widget.startCenter.x;
+            double sy = (star.position.y - widget.startCenter.y) * axis.value +
+                widget.startCenter.y;
 
-            return Positioned(
-                left: sx + (ex - sx) * top.value,
-                top: sy + (ey - sy) * top.value,
-                child: Transform.scale(
-                    alignment: Alignment.center,
-                    scale: size.value,
-                    child: widget.child));
+            Widget child = Transform.scale(
+                alignment: Alignment.center,
+                scale: size.value,
+                child: widget.child);
+
+            double horizontal = sx + (ex - sx) * top.value;
+            double vertical = sy + (ey - sy) * top.value;
+            return getPositionedWidgetWithType(horizontal, vertical, child);
           }).toList());
         });
   }
@@ -82,8 +101,8 @@ class _Star {
 
   Position position;
   _Star(this.startCenter, this.radius) {
-    double x = 1 - (Random().nextInt(200) / 100) * radius + startCenter.x;
-    double y = 1 - (Random().nextInt(200) / 100) * radius + startCenter.y;
+    double x = (1 - (Random().nextInt(200) / 100)) * radius + startCenter.x;
+    double y = (1 - (Random().nextInt(200) / 100)) * radius + startCenter.y;
     position = Position(x: x, y: y);
   }
 }
@@ -146,7 +165,7 @@ class _GrowTransition extends StatelessWidget {
           end: 1.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 1.0, curve: Curves.easeInToLinear))),
+            curve: Interval(0.2, 1.0, curve: Curves.easeInToLinear))),
         // 大小
         enlargeSize = Tween<double>(
           begin: 1.0,
@@ -154,10 +173,18 @@ class _GrowTransition extends StatelessWidget {
         ).animate(CurvedAnimation(
             parent: controller,
             curve: Interval(0.6, 1.0, curve: Curves.bounceInOut))),
+        positionAxis = Tween<double>(
+          begin: 1.0,
+          end: 1.8,
+        ).animate(CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.0, 0.2, curve: Curves.easeOutCirc))),
         super(key: key);
 
   final Animation<double> controller;
   final Animation<double> enlargeSize;
+  // 开始时的一个放大的效果
+  final Animation<double> positionAxis;
   final Animation<double> positionTop;
   final _BuilderFun builder;
 
@@ -166,7 +193,8 @@ class _GrowTransition extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, Widget child) {
-        return builder(context, top: positionTop, size: enlargeSize);
+        return builder(context,
+            top: positionTop, size: enlargeSize, axis: positionAxis);
       },
     );
   }
