@@ -313,8 +313,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       coinNum = luckResultMap['coin'] as num;
       print("返回的gift_id=$finalPos，coin=$coinNum");
 
-      ticketCount--;
-      user?.ticket = ticketCount < 0 ? 0 : ticketCount;
+      if (mounted) {
+        setState(() {
+          ticketCount--;
+          user?.ticket = ticketCount < 0 ? 0 : ticketCount;
+        });
+      }
 
       updateTween();
     });

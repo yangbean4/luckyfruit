@@ -48,12 +48,11 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
       end: ScreenUtil().setWidth(200),
     );
 
-    scaleAnimation = scaleTween.animate(curveEaseIn)..addListener((){
-      print("draw_circle addListener");
-      setState(() {
-        
+    scaleAnimation = scaleTween.animate(curveEaseIn)
+      ..addListener(() {
+        print("draw_circle addListener");
+        setState(() {});
       });
-    });
   }
 
   _playAnimation() async {
@@ -69,6 +68,12 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
     } on TickerCanceled {
       // the animation got canceled, probably because we were disposed
     }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 
   @override

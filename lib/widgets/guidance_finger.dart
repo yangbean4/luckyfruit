@@ -42,6 +42,12 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     });
   }
 
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   Future<Null> _playAnimation() async {
     try {
       //先正向执行动画

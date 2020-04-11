@@ -70,6 +70,12 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   }
 
   @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Selector<LuckyGroup, bool>(
         selector: (context, provider) => provider.showCircleGuidance,

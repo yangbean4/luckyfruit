@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
-// import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
-import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
-import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,8 +20,8 @@ import './other/balloon.dart';
 import './other/treasure.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/utils/bgm.dart';
-import './other/full_page.dart';
-import './other/fly_animation.dart';
+
+import 'other/fly_animation.dart';
 
 class _SelectorUse {
   String city;
@@ -540,13 +535,6 @@ class _TripState extends State<Trip>
         Balloon(),
         // 宝箱 📦
         Treasure(),
-        // Positioned(
-        //   right: 0,
-        //   top: ScreenUtil().setWidth(300),
-        //   child: RewardStatusWidget(
-        //       rewardType: RewardStatusType.DOUBLE_REWARD_START,
-        //       countDownTimeInSeconds: 36000),
-        // ),
         // 领取金币动画
         Selector<MoneyGroup, bool>(
             builder: (_, show, __) {
@@ -595,50 +583,6 @@ class _TripState extends State<Trip>
                   : Container();
             },
             selector: (context, provider) => provider.showGoldAnimation),
-        // Selector<MoneyGroup, bool>(
-        //     builder: (_, show, __) {
-        //       return show
-        //           ? Positioned(
-        //               left: ScreenUtil().setWidth(390),
-        //               bottom: ScreenUtil().setWidth(360),
-        //               child: FullPage(
-        //                   length: 17,
-        //                   interval: 1000,
-        //                   repeat: false,
-        //                   width: ScreenUtil().setWidth(300),
-        //                   height: ScreenUtil().setWidth(808),
-        //                   pathTmp: 'assets/image/gold/gold_{index}.png',
-        //                   onFinish: () {
-        //                     MoneyGroup moneyGroup =
-        //                         Provider.of<MoneyGroup>(context, listen: false);
-        //                     moneyGroup.hideGoldAnimation();
-        //                   }),
-        //             )
-        //           : Container();
-        //     },
-        //     selector: (context, provider) => provider.showGoldAnimation),
-
-        // Selector<LuckyGroup, bool>(
-        //     builder: (_, show, __) {
-        //       return show
-        //           ? Positioned(
-        //               child: IgnorePointer(
-        //                 child: FullPage(
-        //                     length: 45,
-        //                     interval: 2000,
-        //                     repeat: true,
-        //                     width: ScreenUtil().setWidth(1080),
-        //                     height: ScreenUtil().setWidth(1920),
-        //                     pathTmp: 'assets/image/rain/rain_{index}.png',
-        //                     onFinish: () {
-        //                       print("gold rain recycle...");
-        //                     }),
-        //               ),
-        //             )
-        //           : Container();
-        //     },
-        //     selector: (context, provider) => provider.showCoinRain),
-
         // Positioned(
         //     left: ScreenUtil().setWidth(0),
         //     bottom: ScreenUtil().setWidth(0),

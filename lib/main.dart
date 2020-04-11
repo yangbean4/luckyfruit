@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luckyfruit/widgets/coin_rain.dart';
 
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +18,6 @@ import 'mould/tree.mould.dart';
 import 'utils/mo_ad.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
-import 'package:luckyfruit/utils/firebase_msg.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,14 +81,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DoubleQuit(
         child: OKToast(
-            child: MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: TextTheme().apply(decoration: TextDecoration.none)),
-      initialRoute: 'loadingPage',
-      onGenerateRoute: onGenerateRoute,
-      // showPerformanceOverlay: true,
+            child: Stack(
+      children: <Widget>[
+        MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+              primarySwatch: Colors.blue,
+              textTheme: TextTheme().apply(decoration: TextDecoration.none)),
+          initialRoute: 'loadingPage',
+          onGenerateRoute: onGenerateRoute,
+          // showPerformanceOverlay: true,
+        ),
+        // 金币雨动效
+        Selector<LuckyGroup, bool>(
+            builder: (_, show, __) {
+              return show ? CoinRainWidget() : Container();
+            },
+            selector: (context, provider) => provider.showCoinRain),
+      ],
     )));
   }
 }

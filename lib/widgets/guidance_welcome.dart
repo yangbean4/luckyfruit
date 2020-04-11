@@ -71,8 +71,8 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     controller?.dispose();
+    super.dispose();
   }
 
   showExplanationTips() async {
