@@ -647,8 +647,8 @@ class Layer {
       TreeGroup treeGroup, Tree source, Tree target) {
     TopLevelMergeWidget widget;
     Modal(
-        width: 940,
-        horizontalPadding: ScreenUtil().setWidth(70),
+        width: 950,
+        horizontalPadding: 40,
         onCancel: () {
           return widget.enableClose();
         },

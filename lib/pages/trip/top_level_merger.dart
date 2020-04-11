@@ -159,17 +159,16 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-        // color: Colors.red,
-        // width: 800,
         decoration: BoxDecoration(
+          // color: Colors.red,
           image: DecorationImage(
               image: AssetImage("assets/image/top_level_merge_bg.png"),
               fit: BoxFit.fill),
         ),
+        alignment: Alignment.center,
         padding: EdgeInsets.symmetric(
-            vertical: ScreenUtil().setWidth(40),
-            horizontal: ScreenUtil().setWidth(50)),
-
+            vertical: ScreenUtil().setWidth(30),
+            horizontal: ScreenUtil().setWidth(30)),
         margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(45)),
         child: gridWrapperView(),
       ),
@@ -204,7 +203,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     List wrap = List(10).map((val) {
       print("gridWrapperView index= $index");
       return Container(
-          padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+          padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
           decoration: BoxDecoration(
             // color: Colors.red,
             image: index++ == inOrder[runCount % inOrder.length]
@@ -212,27 +211,29 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
                     alignment: Alignment.center,
                     image: AssetImage(
                         "assets/image/top_level_merge_item_selected.png"),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   )
                 : null,
           ),
           child: Container(
               // color: Colors.green,
-              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+              padding:
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(20)),
               child: Image.asset(
                 "assets/tree/${treeTypeListInOrder[circleOrder[index - 1]]}.png",
-                width: ScreenUtil().setWidth(130),
-                height: ScreenUtil().setWidth(142),
+                width: ScreenUtil().setWidth(200),
+                height: ScreenUtil().setWidth(140),
               )));
     }).toList();
 
     wrap.insert(
         5,
         Container(
-            // colofr: Colors.yellow,
-            width: ScreenUtil().setWidth(365),
-            height: ScreenUtil().setWidth(142),
+            // color: Colors.yellow,
+            width: ScreenUtil().setWidth(400),
+            height: ScreenUtil().setWidth(180),
             alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(20)),
             child: Center(
                 child: Stack(children: <Widget>[
               Text(
@@ -261,9 +262,10 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
             ]))));
 
     return Wrap(
-        spacing: ScreenUtil().setWidth(25),
-        runSpacing: ScreenUtil().setWidth(25),
+        // spacing: ScreenUtil().setWidth(15),
+        runSpacing: ScreenUtil().setWidth(15),
         alignment: WrapAlignment.center,
+        runAlignment: WrapAlignment.center,
         children: wrap);
   }
 
