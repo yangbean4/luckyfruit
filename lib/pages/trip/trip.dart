@@ -22,6 +22,7 @@ import './other/treasure.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/utils/bgm.dart';
 import './other/full_page.dart';
+import './other/fly_animation.dart';
 
 class _SelectorUse {
   String city;
@@ -542,28 +543,76 @@ class _TripState extends State<Trip>
         //       rewardType: RewardStatusType.DOUBLE_REWARD_START,
         //       countDownTimeInSeconds: 36000),
         // ),
+        // 领取金币动画
         Selector<MoneyGroup, bool>(
             builder: (_, show, __) {
               return show
                   ? Positioned(
-                      left: ScreenUtil().setWidth(390),
-                      bottom: ScreenUtil().setWidth(360),
-                      child: FullPage(
-                          length: 17,
-                          interval: 1000,
-                          repeat: false,
-                          width: ScreenUtil().setWidth(300),
-                          height: ScreenUtil().setWidth(808),
-                          pathTmp: 'assets/image/gold/gold_{index}.png',
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: ScreenUtil().setWidth(1080),
+                        height: ScreenUtil().setWidth(1200),
+                        // color: Colors.red,
+                        child: FlyGroup(
                           onFinish: () {
                             MoneyGroup moneyGroup =
                                 Provider.of<MoneyGroup>(context, listen: false);
                             moneyGroup.hideGoldAnimation();
-                          }),
-                    )
+                          },
+                          count: 20,
+                          endPos: Position(
+                              x: ScreenUtil().setWidth(100),
+                              y: ScreenUtil().setWidth(100)),
+                          startCenter: Position(
+                              x: ScreenUtil().setWidth(640),
+                              y: ScreenUtil().setWidth(700)),
+                          radius: ScreenUtil().setWidth(200),
+                          child: Image.asset(
+                            'assets/image/gold.png',
+                            width: ScreenUtil().setWidth(80),
+                            height: ScreenUtil().setWidth(80),
+                          ),
+                        ),
+                      )
+                      // child: FullPage(
+                      //     length: 17,
+                      //     interval: 1000,
+                      //     repeat: false,
+                      //     width: ScreenUtil().setWidth(300),
+                      //     height: ScreenUtil().setWidth(808),
+                      //     pathTmp: 'assets/image/gold/gold_{index}.png',
+                      //     onFinish: () {
+                      //       MoneyGroup moneyGroup =
+                      //           Provider.of<MoneyGroup>(context, listen: false);
+                      //       moneyGroup.hideGoldAnimation();
+                      //     }),
+                      )
                   : Container();
             },
             selector: (context, provider) => provider.showGoldAnimation),
+        // Selector<MoneyGroup, bool>(
+        //     builder: (_, show, __) {
+        //       return show
+        //           ? Positioned(
+        //               left: ScreenUtil().setWidth(390),
+        //               bottom: ScreenUtil().setWidth(360),
+        //               child: FullPage(
+        //                   length: 17,
+        //                   interval: 1000,
+        //                   repeat: false,
+        //                   width: ScreenUtil().setWidth(300),
+        //                   height: ScreenUtil().setWidth(808),
+        //                   pathTmp: 'assets/image/gold/gold_{index}.png',
+        //                   onFinish: () {
+        //                     MoneyGroup moneyGroup =
+        //                         Provider.of<MoneyGroup>(context, listen: false);
+        //                     moneyGroup.hideGoldAnimation();
+        //                   }),
+        //             )
+        //           : Container();
+        //     },
+        //     selector: (context, provider) => provider.showGoldAnimation),
 
         // Selector<LuckyGroup, bool>(
         //     builder: (_, show, __) {
