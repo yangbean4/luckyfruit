@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -264,7 +266,13 @@ class _GameState extends State<Game> with MyNavigator {
                                   child: Container())
                               : selectorUse.isrecycle == null
                                   ? GestureDetector(
-                                      onTap: selectorUse.addTree,
+                                      onTap: () {
+                                        LuckyGroup luckyGroup =
+                                            Provider.of<LuckyGroup>(context,
+                                                listen: false);
+                                        luckyGroup.setShowCircleGuidance = true;
+                                        selectorUse.addTree();
+                                      },
                                       child: ShakeAnimation(
                                         child: PrimaryButton(
                                           // minWidth: ScreenUtil().setWidth(560),
@@ -348,7 +356,13 @@ class _GameState extends State<Game> with MyNavigator {
                                                         .setWidth(72),
                                                     primary: false,
                                                   ),
-                                                )
+                                                ),
+                                                Positioned(
+                                                    bottom: 0,
+                                                    left: ScreenUtil()
+                                                        .setWidth(200),
+                                                    child:
+                                                        GuidanceFingerWidget()),
                                               ]),
                                         ),
                                       ),

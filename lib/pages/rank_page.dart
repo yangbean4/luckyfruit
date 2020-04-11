@@ -400,13 +400,6 @@ class RankPageState extends State<RankPage>
 
   @override
   Widget build(BuildContext context) {
-    bool enableToShow = true;
-    if (friendsList == null ||
-        friendsList.isEmpty ||
-        bounsTreeList == null ||
-        bounsTreeList.isEmpty) {
-      enableToShow = false;
-    }
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -487,17 +480,12 @@ class RankPageState extends State<RankPage>
               width: ScreenUtil().setWidth(1080),
               child: TabBarView(
                 controller: _tabController,
-                children: !enableToShow
-                    ? List<Widget>.from([
-                        Center(
-                          child: Text("Loading..."),
-                        ),
-                        Center(
-                          child: Text("Loading..."),
+                children: List<Widget>.from([
+                  friendsList == null || friendsList.isEmpty
+                      ? Center(
+                          child: Text("No Data..."),
                         )
-                      ])
-                    : List<Widget>.from([
-                        LayoutBuilder(builder: (context, constraints) {
+                      : LayoutBuilder(builder: (context, constraints) {
                           int visiblePosition = (constraints.maxHeight /
                                   ScreenUtil().setWidth(200))
                               .ceil();
@@ -591,10 +579,14 @@ class RankPageState extends State<RankPage>
                             ],
                           );
                         }),
-                        // ),
+                  // ),
 
-                        // 第二个tab
-                        LayoutBuilder(builder: (context, constraints) {
+                  // 第二个tab
+                  bounsTreeList == null || bounsTreeList.isEmpty
+                      ? Center(
+                          child: Text("No Data..."),
+                        )
+                      : LayoutBuilder(builder: (context, constraints) {
                           int visiblePosition = (constraints.maxHeight /
                                   ScreenUtil().setWidth(200))
                               .ceil();
@@ -688,7 +680,7 @@ class RankPageState extends State<RankPage>
                             ],
                           );
                         }),
-                      ]),
+                ]),
               ),
             ),
           ),
@@ -797,7 +789,7 @@ class RankPageState extends State<RankPage>
                 ),
               ),
               Text(
-                "\$${friendsList[index]?.separate_amount??'--'}",
+                "\$${friendsList[index]?.separate_amount ?? '--'}",
                 style: TextStyle(
                     color: Color.fromRGBO(38, 38, 38, 1),
                     fontSize: ScreenUtil().setWidth(56),
@@ -847,13 +839,13 @@ class RankPageState extends State<RankPage>
             Text(
               bounsTreeList[index]?.tree_num?.toString() ?? "-",
               style: TextStyle(
-                  color: MyTheme.blackColor, 
+                  color: MyTheme.blackColor,
                   fontSize: ScreenUtil().setWidth(50),
                   fontFamily: FontFamily.semibold,
                   fontWeight: FontWeight.w500),
             ),
             Text(
-              "\$${bounsTreeList[index]?.separate_amount??'--'}",
+              "\$${bounsTreeList[index]?.separate_amount ?? '--'}",
               style: TextStyle(
                   color: MyTheme.blackColor,
                   fontSize: ScreenUtil().setWidth(56),

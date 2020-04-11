@@ -7,6 +7,7 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/utils/device_info.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -117,9 +118,8 @@ class SettingsPage extends StatelessWidget {
                         height: ScreenUtil().setWidth(2),
                       ),
                       ItemWidget(
-                        title: "About Lucky Fruit",
-                        trailingText: "v1.0.0",
-                      ),
+                          title: "About Lucky Fruit",
+                          trailingText: App.appVersion),
                       Divider(
                         height: ScreenUtil().setWidth(2),
                       ),
@@ -148,25 +148,27 @@ class SettingsPage extends StatelessWidget {
                           height: ScreenUtil().setWidth(35),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(100)),
-                        child: TextField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            hintText: _controller.text.isEmpty
-                                ? "10.200.15.61:8888"
-                                : null,
-                            hintStyle: TextStyle(color: Colors.red[100]),
-                            filled: true,
-                            border: InputBorder.none,
-                            fillColor: MyTheme.grayColor,
-                          ),
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(60),
-                              color: Colors.black),
-                        ),
-                      ),
+                      App.IS_IN_RELEASE
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(100)),
+                              child: TextField(
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                  hintText: _controller.text.isEmpty
+                                      ? "10.200.15.61:8888"
+                                      : null,
+                                  hintStyle: TextStyle(color: Colors.red[100]),
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  fillColor: MyTheme.grayColor,
+                                ),
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(60),
+                                    color: Colors.black),
+                              ),
+                            ),
                     ]),
                     Positioned(
                       bottom: ScreenUtil().setWidth(108),
