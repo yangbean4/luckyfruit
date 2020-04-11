@@ -272,7 +272,7 @@ class _TripBtnsState extends State<TripBtns> {
           'assets/image/help.png',
           'HOW TO PLAY',
           onTap: () {
-            // MyNavigator().pushNamed(context, "testPage");
+            MyNavigator().pushNamed(context, "howToPlay");
           },
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/pages/how_to_play.dart';
 
 import 'package:luckyfruit/pages/illustration/illustration.dart';
 import 'package:luckyfruit/pages/mine/privacy_page.dart';
@@ -42,6 +43,7 @@ final routes = {
   'privacyPage': (context) => PrivacyPage(),
   'instructionPage': (context) => InstructionPage(),
   'loadingPage': (context) => LoadingPage(),
+  'howToPlay': (context) => HowToPlay(),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {
