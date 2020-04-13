@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import './event_bus.dart';
+import 'package:luckyfruit/service/index.dart';
 
 /**
  * https://medium.com/@kenaragorn/flutter-push-notification-with-firebase-cloud-messaging-fcm-and-routing-to-specific-screen-b065742f2e5e
@@ -23,7 +24,7 @@ class FbMsg {
         });
     try {
       firebaseMessaging.getToken().then((token) {
-        // Service().updateUser({'acct_id': accId, "token": token});
+        Service().updateUserInfo({'acct_id': accId, "push_token": token});
         print(token); // Print the Token in Console
       });
     } catch (e) {
