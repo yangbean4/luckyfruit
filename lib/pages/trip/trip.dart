@@ -198,8 +198,7 @@ class _TripState extends State<Trip>
                                                         .setWidth(312),
                                                     child: Text(
                                                       _selectorUse.city
-                                                              .toUpperCase() +
-                                                          '123132',
+                                                          .toUpperCase(),
                                                       style: TextStyle(
                                                           height: 1,
                                                           fontFamily:
