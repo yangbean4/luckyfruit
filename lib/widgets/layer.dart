@@ -487,6 +487,42 @@ class Layer {
       ..show();
   }
 
+  static messageNotification(Function onOk) {
+    Modal(
+        onCancel: () {},
+        okText: 'Yes',
+        onOk: () {
+          onOk();
+        },
+        children: [
+          ModalTitle('Turn On Reminders'),
+          Container(
+            height: ScreenUtil().setWidth(31),
+          ),
+          Image.asset(
+            'assets/image/bg_dollar.png',
+            width: ScreenUtil().setWidth(330),
+            height: ScreenUtil().setWidth(330),
+          ),
+          Container(
+            height: ScreenUtil().setWidth(31),
+          ),
+          Text(
+            'Would you like to be reminded when your“Limted Bouns Tree” earnings arrive？',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontFamily: FontFamily.regular,
+                height: 1,
+                fontSize: ScreenUtil().setSp(42),
+                fontWeight: FontWeight.w400),
+          ),
+          Container(
+            height: ScreenUtil().setWidth(30),
+          ),
+        ]).show();
+  }
+
   static howGetMoney() {
     Modal(
         verticalPadding: 0,

@@ -14,6 +14,10 @@ class Event_Name {
 
   // 路由跳转
   static const String Router_Change = 'Router_Change';
+
+  static const String message_notification = 'message_notification';
+
+  static const String set_message_notification = 'set_message_notification';
 }
 
 // 游戏相关设置
@@ -43,8 +47,8 @@ class App {
   static const String AESKEY = '06BB48CFA768694D';
   static const String BASE_URL =
       'http://171.8.199.211:8109/public/index.php?r=';
-  static const String METHOD_CHANNEL = "com.xyjy.flutterchannel/method";
-  static const String EVENT_CHANNEL = "com.xyjy.flutterchannel/event";
+  static const String METHOD_CHANNEL = "com.bean.flutterchannel/method";
+  static const String EVENT_CHANNEL = "com.bean.flutterchannel/event";
 
   static const SETTING_PRIVACY_URL =
       "https://docs.google.com/document/d/e/2PACX-1vRK9NVeaDGbetbE3uTfpd5q7PtbFkEUbmsFK9kOKJfcXLMAXqEewlrjzeOoUP2xLxfShrYmDYfBdY80/pub";

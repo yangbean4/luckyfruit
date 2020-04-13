@@ -54,6 +54,12 @@ class UserModel with ChangeNotifier {
     notifyListeners();
   }
 
+  upDate(Map<String, dynamic> map) async {
+    await Service().updateUserInfo({
+      'acct_id': value.acct_id,
+    }..addAll(map));
+  }
+
   // 更新userInfo
   getUserInfo() async {
     Map<String, dynamic> ajaxData = await Service().getUserInfo({

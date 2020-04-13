@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:async';
 
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -343,6 +344,7 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
+    // checkMag();
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
@@ -549,8 +551,20 @@ class TreeGroup with ChangeNotifier {
           Layer.howGetMoney();
           Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
         }
+        checkMag();
       }
     });
+  }
+
+  // 检查是否开启了通知; 提示打开消息通知
+  checkMag() async {
+    bool result =
+        await channelBus.callNativeMethod(Event_Name.message_notification);
+    if (!result) {
+      Layer.messageNotification(() {
+        channelBus.callNativeMethod(Event_Name.set_message_notification);
+      });
+    }
   }
 
   /// 通过接口��查是否获取奖励(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许���树)

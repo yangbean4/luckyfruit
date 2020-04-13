@@ -294,6 +294,9 @@ class _WithDrawPageState extends State<WithDrawPage> {
                         },
                         builder: (context, provider, child) {
                           return GestureDetector(
+                            onLongPress: () {
+                              _Enjoy.show(context);
+                            },
                             onTap: enableOnTap
                                 ? () {
                                     // if (!userModel.hasLoginedFB) {
@@ -729,6 +732,99 @@ class WithDrawAmountItemWidget extends StatelessWidget {
                 height: 0,
               )
       ],
+    );
+  }
+}
+
+class _Enjoy {
+  static int star = 0;
+  static show(context) {
+    Modal(
+      onOk: () => submit(context),
+      onCancel: () {},
+      okText: 'Submit',
+      children: [
+        ModalTitle("Enjoy Lucky Merge"),
+        Container(
+          height: ScreenUtil().setWidth(100),
+        ),
+        _StarGroup(
+          onChange: (int i) {
+            star = i;
+          },
+        ),
+        Container(
+            height: ScreenUtil().setWidth(150),
+            child: Center(
+              child: Text(
+                'Tap star to rate it',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MyTheme.blackColor,
+                  height: 1,
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenUtil().setSp(42),
+                ),
+              ),
+            ))
+      ],
+    ).show();
+  }
+
+  static submit(context) {
+    if (star > 3) {
+      // TODO:jump gp
+    }
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    userModel.upDate({'score': star});
+  }
+}
+
+class _StarGroup extends StatefulWidget {
+  final Function onChange;
+  _StarGroup({Key key, this.onChange}) : super(key: key);
+
+  @override
+  __StarGroupState createState() => __StarGroupState();
+}
+
+class __StarGroupState extends State<_StarGroup> {
+  int star = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ScreenUtil().setWidth(533),
+      height: ScreenUtil().setWidth(100),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: List.generate(5, (i) {
+          return GestureDetector(
+            onTap: () {
+              i++;
+              if (star == i) {
+                i--;
+              }
+              setState(() {
+                star = i;
+              });
+              print(i);
+              widget.onChange(i);
+            },
+            child: Container(
+              width: ScreenUtil().setWidth(102),
+              height: ScreenUtil().setWidth(98),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: i < star
+                          ? AssetImage('assets/image/star_light.png')
+                          : AssetImage('assets/image/star_dis.png'),
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill)),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

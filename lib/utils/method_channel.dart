@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import './event_bus.dart';
@@ -55,11 +54,9 @@ class ChannelBus {
   Future callNativeMethod(String methodName, {dynamic arguments}) async {
     print("callNativeMethod:" + methodName);
     print("callNativeMethod arguments:" + arguments.toString());
-    Map<String, dynamic> result;
+    dynamic result;
     try {
-      String resultstr =
-          await methodChannel.invokeMethod(methodName, arguments);
-      result = json.decode(resultstr);
+      result = await methodChannel.invokeMethod(methodName, arguments);
     } catch (e) {
       print("Failed to call ${methodName}: '${e}'.");
     }
