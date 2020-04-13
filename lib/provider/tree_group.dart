@@ -383,6 +383,12 @@ class TreeGroup with ChangeNotifier {
     if (saveData) {
       save();
     }
+
+    if (_treeList.length == 2 && _luckyGroup.showCircleGuidance == true) {
+      // 隐藏添加树引导,显示合成树引导
+      _luckyGroup.setShowCircleGuidance = false;
+      _luckyGroup.setShowRRectGuidance = true;
+    }
     return true;
   }
 
@@ -482,6 +488,10 @@ class TreeGroup with ChangeNotifier {
       notifyListeners();
       // 设置animateTree的两个树 使得动画开始执行
       _treeList.remove(source);
+
+      if (_luckyGroup.showRRectGuidance == true) {
+        _luckyGroup.setShowRRectGuidance = false;
+      }
     }
   }
 

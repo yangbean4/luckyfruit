@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:provider/provider.dart';
 
 class GuidanceFingerWidget extends StatefulWidget {
   @override
@@ -63,17 +65,27 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         builder: (BuildContext context, Widget child) {
-          return Transform.scale(
-            scale: scaleAnimation?.value ?? 0,
-            child: Container(
-              // color: Colors.red[100],
-              child: Image.asset(
-                'assets/image/guidance_finger.png',
-                width: ScreenUtil().setWidth(86),
-                height: ScreenUtil().setWidth(94),
-              ),
-            ),
-          );
+          return Selector<LuckyGroup, bool>(
+              selector: (context, provider) => provider.showCircleGuidance,
+              builder: (_, bool show, __) {
+                return show
+                    ? Positioned(
+                        bottom: 0,
+                        left: ScreenUtil().setWidth(150),
+                        child: Transform.scale(
+                          scale: scaleAnimation?.value ?? 0,
+                          child: Container(
+                            // color: Colors.red[100],
+                            child: Image.asset(
+                              'assets/image/guidance_finger.png',
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(130),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container();
+              });
         },
         animation: controller);
   }

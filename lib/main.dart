@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
+import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
+import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/money_flying_animation.dart';
 
 import 'package:oktoast/oktoast.dart';
@@ -112,6 +115,12 @@ class MyApp extends StatelessWidget {
               MoneyFlyingAnimation(),
               // 领取金币动画
               GoldFlyingAnimation(),
+              // 新手引导-welcome
+              // GuidanceWelcomeWidget(),
+              // 新手引导-添加树
+              // GuidanceDrawCircleWidget(),
+              // 新手引导-合成树
+              // GuidanceDrawRRectWidget(),
             ],
           );
         },

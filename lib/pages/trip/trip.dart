@@ -535,12 +535,6 @@ class _TripState extends State<Trip>
         Balloon(),
         // 宝箱 📦
         Treasure(),
-        // Positioned(
-        //     left: ScreenUtil().setWidth(0),
-        //     bottom: ScreenUtil().setWidth(0),
-        //     child: GuidanceWelcomeWidget()),
-
-        // GuidanceDrawRRectWidget(),
       ]),
     );
   }

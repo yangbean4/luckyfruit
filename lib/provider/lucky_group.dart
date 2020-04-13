@@ -74,11 +74,19 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
-  /// 是否显示circle指引
+  /// 是否显示添加树circle指引
   bool _showCircleGuidance = false;
   bool get showCircleGuidance => _showCircleGuidance;
   set setShowCircleGuidance(bool show) {
     _showCircleGuidance = show;
+    notifyListeners();
+  }
+
+  /// 是否显示合成树rrect指引
+  bool _showRRectGuidance = false;
+  bool get showRRectGuidance => _showRRectGuidance;
+  set setShowRRectGuidance(bool show) {
+    _showRRectGuidance = show;
     notifyListeners();
   }
 

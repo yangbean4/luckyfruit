@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/pages/trip/other/fly_animation.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:provider/provider.dart';
 
@@ -267,10 +269,6 @@ class _GameState extends State<Game> with MyNavigator {
                               : selectorUse.isrecycle == null
                                   ? GestureDetector(
                                       onTap: () {
-                                        LuckyGroup luckyGroup =
-                                            Provider.of<LuckyGroup>(context,
-                                                listen: false);
-                                        luckyGroup.setShowCircleGuidance = true;
                                         selectorUse.addTree();
                                       },
                                       child: ShakeAnimation(
@@ -357,12 +355,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                     primary: false,
                                                   ),
                                                 ),
-                                                // Positioned(
-                                                //     bottom: 0,
-                                                //     left: ScreenUtil()
-                                                //         .setWidth(200),
-                                                //     child:
-                                                //         GuidanceFingerWidget()),
+                                                GuidanceFingerWidget(),
                                               ]),
                                         ),
                                       ),
