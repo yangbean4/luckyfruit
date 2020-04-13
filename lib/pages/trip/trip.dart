@@ -535,43 +535,6 @@ class _TripState extends State<Trip>
         Balloon(),
         // 宝箱 📦
         Treasure(),
-        // 领取金币动画
-        Selector<MoneyGroup, bool>(
-            builder: (_, show, __) {
-              return show
-                  ? Positioned(
-                      left: 0,
-                      bottom: 0,
-                      child: Container(
-                        width: ScreenUtil().setWidth(1080),
-                        height: ScreenUtil().setWidth(1200),
-                        // color: Colors.red,
-                        child: FlyGroup(
-                          onFinish: () {
-                            MoneyGroup moneyGroup =
-                                Provider.of<MoneyGroup>(context, listen: false);
-                            moneyGroup.hideGoldAnimation();
-                          },
-                          count: 20,
-                          endPos: Position(
-                              x: ScreenUtil().setWidth(100),
-                              y: ScreenUtil().setWidth(100)),
-                          startCenter: Position(
-                              x: ScreenUtil().setWidth(640),
-                              y: ScreenUtil().setWidth(700)),
-                          radius: ScreenUtil().setWidth(200),
-                          animateTime: Duration(milliseconds: 1500),
-                          child: Image.asset(
-                            'assets/image/gold.png',
-                            width: ScreenUtil().setWidth(80),
-                            height: ScreenUtil().setWidth(80),
-                          ),
-                          type: PositionType.Type_Top,
-                        ),
-                      ))
-                  : Container();
-            },
-            selector: (context, provider) => provider.showGoldAnimation),
         // Positioned(
         //     left: ScreenUtil().setWidth(0),
         //     bottom: ScreenUtil().setWidth(0),

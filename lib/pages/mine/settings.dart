@@ -97,8 +97,8 @@ class SettingsPage extends StatelessWidget {
                       ),
                       ItemWidget(
                         title: "Telephone",
-                        // trailingText: "${userInfo?.phoneNum ?? ""}",
-                        trailingText: "18899990000",
+                        trailingText: "${userInfo?.phoneNum ?? ""}",
+                        // trailingText: "18899990000",
                       ),
                       Divider(
                         height: ScreenUtil().setWidth(2),

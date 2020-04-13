@@ -8,8 +8,10 @@ import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'package:luckyfruit/theme/index.dart';
@@ -317,26 +319,31 @@ class Layer {
       message = Util.formatNumber(tree.recycleGold) ?? "--";
     }
 
-    Modal(onOk: onOk, onCancel: () {}, okText: 'Claim', children: <Widget>[
-      Image.asset(
-        imgSrc,
-        width: ScreenUtil().setWidth(218),
-        height: ScreenUtil().setWidth(237),
-      ),
-      Container(
-        margin: EdgeInsets.only(
-          top: ScreenUtil().setWidth(30),
-          bottom: ScreenUtil().setWidth(38),
-        ),
-        child: SecondaryText(
-          'Recycling price',
-        ),
-      ),
-      GoldText(message, textSize: 66),
-      SizedBox(
-        height: ScreenUtil().setWidth(47),
-      ),
-    ])
+    Modal(
+        onOk: onOk,
+        onCancel: () {},
+        okText: 'Claim',
+        dismissDurationInMilliseconds: Modal.DismissDuration,
+        children: <Widget>[
+          Image.asset(
+            imgSrc,
+            width: ScreenUtil().setWidth(218),
+            height: ScreenUtil().setWidth(237),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: ScreenUtil().setWidth(30),
+              bottom: ScreenUtil().setWidth(38),
+            ),
+            child: SecondaryText(
+              'Recycling price',
+            ),
+          ),
+          GoldText(message, textSize: 66),
+          SizedBox(
+            height: ScreenUtil().setWidth(47),
+          ),
+        ])
       ..show();
   }
 
@@ -360,6 +367,7 @@ class Layer {
 
   static levelUp(String level, {double getGlod, Function onOk}) {
     Modal(
+        dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),
               SizedBox(height: ScreenUtil().setWidth(38)),
@@ -577,7 +585,10 @@ class Layer {
   static limitedTimeBonusTreeEndUp(BuildContext context, Tree tree) {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     Modal(
+        dismissDurationInMilliseconds: Modal.DismissDuration,
         onOk: () {
+          // TODO 本地余额增加
+          EVENT_BUS.emit(MoneyGroup.ADD_MONEY, tree.amount);
           treeGroup.deleteSpecificTree(tree);
         },
         okText: "Claim",
@@ -935,12 +946,20 @@ class Layer {
 
   /// 大转盘抽���结果弹框
   static showLuckWheelWinResultWindow(int winType, num coinNum) {
-    Modal(okText: "Claim", horizontalPadding: 10, children: <Widget>[
-      LuckyWheelWinResultWindow(
-        winType: winType,
-        coinNum: coinNum,
-      )
-    ]).show();
+    Modal(
+        okText: "Claim",
+        onOk: () {
+          //将获取的金币增加到账户上
+          EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coinNum.toDouble());
+        },
+        horizontalPadding: 10,
+        dismissDurationInMilliseconds: Modal.DismissDuration,
+        children: <Widget>[
+          LuckyWheelWinResultWindow(
+            winType: winType,
+            coinNum: coinNum,
+          )
+        ]).show();
   }
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
@@ -1008,6 +1027,7 @@ class GetReward {
   static void showLimitedTimeBonusTree(int duration, Function onOk) {
     Modal(
         onCancel: () {},
+        dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -1067,6 +1087,7 @@ class GetReward {
     Modal(
         okText: 'Claim',
         onOk: onOk,
+        dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(70),

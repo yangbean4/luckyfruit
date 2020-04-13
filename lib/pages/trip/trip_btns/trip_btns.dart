@@ -155,6 +155,7 @@ class _TripBtnsState extends State<TripBtns> {
     Modal(
         okText: 'Claim',
         onOk: onOk,
+        dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(70),

@@ -357,12 +357,12 @@ class _GameState extends State<Game> with MyNavigator {
                                                     primary: false,
                                                   ),
                                                 ),
-                                                Positioned(
-                                                    bottom: 0,
-                                                    left: ScreenUtil()
-                                                        .setWidth(200),
-                                                    child:
-                                                        GuidanceFingerWidget()),
+                                                // Positioned(
+                                                //     bottom: 0,
+                                                //     left: ScreenUtil()
+                                                //         .setWidth(200),
+                                                //     child:
+                                                //         GuidanceFingerWidget()),
                                               ]),
                                         ),
                                       ),

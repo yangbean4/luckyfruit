@@ -9,7 +9,8 @@ import 'money_num_fade.dart';
 class MoneyFlyingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return Stack(
+      children: [
       Selector<MoneyGroup, bool>(
           builder: (_, show, __) {
             return show
@@ -18,7 +19,7 @@ class MoneyFlyingAnimation extends StatelessWidget {
                     bottom: 0,
                     child: Container(
                       width: ScreenUtil().setWidth(1080),
-                      height: ScreenUtil().setWidth(1200),
+                      height: ScreenUtil().setWidth(1300),
                       // color: Colors.red,
                       child: FlyGroup(
                         onFinish: () {
@@ -32,8 +33,8 @@ class MoneyFlyingAnimation extends StatelessWidget {
                             x: ScreenUtil().setWidth(80),
                             y: ScreenUtil().setWidth(50)),
                         startCenter: Position(
-                            x: ScreenUtil().setWidth(640),
-                            y: ScreenUtil().setWidth(700)),
+                            x: ScreenUtil().setWidth(540),
+                            y: ScreenUtil().setWidth(600)),
                         radius: ScreenUtil().setWidth(200),
                         animateTime: Duration(milliseconds: 1500),
                         child: Image.asset(

@@ -1,14 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:luckyfruit/widgets/MoneyFlyingAnimation.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
+import 'package:luckyfruit/widgets/double_click_quit.dart';
+import 'package:luckyfruit/widgets/gold_flying_animation.dart';
+import 'package:luckyfruit/widgets/money_flying_animation.dart';
 
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/routes/router.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
@@ -21,6 +23,9 @@ import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 
 void main() {
+  // debugProfileBuildsEnabled = true;
+  // debugPrintRebuildDirtyWidgets = true;
+  // debugProfilePaintsEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -80,24 +85,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DoubleQuit(
-        child: OKToast(
-            child: Stack(
-      children: <Widget>[
-        MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              textTheme: TextTheme().apply(decoration: TextDecoration.none)),
-          initialRoute: 'loadingPage',
-          onGenerateRoute: onGenerateRoute,
-          // showPerformanceOverlay: true,
-        ),
-        // 金币雨动效
-        CoinRainWidget(),
-        // 美元图标飞向右下角动效
-        MoneyFlyingAnimation(),
-      ],
-    )));
+    var overlay = Overlay(initialEntries: [
+      OverlayEntry(
+        builder: (BuildContext context) {
+          return Stack(
+            alignment: Alignment.center,
+            textDirection: TextDirection.ltr,
+            children: <Widget>[
+              DoubleQuit(
+                child: OKToast(
+                  child: MaterialApp(
+                    title: 'Flutter Demo',
+                    theme: ThemeData(
+                        primarySwatch: Colors.blue,
+                        textTheme:
+                            TextTheme().apply(decoration: TextDecoration.none)),
+                    initialRoute: 'loadingPage',
+                    onGenerateRoute: onGenerateRoute,
+                    // showPerformanceOverlay: true,
+                  ),
+                ),
+              ),
+              // 金币雨动效
+              CoinRainWidget(),
+              // 美元图标飞向右下角动效
+              MoneyFlyingAnimation(),
+              // 领取金币动画
+              GoldFlyingAnimation(),
+            ],
+          );
+        },
+      )
+    ]);
+
+    return Directionality(
+      child: overlay,
+      textDirection: TextDirection.ltr,
+    );
   }
 }

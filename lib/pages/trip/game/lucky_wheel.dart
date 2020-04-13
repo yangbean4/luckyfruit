@@ -394,7 +394,5 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     }
 
     Layer.showLuckWheelWinResultWindow(luckyWheelType, coinNum);
-    //将获取的金币增加到账户上
-    EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coinNum.toDouble());
   }
 }

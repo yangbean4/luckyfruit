@@ -11,6 +11,7 @@ import 'package:luckyfruit/config/app.dart' show Event_Name;
 class Modal {
   ToastFuture _future;
 
+  static const int DismissDuration = 1000;
   final String okText;
   final Function onOk;
   // 返回值:是否启用onCancel的点击事件
@@ -31,6 +32,7 @@ class Modal {
   final bool autoHide;
   final Color decorationColor;
   final closeType;
+  final int dismissDurationInMilliseconds;
 
   Modal(
       {this.okText,
@@ -46,6 +48,7 @@ class Modal {
       this.horizontalPadding = 40,
       this.marginBottom = 70,
       this.autoHide = true,
+      this.dismissDurationInMilliseconds = 0,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})
       // 要求 stack 定位元素必须是 Positioned
@@ -53,7 +56,8 @@ class Modal {
 
   /// 隐藏Modal
   hide() {
-    _future.dismiss();
+    Future.delayed(Duration(milliseconds: dismissDurationInMilliseconds),
+        () => _future.dismiss());
     EVENT_BUS.emit(Event_Name.MODAL_HIDE);
   }
 
