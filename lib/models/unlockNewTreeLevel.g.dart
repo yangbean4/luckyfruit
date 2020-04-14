@@ -11,7 +11,8 @@ UnlockNewTreeLevel _$UnlockNewTreeLevelFromJson(Map<String, dynamic> json) {
     ..tree_type = json['tree_type'] as num
     ..tree_id = json['tree_id'] as num
     ..amount = json['amount'] as num
-    ..duration = json['duration'] as num;
+    ..duration = json['duration'] as num
+    ..is_push_on = json['is_push_on'] as num;
 }
 
 Map<String, dynamic> _$UnlockNewTreeLevelToJson(UnlockNewTreeLevel instance) =>
@@ -19,5 +20,6 @@ Map<String, dynamic> _$UnlockNewTreeLevelToJson(UnlockNewTreeLevel instance) =>
       'tree_type': instance.tree_type,
       'tree_id': instance.tree_id,
       'amount': instance.amount,
-      'duration': instance.duration
+      'duration': instance.duration,
+      'is_push_on': instance.is_push_on
     };

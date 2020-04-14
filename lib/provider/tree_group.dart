@@ -344,6 +344,7 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
+    checkBonusTree();
     // checkMag();
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
@@ -551,7 +552,10 @@ class TreeGroup with ChangeNotifier {
           Layer.howGetMoney();
           Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
         }
-        checkMag();
+        // 检查是否弹出打开通知消息的弹创
+        if (value.is_push_on == 1) {
+          checkMag();
+        }
       }
     });
   }

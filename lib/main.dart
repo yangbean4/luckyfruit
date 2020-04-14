@@ -24,6 +24,7 @@ import 'mould/tree.mould.dart';
 import 'utils/mo_ad.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
+import 'utils/firebase_msg.dart';
 
 void main() {
   // debugProfileBuildsEnabled = true;

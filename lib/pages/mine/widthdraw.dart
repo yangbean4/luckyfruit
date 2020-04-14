@@ -294,9 +294,6 @@ class _WithDrawPageState extends State<WithDrawPage> {
                         },
                         builder: (context, provider, child) {
                           return GestureDetector(
-                            onLongPress: () {
-                              _Enjoy.show(context);
-                            },
                             onTap: enableOnTap
                                 ? () {
                                     // if (!userModel.hasLoginedFB) {
@@ -446,6 +443,13 @@ class InputingInfoWidget extends StatelessWidget {
                                         _controllerFirst?.text;
                                     // 提现成功,关闭输入框
                                     Navigator.pop(context);
+                                    UserModel userModel =
+                                        Provider.of<UserModel>(context,
+                                            listen: false);
+                                    if (userModel.userInfo.first_mention == 1) {
+                                      // 首次提现 弹窗评分
+                                      _Enjoy.show(context);
+                                    }
                                     handleAfterSummitWithDraw();
                                   });
                                 },

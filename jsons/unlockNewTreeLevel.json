@@ -2,5 +2,6 @@
     "tree_type": 1,
     "tree_id": 21,
     "amount": 0.01,
-    "duration": 300
+    "duration": 300,
+    "is_push_on": 1
 }

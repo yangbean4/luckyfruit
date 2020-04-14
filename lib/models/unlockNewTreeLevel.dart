@@ -10,6 +10,7 @@ class UnlockNewTreeLevel {
     num tree_id;
     num amount;
     num duration;
+    num is_push_on;
     
     factory UnlockNewTreeLevel.fromJson(Map<String,dynamic> json) => _$UnlockNewTreeLevelFromJson(json);
     Map<String, dynamic> toJson() => _$UnlockNewTreeLevelToJson(this);
