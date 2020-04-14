@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 
@@ -263,7 +262,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   useAd: ticketCount <= 0,
                   disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
                   onCancel: () {
-                    widget?.modal?.hide();
+                    if (widget?.modal != null) {
+                      widget?.modal?.hide();
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   onOk: () {
                     if (controller.isAnimating) {

@@ -39,6 +39,7 @@ class _MapPageState extends State<MapPage> {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.getPersonalInfo();
     TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
+    tourismMap.setShowMapGuidance = true;
     tourismMap.getDeblokCityList();
   }
 

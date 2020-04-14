@@ -58,7 +58,7 @@ class Tree extends TreePoint {
   num treeId;
 
   // 回收可以得到的钱
-  double recycleMoney;
+  num recycleMoney;
 
   String get name => type != null
       ? Consts.TreeNameWithType[type]
