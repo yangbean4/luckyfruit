@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/bgm.dart';
 import 'dart:math';
 
-import './money_group.dart';
-import './lucky_group.dart';
-import './tree_group.dart';
+import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart'
     show LevelRoule, CityInfo, DeblokCity;
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
+import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/config/app.dart';
+
+import './lucky_group.dart';
+import './money_group.dart';
+import './tree_group.dart';
 import './user_model.dart';
 
 class TourismMap with ChangeNotifier {
   static const int MAX_LEVEL = 50;
+
   // 1个城市对应多少等级
   static const int LEVEL_SPLIT = 5;
+
   // 对TreeGroup Provider引用
   MoneyGroup moneyGroup;
   LuckyGroup _luckyGroup;
@@ -27,13 +30,18 @@ class TourismMap with ChangeNotifier {
 
   // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
+
   bool get dataLoad => _dataLoad;
 
   String _acct_id;
+
   TourismMap();
+
   double _allgold;
+
   // 是否已经init
   bool _hasInit = false;
+
 // 解锁城市奖励金币
   num get boxMoney =>
       (_luckyGroup.issed?.box_time ?? 200) * _treeGroup.makeGoldSped;
@@ -42,9 +50,11 @@ class TourismMap with ChangeNotifier {
   // double get goldNum => moneyGroup?.allgold ?? 0;
   // 等级配置
   List<LevelRoule> get levelRouleList => _luckyGroup?.levelRouleList ?? [];
+
   LevelRoule get levelRoule =>
       levelRouleList.firstWhere((item) => item.level == level,
           orElse: () => levelRouleList.isEmpty ? null : levelRouleList[0]);
+
   // 升级需要的金币
   double get levelUpUse => levelRoule == null
       ? 100000
@@ -70,6 +80,7 @@ class TourismMap with ChangeNotifier {
 
 // 获取已解锁城市列表
   List<DeblokCity> _deblokCityList;
+
   List<DeblokCity> get deblokCityList => _deblokCityList;
 
   String _cityId = '1';
@@ -125,6 +136,16 @@ class TourismMap with ChangeNotifier {
     } else {
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);
     }
+  }
+
+  /// 是否显示地图页引导动画
+  bool _showMapGuidance = false;
+
+  bool get showMapGuidance => _showMapGuidance;
+
+  set setShowMapGuidance(bool show) {
+    _showMapGuidance = show;
+//    notifyListeners();
   }
 
   // // 打开宝箱 领奖

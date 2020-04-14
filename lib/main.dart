@@ -3,23 +3,20 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:luckyfruit/widgets/coin_rain.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/routes/router.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
-import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
-import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
-import 'package:luckyfruit/widgets/guidance_welcome.dart';
+import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
 import 'package:luckyfruit/widgets/money_flying_animation.dart';
-
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:luckyfruit/routes/router.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/provider/money_group.dart';
-import 'package:luckyfruit/provider/tourism_map.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'mould/tree.mould.dart';
 import 'utils/mo_ad.dart';
 import 'package:luckyfruit/utils/bgm.dart';
@@ -93,8 +90,6 @@ class MyApp extends StatelessWidget {
       OverlayEntry(
         builder: (BuildContext context) {
           return Stack(
-            alignment: Alignment.center,
-            textDirection: TextDirection.ltr,
             children: <Widget>[
               DoubleQuit(
                 child: OKToast(
@@ -110,18 +105,12 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              // 金币雨动效
-              CoinRainWidget(),
               // 美元图标飞向右下角动效
               MoneyFlyingAnimation(),
               // 领取金币动画
               GoldFlyingAnimation(),
-              // 新手引导-welcome
-              // GuidanceWelcomeWidget(),
-              // 新手引导-添加树
-              // GuidanceDrawCircleWidget(),
-              // 新手引导-合成树
-              // GuidanceDrawRRectWidget(),
+              // 新手引导-大转盘
+//              GuidanceLuckyWheelWidget(),
             ],
           );
         },

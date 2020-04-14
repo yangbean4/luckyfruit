@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
+import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
+import 'package:luckyfruit/pages/trip/game/lucky_wheel.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:oktoast/oktoast.dart';
-
 import 'package:luckyfruit/theme/index.dart';
-import 'package:provider/provider.dart';
-import './modal.dart';
 import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import './ad_btn.dart';
-import 'package:luckyfruit/pages/trip/game/lucky_wheel.dart';
-import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
-import 'package:luckyfruit/pages/trip/game/hops_merge_widget.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
+
+import './ad_btn.dart';
+import './modal.dart';
 
 /// 公共函数库
 class Layer {
@@ -475,16 +474,22 @@ class Layer {
   }
 
   ///大转盘抽奖
-  static showLuckyWheel() {
-    Modal(
-        onCancel: () {},
-        horizontalPadding: ScreenUtil().setWidth(70),
-        verticalPadding: ScreenUtil().setWidth(0),
-        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
-        childrenBuilder: (modal) => <Widget>[
-              LuckyWheelWidget(modal),
-            ])
-      ..show();
+  static showLuckyWheel(BuildContext context) {
+//    Modal(
+//        onCancel: () {},
+//        horizontalPadding: ScreenUtil().setWidth(70),
+//        verticalPadding: ScreenUtil().setWidth(0),
+//        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
+//        childrenBuilder: (modal) => <Widget>[
+////              LuckyWheelWidget(modal),
+////              LuckyWheelWrapperWidget(),
+//            ])
+//      ..show();
+
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    luckyGroup.setShowLuckyWheelGuidance = true;
+
+    showDialog(context: context, builder: (_) => LuckyWheelWrapperWidget());
   }
 
   static messageNotification(Function onOk) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import './trip/trip.dart';
-import '../theme/index.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/widgets/coin_rain.dart';
+
+import './trip/trip.dart';
+import '../theme/index.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -22,6 +22,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   List<Widget> pageList = [Trip(), MapPage(), Partner(), MinePage()];
 
   final pageController = PageController();
+
   //监听
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -113,20 +114,35 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // 设置屏幕适配插件
     // ScreenUtil.init(context, width: 1080, height: 1920);
-    return Scaffold(
-      // 通过IndexedStack 保持页面状态 但是会所有页面都初始化 so: pass
-      // body: IndexedStack(
-      //   children: pageList,
-      //   index: tabIndex,
-      // ),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: pageController,
-        onPageChanged: onPageChanged,
-        children: pageList,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _createBottomBar(),
+    return Stack(
+      children: <Widget>[
+        Scaffold(
+          // 通过IndexedStack 保持页面状态 但是会所有页面都初始化 so: pass
+          // body: IndexedStack(
+          //   children: pageList,
+          //   index: tabIndex,
+          // ),
+          body: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: pageController,
+            onPageChanged: onPageChanged,
+            children: pageList,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: _createBottomBar(),
+        ),
+        // 金币雨动效
+        CoinRainWidget(),
+        // 新手引导-welcome
+//        GuidanceWelcomeWidget(),
+        // 新手引导-添加树
+//        GuidanceDrawCircleWidget(),
+        // 新手引导-合成树
+//        GuidanceDrawRRectWidget(),
+        // 新手引导-map
+//        GuidanceMapWidget(),
+      ],
     );
   }
 }

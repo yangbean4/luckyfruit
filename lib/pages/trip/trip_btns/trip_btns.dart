@@ -257,7 +257,7 @@ class _TripBtnsState extends State<TripBtns> {
           'assets/image/spin.png',
           'SPIN',
           onTap: () {
-            Layer.showLuckyWheel();
+            Layer.showLuckyWheel(context);
           },
         ),
         getItem(

@@ -153,7 +153,10 @@ class _AdButtonState extends State<AdButton> {
                             child: FourthText(
                                 !showCancel ? '' : widget.cancelText)),
                       )
-                    : Container(),
+                    : Padding(
+                        padding:
+                            EdgeInsets.only(top: ScreenUtil().setWidth(20)),
+                      ),
                 widget.tips != null
                     ? Container(
                         width: ScreenUtil().setWidth(760),

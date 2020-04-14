@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 
@@ -38,16 +39,18 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
                 child: Container(
                     width: ScreenUtil().setWidth(900),
                     padding: EdgeInsets.symmetric(horizontal: 10),
+//                    color: Colors.red,
                     child: LuckyWheelWidget(null))),
             Positioned(
-                top: ScreenUtil().setWidth(60),
-                right: ScreenUtil().setWidth(60),
-                child: Container(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                top: ScreenUtil().setWidth(50),
+                right: ScreenUtil().setWidth(50),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
                     child: Image.asset(
                       'assets/image/close_icon_modal_top_right.png',
                       width: ScreenUtil().setWidth(40),
@@ -115,7 +118,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
     watchAdForTicketTimes = userModel?.value?.ticket_time ?? 0;
-    // ticketCount = 8;
+//    watchAdForTicketTimes = 10;
+//    ticketCount = 3;
     controller = new AnimationController(
         duration: const Duration(milliseconds: 1500), vsync: this);
 
@@ -248,61 +252,60 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
               fontWeight: FontWeight.w400),
         ),
       ),
-      Padding(
+      Container(
           padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(36)),
           child: Selector<UserModel, Tuple3<UserInfo, String, User>>(
             selector: (context, provider) => Tuple3(
                 provider?.userInfo, provider?.value?.acct_id, provider.value),
             builder: (_, data, __) {
               return AdButton(
-                btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
-                useAd: ticketCount <= 0,
-                disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
-                onCancel: () {
-                  widget?.modal?.hide();
-                },
-                onOk: () {
-                  if (controller.isAnimating) {
-                    print("controller.isAnimating");
-                    return;
-                  }
+                  btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
+                  useAd: ticketCount <= 0,
+                  disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
+                  onCancel: () {
+                    widget?.modal?.hide();
+                  },
+                  onOk: () {
+                    if (controller.isAnimating) {
+                      print("controller.isAnimating");
+                      return;
+                    }
 
-                  if (ticketCount <= 0) {
-                    //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
-                    Service().addTicket({'acct_id': data?.item2}).then((value) {
-                      // 到这里不管addTicket接口返回成功或失败, 广告次数都已经用过一次了
-                      if (value == null || value['code'] != 0) {
-                        // 添加失败
-                        Layer.toastWarning("Tickets Times used up");
-                        if (mounted) setState(() {});
-                      } else {
-                        // 添加成功
-                        Layer.toastSuccess("Get Ticket Success");
-                        // handleStartSpin(data?.item3);
+                    if (ticketCount <= 0) {
+                      //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
+                      Service()
+                          .addTicket({'acct_id': data?.item2}).then((value) {
+                        // 到这里不管addTicket接口返回成功或失败, 广告次数都已经用过一次了
+                        if (value == null || value['code'] != 0) {
+                          // 添加失败
+                          Layer.toastWarning("Tickets Times used up");
+                          if (mounted) setState(() {});
+                        } else {
+                          // 添加成功
+                          Layer.toastSuccess("Get Ticket Success");
+                          // handleStartSpin(data?.item3);
 
-                        if (mounted) {
-                          setState(() {
-                            // 得到了5张券,更新本地数量
-                            // TODO 是否是增加5次?还是从接口取?
-                            data.item3.ticket += 5;
-                            ticketCount = data.item3.ticket;
+                          if (mounted) {
+                            setState(() {
+                              // 得到了5张券,更新本地数量
+                              // TODO 是否是增加5次?还是从接口取?
+                              data.item3.ticket += 5;
+                              ticketCount = data.item3.ticket;
 
-                            // 用掉了一次看广告换转盘券的机会，本地减去1
-                            data.item3.ticket_time--;
-                            watchAdForTicketTimes = data.item3.ticket_time;
-                          });
+                              // 用掉了一次看广告换转盘券的机会，本地减去1
+                              data.item3.ticket_time--;
+                              watchAdForTicketTimes = data.item3.ticket_time;
+                            });
+                          }
                         }
-                      }
-                    });
-                    return;
-                  }
+                      });
+                      return;
+                    }
 
-                  handleStartSpin(data?.item3);
-                },
-                tips: ticketCount <= 0
-                    ? "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times ?? 0} times left)"
-                    : null,
-              );
+                    handleStartSpin(data?.item3);
+                  },
+                  tips:
+                      "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times ?? 0} times left)");
             },
           ))
     ]);

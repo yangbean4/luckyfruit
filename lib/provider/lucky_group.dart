@@ -89,6 +89,14 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 是否显示大转盘引导动画
+  bool _showLuckyWheelGuidance = false;
+  bool get showLuckyWheelGuidance => _showLuckyWheelGuidance;
+  set setShowLuckyWheelGuidance(bool show) {
+    _showLuckyWheelGuidance = show;
+    notifyListeners();
+  }
+
   // 当前是双倍
   bool _showAuto = false;
   bool get showAuto => _showAuto;
