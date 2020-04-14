@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/gold_text.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
-import 'package:luckyfruit/theme/public/secondary_text.dart';
 import 'package:luckyfruit/utils/index.dart';
 
 // Huge Win奖励弹窗
@@ -14,16 +11,20 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
   final num coinNum;
 
   static const TYPE_BIG_WIN = 1;
-  static const TYPE_BIG_WIN_10X = 2;
-  static const TYPE_MEGE_WIN = 3;
-  static const TYPE_MEGE_WIN_10X = 4;
-  static const TYPE_HUGE_WIN = 5;
-  static const TYPE_HUGE_WIN_10X = 6;
-  static const TYPE_JACKPOT_WIN = 7;
-  static const TYPE_JACKPOT_WIN_10X = 8;
+  static const TYPE_BIG_WIN_5X = 2;
+  static const TYPE_BIG_WIN_10X = 3;
+  static const TYPE_MEGE_WIN = 4;
+  static const TYPE_MEGE_WIN_5X = 5;
+  static const TYPE_MEGE_WIN_10X = 6;
+  static const TYPE_HUGE_WIN = 7;
+  static const TYPE_HUGE_WIN_5X = 8;
+  static const TYPE_HUGE_WIN_10X = 9;
+  static const TYPE_JACKPOT_WIN = 10;
+  static const TYPE_JACKPOT_WIN_5X = 11;
+  static const TYPE_JACKPOT_WIN_10X = 12;
 
   LuckyWheelWinResultWindow({Key key, this.winType, this.coinNum})
-      : assert(winType > 0 && winType < 9,
+      : assert(winType > 0 && winType < 13,
             "传入的LuckyWheelWinResultWindow的type不合法：$winType"),
         super(key: key);
 
@@ -85,11 +86,17 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
       case TYPE_BIG_WIN:
         desc = " 15min ";
         break;
+      case TYPE_BIG_WIN_5X:
+        desc = " 5X15min ";
+        break;
       case TYPE_BIG_WIN_10X:
         desc = " 10X15min ";
         break;
       case TYPE_MEGE_WIN:
         desc = " 30min ";
+        break;
+      case TYPE_MEGE_WIN_5X:
+        desc = " 5X30min ";
         break;
       case TYPE_MEGE_WIN_10X:
         desc = " 10X30min ";
@@ -97,11 +104,17 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
       case TYPE_HUGE_WIN:
         desc = " 45min ";
         break;
+      case TYPE_HUGE_WIN_5X:
+        desc = " 5X45min ";
+        break;
       case TYPE_HUGE_WIN_10X:
         desc = " 10X45min ";
         break;
       case TYPE_JACKPOT_WIN:
         desc = " 60min ";
+        break;
+      case TYPE_JACKPOT_WIN_5X:
+        desc = " 5X60min ";
         break;
       case TYPE_JACKPOT_WIN_10X:
         desc = " 10X60min ";

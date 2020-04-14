@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -141,14 +139,16 @@ class PartnerState extends State<Partner> {
     }
   """;
   PartnerWrap _partnerWrap;
+
   @override
   void initState() {
     super.initState();
 
     getInvitationListInfoData().then((res) {
-      setState(() {
-        _partnerWrap = res;
-      });
+      if (mounted)
+        setState(() {
+          _partnerWrap = res;
+        });
     });
   }
 

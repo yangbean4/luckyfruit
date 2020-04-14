@@ -1,20 +1,16 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
-import 'package:luckyfruit/provider/money_group.dart';
-import 'dart:math';
-
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
@@ -79,9 +75,14 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     with SingleTickerProviderStateMixin {
   // 当前旋转的角度
   double angle = 0;
+
   // 结束后要选中的位置，按设计图顶点位置(Big Win)从1开始顺时针排序，
   int finalPos = 0;
+
+  // 上一次转到的位置，只在上次是翻倍奖励的时候返回，其他时候返回0
+  int prevPos = 0;
   Tween<double> curTween;
+
   // 默认3圈
   static const defaultNumOfTurns = 3 * 2.0;
 
@@ -90,8 +91,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 弱网环境下，最大尝试圈数，超过后还没有返回抽奖结果则放弃
   int maxRetryNum = 3;
+
   // 当前剩下的券的数量
   int ticketCount = 0;
+
+  // 当前剩余观看广告次数，用尽后不能再触发点击
+  int watchAdForTicketTimes = 0;
   String testJson = """{
         "gift_id": 2,
         "coin": 9300
@@ -109,6 +114,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
+    watchAdForTicketTimes = userModel?.value?.ticket_time ?? 0;
     // ticketCount = 8;
     controller = new AnimationController(
         duration: const Duration(milliseconds: 1500), vsync: this);
@@ -251,6 +257,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
               return AdButton(
                 btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
                 useAd: ticketCount <= 0,
+                disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
                 onCancel: () {
                   widget?.modal?.hide();
                 },
@@ -279,6 +286,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                             // TODO 是否是增加5次?还是从接口取?
                             data.item3.ticket += 5;
                             ticketCount = data.item3.ticket;
+
+                            // 用掉了一次看广告换转盘券的机会，本地减去1
+                            data.item3.ticket_time--;
+                            watchAdForTicketTimes = data.item3.ticket_time;
                           });
                         }
                       }
@@ -310,7 +321,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         return;
       }
       finalPos = luckResultMap['gift_id'] as num;
+      prevPos = luckResultMap['prev'] as num;
       coinNum = luckResultMap['coin'] as num;
+
       print("返回的gift_id=$finalPos，coin=$coinNum");
 
       if (mounted) {
@@ -369,25 +382,49 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES);
         return;
       case 7:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
+      case 3:
+        if (prevPos == 8) {
+          // 如果上次返回的是5倍奖励
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN_5X;
+        } else if (prevPos == 4) {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN_10X;
+        } else {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
+        }
         break;
       case 6:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
+      case 2:
+        if (prevPos == 8) {
+          // 如果上次返回的是5倍奖励
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN_5X;
+        } else if (prevPos == 4) {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN_10X;
+        } else {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
+        }
         break;
       case 5:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
+        if (prevPos == 8) {
+          // 如果上次返回的是5倍奖励
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_5X;
+        } else if (prevPos == 4) {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_10X;
+        } else {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
+        }
         break;
       case 4:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES);
         return;
-      case 3:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
-        break;
-      case 2:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
-        break;
       case 1:
-        luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
+        if (prevPos == 8) {
+          // 如果上次返回的是5倍奖励
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
+        } else if (prevPos == 4) {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
+        } else {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
+        }
         break;
       default:
         break;
