@@ -112,7 +112,7 @@ class MoneyGroup with ChangeNotifier {
       String t = group['upDateTime'];
       _gold = group['_gold'] != null && group['_gold'] != ''
           ? double.tryParse(group['_gold'].toString())
-          : 400.0;
+          : _gold;
       _allgold = group['_allgold'] != null
           ? double.tryParse(group['_allgold'].toString())
           : 0.0;

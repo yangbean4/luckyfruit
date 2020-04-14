@@ -6,6 +6,10 @@ import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
+import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
+import 'package:luckyfruit/widgets/guidance_map.dart';
+import 'package:luckyfruit/widgets/guidance_welcome.dart';
 
 import './trip/trip.dart';
 import '../theme/index.dart';
