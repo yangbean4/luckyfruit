@@ -9,6 +9,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 class Partner extends StatefulWidget {
@@ -381,21 +382,26 @@ class PartnerState extends State<Partner> {
                                           SizedBox(
                                             height: ScreenUtil().setWidth(36),
                                           ),
-                                          PrimaryButton(
-                                              width: 600,
-                                              height: 124,
-                                              child: Center(
-                                                  child: Text(
-                                                "Invite Friends",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  height: 1,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      ScreenUtil().setWidth(52),
-                                                ),
-                                              ))),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Layer.partnerCash();
+                                            },
+                                            child: PrimaryButton(
+                                                width: 600,
+                                                height: 124,
+                                                child: Center(
+                                                    child: Text(
+                                                  "Invite Friends",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    height: 1,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: ScreenUtil()
+                                                        .setWidth(52),
+                                                  ),
+                                                ))),
+                                          ),
                                           SizedBox(
                                             height: ScreenUtil().setWidth(44),
                                           ),

@@ -15,6 +15,10 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:lottie/lottie.dart';
+
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -43,6 +47,169 @@ class Layer {
 
   /// 隐藏loading
   static loadingHide() => _future?.dismiss();
+
+  static partnerCash() {
+    AnimationController _controller;
+    AnimationController _controller2;
+
+    Modal(
+        verticalPadding: 0,
+        horizontalPadding: 0,
+        width: 1080,
+        decorationColor: Color.fromRGBO(0, 0, 0, 0),
+        childrenBuilder: (Modal modal) => <Widget>[
+              Container(
+                width: ScreenUtil().setWidth(1080),
+                height: ScreenUtil().setWidth(240),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        modal.hide();
+                      },
+                      child: Container(
+                          width: ScreenUtil().setWidth(200),
+                          height: ScreenUtil().setWidth(240),
+                          child: Center(
+                              child: Image.asset(
+                            'assets/image/close.png',
+                            width: ScreenUtil().setWidth(54),
+                            height: ScreenUtil().setWidth(54),
+                          ))))
+                ]),
+              ),
+              Container(
+                height: ScreenUtil().setWidth(1660),
+                width: ScreenUtil().setWidth(1080),
+                // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
+                child: Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(965),
+                      // height: ScreenUtil().setWidth(1450),
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(55)),
+                      padding: EdgeInsets.only(
+                          bottom: ScreenUtil().setWidth(20),
+                          top: ScreenUtil().setWidth(170)),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(30))),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: ScreenUtil().setWidth(908),
+                            height: ScreenUtil().setWidth(994),
+                            child: Stack(overflow: Overflow.visible, children: [
+                              Image.asset(
+                                'assets/image/partner_cash.png',
+                                width: ScreenUtil().setWidth(908),
+                                height: ScreenUtil().setWidth(994),
+                              ),
+                              // Positioned(
+                              //     left: ScreenUtil().setWidth(-10),
+                              //     top: ScreenUtil().setWidth(113),
+                              //     child: Container(
+                              //       width: ScreenUtil().setWidth(328),
+                              //       height: ScreenUtil().setWidth(744),
+                              //       child: Lottie.asset(
+                              //         'assets/lottiefiles/data.json',
+                              //         controller: _controller,
+                              //         onLoaded: (composition) {
+                              //           _controller.duration =
+                              //               composition.duration;
+                              //           _controller
+                              //             ..value = 0
+                              //             ..forward();
+                              //         },
+                              //       ),
+                              //     )),
+                              Positioned(
+                                  right: ScreenUtil().setWidth(-20),
+                                  top: ScreenUtil().setWidth(-24),
+                                  child: Container(
+                                    width: ScreenUtil().setWidth(948),
+                                    height: ScreenUtil().setWidth(1034),
+                                    child: Lottie.asset(
+                                      'assets/lottiefiles/data.json',
+                                      width: ScreenUtil().setWidth(928),
+                                      height: ScreenUtil().setWidth(1014),
+                                      // controller: _controller2,
+                                      // onLoaded: (composition) {
+                                      //   _controller2.duration =
+                                      //       composition.duration;
+                                      //   _controller2
+                                      //     ..value = 0
+                                      //     ..forward();
+                                      // },
+                                    ),
+                                  )),
+                            ]),
+                          ),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(30),
+                          ),
+                          Text(
+                            'More Partners，More cash',
+                            style: TextStyle(
+                              color: Color.fromRGBO(51, 51, 51, 1),
+                              fontFamily: FontFamily.regular,
+                              fontSize: ScreenUtil().setWidth(60),
+                            ),
+                          ),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(60),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              modal.hide();
+                            },
+                            child: PrimaryButton(
+                              width: 600,
+                              height: 124,
+                              child: Center(
+                                child: Text(
+                                  'Invite',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: ScreenUtil().setSp(56),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                        top: ScreenUtil().setWidth(-61),
+                        left: ScreenUtil().setWidth(55),
+                        child: Container(
+                          width: ScreenUtil().setWidth(966),
+                          height: ScreenUtil().setWidth(200),
+                          child: Center(
+                              child: ModalTitle(
+                            'Partner cash gift package',
+                            fontsize: 60,
+                            color: MyTheme.blackColor,
+                          )),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                  image: AssetImage(
+                                      'assets/image/phone_bvar.png'))),
+                        )),
+                  ],
+                ),
+              )
+            ]).show();
+  }
 
 // 新等级弹窗
   static newGrade(Tree tree, {num amount}) => Modal(

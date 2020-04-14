@@ -98,7 +98,7 @@ flutter:
     - assets/image/merge/
     - assets/image/gold/
     - assets/image/money/
-    - assets/image/rain/
+    # - assets/image/rain/
     - assets/image/2.0x/
     - assets/image/3.0x/
 
