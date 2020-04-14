@@ -64,7 +64,6 @@ class LuckyGroup with ChangeNotifier {
   // 是否显示双倍的入口按钮
   bool _showDouble = false;
   bool get showDouble => _showDouble;
-  Timer _showDoubleTimer;
 
   /// 是否显示金币雨
   bool _showCoinRain = false;
@@ -93,12 +92,10 @@ class LuckyGroup with ChangeNotifier {
   // 当前是双倍
   bool _showAuto = false;
   bool get showAuto => _showAuto;
-  Timer _showAutoTimer;
 
   // 是否显示🎈
   bool _showballoon = false;
   bool get showballoon => _showballoon;
-  Timer _showballoonTimer;
 
   TreeConfig treeConfig;
 
@@ -136,25 +133,23 @@ class LuckyGroup with ChangeNotifier {
   Issued get issed => _issued;
 
   void doubleStart() {
-    _showDouble = false;
+    hideDoubleAndNextRun();
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, _issued.reward_multiple);
     notifyListeners();
   }
 
   void doubleEnd() {
-    _showDouble = false;
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, 1);
     notifyListeners();
   }
 
   void autoStart() {
-    _showAuto = false;
+    hideAutoAndNextRun();
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
     notifyListeners();
   }
 
   void autoEnd() {
-    _showAuto = false;
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
     notifyListeners();
   }
@@ -278,68 +273,101 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  hideDoubleAndNextRun() {
+    _showDouble = false;
+    notifyListeners();
+
+    _timerRun(
+        time1: issed?.two_adSpace,
+        run1: () {
+          _showDouble = true;
+        },
+        time2: issed.double_coin_remain_time,
+        run2: () {
+          _showDouble = false;
+        });
+  }
+
+  hideAutoAndNextRun() {
+    _showAuto = false;
+    notifyListeners();
+
+    _timerRun(
+        time1: issed?.automatic_two_adSpace,
+        run1: () {
+          _showAuto = true;
+        },
+        time2: issed.automatic_remain_time,
+        run2: () {
+          _showAuto = false;
+        });
+  }
+
+  hideBallonAndNextRun() {
+    _showballoon = false;
+    notifyListeners();
+    _timerRun(
+        time1: issed?.balloon_adSpace,
+        run1: () {
+          _showballoon = true;
+        },
+        time2: issed.automatic_remain_time,
+        run2: () {
+          // _showballoon = false;
+          hideBallonAndNextRun();
+        });
+  }
+
+  // 开始定时器
+  _timerRun({int time1, int time2, Function run1, Function run2}) {
+    // 广告间隔后显示入口
+    Future.delayed(Duration(seconds: time1)).then((e) {
+      run1();
+      notifyListeners();
+      // 设置的时间后 隐藏
+      Future.delayed(Duration(seconds: time2)).then((e) {
+        run2();
+        notifyListeners();
+      });
+    });
+  }
+
   _rightBtnShow() {
     if (issed?.game_timeLen != null) {
-      // 退出时保存数据 并取消记时器
-      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-        _showDoubleTimer?.cancel();
-      });
-      Timer.periodic(Duration(seconds: issed?.game_timeLen), (timer) {
-        _showDoubleTimer = timer;
-        adTimeCheck(Duration(seconds: issed?.two_adSpace), () {
-          _showDouble = true;
-          notifyListeners();
-
-          // 设置的时间后 隐藏
-          Future.delayed(Duration(seconds: issed?.double_coin_remain_time))
-              .then((e) {
+      _timerRun(
+          time1: issed?.game_timeLen,
+          run1: () {
+            _showDouble = true;
+          },
+          time2: issed.double_coin_remain_time,
+          run2: () {
             _showDouble = false;
-            notifyListeners();
           });
-        });
-      });
     }
 
     if (issed?.automatic_game_timelen != null) {
-      // 退出时保存数据 并取消记时器
-      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-        _showAutoTimer?.cancel();
-      });
-      Timer.periodic(Duration(seconds: issed?.automatic_game_timelen), (timer) {
-        _showAutoTimer = timer;
-        adTimeCheck(Duration(seconds: issed?.automatic_two_adSpace), () {
-          _showAuto = true;
-          notifyListeners();
-
-          // 设置的时间后 隐藏
-          Future.delayed(Duration(seconds: issed?.automatic_remain_time))
-              .then((e) {
+      _timerRun(
+          time1: issed?.automatic_game_timelen,
+          run1: () {
+            _showAuto = true;
+          },
+          time2: issed.automatic_remain_time,
+          run2: () {
             _showAuto = false;
-            notifyListeners();
           });
-        });
-      });
     }
 
     if (issed?.balloon_timeLen != null) {
-      // 退出时保存数据 并取消记时器
-      EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-        _showballoonTimer?.cancel();
-      });
-      Timer.periodic(Duration(seconds: issed?.balloon_timeLen), (timer) {
-        _showballoonTimer = timer;
-        adTimeCheck(Duration(seconds: issed?.balloon_adSpace), () {
-          _showballoon = true;
-          notifyListeners();
-
-          // 设置的时间后 隐藏
-          Future.delayed(Duration(seconds: issed?.automatic_remain_time))
-              .then((e) {
-            _showballoon = false;
-            notifyListeners();
+      _timerRun(
+          time1: issed?.balloon_timeLen,
+          run1: () {
+            _showballoon = true;
+          },
+          time2: issed.automatic_remain_time,
+          run2: () {
+            // _showballoon = false;
+            hideBallonAndNextRun();
           });
-        });
-      });
     }
   }
 
@@ -401,6 +429,7 @@ class LuckyGroup with ChangeNotifier {
       if (_check != null) {
         // 如果有则执行移除这条回调
         _check.callBack();
+        showAd();
         _checkList.remove(_check);
       }
       // 如果数组为空则清除 定时器
