@@ -301,7 +301,10 @@ class LuckyGroup with ChangeNotifier {
         },
         time2: issed.double_coin_remain_time,
         run2: () {
-          _showDouble = false;
+          // 如果为true的话说明是超时了 开启下次轮转
+          if (_showDouble == true) {
+            hideDoubleAndNextRun();
+          }
         });
   }
 
@@ -316,7 +319,9 @@ class LuckyGroup with ChangeNotifier {
         },
         time2: issed.automatic_remain_time,
         run2: () {
-          _showAuto = false;
+          if (_showAuto == true) {
+            hideAutoAndNextRun();
+          }
         });
   }
 
@@ -353,12 +358,15 @@ class LuckyGroup with ChangeNotifier {
     if (issed?.game_timeLen != null) {
       _timerRun(
           time1: issed?.game_timeLen,
+          // time1: 10,
           run1: () {
             _showDouble = true;
           },
           time2: issed.double_coin_remain_time,
           run2: () {
-            _showDouble = false;
+            if (_showDouble == true) {
+              hideAutoAndNextRun();
+            }
           });
     }
 
@@ -370,7 +378,9 @@ class LuckyGroup with ChangeNotifier {
           },
           time2: issed.automatic_remain_time,
           run2: () {
-            _showAuto = false;
+            if (_showAuto == true) {
+              hideAutoAndNextRun();
+            }
           });
     }
 

@@ -43,6 +43,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.14.2"
+  back_button_interceptor:
+    dependency: "direct main"
+    description:
+      name: back_button_interceptor
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.2.3"
   boolean_selector:
     dependency: transitive
     description:

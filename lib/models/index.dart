@@ -6,6 +6,7 @@ export 'withdrawResult.dart' ;
 export 'cash_amount.dart' ; 
 export 'reward.dart' ; 
 export 'partnerWrap.dart' ; 
+export 'barrageMsg.dart' ; 
 export 'partnerProfitItem.dart' ; 
 export 'partnerSubordinateItem.dart' ; 
 export 'ranklist.dart' ; 

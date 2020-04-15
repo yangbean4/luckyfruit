@@ -133,10 +133,12 @@ class _MapPageState extends State<MapPage> {
                             left: ScreenUtil().setWidth(142),
                             right: ScreenUtil().setWidth(84)),
                         reverse: true,
-                        controller: ScrollController(
-                            keepScrollOffset: true,
-                            initialScrollOffset: ScreenUtil().setWidth(
-                                246 * (int.parse(selectorUse.cityId) - 1))),
+                        controller: mounted
+                            ? ScrollController(
+                                keepScrollOffset: true,
+                                initialScrollOffset: ScreenUtil().setWidth(
+                                    246 * (int.parse(selectorUse.cityId) - 1)))
+                            : null,
                         itemExtent: ScreenUtil().setWidth(246),
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {

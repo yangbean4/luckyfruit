@@ -98,6 +98,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取弹幕内容
+  Future<List> getBarrageList(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/barrageList', data: data);
+    return response.data['data'];
+  }
+
 // 获取城市图配置
   Future<List> getcityList(Map<String, dynamic> data) async {
     Response response = await _client.post('/Deployinfo/cityList', data: data);

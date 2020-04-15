@@ -18,6 +18,8 @@ import './trip_btns/trip_btns.dart';
 import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
 import './other/treasure.dart';
+import './other/barrage.dart';
+
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/utils/bgm.dart';
 
@@ -534,6 +536,8 @@ class _TripState extends State<Trip>
         Balloon(),
         // 宝箱 📦
         Treasure(),
+        // 弹幕
+        Barrage(),
       ]),
     );
   }

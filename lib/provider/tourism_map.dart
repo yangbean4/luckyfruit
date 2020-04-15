@@ -172,7 +172,8 @@ class TourismMap with ChangeNotifier {
     // 抽奖弹窗
     if (levelRoule.deblock_city != _cityId) {
       data['deblock_city'] = levelRoule.deblock_city;
-
+      _cityId = levelRoule.deblock_city;
+      notifyListeners();
       MapPrizeModal().show(cityInfo);
     }
 

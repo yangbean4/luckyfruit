@@ -68,7 +68,7 @@ dependencies:
   facebook_share: ^1.0.0
   # A Flutter plugin for launching a URL in the mobile platform
   url_launcher: ^5.4.2
-
+  back_button_interceptor: ^4.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

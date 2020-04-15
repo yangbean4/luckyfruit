@@ -91,11 +91,12 @@ class _AdButtonState extends State<AdButton> {
                             MoAd.viewAd(context).then((res) {
                               if (res) {
                                 // 看广告成功
-                                widget.onOk();
+                                widget?.onOk();
                               } else {
-                                widget.onCancel();
+                                widget?.onCancel();
                                 // 看广告失败,弹框提示
-                                Layer.toastWarning("Number of videos has used up");
+                                Layer.toastWarning(
+                                    "Number of videos has used up");
                               }
                             });
                           } else {

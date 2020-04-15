@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
@@ -45,14 +47,21 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
+    BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
   }
 
   @override
   void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
     WidgetsBinding.instance.removeObserver(this); // 移除监听器
     super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    print("BACK BUTTON!"); // Do some stuff.
+    EVENT_BUS.emit(Event_Name.APP_PAUSED);
+    return false;
   }
 
   void onPageChanged(int index) {

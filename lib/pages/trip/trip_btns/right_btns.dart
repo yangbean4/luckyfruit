@@ -177,7 +177,7 @@ class _RightBtnsState extends State<RightBtns>
                         });
                       },
                       child: renderItem('assets/image/vadio.png',
-                          bottomString: 'in ${issed?.automatic_game_timelen} s',
+                          bottomString: 'in ${issed?.automatic_time} s',
                           topString: 'Auto Merge',
                           color: Color.fromRGBO(49, 200, 84, 1)),
                     ))
@@ -187,8 +187,7 @@ class _RightBtnsState extends State<RightBtns>
                     'assets/image/auto.png',
                     topString: 'Auto Merge',
                     bottom: CountdownFormatted(
-                      duration:
-                          Duration(seconds: issed?.automatic_game_timelen),
+                      duration: Duration(seconds: issed?.automatic_time),
                       onFinish: () {
                         luckyGroup.autoEnd();
                         setState(() {

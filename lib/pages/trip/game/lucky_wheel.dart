@@ -211,7 +211,6 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   ),
                 ),
                 builder: (BuildContext context, Widget child) {
-                  print(animation.value);
                   return Transform.rotate(
                     angle: animation.value * pi,
                     alignment: Alignment.center,

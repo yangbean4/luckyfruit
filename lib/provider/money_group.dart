@@ -249,6 +249,7 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addGold(double gold, {bool showAnimate = true}) {
+    gold = gold;
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
     if (showAnimate) {

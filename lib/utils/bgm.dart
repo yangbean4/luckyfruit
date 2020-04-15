@@ -31,8 +31,6 @@ class Bgm {
     ]);
     play();
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-      print('Event_Name.APP_PAUSED  --------------------- bgm');
-
       _canPlay = false;
       fixedPlayer.stop();
     });

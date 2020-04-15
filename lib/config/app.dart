@@ -48,6 +48,8 @@ class App {
 
   // 离线时长小于10分钟 没有离线奖励
   static const num NO_UN_LINE_TIME = 10 * 60;
+  // 更新弹幕时间间隔
+  static const int BarrageTimer = 5 * 60;
 
   static const String AESKEY = '06BB48CFA768694D';
   static const String BASE_URL =
