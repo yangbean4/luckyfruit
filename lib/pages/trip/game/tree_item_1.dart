@@ -140,7 +140,7 @@ class TreeAnimation extends StatelessWidget {
               child: EllipticalWidget(
                 width: ScreenUtil().setWidth(100),
                 height: ScreenUtil().setWidth(50),
-                color: MyTheme.darkGrayColor,
+                // color: MyTheme.darkGrayColor,
               )),
           Positioned(
               bottom: ScreenUtil().setWidth(10),
