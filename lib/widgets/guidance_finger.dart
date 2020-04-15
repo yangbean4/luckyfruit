@@ -51,6 +51,9 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
   }
 
   Future<Null> _playAnimation() async {
+    if (controller == null) {
+      return;
+    }
     try {
       //先正向执行动画
       await controller.forward().orCancel;

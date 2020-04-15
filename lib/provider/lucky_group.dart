@@ -97,6 +97,14 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 是否显示大转盘解锁动画
+  bool _showLuckyWheelUnlock = false;
+  bool get showLuckyWheelUnlock => _showLuckyWheelUnlock;
+  set setShowLuckyWheelUnlock(bool show) {
+    _showLuckyWheelUnlock = show;
+    notifyListeners();
+  }
+
   // 当前是双倍
   bool _showAuto = false;
   bool get showAuto => _showAuto;

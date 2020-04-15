@@ -146,6 +146,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 //        GuidanceDrawRRectWidget(),
         // 新手引导-map
 //        GuidanceMapWidget(),
+        //大转盘解锁
+//        WheelUnlockWidget(),
       ],
     );
   }
