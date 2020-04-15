@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../index.dart';
@@ -10,6 +9,7 @@ class ModalTitle extends StatelessWidget {
   final num fontsize;
   final FontWeight fontWeight;
   final TextAlign textAlign;
+
   const ModalTitle(
     this.text, {
     Key key,
@@ -23,6 +23,7 @@ class ModalTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         textAlign: textAlign,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontSize: ScreenUtil().setSp(fontsize),
             color: color,

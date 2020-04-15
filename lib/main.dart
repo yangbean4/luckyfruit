@@ -13,6 +13,7 @@ import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
 import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
+import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 import 'package:luckyfruit/widgets/money_flying_animation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +111,7 @@ class MyApp extends StatelessWidget {
               // 领取金币动画
               GoldFlyingAnimation(),
               // 新手引导-大转盘
-//              GuidanceLuckyWheelWidget(),
+              GuidanceLuckyWheelWidget(),
             ],
           );
         },

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/index.dart';
-
-import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/index.dart' show CityInfo, DeblokCity;
+import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/provider/tourism_map.dart';
-import 'package:luckyfruit/widgets/modal.dart';
-import 'package:luckyfruit/models/index.dart' show CityInfo, DeblokCity;
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:luckyfruit/widgets/layer.dart' show GetReward;
+import 'package:luckyfruit/widgets/modal.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
+import 'package:provider/provider.dart';
 
 class _SelectorUse {
   List<CityInfo> cityInfoList;
   String cityId;
   List<DeblokCity> deblokCityList;
   TourismMap tourismMap;
+
   _SelectorUse({this.tourismMap})
       : cityInfoList = tourismMap.cityInfoList ?? [],
         cityId = tourismMap.cityId,
@@ -39,8 +40,14 @@ class _MapPageState extends State<MapPage> {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.getPersonalInfo();
     TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
-    tourismMap.setShowMapGuidance = true;
     tourismMap.getDeblokCityList();
+
+    Storage.getItem(Consts.SP_KEY_GUIDANCE_MAP).then((value) {
+      print("map_guidance: $value, ${value == null}");
+      if (value == null) {
+        tourismMap.setShowMapGuidance = true;
+      }
+    });
   }
 
   @override
@@ -453,6 +460,7 @@ class MapPrizeModal {
 class _MapPrize extends StatefulWidget {
   final Modal modal;
   final String cityId;
+
   _MapPrize({Key key, this.modal, this.cityId}) : super(key: key);
 
   @override
@@ -466,6 +474,7 @@ class __MapPrizeState extends State<_MapPrize> {
   int speed = 30;
   int server = 1;
   Map sign;
+
   _goRun() async {
     TourismMap tourismMap = Provider.of<TourismMap>(context, listen: false);
     // 有返回值 true 中分红树

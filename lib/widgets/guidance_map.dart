@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
 class GuidanceMapWidget extends StatefulWidget {
@@ -77,6 +79,8 @@ class _GuidanceMapState extends State with TickerProviderStateMixin {
       await controller.forward().orCancel;
     } on TickerCanceled {}
     bgColor = null;
+
+    Storage.setItem(Consts.SP_KEY_GUIDANCE_MAP, "1");
   }
 
   @override

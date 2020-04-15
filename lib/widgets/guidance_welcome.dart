@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
 class GuidanceWelcomeWidget extends StatefulWidget {
@@ -24,6 +27,8 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   Color bgColor = Color.fromRGBO(0, 0, 0, 0.2);
   Interval scaleTextInterval;
   Interval transPeopleInterval;
+  bool show = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +72,18 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
         curve: transPeopleInterval,
       ),
     );
+
+    getShowOrNot();
+  }
+
+  getShowOrNot() async {
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+
+    String cachedFlag = await Storage.getItem(Consts.SP_KEY_GUIDANCE_WELCOME);
+    setState(() {
+      show = (treeGroup?.treeList?.length == 0 && cachedFlag == null);
+      print("gui_wel: $show");
+    });
   }
 
   @override
@@ -122,65 +139,69 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
     luckyGroup.setShowCircleGuidance = true;
     // 显示合成树rrect指引
     // luckyGroup.setShowRRectGuidance = true;
+
+    Storage.setItem(Consts.SP_KEY_GUIDANCE_WELCOME, "1");
   }
 
   @override
   Widget build(BuildContext context) {
     print(
-        "build::: trans: ${transPeopleAnimation?.value}, scale: ${scaleTextAnimation?.value}");
-    return AnimatedBuilder(
-      builder: (BuildContext context, Widget child) {
-        return Positioned(
-          left: 0,
-          bottom: 0,
-          child: GestureDetector(
-            onTap: () {
-              if (!flag) {
-                showExplanationTips();
-              } else {
-                transToHideGuidance();
-              }
-            },
-            child: Container(
-              color: bgColor,
-              width: ScreenUtil().setWidth(1080),
-              height: ScreenUtil().setWidth(2500),
-              padding: EdgeInsets.only(
-                bottom: ScreenUtil().setWidth(60),
-              ),
-              child: Transform.translate(
-                offset: Offset(transPeopleAnimation?.value ?? 0, 0),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      left: ScreenUtil().setWidth(150),
-                      bottom: ScreenUtil().setWidth(700),
-                      child: Transform.scale(
-                        scale: scaleTextAnimation?.value ?? 0,
-                        child: Image.asset(
-                          textTips,
-                          width: ScreenUtil().setWidth(788),
-                          height: ScreenUtil().setWidth(336),
-                        ),
+        "build::: trans: show=$show, ${transPeopleAnimation?.value}, scale: ${scaleTextAnimation?.value}");
+    return show
+        ? AnimatedBuilder(
+            builder: (BuildContext context, Widget child) {
+              return Positioned(
+                left: 0,
+                bottom: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    if (!flag) {
+                      showExplanationTips();
+                    } else {
+                      transToHideGuidance();
+                    }
+                  },
+                  child: Container(
+                    color: bgColor,
+                    width: ScreenUtil().setWidth(1080),
+                    height: ScreenUtil().setWidth(2500),
+                    padding: EdgeInsets.only(
+                      bottom: ScreenUtil().setWidth(60),
+                    ),
+                    child: Transform.translate(
+                      offset: Offset(transPeopleAnimation?.value ?? 0, 0),
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            left: ScreenUtil().setWidth(150),
+                            bottom: ScreenUtil().setWidth(700),
+                            child: Transform.scale(
+                              scale: scaleTextAnimation?.value ?? 0,
+                              child: Image.asset(
+                                textTips,
+                                width: ScreenUtil().setWidth(788),
+                                height: ScreenUtil().setWidth(336),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: ScreenUtil().setWidth(0),
+                            bottom: ScreenUtil().setWidth(0),
+                            child: Image.asset(
+                              'assets/image/guidance_people.png',
+                              width: ScreenUtil().setWidth(370),
+                              height: ScreenUtil().setWidth(750),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      left: ScreenUtil().setWidth(0),
-                      bottom: ScreenUtil().setWidth(0),
-                      child: Image.asset(
-                        'assets/image/guidance_people.png',
-                        width: ScreenUtil().setWidth(370),
-                        height: ScreenUtil().setWidth(750),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
-      animation: controller,
-    );
+              );
+            },
+            animation: controller,
+          )
+        : Container();
   }
 }

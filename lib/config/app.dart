@@ -116,6 +116,10 @@ class TreeType {
 class Consts {
   // 手动切换底部栏使用
   static GlobalKey globalKey = new GlobalKey(debugLabel: 'key_bottom_bar');
+  static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
+  static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
+  static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";
+  static final String SP_KEY_UNLOCK_WHEEL = "sp_key_unlock_wheel";
 
   ///partner页面的加速等级对照表
   static const StageInfoListOfPartner = [

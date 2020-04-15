@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
 class WheelUnlockWidget extends StatefulWidget {
@@ -71,6 +73,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
         if (status == AnimationStatus.completed) {
           print("Lucky Wheel AnimationStatus.completed");
           endOfAnimation = true;
+          Storage.setItem(Consts.SP_KEY_UNLOCK_WHEEL, "1");
         }
       });
   }
@@ -297,6 +300,7 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
 
     posBottomAnimation = Tween<double>(
       begin: ScreenUtil().setWidth(1250),
+//      end: ScreenUtil().setHeight(1920-410),
       end: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
     ).animate(CurvedAnimation(
         parent: _controller,

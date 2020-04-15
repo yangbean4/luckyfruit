@@ -10,6 +10,7 @@ import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
+import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 
 import './trip/trip.dart';
 import '../theme/index.dart';
@@ -139,15 +140,15 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         // 金币雨动效
         CoinRainWidget(),
         // 新手引导-welcome
-//        GuidanceWelcomeWidget(),
+        GuidanceWelcomeWidget(),
         // 新手引导-添加树
-//        GuidanceDrawCircleWidget(),
+        GuidanceDrawCircleWidget(),
         // 新手引导-合成树
-//        GuidanceDrawRRectWidget(),
+        GuidanceDrawRRectWidget(),
         // 新手引导-map
-//        GuidanceMapWidget(),
+        GuidanceMapWidget(),
         //大转盘解锁
-//        WheelUnlockWidget(),
+        WheelUnlockWidget(),
       ],
     );
   }

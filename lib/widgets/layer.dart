@@ -20,6 +20,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -213,7 +214,7 @@ class Layer {
       onOk: () {},
       okText: 'Claim',
       children: <Widget>[
-        ModalTitle('${tree.name} Tree'),
+        ModalTitle('${tree.name}'),
         Container(height: ScreenUtil().setWidth(47)),
         TreeWidget(
           tree: tree,
@@ -650,8 +651,13 @@ class Layer {
 //            ])
 //      ..show();
 
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    luckyGroup.setShowLuckyWheelGuidance = true;
+    Storage.getItem(Consts.SP_KEY_GUIDANCE_WHEEL).then((value) {
+      if (value != null) {
+        return;
+      }
+      LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+      luckyGroup.setShowLuckyWheelGuidance = true;
+    });
 
     showDialog(context: context, builder: (_) => LuckyWheelWrapperWidget());
   }
