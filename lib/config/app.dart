@@ -29,18 +29,23 @@ class GameConfig {
 class AnimationConfig {
   // 树动画时间间隔
   static const num TreeAnimationTime = 8;
+
   // 气球降落 默认时间 单位秒
   static const num AlightingTime = 20;
+
   // 自动合成 动画时间 单位毫秒
   static const num AutoMergeTime = 200;
 }
 
 class App {
   static String appVersion = "";
+
   // 存储金币的时间间隔 单位秒
   static const int SAVE_INTERVAL = 30;
+
   // 离线也有收益的时长 单位秒
   static const num UN_LINE_TIME = 2 * 60 * 60;
+
   // 离线时长小于10分钟 没有离线奖励
   static const num NO_UN_LINE_TIME = 10 * 60;
 
@@ -228,5 +233,46 @@ class Consts {
     TreeType.Type_Wishing: "Wishing Tree",
     TreeType.Type_TimeLimited_Bonus: "Limited Time Bouns Tree",
     TreeType.Type_Globle_Bonus: "Bouns Tree"
+  };
+
+  static const Map TreeBottomColorList = {
+    "1": [Color.fromRGBO(47, 229, 114, 1), Color.fromRGBO(33, 223, 110, 1)],
+    "2": [Color.fromRGBO(32, 194, 69, 1), Color.fromRGBO(66, 204, 98, 1)],
+    "3": [Color.fromRGBO(49, 217, 124, 1), Color.fromRGBO(66, 204, 98, 1)],
+    "4": [Color.fromRGBO(61, 223, 132, 1), Color.fromRGBO(58, 209, 144, 1)],
+    "5": [Color.fromRGBO(84, 205, 95, 1), Color.fromRGBO(72, 190, 82, 1)],
+    "6": [Color.fromRGBO(49, 208, 154, 1), Color.fromRGBO(38, 190, 123, 1)],
+    "7": [Color.fromRGBO(2, 198, 117, 1), Color.fromRGBO(0, 177, 82, 1)],
+    "8": [Color.fromRGBO(0, 201, 53, 1), Color.fromRGBO(11, 180, 62, 1)],
+    "9": [Color.fromRGBO(53, 202, 120, 1), Color.fromRGBO(34, 177, 45, 1)],
+    "10": [Color.fromRGBO(21, 190, 116, 1), Color.fromRGBO(9, 153, 55, 1)],
+    "11": [Color.fromRGBO(149, 192, 31, 1), Color.fromRGBO(97, 179, 22, 1)],
+    "12": [Color.fromRGBO(27, 217, 34, 1), Color.fromRGBO(42, 177, 17, 1)],
+    "13": [Color.fromRGBO(130, 220, 32, 1), Color.fromRGBO(105, 195, 24, 1)],
+    "14": [Color.fromRGBO(129, 187, 0, 1), Color.fromRGBO(156, 175, 0, 1)],
+    "15": [Color.fromRGBO(187, 214, 34, 1), Color.fromRGBO(166, 196, 13, 1)],
+    "16": [Color.fromRGBO(230, 230, 18, 1), Color.fromRGBO(198, 195, 4, 1)],
+    "17": [Color.fromRGBO(206, 208, 9, 1), Color.fromRGBO(181, 183, 0, 1)],
+    "18": [Color.fromRGBO(243, 223, 47, 1), Color.fromRGBO(219, 178, 25, 1)],
+    "19": [Color.fromRGBO(245, 183, 14, 1), Color.fromRGBO(236, 158, 12, 1)],
+    "20": [Color.fromRGBO(232, 112, 25, 1), Color.fromRGBO(221, 84, 18, 1)],
+    "21": [Color.fromRGBO(115, 178, 7, 1), Color.fromRGBO(109, 165, 14, 1)],
+    "22": [Color.fromRGBO(145, 204, 0, 1), Color.fromRGBO(135, 180, 0, 1)],
+    "23": [Color.fromRGBO(153, 204, 102, 1), Color.fromRGBO(106, 165, 52, 1)],
+    "24": [Color.fromRGBO(145, 158, 29, 1), Color.fromRGBO(130, 140, 39, 1)],
+    "25": [Color.fromRGBO(101, 202, 101, 1), Color.fromRGBO(77, 176, 77, 1)],
+    "26": [Color.fromRGBO(130, 228, 65, 1), Color.fromRGBO(77, 195, 20, 1)],
+    "27": [Color.fromRGBO(79, 226, 45, 1), Color.fromRGBO(49, 210, 18, 1)],
+    "28": [Color.fromRGBO(121, 246, 91, 1), Color.fromRGBO(50, 222, 63, 1)],
+    "29": [Color.fromRGBO(12, 237, 126, 1), Color.fromRGBO(2, 212, 86, 1)],
+    "30": [Color.fromRGBO(8, 227, 138, 1), Color.fromRGBO(0, 198, 104, 1)],
+    "31": [Color.fromRGBO(40, 198, 152, 1), Color.fromRGBO(2, 164, 126, 1)],
+    "32": [Color.fromRGBO(35, 220, 79, 1), Color.fromRGBO(18, 169, 56, 1)],
+    "33": [Color.fromRGBO(105, 220, 22, 1), Color.fromRGBO(68, 177, 14, 1)],
+    "34": [Color.fromRGBO(167, 210, 40, 1), Color.fromRGBO(116, 165, 30, 1)],
+    "35": [Color.fromRGBO(169, 201, 19, 1), Color.fromRGBO(166, 186, 17, 1)],
+    "36": [Color.fromRGBO(217, 196, 35, 1), Color.fromRGBO(199, 176, 32, 1)],
+    "37": [Color.fromRGBO(237, 194, 12, 1), Color.fromRGBO(226, 157, 20, 1)],
+    "38": [Colors.yellow, Colors.orange],
   };
 }

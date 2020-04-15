@@ -71,6 +71,8 @@ class Tree extends TreePoint {
       ? Consts.TreeNameWithType[type]
       : Consts.TreeNameWithGrade[grade - 1];
 
+  List get color => Consts.TreeBottomColorList[grade.toString()];
+
   double get recycleGold => recycleMoney != null
       ? 0
       : double.parse(

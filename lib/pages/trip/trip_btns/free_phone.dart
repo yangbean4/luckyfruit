@@ -887,7 +887,7 @@ class _PhoneItem extends StatelessWidget {
               EllipticalWidget(
                 width: ScreenUtil().setWidth(80),
                 height: ScreenUtil().setWidth(10),
-                color: MyTheme.grayColor,
+                colors: [MyTheme.grayColor, MyTheme.grayColor],
               ),
               Container(
                 child: Text(sign.content,

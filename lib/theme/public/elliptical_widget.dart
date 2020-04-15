@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 class EllipticalWidget extends StatelessWidget {
   final num width;
   final num height;
-  final Color color;
   final Widget child;
+  final List<Color> colors;
+
   EllipticalWidget({
     Key key,
     @required this.width,
     @required this.height,
-    @required this.color,
+    @required this.colors,
     this.child,
   }) : super(key: key);
 
@@ -20,7 +21,10 @@ class EllipticalWidget extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-          color: color,
+          gradient: LinearGradient(
+              begin: Alignment(0.0, -1.0),
+              end: Alignment(0.0, 1.0),
+              colors: colors),
           borderRadius: BorderRadius.all(
             Radius.circular(width / 2),
           )),

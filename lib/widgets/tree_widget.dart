@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/theme/public/elliptical_widget.dart';
-import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/elliptical_widget.dart';
 import 'package:luckyfruit/utils/index.dart';
 
 import 'count_down.dart';
@@ -21,8 +19,10 @@ class TreeWidget extends StatelessWidget {
   final String label;
   final Tree tree;
   final Widget image;
+
   // 是否显示右上角倒计时图案，限时分红树时需要使用
   final bool showCountDown;
+
   const TreeWidget(
       {Key key,
       this.imgWidth,
@@ -69,7 +69,7 @@ class TreeWidget extends StatelessWidget {
             child: EllipticalWidget(
               width: labelWidth,
               height: _labelHeight,
-              color: primary ? MyTheme.primaryColor : Colors.white,
+              colors: primary ? tree.color : [Colors.white, Colors.white],
               child: Center(
                   child: Text(
                 label ?? tree?.grade.toString(),
