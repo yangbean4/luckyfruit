@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show TreeConfig;
 
@@ -17,6 +16,7 @@ class TreePoint {
 class Tree extends TreePoint {
   static const int MAX_LEVEL = 38;
   static TreeConfig treeConfig;
+
   static init(TreeConfig _treeConfig) {
     treeConfig = _treeConfig;
   }
@@ -43,17 +43,23 @@ class Tree extends TreePoint {
 
   // 分红树倒计时时长(走动的过程中会动态更新)
   int duration;
+
   // 分红树倒计时时长,跟durat)ion初始值一致,但是不会改变
   int originalDuration;
+
   // 分红树 多少钱
   double amount;
+
   // 等级
   int grade;
+
   // 该等级生产的次数
   int gradeNumber;
+
   // 标志是否是特殊的树
   String type;
   bool showCountDown;
+
   // 服务端返回的treeId字段
   num treeId;
 
@@ -68,6 +74,10 @@ class Tree extends TreePoint {
       ? 0
       : double.parse(
           Tree.treeConfig.recover_content[grade.toString()].toString());
+
+  // 当前级别所能购买的最大等级的树木
+  int get highLevelCanPurchese =>
+      Tree.treeConfig?.highlevel_purchaselevel[grade.toString()];
 
   List get _makeTreeUseGoldList => Tree.treeConfig?.content[grade.toString()];
 
@@ -84,6 +94,7 @@ class Tree extends TreePoint {
       ? 0.0
       : double.tryParse(
           Tree.treeConfig?.tree_content[grade.toString()].toString());
+
 //   // 指数
 //   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;
 

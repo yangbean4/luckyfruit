@@ -1,30 +1,32 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'dart:math';
-import 'dart:async';
-
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/utils/method_channel.dart';
-import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/widgets/layer.dart';
-import './money_group.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/index.dart';
-import './lucky_group.dart';
 import 'package:luckyfruit/models/index.dart'
     show GlobalDividendTree, UnlockNewTreeLevel;
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/method_channel.dart';
+import 'package:luckyfruit/utils/storage.dart';
+import 'package:luckyfruit/widgets/layer.dart';
+
+import './lucky_group.dart';
+import './money_group.dart';
 import './user_model.dart';
 
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
   LuckyGroup _luckyGroup;
+
   TreeGroup();
+
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
 
@@ -45,41 +47,52 @@ class TreeGroup with ChangeNotifier {
 
   // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
+
   bool get dataLoad => _dataLoad;
 
   // 合成的总次数
   int totalMergeCount = 1;
 
   bool _isLoad = false;
+
   bool get isLoad => _isLoad;
 
   // 全球分红树 数据
   GlobalDividendTree _globalDividendTree;
+
   GlobalDividendTree get globalDividendTree => _globalDividendTree;
 
   //宝箱的树
   Tree treasureTree;
   Timer _boxTimer;
+
   // 设置的宝箱出现的时间间隔 单位 s
   num get _treasureInterval => _luckyGroup.issed?.random_space_time;
+
   // 宝箱停留时长;超出后隐藏
   num get _treasuReremain => _luckyGroup.issed?.box_remain_time;
+
   // 随机的等级
   num get _treasugrade => _luckyGroup.issed?.random_m_level;
 
   // 冷却时间
   int delayTime;
+
   // 最后种树时间
   DateTime makeTreeTime = DateTime.now();
 
   // 是否在自动合成
   bool _isAuto = false;
+
   // 自动合成是否暂停 有弹窗时暂停 路由跳转时暂停
   bool _autoTimeOut = false;
+
   // 保存 自动合成检查的定时器
   Timer timer;
+
   // 正在执行合成动画的树
   Tree autoSourceTree;
+
   // 正在执行合成动画的树 的合成目标
   Tree autoTargetTree;
 
@@ -88,16 +101,18 @@ class TreeGroup with ChangeNotifier {
   // 合成结束后 显示出合成出的树
   // 在执行合成动画的两哥树
   Tree animateSourceTree;
+
   // 正在执行合成动画的树 的合成目标
   Tree animateTargetTree;
 
   // 记录每个等级种树的次数
   Map<String, int> treeGradeNumber = {};
 
-  // 当前生产树的等级
+  // 当前gradle下能够生产的树的最大等级
   int get minLevel {
-    int usLv = maxLevel - TreeGroup.DIFF_LEVEL;
-    return usLv > 1 ? usLv : 1;
+//    int usLv = maxLevel - TreeGroup.DIFF_LEVEL;
+//    return usLv > 1 ? usLv : 1;
+    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
@@ -105,17 +120,19 @@ class TreeGroup with ChangeNotifier {
 
   // 显示 添加/回收 树
   Tree _isrecycle;
+
   Tree get isrecycle => _isrecycle;
 
   // 当前树中的最大等级
-  int get maxLevel {
-    final gjb = allTreeList
-        .where((tree) => tree.grade != Tree.MAX_LEVEL)
-        .map((t) => t.grade);
+  int maxLevel({bool includeMaxLevel = false}) {
+    final gjb = allTreeList.where((tree) {
+      return includeMaxLevel ||
+          !includeMaxLevel && tree.grade != Tree.MAX_LEVEL;
+    }).map((t) => t.grade);
     return gjb.isEmpty ? 1 : gjb.reduce(max);
   }
 
-  Tree get maxLevelTree => new Tree(grade: maxLevel);
+  Tree get maxLevelTree => new Tree(grade: maxLevel());
 
   /**
    * 返回最大级别（38级）的树,作为限时分红树
@@ -125,18 +142,24 @@ class TreeGroup with ChangeNotifier {
 
   // Tree列表
   List<Tree> _treeList = [];
+
   List<Tree> get treeList => _treeList;
+
 // 是否是满的
   bool get isFull => _findFirstEmty() == null;
+
   // treeList.length == GameConfig.Y_AMOUNT * GameConfig.X_AMOUNT;
 
   // 仓库中的树
   List<Tree> _warehouseTreeList = [];
+
   List<Tree> get warehouseTreeList => _warehouseTreeList;
 
   List<Tree> get allTreeList => _treeList + _warehouseTreeList;
+
   // 更新时间
   DateTime _upDateTime;
+
   DateTime get upDateTime => _upDateTime;
 
   // 单位时间产生金币数
@@ -427,7 +450,7 @@ class TreeGroup with ChangeNotifier {
           (t) =>
               t != target &&
               t.grade == target.grade &&
-              t.grade != Tree.MAX_LEVEL,
+              t.grade < Tree.MAX_LEVEL - 1,
           orElse: () => null);
       if (source != null) {
         autoSourceTree = source;
@@ -473,10 +496,10 @@ class TreeGroup with ChangeNotifier {
       removeAnimateTargetTree(animateSourceTree);
 
       // 解锁新等级
-      if (target.grade + 1 > maxLevel) {
+      if (target.grade + 1 > maxLevel()) {
         Bgm.treenewlevelup();
         Layer.newGrade(
-          new Tree(grade: maxLevel + 1),
+          new Tree(grade: maxLevel() + 1),
           amount: globalDividendTree?.amount,
         );
         // 检测是否出现(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
@@ -540,7 +563,7 @@ class TreeGroup with ChangeNotifier {
 
   /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全�����分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
   checkBonusTree() async {
-    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel + 1)
+    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel() + 1)
         .then((value) async {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
@@ -602,7 +625,7 @@ class TreeGroup with ChangeNotifier {
         y: point.y,
         // type: TreeType.Type_Mango,
         // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
-        grade: min(maxLevel - 1, minLevel + Random().nextInt(_treasugrade)));
+        grade: min(maxLevel() - 1, minLevel + Random().nextInt(_treasugrade)));
     notifyListeners();
     // 设置时长结束后隐藏
     Duration duration = Duration(seconds: _treasuReremain);
@@ -627,7 +650,7 @@ class TreeGroup with ChangeNotifier {
       Layer.toastWarning('Keep at least one tree');
       return;
     }
-    if (tree.grade == maxLevel) {
+    if (tree.grade == maxLevel()) {
       return Layer.toastWarning('Maximal tree cannot recycle');
     }
     _treeList.remove(tree);

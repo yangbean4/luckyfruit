@@ -18,5 +18,9 @@
   "recover_content": {
     "1": 25,
     "2": 750
+  },
+  "highlevel_purchaselevel": {
+    "1": 1,
+    "2": 1
   }
 }

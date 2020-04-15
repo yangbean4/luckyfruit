@@ -9,6 +9,7 @@ class TreeConfig {
     Map<String,dynamic> content;
     Map<String,dynamic> tree_content;
     Map<String,dynamic> recover_content;
+    Map<String,dynamic> highlevel_purchaselevel;
     
     factory TreeConfig.fromJson(Map<String,dynamic> json) => _$TreeConfigFromJson(json);
     Map<String, dynamic> toJson() => _$TreeConfigToJson(this);
