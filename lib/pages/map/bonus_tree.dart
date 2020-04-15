@@ -113,51 +113,71 @@ class _BonusTreeState extends State<BonusTree> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: MyTheme.blackColor,
+        ),
+        backgroundColor: Colors.white,
+        title: Align(
+          alignment: Alignment(-0.5, 0),
+          // alignment: Alignment.center,
+          child: Text(
+            '100% chance to get the Bonus Tree',
+            style: TextStyle(
+                color: MyTheme.blackColor,
+                fontSize: ScreenUtil().setSp(48),
+                fontFamily: FontFamily.bold,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
       body: Container(
         // child: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Container(
-            width: ScreenUtil().setWidth(1080),
-            height: ScreenUtil().setWidth(200) + statusbarHeight,
-            padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(60),
-                statusbarHeight + ScreenUtil().setWidth(80),
-                ScreenUtil().setWidth(60),
-                0),
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => MyNavigator().navigatorPop(context),
-                    child: Container(
-                      width: ScreenUtil().setWidth(150),
-                      height: ScreenUtil().setWidth(150),
-                      child: Container(
-                        width: ScreenUtil().setWidth(29),
-                        height: ScreenUtil().setWidth(49),
-                        child: Icon(
-                          Icons.chevron_left,
-                          color: MyTheme.blackColor,
-                          size: ScreenUtil().setHeight(70),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(646),
-                    height: ScreenUtil().setWidth(500),
-                    child: Text('100% Chance To Get \nThe Bonus Tree',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: FontFamily.bold,
-                            fontWeight: FontWeight.bold,
-                            color: MyTheme.blackColor,
-                            height: 1,
-                            fontSize: ScreenUtil().setSp(60))),
-                  )
-                ]),
-          ),
+          // Container(
+          //   width: ScreenUtil().setWidth(1080),
+          //   height: ScreenUtil().setWidth(200) + statusbarHeight,
+          //   padding: EdgeInsets.fromLTRB(
+          //       ScreenUtil().setWidth(60),
+          //       statusbarHeight + ScreenUtil().setWidth(80),
+          //       ScreenUtil().setWidth(60),
+          //       0),
+          //   child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <Widget>[
+          //         GestureDetector(
+          //           behavior: HitTestBehavior.translucent,
+          //           onTap: () => MyNavigator().navigatorPop(context),
+          //           child: Container(
+          //             width: ScreenUtil().setWidth(150),
+          //             height: ScreenUtil().setWidth(150),
+          //             child: Container(
+          //               width: ScreenUtil().setWidth(29),
+          //               height: ScreenUtil().setWidth(49),
+          //               child: Icon(
+          //                 Icons.chevron_left,
+          //                 color: MyTheme.blackColor,
+          //                 size: ScreenUtil().setHeight(70),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         Container(
+          //           width: ScreenUtil().setWidth(646),
+          //           height: ScreenUtil().setWidth(500),
+          //           child: Text('100% Chance To Get \nThe Bonus Tree',
+          //               textAlign: TextAlign.center,
+          //               style: TextStyle(
+          //                   fontFamily: FontFamily.bold,
+          //                   fontWeight: FontWeight.bold,
+          //                   color: MyTheme.blackColor,
+          //                   height: 1,
+          //                   fontSize: ScreenUtil().setSp(60))),
+          //         )
+          //       ]),
+          // ),
+
           Container(
             width: ScreenUtil().setWidth(1080),
             height: ScreenUtil().setWidth(636),
@@ -238,8 +258,8 @@ class _BonusTreeState extends State<BonusTree> {
             width: ScreenUtil().setWidth(1080),
             padding: EdgeInsets.only(
               top: ScreenUtil().setWidth(46),
-              left: ScreenUtil().setWidth(60),
-              right: ScreenUtil().setWidth(60),
+              left: ScreenUtil().setWidth(28),
+              right: ScreenUtil().setWidth(28),
             ),
             decoration: BoxDecoration(
                 color: MyTheme.grayColor,
@@ -251,16 +271,16 @@ class _BonusTreeState extends State<BonusTree> {
               GestureDetector(
                 onTap: () => _showModal(),
                 child: Container(
-                  width: ScreenUtil().setWidth(960),
-                  height: ScreenUtil().setWidth(160),
+                  width: ScreenUtil().setWidth(1024),
+                  height: ScreenUtil().setWidth(240),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Image.asset(
                           'assets/image/dividend_tree.png',
-                          width: ScreenUtil().setWidth(147),
-                          height: ScreenUtil().setWidth(160),
+                          width: ScreenUtil().setWidth(240),
+                          height: ScreenUtil().setWidth(240),
                         ),
                         Selector<UserModel, num>(
                           selector: (context, provider) =>
@@ -268,12 +288,13 @@ class _BonusTreeState extends State<BonusTree> {
                           builder: (_, num count_ratio, __) {
                             return Container(
                               width: ScreenUtil().setWidth(774),
+                              height: ScreenUtil().setWidth(106),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
-                                      height: ScreenUtil().setWidth(50),
+                                      height: ScreenUtil().setWidth(58),
                                       child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -288,7 +309,7 @@ class _BonusTreeState extends State<BonusTree> {
                                                     color: MyTheme.blackColor,
                                                     height: 1.0,
                                                     fontSize: ScreenUtil()
-                                                        .setSp(46))),
+                                                        .setSp(50))),
                                             Text('${count_ratio} %',
                                                 style: TextStyle(
                                                     fontFamily:
@@ -299,9 +320,9 @@ class _BonusTreeState extends State<BonusTree> {
                                                     fontSize: ScreenUtil()
                                                         .setSp(46))),
                                           ])),
-                                  Container(height: ScreenUtil().setWidth(22)),
+                                  Container(height: ScreenUtil().setWidth(18)),
                                   Container(
-                                      height: ScreenUtil().setWidth(46),
+                                      height: ScreenUtil().setWidth(28),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -346,27 +367,32 @@ class _BonusTreeState extends State<BonusTree> {
               ),
               Container(
                 width: ScreenUtil().setWidth(960),
-                height: ScreenUtil().setWidth(66),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                          width: ScreenUtil().setWidth(240),
-                          height: ScreenUtil().setWidth(66),
-                          decoration: BoxDecoration(
-                              color: MyTheme.darkGrayColor,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(ScreenUtil().setWidth(33)))),
-                          child: Center(
-                            child: Text('Redeem',
-                                style: TextStyle(
-                                    fontFamily: FontFamily.bold,
-                                    fontWeight: FontWeight.bold,
-                                    color: MyTheme.tipsColor,
-                                    height: 1.0,
-                                    fontSize: ScreenUtil().setSp(36))),
-                          ))
-                    ]),
+                height: ScreenUtil().setWidth(38),
+                // margin: EdgeInsets.only(top: ScreenUtil().setWidth(-50)),
+                child: Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Positioned(
+                        top: ScreenUtil().setWidth(-50),
+                        right: 0,
+                        child: Container(
+                            width: ScreenUtil().setWidth(240),
+                            height: ScreenUtil().setWidth(66),
+                            decoration: BoxDecoration(
+                                color: MyTheme.darkGrayColor,
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    ScreenUtil().setWidth(33)))),
+                            child: Center(
+                              child: Text('Redeem',
+                                  style: TextStyle(
+                                      fontFamily: FontFamily.bold,
+                                      fontWeight: FontWeight.bold,
+                                      color: MyTheme.tipsColor,
+                                      height: 1.0,
+                                      fontSize: ScreenUtil().setSp(36))),
+                            )))
+                  ],
+                ),
               ),
               Container(
                 width: ScreenUtil().setWidth(960),

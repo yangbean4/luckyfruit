@@ -825,7 +825,7 @@ class _Sign extends StatelessWidget {
                   LuckyGroup luckyGroup =
                       Provider.of<LuckyGroup>(context, listen: false);
 
-                  Sign sign = luckyGroup.drawInfo.sign[sign_times + 1];
+                  Sign sign = luckyGroup.drawInfo.sign[sign_times];
                   MoneyGroup moneyGroup =
                       Provider.of<MoneyGroup>(context, listen: false);
 

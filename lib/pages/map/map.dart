@@ -311,7 +311,7 @@ class _MapPageState extends State<MapPage> {
                             fontWeight: FontWeight.w500,
                             color: MyTheme.blackColor,
                             height: 1.0,
-                            fontSize: ScreenUtil().setSp(46))),
+                            fontSize: ScreenUtil().setSp(50))),
                   ),
                   Container(
                       height: ScreenUtil().setWidth(34),

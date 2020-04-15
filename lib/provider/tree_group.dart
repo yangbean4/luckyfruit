@@ -271,6 +271,7 @@ class TreeGroup with ChangeNotifier {
     // 退出时保存数据
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       _boxTimer?.cancel();
+      saveComposeTimes();
       save();
     });
     // 自动合成  开始/结束
@@ -280,6 +281,7 @@ class TreeGroup with ChangeNotifier {
     });
     EVENT_BUS.on(TreeGroup.AUTO_MERGE_END, (_) {
       _autoMergeTimeout();
+      saveComposeTimes();
     });
     // 弹窗显示时�������动合��暂停
     EVENT_BUS.on(Event_Name.MODAL_SHOW, (_) {
@@ -294,6 +296,7 @@ class TreeGroup with ChangeNotifier {
     });
     EVENT_BUS.on(Event_Name.Router_Change, (_) {
       _autoMergeTimeout();
+      saveComposeTimes();
     });
     Timer.periodic(Duration(seconds: _treasureInterval), (timer) {
       // 检查出现宝箱
@@ -470,6 +473,12 @@ class TreeGroup with ChangeNotifier {
     autoTargetTree = null;
     mergeTree(source, target);
     notifyListeners();
+  }
+
+  saveComposeTimes() async {
+    await Service()
+        .composeTimes({'acct_id': acct_id, 'times': totalMergeCount});
+    totalMergeCount = 0;
   }
 
 // 合并树

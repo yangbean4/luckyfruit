@@ -128,6 +128,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 树木合成次数记录
+  Future<Map<String, dynamic>> composeTimes(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Tree/composeTimes', data: data);
+    return response.data['data'];
+  }
+
   // 用户许愿树领奖接口
   Future<Map<String, dynamic>> wishTreeDraw(Map<String, dynamic> data) async {
     Response response = await _client.post('/Draw/wishTreeDraw', data: data);

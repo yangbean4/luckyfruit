@@ -202,8 +202,10 @@ class LuckyGroup with ChangeNotifier {
     // 这次是第一次领取 接下来是30分钟
     bool noLast =
         last_draw_time == null || last_draw_time == '' || last_draw_time == '0';
-    _getGoldCountdown = Duration(minutes: noLast ? 30 : 60);
-    _receriveTime = (noLast ? 30 : 60) * 60;
+    // _getGoldCountdown = Duration(minutes: noLast ? 30 : 60);
+    // _receriveTime = (noLast ? 30 : 60) * 60;
+    _getGoldCountdown = Duration(minutes: 60);
+    _receriveTime = (60) * 60;
     Service().receiveCoin({
       'acct_id': acct_id,
       'coin': coin,

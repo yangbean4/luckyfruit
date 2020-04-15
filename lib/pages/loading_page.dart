@@ -20,6 +20,23 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  bool canJump = false;
+
+  useJump() {
+    setState(() {
+      canJump = true;
+    });
+  }
+
+  go() {
+    BottomNavigationBar navigationBar = Consts.globalKey.currentWidget;
+    if (navigationBar != null) {
+      navigationBar?.onTap(0);
+    } else {
+      MyNavigator().pushReplacementNamed(context, 'Home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // 设置屏幕适配插件
@@ -38,14 +55,8 @@ class _LoadingPageState extends State<LoadingPage> {
             List<bool> trueArr = loadArr.where((i) => i).toList();
             if (trueArr.length == loadArr.length) {
               Future.delayed(Duration(microseconds: 100)).then((e) {
+                useJump();
                 // 切换到map的tab栏
-                BottomNavigationBar navigationBar =
-                    Consts.globalKey.currentWidget;
-                if (navigationBar != null) {
-                  navigationBar?.onTap(0);
-                } else {
-                  MyNavigator().pushReplacementNamed(context, 'Home');
-                }
               });
             }
             return Container(
@@ -58,7 +69,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   child: Selector<UserModel, User>(
                     selector: (context, provider) => provider.value,
                     builder: (context, user, __) {
-                      return user != null && user.rela_account == ''
+                      return user != null && user.rela_account == '' && canJump
                           ? Center(
                               child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,11 +81,12 @@ class _LoadingPageState extends State<LoadingPage> {
                                       width: ScreenUtil().setWidth(541),
                                       height: ScreenUtil().setWidth(147),
                                     ),
-                                    onTap: () {
+                                    onTap: () async {
                                       UserModel userModel =
                                           Provider.of<UserModel>(context,
                                               listen: false);
-                                      userModel.loginWithFB();
+                                      await userModel.loginWithFB();
+                                      go();
                                     }),
                                 Container(
                                   height: ScreenUtil().setWidth(78),
@@ -86,10 +98,7 @@ class _LoadingPageState extends State<LoadingPage> {
                                       height: ScreenUtil().setWidth(147),
                                     ),
                                     onTap: () {
-                                      // UserModel userModel =
-                                      //     Provider.of<UserModel>(context,
-                                      //         listen: false);
-                                      // userModel.loginWithFB();
+                                      go();
                                     }),
                               ],
                             ))

@@ -45,10 +45,12 @@ class _BarrageState extends State<Barrage> {
 
   getList() async {
     showTimer?.cancel();
-    setState(() {
-      index = 0;
-      show = false;
-    });
+    if (mounted) {
+      setState(() {
+        index = 0;
+        show = false;
+      });
+    }
 
     List list = await Service().getBarrageList({'acct_id': userId});
     barrageMsgList = list.map((e) => BarrageMsg.fromJson(e)).toList();
@@ -70,36 +72,38 @@ class _BarrageState extends State<Barrage> {
     BarrageMsg msg = barrageMsgList[index];
 
     String _text =
-        'Congratulations!"${msg.nickname}"gets ${msg.num} ,${msg.module == '1' ? 'can redeem phone' : ''} immediately!                     ';
+        'Congratulations!"${msg.nickname}"gets ${msg.num} ,${msg.module == '1' ? 'can redeem phone' : ''} immediately!';
     if (mounted) {
       setState(() {
         index = (index + 1) % barrageMsgList.length;
         show = true;
         text = _text;
       });
-    }
 
-    Future.delayed(Duration(milliseconds: 300), () {
-      controller
-          ?.animateTo(ScreenUtil().setWidth(_text.length * 30 + 820),
-              duration: Duration(milliseconds: animationTime),
-              curve: Curves.easeOutQuad)
-          ?.then((e) {
-        Future.delayed(Duration(milliseconds: animationTime), () {
-          if (mounted) {
-            setState(() {
-              show = false;
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (mounted) {
+          try {
+            controller?.animateTo(
+                ScreenUtil().setWidth(_text.length * 10 + 820),
+                duration: Duration(milliseconds: animationTime),
+                curve: Curves.easeIn);
+            Future.delayed(Duration(milliseconds: animationTime), () {
+              if (mounted) {
+                setState(() {
+                  show = false;
+                });
+              }
             });
-          }
-        });
+          } catch (e) {}
+        }
       });
-    });
+    }
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    timer.cancel();
+    timer?.cancel();
     showTimer?.cancel();
   }
 
@@ -129,6 +133,10 @@ class _BarrageState extends State<Barrage> {
                         fontSize: ScreenUtil().setWidth(30),
                         height: 1,
                       ),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(820),
+                      height: ScreenUtil().setWidth(44),
                     ),
                   ])),
             ))

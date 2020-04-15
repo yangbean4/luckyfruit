@@ -366,11 +366,12 @@ class _GameState extends State<Game> with MyNavigator {
                                         width: ScreenUtil().setWidth(400),
                                         height: ScreenUtil().setWidth(128),
                                         decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/image/isrecycle_bg.png'),
-                                              alignment: Alignment.center,
-                                              fit: BoxFit.contain),
+                                          color: Color.fromRGBO(255, 74, 49, 1),
+                                          // image: DecorationImage(
+                                          //     image: AssetImage(
+                                          //         'assets/image/isrecycle_bg.png'),
+                                          //     alignment: Alignment.center,
+                                          //     fit: BoxFit.contain),
                                           // color: MyTheme.primaryColor,
                                           // gradient: LinearGradient(
                                           //     begin: Alignment(0.0, -1.0),

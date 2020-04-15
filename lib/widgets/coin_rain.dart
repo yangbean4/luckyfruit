@@ -5,36 +5,47 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:provider/provider.dart';
 
-class CoinRainWidget extends StatefulWidget {
+class CoinRainWidget extends StatelessWidget {
+  const CoinRainWidget({Key key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => CoinRainState();
+  Widget build(BuildContext context) {
+    return Selector<LuckyGroup, bool>(
+        builder: (_, show, __) {
+          return show ? _CoinRain() : Container();
+        },
+        selector: (context, provider) => provider.showCoinRain);
+  }
 }
 
-class CoinRainState extends State with TickerProviderStateMixin {
+class _CoinRain extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _CoinRainState();
+}
+
+class _CoinRainState extends State with TickerProviderStateMixin {
   CurvedAnimation curveEaseIn;
   AnimationController controller;
   Animation<double> posAnimation;
 
-  List leftList = [];
-  List topList = [];
-  static const int count = 30;
+  static const int screen = 4;
+  static const int count = 30 * screen;
   static const int goldImgSize = 80;
-  static double screenHeight = ScreenUtil().setWidth(2500);
+  static double screenHeight = ScreenUtil().setWidth(1920);
+  List<Widget> children = [];
 
   @override
   void initState() {
     super.initState();
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 3000), vsync: this);
+        duration: new Duration(milliseconds: 3000 * screen), vsync: this);
     curveEaseIn = new CurvedAnimation(parent: controller, curve: Curves.linear);
 
     posAnimation = Tween<double>(
-      begin: .0,
-      end: 1.0,
+      begin: -screen.toDouble(),
+      end: 0.0,
     ).animate(curveEaseIn);
-
-    _playAnimation();
 
     // controller.addStatusListener((status) {
     //   if (status == AnimationStatus.completed) {
@@ -42,14 +53,45 @@ class CoinRainState extends State with TickerProviderStateMixin {
     //     luckyGroup.setShowCoinRain = false;
     //   }
     // });
+    Widget child = Container(
+      child: Image.asset(
+        'assets/image/gold_400.png',
+        width: ScreenUtil().setWidth(goldImgSize),
+        height: ScreenUtil().setWidth(goldImgSize),
+      ),
+    );
 
     for (int i = 0; i < count; i++) {
       double leftRandom =
           Random().nextInt(ScreenUtil().setWidth(1080).round()).toDouble() -
               ScreenUtil().setWidth(goldImgSize);
-      leftList.add(leftRandom <= 0 ? 0.0 : leftRandom);
-      topList.add(Random().nextDouble() * screenHeight);
+      double left = leftRandom <= 0 ? 0.0 : leftRandom;
+      double screenNum = Random().nextDouble() * (screen - 1);
+      children.add(Positioned(
+        left: left,
+        top: screenNum * screenHeight,
+        child: child,
+      ));
+
+      // 如果是第一屏的 则平移到最后一屏
+      if (screenNum < 1) {
+        children.add(Positioned(
+          left: left,
+          top: (screenNum + (screen - 1)) * screenHeight,
+          child: child,
+        ));
+      }
     }
+
+    controller
+      ..forward()
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller
+            ..value = 1 / screen
+            ..forward();
+        }
+      });
   }
 
   @override
@@ -60,51 +102,36 @@ class CoinRainState extends State with TickerProviderStateMixin {
 
   List<Widget> coinList = [];
 
-  _playAnimation() {
-    try {
-      controller.repeat().orCancel;
-    } on TickerCanceled {
-      // the animation got canceled, probably because we were disposed
-    }
-  }
-
-  getCoinList(num value) {
-    coinList.clear();
-    for (int i = 0; i < count; i++) {
-      double topV = value * screenHeight + topList[i];
-
-      if (topV > screenHeight) {
-        topV = topV % screenHeight;
-      }
-
-      coinList.add(Positioned(
-        left: leftList[i],
-        top: topV,
-        child: Container(
-          child: Image.asset(
-            'assets/image/gold_400.png',
-            width: ScreenUtil().setWidth(goldImgSize),
-            height: ScreenUtil().setWidth(goldImgSize),
-          ),
-        ),
-      ));
-    }
-
-    return coinList;
-  }
+  // _playAnimation() {
+  //   try {
+  //     controller.repeat().orCancel;
+  //   } on TickerCanceled {
+  //     // the animation got canceled, probably because we were disposed
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Selector<LuckyGroup, bool>(
-        builder: (_, show, __) {
-          return show
-              ? AnimatedBuilder(
-                  builder: (BuildContext context, Widget child) {
-                    return Stack(children: getCoinList(posAnimation.value));
-                  },
-                  animation: controller)
-              : Container();
-        },
-        selector: (context, provider) => provider.showCoinRain);
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+          child: Container(
+            width: ScreenUtil().setWidth(1080),
+            height: screen * screenHeight,
+            child: Stack(
+              children: children,
+            ),
+          ),
+          builder: (BuildContext context, Widget child) {
+            double top = posAnimation.value * screenHeight;
+            print(posAnimation.value);
+            return Stack(overflow: Overflow.visible, children: [
+              Positioned(
+                child: child,
+                top: top,
+              )
+            ]);
+          },
+          animation: posAnimation),
+    );
   }
 }
