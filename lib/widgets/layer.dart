@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
@@ -15,10 +16,6 @@ import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:lottie/lottie.dart';
-
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -812,7 +809,7 @@ class Layer {
                     treeGroup.addTree(
                         tree: Tree(
                       grade: Tree.MAX_LEVEL,
-                      type: TreeType.Type_BONUS,
+                      type: TreeType.Type_TimeLimited_Bonus,
                       duration: value?.duration,
                       amount: value?.amount,
                       showCountDown: true,
@@ -886,7 +883,8 @@ class Layer {
               tree: Tree(
                   grade: Tree.MAX_LEVEL,
                   type: type,
-                  recycleMoney: treeLevel?.amount,
+                  recycleMoney:
+                      treeLevel?.amount > 0 ? treeLevel?.amount : null,
                   treeId: treeLevel?.tree_id));
         },
         okText: "Claim",
@@ -936,7 +934,7 @@ class Layer {
                 // 这里删除两棵37级的树木
                 treeGroup?.deleteSpecificTree(source);
                 treeGroup?.deleteSpecificTree(target);
-                if (type == TreeType.Type_BONUS) {
+                if (type == TreeType.Type_TimeLimited_Bonus) {
                   // 限������分红树,单���处理
                   showLimitedTimeBonusTree(treeGroup, newLevel);
                 } else {

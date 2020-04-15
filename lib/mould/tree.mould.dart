@@ -4,6 +4,7 @@ import 'package:luckyfruit/models/index.dart' show TreeConfig;
 class TreePoint {
   // 水平位置
   int x;
+
   // 垂直位置
   int y;
 
@@ -34,10 +35,10 @@ class Tree extends TreePoint {
       this.showCountDown = false})
       // 要求传 amount的 时候 type必须为分红树
       // 有倒计时时必须是分红树
-      : assert(
-            amount == null || (amount != null && type == TreeType.Type_BONUS)),
+      : assert(amount == null ||
+            (amount != null && type == TreeType.Type_TimeLimited_Bonus)),
         assert(showCountDown == false ||
-            (showCountDown && type == TreeType.Type_BONUS)),
+            (showCountDown && type == TreeType.Type_TimeLimited_Bonus)),
         originalDuration = duration,
         super(x: x, y: y);
 
@@ -87,10 +88,11 @@ class Tree extends TreePoint {
               : _makeTreeUseGoldList[gradeNumber])
           .toString());
 
-//   // 单位时间产生金币  38级的树不产生金币
 //   double get gold =>
 //       grade == Tree.MAX_LEVEL ? 0 : (25 * pow(2, (grade - 1))).toDouble();
-  double get gold => grade == Tree.MAX_LEVEL
+  // 单位时间产生金币，38级的全球分红树和限时分红树不产生金币，
+  double get gold => (type == TreeType.Type_TimeLimited_Bonus ||
+          type == TreeType.Type_Globle_Bonus)
       ? 0.0
       : double.tryParse(
           Tree.treeConfig?.tree_content[grade.toString()].toString());

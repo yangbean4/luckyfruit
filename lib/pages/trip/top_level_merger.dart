@@ -44,7 +44,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   List treeTypeListInOrder = [
     TreeType.Type_Wishing,
     TreeType.Type_Continents_Asian,
-    TreeType.Type_BONUS,
+    TreeType.Type_TimeLimited_Bonus,
     TreeType.Type_Continents_African,
     TreeType.Type_Globle_Bonus,
     TreeType.Type_Continents_American,

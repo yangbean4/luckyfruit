@@ -129,7 +129,7 @@ class TourismMap with ChangeNotifier {
       _treeGroup.addTree(
           tree: Tree(
         grade: Tree.MAX_LEVEL,
-        type: TreeType.Type_BONUS,
+        type: TreeType.Type_TimeLimited_Bonus,
         duration: ajax['duration'],
         amount: ajax['amount'],
       ));

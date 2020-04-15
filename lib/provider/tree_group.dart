@@ -138,7 +138,7 @@ class TreeGroup with ChangeNotifier {
    * 返回最大级别（38级）的树,作为限时分红树
    */
   Tree get topLevelTree =>
-      new Tree(grade: Tree.MAX_LEVEL, type: TreeType.Type_BONUS);
+      new Tree(grade: Tree.MAX_LEVEL, type: TreeType.Type_TimeLimited_Bonus);
 
   // Tree列表
   List<Tree> _treeList = [];
@@ -182,7 +182,7 @@ class TreeGroup with ChangeNotifier {
             orElse: () => null);
         // 如果出现限时分红树的showCountDown为false的情况
         // (测试时有出现过,但还不清楚什么原因导致的), 删除这棵树
-        if (tree?.type == TreeType.Type_BONUS && !tree.showCountDown) {
+        if (tree?.type == TreeType.Type_TimeLimited_Bonus && !tree.showCountDown) {
           _treeList.remove(tree);
           continue;
         }

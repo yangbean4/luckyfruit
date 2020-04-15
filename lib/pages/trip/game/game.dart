@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/pages/trip/other/fly_animation.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
+import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/shake_button.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/mould/tree.mould.dart';
-import './grid_item.dart';
-import 'package:luckyfruit/widgets/shake_button.dart';
-import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/widgets/layer.dart';
-// import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
-import 'package:luckyfruit/theme/public/public.dart';
-import './warehouse.dart';
 import './auto_merge.dart';
+import './grid_item.dart';
 import './tree_no_animation.dart';
+import './warehouse.dart';
 
 // 由位置 x , y 转为 left top
 class PositionLT {
@@ -29,10 +24,13 @@ class PositionLT {
   int y;
   num _gridWidth = 200;
   num gridHeight = 210;
+
   num get xSpace => (960 - _gridWidth * GameConfig.X_AMOUNT) ~/ 3;
 
   num get left => x * (_gridWidth + xSpace);
+
   num get top => y * gridHeight;
+
   PositionLT({this.x, this.y});
 }
 
@@ -43,6 +41,7 @@ class _SelectorUse {
   Function recycle;
   Function transRecycle;
   bool isLoad;
+
   _SelectorUse(
       {this.minLevelTree,
       this.addTree,
@@ -472,6 +471,13 @@ class _GameState extends State<Game> with MyNavigator {
                                     }, onWillAccept: (Tree source) {
                                       return true;
                                     }, onAccept: (Tree source) {
+                                      // 限时分红树和全球分红树不能回收
+                                      if (source.type ==
+                                              TreeType.Type_Globle_Bonus ||
+                                          source.type ==
+                                              TreeType.Type_TimeLimited_Bonus) {
+                                        return true;
+                                      }
                                       Layer.recycleLayer(
                                           () => selectorUse.recycle(source),
                                           source.treeImgSrc,

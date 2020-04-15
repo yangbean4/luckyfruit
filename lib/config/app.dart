@@ -72,8 +72,8 @@ class TreeType {
   /// 啤酒花雄树
   static const Type_Hops_Male = "hops_male";
 
-  /// 能获取奖励的树(限时分红树等)
-  static const Type_BONUS = "bonus";
+  /// 能获取奖励的树(特指限时分红树)
+  static const Type_TimeLimited_Bonus = "bonus";
 
   /// 啤酒花雌树
   static const Type_Hops_Female = "hops_female";
@@ -108,7 +108,7 @@ class TreeType {
     Type_Continents_Asian,
     Type_Continents_African,
     Type_Continents_Oceania,
-    Type_BONUS,
+    Type_TimeLimited_Bonus,
   ];
 }
 
@@ -222,7 +222,7 @@ class Consts {
     TreeType.Type_Hops_Female: "Hops Tree(female)",
     TreeType.Type_Hops_Male: "Hops Tree(male)",
     TreeType.Type_Wishing: "Wishing Tree",
-    TreeType.Type_BONUS: "Limited Time Bouns Tree",
+    TreeType.Type_TimeLimited_Bonus: "Limited Time Bouns Tree",
     TreeType.Type_Globle_Bonus: "Bouns Tree"
   };
 }
