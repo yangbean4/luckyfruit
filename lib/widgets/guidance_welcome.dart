@@ -28,6 +28,7 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   Interval scaleTextInterval;
   Interval transPeopleInterval;
   bool show = false;
+  bool clickFlag = false;
 
   @override
   void initState() {
@@ -124,6 +125,10 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   }
 
   transToHideGuidance() async {
+    if(clickFlag){
+      return;
+    }
+    clickFlag = true;
     transPeopleTween.begin = 0;
     transPeopleTween.end = -ScreenUtil().setWidth(1080);
     scaleTextTween.begin = 1.0;

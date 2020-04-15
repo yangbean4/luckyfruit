@@ -22,6 +22,7 @@ class _GuidanceMapState extends State with TickerProviderStateMixin {
   Color bgColor = Color.fromRGBO(0, 0, 0, 0.5);
   Interval scaleTextInterval;
   Interval transPeopleInterval;
+  bool clickFlag = false;
 
   @override
   void initState() {
@@ -70,6 +71,10 @@ class _GuidanceMapState extends State with TickerProviderStateMixin {
   }
 
   transToHideGuidance() async {
+    if (clickFlag) {
+      return;
+    }
+    clickFlag = true;
     transPeopleTween.begin = 0;
     transPeopleTween.end = -ScreenUtil().setWidth(1080);
     scaleTextTween.begin = 1.0;
