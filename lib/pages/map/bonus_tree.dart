@@ -208,18 +208,18 @@ class _BonusTreeState extends State<BonusTree> {
                 label: 'Number of\nfriends',
               ),
               _PosLabel(
-                left: 707,
+                left: 680,
                 top: 498,
                 width: 226,
                 label: 'Partners\nearning',
               ),
               Positioned(
-                top: ScreenUtil().setWidth(100),
+                top: ScreenUtil().setWidth(160),
                 left: ScreenUtil().setWidth(273),
                 child: Image.asset(
                   'assets/image/star5.png',
-                  width: ScreenUtil().setWidth(535.3),
-                  height: ScreenUtil().setWidth(505.2),
+                  width: ScreenUtil().setWidth(519),
+                  height: ScreenUtil().setWidth(542),
                 ),
               ),
               Positioned(

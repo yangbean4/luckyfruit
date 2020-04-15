@@ -29,7 +29,7 @@ class _CoinRainState extends State with TickerProviderStateMixin {
   Animation<double> posAnimation;
 
   static const int screen = 4;
-  static const int count = 30 * screen;
+  static const int count = 20 * screen;
   static const int goldImgSize = 80;
   static double screenHeight = ScreenUtil().setWidth(1920);
   List<Widget> children = [];
@@ -116,14 +116,13 @@ class _CoinRainState extends State with TickerProviderStateMixin {
       child: AnimatedBuilder(
           child: Container(
             width: ScreenUtil().setWidth(1080),
-            height: screen * screenHeight,
+            height: screen * screenHeight + ScreenUtil().setWidth(goldImgSize),
             child: Stack(
               children: children,
             ),
           ),
           builder: (BuildContext context, Widget child) {
             double top = posAnimation.value * screenHeight;
-            print(posAnimation.value);
             return Stack(overflow: Overflow.visible, children: [
               Positioned(
                 child: child,

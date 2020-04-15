@@ -56,9 +56,9 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     }
     try {
       //先正向执行动画
-      await controller.forward().orCancel;
+      await controller?.forward()?.orCancel;
       //再反向执行动画
-      await controller.reverse().orCancel;
+      await controller?.reverse()?.orCancel;
     } on TickerCanceled {
       // the animation got canceled, probably because we were disposed
     }
