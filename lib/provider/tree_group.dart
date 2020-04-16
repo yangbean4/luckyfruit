@@ -126,7 +126,10 @@ class TreeGroup with ChangeNotifier {
   // 当前树中的最大等级
   int maxLevel({bool includeMaxLevel = false}) {
     final gjb = allTreeList.where((tree) {
-      return includeMaxLevel ||
+      return includeMaxLevel &&
+              // 排除许愿树和限时分红树
+              (tree.type != TreeType.Type_TimeLimited_Bonus ||
+                  tree.type != TreeType.Type_Wishing) ||
           !includeMaxLevel && tree.grade != Tree.MAX_LEVEL;
     }).map((t) => t.grade);
     return gjb.isEmpty ? 1 : gjb.reduce(max);

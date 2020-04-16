@@ -98,7 +98,7 @@ class Tree extends TreePoint {
             Tree.treeConfig?.tree_content[grade.toString()].toString()) ??
         0.0;
 
-    print("getGold: grade:${grade.toString()}, gold:$gold, type: $type");
+//    print("getGold: grade:${grade.toString()}, gold:$gold, type: $type");
     return (type == TreeType.Type_TimeLimited_Bonus ||
             type == TreeType.Type_Globle_Bonus)
         ? 0.0
