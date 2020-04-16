@@ -146,8 +146,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: _createBottomBar(),
         ),
-        // 金币雨动效
-        CoinRainWidget(),
         // 新手引导-welcome
         GuidanceWelcomeWidget(),
         // 新手引导-添加树

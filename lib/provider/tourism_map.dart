@@ -182,15 +182,6 @@ class TourismMap with ChangeNotifier {
     // notifyListeners();
 
     // 先触发更新 保证在弹窗中显示的是新城市
-
-    // 到达6级的时候，解锁大转盘
-    if (_level >= 6) {
-      Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
-        if (value == null) {
-          _luckyGroup.setShowLuckyWheelUnlock = true;
-        }
-      });
-    }
   }
 
   void init(MoneyGroup _moneyGroup, LuckyGroup luckyGroup, TreeGroup treeGroup,

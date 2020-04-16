@@ -126,11 +126,13 @@ class TreeGroup with ChangeNotifier {
   // 当前树中的最大等级
   int maxLevel({bool includeMaxLevel = false}) {
     final gjb = allTreeList.where((tree) {
-      return includeMaxLevel &&
+      bool result = (includeMaxLevel &&
               // 排除许愿树和限时分红树
-              (tree.type != TreeType.Type_TimeLimited_Bonus ||
-                  tree.type != TreeType.Type_Wishing) ||
-          !includeMaxLevel && tree.grade != Tree.MAX_LEVEL;
+              tree.type != TreeType.Type_TimeLimited_Bonus &&
+              tree.type != TreeType.Type_Wishing) ||
+          (!includeMaxLevel && tree.grade != Tree.MAX_LEVEL);
+//      print("maxLevel:tree:${tree.toJson()}, $result, $includeMaxLevel");
+      return result;
     }).map((t) => t.grade);
     return gjb.isEmpty ? 1 : gjb.reduce(max);
   }
@@ -514,10 +516,18 @@ class TreeGroup with ChangeNotifier {
       // 解锁新等级
       if (target.grade + 1 > maxLevel()) {
         Bgm.treenewlevelup();
-        Layer.newGrade(
-          new Tree(grade: maxLevel() + 1),
-          amount: globalDividendTree?.amount,
-        );
+        Layer.newGrade(new Tree(grade: maxLevel() + 1),
+            amount: globalDividendTree?.amount, onOk: () {
+          // 到达6级的时候，解锁大转盘
+          if (target.grade + 1 < 6) {
+            return;
+          }
+          Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
+            if (value == null) {
+              _luckyGroup.setShowLuckyWheelUnlock = true;
+            }
+          });
+        });
         // 检测是否出现(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
         // （只在升级到最新等级时触发）
         checkBonusTree();

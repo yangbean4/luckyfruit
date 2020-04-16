@@ -60,7 +60,13 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
         parent: controller,
         curve: transPeopleInterval,
       ),
-    );
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          LuckyGroup luckyGroup =
+              Provider.of<LuckyGroup>(context, listen: false);
+          luckyGroup.setShowLuckyWheelGuidance = false;
+        }
+      });
   }
 
   @override

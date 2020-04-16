@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -538,6 +539,8 @@ class _TripState extends State<Trip>
         Treasure(),
         // 弹幕
         Barrage(),
+        // 金币雨动效
+        CoinRainWidget(),
       ]),
     );
   }

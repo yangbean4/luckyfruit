@@ -210,8 +210,10 @@ class Layer {
   }
 
 // 新等级弹窗
-  static newGrade(Tree tree, {num amount}) => Modal(
-      onOk: () {},
+  static newGrade(Tree tree, {num amount, Function onOk}) => Modal(
+      onOk: () {
+        if (onOk != null) onOk();
+      },
       okText: 'Claim',
       children: <Widget>[
         ModalTitle('${tree.name}'),
