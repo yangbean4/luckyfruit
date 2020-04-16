@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
@@ -299,16 +300,19 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
     super.initState();
 
     posBottomAnimation = Tween<double>(
-      begin: ScreenUtil().setWidth(1250),
-//      end: ScreenUtil().setHeight(1920-410),
-      end: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
-    ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Interval(
-          0.0,
-          1.0,
-          curve: Curves.ease,
-        )));
+            begin: ScreenUtil().setWidth(1250),
+//      end: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
+            end: (ScreenUtil().setHeight(1920) -
+                Util.getWheelInfoWithGlobalKey()?.dy) -
+                ScreenUtil().setWidth(48) -
+                ScreenUtil().setWidth(270))
+        .animate(CurvedAnimation(
+            parent: _controller,
+            curve: Interval(
+              0.0,
+              1.0,
+              curve: Curves.ease,
+            )));
     posRightAnimation = Tween<double>(
       begin: ScreenUtil().setWidth(270),
       end: ScreenUtil().setWidth(60 + (960 - 378) / 2 - 270),

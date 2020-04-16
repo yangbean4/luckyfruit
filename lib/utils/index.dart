@@ -1,7 +1,9 @@
-import 'dart:math';
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:luckyfruit/config/app.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {
@@ -94,6 +96,33 @@ class Util {
   static String twoDigits(int n) {
     if (n >= 10) return '$n';
     return '0$n';
+  }
+
+  static Offset getWheelInfoWithGlobalKey() {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox =
+        Consts.globalKeyWheel.currentContext.findRenderObject();
+    offset = renderBox.localToGlobal(Offset.zero);
+    print("luckWheel:localToGlobal ${offset}");
+    return offset;
+  }
+
+  static Offset getAddTreeBtnInfoWithGlobalKey() {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox =
+        Consts.globalKeyAddTreeBtn.currentContext?.findRenderObject();
+    offset = renderBox?.localToGlobal(Offset.zero);
+    print("addTreeBtn:localToGlobal ${offset}");
+    return offset;
+  }
+
+  static Offset getTreeGridInfoWithGlobalKey() {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox =
+        Consts.globalKeyTreeGrid.currentContext?.findRenderObject();
+    offset = renderBox?.localToGlobal(Offset.zero);
+    print("treeGrid:localToGlobal ${offset}");
+    return offset;
   }
 
   /// 获取用户观看广告记录接口上报的参数

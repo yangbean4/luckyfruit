@@ -123,6 +123,9 @@ class TreeType {
 class Consts {
   // 手动切换底部栏使用
   static GlobalKey globalKey = new GlobalKey(debugLabel: 'key_bottom_bar');
+  static GlobalKey globalKeyWheel = new GlobalKey(debugLabel: 'key_lucky_wheel');
+  static GlobalKey globalKeyAddTreeBtn = new GlobalKey(debugLabel: 'key_add_tree');
+  static GlobalKey globalKeyTreeGrid = new GlobalKey(debugLabel: 'key_tree_grid');
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";

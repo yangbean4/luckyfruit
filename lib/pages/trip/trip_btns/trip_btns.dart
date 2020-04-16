@@ -55,11 +55,13 @@ class _TripBtnsState extends State<TripBtns> {
     label, {
     Color labelColor,
     double labelWith,
+    GlobalKey key,
     Function onTap,
   }) {
     Widget item = Container(
       width: ScreenUtil().setWidth(96),
       height: ScreenUtil().setWidth(96),
+      key: key,
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
@@ -256,6 +258,7 @@ class _TripBtnsState extends State<TripBtns> {
         getItem(
           'assets/image/spin.png',
           'SPIN',
+          key: Consts.globalKeyWheel,
           onTap: () {
             Layer.showLuckyWheel(context);
           },

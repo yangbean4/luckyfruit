@@ -212,6 +212,7 @@ class _GameState extends State<Game> with MyNavigator {
             Widget>[
           // 树木所在的网格
           Container(
+            key: Consts.globalKeyTreeGrid,
             width: ScreenUtil().setWidth(1080 - 120),
             height: ScreenUtil().setWidth(PositionLT().gridHeight * 3),
             child: Stack(
@@ -275,6 +276,7 @@ class _GameState extends State<Game> with MyNavigator {
                                           // minWidth: ScreenUtil().setWidth(560),
                                           width: 400,
                                           height: 128,
+                                          key: Consts.globalKeyAddTreeBtn,
                                           colors: <Color>[
                                             Color.fromRGBO(51, 199, 86, 1),
                                             Color.fromRGBO(36, 182, 69, 1)

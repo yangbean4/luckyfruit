@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class InvertedCircleClipper extends CustomClipper<Path> {
   double radius;
-  InvertedCircleClipper(this.radius);
+  double dy;
+
+  InvertedCircleClipper(this.radius, this.dy);
 
   @override
   Path getClip(Size size) {
     return new Path()
       ..addOval(Rect.fromCircle(
-          center: Offset(ScreenUtil().setWidth(1080 / 2),
-              ScreenUtil().setWidth(1920 - 20)),
+          center: Offset(
+              ScreenUtil().setWidth(1080 / 2), dy + ScreenUtil().setWidth(64)),
           radius: radius))
       ..addRect(Rect.fromLTWH(
           0.0, 0.0, ScreenUtil().setWidth(1080), ScreenUtil().setWidth(2500)))
@@ -34,6 +37,8 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
   AnimationController controller;
   Animation<double> scaleAnimation;
   Tween<double> scaleTween;
+  double dy = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +54,10 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
     );
 
     scaleAnimation = scaleTween.animate(curveEaseIn);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      dy = Util.getAddTreeBtnInfoWithGlobalKey()?.dy ?? 0.0;
+    });
   }
 
   _playAnimation() async {
@@ -84,7 +93,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
               }
               return show
                   ? ClipPath(
-                      clipper: InvertedCircleClipper(scaleAnimation.value),
+                      clipper: InvertedCircleClipper(scaleAnimation.value, dy),
                       child: Container(
                         width: ScreenUtil().setWidth(1080),
                         height: ScreenUtil().setWidth(2500),

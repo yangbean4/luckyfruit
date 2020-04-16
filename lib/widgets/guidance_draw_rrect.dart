@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class _InvertedCRRectClipper extends CustomClipper<Path> {
   double radius;
   double leftPos;
   double topPos;
+
   _InvertedCRRectClipper(this.radius, this.leftPos, this.topPos);
 
   @override
@@ -27,7 +29,9 @@ class _InvertedCRRectClipper extends CustomClipper<Path> {
 
 class GuidanceFingerInRRectWidget extends StatelessWidget {
   final double left;
+
   GuidanceFingerInRRectWidget(this.left);
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -58,6 +62,8 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   Animation<double> fingerLeftPosAnimation;
   Tween<double> scaleTween;
   bool enableFingerAnimatino = false;
+  double dy = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -92,30 +98,6 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
         ),
       ),
     );
-    topPosAnimation = Tween<double>(
-      // begin: -ScreenUtil().setWidth(1920 ),
-      // end: ScreenUtil().setWidth(1920),
-      begin: -ScreenUtil().setWidth(1920 - 930 - 10 + 86),
-      end: ScreenUtil().setWidth(1920 - 930 - 10 + 86),
-    ).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Interval(
-          0.0,
-          1.0,
-          curve: Curves.easeOutCubic,
-        ),
-      ),
-    )..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.duration = Duration(milliseconds: 2000);
-          scaleAnimation = null;
-          leftPosAnimation = null;
-          topPosAnimation = null;
-          enableFingerAnimatino = true;
-          controller.repeat().orCancel;
-        }
-      });
 
     fingerLeftPosAnimation = Tween<double>(
       begin: ScreenUtil().setWidth(120),
@@ -130,6 +112,35 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
         ),
       ),
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      dy = Util.getTreeGridInfoWithGlobalKey()?.dy ?? 0.0;
+
+      topPosAnimation = Tween<double>(
+        begin: -dy,
+        end: dy,
+//      begin: -ScreenUtil().setWidth(1920 - 930 - 10 + 86),
+//      end: ScreenUtil().setWidth(1920 - 930 - 10 + 86),
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: Interval(
+            0.0,
+            1.0,
+            curve: Curves.easeOutCubic,
+          ),
+        ),
+      )..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            controller.duration = Duration(milliseconds: 2000);
+            scaleAnimation = null;
+            leftPosAnimation = null;
+            topPosAnimation = null;
+            enableFingerAnimatino = true;
+            controller.repeat().orCancel;
+          }
+        });
+    });
   }
 
   _playAnimation() async {
@@ -159,17 +170,19 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
                 if (show) {
                   _playAnimation();
                 }
+
+                print("topPosAnimation?.value: ${topPosAnimation?.value}, $dy");
                 return show
                     ? Stack(
                         children: <Widget>[
                           ClipPath(
                             clipper: _InvertedCRRectClipper(
-                              scaleAnimation?.value ??
-                                  ScreenUtil().setWidth(300),
-                              leftPosAnimation?.value ?? 0,
-                              topPosAnimation?.value ??
-                                  ScreenUtil().setWidth(1920 - 930 - 10 + 86),
-                            ),
+                                scaleAnimation?.value ??
+                                    ScreenUtil().setWidth(300),
+                                leftPosAnimation?.value ?? 0,
+                                topPosAnimation?.value ??
+//                                  ScreenUtil().setWidth(1920 - 930 - 10 + 86),
+                                    dy),
                             child: Container(
                               width: ScreenUtil().setWidth(1080),
                               height: ScreenUtil().setWidth(2500),
