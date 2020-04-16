@@ -38,10 +38,6 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
         _playAnimation();
       }
     });
-
-    Future.delayed(Duration(seconds: 3), () {
-      _playAnimation();
-    });
   }
 
   @override
@@ -69,6 +65,9 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     return Selector<LuckyGroup, bool>(
         selector: (context, provider) => provider.showCircleGuidance,
         builder: (_, bool show, __) {
+          if (show) {
+            _playAnimation();
+          }
           return show
               ? AnimatedBuilder(
                   builder: (BuildContext context, Widget child) {

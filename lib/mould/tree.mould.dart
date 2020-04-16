@@ -93,11 +93,17 @@ class Tree extends TreePoint {
 //   double get gold =>
 //       grade == Tree.MAX_LEVEL ? 0 : (25 * pow(2, (grade - 1))).toDouble();
   // 单位时间产生金币，38级的全球分红树和限时分红树不产生金币，
-  double get gold => (type == TreeType.Type_TimeLimited_Bonus ||
-          type == TreeType.Type_Globle_Bonus)
-      ? 0.0
-      : double.tryParse(
-          Tree.treeConfig?.tree_content[grade.toString()].toString());
+  double get gold {
+    double gold = double.tryParse(
+            Tree.treeConfig?.tree_content[grade.toString()].toString()) ??
+        0.0;
+
+    print("getGold: grade:${grade.toString()}, gold:$gold, type: $type");
+    return (type == TreeType.Type_TimeLimited_Bonus ||
+            type == TreeType.Type_Globle_Bonus)
+        ? 0.0
+        : gold;
+  }
 
 //   // 指数
 //   double get p => grade <= 10 ? 1 : 1 + (grade - 10) * 0.1;

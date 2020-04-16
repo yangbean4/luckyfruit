@@ -182,7 +182,11 @@ class TreeGroup with ChangeNotifier {
             orElse: () => null);
         // 如果出现限时分红树的showCountDown为false的情况
         // (测试时有出现过,但还不清楚什么原因导致的), 删除这棵树
-        if (tree?.type == TreeType.Type_TimeLimited_Bonus && !tree.showCountDown) {
+        if (tree == null ||
+            (tree?.type == TreeType.Type_TimeLimited_Bonus &&
+                !tree?.showCountDown) ||
+            // 会出现gradle==0的情况
+            (tree?.grade == 0)) {
           _treeList.remove(tree);
           continue;
         }
@@ -629,12 +633,14 @@ class TreeGroup with ChangeNotifier {
 
   // 生成��箱
   makeTreasure(TreePoint point) {
+    // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
+    // _grade不能小于1
+    int _grade = min(maxLevel() - 1, minLevel + Random().nextInt(_treasugrade));
     treasureTree = Tree(
         x: point.x,
         y: point.y,
         // type: TreeType.Type_Mango,
-        // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
-        grade: min(maxLevel() - 1, minLevel + Random().nextInt(_treasugrade)));
+        grade: max(_grade, 1));
     notifyListeners();
     // 设置时长结束后隐藏
     Duration duration = Duration(seconds: _treasuReremain);
