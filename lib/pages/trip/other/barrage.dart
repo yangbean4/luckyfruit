@@ -25,7 +25,6 @@ class _BarrageState extends State<Barrage> {
   int index;
   int animationTime = 8000;
   bool show = false;
-  String text = '';
   ScrollController controller =
       ScrollController(keepScrollOffset: false, initialScrollOffset: 0.0);
 
@@ -69,22 +68,16 @@ class _BarrageState extends State<Barrage> {
   }
 
   showNext() {
-    BarrageMsg msg = barrageMsgList[index];
-
-    String _text =
-        'Congratulations!"${msg.nickname}"gets ${msg.num} ,${msg.module == '1' ? 'can redeem phone' : ''} immediately!';
     if (mounted) {
       setState(() {
         index = (index + 1) % barrageMsgList.length;
         show = true;
-        text = _text;
       });
 
       Future.delayed(Duration(milliseconds: 300), () {
         if (mounted) {
           try {
-            controller?.animateTo(
-                ScreenUtil().setWidth(_text.length * 10 + 820),
+            controller?.animateTo(ScreenUtil().setWidth(820 * 2),
                 duration: Duration(milliseconds: animationTime),
                 curve: Curves.easeIn);
             Future.delayed(Duration(milliseconds: animationTime), () {
@@ -109,7 +102,8 @@ class _BarrageState extends State<Barrage> {
 
   @override
   Widget build(BuildContext context) {
-    return show
+    BarrageMsg msg = barrageMsgList.isNotEmpty ? barrageMsgList[index] : null;
+    return show && msg != null
         ? Positioned(
             left: ScreenUtil().setWidth(130),
             top: ScreenUtil().setWidth(220),
@@ -125,8 +119,21 @@ class _BarrageState extends State<Barrage> {
                       width: ScreenUtil().setWidth(820),
                       height: ScreenUtil().setWidth(44),
                     ),
-                    Text(
-                      text,
+                    Text.rich(
+                      TextSpan(text: 'Congratulations!"', children: [
+                        TextSpan(
+                            text: msg.nickname,
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 207, 23, 1))),
+                        TextSpan(text: '" gets '),
+                        TextSpan(
+                            text: msg.num,
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 76, 47, 1))),
+                        TextSpan(
+                            text:
+                                ',${msg.module == '1' ? 'can redeem phone' : ''} immediately!'),
+                      ]),
                       softWrap: false,
                       style: TextStyle(
                         color: Colors.white,

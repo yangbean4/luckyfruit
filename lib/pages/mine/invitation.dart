@@ -95,6 +95,14 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
           elevation: 0,
           iconTheme: IconThemeData(
             color: MyTheme.blackColor,

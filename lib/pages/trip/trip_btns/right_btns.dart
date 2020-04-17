@@ -33,66 +33,126 @@ class _RightBtnsState extends State<RightBtns>
   // Issued issed;
 
   renderItem(
-    String imgSrc, {
+    Widget icon, {
     Widget top,
     Widget bottom,
     String topString,
     String bottomString,
     Color color,
+    bool active = true,
   }) {
     return Container(
-      width: ScreenUtil().setWidth(288),
-      height: ScreenUtil().setWidth(112),
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 0, 0, 0.6),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(ScreenUtil().setWidth(56)),
-              topLeft: Radius.circular(ScreenUtil().setWidth(56)))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      width: ScreenUtil().setWidth(313),
+      height: ScreenUtil().setWidth(115),
+      child: Stack(
         children: <Widget>[
-          Image.asset(
-            imgSrc,
-            width: ScreenUtil().setWidth(72),
-            height: ScreenUtil().setWidth(72),
+          Positioned(
+            left: 0,
+            top: ScreenUtil().setWidth(2),
+            child: Container(
+              width: ScreenUtil().setWidth(271),
+              height: ScreenUtil().setWidth(111),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    image: AssetImage(active
+                        ? 'assets/image/right_btn_active_bg.png'
+                        : 'assets/image/right_btn_bg.png')),
+              ),
+            ),
           ),
-          Container(
-            width: ScreenUtil().setWidth(166),
-            height: ScreenUtil().setWidth(90),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: color != null
-                  ? BorderRadius.all(Radius.circular(ScreenUtil().setWidth(10)))
-                  : null,
+          Positioned(
+            left: ScreenUtil().setWidth(40),
+            top: ScreenUtil().setWidth(20),
+            child: Container(
+              width: ScreenUtil().setWidth(160),
+              height: ScreenUtil().setWidth(80),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  top == null
+                      ? (!active
+                          ? Stack(children: <Widget>[
+                              Text(
+                                topString,
+                                style: TextStyle(
+                                    height: 1,
+                                    foreground: new Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = ScreenUtil().setWidth(2)
+                                      ..color = Colors.white,
+                                    fontFamily: FontFamily.regular,
+                                    fontSize: ScreenUtil().setSp(30),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                topString,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 172, 30, 1),
+                                    height: 1,
+                                    fontFamily: FontFamily.regular,
+                                    fontSize: ScreenUtil().setSp(30),
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ])
+                          : Text(topString,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(30),
+                                  color: MyTheme.redColor,
+                                  height: 1,
+                                  fontFamily: active
+                                      ? FontFamily.black
+                                      : FontFamily.regular,
+                                  fontWeight: active
+                                      ? FontWeight.w900
+                                      : FontWeight.w500)))
+                      : top,
+                  bottom == null
+                      ? runderBottomString(bottomString, active)
+                      : bottom,
+                ],
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                top == null
-                    ? ThirdText(
-                        topString,
-                        color: MyTheme.redColor,
-                      )
-                    : top,
-                bottom == null
-                    ? ThirdText(
-                        bottomString,
-                        color: Colors.white,
-                      )
-                    : bottom,
-              ],
-            ),
-          )
+          ),
+          Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                width: ScreenUtil().setWidth(113),
+                height: ScreenUtil().setWidth(115),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      image: AssetImage(active
+                          ? 'assets/image/right_icon_active_bg.png'
+                          : 'assets/image/right_icon_bg.png')),
+                ),
+                child: icon,
+              ))
         ],
       ),
     );
   }
 
+  runderBottomString(String bottomString, bool active) {
+    return Text(bottomString,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: ScreenUtil().setWidth(40),
+            color: Colors.white,
+            height: 1,
+            fontFamily: active ? FontFamily.black : FontFamily.regular,
+            fontWeight: active ? FontWeight.w900 : FontWeight.w500));
+  }
+
   @override
   Widget build(BuildContext context) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+
     return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
       selector: (context, luckyGroup) =>
           Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
@@ -101,111 +161,151 @@ class _RightBtnsState extends State<RightBtns>
         bool showDouble = data.item2;
         bool showAuto = data.item3;
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            showDouble
-                ? _ShakeAnimation(
-                    animateTime: Duration(
-                        milliseconds:
-                            (issed?.double_coin_remain_time ?? 10) * 1000),
-                    child: GestureDetector(
-                      onTap: () {
-                        MoAd.viewAd(context).then((res) {
-                          if (res) {
-                            luckyGroup.doubleStart();
-                            setState(() {
-                              isDouble = true;
-                              luckyGroup.setShowCoinRain = true;
+        return Container(
+            width: ScreenUtil().setWidth(313),
+            height: ScreenUtil().setWidth(262),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                showDouble
+                    ? _ShakeAnimation(
+                        animateTime: Duration(
+                            milliseconds:
+                                (issed?.double_coin_remain_time ?? 10) * 1000),
+                        child: GestureDetector(
+                          onTap: () {
+                            MoAd.viewAd(context).then((res) {
+                              if (res) {
+                                luckyGroup.doubleStart();
+                                setState(() {
+                                  isDouble = true;
+                                  luckyGroup.setShowCoinRain = true;
+                                });
+                              } else {
+                                //看广告失败,弹框提示
+                                Layer.toastWarning(
+                                    "Number of videos has used up");
+                              }
                             });
-                          } else {
-                            //看广告失败,弹框提示
-                            Layer.toastWarning("Number of videos has used up");
-                          }
-                        });
-                      },
-                      child: renderItem('assets/image/vadio.png',
-                          bottomString: 'in ${issed?.double_coin_time} s',
-                          top: GoldText('x${issed?.reward_multiple}',
-                              iconSize: 36,
-                              textSize: 40,
-                              textColor: Colors.white),
-                          color: Color.fromRGBO(49, 200, 84, 1)),
-                    ),
-                  )
-                : Container(),
-            isDouble
-                ? renderItem(
-                    'assets/image/double_glod.png',
-                    topString: 'EarningsX${issed?.reward_multiple}',
-                    bottom: CountdownFormatted(
-                      duration: Duration(seconds: issed?.double_coin_time),
-                      onFinish: () {
-                        luckyGroup.doubleEnd();
-                        setState(() {
-                          isDouble = false;
-                          luckyGroup.setShowCoinRain = false;
-                        });
-                      },
-                      builder: (ctx, time) {
-                        // issed?.double_coin_time = time?.inSeconds;
-                        return ThirdText(
-                          Util.formatCountDownTimer(time),
-                          color: Colors.white,
-                        );
-                      },
-                    ),
-                  )
-                : Container(),
-            showAuto
-                ? _ShakeAnimation(
-                    animateTime: Duration(
-                        milliseconds:
-                            (issed?.automatic_remain_time ?? 10) * 1000),
-                    child: GestureDetector(
-                      onTap: () {
-                        MoAd.viewAd(context).then((res) {
-                          if (res) {
-                            luckyGroup.autoStart();
+                          },
+                          child: renderItem(
+                              Container(
+                                width: ScreenUtil().setWidth(43),
+                                height: ScreenUtil().setWidth(53),
+                                alignment: Alignment(0.3, 0),
+                                child: Image.asset(
+                                  'assets/image/right_vadio.png',
+                                  width: ScreenUtil().setWidth(43),
+                                  height: ScreenUtil().setWidth(53),
+                                ),
+                              ),
+                              active: false,
+                              bottomString: 'in ${issed?.double_coin_time}s',
+                              topString: 'Earningsx${issed?.reward_multiple}',
+                              color: Color.fromRGBO(49, 200, 84, 1)),
+                        ),
+                      )
+                    : Container(),
+                isDouble
+                    ? renderItem(
+                        Container(
+                          width: ScreenUtil().setWidth(56),
+                          height: ScreenUtil().setWidth(54),
+                          alignment: Alignment(0.1, 0),
+                          child: Image.asset(
+                            'assets/image/right_gold.png',
+                            width: ScreenUtil().setWidth(56),
+                            height: ScreenUtil().setWidth(54),
+                          ),
+                        ),
+                        topString: 'EarningsX${issed?.reward_multiple}',
+                        active: true,
+                        bottom: CountdownFormatted(
+                          duration: Duration(seconds: issed?.double_coin_time),
+                          onFinish: () {
+                            luckyGroup.doubleEnd();
                             setState(() {
-                              isAuto = true;
+                              isDouble = false;
+                              luckyGroup.setShowCoinRain = false;
                             });
-                          } else {
-                            //看广告失败,弹框提示
-                            Layer.toastWarning("Number of videos has used up");
-                          }
-                        });
-                      },
-                      child: renderItem('assets/image/vadio.png',
-                          bottomString: 'in ${issed?.automatic_time} s',
-                          topString: 'Auto Merge',
-                          color: Color.fromRGBO(49, 200, 84, 1)),
-                    ))
-                : Container(),
-            isAuto
-                ? renderItem(
-                    'assets/image/auto.png',
-                    topString: 'Auto Merge',
-                    bottom: CountdownFormatted(
-                      duration: Duration(seconds: issed?.automatic_time),
-                      onFinish: () {
-                        luckyGroup.autoEnd();
-                        setState(() {
-                          isAuto = false;
-                        });
-                      },
-                      builder: (ctx, time) {
-                        // issed?.automatic_game_timelen = time?.inSeconds;
-                        return ThirdText(
-                          Util.formatCountDownTimer(time),
-                          color: Colors.white,
-                        );
-                      },
-                    ),
-                  )
-                : Container(),
-          ],
-        );
+                          },
+                          builder: (ctx, time) {
+                            // issed?.double_coin_time = time?.inSeconds;
+                            return runderBottomString(
+                                Util.formatCountDownTimer(time), true);
+                          },
+                        ),
+                      )
+                    : Container(),
+                showAuto
+                    ? _ShakeAnimation(
+                        animateTime: Duration(
+                            milliseconds:
+                                (issed?.automatic_remain_time ?? 10) * 1000),
+                        child: GestureDetector(
+                          onTap: () {
+                            MoAd.viewAd(context).then((res) {
+                              if (res) {
+                                luckyGroup.autoStart();
+                                setState(() {
+                                  isAuto = true;
+                                });
+                              } else {
+                                //看广告失败,弹框提示
+                                Layer.toastWarning(
+                                    "Number of videos has used up");
+                              }
+                            });
+                          },
+                          child: renderItem(
+                              Container(
+                                width: ScreenUtil().setWidth(43),
+                                height: ScreenUtil().setWidth(53),
+                                alignment: Alignment(0.3, 0),
+                                child: Image.asset(
+                                  'assets/image/right_vadio.png',
+                                  width: ScreenUtil().setWidth(43),
+                                  height: ScreenUtil().setWidth(53),
+                                ),
+                              ),
+                              active: false,
+                              bottomString: 'in ${issed?.automatic_time}s',
+                              topString: 'Auto Merge',
+                              color: Color.fromRGBO(49, 200, 84, 1)),
+                        ))
+                    : Container(),
+                isAuto
+                    ? renderItem(
+                        Container(
+                          width: ScreenUtil().setWidth(43),
+                          height: ScreenUtil().setWidth(54),
+                          alignment: Alignment(0, 0),
+                          child: Image.asset(
+                            'assets/image/right_loop.png',
+                            width: ScreenUtil().setWidth(43),
+                            height: ScreenUtil().setWidth(54),
+                          ),
+                        ),
+                        topString: 'Auto Merge',
+                        bottom: CountdownFormatted(
+                          duration: Duration(seconds: issed?.automatic_time),
+                          onFinish: () {
+                            luckyGroup.autoEnd();
+                            setState(() {
+                              isAuto = false;
+                            });
+                          },
+                          builder: (ctx, time) {
+                            // issed?.automatic_game_timelen = time?.inSeconds;
+                            return runderBottomString(
+                                Util.formatCountDownTimer(time), true);
+                          },
+                        ),
+                      )
+                    : Container(),
+              ],
+            ));
       },
     );
   }

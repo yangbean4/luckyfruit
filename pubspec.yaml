@@ -68,7 +68,11 @@ dependencies:
   facebook_share: ^1.0.0
   # A Flutter plugin for launching a URL in the mobile platform
   url_launcher: ^5.4.2
+  # 监听/拦截 返回按键
   back_button_interceptor: ^4.2.3
+  # 缓存网络图片
+  cached_network_image: ^2.1.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

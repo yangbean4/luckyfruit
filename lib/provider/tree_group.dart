@@ -308,6 +308,7 @@ class TreeGroup with ChangeNotifier {
       saveComposeTimes();
     });
     Timer.periodic(Duration(seconds: _treasureInterval), (timer) {
+      // Timer.periodic(Duration(seconds: 30), (timer) {
       // 检查出现宝箱
       _boxTimer = timer;
       checkTreasure();

@@ -42,6 +42,14 @@ class _MessagePageState extends State<MessagePage> {
     return Scaffold(
       backgroundColor: MyTheme.grayColor,
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         iconTheme: IconThemeData(
           color: MyTheme.blackColor,
         ),

@@ -7,11 +7,14 @@ class ShakeAnimation extends StatefulWidget {
   final Widget child;
   final Duration timeInterval;
   final Duration animateTime;
+  final double angle;
+
   ShakeAnimation({
     Key key,
     this.child,
     this.timeInterval = const Duration(seconds: 10),
     this.animateTime = const Duration(milliseconds: 800),
+    this.angle = math.pi / 40,
   })  :
         // 由于动画是 往复两遍  所以 动画间隔应该大于动画时间的4倍
         assert(timeInterval > animateTime * 4),
@@ -75,16 +78,17 @@ class _ShakeAnimationState extends State<ShakeAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return _GrowTransition(child: widget.child, animation: animation);
+    return _GrowTransition(
+        child: widget.child, animation: animation, angle: widget.angle);
   }
 }
 
 class _GrowTransition extends StatelessWidget {
-  _GrowTransition({this.child, this.animation});
+  _GrowTransition({this.child, this.animation, @required this.angle});
 
   final Widget child;
   final Animation<double> animation;
-
+  final double angle;
   Widget build(BuildContext context) {
     return new Center(
       child: new AnimatedBuilder(
@@ -92,7 +96,7 @@ class _GrowTransition extends StatelessWidget {
           builder: (BuildContext context, Widget child) {
             return new Transform.rotate(
                 alignment: Alignment.center,
-                angle: math.pi / 40 * (animation.value),
+                angle: angle * (animation.value),
                 child: child);
           },
           child: child),
@@ -103,7 +107,7 @@ class _GrowTransition extends StatelessWidget {
 class _ShakeCurve extends Curve {
   @override
   double transformInternal(double t) {
-    final d = t * math.sin(t * math.pi * 2);
+    final d = math.sin(t * math.pi * 2);
     return d;
   }
 }

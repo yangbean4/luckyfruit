@@ -46,6 +46,8 @@ class MoneyGroup with ChangeNotifier {
 
   String acct_id;
 
+  bool _isHome = false;
+
 // 定时器引用
   Timer _timer;
 
@@ -75,7 +77,7 @@ class MoneyGroup with ChangeNotifier {
 
   // 离线收益计算
   addUnLineGet(DateTime upDateTime, num sped) {
-    if (upDateTime != null && sped != null) {
+    if (upDateTime != null && sped != null && _isHome) {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
       // 小于10分钟没有奖励
       if (diffTime > App.NO_UN_LINE_TIME) {
@@ -86,6 +88,7 @@ class MoneyGroup with ChangeNotifier {
       }
       // 加过就卸载避免多次添加
       EVENT_BUS.off(TreeGroup.LOAD);
+      EVENT_BUS.off(Event_Name.JUMP_TO_HOME);
     }
   }
 
@@ -128,6 +131,10 @@ class MoneyGroup with ChangeNotifier {
         addUnLineGet(upDateTime, treeGroup.makeGoldSped);
         EVENT_BUS.on(TreeGroup.LOAD,
             (_) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
+        EVENT_BUS.on(Event_Name.JUMP_TO_HOME, (_) {
+          _isHome = true;
+          addUnLineGet(upDateTime, treeGroup.makeGoldSped);
+        });
       }
       notifyListeners();
     }

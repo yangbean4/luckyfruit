@@ -244,7 +244,8 @@ class LuckyGroup with ChangeNotifier {
           "content": json.decode(issuedJson['content']),
           "tree_content": json.decode(issuedJson['tree_content']),
           "recover_content": json.decode(issuedJson['recover_content']),
-          "highlevel_purchaselevel": json.decode(issuedJson['highlevel_purchaselevel']),
+          "highlevel_purchaselevel":
+              json.decode(issuedJson['highlevel_purchaselevel']),
         });
       }),
       // Issued

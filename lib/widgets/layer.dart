@@ -201,7 +201,7 @@ class Layer {
                                   alignment: Alignment.center,
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                      'assets/image/phone_bvar.png'))),
+                                      'assets/image/invite_bvar.png'))),
                         )),
                   ],
                 ),

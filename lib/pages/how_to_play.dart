@@ -16,6 +16,14 @@ class _HowToPlayState extends State<HowToPlay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         iconTheme: IconThemeData(
           color: MyTheme.blackColor,
         ),

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
@@ -73,16 +76,21 @@ class _TreasureState extends State<Treasure> {
                   // 左侧定位值 便宜量 补充值
                   left: ScreenUtil()
                       .setWidth(positionLT.left + positionLT.xSpace + 30),
-                  child: GestureDetector(
-                      onTap: () {
-                        _showModal(tree);
-                      },
-                      child: Center(
-                          child: Image.asset(
-                        'assets/image/game_treasure.png',
-                        width: ScreenUtil().setWidth(148),
-                        height: ScreenUtil().setWidth(143 + 20 * size.value),
-                      ))),
+                  child: ShakeAnimation(
+                    timeInterval: Duration(seconds: 4),
+                    animateTime: Duration(milliseconds: 800),
+                    angle: pi / 30,
+                    child: GestureDetector(
+                        onTap: () {
+                          _showModal(tree);
+                        },
+                        child: Center(
+                            child: Image.asset(
+                          'assets/image/game_treasure.png',
+                          width: ScreenUtil().setWidth(148),
+                          height: ScreenUtil().setWidth(143 + 20 * size.value),
+                        ))),
+                  ),
                 );
               },
             );

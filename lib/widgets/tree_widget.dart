@@ -69,7 +69,9 @@ class TreeWidget extends StatelessWidget {
             child: EllipticalWidget(
               width: labelWidth,
               height: _labelHeight,
-              colors: primary ? tree?.color : [Colors.white, Colors.white],
+              colors: primary && tree?.color != null
+                  ? tree?.color
+                  : [Colors.white, Colors.white],
               child: Center(
                   child: Text(
                 label ?? tree?.grade.toString(),

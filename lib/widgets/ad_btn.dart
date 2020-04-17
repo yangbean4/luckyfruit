@@ -46,7 +46,7 @@ class AdButton extends StatefulWidget {
       this.height = 124,
       this.child,
       this.disable = false,
-      this.fontSize = 70})
+      this.fontSize = 64})
       : super(key: key);
 
   @override
@@ -72,9 +72,27 @@ class _AdButtonState extends State<AdButton> {
 
   @override
   Widget build(BuildContext context) {
+    Function onTap = widget.onOk != null && !widget.disable
+        ? () {
+            if (widget.useAd) {
+              MoAd.viewAd(context).then((res) {
+                if (res) {
+                  // 看广告成功
+                  widget?.onOk();
+                } else {
+                  widget?.onCancel();
+                  // 看广告失败,弹框提示
+                  Layer.toastWarning("Number of videos has used up");
+                }
+              });
+            } else {
+              widget.onOk();
+            }
+          }
+        : () {};
     return widget.child != null
         ? GestureDetector(
-            onTap: widget.onOk != null && !widget.disable ? widget.onOk : () {},
+            onTap: onTap,
             child: widget.child,
           )
         : Container(
@@ -85,31 +103,13 @@ class _AdButtonState extends State<AdButton> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 GestureDetector(
-                  onTap: widget.onOk != null && !widget.disable
-                      ? () {
-                          if (widget.useAd) {
-                            MoAd.viewAd(context).then((res) {
-                              if (res) {
-                                // 看广告成功
-                                widget?.onOk();
-                              } else {
-                                widget?.onCancel();
-                                // 看广告失败,弹框提示
-                                Layer.toastWarning(
-                                    "Number of videos has used up");
-                              }
-                            });
-                          } else {
-                            widget.onOk();
-                          }
-                        }
-                      : () {},
+                  onTap: onTap,
                   child: Container(
-                    width: ScreenUtil().setWidth(600),
-                    height: ScreenUtil().setWidth(124),
+                    width: ScreenUtil().setWidth(widget.width),
+                    height: ScreenUtil().setWidth(widget.height),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(
-                          ScreenUtil().setWidth(62),
+                          ScreenUtil().setWidth(widget.width / 2),
                         )),
                         color: widget.disable ? MyTheme.darkGrayColor : null,
                         image: widget.disable
@@ -138,7 +138,7 @@ class _AdButtonState extends State<AdButton> {
                         ModalTitle(
                           widget.btnText,
                           color: Colors.white,
-                          fontsize: 64,
+                          fontsize: widget.fontSize,
                           textAlign: TextAlign.center,
                         )
                       ],

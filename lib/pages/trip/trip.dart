@@ -123,11 +123,7 @@ class _TripState extends State<Trip>
                   Positioned(
                       right: 0,
                       top: ScreenUtil().setWidth(223),
-                      child: Container(
-                        width: ScreenUtil().setWidth(288),
-                        height: ScreenUtil().setWidth(256),
-                        child: RightBtns(),
-                      )),
+                      child: RightBtns()),
                   Positioned(
                     bottom: ScreenUtil().setWidth(50),
                     right: 0,

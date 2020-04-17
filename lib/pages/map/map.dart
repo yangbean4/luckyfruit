@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -149,6 +150,12 @@ class _MapPageState extends State<MapPage> {
                           Color color = deblokCity == null
                               ? MyTheme.tipsColor
                               : Colors.white;
+
+                          Widget defaultImage = Image.asset(
+                            'assets/image/deblokCity.png',
+                            width: ScreenUtil().setWidth(318),
+                            height: ScreenUtil().setWidth(240),
+                          );
                           return Container(
                             width: ScreenUtil().setWidth(1080),
                             height: ScreenUtil().setWidth(246),
@@ -157,13 +164,11 @@ class _MapPageState extends State<MapPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 deblokCity == null || cityInfo.bg_img == null
-                                    ? Image.asset(
-                                        'assets/image/deblokCity.png',
-                                        width: ScreenUtil().setWidth(318),
-                                        height: ScreenUtil().setWidth(240),
-                                      )
-                                    : Image.network(
-                                        cityInfo.bg_img,
+                                    ? defaultImage
+                                    : CachedNetworkImage(
+                                        imageUrl: cityInfo.bg_img,
+                                        placeholder: (context, url) =>
+                                            defaultImage,
                                         width: ScreenUtil().setWidth(318),
                                         height: ScreenUtil().setWidth(240),
                                       ),
@@ -387,28 +392,32 @@ class _MapPageState extends State<MapPage> {
             top: ScreenUtil().setWidth(674),
             right: ScreenUtil().setWidth(357),
             child: Container(
-                width: ScreenUtil().setWidth(367),
-                height: ScreenUtil().setWidth(106),
+                width: ScreenUtil().setWidth(368),
+                height: ScreenUtil().setWidth(137),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      spreadRadius: 0,
-                      blurRadius: ScreenUtil().setWidth(0),
-                      offset: Offset(
-                          ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
-                      color: Color.fromRGBO(174, 174, 174, 1),
-                    ),
-                    BoxShadow(
-                      spreadRadius: 0.0,
-                      blurRadius: ScreenUtil().setWidth(0),
-                      offset: Offset(
-                          ScreenUtil().setWidth(0), ScreenUtil().setWidth(9)),
-                      color: Color.fromRGBO(235, 235, 235, 1),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(30))),
+                  image: DecorationImage(
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/image/map_icon_bg.png')),
+                  // color: Colors.white,
+                  // boxShadow: <BoxShadow>[
+                  //   BoxShadow(
+                  //     spreadRadius: 0,
+                  //     blurRadius: ScreenUtil().setWidth(0),
+                  //     offset: Offset(
+                  //         ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
+                  //     color: Color.fromRGBO(174, 174, 174, 1),
+                  //   ),
+                  //   BoxShadow(
+                  //     spreadRadius: 0.0,
+                  //     blurRadius: ScreenUtil().setWidth(0),
+                  //     offset: Offset(
+                  //         ScreenUtil().setWidth(0), ScreenUtil().setWidth(9)),
+                  //     color: Color.fromRGBO(235, 235, 235, 1),
+                  //   ),
+                  // ],
+                  // borderRadius: BorderRadius.all(
+                  //     Radius.circular(ScreenUtil().setWidth(30))),
                 ),
                 child: Center(
                   child: Text('Map',

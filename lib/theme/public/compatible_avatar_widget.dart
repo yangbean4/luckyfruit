@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CompatibleNetworkAvatarWidget extends StatelessWidget {
   final String imageUrl;
@@ -12,8 +13,8 @@ class CompatibleNetworkAvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return imageUrl != null && imageUrl.isNotEmpty
-        ? Image.network(
-            imageUrl,
+        ? Image(
+            image: CachedNetworkImageProvider(imageUrl),
             width: width,
             height: height,
             fit: fit,

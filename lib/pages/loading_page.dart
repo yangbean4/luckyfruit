@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:luckyfruit/models/user.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:provider/provider.dart';
 
 import 'package:luckyfruit/provider/lucky_group.dart';
@@ -10,7 +11,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/config/app.dart' show Consts;
+import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
 
 class LoadingPage extends StatefulWidget {
   LoadingPage({Key key}) : super(key: key);
@@ -35,6 +36,7 @@ class _LoadingPageState extends State<LoadingPage> {
     } else {
       MyNavigator().pushReplacementNamed(context, 'Home');
     }
+    EVENT_BUS.emit(Event_Name.JUMP_TO_HOME);
   }
 
   @override

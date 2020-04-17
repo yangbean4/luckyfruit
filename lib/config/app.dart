@@ -6,6 +6,7 @@ class Event_Name {
   static const APP_PAUSED = 'APP_PAUSED';
   static const APP_RESUMED = 'APP_RESUMED';
 
+  static const JUMP_TO_HOME = 'JUMP_TO_HOME';
   // 显示弹窗
   static const MODAL_SHOW = 'MODAL_SHOW';
 
