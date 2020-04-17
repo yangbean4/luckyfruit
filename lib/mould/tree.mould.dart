@@ -48,6 +48,9 @@ class Tree extends TreePoint {
   // 分红树倒计时时长,跟durat)ion初始值一致,但是不会改变
   int originalDuration;
 
+  /// 限时分红树已经获取到的奖励部分
+  double limitedBonusedAmount = 0.0;
+
   // 分红树 多少钱
   double amount;
 
@@ -136,13 +139,28 @@ class Tree extends TreePoint {
     ..y = json['y']
     ..type = json['type']
     ..recycleMoney = json['recycleMoney']
-    ..grade = json['grade'];
+    ..grade = json['grade']
+    ..duration = json['duration']
+    ..originalDuration = json['originalDuration']
+    ..amount = json['amount']
+    ..treeId = json['treeId']
+    ..gradeNumber = json['gradeNumber']
+    ..limitedBonusedAmount = json['limitedBonusedAmount']
+    ..showCountDown = json['showCountDown']
+  ;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'x': this.x,
         'y': this.y,
         'type': this.type,
-        'recycleMoney': this.recycleMoney,
         'grade': this.grade,
+        'gradeNumber': this.gradeNumber,
+        'recycleMoney': this.recycleMoney,
+        'treeId': this.treeId,
+        'duration': this.duration,
+        'amount': this.amount,
+        'limitedBonusedAmount': this.limitedBonusedAmount,
+        'showCountDown': this.showCountDown,
+        'originalDuration': this.originalDuration,
       };
 }

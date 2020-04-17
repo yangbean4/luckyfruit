@@ -4,25 +4,23 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
-import 'package:luckyfruit/provider/money_group.dart';
-
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/utils/bgm.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/theme/public/elliptical_widget.dart';
-import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
+import 'package:provider/provider.dart';
 
 const num TreeAnimationTime = AnimationConfig.TreeAnimationTime;
 
 class TreeItem extends StatefulWidget {
   final Tree tree;
+
   TreeItem(
     this.tree, {
     Key key,
@@ -37,10 +35,12 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
   AnimationController treeAnimationController;
   Animation<double> goldAnimation;
   AnimationController goldAnimationController;
+
   // 控制是否显示 金币
   bool showGold = false;
   Timer timer;
   bool isDispose;
+
   @override
   void initState() {
     super.initState();
@@ -95,7 +95,29 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
       await treeAnimationController?.reverse();
       // await Future.delayed(Duration(milliseconds: 300));
       MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
-      moneyGroup.treeAddGold(widget.tree.gold);
+      moneyGroup.treeAddGold(widget.tree.gold * TreeAnimationTime);
+
+      if (widget.tree.type == TreeType.Type_TimeLimited_Bonus &&
+          widget.tree?.amount != null &&
+          widget.tree?.duration != null &&
+          widget.tree?.amount > 0 &&
+          widget.tree?.duration > 0) {
+        // 跟金币同步更新余额（限时分红树产生的）
+        double speedPerSecond =
+            widget.tree?.amount / widget.tree?.originalDuration?.toDouble();
+
+        double gold;
+        if (widget.tree?.duration < TreeAnimationTime) {
+          gold = widget.tree.amount - widget.tree.limitedBonusedAmount;
+        } else {
+          gold = speedPerSecond * TreeAnimationTime;
+          widget.tree.limitedBonusedAmount += gold;
+        }
+
+        moneyGroup.timeLimitedTreeAddMoney(gold);
+        print(
+            "timeLimitedTreeAddMoney: $speedPerSecond, $gold， ${widget.tree?.duration}");
+      }
     } catch (e) {}
   }
 

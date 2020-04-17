@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -9,7 +7,9 @@ import 'package:provider/provider.dart';
 
 class HopsMergeWidget extends StatelessWidget {
   final Function onStartMergeFun;
+
   HopsMergeWidget({Key key, this.onStartMergeFun}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Widget bigCircle = new Container(
@@ -127,7 +127,7 @@ class HopsMergeWidget extends StatelessWidget {
           child: Image.asset("assets/tree/$treeType.png")),
       Align(
         child: Image.asset("assets/image/$labelBgName.png"),
-        alignment: Alignment.centerRight,
+        alignment: Alignment(0, 1.3),
       )
     ];
   }

@@ -3,10 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/elliptical_widget.dart';
-import 'package:luckyfruit/utils/index.dart';
-
-import 'count_down.dart';
-import 'layer.dart';
+import 'package:luckyfruit/widgets/limited_bonus_tree_conutdown.dart';
 
 // 树+等级树根
 class TreeWidget extends StatelessWidget {
@@ -84,51 +81,11 @@ class TreeWidget extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               )),
             )),
-        this.showCountDown
+        this.showCountDown == true
             ? Positioned(
                 top: -ScreenUtil().setWidth(20),
                 right: -ScreenUtil().setWidth(20),
-                child: CountdownFormatted(
-                    duration: Duration(seconds: tree.duration),
-                    onFinish: () {
-                      print("限时分红树倒计时完成");
-                      Layer.limitedTimeBonusTreeEndUp(context, tree);
-                    },
-                    builder: (context, Duration duration) {
-                      // print("限时分红树倒计时: ${duration.inSeconds}");
-                      tree.duration = duration.inSeconds;
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF6AD66A),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(ScreenUtil().setWidth(12)),
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setWidth(8),
-                            horizontal: ScreenUtil().setWidth(14)),
-                        child: Row(
-                          children: <Widget>[
-                            Image.asset(
-                              'assets/image/icon_bonus_tree_count_down.png',
-                              width: ScreenUtil().setWidth(27),
-                              height: ScreenUtil().setWidth(30),
-                            ),
-                            SizedBox(width: ScreenUtil().setWidth(10)),
-                            Text(
-                              Util.formatCountDownTimer(duration),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  height: 1,
-                                  fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setSp(28),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      );
-                    }))
+                child: LimitedBonusTreeConutdownWidget(tree))
             : Container()
       ]),
     );

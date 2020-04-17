@@ -1,35 +1,33 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/index.dart' show UserInfo;
+import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tuple/tuple.dart';
 
 import './game/game.dart';
-import 'package:luckyfruit/provider/money_group.dart';
-import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/provider/tourism_map.dart';
-import 'package:luckyfruit/widgets/breathe_text.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-
-import './trip_btns/trip_btns.dart';
-import './trip_btns/right_btns.dart';
 import './other/balloon.dart';
-import './other/treasure.dart';
 import './other/barrage.dart';
-
-import 'package:luckyfruit/models/index.dart' show UserInfo;
-import 'package:luckyfruit/utils/bgm.dart';
-
-import 'other/fly_animation.dart';
+import './other/treasure.dart';
+import './trip_btns/right_btns.dart';
+import './trip_btns/trip_btns.dart';
 
 class _SelectorUse {
   String city;
   double schedule;
   String level;
+
   _SelectorUse({this.level, this.city, this.schedule});
 }
 
@@ -149,11 +147,11 @@ class _TripState extends State<Trip>
                   ),
                   // 头部 多按钮等
                   Positioned(
-                    top: ScreenUtil().setWidth(92),
+                    top: ScreenUtil().setWidth(24),
                     child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(60)),
-                        height: ScreenUtil().setWidth(280),
+//                        height: ScreenUtil().setWidth(280),
                         child: Selector<TourismMap, _SelectorUse>(
                             selector: (context, provider) => _SelectorUse(
                                 city: provider.city,
@@ -166,7 +164,7 @@ class _TripState extends State<Trip>
                                 children: <Widget>[
                                   Container(
                                       width: ScreenUtil().setWidth(378),
-                                      height: ScreenUtil().setWidth(280),
+//                                      height: ScreenUtil().setWidth(280),
                                       // 当前城市标识
                                       child: Column(
                                         crossAxisAlignment:
@@ -337,96 +335,15 @@ class _TripState extends State<Trip>
                                                 ],
                                               )),
                                           // 今日分红树收益提示
-                                          GestureDetector(
-                                            onTap: () =>
-                                                pushNamed(context, 'Dividend'),
-                                            child: Container(
-                                              width: ScreenUtil().setWidth(378),
-                                              height: ScreenUtil().setWidth(96),
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    ScreenUtil().setWidth(24),
-                                              ),
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                alignment: Alignment.center,
-                                                image: AssetImage(
-                                                    'assets/image/dividend.png'),
-                                                fit: BoxFit.cover,
-                                              )),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                    'assets/tree/bonus.png',
-                                                    width: ScreenUtil()
-                                                        .setWidth(90),
-                                                    height: ScreenUtil()
-                                                        .setWidth(90),
-                                                  ),
-                                                  Expanded(
-                                                      child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Text('TODAY',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  ScreenUtil()
-                                                                      .setSp(
-                                                                          24),
-                                                              fontFamily:
-                                                                  FontFamily
-                                                                      .bold,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: MyTheme
-                                                                  .redColor)),
-                                                      Selector<TreeGroup, num>(
-                                                          selector: (context,
-                                                                  provider) =>
-                                                              provider
-                                                                  .globalDividendTree
-                                                                  ?.amount,
-                                                          builder: (context,
-                                                              num dividend,
-                                                              child) {
-                                                            return Text(
-                                                                '\$${Util.formatNumber(dividend)}',
-                                                                style: TextStyle(
-                                                                    fontSize: ScreenUtil()
-                                                                        .setSp(
-                                                                            32),
-                                                                    fontFamily:
-                                                                        FontFamily
-                                                                            .bold,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: MyTheme
-                                                                        .redColor));
-                                                          })
-                                                    ],
-                                                  )),
-                                                  Image.asset(
-                                                    'assets/image/dividend_btn.png',
-                                                    width: ScreenUtil()
-                                                        .setWidth(123),
-                                                    height: ScreenUtil()
-                                                        .setWidth(64),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                          EarningWidget(
+                                            EarningWidgetType
+                                                .Earning_Type_Bonus,
+                                          ),
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(10),
+                                          ),
+                                          EarningWidget(
+                                            EarningWidgetType.Earning_Type_CASH,
                                           ),
                                         ],
                                       )),
@@ -540,4 +457,121 @@ class _TripState extends State<Trip>
       ]),
     );
   }
+}
+
+class EarningWidget extends StatefulWidget {
+  final EarningWidgetType type;
+
+  EarningWidget(this.type);
+
+  @override
+  _EarningWidgetState createState() => _EarningWidgetState();
+}
+
+class _EarningWidgetState extends State<EarningWidget> {
+  String imgPath;
+  String title;
+  String desc;
+  num amount;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.type == EarningWidgetType.Earning_Type_Bonus) {
+      imgPath = "assets/tree/bonus.png";
+      title = "Today";
+      desc = "Got It";
+    } else {
+      imgPath = "assets/image/bg_dollar.png";
+      title = "Mine";
+      desc = "Cash Out";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (widget.type == EarningWidgetType.Earning_Type_Bonus) {
+          MyNavigator().pushNamed(context, 'Dividend');
+        } else {
+          MyNavigator().pushNamed(context, 'WithDrawPage',
+              arguments: Util.formatNumber(amount));
+        }
+      },
+      child: Container(
+        width: ScreenUtil().setWidth(378),
+        height: ScreenUtil().setWidth(96),
+        padding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil().setWidth(24),
+        ),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          alignment: Alignment.center,
+          image: AssetImage('assets/image/dividend.png'),
+          fit: BoxFit.cover,
+        )),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              imgPath,
+              width: ScreenUtil().setWidth(90),
+              height: ScreenUtil().setWidth(90),
+            ),
+            Expanded(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(title,
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(24),
+                        fontFamily: FontFamily.bold,
+                        fontWeight: FontWeight.bold,
+                        color: MyTheme.redColor)),
+                Selector<MoneyGroup, Tuple2<num, num>>(
+                    selector: (context, provider) => Tuple2(
+                        provider?.treeGroup?.globalDividendTree?.amount,
+                        provider?.money),
+                    builder: (context, Tuple2 result, child) {
+                      amount = result.item2;
+                      return Text(
+                          widget.type == EarningWidgetType.Earning_Type_Bonus
+                              ? '\$${Util.formatNumber(result.item1)}'
+                              : "\$${Util.formatNumber(result.item2)}",
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(32),
+                              fontFamily: FontFamily.bold,
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme.redColor));
+                    })
+              ],
+            )),
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                alignment: Alignment.center,
+                image: AssetImage('assets/image/dividend_btn.png'),
+                fit: BoxFit.cover,
+              )),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+              child: Text(desc,
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(30),
+                      fontFamily: FontFamily.bold,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF94C31))),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum EarningWidgetType {
+  Earning_Type_Bonus,
+  Earning_Type_CASH,
 }

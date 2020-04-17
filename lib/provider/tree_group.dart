@@ -75,6 +75,8 @@ class TreeGroup with ChangeNotifier {
   // 随机的等级
   num get _treasugrade => _luckyGroup.issed?.random_m_level;
 
+  MoneyGroup get moneyGroup => _moneyGroup;
+
   // 冷却时间
   int delayTime;
 
@@ -186,12 +188,11 @@ class TreeGroup with ChangeNotifier {
         Tree tree = _treeList.firstWhere((t) => t.x == x && t.y == y,
             orElse: () => null);
         // 如果出现限时分红树的showCountDown为false的情况
-        // (测试时有出现过,但还不清楚什么原因导致的), 删除这棵树
-        if (tree == null ||
-            (tree?.type == TreeType.Type_TimeLimited_Bonus &&
-                !tree?.showCountDown) ||
-            // 会出现gradle==0的情况
-            (tree?.grade == 0)) {
+        if (tree?.type == TreeType.Type_TimeLimited_Bonus) {
+          tree?.showCountDown = true;
+        }
+        // 会出现gradle==0的情况
+        if (tree == null || (tree?.grade == 0)) {
           _treeList.remove(tree);
           continue;
         }
@@ -258,6 +259,10 @@ class TreeGroup with ChangeNotifier {
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
           int.tryParse(group2['upDateTime']) * 1000);
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+      if (upDateTime1.isAtSameMomentAs(upDateTime2)) {
+        // 如果更新时间一样，使用本地的
+        group = group1;
+      }
     }
     return group;
   }
@@ -504,7 +509,7 @@ class TreeGroup with ChangeNotifier {
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
         Layer.showHopsMergeWindow(
-            _luckyGroup?.issed?.hops_reward?.toString() ?? "--");
+            _luckyGroup?.issed?.hops_reward);
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
