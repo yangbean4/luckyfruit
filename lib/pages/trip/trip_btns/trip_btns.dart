@@ -307,13 +307,9 @@ class _TripBtnsState extends State<TripBtns> {
         getItem(
           'assets/image/spin.png',
           'SPIN',
-<<<<<<< HEAD
-          // key: Consts.globalKeyWheel,
-=======
           showMark: true,
           showLock: true,
           key: Consts.globalKeyWheel,
->>>>>>> a9b9119419ff68181e33a520a5f102e848f6b22e
           onTap: () {
             Layer.showLuckyWheel(context);
           },
