@@ -542,69 +542,88 @@ class _EarningWidgetState extends State<EarningWidget> {
       },
       child: Container(
         width: ScreenUtil().setWidth(378),
-        height: ScreenUtil().setWidth(96),
+        height: ScreenUtil().setWidth(80),
         padding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(24),
         ),
         decoration: BoxDecoration(
+//            color: Colors.red,
             image: DecorationImage(
-          alignment: Alignment.center,
-          image: AssetImage('assets/image/dividend.png'),
-          fit: BoxFit.cover,
-        )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+              alignment: Alignment.center,
+              image: AssetImage('assets/image/dividend.png'),
+              fit: BoxFit.cover,
+            )),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: AlignmentDirectional.center,
           children: <Widget>[
-            Image.asset(
-              imgPath,
-              width: ScreenUtil().setWidth(90),
-              height: ScreenUtil().setWidth(90),
-            ),
-            Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(title,
-                    style: TextStyle(
-                        fontSize: ScreenUtil().setSp(24),
-                        fontFamily: FontFamily.bold,
-                        fontWeight: FontWeight.bold,
-                        color: MyTheme.redColor)),
-                Selector<MoneyGroup, Tuple2<num, num>>(
-                    selector: (context, provider) => Tuple2(
-                        provider?.treeGroup?.globalDividendTree?.amount,
-                        provider?.money),
-                    builder: (context, Tuple2 result, child) {
-                      amount = result.item2;
-                      return Text(
-                          widget.type == EarningWidgetType.Earning_Type_Bonus
-                              ? '\$${Util.formatNumber(result.item1)}'
-                              : "\$${Util.formatNumber(result.item2)}",
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(32),
-                              fontFamily: FontFamily.bold,
-                              fontWeight: FontWeight.bold,
-                              color: MyTheme.redColor));
-                    })
+                SizedBox(
+                  width: ScreenUtil().setWidth(40),
+                ),
+                Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(title,
+                            style: TextStyle(
+                                fontSize: ScreenUtil().setSp(24),
+                                fontFamily: FontFamily.bold,
+                                fontWeight: FontWeight.bold,
+                                color: MyTheme.blackColor)),
+                        Selector<MoneyGroup, Tuple2<num, num>>(
+                            selector: (context, provider) =>
+                                Tuple2(
+                                    provider?.treeGroup?.globalDividendTree
+                                        ?.amount,
+                                    provider?.money),
+                            builder: (context, Tuple2 result, child) {
+                              amount = result.item2;
+                              return Text(
+                                  widget.type ==
+                                      EarningWidgetType.Earning_Type_Bonus
+                                      ? '\$${Util.formatNumber(result.item1)}'
+                                      : "\$${Util.formatNumber(result.item2)}",
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(32),
+                                      fontFamily: FontFamily.bold,
+                                      fontWeight: FontWeight.bold,
+                                      color: MyTheme.redColor));
+                            })
+                      ],
+                    )),
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        alignment: Alignment.center,
+                        image: AssetImage('assets/image/dividend_btn.png'),
+                        fit: BoxFit.fill,
+                      )),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+                  child: Text(desc,
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(30),
+                          fontFamily: FontFamily.bold,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFF94C31))),
+                )
               ],
-            )),
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                alignment: Alignment.center,
-                image: AssetImage('assets/image/dividend_btn.png'),
-                fit: BoxFit.cover,
-              )),
-              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-              child: Text(desc,
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(30),
-                      fontFamily: FontFamily.bold,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFF94C31))),
-            )
+            ),
+            Positioned(
+              left: -ScreenUtil().setWidth(40),
+              child: Container(
+//                color: Colors.blue,
+                child: Image.asset(
+                  imgPath,
+                  width: ScreenUtil().setWidth(110),
+                  height: ScreenUtil().setWidth(110),
+                ),
+              ),
+            ),
           ],
         ),
       ),
