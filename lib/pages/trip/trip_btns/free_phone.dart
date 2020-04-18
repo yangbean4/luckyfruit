@@ -646,7 +646,7 @@ class _Wishing extends StatelessWidget {
   const _Wishing({Key key, this.wishTreeNum}) : super(key: key);
 
   _redeemTree(BuildContext context) async {
-    if (wishTreeNum == 100) {
+    if (wishTreeNum >= 100) {
       TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
       treeGroup.addWishTree();
     }
@@ -750,7 +750,7 @@ class _Wishing extends StatelessWidget {
                               width: ScreenUtil().setWidth(240),
                               height: ScreenUtil().setWidth(66),
                               decoration: BoxDecoration(
-                                color: wishTreeNum == 100
+                                color: wishTreeNum >= 100
                                     ? MyTheme.primaryColor
                                     : MyTheme.darkGrayColor,
                                 borderRadius: BorderRadius.all(

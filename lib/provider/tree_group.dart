@@ -553,7 +553,7 @@ class TreeGroup with ChangeNotifier {
         Layer.showContinentsMergeWindow();
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
-        Layer.showHopsMergeWindow(_luckyGroup?.issed?.hops_reward);
+        Layer.showHopsMergeWindow(_luckyGroup?.issed?.hops_reward, source, target);
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
@@ -779,7 +779,7 @@ class TreeGroup with ChangeNotifier {
   deleteHopsTrees() {
     TreeType.Hops_Trees_List.forEach((item) {
       Tree tree = _treeList.firstWhere((treeItem) {
-        return treeItem.type.compareTo(item) == 0;
+        return treeItem?.type != null && treeItem?.type?.compareTo(item) == 0;
       }, orElse: () => null);
 
       print("deleteHopsTrees item=${tree.type}");
@@ -834,6 +834,10 @@ class TreeGroup with ChangeNotifier {
       Map<String, dynamic> ajax = await Service().wishTreeDraw({
         'acct_id': acct_id,
       });
+      if (ajax == null) {
+        print("领取许愿树失败");
+        return;
+      }
       Tree tree = Tree(
           grade: Tree.MAX_LEVEL,
           type: TreeType.Type_Wishing,

@@ -997,15 +997,18 @@ class Layer {
   }
 
   /// 啤酒花树合成弹���
-  static showHopsMergeWindow(num rewardDollar) {
+  static showHopsMergeWindow(num rewardDollar, Tree source, Tree target) {
     Modal(
             onCancel: () {},
             closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
-                  HopsMergeWidget(onStartMergeFun: () {
-                    Layer.showMoneyRewardAfterHopsMerge(rewardDollar);
-                    modal.hide();
-                  }),
+                  HopsMergeWidget(
+                      source: source,
+                      target: target,
+                      onStartMergeFun: () {
+                        Layer.showMoneyRewardAfterHopsMerge(rewardDollar);
+                        modal.hide();
+                      }),
                 ],
             verticalPadding: 0,
             width: 1000,
