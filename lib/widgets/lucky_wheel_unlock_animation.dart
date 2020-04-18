@@ -25,7 +25,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
     super.initState();
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+        duration: new Duration(milliseconds: 4000), vsync: this);
 
     scaleSunShineAnimation = Tween<double>(
       begin: 0.0,
@@ -66,7 +66,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
     ).animate(CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0.8,
+          0.6,
           1.0,
           curve: Curves.ease,
         )))
@@ -296,14 +296,14 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
   @override
   void initState() {
     _controller = AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+        duration: new Duration(milliseconds: 1000), vsync: this);
     super.initState();
 
     posBottomAnimation = Tween<double>(
             begin: ScreenUtil().setWidth(1250),
 //      end: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
             end: (ScreenUtil().setHeight(1920) -
-                Util.getWheelInfoWithGlobalKey()?.dy) -
+                    Util.getWheelInfoWithGlobalKey()?.dy) -
                 ScreenUtil().setWidth(48) -
                 ScreenUtil().setWidth(270))
         .animate(CurvedAnimation(
@@ -338,6 +338,8 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
           LuckyGroup luckyGroup =
               Provider.of<LuckyGroup>(context, listen: false);
           luckyGroup.setShowLuckyWheelUnlock = false;
+          luckyGroup.setShowLuckyWheelLockIcon(false);
+          luckyGroup.setShowLuckyWheelDot(true);
         }
       });
 

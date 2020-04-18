@@ -806,23 +806,17 @@ class Layer {
                 onCancel: modal.hide,
                 onOk: () {
                   modal.hide();
-                  // 调用种限时分红树接口
-                  plantTimeLimitTree(treeGroup, value).then((map) {
-                    if (map == null || map['code'] != 0) {
-                      // 请求失败，
-                      toastWarning("Failed, Try Again Later");
-                      return;
-                    }
-
-                    treeGroup.addTree(
-                        tree: Tree(
-                      grade: Tree.MAX_LEVEL,
-                      type: TreeType.Type_TimeLimited_Bonus,
-                      duration: value?.duration,
-                      amount: value?.amount,
-                      showCountDown: true,
-                    ));
-                  });
+                  treeGroup.addTree(
+                      tree: Tree(
+                    grade: Tree.MAX_LEVEL,
+                    type: TreeType.Type_TimeLimited_Bonus,
+                    duration: value?.duration,
+                    amount: value?.amount,
+                    showCountDown: true,
+                    treeId: value.tree_id,
+                    timePlantedLimitedBonusTree:
+                        DateTime.now().millisecondsSinceEpoch,
+                  ));
                 },
                 interval: Duration(seconds: 0),
                 tips:
@@ -833,10 +827,10 @@ class Layer {
   }
 
   static Future<dynamic> plantTimeLimitTree(
-      TreeGroup treeGroup, UnlockNewTreeLevel value) async {
+      TreeGroup treeGroup, num treeId) async {
     dynamic plantTimeLimitMap;
-    plantTimeLimitMap = await Service().plantTimeLimitTree(
-        {'acct_id': treeGroup.acct_id, 'tree_id': value?.tree_id});
+    plantTimeLimitMap = await Service()
+        .plantTimeLimitTree({'acct_id': treeGroup.acct_id, 'tree_id': treeId});
     // 测试用
     // plantTimeLimitMap = json.decode("""{
     // "code": 0,
@@ -849,28 +843,39 @@ class Layer {
   /**
    * 显示限时分红树结束
    */
-  static limitedTimeBonusTreeEndUp(BuildContext context, Tree tree) {
-    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+  static limitedTimeBonusTreeEndUp(Tree tree) {
+    TreeGroup treeGroup;
+    if (tree == null) {
+      return;
+    }
     Modal(
         dismissDurationInMilliseconds: Modal.DismissDuration,
         onOk: () {
-          // TODO 本地余额增加
-          EVENT_BUS.emit(MoneyGroup.ADD_MONEY, tree.amount);
           treeGroup.deleteSpecificTree(tree);
+          // 调用种限时分红树接口
+          plantTimeLimitTree(treeGroup, tree.treeId).then((map) {
+            print("plantTimeLimitTree: $map");
+          });
         },
         okText: "Claim",
         children: [
           ModalTitle('Awesome'),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
-            child: TreeWidget(
-              tree: treeGroup.topLevelTree,
-              imgHeight: ScreenUtil().setWidth(218),
-              imgWidth: ScreenUtil().setWidth(237),
-              labelWidth: ScreenUtil().setWidth(110),
-              primary: true,
-            ),
-          ),
+          Selector<TreeGroup, TreeGroup>(
+              builder: (context, value, child) {
+                treeGroup = value;
+                return Container(
+                  margin:
+                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+                  child: TreeWidget(
+                    tree: treeGroup.topLevelTree,
+                    imgHeight: ScreenUtil().setWidth(218),
+                    imgWidth: ScreenUtil().setWidth(237),
+                    labelWidth: ScreenUtil().setWidth(110),
+                    primary: true,
+                  ),
+                );
+              },
+              selector: (context, provider) => provider),
           SecondaryText(
               "Get \$ ${tree.amount ?? "--"} in ${Duration(seconds: tree?.originalDuration).inSeconds ?? "--"} second(s) through the Limited time bonus tree"),
           Container(
@@ -926,7 +931,8 @@ class Layer {
       TreeGroup treeGroup, Tree source, Tree target) {
     TopLevelMergeWidget widget;
     Modal(
-        width: 950,
+        width: 900,
+        decorationColor: Color(0xFFD1E7D6),
         horizontalPadding: 40,
         onCancel: () {
           return widget.enableClose();
@@ -991,15 +997,18 @@ class Layer {
   }
 
   /// 啤酒花树合成弹���
-  static showHopsMergeWindow(String rewardDollar) {
+  static showHopsMergeWindow(num rewardDollar, Tree source, Tree target) {
     Modal(
             onCancel: () {},
             closeType: CloseType.CLOSE_TYPE_BOTTOM_CENTER,
             childrenBuilder: (modal) => <Widget>[
-                  HopsMergeWidget(onStartMergeFun: () {
-                    Layer.showMoneyRewardAfterHopsMerge(rewardDollar);
-                    modal.hide();
-                  }),
+                  HopsMergeWidget(
+                      source: source,
+                      target: target,
+                      onStartMergeFun: () {
+                        Layer.showMoneyRewardAfterHopsMerge(rewardDollar);
+                        modal.hide();
+                      }),
                 ],
             verticalPadding: 0,
             width: 1000,
@@ -1231,7 +1240,7 @@ class Layer {
   }
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
-  static showMoneyRewardAfterHopsMerge(String rewardDollar) {
+  static showMoneyRewardAfterHopsMerge(num rewardDollar) {
     Modal(onOk: () {}, okText: "Claim", children: <Widget>[
       Image.asset(
         'assets/image/bg_dollar.png',
@@ -1247,7 +1256,7 @@ class Layer {
         ),
       ),
       GoldText(
-        rewardDollar,
+        Util.formatNumber(rewardDollar),
         imgUrl: "assets/image/icon_dollar.png",
         iconSize: 72,
         textSize: 66,

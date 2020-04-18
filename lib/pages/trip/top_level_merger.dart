@@ -22,6 +22,7 @@ class TopLevelMergeWidget extends StatefulWidget {
   State<StatefulWidget> createState() => TopLevelMergeWidgetState();
 
   bool _enableClose = true;
+
   bool enableClose() => _enableClose;
 }
 
@@ -34,10 +35,13 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   bool enableOnTap = true;
   UnlockNewTreeLevel newLevel;
   int position;
+
   // 选中的树的类型
   String curTreeType;
+
   // 选中的树的名字
   String curTreeName;
+
   // 基础圈数, 一圈走动10次
   static const int Default_Turns = 10;
 
@@ -66,6 +70,20 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     "Hop Tree(Female)",
     "Oceania Tree",
   ];
+
+  List sizeList = [
+    [158, 174],
+    [158, 154],
+    [178, 154],
+    [173, 151],
+    [164, 153],
+    [171, 154],
+    [175, 154],
+    [175, 149],
+    [178, 151],
+    [178, 155],
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -97,17 +115,17 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   }
 
   /**
-    const GIFT_TYPE_NONE = 0; // 没有奖品
-    const GIFT_TYPE_TIME_LIMIT_TREE = 1; // 限时分红树
-    const GIFT_TYPE_GLOBAL_TREE = 2; // 全球分红树
-    const GIFT_TYPE_FEMALE_FLOWER = 3;  // 雌花
-    const GIFT_TYPE_MALE_FLOWER = 4; // 雄花
-    const GIFT_TYPE_WISH_TREE = 5;  // 许愿树
-    const GIFT_TYPE_AMERICAN_TREE = 6; //美洲
-    const GIFT_TYPE_EUROPEAN_TREE = 7; //欧洲
-    const GIFT_TYPE_ASIAN_TREE = 8; // 亚洲
-    const GIFT_TYPE_OCEANIA_TREE = 9; // 大洋洲
-    const GIFT_TYPE_AFRICAN_TREE = 10; // 非洲树
+      const GIFT_TYPE_NONE = 0; // 没有奖品
+      const GIFT_TYPE_TIME_LIMIT_TREE = 1; // 限时分红树
+      const GIFT_TYPE_GLOBAL_TREE = 2; // 全球分红树
+      const GIFT_TYPE_FEMALE_FLOWER = 3;  // 雌花
+      const GIFT_TYPE_MALE_FLOWER = 4; // 雄花
+      const GIFT_TYPE_WISH_TREE = 5;  // 许愿树
+      const GIFT_TYPE_AMERICAN_TREE = 6; //美洲
+      const GIFT_TYPE_EUROPEAN_TREE = 7; //欧洲
+      const GIFT_TYPE_ASIAN_TREE = 8; // 亚洲
+      const GIFT_TYPE_OCEANIA_TREE = 9; // 大洋洲
+      const GIFT_TYPE_AFRICAN_TREE = 10; // 非洲树
    */
   Future<UnlockNewTreeLevel> checkBonusTreeWhenUnlockingTopLevel(
       String acctId, int level) async {
@@ -128,8 +146,8 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   }
 
   List<Color> colorsOnSpinBtn = const <Color>[
-    Color.fromRGBO(49, 200, 84, 1),
-    Color.fromRGBO(36, 185, 71, 1)
+    Color(0xFF42CE66),
+    Color(0xFF42CE66),
   ];
 
   toggleEnableStatue(bool enable) {
@@ -141,13 +159,13 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
       if (!enable) {
         // 禁用时按钮颜色
         colorsOnSpinBtn = [
-          Color.fromRGBO(143, 235, 162, 1),
-          Color.fromRGBO(143, 235, 162, 1)
+          Color(0xFF8CDC9F),
+          Color(0xFF8CDC9F),
         ];
       } else {
         colorsOnSpinBtn = [
-          Color.fromRGBO(49, 200, 84, 1),
-          Color.fromRGBO(36, 185, 71, 1)
+          Color(0xFF42CE66),
+          Color(0xFF42CE66),
         ];
       }
       enableOnTap = enable;
@@ -160,7 +178,7 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
     return Column(children: [
       Container(
         decoration: BoxDecoration(
-          // color: Colors.red,
+//          color: Colors.blue,
           image: DecorationImage(
               image: AssetImage("assets/image/top_level_merge_bg.png"),
               fit: BoxFit.fill),
@@ -201,72 +219,55 @@ class TopLevelMergeWidgetState extends State<TopLevelMergeWidget>
   Widget gridWrapperView() {
     int index = 0;
     List wrap = List(10).map((val) {
-      print("gridWrapperView index= $index");
+      print(
+          "gridWrapperView index= $index, ${sizeList[index][0]}, ${sizeList[index][1]}");
       return Container(
           padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
           decoration: BoxDecoration(
-            // color: Colors.red,
+//             color: Colors.red,
             image: index++ == inOrder[runCount % inOrder.length]
                 ? DecorationImage(
                     alignment: Alignment.center,
                     image: AssetImage(
                         "assets/image/top_level_merge_item_selected.png"),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   )
                 : null,
           ),
           child: Container(
-              // color: Colors.green,
+//               color: Colors.red,
               padding:
                   EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(20)),
               child: Image.asset(
-                "assets/tree/${treeTypeListInOrder[circleOrder[index - 1]]}.png",
-                width: ScreenUtil().setWidth(200),
-                height: ScreenUtil().setWidth(140),
+                "assets/tree/merge/${treeTypeListInOrder[circleOrder[index - 1]]}.png",
+                width: ScreenUtil().setWidth(sizeList[index - 1][0]),
+                height: ScreenUtil().setWidth(sizeList[index - 1][1]),
               )));
     }).toList();
 
     wrap.insert(
         5,
         Container(
-            // color: Colors.yellow,
-            width: ScreenUtil().setWidth(400),
-            height: ScreenUtil().setWidth(180),
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(20)),
-            child: Center(
-                child: Stack(children: <Widget>[
-              Text(
-                "Random \nMerge",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    height: 1,
-                    foreground: new Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = ScreenUtil().setWidth(15)
-                      ..color = Color(0xFF36B45A),
-                    fontFamily: FontFamily.bold,
-                    fontSize: ScreenUtil().setSp(56),
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "Random \nMerge",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    height: 1,
-                    fontFamily: FontFamily.bold,
-                    fontSize: ScreenUtil().setSp(56),
-                    fontWeight: FontWeight.bold),
-              )
-            ]))));
+          width: ScreenUtil().setWidth(353),
+          height: ScreenUtil().setWidth(220),
+          decoration: BoxDecoration(
+//              color: Colors.yellow,
+              image: DecorationImage(
+            image: AssetImage("assets/image/top_level_random_merge.png"),
+            fit: BoxFit.cover,
+          )),
+        ));
 
-    return Wrap(
-        // spacing: ScreenUtil().setWidth(15),
-        runSpacing: ScreenUtil().setWidth(15),
-        alignment: WrapAlignment.center,
-        runAlignment: WrapAlignment.center,
-        children: wrap);
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
+      child: Wrap(
+          // spacing: ScreenUtil().setWidth(15),
+//        runSpacing: ScreenUtil().setWidth(15),
+          alignment: WrapAlignment.spaceAround,
+//        runAlignment: WrapAlignment.end,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: wrap),
+    );
   }
 
   // // 九宫格匀速计时器

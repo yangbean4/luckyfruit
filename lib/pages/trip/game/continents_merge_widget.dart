@@ -223,7 +223,7 @@ class ContinentsMergeWidget extends StatelessWidget {
           child: Image.asset("assets/tree/$treeType.png")),
       Align(
         child: Image.asset("assets/image/$labelBgName.png"),
-        alignment: Alignment.centerRight,
+        alignment: Alignment(0, 1.3),
       )
     ];
   }

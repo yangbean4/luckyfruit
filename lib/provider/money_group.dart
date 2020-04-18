@@ -1,46 +1,57 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/bgm.dart';
 
-import 'package:luckyfruit/utils/storage.dart';
+import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/models/index.dart' show UserInfo;
+import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+
 import './tree_group.dart';
 import './user_model.dart';
-import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/models/index.dart' show UserInfo;
 
 class MoneyGroup with ChangeNotifier {
   UserModel _userModel;
+
   // 对TreeGroup Provider引用
   TreeGroup treeGroup;
+
   MoneyGroup();
+
   // 存储数据用句柄
   static const String CACHE_KEY = 'MoneyGroup';
+
   // 设置金币倍数
   static const String SET_INCREASE = 'SET_INCREASE';
+
 // 用于增加/减少 金币金钱的事件句柄
   static const String ADD_GOLD = 'ADD_GOLD';
   static const String ACC_GOLD = 'ACC_GOLD';
   static const String TREE_ADD_GOLD = 'TREE_ADD_GOLD';
   static const String ADD_MONEY = 'ADD_MONEY';
   static const String ACC_MONEY = 'ACC_MONEY';
+
   // 升级时减少总金币
   static const String ACC_ALL_GOLD = 'ACC_ALL_GOLD';
+
   // 触发等级检查
   static const String ADD_ALL_GOLD = 'ADD_ALL_GOLD';
 
   // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
+
   bool get dataLoad => _dataLoad;
 
   bool _showGoldAnimation = false;
+
   bool get showGoldAnimation => _showGoldAnimation;
 
   UserInfo _userInfo;
+
 // 保存 接口获取的用户信息
   UserInfo get userInfo => _userInfo;
 
@@ -53,24 +64,31 @@ class MoneyGroup with ChangeNotifier {
 
 // 金币
   double _gold = 400;
+
   double get gold => _gold;
 
   // 总金币;用于升级使用
   double _allgold = 0;
+
   double get allgold => _gold;
 
 // 金钱
   double _money = 0;
+
   double get money => _money;
 
   // 更新时间
   DateTime _upDateTime;
+
   DateTime get upDateTime => _upDateTime;
+
+  UserModel get userModel => _userModel;
 
   // double _makeGoldSped;
 
   // 多倍金币时的产生金币的 倍数
   int _makeGoldIncrease = 1;
+
   int get makeGoldIncrease => _makeGoldIncrease;
 
   double get makeGoldSped => treeGroup?.makeGoldSped;
@@ -105,7 +123,12 @@ class MoneyGroup with ChangeNotifier {
           int.tryParse(group1['upDateTime']) * 1000);
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
           int.tryParse(group2['upDateTime']) * 1000);
+      // 如果远端的更新时间在本地时间之前（即有可能是保存是接口没有上报成功），则使用本地的，否则使用哪一个都一样
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+      if (upDateTime1.isAtSameMomentAs(upDateTime2)) {
+        // 如果更新时间一样，使用本地的
+        group = group1;
+      }
     }
     return group;
   }
@@ -192,9 +215,14 @@ class MoneyGroup with ChangeNotifier {
     return this;
   }
 
-  treeAddGold(makeGoldSped) {
-    addGold(makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
-        showAnimate: false);
+  treeAddGold(makeGoldAmout) {
+    // 每8秒本地更新一次金币数量
+    addGold(makeGoldAmout * makeGoldIncrease, showAnimate: false);
+  }
+
+  timeLimitedTreeAddMoney(double amout) {
+    // 限时分红树，每8秒本地更新一次余额
+    addMoney(amout);
   }
 
   // 用户签到
@@ -283,7 +311,7 @@ class MoneyGroup with ChangeNotifier {
     Bgm.playMoney();
     _money += money;
     // 展示美元动画
-    _showDollarImgTrans = true;
+//    _showDollarImgTrans = true;
     save();
   }
 
@@ -294,7 +322,9 @@ class MoneyGroup with ChangeNotifier {
 
   /// 是否显示美元数目文案淡出效果
   bool _showDollarAmountFading = false;
+
   bool get showDollarAmountFading => _showDollarAmountFading;
+
   set setShowDollarAmountFading(bool show) {
     _showDollarAmountFading = show;
     notifyListeners();
@@ -302,7 +332,9 @@ class MoneyGroup with ChangeNotifier {
 
   /// 是否显示美元图片移动效果
   bool _showDollarImgTrans = false;
+
   bool get showDollarImgTrans => _showDollarImgTrans;
+
   set setShowDollarImgTrans(bool show) {
     _showDollarImgTrans = show;
     notifyListeners();

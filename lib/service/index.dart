@@ -259,6 +259,12 @@ class Service {
     return response.data;
   }
 
+  // 雌雄花树合成帐户加钱
+  Future<Map<String, dynamic>> composeFemailMail(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Draw/composeFemailMail', data: data);
+    return response.data;
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(

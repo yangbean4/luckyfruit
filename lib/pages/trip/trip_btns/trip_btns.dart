@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/config/app.dart' show App, Consts, TreeType;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
-
+import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
-import './free_phone.dart';
-import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
-import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/config/app.dart' show App;
+import 'package:provider/provider.dart';
+
+import './free_phone.dart';
 // 右上角的一些入口玩法
 
 class _SelectorUse {
   Duration getGoldCountdown;
   Function receiveCoin;
   int receriveTime;
+
   _SelectorUse({this.getGoldCountdown, this.receiveCoin, this.receriveTime});
 }
 
@@ -57,6 +56,8 @@ class _TripBtnsState extends State<TripBtns> {
     double labelWith,
     GlobalKey key,
     Function onTap,
+    bool showMark = false,
+    bool showLock = false,
   }) {
     Widget item = Container(
       width: ScreenUtil().setWidth(96),
@@ -71,20 +72,68 @@ class _TripBtnsState extends State<TripBtns> {
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              // image: DecorationImage(
-              //   image: AssetImage(
-              //     'assets/image/imgSrc.png',
-              //   ),
-              //   alignment: Alignment.center,
-              //   fit: BoxFit.cover,
-              // )
             ),
-            child: Center(
-                child: Image.asset(
-              imgSrc,
-              width: ScreenUtil().setWidth(56),
-              height: ScreenUtil().setWidth(56),
-            )),
+            child: Stack(alignment: AlignmentDirectional.center, children: [
+              Image.asset(
+                imgSrc,
+                width: ScreenUtil().setWidth(66),
+                height: ScreenUtil().setWidth(66),
+              ),
+              showMark
+                  ? Selector<LuckyGroup, bool>(
+                      selector: (context, provider) =>
+                          provider.showLuckyWheelDot,
+                      builder: (_, bool show, __) {
+                        return show
+                            ? Positioned(
+                                top: ScreenUtil().setWidth(0),
+                                right: ScreenUtil().setWidth(0),
+                                child: Container(
+                                  width: ScreenUtil().setWidth(24),
+                                  height: ScreenUtil().setWidth(24),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment(-1.0, 0.0),
+                                        end: Alignment(1.0, 0.0),
+                                        colors: <Color>[
+                                          Color.fromRGBO(253, 217, 76, 1),
+                                          Color.fromRGBO(249, 93, 76, 1),
+                                        ]),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              )
+                            : Container();
+                      })
+                  : Container(),
+              showLock
+                  ? Selector<LuckyGroup, bool>(
+                      selector: (context, provider) =>
+                          provider.showLuckyWheelLockIcon,
+                      builder: (_, bool show, __) {
+                        return show
+                            ? Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: ScreenUtil().setWidth(96),
+                                    height: ScreenUtil().setWidth(96),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Image.asset(
+                                    "assets/image/lucky_wheel_lock.png",
+                                    width: ScreenUtil().setWidth(32),
+                                    height: ScreenUtil().setWidth(40),
+                                  )
+                                ],
+                              )
+                            : Container();
+                      })
+                  : Container(),
+            ]),
           ),
           Positioned(
             top: ScreenUtil().setWidth(86),
@@ -233,7 +282,7 @@ class _TripBtnsState extends State<TripBtns> {
                         );
                       })
                   : 'GET',
-              labelColor: MyTheme.yellowColor,
+              labelColor: Color(0xFFFF8109),
               onTap: () {
                 if (!isCountdown) {
                   double _getGoldCountdown =
@@ -253,12 +302,18 @@ class _TripBtnsState extends State<TripBtns> {
         ),
         FreePhone(
           child: getItem('assets/image/phone.png', 'FREE',
-              labelColor: MyTheme.redColor),
+              labelColor: Color(0xFFF87A46)),
         ),
         getItem(
           'assets/image/spin.png',
           'SPIN',
+<<<<<<< HEAD
           // key: Consts.globalKeyWheel,
+=======
+          showMark: true,
+          showLock: true,
+          key: Consts.globalKeyWheel,
+>>>>>>> a9b9119419ff68181e33a520a5f102e848f6b22e
           onTap: () {
             Layer.showLuckyWheel(context);
           },

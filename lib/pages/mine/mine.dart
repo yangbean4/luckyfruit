@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo, PersonalInfo;
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
-import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/layer.dart';
+import 'package:provider/provider.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -116,10 +116,9 @@ class _MinePageState extends State<MinePage> {
                     ),
                     _Card(
                       child: Column(children: <Widget>[
-                        Selector<UserModel, String>(
-                            selector: (context, provider) =>
-                                provider.personalInfo?.amount,
-                            builder: (_, String amount, __) {
+                        Selector<MoneyGroup, num>(
+                            selector: (context, provider) => provider?.money,
+                            builder: (_, num amount, __) {
                               return _CardItem(
                                 iconName: 'wallet',
                                 title: 'My wallet',
@@ -128,9 +127,9 @@ class _MinePageState extends State<MinePage> {
                                 onTap: () {
                                   MyNavigator().pushNamed(
                                       context, "WithDrawPage",
-                                      arguments: amount);
+                                      arguments: Util.formatNumber(amount));
                                 },
-                                rightText: '\$${amount}',
+                                rightText: '\$${Util.formatNumber(amount)}',
                                 // onTap: () =>
                                 //     MyNavigator().pushNamed(context, 'records'),
                               );
@@ -362,6 +361,7 @@ class _SelectorUse {
   UserInfo userInfo;
   String userId;
   UserModel userModel;
+
   _SelectorUse({this.userModel})
       : userInfo = userModel.userInfo,
         userId = userModel.value.acct_id;
@@ -369,6 +369,7 @@ class _SelectorUse {
 
 class _Card extends StatelessWidget {
   final Widget child;
+
   const _Card({Key key, this.child}) : super(key: key);
 
   @override
@@ -396,6 +397,7 @@ class _CardItem extends StatelessWidget {
   final Widget right;
   final Function onTap;
   final bool border;
+
   const _CardItem(
       {Key key,
       @required this.iconName,

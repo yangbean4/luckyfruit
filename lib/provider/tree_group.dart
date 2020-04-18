@@ -57,6 +57,15 @@ class TreeGroup with ChangeNotifier {
 
   bool get isLoad => _isLoad;
 
+  // 当前活跃的限时分红树
+  Tree _currentLimitedBonusTree;
+
+  Tree get currentLimitedBonusTree => _currentLimitedBonusTree;
+
+  set setCurrentLimitedBonusTree(Tree tree) {
+    _currentLimitedBonusTree = tree;
+  }
+
   // 全球分红树 数据
   GlobalDividendTree _globalDividendTree;
 
@@ -74,6 +83,8 @@ class TreeGroup with ChangeNotifier {
 
   // 随机的等级
   num get _treasugrade => _luckyGroup.issed?.random_m_level;
+
+  MoneyGroup get moneyGroup => _moneyGroup;
 
   // 冷却时间
   int delayTime;
@@ -185,13 +196,10 @@ class TreeGroup with ChangeNotifier {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         Tree tree = _treeList.firstWhere((t) => t.x == x && t.y == y,
             orElse: () => null);
-        // 如果出现限时分红树的showCountDown为false的情况
-        // (测试时有出现过,但还不清楚什么原因导致的), 删除这棵树
-        if (tree == null ||
-            (tree?.type == TreeType.Type_TimeLimited_Bonus &&
-                !tree?.showCountDown) ||
-            // 会出现gradle==0的情况
-            (tree?.grade == 0)) {
+        // 对存在的限时分红树特殊处理
+        handleLimitedBonusTree(tree);
+        // 会出现gradle==0的情况
+        if (tree == null || (tree?.grade == 0)) {
           _treeList.remove(tree);
           continue;
         }
@@ -201,6 +209,32 @@ class TreeGroup with ChangeNotifier {
     }
 
     return treeMatrix;
+  }
+
+  /**
+   * 对存在的限时分红树特殊处理
+   */
+  void handleLimitedBonusTree(Tree tree) {
+    // 如果出现限时分红树的showCountDown为false的情况
+    if (tree?.type == TreeType.Type_TimeLimited_Bonus) {
+      tree?.showCountDown = true;
+      DateTime plantedTime =
+          DateTime.fromMillisecondsSinceEpoch(tree.timePlantedLimitedBonusTree);
+      Duration difference = DateTime.now().difference(plantedTime);
+
+      print(
+          "handleLimitedBonusTree: ${difference.inSeconds}, ${tree.originalDuration}, ${tree.treeId}");
+
+      int remainTime = tree.originalDuration - difference.inSeconds;
+      if (remainTime <= 0) {
+        // 如果从种下到现在的时间已经超过了分红树的总时长，则表明倒计时已经完成
+        tree.duration = 0;
+        setCurrentLimitedBonusTree = tree;
+      } else {
+        // 倒计时还没有走完，继续走
+        tree.duration = remainTime;
+      }
+    }
   }
 
   // 将对象转为json
@@ -258,6 +292,10 @@ class TreeGroup with ChangeNotifier {
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
           int.tryParse(group2['upDateTime']) * 1000);
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
+      if (upDateTime1.isAtSameMomentAs(upDateTime2)) {
+        // 如果更新时间一样，使用本地的
+        group = group1;
+      }
     }
     return group;
   }
@@ -317,6 +355,18 @@ class TreeGroup with ChangeNotifier {
     _isLoad = true;
     _dataLoad = true;
     notifyListeners();
+
+    if (maxLevel() >= 6) {
+      // 刚进来时判断最大等级树木已经超过6级，则不再显示大转盘解锁动画和大转盘锁icon
+      Storage.setItem(Consts.SP_KEY_UNLOCK_WHEEL, "1");
+      _luckyGroup.setShowLuckyWheelLockIcon(false, notify: false);
+
+      Storage.getItem(Consts.SP_KEY_GUIDANCE_WHEEL).then((value) {
+        if (value == null) {
+          _luckyGroup.setShowLuckyWheelDot(true, notify: false);
+        }
+      });
+    }
     return this;
   }
 
@@ -503,8 +553,7 @@ class TreeGroup with ChangeNotifier {
         Layer.showContinentsMergeWindow();
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
-        Layer.showHopsMergeWindow(
-            _luckyGroup?.issed?.hops_reward?.toString() ?? "--");
+        Layer.showHopsMergeWindow(_luckyGroup?.issed?.hops_reward, source, target);
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
@@ -702,6 +751,9 @@ class TreeGroup with ChangeNotifier {
 
   ///删除指定的树木
   deleteSpecificTree(Tree tree) {
+    if (tree == null) {
+      return;
+    }
     _treeList.remove(tree);
     save();
   }
@@ -727,7 +779,7 @@ class TreeGroup with ChangeNotifier {
   deleteHopsTrees() {
     TreeType.Hops_Trees_List.forEach((item) {
       Tree tree = _treeList.firstWhere((treeItem) {
-        return treeItem.type.compareTo(item) == 0;
+        return treeItem?.type != null && treeItem?.type?.compareTo(item) == 0;
       }, orElse: () => null);
 
       print("deleteHopsTrees item=${tree.type}");
@@ -782,6 +834,10 @@ class TreeGroup with ChangeNotifier {
       Map<String, dynamic> ajax = await Service().wishTreeDraw({
         'acct_id': acct_id,
       });
+      if (ajax == null) {
+        print("领取许愿树失败");
+        return;
+      }
       Tree tree = Tree(
           grade: Tree.MAX_LEVEL,
           type: TreeType.Type_Wishing,

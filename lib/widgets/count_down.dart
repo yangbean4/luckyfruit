@@ -1,6 +1,6 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/index.dart';
 
 class Countdown extends StatefulWidget {
   const Countdown({
@@ -15,6 +15,7 @@ class Countdown extends StatefulWidget {
   final Duration interval;
   final void Function() onFinish;
   final Widget Function(BuildContext context, Duration remaining) builder;
+
   @override
   _CountdownState createState() => _CountdownState();
 }

@@ -1,15 +1,31 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 class HopsMergeWidget extends StatelessWidget {
   final Function onStartMergeFun;
-  HopsMergeWidget({Key key, this.onStartMergeFun}) : super(key: key);
+  final Tree source;
+  final Tree target;
+  num femaleTreeId;
+  num maleTreeId;
+
+  HopsMergeWidget({Key key, this.onStartMergeFun, this.source, this.target})
+      : super(key: key) {
+    if (source.type == TreeType.Type_Hops_Female) {
+      femaleTreeId = source.treeId;
+      maleTreeId = target.treeId;
+    } else {
+      femaleTreeId = target.treeId;
+      maleTreeId = source.treeId;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget bigCircle = new Container(
@@ -62,40 +78,52 @@ class HopsMergeWidget extends StatelessWidget {
                       left: ScreenUtil().setWidth(670),
                       top: ScreenUtil().setWidth(0),
                     ),
-                    Positioned(
-                      child: GestureDetector(
-                        onTap: () {
-                          if (!checkAllHopsTreeExits(treeGroup)) {
-                            print("雌雄花树还没有集全");
-                            Layer.toastWarning("Collection Not Complete yet");
-                            return;
-                          }
+                    Selector<UserModel, String>(
+                        selector: (context, provider) => provider.value.acct_id,
+                        builder: (_, accId, __) {
+                          return Positioned(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (!checkAllHopsTreeExits(treeGroup)) {
+                                  print("雌雄花树还没有集全");
+                                  Layer.toastWarning(
+                                      "Collection Not Complete yet");
+                                  return;
+                                }
 
-                          print("开始合成雌雄花树");
-                          // 删除雌雄花树
-                          treeGroup.deleteHopsTrees();
-                          onStartMergeFun();
-                        },
-                        child: Stack(children: [
-                          Image.asset(
-                              "assets/image/hops_merge_trigger_btn.png"),
-                          Align(
-                              alignment: Alignment(0, -0.3),
-                              child: Text(
-                                "Merge",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setSp(50),
-                                ),
-                              )),
-                        ]),
-                      ),
-                      width: ScreenUtil().setWidth(250),
-                      height: ScreenUtil().setWidth(230),
-                      left: ScreenUtil().setWidth(300),
-                      top: ScreenUtil().setWidth(260),
-                    ),
+                                print("开始合成雌雄花树");
+                                // 删除雌雄花树
+                                treeGroup.deleteHopsTrees();
+
+                                // 调用雌雄花树合成账户加钱接口
+                                Service().composeFemailMail({
+                                  'acct_id': accId,
+                                  'mail_id': maleTreeId,
+                                  'femail_id': femaleTreeId
+                                });
+                                onStartMergeFun();
+                              },
+                              child: Stack(children: [
+                                Image.asset(
+                                    "assets/image/hops_merge_trigger_btn.png"),
+                                Align(
+                                    alignment: Alignment(0, -0.3),
+                                    child: Text(
+                                      "Merge",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: ScreenUtil().setSp(50),
+                                      ),
+                                    )),
+                              ]),
+                            ),
+                            width: ScreenUtil().setWidth(250),
+                            height: ScreenUtil().setWidth(230),
+                            left: ScreenUtil().setWidth(300),
+                            top: ScreenUtil().setWidth(260),
+                          );
+                        }),
                   ]);
                 })));
   }
@@ -127,7 +155,7 @@ class HopsMergeWidget extends StatelessWidget {
           child: Image.asset("assets/tree/$treeType.png")),
       Align(
         child: Image.asset("assets/image/$labelBgName.png"),
-        alignment: Alignment.centerRight,
+        alignment: Alignment(0, 1.3),
       )
     ];
   }
