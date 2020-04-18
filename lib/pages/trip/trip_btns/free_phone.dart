@@ -191,16 +191,16 @@ class _Phone extends StatelessWidget {
                               ]),
                         ),
                       ),
-                      // Center(
-                      //     child: Text(
-                      //   '$piecesx/100',
-                      //   style: TextStyle(
-                      //       fontFamily: FontFamily.bold,
-                      //       color: Colors.white,
-                      //       fontSize: ScreenUtil().setSp(26),
-                      //       height: 1,
-                      //       fontWeight: FontWeight.bold),
-                      // )),
+                      Center(
+                          child: Text(
+                        '$piecesx/100',
+                        style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            color: Color.fromRGBO(248, 108, 51, 1),
+                            fontSize: ScreenUtil().setSp(26),
+                            height: 1,
+                            fontWeight: FontWeight.bold),
+                      )),
                     ])),
                 SizedBox(height: ScreenUtil().setWidth(30)),
 
@@ -730,16 +730,16 @@ class _Wishing extends StatelessWidget {
                                       ]),
                                 ),
                               ),
-                              // Center(
-                              //     child: Text(
-                              //   '$piecesx/100',
-                              //   style: TextStyle(
-                              //       fontFamily: FontFamily.bold,
-                              //       color: Colors.white,
-                              //       fontSize: ScreenUtil().setSp(26),
-                              //       height: 1,
-                              //       fontWeight: FontWeight.bold),
-                              // )),
+                              Center(
+                                  child: Text(
+                                '$wishTreeNum/100',
+                                style: TextStyle(
+                                    fontFamily: FontFamily.bold,
+                                    color: Color.fromRGBO(248, 108, 51, 1),
+                                    fontSize: ScreenUtil().setSp(26),
+                                    height: 1,
+                                    fontWeight: FontWeight.bold),
+                              )),
                             ])),
                         SizedBox(height: ScreenUtil().setWidth(20)),
                         GestureDetector(
