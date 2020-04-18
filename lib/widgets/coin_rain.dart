@@ -39,8 +39,12 @@ class _CoinRainState extends State with TickerProviderStateMixin {
     super.initState();
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 3000 * screen), vsync: this);
-    curveEaseIn = new CurvedAnimation(parent: controller, curve: Curves.linear);
+        duration: new Duration(milliseconds: 1500 * screen), vsync: this);
+    curveEaseIn = new CurvedAnimation(
+        parent: controller, curve:
+//    _ShakeCurve(longTime: 3000 * screen)
+    Curves.linear
+    );
 
     posAnimation = Tween<double>(
       begin: -screen.toDouble(),
@@ -53,15 +57,9 @@ class _CoinRainState extends State with TickerProviderStateMixin {
     //     luckyGroup.setShowCoinRain = false;
     //   }
     // });
-    Widget child = Container(
-      child: Image.asset(
-        'assets/image/gold_400.png',
-        width: ScreenUtil().setWidth(goldImgSize),
-        height: ScreenUtil().setWidth(goldImgSize),
-      ),
-    );
 
     for (int i = 0; i < count; i++) {
+      Widget child = getIconWidget();
       double leftRandom =
           Random().nextInt(ScreenUtil().setWidth(1080).round()).toDouble() -
               ScreenUtil().setWidth(goldImgSize);
@@ -92,6 +90,16 @@ class _CoinRainState extends State with TickerProviderStateMixin {
             ..forward();
         }
       });
+  }
+
+  getIconWidget() {
+    return Container(
+      child: Image.asset(
+        'assets/image/coin_rain_icon${Random().nextInt(6)}.png',
+        width: ScreenUtil().setWidth(goldImgSize),
+        height: ScreenUtil().setWidth(goldImgSize),
+      ),
+    );
   }
 
   @override
