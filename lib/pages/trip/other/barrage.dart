@@ -106,7 +106,7 @@ class _BarrageState extends State<Barrage> {
     return show && msg != null
         ? Positioned(
             left: ScreenUtil().setWidth(130),
-            top: ScreenUtil().setWidth(220),
+            top: ScreenUtil().setWidth(150),
             child: Container(
               width: ScreenUtil().setWidth(820),
               height: ScreenUtil().setWidth(44),

@@ -60,15 +60,16 @@ class _TripBtnsState extends State<TripBtns> {
     bool showLock = false,
   }) {
     Widget item = Container(
-      width: ScreenUtil().setWidth(96),
-      height: ScreenUtil().setWidth(96),
+      width: ScreenUtil().setWidth(130),
+      // height: ScreenUtil().setWidth(130),
+      margin: EdgeInsets.only(right: ScreenUtil().setWidth(15)),
       key: key,
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(96),
-            height: ScreenUtil().setWidth(96),
+            width: ScreenUtil().setWidth(130),
+            height: ScreenUtil().setWidth(130),
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -76,8 +77,8 @@ class _TripBtnsState extends State<TripBtns> {
             child: Stack(alignment: AlignmentDirectional.center, children: [
               Image.asset(
                 imgSrc,
-                width: ScreenUtil().setWidth(66),
-                height: ScreenUtil().setWidth(66),
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setWidth(80),
               ),
               showMark
                   ? Selector<LuckyGroup, bool>(
@@ -86,8 +87,8 @@ class _TripBtnsState extends State<TripBtns> {
                       builder: (_, bool show, __) {
                         return show
                             ? Positioned(
-                                top: ScreenUtil().setWidth(0),
-                                right: ScreenUtil().setWidth(0),
+                                top: ScreenUtil().setWidth(10),
+                                right: ScreenUtil().setWidth(10),
                                 child: Container(
                                   width: ScreenUtil().setWidth(24),
                                   height: ScreenUtil().setWidth(24),
@@ -116,8 +117,8 @@ class _TripBtnsState extends State<TripBtns> {
                                 alignment: AlignmentDirectional.center,
                                 children: <Widget>[
                                   Container(
-                                    width: ScreenUtil().setWidth(96),
-                                    height: ScreenUtil().setWidth(96),
+                                    width: ScreenUtil().setWidth(130),
+                                    height: ScreenUtil().setWidth(130),
                                     decoration: BoxDecoration(
                                       color: Color.fromRGBO(0, 0, 0, 0.5),
                                       shape: BoxShape.circle,
@@ -136,12 +137,12 @@ class _TripBtnsState extends State<TripBtns> {
             ]),
           ),
           Positioned(
-            top: ScreenUtil().setWidth(86),
-            left:
-                ScreenUtil().setWidth(96 - (labelColor == null ? 146 : 80)) / 2,
+            top: ScreenUtil().setWidth(110),
+            left: ScreenUtil().setWidth(130 - (labelColor == null ? 146 : 80)) /
+                2,
             child: Center(
               child: Container(
-                height: ScreenUtil().setWidth(20),
+                height: ScreenUtil().setWidth(32),
                 width: ScreenUtil().setWidth(labelColor == null ? 146 : 80),
                 decoration: BoxDecoration(
                     color: labelColor,
@@ -161,7 +162,7 @@ class _TripBtnsState extends State<TripBtns> {
                                     ..strokeWidth = ScreenUtil().setWidth(3)
                                     ..color = Colors.white,
                                   fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(20),
+                                  fontSize: ScreenUtil().setSp(24),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -172,11 +173,12 @@ class _TripBtnsState extends State<TripBtns> {
                                       : Colors.white,
                                   height: 1,
                                   fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(20),
+                                  fontSize: ScreenUtil().setSp(24),
                                   fontWeight: FontWeight.bold),
                             )
                           ]))
-                        : Text(
+                        : Center(
+                            child: Text(
                             label,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -185,9 +187,9 @@ class _TripBtnsState extends State<TripBtns> {
                                     : Colors.white,
                                 height: 1,
                                 fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setSp(20),
+                                fontSize: ScreenUtil().setSp(24),
                                 fontWeight: FontWeight.bold),
-                          ),
+                          )),
               ),
             ),
           )
@@ -252,7 +254,7 @@ class _TripBtnsState extends State<TripBtns> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Selector<LuckyGroup, LuckyGroup>(

@@ -147,10 +147,21 @@ class _TripState extends State<Trip>
                   ),
                   // 头部 多按钮等
                   Positioned(
+                      top: ScreenUtil().setWidth(24),
+                      right: 0,
+                      child: // 右上角入口按钮
+                          Container(
+                        width: ScreenUtil().setWidth(740),
+                        height: ScreenUtil().setWidth(140),
+                        child: TripBtns(),
+                      )),
+                  Positioned(
                     top: ScreenUtil().setWidth(24),
                     child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(60)),
+                        margin:
+                            EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+                        // padding: EdgeInsets.symmetric(
+                        //     horizontal: ScreenUtil().setWidth(60)),
 //                        height: ScreenUtil().setWidth(280),
                         child: Selector<TourismMap, _SelectorUse>(
                             selector: (context, provider) => _SelectorUse(
@@ -383,12 +394,6 @@ class _TripState extends State<Trip>
                                           ),
                                         ],
                                       )),
-                                  // 右上角入口按钮
-                                  Container(
-                                    width: ScreenUtil().setWidth(960 - 378),
-                                    height: ScreenUtil().setWidth(106),
-                                    child: TripBtns(),
-                                  )
                                 ],
                               );
                             })),
