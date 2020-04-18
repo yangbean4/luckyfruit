@@ -154,7 +154,8 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                       });
                     },
                     child: Container(
-                      height: ScreenUtil().setWidth(67),
+                      height: ScreenUtil().setWidth(90),
+                      width: ScreenUtil().setWidth(1080),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -172,6 +173,8 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           Container(
                             width: ScreenUtil().setWidth(120),
                             height: ScreenUtil().setWidth(56),
+                            padding:
+                                EdgeInsets.only(top: ScreenUtil().setWidth(6)),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(28)),
@@ -189,7 +192,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                               style: TextStyle(
                                   fontFamily: FontFamily.semibold,
                                   fontSize: ScreenUtil().setSp(36),
-                                  height: 1.2,
+                                  height: 1,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500),
                             ),

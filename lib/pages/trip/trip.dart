@@ -161,6 +161,7 @@ class _TripState extends State<Trip>
                                 level: provider.level),
                             builder:
                                 (context, _SelectorUse _selectorUse, child) {
+                              String cityName = _selectorUse.city.toUpperCase();
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -193,11 +194,17 @@ class _TripState extends State<Trip>
                                                     MainAxisAlignment.start,
                                                 children: <Widget>[
                                                   Container(
-                                                    width: ScreenUtil()
-                                                        .setWidth(312),
+                                                    // width: ScreenUtil()
+                                                    //     .setWidth(312),
+                                                    margin: EdgeInsets.only(
+                                                        top: ScreenUtil()
+                                                            .setWidth(8)),
                                                     child: Text(
-                                                      _selectorUse.city
-                                                          .toUpperCase(),
+                                                      cityName,
+                                                      // _selectorUse.city
+                                                      //     .toUpperCase(),
+                                                      overflow:
+                                                          TextOverflow.visible,
                                                       style: TextStyle(
                                                           height: 1,
                                                           fontFamily:
@@ -206,23 +213,37 @@ class _TripState extends State<Trip>
                                                               FontWeight.w900,
                                                           color: Colors.white,
                                                           fontSize: ScreenUtil()
-                                                              .setSp(74)),
+                                                              .setSp(
+                                                                  cityName.length >=
+                                                                          9
+                                                                      ? 36
+                                                                      : 56)),
                                                     ),
                                                   ),
                                                   Container(
                                                       margin: EdgeInsets.only(
-                                                          right: ScreenUtil()
-                                                              .setWidth(30),
                                                           top: ScreenUtil()
-                                                              .setWidth(9),
+                                                              .setWidth(
+                                                                  cityName.length >=
+                                                                          9
+                                                                      ? 0
+                                                                      : 12),
                                                           left: ScreenUtil()
-                                                              .setWidth(12)),
+                                                              .setWidth(
+                                                                  cityName.length >=
+                                                                          9
+                                                                      ? 5
+                                                                      : 10)),
                                                       child: Image.asset(
                                                         'assets/image/cityarrow.png',
                                                         width: ScreenUtil()
                                                             .setWidth(21),
                                                         height: ScreenUtil()
-                                                            .setWidth(35),
+                                                            .setWidth(
+                                                                cityName.length >=
+                                                                        9
+                                                                    ? 20
+                                                                    : 30),
                                                       )),
                                                 ],
                                               ),

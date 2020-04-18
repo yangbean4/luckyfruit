@@ -49,7 +49,7 @@ class _MinePageState extends State<MinePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            width: ScreenUtil().setWidth(400),
+                            width: ScreenUtil().setWidth(700),
                             child: Column(
                               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,

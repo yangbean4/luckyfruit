@@ -258,7 +258,7 @@ class _TripBtnsState extends State<TripBtns> {
         getItem(
           'assets/image/spin.png',
           'SPIN',
-          key: Consts.globalKeyWheel,
+          // key: Consts.globalKeyWheel,
           onTap: () {
             Layer.showLuckyWheel(context);
           },
