@@ -67,6 +67,11 @@ class _GameState extends State<Game> with MyNavigator {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+      Layer.limitedTimeBonusTreeEndUp(treeGroup.currentLimitedBonusTree);
+    });
   }
 
   // List<Widget> renderGrid(BuildContext context) {

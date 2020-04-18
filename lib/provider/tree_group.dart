@@ -57,6 +57,15 @@ class TreeGroup with ChangeNotifier {
 
   bool get isLoad => _isLoad;
 
+  // 当前活跃的限时分红树
+  Tree _currentLimitedBonusTree;
+
+  Tree get currentLimitedBonusTree => _currentLimitedBonusTree;
+
+  set setCurrentLimitedBonusTree(Tree tree) {
+    _currentLimitedBonusTree = tree;
+  }
+
   // 全球分红树 数据
   GlobalDividendTree _globalDividendTree;
 
@@ -187,10 +196,8 @@ class TreeGroup with ChangeNotifier {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         Tree tree = _treeList.firstWhere((t) => t.x == x && t.y == y,
             orElse: () => null);
-        // 如果出现限时分红树的showCountDown为false的情况
-        if (tree?.type == TreeType.Type_TimeLimited_Bonus) {
-          tree?.showCountDown = true;
-        }
+        // 对存在的限时分红树特殊处理
+        handleLimitedBonusTree(tree);
         // 会出现gradle==0的情况
         if (tree == null || (tree?.grade == 0)) {
           _treeList.remove(tree);
@@ -202,6 +209,32 @@ class TreeGroup with ChangeNotifier {
     }
 
     return treeMatrix;
+  }
+
+  /**
+   * 对存在的限时分红树特殊处理
+   */
+  void handleLimitedBonusTree(Tree tree) {
+    // 如果出现限时分红树的showCountDown为false的情况
+    if (tree?.type == TreeType.Type_TimeLimited_Bonus) {
+      tree?.showCountDown = true;
+      DateTime plantedTime =
+          DateTime.fromMillisecondsSinceEpoch(tree.timePlantedLimitedBonusTree);
+      Duration difference = DateTime.now().difference(plantedTime);
+
+      print(
+          "handleLimitedBonusTree: ${difference.inSeconds}, ${tree.originalDuration}, ${tree.treeId}");
+
+      int remainTime = tree.originalDuration - difference.inSeconds;
+      if (remainTime <= 0) {
+        // 如果从种下到现在的时间已经超过了分红树的总时长，则表明倒计时已经完成
+        tree.duration = 0;
+        setCurrentLimitedBonusTree = tree;
+      } else {
+        // 倒计时还没有走完，继续走
+        tree.duration = remainTime;
+      }
+    }
   }
 
   // 将对象转为json
@@ -508,8 +541,7 @@ class TreeGroup with ChangeNotifier {
         Layer.showContinentsMergeWindow();
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
-        Layer.showHopsMergeWindow(
-            _luckyGroup?.issed?.hops_reward);
+        Layer.showHopsMergeWindow(_luckyGroup?.issed?.hops_reward);
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
@@ -707,6 +739,9 @@ class TreeGroup with ChangeNotifier {
 
   ///删除指定的树木
   deleteSpecificTree(Tree tree) {
+    if (tree == null) {
+      return;
+    }
     _treeList.remove(tree);
     save();
   }

@@ -813,6 +813,9 @@ class Layer {
                     duration: value?.duration,
                     amount: value?.amount,
                     showCountDown: true,
+                    treeId: value.tree_id,
+                    timePlantedLimitedBonusTree:
+                        DateTime.now().millisecondsSinceEpoch,
                   ));
                 },
                 interval: Duration(seconds: 0),
@@ -840,8 +843,11 @@ class Layer {
   /**
    * 显示限时分红树结束
    */
-  static limitedTimeBonusTreeEndUp(BuildContext context, Tree tree) {
-    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+  static limitedTimeBonusTreeEndUp(Tree tree) {
+    TreeGroup treeGroup;
+    if (tree == null) {
+      return;
+    }
     Modal(
         dismissDurationInMilliseconds: Modal.DismissDuration,
         onOk: () {
@@ -854,16 +860,22 @@ class Layer {
         okText: "Claim",
         children: [
           ModalTitle('Awesome'),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
-            child: TreeWidget(
-              tree: treeGroup.topLevelTree,
-              imgHeight: ScreenUtil().setWidth(218),
-              imgWidth: ScreenUtil().setWidth(237),
-              labelWidth: ScreenUtil().setWidth(110),
-              primary: true,
-            ),
-          ),
+          Selector<TreeGroup, TreeGroup>(
+              builder: (context, value, child) {
+                treeGroup = value;
+                return Container(
+                  margin:
+                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
+                  child: TreeWidget(
+                    tree: treeGroup.topLevelTree,
+                    imgHeight: ScreenUtil().setWidth(218),
+                    imgWidth: ScreenUtil().setWidth(237),
+                    labelWidth: ScreenUtil().setWidth(110),
+                    primary: true,
+                  ),
+                );
+              },
+              selector: (context, provider) => provider),
           SecondaryText(
               "Get \$ ${tree.amount ?? "--"} in ${Duration(seconds: tree?.originalDuration).inSeconds ?? "--"} second(s) through the Limited time bonus tree"),
           Container(
@@ -920,7 +932,7 @@ class Layer {
     TopLevelMergeWidget widget;
     Modal(
         width: 900,
-        decorationColor:Color(0xFFD1E7D6),
+        decorationColor: Color(0xFFD1E7D6),
         horizontalPadding: 40,
         onCancel: () {
           return widget.enableClose();

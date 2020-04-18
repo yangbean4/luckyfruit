@@ -81,7 +81,7 @@ class TreeWidget extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               )),
             )),
-        this.showCountDown == true
+        (this.showCountDown == true && tree?.duration > 0)
             ? Positioned(
                 top: -ScreenUtil().setWidth(20),
                 right: -ScreenUtil().setWidth(20),

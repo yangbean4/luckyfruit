@@ -31,6 +31,7 @@ class Tree extends TreePoint {
       this.recycleMoney,
       this.treeId,
       this.amount,
+      this.timePlantedLimitedBonusTree,
       this.duration = 200,
       this.showCountDown = false})
       // 要求传 amount的 时候 type必须为分红树
@@ -50,6 +51,9 @@ class Tree extends TreePoint {
 
   /// 限时分红树已经获取到的奖励部分
   double limitedBonusedAmount = 0.0;
+
+  // 种下限时分红树的时间
+  int timePlantedLimitedBonusTree;
 
   // 分红树 多少钱
   double amount;
@@ -146,8 +150,8 @@ class Tree extends TreePoint {
     ..treeId = json['treeId']
     ..gradeNumber = json['gradeNumber']
     ..limitedBonusedAmount = json['limitedBonusedAmount']
-    ..showCountDown = json['showCountDown']
-  ;
+    ..timePlantedLimitedBonusTree = json['timePlantedLimitedBonusTree']
+    ..showCountDown = json['showCountDown'];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'x': this.x,
@@ -162,5 +166,6 @@ class Tree extends TreePoint {
         'limitedBonusedAmount': this.limitedBonusedAmount,
         'showCountDown': this.showCountDown,
         'originalDuration': this.originalDuration,
+        'timePlantedLimitedBonusTree': this.timePlantedLimitedBonusTree,
       };
 }

@@ -17,7 +17,7 @@ class LimitedBonusTreeConutdownWidget extends StatelessWidget {
         duration: Duration(seconds: tree.duration),
         onFinish: () {
           print("限时分红树倒计时完成");
-          Layer.limitedTimeBonusTreeEndUp(context, tree);
+          Layer.limitedTimeBonusTreeEndUp(tree);
         },
         builder: (context, Duration duration) {
           print("限时分红树倒计时: ${duration.inSeconds}");
