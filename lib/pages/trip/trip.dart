@@ -286,12 +286,12 @@ class _TripState extends State<Trip>
                                                 children: <Widget>[
                                                   Container(
                                                     width: ScreenUtil()
-                                                        .setWidth(288),
+                                                        .setWidth(240),
                                                     height: ScreenUtil()
-                                                        .setWidth(20),
+                                                        .setWidth(16),
                                                     margin: EdgeInsets.only(
                                                         top: ScreenUtil()
-                                                            .setWidth(8)),
+                                                            .setWidth(10)),
                                                     decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       borderRadius:
@@ -299,17 +299,23 @@ class _TripState extends State<Trip>
                                                               Radius.circular(
                                                                   ScreenUtil()
                                                                       .setWidth(
-                                                                          10))),
+                                                                          8))),
                                                     ),
                                                     child: Stack(
                                                         children: <Widget>[
                                                           Container(
                                                             width: ScreenUtil()
-                                                                .setWidth(288 *
+                                                                .setWidth(240 *
+                                                                    4 *
                                                                     _selectorUse
                                                                         .schedule),
                                                             height: ScreenUtil()
-                                                                .setWidth(20),
+                                                                .setWidth(12),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              top: ScreenUtil()
+                                                                  .setWidth(2),
+                                                            ),
                                                             decoration:
                                                                 BoxDecoration(
                                                               color: MyTheme
@@ -318,7 +324,7 @@ class _TripState extends State<Trip>
                                                                   Radius.circular(
                                                                       ScreenUtil()
                                                                           .setWidth(
-                                                                              10))),
+                                                                              6))),
                                                             ),
                                                           )
                                                         ]),
@@ -333,6 +339,15 @@ class _TripState extends State<Trip>
                                                             .setWidth(36),
                                                         decoration:
                                                             BoxDecoration(
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.white,
+                                                              width:
+                                                                  ScreenUtil()
+                                                                      .setWidth(
+                                                                          2),
+                                                              style: BorderStyle
+                                                                  .solid),
                                                           color: MyTheme
                                                               .primaryColor,
                                                           borderRadius: BorderRadius
