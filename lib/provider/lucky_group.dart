@@ -1,42 +1,49 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
 import 'package:luckyfruit/models/index.dart'
     show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig;
 import 'package:luckyfruit/provider/tree_group.dart';
-import './money_group.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/utils/storage.dart';
-import 'package:luckyfruit/config/app.dart' show Event_Name;
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
+import 'package:luckyfruit/utils/storage.dart';
+
+import './money_group.dart';
 
 class LuckyGroup with ChangeNotifier {
   // 检查广告间隔的时间间隔 单位:秒
   static const int CheckTimeInterval = 1;
+
   // 存储 等级数据 的key
   static const String CACHE_COIN_RULE = 'CACHE_COIN_RULE';
+
   // 存储 等级数据 version 的key
   static const String CACHE_COIN_RULE_VERSION = 'CACHE_COIN_RULE_VERSION';
 
   // 存储 手机抽奖 的key
   static const String CACHE_DRAW_INFO = 'CACHE_DRAW_INFO';
+
   // 存储 手机抽奖 version 的key
   static const String CACHE_DRAW_INFO_VERSION = 'CACHE_DRAW_INFO_VERSION';
 
   // 存储 城市图配置 的key
   static const String CACHE_CITY_INFO = 'CACHE_CITY_INFO';
+
   // 存储 城市图配置 version 的key
   static const String CACHE_CITY_INFO_VERSION = 'CACHE_CITY_INFO_VERSION';
 
   // 存储 Issued 的key
   static const String CACHE_TREE_CONFIG = 'CACHE_TREE_CONFIG';
+
   // 存储 Issued version 的key
   static const String CACHE_TREE_CONFIG_VERSION = 'CACHE_TREE_CONFIG_VERSION';
 
   // 存储 Issued 的key
   static const String CACHE_DEPLY = 'CACHE_DEPLY';
+
   // 存储 Issued version 的key
   static const String CACHE_DEPLY_VERSION = 'CACHE_DEPLY_VERSION';
 
@@ -46,6 +53,7 @@ class LuckyGroup with ChangeNotifier {
 
   // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
+
   bool get dataLoad => _dataLoad;
 
   // 检查广告间隔的_Check数组
@@ -53,21 +61,27 @@ class LuckyGroup with ChangeNotifier {
 
   // 等级数据
   List<LevelRoule> _levelRouleList;
+
   List<LevelRoule> get levelRouleList => _levelRouleList;
 
   List<CityInfo> _cityInfoList;
+
   List<CityInfo> get cityInfoList => _cityInfoList;
 
   DrawInfo _drawInfo;
+
   DrawInfo get drawInfo => _drawInfo;
 
   // 是否显示双倍的入口按钮
   bool _showDouble = false;
+
   bool get showDouble => _showDouble;
 
   /// 是否显示金币雨
   bool _showCoinRain = false;
+
   bool get showCoinRain => _showCoinRain;
+
   set setShowCoinRain(bool show) {
     _showCoinRain = show;
     notifyListeners();
@@ -75,7 +89,9 @@ class LuckyGroup with ChangeNotifier {
 
   /// 是否显示添加树circle指引
   bool _showCircleGuidance = false;
+
   bool get showCircleGuidance => _showCircleGuidance;
+
   set setShowCircleGuidance(bool show) {
     _showCircleGuidance = show;
     notifyListeners();
@@ -83,7 +99,9 @@ class LuckyGroup with ChangeNotifier {
 
   /// 是否显示合成树rrect指引
   bool _showRRectGuidance = false;
+
   bool get showRRectGuidance => _showRRectGuidance;
+
   set setShowRRectGuidance(bool show) {
     _showRRectGuidance = show;
     notifyListeners();
@@ -91,7 +109,9 @@ class LuckyGroup with ChangeNotifier {
 
   /// 是否显示大转盘引导动画
   bool _showLuckyWheelGuidance = false;
+
   bool get showLuckyWheelGuidance => _showLuckyWheelGuidance;
+
   set setShowLuckyWheelGuidance(bool show) {
     _showLuckyWheelGuidance = show;
     notifyListeners();
@@ -99,24 +119,53 @@ class LuckyGroup with ChangeNotifier {
 
   /// 是否显示大转盘解锁动画
   bool _showLuckyWheelUnlock = false;
+
   bool get showLuckyWheelUnlock => _showLuckyWheelUnlock;
+
   set setShowLuckyWheelUnlock(bool show) {
     _showLuckyWheelUnlock = show;
     notifyListeners();
   }
 
+  /// 是否显示大转盘上面的锁icon
+  bool _showLuckyWheelLockIcon = true;
+
+  bool get showLuckyWheelLockIcon => _showLuckyWheelLockIcon;
+
+  void setShowLuckyWheelLockIcon(bool show, {bool notify = true}) {
+    _showLuckyWheelLockIcon = show;
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  /// 是否显示大转盘上方的红点
+  bool _showLuckyWheelDot = false;
+
+  bool get showLuckyWheelDot => _showLuckyWheelDot;
+
+  void setShowLuckyWheelDot(bool show, {bool notify = true}) {
+    _showLuckyWheelDot = show;
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
   // 当前是双倍
   bool _showAuto = false;
+
   bool get showAuto => _showAuto;
 
   // 是否显示🎈
   bool _showballoon = false;
+
   bool get showballoon => _showballoon;
 
   TreeConfig treeConfig;
 
 // 展示广告时间
   DateTime _showAdtime;
+
 // // 是否显示双倍的入口按钮
 //   bool _showDouble = false;
 //   bool get showDouble => _showDouble;
@@ -133,19 +182,23 @@ class LuckyGroup with ChangeNotifier {
 
   // 后端返回的数据 如果为空说明是第一次领取
   String last_draw_time;
+
   // 领奖倒计时
   Duration _getGoldCountdown;
+
   Duration get getGoldCountdown => _getGoldCountdown;
 
   void setGoldContDownDuration(Duration duration) =>
       _getGoldCountdown = duration;
 
   int _receriveTime;
+
   // 领取时长
   int get receriveTime => _receriveTime;
 
   // 从后端获取的配置Json
   Issued _issued;
+
   Issued get issed => _issued;
 
   void doubleStart() {
@@ -215,16 +268,22 @@ class LuckyGroup with ChangeNotifier {
     EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coin.toDouble());
   }
 
-/**
- * last_draw_time : 上一次领取时间戳 用于 30/60分钟的领取
- * configVersion: 后端下发的配置版本号
- */
+  /**
+   * last_draw_time : 上一次领取时间戳 用于 30/60分钟的领取
+   * configVersion: 后端下发的配置版本号
+   */
   init(String last_draw_time, String configVersion, String _acct_id) async {
     acct_id = _acct_id;
     _transTime(last_draw_time);
 
     //观看广告 ;重制最后看广告时间
     EVENT_BUS.on(MoAd.VIEW_AD, (_) => showAd());
+
+    Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
+      if (value == null) {
+        _showLuckyWheelLockIcon = true;
+      }
+    });
 
     // 开启定时器;控制显示🎈和右侧按钮
     // 利用Future.wait 的并发 同时处理
@@ -480,5 +539,6 @@ class LuckyGroup with ChangeNotifier {
 class _Check {
   Duration interval;
   void Function() callBack;
+
   _Check({this.callBack, this.interval});
 }

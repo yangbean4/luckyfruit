@@ -236,13 +236,14 @@ class PartnerState extends State<Partner> {
                   width: ScreenUtil().setWidth(1080),
                   height: ScreenUtil().setWidth(480),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment(-1.0, 0.0),
-                        end: Alignment(1.0, 0.0),
-                        colors: [
-                          Color.fromRGBO(103, 228, 127, 1),
-                          Color.fromRGBO(59, 206, 100, 1),
-                        ]),
+//                    gradient: LinearGradient(
+//                        begin: Alignment(-1.0, 0.0),
+//                        end: Alignment(1.0, 0.0),
+//                        colors: [
+//                          Color.fromRGBO(103, 228, 127, 1),
+//                          Color.fromRGBO(59, 206, 100, 1),
+//                        ]),
+                    color: MyTheme.primaryColor,
                   ),
                   child: Stack(children: [
                     Positioned(

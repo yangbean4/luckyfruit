@@ -57,6 +57,7 @@ class _TripBtnsState extends State<TripBtns> {
     GlobalKey key,
     Function onTap,
     bool showMark = false,
+    bool showLock = false,
   }) {
     Widget item = Container(
       width: ScreenUtil().setWidth(96),
@@ -79,25 +80,59 @@ class _TripBtnsState extends State<TripBtns> {
                 height: ScreenUtil().setWidth(66),
               ),
               showMark
-                  ? Positioned(
-                      top: ScreenUtil().setWidth(0),
-                      right: ScreenUtil().setWidth(0),
-                      child: Container(
-                        width: ScreenUtil().setWidth(24),
-                        height: ScreenUtil().setWidth(24),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment(-1.0, 0.0),
-                              end: Alignment(1.0, 0.0),
-                              colors: <Color>[
-                                Color.fromRGBO(253, 217, 76, 1),
-                                Color.fromRGBO(249, 93, 76, 1),
-                              ]),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    )
-                  : Container()
+                  ? Selector<LuckyGroup, bool>(
+                      selector: (context, provider) =>
+                          provider.showLuckyWheelDot,
+                      builder: (_, bool show, __) {
+                        return show
+                            ? Positioned(
+                                top: ScreenUtil().setWidth(0),
+                                right: ScreenUtil().setWidth(0),
+                                child: Container(
+                                  width: ScreenUtil().setWidth(24),
+                                  height: ScreenUtil().setWidth(24),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment(-1.0, 0.0),
+                                        end: Alignment(1.0, 0.0),
+                                        colors: <Color>[
+                                          Color.fromRGBO(253, 217, 76, 1),
+                                          Color.fromRGBO(249, 93, 76, 1),
+                                        ]),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              )
+                            : Container();
+                      })
+                  : Container(),
+              showLock
+                  ? Selector<LuckyGroup, bool>(
+                      selector: (context, provider) =>
+                          provider.showLuckyWheelLockIcon,
+                      builder: (_, bool show, __) {
+                        return show
+                            ? Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: ScreenUtil().setWidth(96),
+                                    height: ScreenUtil().setWidth(96),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Image.asset(
+                                    "assets/image/lucky_wheel_lock.png",
+                                    width: ScreenUtil().setWidth(32),
+                                    height: ScreenUtil().setWidth(40),
+                                  )
+                                ],
+                              )
+                            : Container();
+                      })
+                  : Container(),
             ]),
           ),
           Positioned(
@@ -273,6 +308,7 @@ class _TripBtnsState extends State<TripBtns> {
           'assets/image/spin.png',
           'SPIN',
           showMark: true,
+          showLock: true,
           key: Consts.globalKeyWheel,
           onTap: () {
             Layer.showLuckyWheel(context);

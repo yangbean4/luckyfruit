@@ -355,6 +355,18 @@ class TreeGroup with ChangeNotifier {
     _isLoad = true;
     _dataLoad = true;
     notifyListeners();
+
+    if (maxLevel() >= 6) {
+      // 刚进来时判断最大等级树木已经超过6级，则不再显示大转盘解锁动画和大转盘锁icon
+      Storage.setItem(Consts.SP_KEY_UNLOCK_WHEEL, "1");
+      _luckyGroup.setShowLuckyWheelLockIcon(false, notify: false);
+
+      Storage.getItem(Consts.SP_KEY_GUIDANCE_WHEEL).then((value) {
+        if (value == null) {
+          _luckyGroup.setShowLuckyWheelDot(true, notify: false);
+        }
+      });
+    }
     return this;
   }
 
