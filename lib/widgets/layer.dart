@@ -1242,7 +1242,10 @@ class Layer {
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
   static showMoneyRewardAfterHopsMerge(num rewardDollar) {
-    Modal(onOk: () {}, okText: "Claim", children: <Widget>[
+    Modal(onOk: () {
+      // 本地增加money
+      EVENT_BUS.emit(MoneyGroup.ADD_MONEY, rewardDollar?.toDouble());
+    }, okText: "Claim", children: <Widget>[
       Image.asset(
         'assets/image/bg_dollar.png',
         width: ScreenUtil().setWidth(278),
