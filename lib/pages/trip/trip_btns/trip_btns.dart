@@ -261,7 +261,7 @@ class _TripBtnsState extends State<TripBtns> {
           selector: (context, provider) => provider,
           builder: (_, LuckyGroup selectorUse, __) {
             return getItem(
-              'assets/image/gold.png',
+              'assets/image/gold_right_btn.png',
               isCountdown && selectorUse.getGoldCountdown != null
                   ? CountdownFormatted(
                       duration: selectorUse.getGoldCountdown,
@@ -272,15 +272,17 @@ class _TripBtnsState extends State<TripBtns> {
                       },
                       builder: (context, Duration duration) {
                         selectorUse.setGoldContDownDuration(duration);
-                        return Text(
-                          Util.formatCountDownTimer(duration),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              height: 1,
-                              fontFamily: FontFamily.bold,
-                              fontSize: ScreenUtil().setSp(20),
-                              fontWeight: FontWeight.bold),
+                        return Center(
+                          child: Text(
+                            Util.formatCountDownTimer(duration),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                height: 1,
+                                fontFamily: FontFamily.bold,
+                                fontSize: ScreenUtil().setSp(20),
+                                fontWeight: FontWeight.bold),
+                          ),
                         );
                       })
                   : 'GET',

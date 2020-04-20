@@ -544,14 +544,14 @@ class _EarningWidgetState extends State<EarningWidget> {
         width: ScreenUtil().setWidth(378),
         height: ScreenUtil().setWidth(80),
         padding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(24),
+          horizontal: ScreenUtil().setWidth(15),
         ),
         decoration: BoxDecoration(
 //            color: Colors.red,
             image: DecorationImage(
               alignment: Alignment.center,
               image: AssetImage('assets/image/dividend.png'),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             )),
         child: Stack(
           overflow: Overflow.visible,
