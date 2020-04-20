@@ -739,16 +739,16 @@ class Layer {
                               ]),
                         ),
                         Container(
-                            height: ScreenUtil().setWidth(2849),
+                            height: ScreenUtil().setWidth(2133),
                             width: ScreenUtil().setWidth(1080),
                             // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                             child: Container(
                               width: ScreenUtil().setWidth(992),
-                              height: ScreenUtil().setWidth(2849),
+                              height: ScreenUtil().setWidth(2133),
                               child: Image.asset(
                                 'assets/image/how_get_money.png',
                                 width: ScreenUtil().setWidth(992),
-                                height: ScreenUtil().setWidth(2849),
+                                height: ScreenUtil().setWidth(2133),
                               ),
                             )),
                       ],

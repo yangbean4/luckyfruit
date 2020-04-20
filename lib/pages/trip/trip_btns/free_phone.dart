@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,10 @@ class FreePhone extends StatelessWidget {
   FreePhone({Key key, this.child}) : super(key: key);
 
   _showModal() {
+    BurialReport.report('page_imp', {'page_imp': 'phone'});
+    BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
+    BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
+
     Modal(
         verticalPadding: 0,
         horizontalPadding: 0,
@@ -31,7 +36,7 @@ class FreePhone extends StatelessWidget {
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
                 width: ScreenUtil().setWidth(1080),
-                height: ScreenUtil().setWidth(240),
+                height: ScreenUtil().setWidth(120),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -40,7 +45,7 @@ class FreePhone extends StatelessWidget {
                       },
                       child: Container(
                           width: ScreenUtil().setWidth(200),
-                          height: ScreenUtil().setWidth(240),
+                          height: ScreenUtil().setWidth(120),
                           child: Center(
                               child: Image.asset(
                             'assets/image/close.png',
@@ -71,8 +76,8 @@ class FreePhone extends StatelessWidget {
                         top: ScreenUtil().setWidth(130),
                       ),
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(193, 245, 204, 1),
-                      ),
+                          // color: Color.fromRGBO(193, 245, 204, 1),
+                          color: Colors.white),
                       child: _Group(),
                     ),
                     Positioned(
@@ -440,7 +445,14 @@ class __RewardState extends State<_Reward> {
             width: ScreenUtil().setWidth(816),
             height: ScreenUtil().setWidth(106),
             decoration: BoxDecoration(
-                color: Color.fromRGBO(52, 200, 130, 1),
+                // color: Color.fromRGBO(52, 200, 130, 1),
+                gradient: LinearGradient(
+                    begin: Alignment(-1.0, 1.0),
+                    end: Alignment(1.0, -1.0),
+                    colors: [
+                      Color.fromRGBO(52, 200, 130, 1),
+                      Color.fromRGBO(39, 177, 112, 1),
+                    ]),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                     topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -470,7 +482,7 @@ class __RewardState extends State<_Reward> {
                 Container(
                     height: ScreenUtil().setWidth(689),
                     width: ScreenUtil().setWidth(694),
-                    color: Color.fromRGBO(52, 200, 83, 1),
+                    color: Color.fromRGBO(65, 167, 92, 1),
                     margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
                     padding: EdgeInsets.only(top: ScreenUtil().setWidth(22)),
                     child: Selector<LuckyGroup, DrawInfo>(
@@ -670,7 +682,14 @@ class _Wishing extends StatelessWidget {
               width: ScreenUtil().setWidth(816),
               height: ScreenUtil().setWidth(106),
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(52, 200, 130, 1),
+                  // color: Color.fromRGBO(52, 200, 130, 1),
+                  gradient: LinearGradient(
+                      begin: Alignment(-1.0, 1.0),
+                      end: Alignment(1.0, -1.0),
+                      colors: [
+                        Color.fromRGBO(52, 200, 130, 1),
+                        Color.fromRGBO(39, 177, 112, 1),
+                      ]),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                       topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -807,7 +826,14 @@ class _Sign extends StatelessWidget {
                 width: ScreenUtil().setWidth(767),
                 height: ScreenUtil().setWidth(106),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(52, 200, 130, 1),
+                    // color: Color.fromRGBO(52, 200, 130, 1),
+                    gradient: LinearGradient(
+                        begin: Alignment(-1.0, 1.0),
+                        end: Alignment(1.0, -1.0),
+                        colors: [
+                          Color.fromRGBO(52, 200, 130, 1),
+                          Color.fromRGBO(39, 177, 112, 1),
+                        ]),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                         topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -827,13 +853,14 @@ class _Sign extends StatelessWidget {
                     top: ScreenUtil().setWidth(27),
                     bottom: ScreenUtil().setWidth(30)),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment(0.0, -1.0),
-                      end: Alignment(0.0, 1.0),
-                      colors: [
-                        Color.fromRGBO(87, 226, 160, 1),
-                        Color.fromRGBO(212, 249, 227, 1),
-                      ]),
+                  color: Color.fromRGBO(232, 252, 242, 1),
+                  // gradient: LinearGradient(
+                  //     begin: Alignment(0.0, -1.0),
+                  //     end: Alignment(0.0, 1.0),
+                  //     colors: [
+                  //       Color.fromRGBO(87, 226, 160, 1),
+                  //       Color.fromRGBO(212, 249, 227, 1),
+                  //     ]),
                 ),
                 child: Column(children: [
                   Selector<LuckyGroup, DrawInfo>(

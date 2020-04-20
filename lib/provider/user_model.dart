@@ -8,6 +8,7 @@ import 'package:luckyfruit/utils/device_info.dart';
 import 'dart:convert' as JSON;
 import 'package:http/http.dart' as http;
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
@@ -44,6 +45,16 @@ class UserModel with ChangeNotifier {
       _user = await getUser(info);
       notifyListeners();
       loadOther();
+      BurialReport.init(_user.acct_id,
+          app_version: info['app_version'], config_version: _user.version);
+      BurialReport.report('login', {
+        'aid': info['os_type'] == 'android'
+            ? info['gaid'] ?? info['aid']
+            : info['idfa'],
+        'userid': _user.acct_id,
+        'app_version': info['app_version'],
+        'config_version': _user.version
+      });
     }
   }
 

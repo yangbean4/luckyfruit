@@ -121,13 +121,20 @@ class TreeGroup with ChangeNotifier {
 
   // 当前gradle下能够生产的树的最大等级
   int get minLevel {
-//    int usLv = maxLevel - TreeGroup.DIFF_LEVEL;
-//    return usLv > 1 ? usLv : 1;
     return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
       new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
+
+// 第一次领取限时分红树的partner处红点提示
+  bool _isFirstTimeimt = false;
+  bool get isFirstTimeimt => _isFirstTimeimt;
+
+  set isFirstTimeimt(bool type) {
+    _isFirstTimeimt = type;
+    notifyListeners();
+  }
 
   // 显示 添加/回收 树
   Tree _isrecycle;
@@ -242,7 +249,8 @@ class TreeGroup with ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'upDateTime': this._upDateTime.millisecondsSinceEpoch.toString(),
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
-        'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
+        // 种树计算放到后端下发; 这个字段不需要存储了
+        // 'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
         'warehouseTreeList':
             this._warehouseTreeList.map((map) => map.toJson()).toList()
       };
@@ -269,11 +277,11 @@ class TreeGroup with ChangeNotifier {
                   ? null
                   : Tree.formJson(map as Map<String, dynamic>))
               ?.toList();
-      Map<String, dynamic> _treeGradeNumber =
-          jsonDecode(group['treeGradeNumber']);
-      treeGradeNumber =
-          Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-
+      // Map<String, dynamic> _treeGradeNumber =
+      //     jsonDecode(group['treeGradeNumber']);
+      // treeGradeNumber =
+      //     Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
+      treeGradeNumber = {};
       notifyListeners();
     }
   }
@@ -432,6 +440,7 @@ class TreeGroup with ChangeNotifier {
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
     // checkMag();
+    // Layer.howGetMoney();
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用

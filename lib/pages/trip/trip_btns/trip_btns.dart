@@ -6,6 +6,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -267,6 +268,7 @@ class _TripBtnsState extends State<TripBtns> {
                       duration: selectorUse.getGoldCountdown,
                       onFinish: () {
                         setState(() {
+                          BurialReport.report('coin_ready', {});
                           isCountdown = false;
                         });
                       },
@@ -294,6 +296,10 @@ class _TripBtnsState extends State<TripBtns> {
                           .makeGoldSped;
                   num coin = selectorUse.receriveTime * _getGoldCountdown;
                   _showWindow(coin, () {
+                    BurialReport.report('collect_coin', {
+                      'type': selectorUse.receriveTime ~/ 60 == 30 ? '1' : '2'
+                    });
+
                     selectorUse.receiveCoin(coin);
                     setState(() {
                       isCountdown = true;
@@ -315,6 +321,7 @@ class _TripBtnsState extends State<TripBtns> {
           showLock: true,
           key: Consts.globalKeyWheel,
           onTap: () {
+            BurialReport.report('page_imp', {'page_imp': 'spin'});
             Layer.showLuckyWheel(context);
           },
         ),

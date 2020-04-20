@@ -6,6 +6,8 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
+import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
@@ -13,8 +15,11 @@ import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:provider/provider.dart';
 import './trip/trip.dart';
 import '../theme/index.dart';
 
@@ -50,6 +55,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
+    BurialReport.report('page_imp', {'page_imp': 'trip'});
   }
 
   @override
@@ -72,12 +78,34 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   }
 
   BottomNavigationBarItem _createBarItem(
-      {String iconUrl, String activeIconUrl, String name}) {
+      {String iconUrl, String activeIconUrl, String name, bool remind = true}) {
     return BottomNavigationBarItem(
-        icon: Image.asset(
-          iconUrl,
-          width: ScreenUtil().setWidth(56),
-        ),
+        icon: remind
+            ? Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Image.asset(
+                    iconUrl,
+                    width: ScreenUtil().setWidth(56),
+                  ),
+                  Positioned(
+                      right: ScreenUtil().setWidth(-20),
+                      top: ScreenUtil().setWidth(-16),
+                      child: Container(
+                        width: ScreenUtil().setWidth(20),
+                        height: ScreenUtil().setWidth(20),
+                        decoration: BoxDecoration(
+                            color: MyTheme.primaryColor,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(ScreenUtil().setWidth(10)))),
+                        child: null,
+                      ))
+                ],
+              )
+            : Image.asset(
+                iconUrl,
+                width: ScreenUtil().setWidth(56),
+              ),
         activeIcon: Image.asset(
           activeIconUrl,
           width: ScreenUtil().setWidth(56),
@@ -92,7 +120,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         ));
   }
 
-  Widget _createBottomBar() {
+  Widget _createBottomBar(Map<String, bool> remind) {
     return BottomNavigationBar(
       key: Consts.globalKeyBottomBar,
       iconSize: ScreenUtil().setWidth(56),
@@ -106,22 +134,40 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         _createBarItem(
             iconUrl: 'assets/image/trip.png',
             activeIconUrl: 'assets/image/trip_active.png',
+            remind: remind['trip'] ?? false,
             name: 'TRIP'),
         _createBarItem(
             iconUrl: 'assets/image/map.png',
+            remind: remind['map'] ?? false,
             activeIconUrl: 'assets/image/map_active.png',
             name: 'MAP'),
         _createBarItem(
             iconUrl: 'assets/image/partner.png',
+            remind: remind['partner'] ?? false,
             activeIconUrl: 'assets/image/partner_active.png',
             name: 'PARTNER'),
         _createBarItem(
             iconUrl: 'assets/image/mine.png',
+            remind: remind['mine'] ?? false,
             activeIconUrl: 'assets/image/mine_active.png',
             name: 'MINE'),
       ],
       currentIndex: this.tabIndex,
-      onTap: (int index) => pageController.jumpToPage(index),
+      onTap: (int index) {
+        List<String> pageName = ['trip', 'map', 'partner', 'mine'];
+        pageController.jumpToPage(index);
+        String goName = pageName[index];
+        BurialReport.report('page_imp', {'page_imp': goName});
+        if (goName == 'map' && remind['map']) {
+          TourismMap tourismMap =
+              Provider.of<TourismMap>(context, listen: false);
+          tourismMap.newCitydeblock = false;
+        } else if (goName == 'partner' && remind['partner']) {
+          Layer.partnerCash();
+          TreeGroup tourismMap = Provider.of<TreeGroup>(context, listen: false);
+          tourismMap.isFirstTimeimt = false;
+        }
+      },
     );
   }
 
@@ -145,7 +191,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: _createBottomBar(),
+          bottomNavigationBar:
+              Selector2<TourismMap, TreeGroup, Map<String, bool>>(
+                  builder: (_, Map<String, bool> remind, __) {
+                    return _createBottomBar(remind);
+                  },
+                  selector:
+                      (context, TourismMap pTourismMap, TreeGroup pTreeGroup) =>
+                          {
+                            'map': pTourismMap.newCitydeblock,
+                            'partner': pTreeGroup.isFirstTimeimt
+                          }),
         ),
         // 新手引导-welcome
         GuidanceWelcomeWidget(),

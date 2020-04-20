@@ -39,6 +39,15 @@ class TourismMap with ChangeNotifier {
 
   double _allgold;
 
+// 解锁新城市 map按钮处的提示点
+  bool _newCitydeblock = false;
+  bool get newCitydeblock => _newCitydeblock;
+
+  set newCitydeblock(bool type) {
+    _newCitydeblock = type;
+    notifyListeners();
+  }
+
   // 是否已经init
   bool _hasInit = false;
 
@@ -175,6 +184,7 @@ class TourismMap with ChangeNotifier {
     if (levelRoule.deblock_city != _cityId) {
       data['deblock_city'] = levelRoule.deblock_city;
       _cityId = levelRoule.deblock_city;
+      _newCitydeblock = true;
       notifyListeners();
       MapPrizeModal().show(cityInfo);
     }

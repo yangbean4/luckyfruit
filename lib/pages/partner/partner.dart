@@ -385,7 +385,7 @@ class PartnerState extends State<Partner> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Layer.partnerCash();
+                                              // Layer.partnerCash();
                                             },
                                             child: PrimaryButton(
                                                 width: 600,
