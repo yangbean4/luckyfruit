@@ -9,7 +9,6 @@ import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 
 import './lucky_group.dart';
@@ -133,6 +132,9 @@ class TourismMap with ChangeNotifier {
         type: TreeType.Type_TimeLimited_Bonus,
         duration: ajax['duration'],
         amount: ajax['amount'],
+        showCountDown: true,
+        treeId: ajax['tree_id'],
+        timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
       ));
     } else {
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);

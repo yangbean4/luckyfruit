@@ -216,7 +216,8 @@ class TreeGroup with ChangeNotifier {
    */
   void handleLimitedBonusTree(Tree tree) {
     // 如果出现限时分红树的showCountDown为false的情况
-    if (tree?.type == TreeType.Type_TimeLimited_Bonus) {
+    if (tree?.type == TreeType.Type_TimeLimited_Bonus &&
+        tree.timePlantedLimitedBonusTree != null) {
       tree?.showCountDown = true;
       DateTime plantedTime =
           DateTime.fromMillisecondsSinceEpoch(tree.timePlantedLimitedBonusTree);
@@ -553,7 +554,8 @@ class TreeGroup with ChangeNotifier {
         Layer.showContinentsMergeWindow();
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
-        Layer.showHopsMergeWindow(_luckyGroup?.issed?.hops_reward, source, target);
+        Layer.showHopsMergeWindow(
+            _luckyGroup?.issed?.hops_reward, source, target);
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
