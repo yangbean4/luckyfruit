@@ -852,6 +852,7 @@ class Layer {
         dismissDurationInMilliseconds: Modal.DismissDuration,
         onOk: () {
           treeGroup.deleteSpecificTree(tree);
+          treeGroup.setCurrentLimitedBonusTree = null;
           // 调用种限时分红树接口
           plantTimeLimitTree(treeGroup, tree.treeId).then((map) {
             print("plantTimeLimitTree: $map");
