@@ -39,120 +39,80 @@ class _RightBtnsState extends State<RightBtns>
     String topString,
     String bottomString,
     Color color,
-    bool active = true,
+    bool active,
   }) {
     return Container(
-      width: ScreenUtil().setWidth(313),
-      height: ScreenUtil().setWidth(115),
-      child: Stack(
+      width: ScreenUtil().setWidth(288),
+      height: ScreenUtil().setWidth(112),
+      decoration: BoxDecoration(
+          color: Color.fromRGBO(0, 0, 0, 0.6),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(ScreenUtil().setWidth(56)),
+              topLeft: Radius.circular(ScreenUtil().setWidth(56)))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Positioned(
-            left: 0,
-            top: ScreenUtil().setWidth(2),
-            child: Container(
-              width: ScreenUtil().setWidth(271),
-              height: ScreenUtil().setWidth(111),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    image: AssetImage(active
-                        ? 'assets/image/right_btn_active_bg.png'
-                        : 'assets/image/right_btn_bg.png')),
-              ),
-            ),
+          Container(
+            width: ScreenUtil().setWidth(100),
+            height: ScreenUtil().setWidth(100),
+            child: icon,
           ),
-          Positioned(
-            left: ScreenUtil().setWidth(40),
-            top: ScreenUtil().setWidth(20),
-            child: Container(
-              width: ScreenUtil().setWidth(160),
-              height: ScreenUtil().setWidth(80),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  top == null
-                      ? (!active
-                          ? Stack(children: <Widget>[
-                              Text(
-                                topString,
-                                style: TextStyle(
-                                    height: 1,
-                                    foreground: new Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = ScreenUtil().setWidth(2)
-                                      ..color = Colors.white,
-                                    fontFamily: FontFamily.regular,
-                                    fontSize: ScreenUtil().setSp(30),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                topString,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(255, 172, 30, 1),
-                                    height: 1,
-                                    fontFamily: FontFamily.regular,
-                                    fontSize: ScreenUtil().setSp(30),
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ])
-                          : Text(topString,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(30),
-                                  color: MyTheme.redColor,
-                                  height: 1,
-                                  fontFamily: active
-                                      ? FontFamily.black
-                                      : FontFamily.regular,
-                                  fontWeight: active
-                                      ? FontWeight.w900
-                                      : FontWeight.w500)))
-                      : top,
-                  bottom == null
-                      ? runderBottomString(bottomString, active)
-                      : bottom,
-                ],
-              ),
+          Container(
+            width: ScreenUtil().setWidth(166),
+            height: ScreenUtil().setWidth(90),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: color != null
+                  ? BorderRadius.all(Radius.circular(ScreenUtil().setWidth(10)))
+                  : null,
             ),
-          ),
-          Positioned(
-              right: 0,
-              top: 0,
-              child: Container(
-                width: ScreenUtil().setWidth(113),
-                height: ScreenUtil().setWidth(115),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
-                      image: AssetImage(active
-                          ? 'assets/image/right_icon_active_bg.png'
-                          : 'assets/image/right_icon_bg.png')),
-                ),
-                child: icon,
-              ))
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                top == null
+                    ? Text(
+                        topString,
+                        style: TextStyle(
+                            color: MyTheme.redColor,
+                            fontFamily: FontFamily.bold,
+                            fontSize: ScreenUtil().setWidth(32),
+                            fontWeight: FontWeight.bold),
+                      )
+                    : top,
+                bottom == null
+                    ? Text(
+                        bottomString,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FontFamily.semibold,
+                            fontSize: ScreenUtil().setWidth(30),
+                            fontWeight: FontWeight.w500),
+                      )
+                    : bottom,
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
   runderBottomString(String bottomString, bool active) {
-    return Text(bottomString,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: ScreenUtil().setWidth(40),
-            color: Colors.white,
-            height: 1,
-            fontFamily: active ? FontFamily.black : FontFamily.regular,
-            fontWeight: active ? FontWeight.w900 : FontWeight.w500));
+    return Text(
+      bottomString,
+      style: TextStyle(
+          color: Colors.white,
+          fontFamily: FontFamily.semibold,
+          fontSize: ScreenUtil().setWidth(30),
+          fontWeight: FontWeight.w500),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-
     return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
       selector: (context, luckyGroup) =>
           Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
@@ -166,7 +126,6 @@ class _RightBtnsState extends State<RightBtns>
             height: ScreenUtil().setWidth(262),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 showDouble
                     ? _ShakeAnimation(
@@ -191,18 +150,18 @@ class _RightBtnsState extends State<RightBtns>
                           },
                           child: renderItem(
                               Container(
-                                width: ScreenUtil().setWidth(43),
-                                height: ScreenUtil().setWidth(53),
+                                width: ScreenUtil().setWidth(73),
+                                height: ScreenUtil().setWidth(74),
                                 alignment: Alignment(0.3, 0),
                                 child: Image.asset(
-                                  'assets/image/right_vadio.png',
-                                  width: ScreenUtil().setWidth(43),
-                                  height: ScreenUtil().setWidth(53),
+                                  'assets/image/right_gold.png',
+                                  width: ScreenUtil().setWidth(73),
+                                  height: ScreenUtil().setWidth(74),
                                 ),
                               ),
                               active: false,
                               bottomString: 'in ${issed?.double_coin_time}s',
-                              topString: 'Earningsx${issed?.reward_multiple}',
+                              topString: 'Earn X${issed?.reward_multiple}',
                               color: Color.fromRGBO(49, 200, 84, 1)),
                         ),
                       )
@@ -210,17 +169,16 @@ class _RightBtnsState extends State<RightBtns>
                 isDouble
                     ? renderItem(
                         Container(
-                          width: ScreenUtil().setWidth(56),
-                          height: ScreenUtil().setWidth(54),
-                          alignment: Alignment(0.1, 0),
+                          width: ScreenUtil().setWidth(73),
+                          height: ScreenUtil().setWidth(74),
+                          alignment: Alignment(0.3, 0),
                           child: Image.asset(
                             'assets/image/right_gold.png',
-                            width: ScreenUtil().setWidth(56),
-                            height: ScreenUtil().setWidth(54),
+                            width: ScreenUtil().setWidth(73),
+                            height: ScreenUtil().setWidth(74),
                           ),
                         ),
-                        topString: 'EarningsX${issed?.reward_multiple}',
-                        active: true,
+                        topString: 'Earn X${issed?.reward_multiple}',
                         bottom: CountdownFormatted(
                           duration: Duration(seconds: issed?.double_coin_time),
                           onFinish: () {
@@ -260,31 +218,31 @@ class _RightBtnsState extends State<RightBtns>
                           },
                           child: renderItem(
                               Container(
-                                width: ScreenUtil().setWidth(43),
-                                height: ScreenUtil().setWidth(53),
+                                width: ScreenUtil().setWidth(89),
+                                height: ScreenUtil().setWidth(89),
                                 alignment: Alignment(0.3, 0),
                                 child: Image.asset(
-                                  'assets/image/right_vadio.png',
-                                  width: ScreenUtil().setWidth(43),
-                                  height: ScreenUtil().setWidth(53),
+                                  'assets/image/right_loop.png',
+                                  width: ScreenUtil().setWidth(89),
+                                  height: ScreenUtil().setWidth(89),
                                 ),
                               ),
                               active: false,
                               bottomString: 'in ${issed?.automatic_time}s',
-                              topString: 'Auto Merge',
+                              topString: 'Auto',
                               color: Color.fromRGBO(49, 200, 84, 1)),
                         ))
                     : Container(),
                 isAuto
                     ? renderItem(
                         Container(
-                          width: ScreenUtil().setWidth(43),
-                          height: ScreenUtil().setWidth(54),
-                          alignment: Alignment(0, 0),
+                          width: ScreenUtil().setWidth(89),
+                          height: ScreenUtil().setWidth(89),
+                          alignment: Alignment(0.3, 0),
                           child: Image.asset(
                             'assets/image/right_loop.png',
-                            width: ScreenUtil().setWidth(43),
-                            height: ScreenUtil().setWidth(54),
+                            width: ScreenUtil().setWidth(89),
+                            height: ScreenUtil().setWidth(89),
                           ),
                         ),
                         topString: 'Auto Merge',
