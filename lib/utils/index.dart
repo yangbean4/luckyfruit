@@ -125,6 +125,12 @@ class Util {
     return offset;
   }
 
+  static double getBottomBarInfoWithGlobalKey() {
+    Size size = Consts.globalKeyBottomBar.currentContext?.size;
+    print("bottombar:localToGlobal ${size.width}, ${size.height}");
+    return size.height;
+  }
+
   /// 获取用户观看广告记录接口上报的参数
   //TODO 广告看完之后上报接口, 各个字段需要再完善
   static Map<String, String> getVideoLogParams(String userId) {

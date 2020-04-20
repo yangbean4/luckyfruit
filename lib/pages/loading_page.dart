@@ -30,7 +30,7 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   go() {
-    BottomNavigationBar navigationBar = Consts.globalKey.currentWidget;
+    BottomNavigationBar navigationBar = Consts.globalKeyBottomBar.currentWidget;
     if (navigationBar != null) {
       navigationBar?.onTap(0);
     } else {

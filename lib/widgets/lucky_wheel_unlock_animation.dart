@@ -39,8 +39,8 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
         )));
 
     posImageAnimation = Tween<double>(
-      begin: ScreenUtil().setWidth(850),
-      end: ScreenUtil().setWidth(1250),
+      begin: ScreenUtil().setWidth(850 - 270),
+      end: ScreenUtil().setWidth(1250 - 270),
     ).animate(CurvedAnimation(
         parent: controller,
         curve: Interval(
@@ -67,14 +67,14 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
         parent: controller,
         curve: Interval(
           0.6,
-          1.0,
+          0.8,
           curve: Curves.ease,
         )))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           print("Lucky Wheel AnimationStatus.completed");
-          endOfAnimation = true;
           Storage.setItem(Consts.SP_KEY_UNLOCK_WHEEL, "1");
+          endOfAnimation = true;
         }
       });
   }
@@ -123,7 +123,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
                             child: !endOfAnimation
                                 ? Stack(
                                     overflow: Overflow.visible,
-                                    alignment: AlignmentDirectional(0, 0),
+                                    alignment: AlignmentDirectional(0, 0.2),
                                     children: <Widget>[
                                       Visibility(
 //                                        opacity: endOfAnimation ? 0 : 1,
@@ -260,6 +260,8 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                       fontFamily:
                                                           FontFamily.bold,
+                                                      decoration:
+                                                          TextDecoration.none,
                                                       fontSize: ScreenUtil()
                                                           .setSp(100),
                                                       color:
@@ -300,11 +302,11 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
     super.initState();
 
     posBottomAnimation = Tween<double>(
-            begin: ScreenUtil().setWidth(1250),
+            begin: ScreenUtil().setWidth(1250 - 270),
 //      end: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
             end: (ScreenUtil().setHeight(1920) -
                     Util.getWheelInfoWithGlobalKey()?.dy) -
-                ScreenUtil().setWidth(48) -
+                ScreenUtil().setWidth(65) -
                 ScreenUtil().setWidth(270))
         .animate(CurvedAnimation(
             parent: _controller,

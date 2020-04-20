@@ -77,8 +77,8 @@ class _TripBtnsState extends State<TripBtns> {
             child: Stack(alignment: AlignmentDirectional.center, children: [
               Image.asset(
                 imgSrc,
-                width: ScreenUtil().setWidth(80),
-                height: ScreenUtil().setWidth(80),
+                width: ScreenUtil().setWidth(90),
+                height: ScreenUtil().setWidth(90),
               ),
               showMark
                   ? Selector<LuckyGroup, bool>(

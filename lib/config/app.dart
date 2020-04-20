@@ -123,7 +123,7 @@ class TreeType {
 /// 放置常量的类
 class Consts {
   // 手动切换底部栏使用
-  static GlobalKey globalKey = new GlobalKey(debugLabel: 'key_bottom_bar');
+  static GlobalKey globalKeyBottomBar = new GlobalKey(debugLabel: 'key_bottom_bar');
   static GlobalKey globalKeyWheel = new GlobalKey(debugLabel: 'key_lucky_wheel');
   static GlobalKey globalKeyAddTreeBtn = new GlobalKey(debugLabel: 'key_add_tree');
   static GlobalKey globalKeyTreeGrid = new GlobalKey(debugLabel: 'key_tree_grid');

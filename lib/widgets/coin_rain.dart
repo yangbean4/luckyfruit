@@ -95,7 +95,7 @@ class _CoinRainState extends State with TickerProviderStateMixin {
   getIconWidget() {
     return Container(
       child: Image.asset(
-        'assets/image/coin_rain_icon${Random().nextInt(6)}.png',
+        'assets/image/coin_rain_icon${Random().nextInt(5) + 1}.png',
         width: ScreenUtil().setWidth(goldImgSize),
         height: ScreenUtil().setWidth(goldImgSize),
       ),

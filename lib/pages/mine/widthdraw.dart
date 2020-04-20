@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 
 class WithDrawPage extends StatefulWidget {
   String amount;
+
   WithDrawPage({Key key, String amount}) {
     if (amount == null) {
       this.amount = "--";
@@ -296,9 +297,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                           return GestureDetector(
                             onTap: enableOnTap
                                 ? () {
-                                    // if (!userModel.hasLoginedFB) {
-                                    // TODO FB未登录时,弹出提示登录弹窗
-                                    if (false) {
+                                    if (!userModel.hasLoginedFB) {
                                       // 没有登录FB,弹框提醒
                                       Layer.remindFacebookLoginWhenWithDraw(
                                           userModel);
@@ -374,7 +373,9 @@ class InputingInfoWidget extends StatelessWidget {
   final Cash_amount amount;
   final WithDrawTypes type;
   final String paypal_account;
+
   InputingInfoWidget(this.amount, this.type, this.paypal_account);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -535,7 +536,9 @@ class InputFiledWidget extends StatelessWidget {
   final TextEditingController _controller;
   final String title;
   final String paypalAccount;
+
   InputFiledWidget(this.title, this._controller, {this.paypalAccount});
+
   @override
   Widget build(BuildContext context) {
     _controller.text = paypalAccount;
@@ -650,6 +653,7 @@ class WithDrawTypesItem {
 
 class WithDrawTypesItemWidget extends StatelessWidget {
   final WithDrawTypesItem item;
+
   WithDrawTypesItemWidget(this.item);
 
   @override
@@ -683,8 +687,10 @@ class WithDrawTypesItemWidget extends StatelessWidget {
 class WithDrawAmountItem {
   bool selected;
   Cash_amount amount;
+
   // 判断是第一个选项,特殊处理
   bool first = false;
+
   // 选择亚马逊提现的时候第一个提现数量禁用
   bool disabled = false;
 
@@ -694,6 +700,7 @@ class WithDrawAmountItem {
 
 class WithDrawAmountItemWidget extends StatelessWidget {
   final WithDrawAmountItem item;
+
   WithDrawAmountItemWidget(this.item);
 
   @override
@@ -742,6 +749,7 @@ class WithDrawAmountItemWidget extends StatelessWidget {
 
 class _Enjoy {
   static int star = 0;
+
   static show(context) {
     Modal(
       onOk: () => submit(context),
@@ -786,6 +794,7 @@ class _Enjoy {
 
 class _StarGroup extends StatefulWidget {
   final Function onChange;
+
   _StarGroup({Key key, this.onChange}) : super(key: key);
 
   @override
@@ -794,6 +803,7 @@ class _StarGroup extends StatefulWidget {
 
 class __StarGroupState extends State<_StarGroup> {
   int star = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(

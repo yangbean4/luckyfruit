@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class GuidanceFingerWidget extends StatefulWidget {
@@ -12,6 +13,7 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
   CurvedAnimation curveEaseIn;
   AnimationController controller;
   Animation<double> scaleAnimation;
+  double bottombarHeight;
 
   @override
   void initState() {
@@ -37,6 +39,11 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
       if (e == AnimationStatus.dismissed) {
         _playAnimation();
       }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      bottombarHeight = Util.getBottomBarInfoWithGlobalKey() ?? 0.0;
+      print("bottombarHeight: $bottombarHeight");
     });
   }
 
@@ -72,16 +79,17 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
               ? AnimatedBuilder(
                   builder: (BuildContext context, Widget child) {
                     return Positioned(
-                      bottom: 0,
-                      left: ScreenUtil().setWidth(150),
+                      bottom: bottombarHeight - ScreenUtil().setWidth(100),
+                      left: ScreenUtil().setWidth(540 - 105),
                       child: Transform.scale(
+//                        scale: 1,
                         scale: scaleAnimation?.value ?? 0,
                         child: Container(
                           // color: Colors.red[100],
                           child: Image.asset(
                             'assets/image/guidance_finger.png',
-                            width: ScreenUtil().setWidth(120),
-                            height: ScreenUtil().setWidth(130),
+                            width: ScreenUtil().setWidth(210),
+                            height: ScreenUtil().setWidth(280),
                           ),
                         ),
                       ),

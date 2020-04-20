@@ -10,6 +10,7 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
+import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   Widget _createBottomBar() {
     return BottomNavigationBar(
-      key: Consts.globalKey,
+      key: Consts.globalKeyBottomBar,
       iconSize: ScreenUtil().setWidth(56),
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
@@ -156,6 +157,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         GuidanceMapWidget(),
         //大转盘解锁
         WheelUnlockWidget(),
+        // 手指引导
+        GuidanceFingerWidget(),
       ],
     );
   }

@@ -222,7 +222,7 @@ class MoneyGroup with ChangeNotifier {
 
   timeLimitedTreeAddMoney(double amout) {
     // 限时分红树，每8秒本地更新一次余额
-    addMoney(amout);
+    addMoney(amout, playAudio: false, playAnimation: false);
   }
 
   // 用户签到
@@ -307,11 +307,15 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
-  addMoney(double money) {
-    Bgm.playMoney();
+  addMoney(double money, {bool playAudio = true, bool playAnimation = true}) {
+    if (playAudio) {
+      Bgm.playMoney();
+    }
     _money += money;
     // 展示美元动画
-//    _showDollarImgTrans = true;
+    if (playAnimation) {
+      _showDollarImgTrans = true;
+    }
     save();
   }
 

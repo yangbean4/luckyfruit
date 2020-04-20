@@ -189,7 +189,7 @@ class _TripState extends State<Trip>
                                               // 切换到map的tab栏
                                               BottomNavigationBar
                                                   navigationBar = Consts
-                                                      .globalKey.currentWidget;
+                                                      .globalKeyBottomBar.currentWidget;
                                               navigationBar?.onTap(1);
                                             },
                                             // pushNamed(context, 'map'),

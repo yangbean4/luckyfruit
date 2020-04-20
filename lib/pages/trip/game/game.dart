@@ -361,7 +361,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                     primary: false,
                                                   ),
                                                 ),
-                                                GuidanceFingerWidget(),
+//                                                GuidanceFingerWidget(),
                                               ]),
                                         ),
                                       ),

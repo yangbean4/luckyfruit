@@ -103,7 +103,7 @@ class Illustration extends StatelessWidget {
                         Image.asset(
                           "assets/tree/${TreeType.All_Max_Level_Trees[index]}.png",
                           width: ScreenUtil().setWidth(240),
-                          height: ScreenUtil().setWidth(168),
+//                          height: ScreenUtil().setWidth(168),
                           fit: BoxFit.cover,
                         ),
                         Container(

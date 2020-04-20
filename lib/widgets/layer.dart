@@ -18,6 +18,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -853,6 +854,7 @@ class Layer {
         onOk: () {
           treeGroup.deleteSpecificTree(tree);
           treeGroup.setCurrentLimitedBonusTree = null;
+          Bgm.playMoney();
           // 调用种限时分红树接口
           plantTimeLimitTree(treeGroup, tree.treeId).then((map) {
             print("plantTimeLimitTree: $map");
