@@ -40,12 +40,17 @@
             </intent-filter>
         </activity>
         <!-- 使用facebook登录 -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
 
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges=
-            "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                    "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
 
-        <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -53,11 +58,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <!-- 允许fb加载存储在内存中的资源 -->
         <provider android:authorities="com.facebook.app.FacebookContentProvider231887997874001"
         android:name="com.facebook.FacebookContentProvider"
         android:exported="true"/>
-        <!-- 允许 social_share_plugin 读取 provider_paths 配置中设置的图片-->
+        <!-- 允许 social_share_plugin 读取 provider_paths 配置中设置的图片 -->
         <provider android:name="androidx.core.content.FileProvider"
             android:authorities="goodluck.lucky.money.mergegarden.win.cash.social.share.fileprovider"
             android:exported="false"

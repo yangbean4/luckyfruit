@@ -16,7 +16,7 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
-import 'package:facebook_share/facebook_share.dart';
+// import 'package:facebook_share/facebook_share.dart';
 
 class BonusTree extends StatefulWidget {
   BonusTree({Key key}) : super(key: key);
@@ -93,17 +93,17 @@ class _BonusTreeState extends State<BonusTree> {
   @override
   void initState() {
     super.initState();
-    FacebookShare.pageId = '261441784858768';
+    // FacebookShare.pageId = '261441784858768';
   }
 
   _unlockedCitys() async {
-    await FacebookShare.sendMessage(
-        urlActionTitle: "Visit",
-        url: "https://nemob.id",
-        title: "Promotion",
-        subtitle: "Get your promotion now!",
-        imageUrl:
-            "https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/03/10173552/download6.jpg");
+    // await FacebookShare.sendMessage(
+    //     urlActionTitle: "Visit",
+    //     url: "https://nemob.id",
+    //     title: "Promotion",
+    //     subtitle: "Get your promotion now!",
+    //     imageUrl:
+    //         "https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/03/10173552/download6.jpg");
   }
 
   @override

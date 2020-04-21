@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -74,7 +74,7 @@ class _EarningWidgetState extends State<EarningWidget>
     return AnimatedBuilder(
         animation: scaleAnimation,
         builder: (BuildContext context, Widget child) {
-          print("scaleAnimation: ${scaleAnimation.value}");
+          // print("scaleAnimation: ${scaleAnimation.value}");
           return GestureDetector(
             onTap: () {
               if (widget.type == EarningWidgetType.Earning_Type_Bonus) {
