@@ -13,7 +13,7 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
   CurvedAnimation curveEaseIn;
   AnimationController controller;
   Animation<double> scaleAnimation;
-  double bottombarHeight;
+  double bottombarHeight = 0.0;
 
   @override
   void initState() {
@@ -79,7 +79,8 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
               ? AnimatedBuilder(
                   builder: (BuildContext context, Widget child) {
                     return Positioned(
-                      bottom: bottombarHeight - ScreenUtil().setWidth(100),
+                      bottom:
+                          bottombarHeight - ScreenUtil().setWidth(120),
                       left: ScreenUtil().setWidth(540 - 105),
                       child: Transform.scale(
 //                        scale: 1,

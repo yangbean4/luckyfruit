@@ -125,6 +125,15 @@ class Util {
     return offset;
   }
 
+  static Offset getMineCashInfoWithGlobalKey() {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox =
+        Consts.globalKeyMineCash.currentContext?.findRenderObject();
+    offset = renderBox?.localToGlobal(Offset.zero);
+    print("mineCash:localToGlobal ${offset}");
+    return offset;
+  }
+
   static double getBottomBarInfoWithGlobalKey() {
     Size size = Consts.globalKeyBottomBar.currentContext?.size;
     print("bottombar:localToGlobal ${size.width}, ${size.height}");

@@ -121,7 +121,21 @@ class TreeGroup with ChangeNotifier {
 
   // 当前gradle下能够生产的树的最大等级
   int get minLevel {
-    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
+//    int usLv = maxLevel - TreeGroup.DIFF_LEVEL;
+//    return usLv > 1 ? usLv : 1;
+
+//    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
+
+    int level1 = maxLevel(includeMaxLevel: true);
+    int level2 = 0;
+    if (treeGradeNumber.keys?.length > 0) {
+      level2 = treeGradeNumber.keys.map((t) {
+        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
+        return int.tryParse(t);
+      }).reduce(max);
+    }
+    print("tree_minlevel: $level1, $level2, ");
+    return Tree(grade: max(level1, level2)).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
@@ -129,6 +143,7 @@ class TreeGroup with ChangeNotifier {
 
 // 第一次领取限时分红树的partner处红点提示
   bool _isFirstTimeimt = false;
+
   bool get isFirstTimeimt => _isFirstTimeimt;
 
   set isFirstTimeimt(bool type) {
