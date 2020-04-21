@@ -6,7 +6,7 @@
  * @LastEditTime: 2020-04-20 16:28:51
  */
 
-package com.mklucky.luckyfruit;
+package goodluck.lucky.money.mergegarden.win.cash;
 
 public final class Config {
   public static final String METHOD_CHANNEL = "com.bean.flutterchannel/method";

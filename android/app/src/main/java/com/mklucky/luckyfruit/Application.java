@@ -5,7 +5,7 @@
  * @LastEditors:  bean^ <bean_4@163.com>
  * @LastEditTime: 2020-04-20 16:40:15
  */
-package com.mklucky.luckyfruit;
+package goodluck.lucky.money.mergegarden.win.cash;
 
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.PluginRegistry;

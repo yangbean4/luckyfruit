@@ -107,7 +107,7 @@ class UserModel with ChangeNotifier {
   loginWithFB() async {
     final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logIn(['email']);
-
+    print('--------------------------------------------${result}');
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;

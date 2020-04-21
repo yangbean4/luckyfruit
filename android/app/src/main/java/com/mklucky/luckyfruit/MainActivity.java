@@ -3,9 +3,9 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 16:22:50
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-20 18:46:36
+ * @LastEditTime: 2020-04-21 12:14:23
  */
-package com.mklucky.luckyfruit;
+package goodluck.lucky.money.mergegarden.win.cash;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,8 +19,9 @@ import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.plugin.common.MethodCall;
-import com.mklucky.luckyfruit.Config;
+import goodluck.lucky.money.mergegarden.win.cash.Config;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.thinkingdata.android.ThinkingAnalyticsSDK;
@@ -35,7 +36,7 @@ public class MainActivity extends FlutterActivity {
     GeneratedPluginRegistrant.registerWith(this);
 
     ThinkingAnalyticsSDK tdInstance = ThinkingAnalyticsSDK.sharedInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
-        "https://receiver.ta.thinkingdata.cn");
+        "http://tad.sen-sdk.com");
 
     new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)
         .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
@@ -60,8 +61,18 @@ public class MainActivity extends FlutterActivity {
                 break;
               }
               case "tga_track": { // TGA 数据上报
-                String event = (String) methodCall.argument("event_name");
-                tdInstance.track(event, (JSONObject) methodCall.arguments);
+                String event = (String) methodCall.arguments;
+                Log.i("event-------------tga", " method event: " + event);
+
+                try {
+                  JSONObject json = new JSONObject(event);
+                  String eventName = json.getString("event_name");
+                  tdInstance.track(eventName, (JSONObject) json);
+
+                } catch (JSONException e) {
+                  Log.i("event------tga-------error", " method event: " + event);
+                  e.printStackTrace();
+                }
                 break;
               }
             }

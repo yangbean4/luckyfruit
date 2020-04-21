@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import './index.dart';
 import './event_bus.dart';
 import 'package:luckyfruit/config/app.dart' show Event_Name;
@@ -26,7 +28,7 @@ class BurialReport {
     });
 
     EVENT_BUS.on(Event_Name.APP_RESUMED, (e) {
-      Duration diff = DateTime.now().difference(_lastTime);
+      Duration diff = DateTime.now().difference(_lastTime ?? DateTime.now());
       if (diff > Duration(seconds: 5)) {
         subSessionid = DateTime.now().millisecondsSinceEpoch.toString();
       }
@@ -36,7 +38,7 @@ class BurialReport {
   static report(String event_name, Map<String, String> map) {
     map['event_name'] = event_name;
     Map<String, String> data = _getData(map);
-    ChannelBus().callNativeMethod("tga_track", arguments: data);
+    ChannelBus().callNativeMethod("tga_track", arguments: jsonEncode(data));
     print(data);
   }
 
