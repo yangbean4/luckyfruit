@@ -19,7 +19,7 @@ class BurialReport {
     configVersion = config_version;
     appVersion = app_version;
 
-    String time = Util.formatDate(dateTime: DateTime.now());
+    String time = DateTime.now().millisecondsSinceEpoch.toString();
     sessionid = '${_userId}_$time';
     subSessionid = DateTime.now().millisecondsSinceEpoch.toString();
 

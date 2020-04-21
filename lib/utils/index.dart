@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 
 class Util {
   static String formatNumber(num number, {int fixed}) {
@@ -98,6 +99,16 @@ class Util {
     return '0$n';
   }
 
+  static String RandomString(int strlen) {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    Random rnd = Random(DateTime.now().millisecondsSinceEpoch);
+    String result = "";
+    for (var i = 0; i < strlen; i++) {
+      result += chars[rnd.nextInt(chars.length)];
+    }
+    return result;
+  }
+
   static Offset getWheelInfoWithGlobalKey() {
     Offset offset = Offset(0, 0);
     RenderBox renderBox =
@@ -142,19 +153,12 @@ class Util {
 
   /// 获取用户观看广告记录接口上报的参数
   //TODO 广告看完之后上报接口, 各个字段需要再完善
-  static Map<String, String> getVideoLogParams(String userId) {
-    // UserModel user = Provider.of<UserModel>(context, listen: false);
+  static Map<String, String> getVideoLogParams(String acct_id) {
     return {
-      "acct_id": userId,
-      "app_id": "temp",
-      "offerid": "temp",
-      "country": "temp",
-      "app_version": "temp",
-      "sdk_san_version": "temp",
-      "session_id": Util.getUUid(),
-      "platform": "temp",
-      "placement_id": "temp",
-      "pidType": "temp",
+      "acct_id": acct_id,
+      "session_id": BurialReport.sessionid,
+      "union_id":
+          "${acct_id}_${DateTime.now().millisecondsSinceEpoch}_${RandomString(6)}",
     };
   }
 }
