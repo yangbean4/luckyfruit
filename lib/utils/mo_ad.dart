@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
@@ -17,9 +18,14 @@ class MoAd {
   Function(String error) failCallback;
   bool reachRewardPoint = false;
   int retryCount = 0;
+  int retryDelayedTimeInSeconds = 60;
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    retryDelayedTimeInSeconds = luckyGroup.issed.ad_reset_time;
+    print("retryDelayedTimeInSeconds: $retryDelayedTimeInSeconds");
+
     // 注册广告加载完成通知
     channelBus.registerReceiver(Event_Name.mopub_load_reward_video_success,
         (arg) => onRewardedVideoLoadSuccess(arg));
@@ -56,6 +62,10 @@ class MoAd {
       loadRewardAds();
     } else {
       retryCount = 0;
+      // x时长后重新请求
+      Future.delayed(Duration(seconds: retryDelayedTimeInSeconds), () {
+        loadRewardAds();
+      });
     }
   }
 
@@ -84,7 +94,6 @@ class MoAd {
       successCallback();
     }
 
-    // TODO 测试下观看失败的情况（取消观看）
     if (!reachRewardPoint && failCallback != null) {
       failCallback(arg);
     }
@@ -92,7 +101,6 @@ class MoAd {
     loadRewardAds();
   }
 
-  //TODO 加上重试限制
   ///开始加载激励视频广告
   void loadRewardAds() async {
     print("loadRewardAds");

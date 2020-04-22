@@ -195,7 +195,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         Log.i("tago", "onRewardedVideoLoadFailure " + errorCode);
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_FAILURE);
-        json.put("data", adUnitId);
+        json.put("data", errorCode);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
