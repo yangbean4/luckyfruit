@@ -306,7 +306,13 @@ class TreeGroup with ChangeNotifier {
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
       bool invalid =
           group['hasMaxLevel'] == null || group['hasMaxLevel'] == "null";
-      hasMaxLevel = int.parse(invalid ? '0' : group['hasMaxLevel']);
+      print("group['hasMaxLevel']= ${group['hasMaxLevel']}");
+
+      if (group['hasMaxLevel'] is String) {
+        hasMaxLevel = int.parse(invalid ? '0' : group['hasMaxLevel']);
+      } else if (group['hasMaxLevel'] is int) {
+        hasMaxLevel = group['hasMaxLevel'];
+      }
       if (hasMaxLevel <= 0) {
         //默认值为1
         hasMaxLevel = 1;

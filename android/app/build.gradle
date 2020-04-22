@@ -121,6 +121,10 @@ dependencies {
     implementation 'com.unity3d.ads:unity-ads:3.4.2'
     implementation 'com.mopub.mediation:unityads:3.4.2.0'
 
+    // AppLovin
+    implementation 'com.applovin:applovin-sdk:9.12.2'
+    implementation 'com.mopub.mediation:applovin:9.12.2.0'
+
     // Facebook 分析SDK
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
