@@ -304,9 +304,9 @@ class TreeGroup with ChangeNotifier {
           : {};
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-      bool temp =
+      bool invalid =
           group['hasMaxLevel'] == null || group['hasMaxLevel'] == "null";
-      hasMaxLevel = int.parse(temp ? '0' : temp);
+      hasMaxLevel = int.parse(invalid ? '0' : group['hasMaxLevel']);
       if (hasMaxLevel <= 0) {
         //默认值为1
         hasMaxLevel = 1;
