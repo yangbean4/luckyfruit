@@ -1,28 +1,31 @@
 // 通用的 按钮部分
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
-
-import 'layer.dart';
+import 'package:provider/provider.dart';
 
 class AdButton extends StatefulWidget {
   // 是否使用广告
   final bool useAd;
+
   // 按钮文字
   final String btnText;
+
   // 取消按钮的文字
   final String cancelText;
+
   // 取消的回调
   final Function onCancel;
+
   // 提示
   final String tips;
+
   // 取消按钮显示的时间
   final Duration interval;
+
   // 点击确定按钮
   final Function onOk;
 
@@ -32,6 +35,7 @@ class AdButton extends StatefulWidget {
   final num height;
   final Widget child;
   final num fontSize;
+
   AdButton(
       {Key key,
       this.useAd = true,
@@ -56,6 +60,7 @@ class AdButton extends StatefulWidget {
 class _AdButtonState extends State<AdButton> {
   bool showCancel = false;
   List<Widget> children;
+
   @override
   void initState() {
     super.initState();
@@ -75,16 +80,14 @@ class _AdButtonState extends State<AdButton> {
     Function onTap = widget.onOk != null && !widget.disable
         ? () {
             if (widget.useAd) {
-              MoAd.viewAd(context).then((res) {
-                if (res) {
-                  // 看广告成功
-                  widget?.onOk();
-                } else {
-                  if (widget?.onCancel != null) {
-                    widget.onCancel();
-                  }
-                  // 看广告失败,弹框提示
-                  Layer.toastWarning("Number of videos has used up");
+              MoAd.getInstance(context).showRewardVideo(() {
+                //success
+                widget?.onOk();
+              }, (error) {
+                //failed
+                print("$error");
+                if (widget?.onCancel != null) {
+                  widget?.onCancel();
                 }
               });
             } else {

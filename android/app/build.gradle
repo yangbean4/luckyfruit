@@ -41,30 +41,31 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "goodluck.lucky.money.mergegarden.win.cash"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64' //'armeabi-v7a',  'arm64-v8a'
-            abiFilters 'arm64-v8a','armeabi-v7a',"armeabi", "x86"
+            abiFilters 'arm64-v8a', 'armeabi-v7a', "armeabi", "x86"
 
             //abiFilters 就是过滤.so文件的方法；
             //如上配置就能让你的项目只打包armeabi的库文件；其他依赖module同样配置，最终效果就是你的app只适配armeabi CPU的机型；
             //打包的APK文件 libs下只有 armeabi的so文件；
         }
     }
-   signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-           storePassword keystoreProperties['storePassword']
-       }
-   }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -84,6 +85,11 @@ flutter {
     source '../..'
 }
 
+repositories {
+    // Add the following repositories
+    maven { url 'https://chartboostmobile.bintray.com/Chartboost' }
+}
+
 dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -92,4 +98,26 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.1.4'
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
     implementation 'cn.thinkingdata.android:ThinkingAnalyticsSDK:2.5.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation('com.mopub:mopub-sdk-rewardedvideo:5.8.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // Chartboost
+    implementation 'com.chartboost:chartboost-sdk:8.0.2'
+    implementation 'com.mopub.mediation:chartboost:8.0.2.0'
+
+    // Facebook Audience Network
+    implementation 'com.facebook.android:audience-network-sdk:5.8.0'
+    implementation 'com.mopub.mediation:facebookaudiencenetwork:5.8.0.0'
+
+    // Google (AdMob & Ad Manager)
+    implementation 'com.google.android.gms:play-services-ads:19.0.1'
+    implementation 'com.mopub.mediation:admob:19.0.1.0'
+
+    // Unity Ads
+    implementation 'com.unity3d.ads:unity-ads:3.4.2'
+    implementation 'com.mopub.mediation:unityads:3.4.2.0'
 }

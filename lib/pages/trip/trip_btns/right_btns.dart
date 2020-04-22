@@ -1,17 +1,15 @@
 import 'dart:math' as math;
-import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/widgets/layer.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart' show Issued;
-import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/widgets/count_down.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
-import 'package:tuple/tuple.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
+import 'package:luckyfruit/widgets/count_down.dart';
+import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class RightBtns extends StatefulWidget {
   RightBtns({Key key}) : super(key: key);
@@ -134,18 +132,16 @@ class _RightBtnsState extends State<RightBtns>
                                 (issed?.double_coin_remain_time ?? 10) * 1000),
                         child: GestureDetector(
                           onTap: () {
-                            MoAd.viewAd(context).then((res) {
-                              if (res) {
-                                luckyGroup.doubleStart();
-                                setState(() {
-                                  isDouble = true;
-                                  luckyGroup.setShowCoinRain = true;
-                                });
-                              } else {
-                                //看广告失败,弹框提示
-                                Layer.toastWarning(
-                                    "Number of videos has used up");
-                              }
+                            MoAd.getInstance(context).showRewardVideo(() {
+                              //success
+                              luckyGroup.doubleStart();
+                              setState(() {
+                                isDouble = true;
+                                luckyGroup.setShowCoinRain = true;
+                              });
+                            }, (error) {
+                              //failed
+                              print("$error");
                             });
                           },
                           child: renderItem(
@@ -203,17 +199,15 @@ class _RightBtnsState extends State<RightBtns>
                                 (issed?.automatic_remain_time ?? 10) * 1000),
                         child: GestureDetector(
                           onTap: () {
-                            MoAd.viewAd(context).then((res) {
-                              if (res) {
-                                luckyGroup.autoStart();
-                                setState(() {
-                                  isAuto = true;
-                                });
-                              } else {
-                                //看广告失败,弹框提示
-                                Layer.toastWarning(
-                                    "Number of videos has used up");
-                              }
+                            MoAd.getInstance(context).showRewardVideo(() {
+                              //success
+                              luckyGroup.autoStart();
+                              setState(() {
+                                isAuto = true;
+                              });
+                            }, (error) {
+                              //failed
+                              print("$error");
                             });
                           },
                           child: renderItem(

@@ -7,6 +7,7 @@ class Event_Name {
   static const APP_RESUMED = 'APP_RESUMED';
 
   static const JUMP_TO_HOME = 'JUMP_TO_HOME';
+
   // 显示弹窗
   static const MODAL_SHOW = 'MODAL_SHOW';
 
@@ -19,6 +20,22 @@ class Event_Name {
   static const String message_notification = 'message_notification';
 
   static const String set_message_notification = 'set_message_notification';
+
+  static const String mopub_initialize_reward_video =
+      "mopub_initialize_reward_video";
+  static const String mopub_load_reward_video = "mopub_load_reward_video";
+  static const String mopub_show_reward_video = "mopub_show_reward_video";
+
+  static const String mopub_load_reward_video_success =
+      "mopub_load_reward_video_success";
+  static const String mopub_load_reward_video_failure =
+      "mopub_load_reward_video_failure";
+  static const String mopub_reward_video_complete =
+      "mopub_reward_video_complete";
+  static const String mopub_is_reward_video_ready =
+      "mopub_is_reward_video_ready";
+  static const String mopub_reward_video_closed =
+      "mopub_reward_video_closed";
 }
 
 // 游戏相关设置
@@ -49,6 +66,7 @@ class App {
 
   // 离线时长小于10分钟 没有离线奖励
   static const num NO_UN_LINE_TIME = 10 * 60;
+
   // 更新弹幕时间间隔
   static const int BarrageTimer = 5 * 60;
 
@@ -123,11 +141,16 @@ class TreeType {
 /// 放置常量的类
 class Consts {
   // 手动切换底部栏使用
-  static GlobalKey globalKeyBottomBar = new GlobalKey(debugLabel: 'key_bottom_bar');
-  static GlobalKey globalKeyWheel = new GlobalKey(debugLabel: 'key_lucky_wheel');
-  static GlobalKey globalKeyAddTreeBtn = new GlobalKey(debugLabel: 'key_add_tree');
-  static GlobalKey globalKeyTreeGrid = new GlobalKey(debugLabel: 'key_tree_grid');
-  static GlobalKey globalKeyMineCash = new GlobalKey(debugLabel: 'key_mine_cash');
+  static GlobalKey globalKeyBottomBar =
+      new GlobalKey(debugLabel: 'key_bottom_bar');
+  static GlobalKey globalKeyWheel =
+      new GlobalKey(debugLabel: 'key_lucky_wheel');
+  static GlobalKey globalKeyAddTreeBtn =
+      new GlobalKey(debugLabel: 'key_add_tree');
+  static GlobalKey globalKeyTreeGrid =
+      new GlobalKey(debugLabel: 'key_tree_grid');
+  static GlobalKey globalKeyMineCash =
+      new GlobalKey(debugLabel: 'key_mine_cash');
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";

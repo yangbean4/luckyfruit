@@ -9,6 +9,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/router.dart';
+import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
@@ -19,10 +20,8 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'mould/tree.mould.dart';
-import 'utils/mo_ad.dart';
-import 'package:luckyfruit/utils/bgm.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'utils/firebase_msg.dart';
+import 'utils/mo_ad.dart';
 
 void main() {
   // debugProfileBuildsEnabled = true;
@@ -44,7 +43,6 @@ void main() {
     FbMsg.init(userId);
     // 监听来源 :是否是DynamicLink
     DynamicLink.initDynamicLinks(userId);
-    MoAd.USER_ID = userId;
     luckyGroup
         .init(userModel.value.last_draw_time, userModel.value?.version, userId)
         .then((e) {
@@ -87,6 +85,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MoAd.getInstance(context);
     var overlay = Overlay(initialEntries: [
       OverlayEntry(
         builder: (BuildContext context) {
