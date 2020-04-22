@@ -1036,7 +1036,7 @@ class Layer {
         source == target ||
         source.grade != target.grade ||
         // 1. 新合成��树的等级要低于当前最高等级两级及以上；
-        source.grade >= treeGroup.maxLevel() - 2 ||
+        source.grade >= treeGroup.maxLevel() - 3 ||
         // 2. 可购买等级要小于等于接口返回的purchase_tree_level
         treeGroup.minLevel > luckyGroup?.issed?.purchase_tree_level ||
         // 3. 每合成 compose_numbers次数后触发一次

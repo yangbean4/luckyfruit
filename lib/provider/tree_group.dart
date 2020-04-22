@@ -127,16 +127,17 @@ class TreeGroup with ChangeNotifier {
 
 //    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
 
-    int level1 = maxLevel(includeMaxLevel: true);
-    int level2 = 0;
-    if (treeGradeNumber.keys?.length > 0) {
-      level2 = treeGradeNumber.keys.map((t) {
-        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
-        return int.tryParse(t);
-      }).reduce(max);
-    }
-    print("tree_minlevel: $level1, $level2, ");
-    return max(Tree(grade: level1).highLevelCanPurchese, level2);
+    // int level1 = maxLevel(includeMaxLevel: true);
+    // int level2 = 0;
+    // if (treeGradeNumber.keys?.length > 0) {
+    //   level2 = treeGradeNumber.keys.map((t) {
+    //     print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
+    //     return int.tryParse(t);
+    //   }).reduce(max);
+    // }
+    // print("tree_minlevel: $level1, $level2, ");
+    // return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
+    return Tree(grade: hasMaxLevel).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
@@ -162,19 +163,20 @@ class TreeGroup with ChangeNotifier {
 
   // 当前树中的最大等级
   int maxLevel({bool includeMaxLevel = false}) {
-    final gjb = allTreeList.where((tree) {
-      bool result = (includeMaxLevel &&
-              // 排除许愿树和限时分红树
-              tree.type != TreeType.Type_TimeLimited_Bonus &&
-              tree.type != TreeType.Type_Wishing) ||
-          (!includeMaxLevel && tree.grade != Tree.MAX_LEVEL);
-//      print("maxLevel:tree:${tree.toJson()}, $result, $includeMaxLevel");
-      return result;
-    }).map((t) => t.grade);
-    return gjb.isEmpty ? 1 : gjb.reduce(max);
+//     final gjb = allTreeList.where((tree) {
+//       bool result = (includeMaxLevel &&
+//               // 排除许愿树和限时分红树
+//               tree.type != TreeType.Type_TimeLimited_Bonus &&
+//               tree.type != TreeType.Type_Wishing) ||
+//           (!includeMaxLevel && tree.grade != Tree.MAX_LEVEL);
+// //      print("maxLevel:tree:${tree.toJson()}, $result, $includeMaxLevel");
+//       return result;
+//     }).map((t) => t.grade);
+//     return gjb.isEmpty ? 1 : gjb.reduce(max);
+    return hasMaxLevel;
   }
 
-  Tree get maxLevelTree => new Tree(grade: maxLevel());
+  Tree get maxLevelTree => new Tree(grade: hasMaxLevel);
 
   /**
    * 返回最大级别（38级）的树,作为限时分红树
@@ -270,7 +272,7 @@ class TreeGroup with ChangeNotifier {
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
         // 种树计算放到后端下发; 这个字段不需要存储了
         'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
-        "hasMaxLevel": hasMaxLevel,
+        "hasMaxLevel": hasMaxLevel.toString(),
         'warehouseTreeList':
             this._warehouseTreeList.map((map) => map.toJson()).toList()
       };
@@ -386,7 +388,7 @@ class TreeGroup with ChangeNotifier {
     _dataLoad = true;
     notifyListeners();
 
-    if (maxLevel() >= 6) {
+    if (hasMaxLevel >= 6) {
       // 刚进来时判断最大等级树木已经超过6级，则不再显示大转盘解锁动画和大转盘锁icon
       Storage.setItem(Consts.SP_KEY_UNLOCK_WHEEL, "1");
       _luckyGroup.setShowLuckyWheelLockIcon(false, notify: false);
@@ -675,7 +677,7 @@ class TreeGroup with ChangeNotifier {
 
   /// 通过接口检查是否获取奖励(1. 限时分红树 2. 全�����分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
   checkBonusTree() async {
-    checkBonusTreeWhenUnlockingNewLevel(acct_id, maxLevel() + 1)
+    checkBonusTreeWhenUnlockingNewLevel(acct_id, hasMaxLevel)
         .then((value) async {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
@@ -735,7 +737,8 @@ class TreeGroup with ChangeNotifier {
   makeTreasure(TreePoint point) {
     // 等级为 最小等级+���机的_treasugrade等级 与最大等级减1 的最小值
     // _grade不能小于1
-    int _grade = min(maxLevel() - 1, minLevel + Random().nextInt(_treasugrade));
+    int _grade =
+        min(hasMaxLevel - 1, minLevel + Random().nextInt(_treasugrade));
     treasureTree = Tree(
         x: point.x,
         y: point.y,
@@ -765,7 +768,7 @@ class TreeGroup with ChangeNotifier {
       Layer.toastWarning('Keep at least one tree');
       return;
     }
-    if (tree.grade == maxLevel()) {
+    if (tree.grade == hasMaxLevel) {
       return Layer.toastWarning('Maximal tree cannot recycle');
     }
     _treeList.remove(tree);
