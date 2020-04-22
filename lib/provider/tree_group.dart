@@ -136,7 +136,7 @@ class TreeGroup with ChangeNotifier {
       }).reduce(max);
     }
     print("tree_minlevel: $level1, $level2, ");
-    return Tree(grade: max(level1, level2)).highLevelCanPurchese;
+    return max(Tree(grade: level1).highLevelCanPurchese, level2);
   }
 
   Tree get minLevelTree =>
@@ -144,6 +144,9 @@ class TreeGroup with ChangeNotifier {
 
 // 第一次领取限时分红树的partner处红点提示
   bool _isFirstTimeimt = false;
+
+// 曾经拥有过的最大等级的树
+  int hasMaxLevel;
 
   bool get isFirstTimeimt => _isFirstTimeimt;
 
@@ -267,6 +270,7 @@ class TreeGroup with ChangeNotifier {
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
         // 种树计算放到后端下发; 这个字段不需要存储了
         'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
+        "hasMaxLevel": hasMaxLevel,
         'warehouseTreeList':
             this._warehouseTreeList.map((map) => map.toJson()).toList()
       };
@@ -298,6 +302,7 @@ class TreeGroup with ChangeNotifier {
           : {};
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
+      hasMaxLevel = int.parse(group['hasMaxLevel'] ?? '0');
       notifyListeners();
     }
   }
@@ -591,9 +596,10 @@ class TreeGroup with ChangeNotifier {
       removeAnimateTargetTree(animateSourceTree);
 
       // 解锁新等级
-      if (target.grade + 1 > maxLevel()) {
+      if (target.grade + 1 > hasMaxLevel) {
+        hasMaxLevel = target.grade + 1;
         Bgm.treenewlevelup();
-        Layer.newGrade(new Tree(grade: maxLevel() + 1),
+        Layer.newGrade(new Tree(grade: hasMaxLevel),
             amount: globalDividendTree?.amount, onOk: () {
           // 到达6级的时候，解锁大转盘
           if (target.grade + 1 < 6) {
