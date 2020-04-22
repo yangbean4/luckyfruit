@@ -9,6 +9,9 @@ package goodluck.lucky.money.mergegarden.win.cash;
 
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+
 import androidx.multidex.MultiDex;
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.PluginRegistry;
@@ -21,6 +24,11 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void onCreate() {
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
+
+        if (BuildConfig.DEBUG) {
+            FacebookSdk.setIsDebugEnabled(true);
+            FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+        }
     }
 
     @Override
