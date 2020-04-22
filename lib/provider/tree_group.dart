@@ -128,16 +128,16 @@ class TreeGroup with ChangeNotifier {
 //    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
 
     // int level1 = maxLevel(includeMaxLevel: true);
-    // int level2 = 0;
-    // if (treeGradeNumber.keys?.length > 0) {
-    //   level2 = treeGradeNumber.keys.map((t) {
-    //     print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
-    //     return int.tryParse(t);
-    //   }).reduce(max);
-    // }
-    // print("tree_minlevel: $level1, $level2, ");
-    // return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
-    return Tree(grade: hasMaxLevel).highLevelCanPurchese;
+    int level2 = 0;
+    if (treeGradeNumber.keys?.length > 0) {
+      level2 = treeGradeNumber.keys.map((t) {
+        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
+        return int.tryParse(t);
+      }).reduce(max);
+    }
+//     print("tree_minlevel: $level1, $level2, ");
+    return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
+//    return Tree(grade: hasMaxLevel).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
@@ -147,7 +147,7 @@ class TreeGroup with ChangeNotifier {
   bool _isFirstTimeimt = false;
 
 // 曾经拥有过的最大等级的树
-  int hasMaxLevel;
+  int hasMaxLevel = 1;
 
   bool get isFirstTimeimt => _isFirstTimeimt;
 
@@ -304,7 +304,13 @@ class TreeGroup with ChangeNotifier {
           : {};
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-      hasMaxLevel = int.parse(group['hasMaxLevel'] ?? '0');
+      bool temp =
+          group['hasMaxLevel'] == null || group['hasMaxLevel'] == "null";
+      hasMaxLevel = int.parse(temp ? '0' : temp);
+      if (hasMaxLevel <= 0) {
+        //默认值为1
+        hasMaxLevel = 1;
+      }
       notifyListeners();
     }
   }

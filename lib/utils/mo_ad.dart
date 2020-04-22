@@ -16,6 +16,7 @@ class MoAd {
   Function successCallback;
   Function(String error) failCallback;
   bool reachRewardPoint = false;
+  int retryCount = 0;
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
@@ -45,11 +46,17 @@ class MoAd {
 
   void onRewardedVideoLoadSuccess(arg) {
     print("onRewardAdsLoadSuccess: $arg");
+    retryCount = 0;
   }
 
   void onRewardedVideoLoadFailure(arg) {
-    print("onRewardedVideoLoadFailure: $arg");
-    loadRewardAds();
+    retryCount++;
+    print("onRewardedVideoLoadFailure: $arg, retryCount:$retryCount");
+    if (retryCount <= 3) {
+      loadRewardAds();
+    } else {
+      retryCount = 0;
+    }
   }
 
   void onRewardedVideoCompleted(arg) {
