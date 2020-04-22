@@ -65,6 +65,7 @@ class _DividendState extends State<Dividend> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             MyNavigator().navigatorPop(context);
                           },

@@ -7,6 +7,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -184,6 +185,9 @@ class _MinePageState extends State<MinePage> {
                                     ),
                                   ),
                                   onTap: () {
+                                    BurialReport.report(
+                                        'invite_entr', {'entr_code': '005'});
+
                                     Clipboard.setData(
                                             ClipboardData(text: shareLink))
                                         .then((e) {

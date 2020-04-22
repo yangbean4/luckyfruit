@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 
 import 'package:luckyfruit/models/index.dart' show PersonalInfo, InviterData;
@@ -148,6 +149,8 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                 builder: (_, String invite_code, __) {
                   return GestureDetector(
                     onTap: () {
+                      BurialReport.report('invite_entr', {'entr_code': '006'});
+
                       Clipboard.setData(ClipboardData(text: invite_code))
                           .then((e) {
                         Layer.toastSuccess('copy Success');

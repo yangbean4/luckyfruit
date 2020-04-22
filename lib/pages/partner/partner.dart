@@ -9,6 +9,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
@@ -386,6 +387,8 @@ class PartnerState extends State<Partner> {
                                           GestureDetector(
                                             onTap: () {
                                               // Layer.partnerCash();
+                                              BurialReport.report('invite_entr',
+                                                  {'entr_code': '001'});
                                             },
                                             child: PrimaryButton(
                                                 width: 600,

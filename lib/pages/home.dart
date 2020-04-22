@@ -43,9 +43,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.paused) {
       print('AppLifecycleState.paused');
+      BurialReport.report('switchback', {'type': '2'});
+
       EVENT_BUS.emit(Event_Name.APP_PAUSED);
     }
     if (state == AppLifecycleState.resumed) {
+      BurialReport.report('switchback', {'type': '1'});
+
       EVENT_BUS.emit(Event_Name.APP_RESUMED);
     }
   }
@@ -67,6 +71,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   bool myInterceptor(bool stopDefaultButtonEvent) {
     print("BACK BUTTON!"); // Do some stuff.
+    BurialReport.report('switchback', {'type': '2'});
+
     EVENT_BUS.emit(Event_Name.APP_PAUSED);
     return false;
   }

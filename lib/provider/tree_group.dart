@@ -10,6 +10,7 @@ import 'package:luckyfruit/models/index.dart'
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
@@ -265,7 +266,7 @@ class TreeGroup with ChangeNotifier {
         'upDateTime': this._upDateTime.millisecondsSinceEpoch.toString(),
         'treeList': this._treeList.map((map) => map.toJson()).toList(),
         // 种树计算放到后端下发; 这个字段不需要存储了
-        // 'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
+        'treeGradeNumber': jsonEncode(treeGradeNumber).toString(),
         'warehouseTreeList':
             this._warehouseTreeList.map((map) => map.toJson()).toList()
       };
@@ -292,11 +293,11 @@ class TreeGroup with ChangeNotifier {
                   ? null
                   : Tree.formJson(map as Map<String, dynamic>))
               ?.toList();
-      // Map<String, dynamic> _treeGradeNumber =
-      //     jsonDecode(group['treeGradeNumber']);
-      // treeGradeNumber =
-      //     Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-      treeGradeNumber = {};
+      Map<String, dynamic> _treeGradeNumber = group['treeGradeNumber'] != null
+          ? jsonDecode(group['treeGradeNumber'])
+          : {};
+      treeGradeNumber =
+          Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
       notifyListeners();
     }
   }
@@ -626,9 +627,12 @@ class TreeGroup with ChangeNotifier {
   treeMergeAnimateEnd(Tree tree) {
     if (animateTargetTree != null && animateSourceTree != null) {
       Bgm.mergeTree();
+      animateTargetTree.grade++;
+
+      BurialReport.report(
+          'merge_level', {'tree_level': animateTargetTree.grade.toString()});
 
       // 设置等级+1
-      animateTargetTree.grade++;
       // 移除动画用到的树
     }
     animateSourceTree = null;
@@ -691,6 +695,7 @@ class TreeGroup with ChangeNotifier {
     if (!result) {
       Layer.messageNotification(() {
         channelBus.callNativeMethod(Event_Name.set_message_notification);
+        BurialReport.report('reminder', {});
       });
     }
   }

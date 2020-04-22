@@ -8,6 +8,7 @@ import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPrizeModal;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 
@@ -173,6 +174,7 @@ class TourismMap with ChangeNotifier {
       '_allgold': 0,
       'level': _level.toString()
     };
+    BurialReport.report('captain_level', {'level': _level.toString()});
 
     // 解锁城市
     // _cityId = (_level ~/ TourismMap.LEVEL_SPLIT + 1).toString();
@@ -185,6 +187,8 @@ class TourismMap with ChangeNotifier {
       data['deblock_city'] = levelRoule.deblock_city;
       _cityId = levelRoule.deblock_city;
       _newCitydeblock = true;
+      BurialReport.report('unlock_city', {'city_number': _cityId.toString()});
+
       notifyListeners();
       MapPrizeModal().show(cityInfo);
     }

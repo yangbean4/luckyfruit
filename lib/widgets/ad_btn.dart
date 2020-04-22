@@ -80,7 +80,9 @@ class _AdButtonState extends State<AdButton> {
                   // 看广告成功
                   widget?.onOk();
                 } else {
-                  widget?.onCancel();
+                  if (widget?.onCancel != null) {
+                    widget.onCancel();
+                  }
                   // 看广告失败,弹框提示
                   Layer.toastWarning("Number of videos has used up");
                 }

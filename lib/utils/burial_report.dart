@@ -37,6 +37,10 @@ class BurialReport {
 
   static report(String event_name, Map<String, String> map) {
     map['event_name'] = event_name;
+    map['config_version'] = configVersion;
+    map['app_version'] = appVersion;
+    map['time'] = DateTime.now().toString();
+
     Map<String, String> data = _getData(map);
     ChannelBus().callNativeMethod("tga_track", arguments: jsonEncode(data));
     print(data);

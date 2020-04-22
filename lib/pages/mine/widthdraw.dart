@@ -10,6 +10,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
@@ -789,6 +790,7 @@ class _Enjoy {
     }
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.upDate({'score': star});
+    BurialReport.report('comment', {'star': star.toString()});
   }
 }
 

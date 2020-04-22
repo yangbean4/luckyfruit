@@ -11,6 +11,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'dart:convert';
@@ -691,6 +692,7 @@ class RankPageState extends State<RankPage>
             alignment: Alignment(0, 0),
             child: GestureDetector(
                 onTap: () {
+                  BurialReport.report('invite_entr', {'entr_code': '002'});
                   print("_tabController.index= ${_tabController.index}");
                 },
                 child: PrimaryButton(text: "Invite", width: 600, height: 124)),

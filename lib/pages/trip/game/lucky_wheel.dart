@@ -11,6 +11,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
@@ -272,8 +273,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       print("controller.isAnimating");
                       return;
                     }
-
+                    BurialReport.report('c_wheel_entr', {});
                     if (ticketCount <= 0) {
+                      BurialReport.report('spin_wheel', {'type': '2'});
+
                       //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
                       Service()
                           .addTicket({'acct_id': data?.item2}).then((value) {
@@ -303,6 +306,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       });
                       return;
                     }
+                    BurialReport.report('spin_wheel', {'type': '1'});
 
                     handleStartSpin(data?.item3);
                   },

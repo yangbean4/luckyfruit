@@ -1244,33 +1244,36 @@ class Layer {
 
   /// 雌雄啤��花树合成后的现金奖励弹窗
   static showMoneyRewardAfterHopsMerge(num rewardDollar) {
-    Modal(onOk: () {
-      // 本地增加money
-      EVENT_BUS.emit(MoneyGroup.ADD_MONEY, rewardDollar?.toDouble());
-    }, okText: "Claim", children: <Widget>[
-      Image.asset(
-        'assets/image/bg_dollar.png',
-        width: ScreenUtil().setWidth(278),
-        height: ScreenUtil().setWidth(170),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(30)),
-        child: SecondaryText(
-          "You‘ve got",
-          fontWeight: FontWeight.w400,
-          fontFamily: FontFamily.regular,
-        ),
-      ),
-      GoldText(
-        Util.formatNumber(rewardDollar),
-        imgUrl: "assets/image/icon_dollar.png",
-        iconSize: 72,
-        textSize: 66,
-        fontFamily: FontFamily.semibold,
-        fontWeight: FontWeight.w500,
-      ),
-      Container(height: ScreenUtil().setWidth(35)),
-    ]).show();
+    Modal(
+        onOk: () {
+          // 本地增加money
+          EVENT_BUS.emit(MoneyGroup.ADD_MONEY, rewardDollar?.toDouble());
+        },
+        okText: "Claim",
+        children: <Widget>[
+          Image.asset(
+            'assets/image/bg_dollar.png',
+            width: ScreenUtil().setWidth(278),
+            height: ScreenUtil().setWidth(170),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(30)),
+            child: SecondaryText(
+              "You‘ve got",
+              fontWeight: FontWeight.w400,
+              fontFamily: FontFamily.regular,
+            ),
+          ),
+          GoldText(
+            Util.formatNumber(rewardDollar),
+            imgUrl: "assets/image/icon_dollar.png",
+            iconSize: 72,
+            textSize: 66,
+            fontFamily: FontFamily.semibold,
+            fontWeight: FontWeight.w500,
+          ),
+          Container(height: ScreenUtil().setWidth(35)),
+        ]).show();
   }
 
   /// 提现时如果没有登录FB,则提示登录
@@ -1339,8 +1342,11 @@ class GetReward {
                 margin:
                     EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(45)),
                 child: TreeWidget(
-                  imgSrc: 'assets/image/dividend_tree.png',
-                  label: '38',
+                  // imgSrc: 'assets/image/dividend_tree.png',
+                  // label: '38',
+                  tree: Tree(
+                      grade: Tree.MAX_LEVEL,
+                      type: TreeType.Type_TimeLimited_Bonus),
                   imgHeight: ScreenUtil().setWidth(218),
                   imgWidth: ScreenUtil().setWidth(237),
                   labelWidth: ScreenUtil().setWidth(110),
@@ -1467,8 +1473,10 @@ class GetReward {
               ),
               Container(height: ScreenUtil().setWidth(36)),
               TreeWidget(
-                  imgSrc: 'assets/tree/wishing.png',
-                  label: Tree.MAX_LEVEL.toString(),
+                  // imgSrc: 'assets/tree/wishing.png',
+                  // label: Tree.MAX_LEVEL.toString(),
+                  tree:
+                      Tree(grade: Tree.MAX_LEVEL, type: TreeType.Type_Wishing),
                   imgHeight: ScreenUtil().setWidth(236),
                   imgWidth: ScreenUtil().setWidth(216),
                   labelWidth: ScreenUtil().setWidth(80),

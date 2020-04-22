@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show CityInfo, DeblokCity;
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -574,8 +575,11 @@ class __MapPrizeState extends State<_MapPrize> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       TreeWidget(
-                        imgSrc: 'assets/image/dividend_tree.png',
-                        label: '38',
+                        // imgSrc: 'assets/image/dividend_tree.png',
+                        // label: '38',
+                        tree: Tree(
+                            grade: Tree.MAX_LEVEL,
+                            type: TreeType.Type_TimeLimited_Bonus),
                         imgHeight: ScreenUtil().setWidth(230),
                         imgWidth: ScreenUtil().setWidth(282),
                         labelWidth: ScreenUtil().setWidth(72),

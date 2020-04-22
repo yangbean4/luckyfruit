@@ -120,9 +120,9 @@ class UserModel with ChangeNotifier {
           'rela_type': 1,
           'avatar': profile['picture']['data']['url'],
           'name': profile['name'],
-          'rela_account': profile['email']
+          'rela_account': profile['id'] ?? profile['email']
         });
-        getUserInfo();
+        await getUserInfo();
         // 登录成功
         hasLoginedFB = true;
         break;

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:social_share_plugin/social_share_plugin.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,8 @@ class BonusTree extends StatefulWidget {
 
 class _BonusTreeState extends State<BonusTree> {
   _inviteFriends() async {
+    BurialReport.report('invite_entr', {'entr_code': '004'});
+
     // 系统选择图片
     // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
