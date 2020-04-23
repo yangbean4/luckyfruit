@@ -4,6 +4,8 @@ import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart'
     show App, Consts, Event_Name, TreeType;
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
