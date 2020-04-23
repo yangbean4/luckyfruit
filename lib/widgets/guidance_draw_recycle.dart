@@ -15,8 +15,9 @@ class _InvertedCRRectClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     return new Path()
       ..addRRect(RRect.fromRectAndRadius(
-          Rect.fromLTWH(
-              leftPos, topPos, radius * 2.1, ScreenUtil().setWidth(300)),
+          Rect.fromLTRB(10, 10, 90, 50),
+//          Rect.fromLTRB(
+//              leftPos, topPos, leftPos+radius * 2.1, 100),
           Radius.circular(70)))
       ..addRect(Rect.fromLTWH(
           0.0, 0.0, ScreenUtil().setWidth(1080), ScreenUtil().setWidth(2500)))
@@ -48,12 +49,12 @@ class GuidanceFingerInRRectWidget extends StatelessWidget {
   }
 }
 
-class GuidanceDrawRRectWidget extends StatefulWidget {
+class GuidanceDrawRecycleWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _GuidanceDrawCircleState();
+  State<StatefulWidget> createState() => _GuidanceDrawRecycleState();
 }
 
-class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
+class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
     with TickerProviderStateMixin {
   CurvedAnimation curveEaseIn;
   AnimationController controller;
@@ -168,6 +169,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
           return Selector<LuckyGroup, bool>(
               selector: (context, provider) => provider.showRRectGuidance,
               builder: (_, bool show, __) {
+                show = false;
                 if (show) {
                   _playAnimation();
                 }
@@ -181,19 +183,17 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
                                 scaleAnimation?.value ??
                                     ScreenUtil().setWidth(300),
                                 leftPosAnimation?.value ?? 0,
-                                topPosAnimation?.value ??
-//                                  ScreenUtil().setWidth(1920 - 930 - 10 + 86),
-                                    dy),
+                                topPosAnimation?.value ?? dy),
                             child: Container(
                               width: ScreenUtil().setWidth(1080),
                               height: ScreenUtil().setWidth(2500),
                               color: Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                           ),
-                          enableFingerAnimatino
-                              ? GuidanceFingerInRRectWidget(
-                                  fingerLeftPosAnimation.value, dy)
-                              : Container(),
+//                          enableFingerAnimatino
+//                              ? GuidanceFingerInRRectWidget(
+//                                  fingerLeftPosAnimation.value, dy)
+//                              : Container(),
                         ],
                       )
                     : Container();

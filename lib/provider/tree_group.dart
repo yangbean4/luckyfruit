@@ -316,6 +316,7 @@ class TreeGroup with ChangeNotifier {
         //默认值为1
         hasMaxLevel = 1;
       }
+      print("hasMaxLevel_init: $hasMaxLevel");
       notifyListeners();
     }
   }
@@ -405,6 +406,7 @@ class TreeGroup with ChangeNotifier {
       _luckyGroup.setShowLuckyWheelLockIcon(false, notify: false);
 
       Storage.getItem(Consts.SP_KEY_GUIDANCE_WHEEL).then((value) {
+        print("SP_KEY_GUIDANCE_WHEEL_cache_value: $value");
         if (value == null) {
           _luckyGroup.setShowLuckyWheelDot(true, notify: false);
         }
@@ -624,7 +626,7 @@ class TreeGroup with ChangeNotifier {
         Layer.newGrade(new Tree(grade: hasMaxLevel),
             amount: globalDividendTree?.amount, onOk: () {
           // 到达6级的时候，解锁大转盘
-          if (target.grade + 1 < 6) {
+          if (hasMaxLevel < 6) {
             return;
           }
           Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
@@ -710,18 +712,21 @@ class TreeGroup with ChangeNotifier {
           'tree_grade': hasMaxLevel.toString()
         });
 
-        String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
-        if (res == null) {
-          // 如果是 显示弹窗; 则存储key 保证下次判断
-          _luckyGroup.setShowFirstGetMoney = true;
-          Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
-        }
         // 检查是否弹出打开通知消息的弹创
         if (value.is_push_on == 1) {
           checkMag();
         }
       }
     });
+  }
+
+  void checkShowFirstGetMoney() async {
+    String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
+    if (res == null) {
+      // 如果是 显示弹窗; 则存储key 保证下次判断
+      _luckyGroup.setShowFirstGetMoney = true;
+      Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
+    }
   }
 
   // 检查是否开启了通知; 提示打开消息通知

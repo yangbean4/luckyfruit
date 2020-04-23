@@ -79,18 +79,20 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
               ? AnimatedBuilder(
                   builder: (BuildContext context, Widget child) {
                     return Positioned(
-                      bottom:
-                          bottombarHeight - ScreenUtil().setWidth(120),
+                      bottom: bottombarHeight - ScreenUtil().setWidth(120),
                       left: ScreenUtil().setWidth(540 - 105),
                       child: Transform.scale(
 //                        scale: 1,
                         scale: scaleAnimation?.value ?? 0,
-                        child: Container(
-                          // color: Colors.red[100],
-                          child: Image.asset(
-                            'assets/image/guidance_finger.png',
-                            width: ScreenUtil().setWidth(210),
-                            height: ScreenUtil().setWidth(280),
+                        //手指可以透传点击事件到下面widget
+                        child: IgnorePointer(
+                          child: Container(
+                            // color: Colors.red[100],
+                            child: Image.asset(
+                              'assets/image/guidance_finger.png',
+                              width: ScreenUtil().setWidth(210),
+                              height: ScreenUtil().setWidth(280),
+                            ),
                           ),
                         ),
                       ),

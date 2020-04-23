@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/config/app.dart' show App, Consts, TreeType;
+import 'package:lottie/lottie.dart';
+import 'package:luckyfruit/config/app.dart'
+    show App, Consts, Event_Name, TreeType;
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
@@ -76,11 +77,25 @@ class _TripBtnsState extends State<TripBtns> {
               shape: BoxShape.circle,
             ),
             child: Stack(alignment: AlignmentDirectional.center, children: [
-              Image.asset(
-                imgSrc,
-                width: ScreenUtil().setWidth(90),
-                height: ScreenUtil().setWidth(90),
-              ),
+              Selector<LuckyGroup, bool>(
+                  selector: (context, provider) =>
+                      provider.showLuckyWheelLockIcon,
+                  builder: (_, bool show, __) {
+                    return GestureDetector(
+                      onTap: onTap,
+                      child: showLock && !show
+                          ? Lottie.asset(
+                              'assets/lottiefiles/lucky_wheel.json',
+                              width: ScreenUtil().setWidth(90),
+                              height: ScreenUtil().setWidth(90),
+                            )
+                          : Image.asset(
+                              imgSrc,
+                              width: ScreenUtil().setWidth(90),
+                              height: ScreenUtil().setWidth(90),
+                            ),
+                    );
+                  }),
               showMark
                   ? Selector<LuckyGroup, bool>(
                       selector: (context, provider) =>
@@ -197,12 +212,7 @@ class _TripBtnsState extends State<TripBtns> {
         ],
       ),
     );
-    return onTap == null
-        ? item
-        : GestureDetector(
-            onTap: onTap,
-            child: item,
-          );
+    return item;
   }
 
   _showWindow(num glod, Function onOk) {

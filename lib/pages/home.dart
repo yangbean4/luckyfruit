@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
@@ -8,9 +7,10 @@ import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_recycle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
@@ -18,9 +18,8 @@ import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
-
-import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
+
 import './trip/trip.dart';
 import '../theme/index.dart';
 
@@ -109,7 +108,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                         width: ScreenUtil().setWidth(20),
                         height: ScreenUtil().setWidth(20),
                         decoration: BoxDecoration(
-                            color: MyTheme.primaryColor,
+                            gradient: LinearGradient(
+                                begin: Alignment(0.0, -1.0),
+                                end: Alignment(0.0, 1.0),
+                                colors: <Color>[
+                                  Color(0xffFE6541),
+                                  Color(0xffDC1B0C),
+                                ]),
                             borderRadius: BorderRadius.all(
                                 Radius.circular(ScreenUtil().setWidth(10)))),
                         child: null,
@@ -227,10 +232,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         GuidanceMapWidget(),
         // 新手引导-firstGetMoney
         GuidanceFirstGetMoneyWidget(),
-        //大转盘解锁
+        // 大转盘解锁
         WheelUnlockWidget(),
         // 手指引导
         GuidanceFingerWidget(),
+        // 新手引导-回收树木
+//        GuidanceDrawRecycleWidget(),
       ],
     );
   }

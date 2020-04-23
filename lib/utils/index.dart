@@ -38,8 +38,10 @@ class Util {
     RegExp reg = new RegExp(r"(\d)((?:\d{3})+\b)");
     String result = index <= 0
         ? number.toStringAsFixed(fixed ?? 2)
-        : (number / pow(10.0, 3 * index)).toStringAsFixed(1).replaceAllMapped(
-                reg, (match) => "${match.group(1)},${match.group(2)}") +
+        : (number / pow(10.0, 3 * index))
+                .toStringAsFixed(fixed ?? 2)
+                .replaceAllMapped(
+                    reg, (match) => "${match.group(1)},${match.group(2)}") +
             dan[index];
 
     // print("format_result= $result");

@@ -865,6 +865,8 @@ class Layer {
           plantTimeLimitTree(treeGroup, tree.treeId).then((map) {
             print("plantTimeLimitTree: $map");
           });
+
+          treeGroup.checkShowFirstGetMoney();
         },
         okText: "Claim",
         children: [
