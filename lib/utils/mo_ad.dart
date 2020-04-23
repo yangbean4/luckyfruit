@@ -64,7 +64,10 @@ class MoAd {
 
       print("retryDelayedTimeInSeconds: $_luckyGroup?.issed?.ad_reset_time");
       // x时长后重新请求
-      Future.delayed(Duration(seconds: _luckyGroup?.issed?.ad_reset_time), () {
+      Future.delayed(
+          Duration(
+              seconds: _luckyGroup?.issed?.ad_reset_time ??
+                  retryDelayedTimeInSeconds), () {
         loadRewardAds();
       });
     }

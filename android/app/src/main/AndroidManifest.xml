@@ -108,10 +108,16 @@
             android:name="com.facebook.sdk.AutoInitEnabled"
             android:value="true" />
 
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="xdc4PV1uTgXJeKlhVQF5LBUBqq0yruJtgTnCPCSmqHizdEC-ZNN79mwJMcyTL6mFM0ywwk4V4pQOLdG_1WpfQf" />
+
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider231887997874001"
             android:exported="true" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="goodluck.lucky.money.mergegarden.win.cash.social.share.fileprovider"

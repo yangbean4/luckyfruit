@@ -697,7 +697,7 @@ class TreeGroup with ChangeNotifier {
         String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
         if (res == null) {
           // 如果是 显示弹窗; 则存储key 保证下次判断
-          Layer.howGetMoney();
+          _luckyGroup.setShowFirstGetMoney = true;
           Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
         }
         // 检查是否弹出打开通知消息的弹创

@@ -9,8 +9,11 @@ package goodluck.lucky.money.mergegarden.win.cash;
 
 import android.content.Context;
 
+import com.applovin.sdk.AppLovinSdk;
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
+
+import java.util.ArrayList;
 
 import androidx.multidex.MultiDex;
 import io.flutter.app.FlutterApplication;
@@ -29,6 +32,12 @@ public class Application extends FlutterApplication implements PluginRegistrantC
             FacebookSdk.setIsDebugEnabled(true);
             FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         }
+
+//        AppLovinSdk.initializeSdk(this);
+//        final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
+//        sdk.getSettings().setTestDeviceAdvertisingIds(list);
     }
 
     @Override
