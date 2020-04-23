@@ -57,9 +57,6 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         ThinkingAnalyticsSDK tdInstance = ThinkingAnalyticsSDK.sharedInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
                 "http://tad.sen-sdk.com");
 
-        // 初始化 mopub SDK
-        initRewardAds();
-
         new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)
                 .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
                     @Override
@@ -127,6 +124,9 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         basicMessageChannel = new BasicMessageChannel<Object>(getFlutterView(), Config.EVENT_CHANNEL,
                 StandardMessageCodec.INSTANCE);
+
+        // 初始化 mopub SDK
+        initRewardAds();
     }
 
     public void initRewardAds() {
@@ -193,6 +193,16 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     @Override
     public void onRewardedVideoLoadFailure(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
         Log.i("tago", "onRewardedVideoLoadFailure " + errorCode);
+        Map<String, Object> json = new HashMap<>();
+        json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_FAILURE);
+        json.put("data", "param");
+
+        basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
+            @Override
+            public void reply(Object reply) {
+                Log.i("tago", "reply: " + reply);
+            }
+        });
     }
 
     @Override

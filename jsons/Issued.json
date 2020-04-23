@@ -21,5 +21,6 @@
   "double_coin_time": 100,
   "hops_reward": 0,
   "first_reward_coin": 1000,
-  "cash_amount_list": "$[]cash_amount"
+  "cash_amount_list": "$[]cash_amount",
+  "ad_reset_time": 0
 }

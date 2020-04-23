@@ -146,7 +146,7 @@ class TreeGroup with ChangeNotifier {
   bool _isFirstTimeimt = false;
 
 // 曾经拥有过的最大等级的树
-  int hasMaxLevel;
+  int hasMaxLevel = 1;
 
   bool get isFirstTimeimt => _isFirstTimeimt;
 
@@ -303,7 +303,19 @@ class TreeGroup with ChangeNotifier {
           : {};
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-      hasMaxLevel = int.parse(group['hasMaxLevel'] ?? '1');
+      bool invalid =
+          group['hasMaxLevel'] == null || group['hasMaxLevel'] == "null";
+      print("group['hasMaxLevel']= ${group['hasMaxLevel']}");
+
+      if (group['hasMaxLevel'] is String) {
+        hasMaxLevel = int.parse(invalid ? '0' : group['hasMaxLevel']);
+      } else if (group['hasMaxLevel'] is int) {
+        hasMaxLevel = group['hasMaxLevel'];
+      }
+      if (hasMaxLevel <= 0) {
+        //默认值为1
+        hasMaxLevel = 1;
+      }
       notifyListeners();
     }
   }
@@ -701,7 +713,7 @@ class TreeGroup with ChangeNotifier {
         String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
         if (res == null) {
           // 如果是 显示弹窗; 则存储key 保证下次判断
-          Layer.howGetMoney();
+          _luckyGroup.setShowFirstGetMoney = true;
           Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
         }
         // 检查是否弹出打开通知消息的弹创

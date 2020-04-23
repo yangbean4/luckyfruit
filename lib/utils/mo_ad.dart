@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -15,12 +16,17 @@ class MoAd {
   static MoAd _instance;
   UserModel _userModel;
   String ad_code;
+  LuckyGroup _luckyGroup;
   Function successCallback;
   Function(String error) failCallback;
   bool reachRewardPoint = false;
+  int retryCount = 0;
+  int retryDelayedTimeInSeconds = 60;
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
+    _luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+
     // 注册广告加载完成通知
     channelBus.registerReceiver(Event_Name.mopub_load_reward_video_success,
         (arg) => onRewardedVideoLoadSuccess(arg));
@@ -47,11 +53,26 @@ class MoAd {
 
   void onRewardedVideoLoadSuccess(arg) {
     print("onRewardAdsLoadSuccess: $arg");
+    retryCount = 0;
   }
 
   void onRewardedVideoLoadFailure(arg) {
-    print("onRewardedVideoLoadFailure: $arg");
-    loadRewardAds();
+    retryCount++;
+    print("onRewardedVideoLoadFailure: $arg, retryCount:$retryCount");
+    if (retryCount <= 3) {
+      loadRewardAds();
+    } else {
+      retryCount = 0;
+
+      print("retryDelayedTimeInSeconds: $_luckyGroup?.issed?.ad_reset_time");
+      // x时长后重新请求
+      Future.delayed(
+          Duration(
+              seconds: _luckyGroup?.issed?.ad_reset_time ??
+                  retryDelayedTimeInSeconds), () {
+        loadRewardAds();
+      });
+    }
   }
 
   void onRewardedVideoStarted(arg) {
@@ -86,7 +107,6 @@ class MoAd {
       successCallback();
     }
 
-    // TODO 测试下观看失败的情况（取消观看）
     if (!reachRewardPoint && failCallback != null) {
       failCallback(arg);
     }
@@ -94,7 +114,6 @@ class MoAd {
     loadRewardAds();
   }
 
-  //TODO 加上重试限制
   ///开始加载激励视频广告
   void loadRewardAds() async {
     print("loadRewardAds");

@@ -13,6 +13,7 @@ import 'package:luckyfruit/widgets/coin_rain.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
+import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -224,6 +225,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         GuidanceDrawRRectWidget(),
         // 新手引导-map
         GuidanceMapWidget(),
+        // 新手引导-firstGetMoney
+        GuidanceFirstGetMoneyWidget(),
         //大转盘解锁
         WheelUnlockWidget(),
         // 手指引导

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
-class GuidanceLuckyWheelWidget extends StatefulWidget {
+import 'layer.dart';
+
+class GuidanceFirstGetMoneyWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _GuidanceLuckyWheelState();
+  State<StatefulWidget> createState() => _GuidanceFirstGetMoneyState();
 }
 
-class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
+class _GuidanceFirstGetMoneyState extends State with TickerProviderStateMixin {
   AnimationController controller;
 
   Animation<double> scaleTextAnimation;
@@ -22,6 +22,7 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
   Color bgColor = Color.fromRGBO(0, 0, 0, 0.5);
   Interval scaleTextInterval;
   Interval transPeopleInterval;
+  bool clickFlag = false;
 
   @override
   void initState() {
@@ -60,10 +61,7 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
         parent: controller,
         curve: transPeopleInterval,
       ),
-    )..addStatusListener((status) {
-//        if (status == AnimationStatus.completed) {
-//        }
-      });
+    );
   }
 
   @override
@@ -73,6 +71,10 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
   }
 
   transToHideGuidance() async {
+    if (clickFlag) {
+      return;
+    }
+    clickFlag = true;
     transPeopleTween.begin = 0;
     transPeopleTween.end = -ScreenUtil().setWidth(1080);
     scaleTextTween.begin = 1.0;
@@ -83,15 +85,13 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
     } on TickerCanceled {}
     bgColor = null;
 
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    luckyGroup.setShowLuckyWheelDot(false);
-    Storage.setItem(Consts.SP_KEY_GUIDANCE_WHEEL, "1");
+    Layer.howGetMoney();
   }
 
   @override
   Widget build(BuildContext context) {
     print(
-        "wheel:build:trans: ${transPeopleAnimation?.value}, scale: ${scaleTextAnimation?.value}");
+        "build::: trans: ${transPeopleAnimation?.value}, scale: ${scaleTextAnimation?.value}");
     return Selector<LuckyGroup, bool>(
         builder: (_, show, __) {
           if (show) {
@@ -124,7 +124,7 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
                                   child: Transform.scale(
                                     scale: scaleTextAnimation?.value ?? 0,
                                     child: Image.asset(
-                                      "assets/image/guidance_message_wheel.png",
+                                      "assets/image/guidance_message_money.png",
                                       width: ScreenUtil().setWidth(788),
                                       height: ScreenUtil().setWidth(336),
                                     ),
@@ -134,7 +134,7 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
                                   left: ScreenUtil().setWidth(0),
                                   bottom: ScreenUtil().setWidth(0),
                                   child: Image.asset(
-                                    'assets/image/guidance_people.png',
+                                    'assets/image/guidance_people_money.png',
                                     width: ScreenUtil().setWidth(370),
                                     height: ScreenUtil().setWidth(750),
                                   ),
@@ -150,6 +150,6 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
                 )
               : Container();
         },
-        selector: (context, provider) => provider.showLuckyWheelGuidance);
+        selector: (context, provider) => provider.showFirstGetMoney);
   }
 }

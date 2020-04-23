@@ -127,6 +127,16 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 是否显示firstGetMoney
+  bool _showFirstGetMoney = false;
+
+  bool get showFirstGetMoney => _showFirstGetMoney;
+
+  set setShowFirstGetMoney(bool show) {
+    _showFirstGetMoney = show;
+    notifyListeners();
+  }
+
   /// 是否显示大转盘上面的锁icon
   bool _showLuckyWheelLockIcon = true;
 

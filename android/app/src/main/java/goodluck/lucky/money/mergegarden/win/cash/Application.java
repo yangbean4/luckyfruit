@@ -3,11 +3,17 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 11:49:52
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-22 19:54:58
+ * @LastEditTime: 2020-04-23 12:31:40
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
 import android.content.Context;
+
+import com.applovin.sdk.AppLovinSdk;
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+
+import java.util.ArrayList;
 
 import androidx.multidex.MultiDex;
 import io.flutter.app.FlutterApplication;
@@ -22,6 +28,16 @@ public class Application extends FlutterApplication implements PluginRegistrantC
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
 
+        if (BuildConfig.DEBUG) {
+            FacebookSdk.setIsDebugEnabled(true);
+            FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+        }
+
+        // AppLovinSdk.initializeSdk(this);
+        // final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
+        // ArrayList<String> list = new ArrayList<>();
+        // list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
+        // sdk.getSettings().setTestDeviceAdvertisingIds(list);
     }
 
     @Override
