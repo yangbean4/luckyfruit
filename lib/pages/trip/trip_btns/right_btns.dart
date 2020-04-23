@@ -7,6 +7,7 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
+import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -130,18 +131,14 @@ class _RightBtnsState extends State<RightBtns>
                         animateTime: Duration(
                             milliseconds:
                                 (issed?.double_coin_remain_time ?? 10) * 1000),
-                        child: GestureDetector(
-                          onTap: () {
-                            MoAd.getInstance(context).showRewardVideo(() {
-                              //success
-                              luckyGroup.doubleStart();
-                              setState(() {
-                                isDouble = true;
-                                luckyGroup.setShowCoinRain = true;
-                              });
-                            }, (error) {
-                              //failed
-                              print("$error");
+                        child: AdButton(
+                          ad_code: '201',
+                          onOk: () {
+                            //success
+                            luckyGroup.doubleStart();
+                            setState(() {
+                              isDouble = true;
+                              luckyGroup.setShowCoinRain = true;
                             });
                           },
                           child: renderItem(
@@ -197,17 +194,13 @@ class _RightBtnsState extends State<RightBtns>
                         animateTime: Duration(
                             milliseconds:
                                 (issed?.automatic_remain_time ?? 10) * 1000),
-                        child: GestureDetector(
-                          onTap: () {
-                            MoAd.getInstance(context).showRewardVideo(() {
-                              //success
-                              luckyGroup.autoStart();
-                              setState(() {
-                                isAuto = true;
-                              });
-                            }, (error) {
-                              //failed
-                              print("$error");
+                        child: AdButton(
+                          ad_code: '202',
+                          onOk: () {
+                            //success
+                            luckyGroup.autoStart();
+                            setState(() {
+                              isAuto = true;
                             });
                           },
                           child: renderItem(

@@ -6,6 +6,7 @@ import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 
 class PartnerProfitPageWidget extends StatefulWidget {
@@ -51,6 +52,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   @override
   void initState() {
     super.initState();
+    BurialReport.report('page_imp', {'page_code': '018'});
 
     getPartnerProfitListInfoData().then((result) {
       setState(() {

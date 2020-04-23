@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/no_data.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,8 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   _init() async {
+    BurialReport.report('page_imp', {'page_code': '020'});
+
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     List jsonList = await Service().messageCentre({
       'acct_id': userModel.value.acct_id,

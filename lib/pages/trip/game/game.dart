@@ -6,6 +6,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -249,6 +250,7 @@ class _GameState extends State<Game> with MyNavigator {
                           'assets/image/Illustration.png', 'Instruction'),
                       onTap: () {
                         pushNamed(context, 'Illustration');
+                        BurialReport.report('page_imp', {'page_code': '012'});
                       },
                     ),
                     // 中间的添加树组合图

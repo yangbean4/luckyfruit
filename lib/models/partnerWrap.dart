@@ -17,6 +17,8 @@ class PartnerWrap {
     num fb_no_login_all_profit;
     num fb_login_today_profit;
     num fb_login_history_profit;
+    num direct_today_profit;
+    num indirect_today_profit;
     
     factory PartnerWrap.fromJson(Map<String,dynamic> json) => _$PartnerWrapFromJson(json);
     Map<String, dynamic> toJson() => _$PartnerWrapToJson(this);

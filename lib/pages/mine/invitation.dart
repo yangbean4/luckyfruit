@@ -31,6 +31,8 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
   }
 
   _init() async {
+    BurialReport.report('page_imp', {'page_code': '021'});
+
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.getPersonalInfo();
     userId = userModel.value.acct_id;

@@ -321,7 +321,7 @@ class _TripBtnsState extends State<TripBtns> {
           showLock: true,
           key: Consts.globalKeyWheel,
           onTap: () {
-            BurialReport.report('page_imp', {'page_imp': 'spin'});
+            BurialReport.report('page_imp', {'page_code': '007'});
             Layer.showLuckyWheel(context);
           },
         ),
@@ -337,6 +337,7 @@ class _TripBtnsState extends State<TripBtns> {
           'assets/image/help.png',
           'HOW TO PLAY',
           onTap: () {
+            BurialReport.report('page_imp', {'page_code': '010'});
             MyNavigator().pushNamed(context, "howToPlay");
           },
         ),

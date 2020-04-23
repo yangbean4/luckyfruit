@@ -23,6 +23,9 @@ class User {
     num ticket;
     String deblock_city;
     num ticket_time;
+    String update_time;
+    String today_profit_update_time;
+    String profit_update_time;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class MoAd {
   static const String VIEW_AD = 'VIEW_AD';
   static MoAd _instance;
   UserModel _userModel;
+  String ad_code;
   Function successCallback;
   Function(String error) failCallback;
   bool reachRewardPoint = false;
@@ -52,9 +54,16 @@ class MoAd {
     loadRewardAds();
   }
 
+  void onRewardedVideoStarted(arg) {
+    BurialReport.report('ad_rewarded', {'type': '2', 'ad_code': ad_code});
+  }
+
+// 完成
   void onRewardedVideoCompleted(arg) {
     print("onRewardedVideoCompleted: $arg");
     reachRewardPoint = true;
+
+    BurialReport.report('ad_rewarded', {'type': '3', 'ad_code': ad_code});
 
     // 观看广告次数减一
     if (_userModel?.userInfo?.ad_times != null) {
@@ -98,7 +107,10 @@ class MoAd {
 
   ///开始展示激励视频广告
   void showRewardVideo(
-      Function successCallback, Function(String) failCallback) async {
+    Function successCallback,
+    Function(String) failCallback, {
+    String ad_code,
+  }) async {
     print("showRewardVideo");
 
     if (_userModel?.userInfo?.ad_times == 0) {
@@ -109,6 +121,7 @@ class MoAd {
     reachRewardPoint = false;
     this.successCallback = successCallback;
     this.failCallback = failCallback;
+    this.ad_code = ad_code;
     bool isReady =
         await channelBus.callNativeMethod(Event_Name.mopub_show_reward_video);
     if (!isReady) {

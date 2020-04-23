@@ -22,7 +22,9 @@ PartnerWrap _$PartnerWrapFromJson(Map<String, dynamic> json) {
     ..friends_total = json['friends_total'] as num
     ..fb_no_login_all_profit = json['fb_no_login_all_profit'] as num
     ..fb_login_today_profit = json['fb_login_today_profit'] as num
-    ..fb_login_history_profit = json['fb_login_history_profit'] as num;
+    ..fb_login_history_profit = json['fb_login_history_profit'] as num
+    ..direct_today_profit = json['direct_today_profit'] as num
+    ..indirect_today_profit = json['indirect_today_profit'] as num;
 }
 
 Map<String, dynamic> _$PartnerWrapToJson(PartnerWrap instance) =>
@@ -36,5 +38,7 @@ Map<String, dynamic> _$PartnerWrapToJson(PartnerWrap instance) =>
       'friends_total': instance.friends_total,
       'fb_no_login_all_profit': instance.fb_no_login_all_profit,
       'fb_login_today_profit': instance.fb_login_today_profit,
-      'fb_login_history_profit': instance.fb_login_history_profit
+      'fb_login_history_profit': instance.fb_login_history_profit,
+      'direct_today_profit': instance.direct_today_profit,
+      'indirect_today_profit': instance.indirect_today_profit
     };

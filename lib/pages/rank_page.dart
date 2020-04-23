@@ -433,6 +433,10 @@ class RankPageState extends State<RankPage>
                   // labelPadding: EdgeInsets.only(left:1, top:1, bottom:0),
                   labelColor: MyTheme.primaryColor,
                   unselectedLabelColor: MyTheme.blackColor,
+                  onTap: (index) {
+                    BurialReport.report(
+                        'page_imp', {'page_code': index == 0 ? '008' : '009'});
+                  },
                   tabs: tabs
                       .map((e) => Tab(
                             child: Container(

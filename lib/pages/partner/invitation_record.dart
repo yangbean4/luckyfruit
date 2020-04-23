@@ -4,6 +4,7 @@ import 'package:luckyfruit/models/partnerSubordinateItem.dart';
 import 'package:luckyfruit/models/partnerSubordinateList.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 
 class InvitationRecordListPage extends StatefulWidget {
   final PartnerSubordinateList partnerSubordinateList;
@@ -28,6 +29,8 @@ class InvitationRecordListPageState extends State<InvitationRecordListPage>
   @override
   void initState() {
     super.initState();
+    BurialReport.report('page_imp', {'page_code': '016'});
+
     _tabController = TabController(length: tabs.length, vsync: this);
   }
 

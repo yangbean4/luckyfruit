@@ -624,6 +624,7 @@ class __MapPrizeState extends State<_MapPrize> {
           btnText: 'Got it',
           onCancel: () => widget.modal.hide(),
           onOk: () => _goRun(),
+          ad_code: '214',
         )
       ],
     );

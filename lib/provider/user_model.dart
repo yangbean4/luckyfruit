@@ -7,11 +7,16 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/device_info.dart';
 import 'dart:convert' as JSON;
 import 'package:http/http.dart' as http;
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
+  //
+  static const String m_currency_change = 'm_currency_change';
+  static const String today_profit_update_time = 'today_profit_update_time';
+  static const String profit_update_time = 'profit_update_time';
 
   UserInfo _userInfo;
   UserInfo get userInfo => _userInfo;
@@ -55,6 +60,30 @@ class UserModel with ChangeNotifier {
         'app_version': info['app_version'],
         'config_version': _user.version
       });
+
+      String res = await Storage.getItem(UserModel.m_currency_change);
+      if (_user.update_time != null && res != _user.update_time) {
+        Storage.setItem(UserModel.m_currency_change, _user.update_time);
+        BurialReport.report('m_currency_change', {
+          'm_currency_number': _user.acct_bal.toString(),
+        });
+      }
+
+      // String today_profit_update_time = await Storage.getItem(UserModel.today_profit_update_time);
+      // if (_user.today_profit_update_time != null && today_profit_update_time != _user.today_profit_update_time) {
+      //   Storage.setItem(UserModel.m_currency_change, _user.today_profit_update_time);
+      //   BurialReport.report('pc_today_change', {
+      //     'm_currency_number': _user.acct_bal.toString(),
+      //   });
+      // }
+
+      // String res = await Storage.getItem(UserModel.m_currency_change);
+      // if (_user.update_time != null && res != _user.update_time) {
+      //   Storage.setItem(UserModel.m_currency_change, _user.update_time);
+      //   BurialReport.report('m_currency_change', {
+      //     'm_currency_number': _user.acct_bal.toString(),
+      //   });
+      // }
     }
   }
 

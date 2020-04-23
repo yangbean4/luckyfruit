@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 
 class InstructionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    BurialReport.report('page_imp', {'page_code': '017'});
+
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

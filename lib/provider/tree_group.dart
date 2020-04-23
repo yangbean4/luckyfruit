@@ -128,16 +128,15 @@ class TreeGroup with ChangeNotifier {
 //    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
 
     // int level1 = maxLevel(includeMaxLevel: true);
-    // int level2 = 0;
-    // if (treeGradeNumber.keys?.length > 0) {
-    //   level2 = treeGradeNumber.keys.map((t) {
-    //     print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
-    //     return int.tryParse(t);
-    //   }).reduce(max);
-    // }
-    // print("tree_minlevel: $level1, $level2, ");
-    // return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
-    return Tree(grade: hasMaxLevel).highLevelCanPurchese;
+    int level2 = 0;
+    if (treeGradeNumber.keys?.length > 0) {
+      level2 = treeGradeNumber.keys.map((t) {
+        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
+        return int.tryParse(t);
+      }).reduce(max);
+    }
+    return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
+    // return Tree(grade: hasMaxLevel).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
@@ -304,7 +303,7 @@ class TreeGroup with ChangeNotifier {
           : {};
       treeGradeNumber =
           Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
-      hasMaxLevel = int.parse(group['hasMaxLevel'] ?? '0');
+      hasMaxLevel = int.parse(group['hasMaxLevel'] ?? '1');
       notifyListeners();
     }
   }
@@ -584,12 +583,21 @@ class TreeGroup with ChangeNotifier {
           source.type.contains("continents")) {
         // 五大洲树弹窗
         Layer.showContinentsMergeWindow();
+        BurialReport.report('page_imp', {'page_code': '004'});
       } else if (target.type.contains("hops") && source.type.contains("hops")) {
         // 啤酒花树
         Layer.showHopsMergeWindow(
             _luckyGroup?.issed?.hops_reward, source, target);
+        BurialReport.report('page_imp', {'page_code': '003'});
+
+        BurialReport.report('currency_incr', {
+          'type': '6',
+          'currency': _luckyGroup?.issed?.hops_reward.toString(),
+        });
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
+      BurialReport.report('page_imp', {'page_code': '002'});
+
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
       Layer.showTopLevelMergeWindow(this, source, target);
     } else {
@@ -655,7 +663,8 @@ class TreeGroup with ChangeNotifier {
 
 // 拖拽移动时的处理
   trans(Tree source, Tree target, {TreePoint pos}) {
-    if (source == target) {
+    if (source == target ||
+        ((pos.x == treasureTree?.x && pos.y == treasureTree?.y))) {
       return;
     }
 
@@ -682,6 +691,13 @@ class TreeGroup with ChangeNotifier {
       if (value?.tree_type == 1) {
         // 如果是限时分红树
         Layer.showLimitedTimeBonusTree(this, value);
+
+        BurialReport.report('currency_incr', {
+          'type': '1',
+          'currency': value?.amount.toString(),
+          'tree_grade': hasMaxLevel.toString()
+        });
+
         String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
         if (res == null) {
           // 如果是 显示弹窗; 则存储key 保证下次判断
@@ -811,6 +827,10 @@ class TreeGroup with ChangeNotifier {
         _treeList.remove(tree);
       }
     });
+    BurialReport.report('currency_incr', {
+      'type': '7',
+      // 'currency': newLevel?.amount.toString(),
+    });
 
     save();
   }
@@ -886,6 +906,11 @@ class TreeGroup with ChangeNotifier {
       Layer.getWishing(() {
         addTree(tree: tree);
       }, tree);
+
+      BurialReport.report('currency_incr', {
+        'type': '5',
+        // 'currency': newLevel?.amount.toString(),
+      });
     }
   }
 }

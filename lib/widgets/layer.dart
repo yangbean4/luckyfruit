@@ -19,6 +19,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -533,6 +534,8 @@ class Layer {
   }
 
   static levelUp(String level, {double getGlod, Function onOk}) {
+    BurialReport.report('page_imp', {'page_code': '005'});
+
     Modal(
         dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
@@ -555,6 +558,7 @@ class Layer {
                   selector: (context, provider) => provider.userInfo,
                   builder: (_, UserInfo userInfo, __) {
                     return AdButton(
+                      ad_code: '203',
                       btnText: '5x Reward',
                       onCancel: modal.hide,
                       onOk: () {
@@ -666,6 +670,8 @@ class Layer {
   }
 
   static messageNotification(Function onOk) {
+    BurialReport.report('page_imp', {'page_code': '026'});
+
     Modal(
         onCancel: () {},
         okText: 'Yes',
@@ -711,14 +717,14 @@ class Layer {
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
                   width: ScreenUtil().setWidth(1080),
-                  height: ScreenUtil().setWidth(1920),
+                  height: ScreenUtil().setHeight(1920),
                   child: SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       children: <Widget>[
                         Container(
                           width: ScreenUtil().setWidth(1080),
-                          height: ScreenUtil().setWidth(240),
+                          height: ScreenUtil().setWidth(140),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -729,7 +735,7 @@ class Layer {
                                     },
                                     child: Container(
                                         width: ScreenUtil().setWidth(200),
-                                        height: ScreenUtil().setWidth(240),
+                                        height: ScreenUtil().setWidth(140),
                                         child: Center(
                                             child: Image.asset(
                                           'assets/image/close.png',
@@ -954,7 +960,17 @@ class Layer {
                 if (type == TreeType.Type_TimeLimited_Bonus) {
                   // 限������分红树,单���处理
                   showLimitedTimeBonusTree(treeGroup, newLevel);
+                  BurialReport.report('currency_incr', {
+                    'type': '3',
+                    'currency': newLevel?.amount.toString(),
+                  });
                 } else {
+                  if (type == TreeType.Type_Wishing) {
+                    BurialReport.report('currency_incr', {
+                      'type': '4',
+                      'currency': newLevel?.amount.toString(),
+                    });
+                  }
                   // 许愿树,需要传递回收时的奖励金额, 其他树都是统一弹出弹框
                   topLevelMergeEndShowup(treeGroup, type, name, newLevel);
                 }
@@ -1099,6 +1115,7 @@ class Layer {
                       selector: (context, provider) => provider.userInfo,
                       builder: (_, UserInfo userInfo, __) {
                         return AdButton(
+                          ad_code: '206',
                           btnText: 'Upgrade',
                           onCancel: () {
                             print("取消了越级升级");
@@ -1145,6 +1162,7 @@ class Layer {
                       builder: (_, UserInfo userInfo, __) {
                         return AdButton(
                           btnText: 'Got it',
+                          ad_code: '207',
                           onCancel: () {
                             modal.hide();
                           },
@@ -1183,6 +1201,7 @@ class Layer {
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(46)),
                 child: Stack(overflow: Overflow.visible, children: [
                   AdButton(
+                    ad_code: '208',
                     btnText: '+${Util.formatNumber(glod * 2)}',
                     onCancel: () {
                       modal.hide();
@@ -1278,6 +1297,7 @@ class Layer {
 
   /// 提现时如果没有登录FB,则提示登录
   static void remindFacebookLoginWhenWithDraw(UserModel userModel) {
+    BurialReport.report('page_imp', {'page_code': '024'});
     Modal(
         onOk: () {
           userModel.loginWithFB();

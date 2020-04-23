@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,6 +119,8 @@ class _WarehouseState extends State<Warehouse> {
   }
 
   _showWarehouse(List<Tree> warehouseTreeList) {
+    BurialReport.report('page_imp', {'page_code': '013'});
+
     Modal(
         onCancel: () {},
         verticalPadding: 0,

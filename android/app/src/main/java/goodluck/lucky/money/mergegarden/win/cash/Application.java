@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 11:49:52
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-20 16:40:15
+ * @LastEditTime: 2020-04-22 19:54:58
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
@@ -21,6 +21,7 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void onCreate() {
         super.onCreate();
         FlutterFirebaseMessagingService.setPluginRegistrant(this);
+
     }
 
     @Override

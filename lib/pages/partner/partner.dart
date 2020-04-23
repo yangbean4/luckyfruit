@@ -3,13 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/partnerSubordinateList.dart';
 import 'package:luckyfruit/models/partnerWrap.dart';
+import 'package:luckyfruit/models/user.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
@@ -156,10 +159,34 @@ class PartnerState extends State<Partner> {
 
   Future<PartnerWrap> getInvitationListInfoData() async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
-
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    User _user = userModel.value;
     dynamic partnerMap =
         await Service().getPartnerListInfo({'acct_id': treeGroup.acct_id});
     PartnerWrap partnerWrap = PartnerWrap.fromJson(partnerMap);
+
+    String today_profit_update_time =
+        await Storage.getItem(UserModel.today_profit_update_time);
+    if (_user.today_profit_update_time != null &&
+        today_profit_update_time != _user.today_profit_update_time) {
+      Storage.setItem(
+          UserModel.today_profit_update_time, _user.today_profit_update_time);
+      String type = partnerWrap.direct_today_profit != 0 ? '1,' : '';
+      type += (partnerWrap.indirect_today_profit != 0 ? '2' : '');
+      BurialReport.report('pc_today_change', {
+        'pc_toady_currency': partnerWrap.fb_login_today_profit.toString(),
+        'type': type
+      });
+    }
+
+    String res = await Storage.getItem(UserModel.profit_update_time);
+    if (_user.profit_update_time != null && res != _user.profit_update_time) {
+      Storage.setItem(UserModel.profit_update_time, _user.profit_update_time);
+      BurialReport.report('p_currency_change', {
+        'p_currency_number': partnerWrap.total_profit.toString(),
+      });
+    }
+
     // PartnerWrap partnerWrap = PartnerWrap.fromJson(json.decode(testJson));
     // 测试空白页面使用
     // await Future.delayed(Duration(seconds: 3));

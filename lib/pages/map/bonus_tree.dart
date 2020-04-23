@@ -97,6 +97,8 @@ class _BonusTreeState extends State<BonusTree> {
   void initState() {
     super.initState();
     // FacebookShare.pageId = '261441784858768';
+
+    BurialReport.report('page_imp', {'page_code': '019'});
   }
 
   _unlockedCitys() async {

@@ -24,7 +24,7 @@ class FreePhone extends StatelessWidget {
   FreePhone({Key key, this.child}) : super(key: key);
 
   _showModal() {
-    BurialReport.report('page_imp', {'page_imp': 'phone'});
+    BurialReport.report('page_imp', {'page_code': '006'});
     BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
     BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
 
@@ -513,6 +513,7 @@ class __RewardState extends State<_Reward> {
                       },
                     )),
                 AdButton(
+                    ad_code: '209',
                     child: Container(
                       width: ScreenUtil().setWidth(274),
                       height: ScreenUtil().setWidth(90),
@@ -884,6 +885,7 @@ class _Sign extends StatelessWidget {
                   ),
                   SizedBox(height: ScreenUtil().setWidth(20)),
                   AdButton(
+                      ad_code: '210',
                       child: Container(
                         width: ScreenUtil().setWidth(274),
                         height: ScreenUtil().setWidth(90),

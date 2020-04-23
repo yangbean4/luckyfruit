@@ -84,6 +84,7 @@ class TimesRewardWidget extends StatelessWidget {
               selector: (context, provider) => provider.userInfo,
               builder: (_, UserInfo userInfo, __) {
                 return AdButton(
+                  ad_code: '212',
                   btnText: 'Got it',
                   onCancel: () {
                     onCancel();

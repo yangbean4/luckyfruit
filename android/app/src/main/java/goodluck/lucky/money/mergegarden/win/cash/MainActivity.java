@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 16:22:50
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-21 12:14:23
+ * @LastEditTime: 2020-04-22 19:55:06
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
@@ -53,7 +53,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
-
+        ThinkingAnalyticsSDK.enableTrackLog(true);
         ThinkingAnalyticsSDK tdInstance = ThinkingAnalyticsSDK.sharedInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
                 "http://tad.sen-sdk.com");
 
@@ -69,7 +69,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
                         switch (methodCall.method) {
                             case "message_notification": {// 检查app是否开启了通知权限
-                                NotificationManagerCompat notification = NotificationManagerCompat.from(MainActivity.this);
+                                NotificationManagerCompat notification = NotificationManagerCompat
+                                        .from(MainActivity.this);
                                 boolean isEnabled = notification.areNotificationsEnabled();
                                 result.success(isEnabled);
                                 break;
@@ -77,8 +78,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                             case "set_message_notification": {// 跳转到设置
                                 final String SETTINGS_ACTION = "android.settings.ACTION_APP_NOTIFICATION_SETTINGS";
 
-                                Intent intent = new Intent().setAction(SETTINGS_ACTION)
-                                        .setData(Uri.fromParts("package", getApplicationContext().getPackageName(), null));
+                                Intent intent = new Intent().setAction(SETTINGS_ACTION).setData(
+                                        Uri.fromParts("package", getApplicationContext().getPackageName(), null));
                                 startActivity(intent);
                                 break;
                             }
@@ -97,7 +98,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 }
                                 break;
                             }
-                            case Config.MOPUB_INITIALIZE_REWARD_VIDEO: {//mopub初始化
+                            case Config.MOPUB_INITIALIZE_REWARD_VIDEO: {// mopub初始化
                                 initRewardAds();
                                 result.success(false);
                                 break;
@@ -109,7 +110,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                             }
                             case Config.MOPUB_SHOW_REWARD_VIDEO: {
                                 boolean isReady = isRewardVideoAdReady();
-                                Log.i("tago", "onMethodCall_MOPUB_SHOW_REWARD_VIDEO "+isReady);
+                                Log.i("tago", "onMethodCall_MOPUB_SHOW_REWARD_VIDEO " + isReady);
                                 result.success(isReady);
                                 if (isReady) {
                                     showRewardAds();
@@ -148,8 +149,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     public void loadRewardAds() {
         Log.i("tago", "loadRewardAds");
         MoPubRewardedVideos.loadRewardedVideo(mAdUnitId,
-                new MoPubRewardedVideoManager.RequestParameters("", "", null,
-                        "sample_app_customer_id"));
+                new MoPubRewardedVideoManager.RequestParameters("", "", null, "sample_app_customer_id"));
     }
 
     public boolean isRewardVideoAdReady() {

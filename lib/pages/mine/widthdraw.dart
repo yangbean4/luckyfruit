@@ -36,6 +36,11 @@ class _WithDrawPageState extends State<WithDrawPage> {
     Color.fromRGBO(49, 200, 84, 1),
     Color.fromRGBO(36, 185, 71, 1)
   ];
+  @override
+  void initState() {
+    super.initState();
+    BurialReport.report('page_imp', {'page_code': '022'});
+  }
 
   toggleEnableStatue(bool enable) {
     if (!mounted) {
@@ -361,6 +366,8 @@ class _WithDrawPageState extends State<WithDrawPage> {
           padding: 40);
       return;
     }
+    BurialReport.report('page_imp', {'page_code': '023'});
+
     showDialog(
         context: context,
         builder: (_) => InputingInfoWidget(amount, type, paypal_account));
@@ -514,6 +521,7 @@ Future<WithdrawResult> postWithDrawInfo(BuildContext context,
 }
 
 handleAfterSummitWithDraw() {
+  BurialReport.report('page_imp', {'page_code': '025'});
   Modal(onOk: () {}, okText: "Got it", children: [
     Image.asset(
       'assets/image/success.png',
@@ -752,6 +760,8 @@ class _Enjoy {
   static int star = 0;
 
   static show(context) {
+    BurialReport.report('page_imp', {'page_code': '027'});
+
     Modal(
       onOk: () => submit(context),
       onCancel: () {},

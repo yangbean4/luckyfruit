@@ -146,6 +146,11 @@ class TourismMap with ChangeNotifier {
         treeId: ajax['tree_id'],
         timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
       ));
+      BurialReport.report('currency_incr', {
+        'type': '2',
+        'currency': ajax['amount'].toString(),
+        'city_grade': city
+      });
     } else {
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, boxMoney);
     }

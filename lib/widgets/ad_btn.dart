@@ -4,12 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:provider/provider.dart';
 
 class AdButton extends StatefulWidget {
   // 是否使用广告
   final bool useAd;
+
+  final String ad_code;
 
   // 按钮文字
   final String btnText;
@@ -50,7 +53,8 @@ class AdButton extends StatefulWidget {
       this.height = 124,
       this.child,
       this.disable = false,
-      this.fontSize = 64})
+      this.fontSize = 64,
+      this.ad_code})
       : super(key: key);
 
   @override
@@ -73,6 +77,8 @@ class _AdButtonState extends State<AdButton> {
         }
       });
     }
+    BurialReport.report(
+        'ad_rewarded', {'type': '0', 'ad_code': widget.ad_code});
   }
 
   @override
@@ -80,6 +86,9 @@ class _AdButtonState extends State<AdButton> {
     Function onTap = widget.onOk != null && !widget.disable
         ? () {
             if (widget.useAd) {
+              BurialReport.report(
+                  'ad_rewarded', {'type': '1', 'ad_code': widget.ad_code});
+
               MoAd.getInstance(context).showRewardVideo(() {
                 //success
                 widget?.onOk();
@@ -89,7 +98,7 @@ class _AdButtonState extends State<AdButton> {
                 if (widget?.onCancel != null) {
                   widget?.onCancel();
                 }
-              });
+              }, ad_code: widget.ad_code);
             } else {
               widget.onOk();
             }

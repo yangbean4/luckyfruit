@@ -30,6 +30,13 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+Map<String, String> pageCodeTarget = {
+  "trip": '001',
+  "map": '014',
+  "partner": '015',
+  "mine": '034',
+};
+
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   int tabIndex = 0;
   List<Widget> pageList = [Trip(), MapPage(), Partner(), MinePage()];
@@ -59,7 +66,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
-    BurialReport.report('page_imp', {'page_imp': 'trip'});
+    BurialReport.report('page_imp', {'page_code': '001'});
   }
 
   @override
@@ -163,7 +170,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         List<String> pageName = ['trip', 'map', 'partner', 'mine'];
         pageController.jumpToPage(index);
         String goName = pageName[index];
-        BurialReport.report('page_imp', {'page_imp': goName});
+        BurialReport.report('page_imp', {'page_code': pageCodeTarget[goName]});
         if (goName == 'map' && remind['map']) {
           TourismMap tourismMap =
               Provider.of<TourismMap>(context, listen: false);
