@@ -27,7 +27,8 @@ class BonusTree extends StatefulWidget {
 }
 
 class _BonusTreeState extends State<BonusTree> {
-  _inviteFriends() async {
+  // 分享图片
+  _improveActivity() async {
     BurialReport.report('invite_entr', {'entr_code': '004'});
 
     // 系统选择图片
@@ -66,7 +67,7 @@ class _BonusTreeState extends State<BonusTree> {
 // await SocialSharePlugin.shareToFeedFacebookLink(quote: 'quote', url: 'https://flutter.dev');
   }
 
-  _improveActivity() async {
+  _inviteFriends() async {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
 
     final String url = await DynamicLink.getLinks(userModel.value.acct_id);
@@ -75,7 +76,8 @@ class _BonusTreeState extends State<BonusTree> {
     // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
     await SocialSharePlugin.shareToFeedFacebookLink(
         quote: 'quote',
-        url: url,
+        // url: url,
+        url: 'https://carbaba.com/tobR',
         // url:
         //     'https://play.google.com/store/apps/details?id=com.neuralprisma&code=10086?10086',
         // 'https://dev.mklucky.com?amv=1&apn=com.mklucky.idlefarmclient?hahahahha',

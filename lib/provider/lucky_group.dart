@@ -437,7 +437,7 @@ class LuckyGroup with ChangeNotifier {
           time2: issed.double_coin_remain_time,
           run2: () {
             if (_showDouble == true) {
-              hideAutoAndNextRun();
+              hideDoubleAndNextRun();
             }
           });
     }
