@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
 import 'package:luckyfruit/models/index.dart' show ProfitLog;
-import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:provider/provider.dart';
 
 class RecordsPage extends StatefulWidget {
   RecordsPage({Key key}) : super(key: key);
@@ -110,7 +109,7 @@ class _RecordsPageState extends State<RecordsPage> {
                   Container(
                     width: ScreenUtil().setWidth(160),
                     child: Text(
-                      '${profitLog.module == '7' ? '-' : '+'} ${profitLog.amount}',
+                      '${profitLog.module == '7' ? '-' : '+'} ${Util.formatNumber(num.tryParse(profitLog.amount))}',
                       style: TextStyle(
                           color: MyTheme.blackColor,
                           fontSize: ScreenUtil().setSp(56),

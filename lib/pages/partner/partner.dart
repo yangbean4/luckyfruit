@@ -12,6 +12,7 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -413,7 +414,6 @@ class PartnerState extends State<Partner> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              // Layer.partnerCash();
                                               BurialReport.report('invite_entr',
                                                   {'entr_code': '001'});
                                             },
@@ -438,19 +438,39 @@ class PartnerState extends State<Partner> {
                                           ),
                                           RichText(
                                             text: TextSpan(
-                                              text:
-                                                  "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      ScreenUtil().setWidth(30),
-                                                  color: Color(0xFF7C7C7C),
-                                                  fontFamily:
-                                                      FontFamily.regular,
-                                                  fontWeight: FontWeight.w400),
-                                              children: <TextSpan>[
+                                              children: <InlineSpan>[
+                                                WidgetSpan(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Layer.partnerCash();
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 1.0),
+                                                      child: Icon(
+                                                        Icons.error_outline,
+                                                        size: ScreenUtil()
+                                                            .setWidth(40),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
+                                                  style: TextStyle(
+                                                      fontSize: ScreenUtil()
+                                                          .setWidth(30),
+                                                      color: Color(0xFF7C7C7C),
+                                                      fontFamily:
+                                                          FontFamily.regular,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
                                                 TextSpan(
                                                     text:
-                                                        " \$${_partnerWrap?.fb_no_login_all_profit}",
+                                                        " \$${Util.formatNumber(_partnerWrap?.fb_no_login_all_profit)}",
                                                     style: TextStyle(
                                                         fontSize: ScreenUtil()
                                                             .setWidth(50),
@@ -565,7 +585,7 @@ class PartnerState extends State<Partner> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               ModalTitle(
-                                                "\$${_partnerWrap?.fb_login_history_profit}",
+                                                "\$${Util.formatNumber(_partnerWrap?.fb_login_history_profit)}",
                                                 color: Color(0xFFFF4C2F),
                                               ),
                                               Expanded(
@@ -602,7 +622,7 @@ class PartnerState extends State<Partner> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               ModalTitle(
-                                                "\$${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[2]}",
+                                                "\$${Util.formatNumber(getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[2])}",
                                               ),
                                               Text(
                                                 "accelerate magnification ratio in stage ${getStateInfoOfPartnerEarning(_partnerWrap?.fb_login_history_profit)[0]}" +
@@ -763,7 +783,7 @@ class PartnerState extends State<Partner> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   ModalTitle(
-                                                    "\$${_partnerWrap?.direct_profit == null ? 0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit}",
+                                                    "\$${Util.formatNumber(_partnerWrap?.direct_profit == null ? 0.0 : _partnerWrap.direct_profit + _partnerWrap.indirect_profit)}",
                                                     color: Color(0xFFFF4C2F),
                                                   ),
                                                   Expanded(
@@ -798,7 +818,7 @@ class PartnerState extends State<Partner> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 ModalTitle(
-                                                  "\$${_partnerWrap?.direct_profit}",
+                                                  "\$${Util.formatNumber(_partnerWrap?.direct_profit)}",
                                                 ),
                                                 Text(
                                                   "Direct friend contribution",
@@ -820,7 +840,7 @@ class PartnerState extends State<Partner> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 ModalTitle(
-                                                  "\$${_partnerWrap?.indirect_profit}",
+                                                  "\$${Util.formatNumber(_partnerWrap?.indirect_profit)}",
                                                 ),
                                                 Text(
                                                   "Indirect friend contributions",
@@ -911,7 +931,7 @@ class PartnerState extends State<Partner> {
                                                               0xFF7C7C7C))),
                                                   TextSpan(
                                                       text:
-                                                          '\$${_partnerWrap?.superior?.today_profit}',
+                                                          '\$${Util.formatNumber(_partnerWrap?.superior?.today_profit)}',
                                                       style: TextStyle(
                                                           fontSize: ScreenUtil()
                                                               .setWidth(50),

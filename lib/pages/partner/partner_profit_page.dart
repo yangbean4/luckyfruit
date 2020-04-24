@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class PartnerProfitPageWidget extends StatefulWidget {
@@ -49,6 +49,7 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
   """;
 
   PartnerProfitList _partnerProfitList;
+
   @override
   void initState() {
     super.initState();
@@ -169,7 +170,8 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xFF7C7C7C))),
                               ]),
-                          Text("\$${_partnerProfitList.data[index].amount}",
+                          Text(
+                              "\$${Util.formatNumber(num.tryParse(_partnerProfitList.data[index].amount), fixed: 2)}",
                               style: TextStyle(
                                   fontSize: ScreenUtil().setSp(56),
                                   fontFamily: FontFamily.semibold,

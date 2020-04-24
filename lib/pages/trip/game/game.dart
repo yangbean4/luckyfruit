@@ -8,7 +8,6 @@ import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
@@ -325,7 +324,8 @@ class _GameState extends State<Game> with MyNavigator {
                                                                 selectorUse
                                                                         .minLevelTree
                                                                         ?.consumeGold ??
-                                                                    0),
+                                                                    0,
+                                                                fixed: 1),
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   FontFamily
@@ -447,7 +447,7 @@ class _GameState extends State<Game> with MyNavigator {
                                                               selectorUse
                                                                       .isrecycle
                                                                       ?.recycleGold ??
-                                                                  0),
+                                                                  0, fixed: 1),
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 FontFamily.bold,

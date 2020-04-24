@@ -7,6 +7,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 
 class Util {
+  /// 金币相关的保留一位小数，money相关的保留两位小数
   static String formatNumber(num number, {int fixed}) {
     List<String> dan = [
       '',
