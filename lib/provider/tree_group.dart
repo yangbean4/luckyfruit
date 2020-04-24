@@ -31,7 +31,11 @@ class TreeGroup with ChangeNotifier {
   // 存储数据用句柄
   static const String CACHE_KEY = 'TreeGroup';
 
-  static const String CACHE_IS_FIRST_TIMELIMT = 'CACHE_IS_FIRST_TIMELIMT';
+  static const String CACHE_IS_FIRST_TIMELIMT_END =
+      'CACHE_IS_FIRST_TIMELIMT_END';
+
+  static const String CACHE_IS_FIRST_TIMELIMT_START =
+      'CACHE_IS_FIRST_TIMELIMT_START';
 
   static const String AUTO_MERGE_START = 'AUTO_MERGE_START';
 
@@ -712,6 +716,13 @@ class TreeGroup with ChangeNotifier {
           'tree_grade': hasMaxLevel.toString()
         });
 
+        String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT_START);
+        if (res == null) {
+          // 如果是 显示弹窗; 则存储key 保证下次判断
+          isFirstTimeimt = true;
+          Storage.setItem(CACHE_IS_FIRST_TIMELIMT_START, '_no_');
+        }
+
         // 检查是否弹出打开通知消息的弹创
         if (value.is_push_on == 1) {
           checkMag();
@@ -721,11 +732,12 @@ class TreeGroup with ChangeNotifier {
   }
 
   void checkShowFirstGetMoney() async {
-    String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT);
+    String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT_END);
     if (res == null) {
       // 如果是 显示弹窗; 则存储key 保证下次判断
       _luckyGroup.setShowFirstGetMoney = true;
-      Storage.setItem(CACHE_IS_FIRST_TIMELIMT, '_no_');
+      // isFirstTimeimt = true;
+      Storage.setItem(CACHE_IS_FIRST_TIMELIMT_END, '_no_');
     }
   }
 

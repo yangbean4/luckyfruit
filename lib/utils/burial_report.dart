@@ -14,10 +14,14 @@ class BurialReport {
 
   static DateTime _lastTime;
 
-  static init(String _userId, {String config_version, String app_version}) {
+  static init(String _userId,
+      {String config_version, String app_version, String fbID}) {
     userId = _userId;
     configVersion = config_version;
     appVersion = app_version;
+
+    ChannelBus().callNativeMethod("tga_login",
+        arguments: {'identifyID': _userId, 'loginID': fbID ?? ''});
 
     String time = DateTime.now().millisecondsSinceEpoch.toString();
     sessionid = '${_userId}_$time';

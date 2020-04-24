@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
@@ -159,6 +160,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   void dispose() {
     controller?.dispose();
     super.dispose();
+    BurialReport.report('page_imp', {'page_code': '030'});
   }
 
   @override

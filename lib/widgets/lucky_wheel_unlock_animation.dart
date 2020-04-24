@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
@@ -355,6 +356,8 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
   }
 
   Future<Null> _playAnimation() async {
+    BurialReport.report('page_imp', {'page_code': '033'});
+
     try {
       //先正向执行动画
       await _controller.forward().orCancel;

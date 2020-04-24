@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
@@ -69,6 +70,7 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
   @override
   void initState() {
     super.initState();
+    BurialReport.report('page_imp', {'page_code': '031'});
 
     controller = new AnimationController(
         duration: new Duration(milliseconds: 1000), vsync: this);

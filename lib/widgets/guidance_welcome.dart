@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    BurialReport.report('page_imp', {'page_code': '028'});
 
     textTips = "assets/image/guidance_message_welcome.png";
     controller = new AnimationController(
@@ -116,6 +118,7 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
     } on TickerCanceled {}
 
     textTips = "assets/image/guidance_message_explanation.png";
+    BurialReport.report('page_imp', {'page_code': '029'});
 
     // 显示explanation
     scaleTextTween.begin = 0.1;
@@ -125,7 +128,7 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   }
 
   transToHideGuidance() async {
-    if(clickFlag){
+    if (clickFlag) {
       return;
     }
     clickFlag = true;

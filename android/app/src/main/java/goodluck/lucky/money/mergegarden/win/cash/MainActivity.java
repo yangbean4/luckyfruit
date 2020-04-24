@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 16:22:50
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-22 19:55:06
+ * @LastEditTime: 2020-04-24 15:28:11
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
@@ -79,6 +79,14 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                         Uri.fromParts("package", getApplicationContext().getPackageName(), null));
                                 startActivity(intent);
                                 break;
+                            }
+                            case "tga_login": {
+                                String identifyID = (String) methodCall.argument("identifyID");
+                                String loginID = (String) methodCall.argument("loginID");
+                                instance.identify(identifyID);
+                                instance.login(loginID);
+                                break;
+
                             }
                             case "tga_track": { // TGA 数据上报
                                 String event = (String) methodCall.arguments;

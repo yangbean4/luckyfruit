@@ -443,6 +443,7 @@ class MapPrizeModal {
         onOk: () => _nextModalShow(cityInfo.id),
         children: <Widget>[
           Text('Welcome To \n ${cityInfo.code}',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: FontFamily.bold,
                   color: MyTheme.blackColor,
@@ -553,7 +554,7 @@ class __MapPrizeState extends State<_MapPrize> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text('Gift For Unlocking New City',
+        Text('Gift For Unlocking\n New City',
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontFamily: FontFamily.bold,

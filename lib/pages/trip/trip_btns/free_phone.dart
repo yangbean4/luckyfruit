@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -555,6 +556,7 @@ class __RewardState extends State<_Reward> {
                     onOk: () {
                       _goRun();
                     },
+                    disable: disable,
                     fontSize: 50)
               ],
             ),
@@ -662,6 +664,8 @@ class _Wishing extends StatelessWidget {
     if (wishTreeNum >= 100) {
       TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
       treeGroup.addWishTree();
+      UserModel userModel = Provider.of<UserModel>(context, listen: false);
+      userModel.getUserInfo();
     }
   }
 
@@ -925,7 +929,7 @@ class _Sign extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // disable: is_today_sign == 1,
+                      disable: is_today_sign == 1,
                       onOk: () {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);

@@ -708,6 +708,8 @@ class Layer {
   }
 
   static howGetMoney() {
+    BurialReport.report('page_imp', {'page_code': '032'});
+
     Modal(
         verticalPadding: 0,
         horizontalPadding: 0,

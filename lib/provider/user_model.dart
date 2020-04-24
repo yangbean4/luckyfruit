@@ -51,7 +51,9 @@ class UserModel with ChangeNotifier {
       notifyListeners();
       loadOther();
       BurialReport.init(_user.acct_id,
-          app_version: info['app_version'], config_version: _user.version);
+          app_version: info['app_version'],
+          config_version: _user.version,
+          fbID: _user.rela_account);
       BurialReport.report('login', {
         'aid': info['os_type'] == 'android'
             ? info['gaid'] ?? info['aid']
