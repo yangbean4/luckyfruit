@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -11,10 +13,12 @@ import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WithDrawPage extends StatefulWidget {
   String amount;
@@ -311,7 +315,22 @@ class _WithDrawPageState extends State<WithDrawPage> {
                                           userModel);
                                     } else {
                                       showInfoInputingWindow(provider,
-                                          userModel?.userInfo?.paypal_account);
+                                          userModel?.userInfo?.paypal_account,
+                                          () {
+                                        setState(() {
+                                          // 提现成功后，删除首次提现项
+                                          WithDrawAmountItem item = provider
+                                              ?._amountList
+                                              ?.firstWhere((e) {
+                                            return e.first == true;
+                                          }, orElse: () {
+                                            return null;
+                                          });
+                                          if (item != null) {
+                                            provider?._amountList.remove(item);
+                                          }
+                                        });
+                                      });
                                     }
                                   }
                                 : () {},
@@ -340,7 +359,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
   }
 
   void showInfoInputingWindow(
-      WithDrawProvider provider, String paypal_account) {
+      WithDrawProvider provider, String paypal_account, Function callback) {
     Cash_amount amount = provider?._amountList?.firstWhere((e) {
       return e.selected == true;
     }, orElse: () {
@@ -372,7 +391,8 @@ class _WithDrawPageState extends State<WithDrawPage> {
 
     showDialog(
         context: context,
-        builder: (_) => InputingInfoWidget(amount, type, paypal_account));
+        builder: (_) =>
+            InputingInfoWidget(amount, type, paypal_account, callback));
   }
 }
 
@@ -383,8 +403,10 @@ class InputingInfoWidget extends StatelessWidget {
   final Cash_amount amount;
   final WithDrawTypes type;
   final String paypal_account;
+  final Function callback;
 
-  InputingInfoWidget(this.amount, this.type, this.paypal_account);
+  InputingInfoWidget(
+      this.amount, this.type, this.paypal_account, this.callback);
 
   @override
   Widget build(BuildContext context) {
@@ -460,6 +482,15 @@ class InputingInfoWidget extends StatelessWidget {
                                     if (userModel.userInfo.first_mention == 1) {
                                       // 首次提现 弹窗评分
                                       _Enjoy.show(context);
+                                    }
+                                    userModel.getUserInfo();
+                                    // 本地减去提现的金额
+                                    EVENT_BUS.emit(
+                                        MoneyGroup.ACC_MONEY, amount.show);
+
+                                    // 删除掉首次提现项
+                                    if (callback != null) {
+                                      callback();
                                     }
                                     handleAfterSummitWithDraw();
                                   });
@@ -798,7 +829,7 @@ class _Enjoy {
 
   static submit(context) {
     if (star > 3) {
-      // TODO:jump gp
+      launch(App.APP_GP_URL);
     }
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.upDate({'score': star});

@@ -67,7 +67,8 @@ class Tree extends TreePoint {
   // 标志是否是特殊的树
   String type;
   bool showCountDown;
-
+  // 标识是启动App后第一次访问（在限时分红树使用）
+  String initFlag;
   // 服务端返回的treeId字段
   num treeId;
 
