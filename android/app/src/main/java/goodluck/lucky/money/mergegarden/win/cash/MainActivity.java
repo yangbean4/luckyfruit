@@ -83,8 +83,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                             case "tga_login": {
                                 String identifyID = (String) methodCall.argument("identifyID");
                                 String loginID = (String) methodCall.argument("loginID");
-                                instance.identify(identifyID);
-                                instance.login(loginID);
+                                tdInstance.identify(identifyID);
+                                tdInstance.login(loginID);
                                 break;
 
                             }
