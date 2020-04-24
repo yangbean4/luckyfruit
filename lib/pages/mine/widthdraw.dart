@@ -11,6 +11,7 @@ import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
     Color.fromRGBO(49, 200, 84, 1),
     Color.fromRGBO(36, 185, 71, 1)
   ];
+
   @override
   void initState() {
     super.initState();
@@ -132,7 +134,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                       ),
                       SizedBox(height: ScreenUtil().setWidth(30)),
                       Text(
-                        "\$${widget.amount}",
+                        "\$${Util.formatNumber(num.tryParse(widget.amount))}",
                         style: TextStyle(
                             fontFamily: FontFamily.bold,
                             fontWeight: FontWeight.bold,

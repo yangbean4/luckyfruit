@@ -444,7 +444,7 @@ class _TripState extends State<Trip>
                                     ]).createShader(Rect.fromLTWH(
                                             0, 0, bounds.width, bounds.height)),
                                     child: Text(
-                                      Util.formatNumber(gold),
+                                      Util.formatNumber(gold, fixed: 1),
                                       style: TextStyle(
                                           // The color must be set to white for this to work
                                           color: Colors.white,
@@ -459,7 +459,7 @@ class _TripState extends State<Trip>
                                   povider.makeGoldSped,
                               builder: (_, double makeGoldSped, __) {
                                 return Text(
-                                  '${Util.formatNumber(makeGoldSped)}/s',
+                                  '${Util.formatNumber(makeGoldSped, fixed: 1)}/s',
                                   style: TextStyle(
                                       color: MyTheme.blackColor,
                                       fontFamily: FontFamily.bold,
