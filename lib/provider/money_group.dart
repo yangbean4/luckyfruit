@@ -59,6 +59,9 @@ class MoneyGroup with ChangeNotifier {
 
   bool _isHome = false;
 
+  /// 是否有限时分红树活跃中，在重启App时，有限时分红树的时候读取本地缓存，没有的时候读取接口数据
+  num LBTreeActive = 0;
+
 // 定时器引用
   Timer _timer;
 
@@ -125,8 +128,8 @@ class MoneyGroup with ChangeNotifier {
           int.tryParse(group2['upDateTime']) * 1000);
       // 如果远端的更新时间在本地时间之前（即有可能是保存是接口没有上报成功），则使用本地的，否则使用哪一个都一样
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
-      if (upDateTime1.isAtSameMomentAs(upDateTime2)) {
-        // 如果更新时间一样，使用本地的
+      // 如果存在活跃的限时分红树，则使用本地缓存的数据取money
+      if (group1['LBTreeActive'] == '1') {
         group = group1;
       }
     }
@@ -186,7 +189,6 @@ class MoneyGroup with ChangeNotifier {
     EVENT_BUS.on(MoneyGroup.ACC_GOLD, (gold) => accGold(gold));
     EVENT_BUS.on(MoneyGroup.ADD_MONEY, (gold) => addMoney(gold));
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
-    EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
     // 升级时使用
     EVENT_BUS.on(MoneyGroup.ACC_ALL_GOLD, (gold) => accAllGold(gold));
 
@@ -243,7 +245,8 @@ class MoneyGroup with ChangeNotifier {
         'upDateTime': _upDateTime.millisecondsSinceEpoch.toString(),
         '_gold': _gold,
         '_money': _money,
-        '_allgold': _allgold
+        '_allgold': _allgold,
+        'LBTreeActive': LBTreeActive.toString()
       };
 
   save({bool now = false}) {
@@ -257,6 +260,7 @@ class MoneyGroup with ChangeNotifier {
   _saveThis() async {
     _upDateTime = DateTime.now();
     String data = jsonEncode(this);
+    print("_saveThis: data= $data");
     bool saveSuccess = await Storage.setItem(MoneyGroup.CACHE_KEY, data);
 
     await Service().updateUserInfo({

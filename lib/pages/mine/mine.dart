@@ -19,13 +19,45 @@ class MinePage extends StatefulWidget {
   _MinePageState createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage> {
+class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     UserModel user = Provider.of<UserModel>(context, listen: false);
     // 每次切换到mine tab时请求一下该接口,防止长时间为更新接口导致本地记录的余额等数据没有更新
     user.getPersonalInfo(forceFetch: true);
+    user.getUserInfo();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print("tago_didChangeAppLifecycleState: ${state.toString()}");
+  }
+
+  @override
+  Future<bool> didPopRoute() {
+    print("tago_didPopRoute");
+    return super.didPopRoute();
+  }
+
+  @override
+  Future<bool> didPushRoute(String route) {
+    print("tago_didPushRoute_$route");
+    return super.didPushRoute(route);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("tago_didChangeDependencies");
   }
 
   @override

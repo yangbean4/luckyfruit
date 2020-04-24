@@ -248,16 +248,20 @@ class TreeGroup with ChangeNotifier {
   void handleLimitedBonusTree(Tree tree) {
     // 如果出现限时分红树的showCountDown为false的情况
     if (tree?.type == TreeType.Type_TimeLimited_Bonus &&
-        tree.timePlantedLimitedBonusTree != null) {
+        tree.timePlantedLimitedBonusTree != null &&
+        tree.initFlag == null) {
+      tree.initFlag = "init";
       tree?.showCountDown = true;
       DateTime plantedTime =
           DateTime.fromMillisecondsSinceEpoch(tree.timePlantedLimitedBonusTree);
+      // 已经走过的时间
       Duration difference = DateTime.now().difference(plantedTime);
 
       print(
           "handleLimitedBonusTree: ${difference.inSeconds}, ${tree.originalDuration}, ${tree.treeId}");
 
       int remainTime = tree.originalDuration - difference.inSeconds;
+
       if (remainTime <= 0) {
         // 如果从种下到现在的时间已经超过了分红树的总时长，则表明倒计时已经完成
         tree.duration = 0;
@@ -266,6 +270,16 @@ class TreeGroup with ChangeNotifier {
         // 倒计时还没有走完，继续走
         tree.duration = remainTime;
       }
+
+      /*每次重新打开App时，需要更新限时分红树产生的收益到余额中*/
+      // 每秒产生的金额
+      double speedPerSecond = tree?.amount / tree?.originalDuration?.toDouble();
+      // 到目前为止，分红树总共产生的金额
+      double earning =
+          speedPerSecond * min(difference.inSeconds, tree.originalDuration);
+      // 总共产生的金额-已经领取过的金额=还应该再给余额上加上的数额
+      double left = earning - tree.limitedBonusedAmount;
+      _moneyGroup.timeLimitedTreeAddMoney(left);
     }
   }
 
@@ -526,6 +540,11 @@ class TreeGroup with ChangeNotifier {
       // 隐藏添加树引导,显示合成树引导
       _luckyGroup.setShowCircleGuidance = false;
       _luckyGroup.setShowRRectGuidance = true;
+    }
+
+    if (tree.type == TreeType.Type_TimeLimited_Bonus) {
+      // 如果添加了限时分红树，
+      _moneyGroup.LBTreeActive = 1;
     }
     return true;
   }
@@ -838,6 +857,11 @@ class TreeGroup with ChangeNotifier {
   deleteSpecificTree(Tree tree) {
     if (tree == null) {
       return;
+    }
+
+    if (tree.type == TreeType.Type_TimeLimited_Bonus) {
+      // 如果限时分红树结束
+      _moneyGroup.LBTreeActive = 0;
     }
     _treeList.remove(tree);
     save();
