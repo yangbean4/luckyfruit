@@ -32,13 +32,13 @@ class MoneyFlyingAnimation extends StatelessWidget {
                         endPos: Position(x: offset?.dx, y: offset?.dy),
                         startCenter: Position(
                             x: ScreenUtil().setWidth(540),
-                            y: ScreenUtil().setHeight(1100)),
+                            y: ScreenUtil().setHeight(1200)),
                         radius: ScreenUtil().setWidth(200),
-                        animateTime: Duration(milliseconds: 1000),
+                        animateTime: Duration(milliseconds: 1500),
                         child: Image.asset(
                           'assets/image/bg_dollar.png',
-                          width: ScreenUtil().setWidth(100),
-                          height: ScreenUtil().setWidth(100),
+                          width: ScreenUtil().setWidth(110),
+                          height: ScreenUtil().setWidth(110),
                         ),
                         type: PositionType.Type_Top,
                       ),

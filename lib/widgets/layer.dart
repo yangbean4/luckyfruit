@@ -1073,45 +1073,55 @@ class Layer {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(children: [
-                      TreeWidget(
-                        tree: Tree(grade: source.grade + 1),
-                        imgHeight: ScreenUtil().setWidth(236),
-                        imgWidth: ScreenUtil().setWidth(216),
-                        labelWidth: ScreenUtil().setWidth(80),
-                        primary: true,
-                      ),
-                      Container(height: ScreenUtil().setWidth(32)),
-                      FourthText(
-                        Tree(grade: source.grade + 1).name,
-                        fontsize: 36,
-                        fontFamily: FontFamily.regular,
-                        fontWeight: FontWeight.w400,
-                        color: MyTheme.blackColor,
-                      ),
-                    ]),
+                    Expanded(
+                      child: Column(children: [
+                        TreeWidget(
+                          tree: Tree(grade: source.grade + 1),
+                          imgHeight: ScreenUtil().setWidth(236),
+                          imgWidth: ScreenUtil().setWidth(216),
+                          labelWidth: ScreenUtil().setWidth(80),
+                          primary: true,
+                        ),
+                        Container(height: ScreenUtil().setWidth(32)),
+                        Text(
+                          Tree(grade: source.grade + 1).name,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          style: TextStyle(
+                              fontFamily: FontFamily.regular,
+                              color: MyTheme.blackColor,
+                              fontSize: ScreenUtil().setSp(36),
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ]),
+                    ),
                     Image.asset(
                       'assets/image/arrow.png',
                       width: ScreenUtil().setWidth(84),
                       height: ScreenUtil().setWidth(56),
                     ),
-                    Column(children: [
-                      TreeWidget(
-                        tree: Tree(grade: source.grade + 1 + 1),
-                        imgHeight: ScreenUtil().setWidth(236),
-                        imgWidth: ScreenUtil().setWidth(216),
-                        labelWidth: ScreenUtil().setWidth(80),
-                        primary: true,
-                      ),
-                      Container(height: ScreenUtil().setWidth(32)),
-                      FourthText(
-                        Tree(grade: source.grade + 1 + 1).name,
-                        fontsize: 36,
-                        fontFamily: FontFamily.regular,
-                        fontWeight: FontWeight.w400,
-                        color: MyTheme.blackColor,
-                      ),
-                    ]),
+                    Expanded(
+                      child: Column(children: [
+                        TreeWidget(
+                          tree: Tree(grade: source.grade + 1 + 1),
+                          imgHeight: ScreenUtil().setWidth(236),
+                          imgWidth: ScreenUtil().setWidth(216),
+                          labelWidth: ScreenUtil().setWidth(80),
+                          primary: true,
+                        ),
+                        Container(height: ScreenUtil().setWidth(32)),
+                        Text(
+                          Tree(grade: source.grade + 1 + 1).name,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          style: TextStyle(
+                              fontFamily: FontFamily.regular,
+                              color: MyTheme.blackColor,
+                              fontSize: ScreenUtil().setSp(36),
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ]),
+                    ),
                   ]),
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(38)),
@@ -1232,7 +1242,7 @@ class Layer {
   }
 
   /// 5倍或10倍宝���弹框
-  static show5TimesTreasureWindow(int type) {
+  static show5TimesTreasureWindow(int type, Function _onCancel) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               TimesRewardWidget(
@@ -1242,6 +1252,7 @@ class Layer {
                 },
                 onCancel: () {
                   modal.hide();
+                  _onCancel();
                 },
               )
             ]).show();

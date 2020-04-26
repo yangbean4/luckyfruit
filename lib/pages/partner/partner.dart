@@ -448,11 +448,18 @@ class PartnerState extends State<Partner> {
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           horizontal: 1.0),
-                                                      child: Icon(
-                                                        Icons.error_outline,
+                                                      child: ImageIcon(
+                                                        AssetImage(
+                                                            "assets/image/exclamation_icon.png"),
                                                         size: ScreenUtil()
-                                                            .setWidth(40),
+                                                            .setWidth(60),
+                                                        color: Colors.red,
                                                       ),
+//                                                      Icon(
+//                                                        Icons.error_outline,
+//                                                        size: ScreenUtil()
+//                                                            .setWidth(40),
+//                                                      ),
                                                     ),
                                                   ),
                                                 ),
