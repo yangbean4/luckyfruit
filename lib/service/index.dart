@@ -174,6 +174,12 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取分享配置
+  Future<Map<String, dynamic>> getShareLink(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Personal/shareLink', data: data);
+    return response.data['data'];
+  }
+
 // 购买果树获取单价和产生金币数
   Future<Map<String, dynamic>> fruiterUnivalent(
       Map<String, dynamic> data) async {
@@ -260,8 +266,10 @@ class Service {
   }
 
   // 雌雄花树合成帐户加钱
-  Future<Map<String, dynamic>> composeFemailMail(Map<String, dynamic> data) async {
-    Response response = await _client.post('/Draw/composeFemailMail', data: data);
+  Future<Map<String, dynamic>> composeFemailMail(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Draw/composeFemailMail', data: data);
     return response.data;
   }
 

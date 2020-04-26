@@ -18,6 +18,7 @@ export 'rank_bonus_trees.dart' ;
 export 'partnerProfitList.dart' ; 
 export 'unlockNewTreeLevel.dart' ; 
 export 'partnerSubordinateList.dart' ; 
+export 'shaerConfig.dart' ; 
 export 'user.dart' ; 
 export 'sign.dart' ; 
 export 'profitLog.dart' ; 
