@@ -152,6 +152,8 @@ class Consts {
       new GlobalKey(debugLabel: 'key_tree_grid');
   static GlobalKey globalKeyMineCash =
       new GlobalKey(debugLabel: 'key_mine_cash');
+  static GlobalKey globalKeyGoldPosition =
+      new GlobalKey(debugLabel: 'key_gold_position');
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";

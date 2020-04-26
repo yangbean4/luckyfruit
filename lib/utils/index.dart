@@ -148,6 +148,15 @@ class Util {
     return offset;
   }
 
+  static Offset getGoldPositionInfoWithGlobalKey() {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox =
+        Consts.globalKeyGoldPosition.currentContext?.findRenderObject();
+    offset = renderBox?.localToGlobal(Offset.zero);
+    print("goldPosition:localToGlobal ${offset}");
+    return offset;
+  }
+
   static double getBottomBarInfoWithGlobalKey() {
     Size size = Consts.globalKeyBottomBar.currentContext?.size;
     print("bottombar:localToGlobal ${size.width}, ${size.height}");

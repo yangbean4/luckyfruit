@@ -246,12 +246,20 @@ class TreeGroup with ChangeNotifier {
    * 对存在的限时分红树特殊处理
    */
   void handleLimitedBonusTree(Tree tree) {
+    if (tree?.type != TreeType.Type_TimeLimited_Bonus) {
+      return;
+    }
+
     // 如果出现限时分红树的showCountDown为false的情况
-    if (tree?.type == TreeType.Type_TimeLimited_Bonus &&
-        tree.timePlantedLimitedBonusTree != null &&
-        tree.initFlag == null) {
+    tree?.showCountDown = true;
+
+    // 如果限时分红树已经走完，但是没有消失，就删除掉
+    if (tree.duration <= 0) {
+      _treeList.remove(tree);
+    }
+
+    if (tree.timePlantedLimitedBonusTree != null && tree.initFlag == null) {
       tree.initFlag = "init";
-      tree?.showCountDown = true;
       DateTime plantedTime =
           DateTime.fromMillisecondsSinceEpoch(tree.timePlantedLimitedBonusTree);
       // 已经走过的时间
