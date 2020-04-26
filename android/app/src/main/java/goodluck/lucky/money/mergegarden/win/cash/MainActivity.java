@@ -239,6 +239,17 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     @Override
     public void onRewardedVideoStarted(@NonNull String adUnitId) {
         Log.i("tago", "onRewardedVideoStarted");
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("name", Config.MOPUB_REWARD_VIDEO_STARTED);
+        json.put("data", "params");
+
+        basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
+            @Override
+            public void reply(Object reply) {
+                Log.i("tago", "reply: " + reply);
+            }
+        });
     }
 
     @Override

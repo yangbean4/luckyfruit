@@ -22,6 +22,7 @@ public final class Config {
 
     public static final String MOPUB_LOAD_REWARD_VIDEO_SUCCESS = "mopub_load_reward_video_success";
     public static final String MOPUB_LOAD_REWARD_VIDEO_FAILURE = "mopub_load_reward_video_failure";
+    public static final String MOPUB_REWARD_VIDEO_STARTED = "mopub_reward_video_started";
     public static final String MOPUB_REWARD_VIDEO_COMPLETE = "mopub_reward_video_complete";
     public static final String MOPUB_IS_REWARD_VIDEO_READY = "mopub_is_reward_video_ready";
     public static final String MOPUB_REWARD_VIDEO_CLOSED = "mopub_reward_video_closed";

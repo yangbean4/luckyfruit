@@ -32,6 +32,8 @@ class Event_Name {
       "mopub_load_reward_video_failure";
   static const String mopub_reward_video_complete =
       "mopub_reward_video_complete";
+  static const String mopub_reward_video_started =
+      "mopub_reward_video_started";
   static const String mopub_is_reward_video_ready =
       "mopub_is_reward_video_ready";
   static const String mopub_reward_video_closed = "mopub_reward_video_closed";

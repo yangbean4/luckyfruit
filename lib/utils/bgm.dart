@@ -1,6 +1,7 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:luckyfruit/config/app.dart';
+
 import './event_bus.dart';
 
 class Bgm {
@@ -38,7 +39,8 @@ class Bgm {
       _canPlay = true;
       if (isPlay &&
           (fixedPlayer == null ||
-              fixedPlayer.state != AudioPlayerState.PLAYING)) {
+              (fixedPlayer.state != null &&
+                  fixedPlayer.state != AudioPlayerState.PLAYING))) {
         fixedPlayer = await Bgm.player.loop(Bgm._main);
       }
     });

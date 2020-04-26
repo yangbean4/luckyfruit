@@ -33,6 +33,9 @@ class MoAd {
     // 注册广告加载失败通知
     channelBus.registerReceiver(Event_Name.mopub_load_reward_video_failure,
         (arg) => onRewardedVideoLoadFailure(arg));
+    // 注册广告播放开始通知
+    channelBus.registerReceiver(Event_Name.mopub_reward_video_started,
+        (arg) => onRewardedVideoStarted(arg));
     // 注册广告播放完成通知
     channelBus.registerReceiver(Event_Name.mopub_reward_video_complete,
         (arg) => onRewardedVideoCompleted(arg));
@@ -75,11 +78,15 @@ class MoAd {
     }
   }
 
+  ///开始播放广告
   void onRewardedVideoStarted(arg) {
+    print("onRewardedVideoStarted_");
     BurialReport.report('ad_rewarded', {'type': '2', 'ad_code': ad_code});
+    // 关闭声效
+    EVENT_BUS.emit(Event_Name.APP_PAUSED);
   }
 
-// 完成
+  // 完成
   void onRewardedVideoCompleted(arg) {
     print("onRewardedVideoCompleted: $arg");
     reachRewardPoint = true;
@@ -103,6 +110,8 @@ class MoAd {
   void onRewardedVideoClosed(arg) {
     print(
         "onRewardedVideoClosed: arg:$arg, reachRewardPoint:$reachRewardPoint");
+    // 恢复声效播放
+    EVENT_BUS.emit(Event_Name.APP_RESUMED);
     if (reachRewardPoint && successCallback != null) {
       successCallback();
     }
