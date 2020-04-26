@@ -9,6 +9,10 @@
 package goodluck.lucky.money.mergegarden.win.cash;
 
 public final class Config {
+
+    public static String ACCT_ID;
+    //TODO 更换 url地址
+    public static final String SERVER_URL_PREFIX = "http://171.8.199.211:8109/public/index.php?r=";
     public static final String METHOD_CHANNEL = "com.bean.flutterchannel/method";
     public static final String EVENT_CHANNEL = "com.bean.flutterchannel/event";
 
@@ -21,4 +25,5 @@ public final class Config {
     public static final String MOPUB_REWARD_VIDEO_COMPLETE = "mopub_reward_video_complete";
     public static final String MOPUB_IS_REWARD_VIDEO_READY = "mopub_is_reward_video_ready";
     public static final String MOPUB_REWARD_VIDEO_CLOSED = "mopub_reward_video_closed";
+    public static final String START_REPORT_APP_LIST = "start_report_app_list";
 }
