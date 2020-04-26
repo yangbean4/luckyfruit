@@ -103,6 +103,14 @@ class _BarrageState extends State<Barrage> {
   @override
   Widget build(BuildContext context) {
     BarrageMsg msg = barrageMsgList.isNotEmpty ? barrageMsgList[index] : null;
+    List<String> contArr = ['', '', ''];
+
+    if (msg != null) {
+      List<String> textArr = msg.content.split('{AAA}');
+      contArr = [textArr[0]];
+      contArr.addAll(textArr[1].split('{BBB}'));
+    }
+
     return show && msg != null
         ? Positioned(
             left: ScreenUtil().setWidth(130),
@@ -120,19 +128,17 @@ class _BarrageState extends State<Barrage> {
                       height: ScreenUtil().setWidth(44),
                     ),
                     Text.rich(
-                      TextSpan(text: 'Congratulations!"', children: [
+                      TextSpan(text: contArr[0], children: [
                         TextSpan(
                             text: msg.nickname,
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 207, 23, 1))),
-                        TextSpan(text: '" gets '),
+                        TextSpan(text: contArr[1]),
                         TextSpan(
                             text: msg.num,
                             style: TextStyle(
                                 color: Color.fromRGBO(255, 76, 47, 1))),
-                        TextSpan(
-                            text:
-                                ',${msg.module == '1' ? 'can redeem phone' : ''} immediately!'),
+                        TextSpan(text: contArr[2]),
                       ]),
                       softWrap: false,
                       style: TextStyle(

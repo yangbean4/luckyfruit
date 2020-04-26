@@ -8,6 +8,7 @@ import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
+  String shareLink = '';
   @override
   void initState() {
     super.initState();
@@ -58,6 +60,11 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
   void didChangeDependencies() {
     super.didChangeDependencies();
     print("tago_didChangeDependencies");
+    getLink();
+  }
+
+  getLink() async {
+    shareLink = await DynamicLink.getLinks(context);
   }
 
   @override
@@ -183,8 +190,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                             }),
                         Selector<UserModel, String>(
                             selector: (context, provider) =>
-                                provider.shareLink ??
-                                'https://lanhuapp.com/url/eWZiw-Ck31c',
+                                provider.shareLink ?? shareLink,
                             builder: (_, String shareLink, __) {
                               return _CardItem(
                                   iconName: 'link',
@@ -495,6 +501,7 @@ class _CardItem extends StatelessWidget {
                   tips == null
                       ? Container()
                       : Text(tips,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: FontFamily.regular,
                               color: MyTheme.blackColor,

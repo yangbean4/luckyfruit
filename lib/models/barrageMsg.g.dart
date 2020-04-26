@@ -12,7 +12,8 @@ BarrageMsg _$BarrageMsgFromJson(Map<String, dynamic> json) {
     ..punch_time = json['punch_time'] as String
     ..nickname = json['nickname'] as String
     ..num = json['num'] as String
-    ..module = json['module'] as String;
+    ..module = json['module'] as String
+    ..content = json['content'] as String;
 }
 
 Map<String, dynamic> _$BarrageMsgToJson(BarrageMsg instance) =>
@@ -21,5 +22,6 @@ Map<String, dynamic> _$BarrageMsgToJson(BarrageMsg instance) =>
       'punch_time': instance.punch_time,
       'nickname': instance.nickname,
       'num': instance.num,
-      'module': instance.module
+      'module': instance.module,
+      'content': instance.content
     };

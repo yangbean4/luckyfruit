@@ -79,7 +79,7 @@ class Layer {
                 ]),
               ),
               Container(
-                height: ScreenUtil().setWidth(1660),
+                height: ScreenUtil().setWidth(1540),
                 width: ScreenUtil().setWidth(1080),
                 // padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                 child: Stack(

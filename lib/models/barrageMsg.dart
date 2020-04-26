@@ -11,6 +11,7 @@ class BarrageMsg {
     String nickname;
     String num;
     String module;
+    String content;
     
     factory BarrageMsg.fromJson(Map<String,dynamic> json) => _$BarrageMsgFromJson(json);
     Map<String, dynamic> toJson() => _$BarrageMsgToJson(this);
