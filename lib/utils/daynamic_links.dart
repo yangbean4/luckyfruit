@@ -1,8 +1,14 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/material.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/models/index.dart' show ShaerConfig;
+import 'package:provider/provider.dart';
 
 class DynamicLink {
+  static String userId;
   static initDynamicLinks(String acct_id) async {
+    userId = acct_id;
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
@@ -13,7 +19,6 @@ class DynamicLink {
       final Uri deepLink = dynamicLink?.link;
       update(deepLink, acct_id);
     }, onError: (OnLinkErrorException e) async {
-      print('deepLink-----------------------onLinkError');
       print(e.message);
     });
   }
@@ -26,14 +31,13 @@ class DynamicLink {
     }
   }
 
-  static Future<String> getLinks(String code) async {
+  static Future<String> getLinks(BuildContext context) async {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        // uriPrefix: 'luckyfruit-firelink.mklucky.com',
-        // link: Uri.parse(
-        //     'https://luckymerge-cdn.mklucky.com/cdn/zip/index.html?code=$code'),
-        uriPrefix: 'carbaba.com',
-        link: Uri.parse(
-            'http://d1tfe40abnerwd.cloudfront.net/san/sdk/index.html?code=$code'),
+        uriPrefix: shaerConfig.uriPrefix,
+        link: Uri.parse('${shaerConfig.fireLink}?code=$userId'),
         androidParameters: AndroidParameters(
           packageName: 'goodluck.lucky.money.mergegarden.win.cash',
           minimumVersion: 0,
@@ -46,10 +50,9 @@ class DynamicLink {
         //   minimumVersion: '0',
         // ),
         socialMetaTagParameters: SocialMetaTagParameters(
-          title: 'Example of a Dynamic Link',
-          description: 'This link works whether app is installed or not!',
-          imageUrl: Uri.parse(
-              "http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg"),
+          title: shaerConfig.title,
+          description: shaerConfig.subtitle,
+          imageUrl: Uri.parse(shaerConfig.imageUrl),
         ));
     final url = await parameters.buildUrl();
     print(url);

@@ -44,7 +44,8 @@ void main() {
     // 监听来源 :是否是DynamicLink
     DynamicLink.initDynamicLinks(userId);
     luckyGroup
-        .init(userModel.value.last_draw_time, userModel.value?.version, userId)
+        .init(userModel.value.last_draw_time, userModel.value?.version,
+            userModel.value.share_version, userId)
         .then((e) {
       Tree.init(luckyGroup.treeConfig);
 

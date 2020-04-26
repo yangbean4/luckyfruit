@@ -1,23 +1,19 @@
 import 'dart:math';
-import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
-import 'package:social_share_plugin/social_share_plugin.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:luckyfruit/models/index.dart' show PersonalInfo;
 import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 // import 'package:facebook_share/facebook_share.dart';
+import 'package:luckyfruit/utils/share_util.dart';
+import 'package:luckyfruit/config/app.dart' show Consts;
 
 class BonusTree extends StatefulWidget {
   BonusTree({Key key}) : super(key: key);
@@ -27,72 +23,20 @@ class BonusTree extends StatefulWidget {
 }
 
 class _BonusTreeState extends State<BonusTree> {
-  // 分享图片
-  _improveActivity() async {
-    BurialReport.report('invite_entr', {'entr_code': '004'});
+  _improveActivity() {
+    BottomNavigationBar navigationBar = Consts.globalKeyBottomBar.currentWidget;
+    navigationBar?.onTap(0);
+    Navigator.pop(context);
+  }
 
-    // 系统选择图片
-    // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    // 读取包中图片 写入app的cache文件夹 再分享
-    // final ByteData bytes = await rootBundle.load('assets/instruction.jpg');
-    // final Uint8List list = bytes.buffer.asUint8List();
-
-    // 读取网络图片 写入app的cache文件夹 再分享
-    var request = await HttpClient().getUrl(Uri.parse(
-        'https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
-    var response = await request.close();
-    Uint8List list = await consolidateHttpClientResponseBytes(response);
-
-    final tempDir = await getTemporaryDirectory();
-    File file = await new File('${tempDir.path}/berwachung.jpg').create();
-    file.writeAsBytesSync(list);
-
-    await SocialSharePlugin.shareToFeedFacebook(
-        caption: 'caption',
-        path: '${tempDir.path}/berwachung.jpg',
-        onSuccess: (_) {
-          print('FACEBOOK SUCCESS');
-          return;
-        },
-        onCancel: () {
-          print('FACEBOOK CANCELLED');
-          return;
-        },
-        onError: (error) {
-          print('FACEBOOK ERROR $error');
-          return;
-        });
-
-// await SocialSharePlugin.shareToFeedFacebookLink(quote: 'quote', url: 'https://flutter.dev');
+  _unlockedCitys() {
+    BottomNavigationBar navigationBar = Consts.globalKeyBottomBar.currentWidget;
+    navigationBar?.onTap(1);
+    Navigator.pop(context);
   }
 
   _inviteFriends() async {
-    UserModel userModel = Provider.of<UserModel>(context, listen: false);
-
-    final String url = await DynamicLink.getLinks(userModel.value.acct_id);
-    // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
-
-    // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
-    await SocialSharePlugin.shareToFeedFacebookLink(
-        quote: 'quote',
-        // url: url,
-        url: 'https://carbaba.com/tobR',
-        // url:
-        //     'https://play.google.com/store/apps/details?id=com.neuralprisma&code=10086?10086',
-        // 'https://dev.mklucky.com?amv=1&apn=com.mklucky.idlefarmclient?hahahahha',
-        onSuccess: (_) {
-          print('FACEBOOK SUCCESS');
-          return;
-        },
-        onCancel: () {
-          print('FACEBOOK CANCELLED');
-          return;
-        },
-        onError: (error) {
-          print('FACEBOOK ERROR $error');
-          return;
-        });
+    ShareUtil.ShareFacebookLink(context);
   }
 
   @override
@@ -101,16 +45,6 @@ class _BonusTreeState extends State<BonusTree> {
     // FacebookShare.pageId = '261441784858768';
 
     BurialReport.report('page_imp', {'page_code': '019'});
-  }
-
-  _unlockedCitys() async {
-    // await FacebookShare.sendMessage(
-    //     urlActionTitle: "Visit",
-    //     url: "https://nemob.id",
-    //     title: "Promotion",
-    //     subtitle: "Get your promotion now!",
-    //     imageUrl:
-    //         "https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/03/10173552/download6.jpg");
   }
 
   @override

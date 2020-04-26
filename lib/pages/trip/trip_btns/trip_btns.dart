@@ -5,6 +5,7 @@ import 'package:luckyfruit/config/app.dart'
     show App, Consts, Event_Name, TreeType;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
@@ -322,9 +323,16 @@ class _TripBtnsState extends State<TripBtns> {
             );
           },
         ),
-        FreePhone(
-          child: getItem('assets/image/phone.png', 'FREE',
-              labelColor: Color(0xFFF87A46)),
+        Selector<UserModel, bool>(
+          selector: (context, provider) => provider.value.is_m != 0,
+          builder: (_, bool show, __) {
+            return show
+                ? FreePhone(
+                    child: getItem('assets/image/phone.png', 'FREE',
+                        labelColor: Color(0xFFF87A46)),
+                  )
+                : Container();
+          },
         ),
         getItem(
           'assets/image/spin.png',

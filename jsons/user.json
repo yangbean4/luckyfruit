@@ -10,6 +10,7 @@
   "separate_amount": "0.00",
   "coin": "",
   "version": "1",
+  "share_version": "1.0",
   "sign_times": 0,
   "last_draw_time": "",
   "level": "1",
@@ -17,6 +18,7 @@
   "ticket": 1,
   "deblock_city": "2",
   "ticket_time": 0,
+  "is_m": 0,
   "update_time": "1587545749",
   "today_profit_update_time": "1587545749",
   "profit_update_time": "1587545749"

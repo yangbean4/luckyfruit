@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
 import 'package:luckyfruit/models/index.dart'
-    show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig;
+    show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig, ShaerConfig;
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -59,6 +59,7 @@ class LuckyGroup with ChangeNotifier {
   // 检查广告间隔的_Check数组
   List<_Check> _checkList = [];
 
+  ShaerConfig shaerConfig;
   // 等级数据
   List<LevelRoule> _levelRouleList;
 
@@ -282,7 +283,8 @@ class LuckyGroup with ChangeNotifier {
    * last_draw_time : 上一次领取时间戳 用于 30/60分钟的领取
    * configVersion: 后端下发的配置版本号
    */
-  init(String last_draw_time, String configVersion, String _acct_id) async {
+  init(String last_draw_time, String configVersion, String share_version,
+      String _acct_id) async {
     acct_id = _acct_id;
     _transTime(last_draw_time);
 
@@ -326,6 +328,16 @@ class LuckyGroup with ChangeNotifier {
           .then((issuedJson) {
         _issued = Issued.fromJson(issuedJson);
       }),
+
+      checkVersion(
+              cacheKey: 'share_version',
+              cacheVersionKey: 'share_version',
+              version: share_version,
+              ajax: Service().getShareLink)
+          .then((issuedJson) {
+        shaerConfig = ShaerConfig.fromJson(issuedJson);
+      }),
+
       // 等级数据 List<LevelRoule>
       checkVersion(
               cacheKey: LuckyGroup.CACHE_COIN_RULE,

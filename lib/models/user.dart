@@ -17,12 +17,14 @@ class User {
     String separate_amount;
     String coin;
     String version;
+    String share_version;
     num sign_times;
     String last_draw_time;
     String level;
     num ticket;
     String deblock_city;
     num ticket_time;
+    num is_m;
     String update_time;
     String today_profit_update_time;
     String profit_update_time;

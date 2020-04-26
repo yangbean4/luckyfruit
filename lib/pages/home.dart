@@ -7,6 +7,7 @@ import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
@@ -140,6 +141,32 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   }
 
   Widget _createBottomBar(Map<String, bool> remind) {
+    List<BottomNavigationBarItem> items = [
+      _createBarItem(
+          iconUrl: 'assets/image/trip.png',
+          activeIconUrl: 'assets/image/trip_active.png',
+          remind: remind['trip'] ?? false,
+          name: 'TRIP'),
+      _createBarItem(
+          iconUrl: 'assets/image/map.png',
+          remind: remind['map'] ?? false,
+          activeIconUrl: 'assets/image/map_active.png',
+          name: 'MAP'),
+    ];
+    if (remind['isM']) {
+      items.add(_createBarItem(
+          iconUrl: 'assets/image/partner.png',
+          remind: remind['partner'] ?? false,
+          activeIconUrl: 'assets/image/partner_active.png',
+          name: 'PARTNER'));
+    }
+    if (remind['isM']) {
+      items.add(_createBarItem(
+          iconUrl: 'assets/image/mine.png',
+          remind: remind['mine'] ?? false,
+          activeIconUrl: 'assets/image/mine_active.png',
+          name: 'MINE'));
+    }
     return BottomNavigationBar(
       key: Consts.globalKeyBottomBar,
       iconSize: ScreenUtil().setWidth(56),
@@ -149,28 +176,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       unselectedFontSize: ScreenUtil().setSp(34),
       selectedItemColor: MyTheme.mainActiveColor,
       unselectedItemColor: MyTheme.mainItemColor,
-      items: [
-        _createBarItem(
-            iconUrl: 'assets/image/trip.png',
-            activeIconUrl: 'assets/image/trip_active.png',
-            remind: remind['trip'] ?? false,
-            name: 'TRIP'),
-        _createBarItem(
-            iconUrl: 'assets/image/map.png',
-            remind: remind['map'] ?? false,
-            activeIconUrl: 'assets/image/map_active.png',
-            name: 'MAP'),
-        _createBarItem(
-            iconUrl: 'assets/image/partner.png',
-            remind: remind['partner'] ?? false,
-            activeIconUrl: 'assets/image/partner_active.png',
-            name: 'PARTNER'),
-        _createBarItem(
-            iconUrl: 'assets/image/mine.png',
-            remind: remind['mine'] ?? false,
-            activeIconUrl: 'assets/image/mine_active.png',
-            name: 'MINE'),
-      ],
+      items: items,
       currentIndex: this.tabIndex,
       onTap: (int index) {
         List<String> pageName = ['trip', 'map', 'partner', 'mine'];
@@ -211,16 +217,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar:
-              Selector2<TourismMap, TreeGroup, Map<String, bool>>(
+              Selector3<TourismMap, TreeGroup, UserModel, Map<String, bool>>(
                   builder: (_, Map<String, bool> remind, __) {
                     return _createBottomBar(remind);
                   },
-                  selector:
-                      (context, TourismMap pTourismMap, TreeGroup pTreeGroup) =>
-                          {
-                            'map': pTourismMap.newCitydeblock,
-                            'partner': pTreeGroup.isFirstTimeimt
-                          }),
+                  selector: (context, TourismMap pTourismMap,
+                          TreeGroup pTreeGroup, UserModel userModel) =>
+                      {
+                        'map': pTourismMap.newCitydeblock,
+                        'partner': pTreeGroup.isFirstTimeimt,
+                        'isM': userModel.value.is_m != 0
+                      }),
         ),
         // 新手引导-welcome
         GuidanceWelcomeWidget(),

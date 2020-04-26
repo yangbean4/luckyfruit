@@ -383,15 +383,33 @@ class _TripState extends State<Trip>
                                                 ],
                                               )),
                                           // 今日分红树收益提示
-                                          EarningWidget(
-                                            EarningWidgetType
-                                                .Earning_Type_Bonus,
+                                          Selector<UserModel, bool>(
+                                            selector: (context, provider) =>
+                                                provider.value.is_m != 0,
+                                            builder: (_, bool show, __) {
+                                              return show
+                                                  ? EarningWidget(
+                                                      EarningWidgetType
+                                                          .Earning_Type_Bonus,
+                                                    )
+                                                  : Container();
+                                            },
                                           ),
+
                                           SizedBox(
                                             height: ScreenUtil().setWidth(10),
                                           ),
-                                          EarningWidget(
-                                            EarningWidgetType.Earning_Type_CASH,
+                                          Selector<UserModel, bool>(
+                                            selector: (context, provider) =>
+                                                provider.value.is_m != 0,
+                                            builder: (_, bool show, __) {
+                                              return show
+                                                  ? EarningWidget(
+                                                      EarningWidgetType
+                                                          .Earning_Type_CASH,
+                                                    )
+                                                  : Container();
+                                            },
                                           ),
                                         ],
                                       )),
