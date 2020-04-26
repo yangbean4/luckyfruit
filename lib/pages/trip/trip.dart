@@ -476,6 +476,7 @@ class _TripState extends State<Trip>
                     Positioned(
                       top: ScreenUtil().setWidth(-20),
                       left: ScreenUtil().setWidth(60),
+                      key: Consts.globalKeyGoldPosition,
                       child: Image.asset(
                         'assets/image/gold.png',
                         width: ScreenUtil().setWidth(120),
