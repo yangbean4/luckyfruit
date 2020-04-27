@@ -54,7 +54,7 @@ class DynamicLink {
           title: shaerConfig.title,
           description: shaerConfig.subtitle,
           imageUrl: Uri.parse(
-              'http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg' ??
+              'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png' ??
                   imageSrc ??
                   shaerConfig.imageUrl),
         ));
