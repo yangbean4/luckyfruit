@@ -57,7 +57,7 @@ class DynamicLink {
     final url = await parameters.buildUrl();
     print(url);
     return url.toString();
-    // final ShortDynamicLink shortLink = await parameters.buildShortLink();
-    // return shortLink.shortUrl.toString();
+    // final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    // return shortDynamicLink.shortUrl.toString();
   }
 }

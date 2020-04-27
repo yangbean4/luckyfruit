@@ -13,6 +13,7 @@ import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/share_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
@@ -416,6 +417,7 @@ class PartnerState extends State<Partner> {
                                             onTap: () {
                                               BurialReport.report('invite_entr',
                                                   {'entr_code': '001'});
+                                              ShareUtil.share(context);
                                             },
                                             child: PrimaryButton(
                                                 width: 600,
@@ -442,7 +444,8 @@ class PartnerState extends State<Partner> {
                                                 WidgetSpan(
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      Layer.partnerCash();
+                                                      Layer.partnerCash(
+                                                          context);
                                                     },
                                                     child: Padding(
                                                       padding: const EdgeInsets

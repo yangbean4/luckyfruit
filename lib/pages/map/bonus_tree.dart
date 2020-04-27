@@ -36,7 +36,7 @@ class _BonusTreeState extends State<BonusTree> {
   }
 
   _inviteFriends() async {
-    ShareUtil.ShareFacebookLink(context);
+    ShareUtil.share(context);
   }
 
   @override

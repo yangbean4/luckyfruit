@@ -188,7 +188,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               Provider.of<TourismMap>(context, listen: false);
           tourismMap.newCitydeblock = false;
         } else if (goName == 'partner' && remind['partner']) {
-          Layer.partnerCash();
+          Layer.partnerCash(context);
           TreeGroup tourismMap = Provider.of<TreeGroup>(context, listen: false);
           tourismMap.isFirstTimeimt = false;
         }

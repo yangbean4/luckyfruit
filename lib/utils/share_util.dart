@@ -12,6 +12,7 @@ import 'package:social_share_plugin/social_share_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/models/index.dart' show ShaerConfig;
+import 'method_channel.dart';
 
 class ShareUtil {
   static void ShareFacebookImage(BuildContext context) async {
@@ -62,6 +63,7 @@ class ShareUtil {
     await SocialSharePlugin.shareToFeedFacebookLink(
         quote: 'quote',
         url: url,
+        // url: 'https://carbaba.com/tobR',
         onSuccess: (_) {
           print('FACEBOOK SUCCESS');
           return;
@@ -77,12 +79,20 @@ class ShareUtil {
   }
 
   static void ShareFacebookMessager(BuildContext context) async {
-    // await FacebookShare.sendMessage(
-    //     urlActionTitle: "Visit",
-    //     url: "https://nemob.id",
-    //     title: "Promotion",
-    //     subtitle: "Get your promotion now!",
-    //     imageUrl:
-    //         "https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/03/10173552/download6.jpg");
+    final String url = await DynamicLink.getLinks(context);
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+    ChannelBus().callNativeMethod("sendMessage", arguments: {
+      "urlActionTitle": "Visit",
+      "url": url,
+      "title": shaerConfig.title,
+      "subtitle": shaerConfig.subtitle,
+      "imageUrl": shaerConfig.imageUrl
+    });
+  }
+
+  static void share(BuildContext context) {
+    ShareUtil.ShareFacebookLink(context);
+    // ShareUtil.ShareFacebookMessager(context);
   }
 }

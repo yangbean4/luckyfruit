@@ -22,6 +22,7 @@ import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/share_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:oktoast/oktoast.dart';
@@ -48,7 +49,7 @@ class Layer {
   /// 隐藏loading
   static loadingHide() => _future?.dismiss();
 
-  static partnerCash() {
+  static partnerCash(BuildContext context) {
     AnimationController _controller;
     AnimationController _controller2;
 
@@ -165,6 +166,7 @@ class Layer {
                           GestureDetector(
                             onTap: () {
                               modal.hide();
+                              ShareUtil.share(context);
                             },
                             child: PrimaryButton(
                               width: 600,

@@ -12,6 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareMessengerGenericTemplateContent;
+import com.facebook.share.model.ShareMessengerGenericTemplateElement;
+import com.facebook.share.model.ShareMessengerURLActionButton;
+import com.facebook.share.widget.MessageDialog;
 import com.mopub.common.MoPub;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
@@ -103,6 +110,16 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 }
                                 break;
                             }
+                            case "sendMessage":{
+                                String urlActionTitle = methodCall.argument("urlActionTitle");
+                                String url = methodCall.argument("url");
+                                String title = methodCall.argument("title");
+                                String subtitle = methodCall.argument("subtitle");
+                                String imageUrl = methodCall.argument("imageUrl");
+                                String pageId = methodCall.argument("pageId");
+
+                                sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
+                            }
                             case Config.MOPUB_INITIALIZE_REWARD_VIDEO: {// mopub初始化
                                 initRewardAds();
                                 result.success(false);
@@ -136,6 +153,54 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         // 初始化 mopub SDK
         initRewardAds();
     }
+
+    private void sendMessage(final  MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
+        ShareMessengerURLActionButton actionButton =
+                new ShareMessengerURLActionButton.Builder()
+                        .setTitle(urlActionTitle)
+                        .setUrl(Uri.parse(url))
+                        .build();
+
+        ShareMessengerGenericTemplateElement.Builder genericTemplateElementBuilder =
+                new ShareMessengerGenericTemplateElement.Builder();
+        genericTemplateElementBuilder.setTitle(title);
+        genericTemplateElementBuilder.setSubtitle(subtitle);
+
+        if (imageUrl != null && !imageUrl.isEmpty()) genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
+        if (url != null && !url.isEmpty()) genericTemplateElementBuilder.setButton(actionButton);
+
+        ShareMessengerGenericTemplateContent genericTemplateContent =
+                new ShareMessengerGenericTemplateContent.Builder()
+                        .setPageId(pageId) // Your page ID, required
+                        .setGenericTemplateElement(genericTemplateElementBuilder.build())
+                        .build();
+        MessageDialog md = new MessageDialog(this);
+//        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+//
+//            @Override
+//            public void onSuccess(Sharer.Result shareResult) {
+//                result.success(true);
+//                Log.d("ricric", "onSuccess");
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                result.success(false);
+//                Log.d("ricric", "onCancel");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                result.success(false);
+//                Log.d("ricric", "error => " + error);
+//            }
+//        });
+        if (md.canShow(genericTemplateContent)) {
+//            md.show(activity, genericTemplateContent);
+            MessageDialog.show(this, genericTemplateContent);
+        }
+    }
+
 
     public void initRewardAds() {
         Log.i("tago", "initRewardAds");
