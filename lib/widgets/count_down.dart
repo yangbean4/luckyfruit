@@ -33,6 +33,7 @@ class _CountdownState extends State<Countdown> {
 
   @override
   void dispose() {
+//    print("timerCallback_dispose");
     _timer?.cancel();
     super.dispose();
   }
@@ -42,10 +43,15 @@ class _CountdownState extends State<Countdown> {
   }
 
   void timerCallback(Timer timer) {
+//    print("timerCallback_mounted:$mounted, ${_duration.inSeconds}");
     if (mounted)
       setState(() {
-        if (_duration.inSeconds == 0) {
+//        print(
+//            "timerCallback_setState: ${_duration.inSeconds}, ${widget.onFinish}");
+        if (_duration.inSeconds <= 1) {
+//          print("timerCallback_timer");
           timer.cancel();
+//          print("timerCallback_onFinish: ${widget.onFinish}");
           if (widget.onFinish != null) widget.onFinish();
         } else {
           _duration -= widget.interval;

@@ -22,6 +22,7 @@ import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:luckyfruit/utils/share_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
@@ -478,6 +479,7 @@ class Layer {
 // 回收弹窗
   static recycleLayer(Function onOk, String imgSrc, Tree tree) {
     String message;
+    String goldOrCashImageUrl;
     if (tree?.type == TreeType.Type_Wishing) {
       // 是许愿树,则发放金额,其他类型的发放金币
       if (tree?.recycleMoney == null) {
@@ -485,8 +487,10 @@ class Layer {
       } else {
         message = '\$${Util.formatNumber(tree?.recycleMoney)}';
       }
+      goldOrCashImageUrl = "assets/image/bg_dollar.png";
     } else {
       message = Util.formatNumber(tree.recycleGold) ?? "--";
+      goldOrCashImageUrl = "assets/image/gold.png";
     }
 
     Modal(
@@ -509,7 +513,11 @@ class Layer {
               'Recycling price',
             ),
           ),
-          GoldText(message, textSize: 66),
+          GoldText(
+            message,
+            textSize: 66,
+            imgUrl: goldOrCashImageUrl,
+          ),
           SizedBox(
             height: ScreenUtil().setWidth(47),
           ),
@@ -1047,9 +1055,9 @@ class Layer {
   /// 1. 新合���的树的等级要低于当前最高等级两级及以上；
   /// 2. 可购买等级要小于等于接口返回的purchase_tree_level
   /// 3. 每合成 compose_numbers次数后触发��次
-  /// 4. 本地请求到广告了 // TODO
+  /// 4. 本地请求到广告了
   static showBypassLevelUp(BuildContext context, Function onOk,
-      Function onCancel, Tree source, Tree target) {
+      Function onCancel, Tree source, Tree target) async {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
@@ -1063,6 +1071,14 @@ class Layer {
         treeGroup.minLevel > luckyGroup?.issed?.purchase_tree_level ||
         // 3. 每合成 compose_numbers次数后触发一次
         treeGroup.totalMergeCount % luckyGroup?.issed?.compose_numbers != 0) {
+      // 不满足条件，不弹出弹框，走正常流程
+      onCancel();
+      return;
+    }
+
+    /// 4. 本地请求到广告了
+    bool isReady = await MoAd.getInstance(context).isMopubRewardVideoReady();
+    if (!isReady) {
       // 不满足条件，不弹出弹框，走正常流程
       onCancel();
       return;

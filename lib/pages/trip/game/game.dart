@@ -431,11 +431,16 @@ class _GameState extends State<Game> with MyNavigator {
                                                       ),
                                                     ),
                                                     Image.asset(
-                                                      'assets/image/gold.png',
+                                                      selectorUse.isrecycle
+                                                                  .type ==
+                                                              TreeType
+                                                                  .Type_Wishing
+                                                          ? "assets/image/bg_dollar.png"
+                                                          : 'assets/image/gold.png',
                                                       width: ScreenUtil()
-                                                          .setWidth(50),
+                                                          .setWidth(60),
                                                       height: ScreenUtil()
-                                                          .setWidth(50),
+                                                          .setWidth(60),
                                                     ),
                                                     Container(
                                                         margin: EdgeInsets.only(
@@ -444,10 +449,18 @@ class _GameState extends State<Game> with MyNavigator {
                                                         ),
                                                         child: Text(
                                                           Util.formatNumber(
-                                                              selectorUse
+                                                              selectorUse.isrecycle
+                                                                          .type ==
+                                                                      TreeType
+                                                                          .Type_Wishing
+                                                                  ? selectorUse
                                                                       .isrecycle
-                                                                      ?.recycleGold ??
-                                                                  0, fixed: 1),
+                                                                      ?.recycleMoney
+                                                                  : selectorUse
+                                                                          .isrecycle
+                                                                          ?.recycleGold ??
+                                                                      0,
+                                                              fixed: 1),
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 FontFamily.bold,

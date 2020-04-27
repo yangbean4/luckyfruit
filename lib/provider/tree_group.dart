@@ -132,15 +132,15 @@ class TreeGroup with ChangeNotifier {
 //    return Tree(grade: maxLevel(includeMaxLevel: true)).highLevelCanPurchese;
 
     // int level1 = maxLevel(includeMaxLevel: true);
-    int level2 = 0;
-    if (treeGradeNumber.keys?.length > 0) {
-      level2 = treeGradeNumber.keys.map((t) {
-        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
-        return int.tryParse(t);
-      }).reduce(max);
-    }
-    return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
-    // return Tree(grade: hasMaxLevel).highLevelCanPurchese;
+//    int level2 = 0;
+//    if (treeGradeNumber.keys?.length > 0) {
+//      level2 = treeGradeNumber.keys.map((t) {
+//        print("tree_minlevel: t=$t, int=${int.tryParse(t)}");
+//        return int.tryParse(t);
+//      }).reduce(max);
+//    }
+//    return max(Tree(grade: hasMaxLevel).highLevelCanPurchese, level2);
+    return Tree(grade: hasMaxLevel).highLevelCanPurchese;
   }
 
   Tree get minLevelTree =>
