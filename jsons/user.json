@@ -21,5 +21,7 @@
   "is_m": 0,
   "update_time": "1587545749",
   "today_profit_update_time": "1587545749",
-  "profit_update_time": "1587545749"
+  "profit_update_time": "1587545749",
+  "access_token": "",
+  "device_id": ""
 }

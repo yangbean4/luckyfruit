@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/config/app.dart';
 // import 'package:luckyfruit/models/index.dart';
 
 class Service {
@@ -13,6 +15,13 @@ class Service {
   final _aes = new AESUtil(App.AESKEY);
 
   Dio _client;
+  UserModel _userModel;
+
+  UserModel get userModel => _userModel;
+
+  set userModel(UserModel value) {
+    _userModel = value;
+  }
 
   factory Service() => _instance;
 
@@ -273,6 +282,17 @@ class Service {
     return response.data;
   }
 
+  Map getBaseMap() {
+    var map = Map<String, dynamic>();
+    if (_userModel?.value?.device_id != null) {
+      map["device_id"] = _userModel?.value?.device_id;
+    }
+    if (_userModel?.value?.acct_id != null) {
+      map["acct_id"] = _userModel?.value?.acct_id;
+    }
+    return map;
+  }
+
   /// 创建dio请求对象
   _createClient() {
     BaseOptions options = BaseOptions(
@@ -303,7 +323,8 @@ class Service {
     _client.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       // REVIEW: aes?
-      // options.data = _aes.encrypt(json.encode(options.data));
+//       options.data = _aes.encrypt(json.encode(options.data));
+      (options.data as Map).addAll(getBaseMap());
       // 请求拦截器，加密参数
       return options;
     }, onResponse: (Response res) {

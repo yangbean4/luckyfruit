@@ -9,6 +9,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/router.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
@@ -38,6 +39,7 @@ void main() {
   TourismMap tourismMap = TourismMap();
   LuckyGroup luckyGroup = LuckyGroup();
   userModel.initUser().then((e) {
+    Service().userModel = userModel;
     final String userId = userModel.value?.acct_id;
     // 初始化firebase_messaging
     FbMsg.init(userId);

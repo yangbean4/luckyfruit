@@ -28,6 +28,8 @@ class User {
     String update_time;
     String today_profit_update_time;
     String profit_update_time;
+    String access_token;
+    String device_id;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);
