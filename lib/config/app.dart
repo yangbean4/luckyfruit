@@ -32,9 +32,12 @@ class Event_Name {
       "mopub_load_reward_video_failure";
   static const String mopub_reward_video_complete =
       "mopub_reward_video_complete";
+  static const String mopub_reward_video_started =
+      "mopub_reward_video_started";
   static const String mopub_is_reward_video_ready =
       "mopub_is_reward_video_ready";
   static const String mopub_reward_video_closed = "mopub_reward_video_closed";
+  static const String start_report_app_list = "start_report_app_list";
 }
 
 // 游戏相关设置
@@ -80,7 +83,7 @@ class App {
   static const SETTING_TERMS_URL =
       "https://docs.google.com/document/d/e/2PACX-1vTYBsMQvFgHM65YgTbjjVaxp2hXH9k5jVgzKsHSI_rwnyTEE7KycVzNTj9fPxxlt8fSwiMTPBuHE3dA/pub";
   static const APP_GP_URL =
-      "https://play.google.com/store/apps/details?id=goodluck.lucky.money.mergegarden.win.cash";
+      "market://details?id=goodluck.lucky.money.mergegarden.win.cash";
 
   // 运行在release模式时为true,为debug或Profile模式时为false
   static const IS_IN_RELEASE = bool.fromEnvironment("dart.vm.product");

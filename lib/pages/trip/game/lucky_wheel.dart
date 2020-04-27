@@ -106,6 +106,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     }""";
 
   num coinNum = 0;
+  int watched_ad = 1;
 
   startSpin() {
     // controller.value = 0;
@@ -160,9 +161,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   Future<dynamic> getLuckResult(BuildContext context) async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     dynamic luckResultMap;
-    luckResultMap = await Service().getLuckyWheelResult(
-        {'acct_id': treeGroup.acct_id, 'coin_speed': treeGroup.makeGoldSped});
+    luckResultMap = await Service().getLuckyWheelResult({
+      'acct_id': treeGroup.acct_id,
+      'coin_speed': treeGroup.makeGoldSped,
+      'watched_ad': watched_ad
+    });
 
+    watched_ad = 1;
     //TODO 测试用 模拟一个网络请求状态
     // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
@@ -389,7 +394,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     int luckyWheelType;
     switch (finalPosition) {
       case 8:
-        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES);
+        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES, () {
+          watched_ad = 0;
+        });
         return;
       case 7:
       case 3:
@@ -424,7 +431,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         }
         break;
       case 4:
-        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES);
+        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES, () {
+          watched_ad = 0;
+        });
         return;
       case 1:
         if (prevPos == 8) {

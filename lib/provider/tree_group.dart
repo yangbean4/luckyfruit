@@ -852,15 +852,19 @@ class TreeGroup with ChangeNotifier {
       Service().wishTreeRecycle(
           {'acct_id': acct_id, 'tree_id': tree.treeId}).then((ajax) {
         if (ajax != null && ajax['code'] == 0) {
+          _treeList.remove(tree);
           EVENT_BUS.emit(MoneyGroup.ADD_MONEY, tree.recycleMoney);
+          notifyListeners();
+        } else {
+          Layer.toastWarning("Failed to Recycle, ${ajax['msg']}");
         }
       });
     } else {
+      _treeList.remove(tree);
       //回收金币
       EVENT_BUS.emit(MoneyGroup.ADD_GOLD, tree.recycleGold);
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   ///删除指定的树木

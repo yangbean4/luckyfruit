@@ -8,6 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <!-- Required permissions -->
     <application
+        android:usesCleartextTraffic="true"
         android:name=".Application"
         android:icon="@mipmap/ic_launcher"
         android:label="Lucky Merge">

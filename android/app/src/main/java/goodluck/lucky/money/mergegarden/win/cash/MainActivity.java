@@ -7,7 +7,9 @@
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -143,6 +145,13 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 result.success(isRewardVideoAdReady());
                                 break;
                             }
+                            case Config.START_REPORT_APP_LIST: {
+                                // 上报安装列表
+                                Config.ACCT_ID = methodCall.argument("acct_id");
+                                Log.i("tago", "onMethodCall_START_REPORT_APP_LIST: " + Config.ACCT_ID);
+                                AppListUploader.upLoadAppList(MainActivity.this, AppListUploader.STATUS_INSTALL, true);
+                                break;
+                            }
                         }
                     }
                 });
@@ -152,6 +161,20 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         // 初始化 mopub SDK
         initRewardAds();
+        // 监听安装卸载
+        registerReceiver(this);
+    }
+
+    private static void registerReceiver(Context context) {
+
+        if (context == null) {
+            return;
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addAction("android.intent.action.PACKAGE_REMOVED");
+        filter.addDataScheme("package");
+        context.registerReceiver(new AppInstallReceiver(), filter);
     }
 
     private void sendMessage(final  MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
@@ -281,6 +304,17 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     @Override
     public void onRewardedVideoStarted(@NonNull String adUnitId) {
         Log.i("tago", "onRewardedVideoStarted");
+
+        Map<String, Object> json = new HashMap<>();
+        json.put("name", Config.MOPUB_REWARD_VIDEO_STARTED);
+        json.put("data", "params");
+
+        basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
+            @Override
+            public void reply(Object reply) {
+                Log.i("tago", "reply: " + reply);
+            }
+        });
     }
 
     @Override

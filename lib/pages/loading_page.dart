@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:luckyfruit/models/user.dart';
-import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:provider/provider.dart';
-
-import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/provider/tree_group.dart';
-import 'package:luckyfruit/provider/money_group.dart';
-import 'package:luckyfruit/provider/tourism_map.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
+import 'package:luckyfruit/models/user.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/provider/tourism_map.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/utils/method_channel.dart';
+import 'package:provider/provider.dart';
 
 class LoadingPage extends StatefulWidget {
   LoadingPage({Key key}) : super(key: key);
@@ -65,7 +64,12 @@ class _LoadingPageState extends State<LoadingPage> {
                     } else {
                       go();
                     }
-                    // 切换到map的tab栏
+                    // 初始化完成后调用java代码上报安装列表
+                    channelBus.callNativeMethod(
+                        Event_Name.start_report_app_list,
+                        arguments: <String, dynamic>{
+                          'acct_id': user?.acct_id,
+                        });
                   });
                 }
                 return Container(
