@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 import 'dart:io';
 import 'dart:typed_data';
@@ -89,7 +91,7 @@ class ShareUtil {
       "url": url,
       "title": shaerConfig.title,
       "subtitle": shaerConfig.subtitle,
-      "imageUrl": shaerConfig.imageUrl
+      "imageUrl": imagesrc
     });
   }
 
@@ -133,6 +135,43 @@ class __LayerState extends State<_Layer> {
           height: ScreenUtil().setHeight(1920),
           child: Stack(
             children: <Widget>[
+              // Positioned(
+              //   top: ScreenUtil().setWidth(366),
+              //   child: Container(
+              //     height: ScreenUtil().setWidth(531),
+              //     child: _DesktopCarousel(children: [
+              //       Image.network(
+              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+              //         width: ScreenUtil().setWidth(943),
+              //         height: ScreenUtil().setWidth(531),
+              //       ),
+              //       Image.network(
+              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+              //         width: ScreenUtil().setWidth(943),
+              //         height: ScreenUtil().setWidth(531),
+              //       ),
+              //       Image.network(
+              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+              //         width: ScreenUtil().setWidth(943),
+              //         height: ScreenUtil().setWidth(531),
+              //       ),
+              //       Image.network(
+              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+              //         width: ScreenUtil().setWidth(943),
+              //         height: ScreenUtil().setWidth(531),
+              //       ),
+              //     ]),
+              //   ),
+              // ),
+              Positioned(
+                top: ScreenUtil().setWidth(366),
+                left: ScreenUtil().setWidth(76),
+                child: CachedNetworkImage(
+                  imageUrl: widget.imgList[0],
+                  width: ScreenUtil().setWidth(943),
+                  height: ScreenUtil().setWidth(531),
+                ),
+              ),
               Positioned(
                   bottom: 0,
                   left: 0,
@@ -225,5 +264,217 @@ class __LayerState extends State<_Layer> {
             ],
           ),
         ));
+  }
+}
+
+// Container(
+//   height: carouselHeight,
+//   child: _DesktopCarousel(children: carouselCards),
+// ),
+
+// final carouselCards = <Widget>[
+//     _CarouselCard(
+//       demo: studyDemos['shrine'],
+//       asset: const AssetImage('assets/studies/shrine_card.png'),
+//       assetColor: const Color(0xFFFEDBD0),
+//       assetDark: const AssetImage('assets/studies/shrine_card_dark.png'),
+//       assetDarkColor: const Color(0xFF543B3C),
+//       textColor: shrineBrown900,
+//       studyRoute: ShrineApp.loginRoute,
+//     ),
+
+const _desktopCardsPerPage = 4;
+const _horizontalDesktopPadding = 81.0;
+
+class _DesktopCarousel extends StatefulWidget {
+  const _DesktopCarousel({Key key, this.children}) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  _DesktopCarouselState createState() => _DesktopCarouselState();
+}
+
+class _DesktopCarouselState extends State<_DesktopCarousel> {
+  static const cardPadding = 15.0;
+  ScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+    _controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _builder(int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: cardPadding,
+      ),
+      child: widget.children[index],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showPreviousButton = false;
+    var showNextButton = true;
+    // Only check this after the _controller has been attached to the ListView.
+    if (_controller.hasClients) {
+      showPreviousButton = _controller.offset > 0;
+      showNextButton =
+          _controller.offset < _controller.position.maxScrollExtent;
+    }
+    final totalWidth = MediaQuery.of(context).size.width -
+        (_horizontalDesktopPadding - cardPadding) * 2;
+    final itemWidth = totalWidth / _desktopCardsPerPage;
+
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: _horizontalDesktopPadding - cardPadding,
+          ),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const _SnappingScrollPhysics(),
+            controller: _controller,
+            itemExtent: itemWidth,
+            itemCount: widget.children.length,
+            itemBuilder: (context, index) => _builder(index),
+          ),
+        ),
+        if (showPreviousButton)
+          _DesktopPageButton(
+            onTap: () {
+              _controller.animateTo(
+                _controller.offset - itemWidth,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+              );
+            },
+          ),
+        if (showNextButton)
+          _DesktopPageButton(
+            isEnd: true,
+            onTap: () {
+              _controller.animateTo(
+                _controller.offset + itemWidth,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+              );
+            },
+          ),
+      ],
+    );
+  }
+}
+
+class _SnappingScrollPhysics extends ScrollPhysics {
+  const _SnappingScrollPhysics({ScrollPhysics parent}) : super(parent: parent);
+
+  @override
+  _SnappingScrollPhysics applyTo(ScrollPhysics ancestor) {
+    return _SnappingScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  double _getTargetPixels(
+    ScrollMetrics position,
+    Tolerance tolerance,
+    double velocity,
+  ) {
+    final itemWidth = position.viewportDimension / _desktopCardsPerPage;
+    var item = position.pixels / itemWidth;
+    if (velocity < -tolerance.velocity) {
+      item -= 0.5;
+    } else if (velocity > tolerance.velocity) {
+      item += 0.5;
+    }
+    return math.min(
+      item.roundToDouble() * itemWidth,
+      position.maxScrollExtent,
+    );
+  }
+
+  @override
+  Simulation createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
+    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
+        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
+      return super.createBallisticSimulation(position, velocity);
+    }
+    final tolerance = this.tolerance;
+    final target = _getTargetPixels(position, tolerance, velocity);
+    if (target != position.pixels) {
+      return ScrollSpringSimulation(
+        spring,
+        position.pixels,
+        target,
+        velocity,
+        tolerance: tolerance,
+      );
+    }
+    return null;
+  }
+
+  @override
+  bool get allowImplicitScrolling => false;
+}
+
+class _DesktopPageButton extends StatelessWidget {
+  const _DesktopPageButton({
+    Key key,
+    this.isEnd = false,
+    this.onTap,
+  }) : super(key: key);
+
+  final bool isEnd;
+  final GestureTapCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final buttonSize = 58.0;
+    final padding = _horizontalDesktopPadding - buttonSize / 2;
+    return Align(
+      alignment: isEnd
+          ? AlignmentDirectional.centerEnd
+          : AlignmentDirectional.centerStart,
+      child: Container(
+        width: buttonSize,
+        height: buttonSize,
+        margin: EdgeInsetsDirectional.only(
+          start: isEnd ? 0 : padding,
+          end: isEnd ? padding : 0,
+        ),
+        child: Tooltip(
+          message: isEnd
+              ? MaterialLocalizations.of(context).nextPageTooltip
+              : MaterialLocalizations.of(context).previousPageTooltip,
+          child: Material(
+            color: Colors.black.withOpacity(0.5),
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onTap,
+              child: Icon(
+                isEnd ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
