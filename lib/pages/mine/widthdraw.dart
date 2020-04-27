@@ -831,12 +831,12 @@ class _Enjoy {
   }
 
   static submit(context) {
+    BurialReport.report('comment', {'star': star.toString()});
     if (star > 3) {
       launch(App.APP_GP_URL);
     }
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     userModel.upDate({'score': star});
-    BurialReport.report('comment', {'star': star.toString()});
   }
 }
 

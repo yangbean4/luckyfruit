@@ -10,7 +10,7 @@ class ShaerConfig {
     String fireLink;
     String title;
     String subtitle;
-    String imageUrl;
+    List<String> imageUrl;
     
     factory ShaerConfig.fromJson(Map<String,dynamic> json) => _$ShaerConfigFromJson(json);
     Map<String, dynamic> toJson() => _$ShaerConfigToJson(this);

@@ -31,7 +31,8 @@ class DynamicLink {
     }
   }
 
-  static Future<String> getLinks(BuildContext context) async {
+  static Future<String> getLinks(BuildContext context,
+      {String imageSrc}) async {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     ShaerConfig shaerConfig = luckyGroup.shaerConfig;
 
@@ -52,7 +53,10 @@ class DynamicLink {
         socialMetaTagParameters: SocialMetaTagParameters(
           title: shaerConfig.title,
           description: shaerConfig.subtitle,
-          imageUrl: Uri.parse(shaerConfig.imageUrl),
+          imageUrl: Uri.parse(
+              'http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg' ??
+                  imageSrc ??
+                  shaerConfig.imageUrl),
         ));
     final url = await parameters.buildUrl();
     print(url);

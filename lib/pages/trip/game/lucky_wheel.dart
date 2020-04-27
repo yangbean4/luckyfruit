@@ -279,7 +279,6 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       print("controller.isAnimating");
                       return;
                     }
-                    BurialReport.report('c_wheel_entr', {});
                     if (ticketCount <= 0) {
                       BurialReport.report('spin_wheel', {'type': '2'});
 

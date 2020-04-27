@@ -5,6 +5,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:provider/provider.dart';
 
@@ -64,6 +65,7 @@ class AdButton extends StatefulWidget {
 class _AdButtonState extends State<AdButton> {
   bool showCancel = false;
   List<Widget> children;
+  Map<String, String> adLogParam = {};
 
   @override
   void initState() {
@@ -77,8 +79,21 @@ class _AdButtonState extends State<AdButton> {
         }
       });
     }
-    BurialReport.report(
-        'ad_rewarded', {'type': '0', 'ad_code': widget.ad_code});
+  }
+
+  // didChangeDependencies
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    UserModel _userModel = Provider.of<UserModel>(context, listen: false);
+
+    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
+    BurialReport.report('ad_rewarded', {
+      'type': '0',
+      'ad_code': widget.ad_code,
+      "union_id": adLogParam['videoLogParam']
+    });
   }
 
   @override
@@ -86,8 +101,11 @@ class _AdButtonState extends State<AdButton> {
     Function onTap = widget.onOk != null && !widget.disable
         ? () {
             if (widget.useAd) {
-              BurialReport.report(
-                  'ad_rewarded', {'type': '1', 'ad_code': widget.ad_code});
+              BurialReport.report('ad_rewarded', {
+                'type': '1',
+                'ad_code': widget.ad_code,
+                "union_id": adLogParam['videoLogParam']
+              });
 
               MoAd.getInstance(context).showRewardVideo(() {
                 //success
@@ -98,7 +116,7 @@ class _AdButtonState extends State<AdButton> {
                 if (widget?.onCancel != null) {
                   widget?.onCancel();
                 }
-              }, ad_code: widget.ad_code);
+              }, ad_code: widget.ad_code, adLogParam: adLogParam);
             } else {
               widget.onOk();
             }

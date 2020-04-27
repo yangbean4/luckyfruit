@@ -341,6 +341,7 @@ class _TripBtnsState extends State<TripBtns> {
           showLock: true,
           key: Consts.globalKeyWheel,
           onTap: () {
+            BurialReport.report('c_wheel_entr', {});
             BurialReport.report('page_imp', {'page_code': '007'});
             Layer.showLuckyWheel(context);
           },

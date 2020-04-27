@@ -43,7 +43,7 @@ class BurialReport {
     map['event_name'] = event_name;
     map['config_version'] = configVersion;
     map['app_version'] = appVersion;
-    map['time'] = DateTime.now().toString();
+    map['time'] = DateTime.now().toUtc().toString();
 
     Map<String, String> data = _getData(map);
     ChannelBus().callNativeMethod("tga_track", arguments: jsonEncode(data));

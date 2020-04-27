@@ -166,6 +166,7 @@ class _WarehouseState extends State<Warehouse> {
                 height: ScreenUtil().setWidth(740),
                 width: ScreenUtil().setWidth(840),
                 child: ListView.separated(
+                    addAutomaticKeepAlives: true,
                     itemBuilder: (BuildContext context, int index) => ListItem(
                         warehouseTreeList[index],
                         onClick: (bool isSelect) => isSelect

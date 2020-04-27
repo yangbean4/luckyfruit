@@ -22,6 +22,7 @@ class MoAd {
   bool reachRewardPoint = false;
   int retryCount = 0;
   int retryDelayedTimeInSeconds = 60;
+  Map<String, String> videoLogParam;
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
@@ -81,7 +82,11 @@ class MoAd {
   ///开始播放广告
   void onRewardedVideoStarted(arg) {
     print("onRewardedVideoStarted_");
-    BurialReport.report('ad_rewarded', {'type': '2', 'ad_code': ad_code});
+    BurialReport.report('ad_rewarded', {
+      'type': '2',
+      'ad_code': ad_code,
+      "union_id": videoLogParam['videoLogParam']
+    });
     // 关闭声效
     EVENT_BUS.emit(Event_Name.APP_PAUSED);
   }
@@ -91,7 +96,11 @@ class MoAd {
     print("onRewardedVideoCompleted: $arg");
     reachRewardPoint = true;
 
-    BurialReport.report('ad_rewarded', {'type': '3', 'ad_code': ad_code});
+    BurialReport.report('ad_rewarded', {
+      'type': '3',
+      'ad_code': ad_code,
+      "union_id": videoLogParam['videoLogParam']
+    });
 
     // 观看广告次数减一
     if (_userModel?.userInfo?.ad_times != null) {
@@ -104,7 +113,7 @@ class MoAd {
 
     // 通知观看广告
     EVENT_BUS.emit(VIEW_AD);
-    Service().videoAdsLog(Util.getVideoLogParams(_userModel?.value?.acct_id));
+    Service().videoAdsLog(videoLogParam);
   }
 
   void onRewardedVideoClosed(arg) {
@@ -138,9 +147,11 @@ class MoAd {
     Function successCallback,
     Function(String) failCallback, {
     String ad_code,
+    Map<String, String> adLogParam,
   }) async {
     print("showRewardVideo");
-
+    videoLogParam =
+        adLogParam ?? Util.getVideoLogParams(_userModel?.value?.acct_id);
     if (_userModel?.userInfo?.ad_times == 0) {
       Layer.toastWarning("Number of videos has used up");
       return;

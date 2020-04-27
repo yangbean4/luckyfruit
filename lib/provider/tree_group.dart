@@ -776,8 +776,8 @@ class TreeGroup with ChangeNotifier {
         await channelBus.callNativeMethod(Event_Name.message_notification);
     if (!result) {
       Layer.messageNotification(() {
-        channelBus.callNativeMethod(Event_Name.set_message_notification);
         BurialReport.report('reminder', {});
+        channelBus.callNativeMethod(Event_Name.set_message_notification);
       });
     }
   }
