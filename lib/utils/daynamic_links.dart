@@ -53,10 +53,7 @@ class DynamicLink {
         socialMetaTagParameters: SocialMetaTagParameters(
           title: shaerConfig.title,
           description: shaerConfig.subtitle,
-          imageUrl: Uri.parse(
-              'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png' ??
-                  imageSrc ??
-                  shaerConfig.imageUrl),
+          imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl),
         ));
     final url = await parameters.buildUrl();
     print(url);

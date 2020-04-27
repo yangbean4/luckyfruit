@@ -263,7 +263,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                 provider?.userInfo, provider?.value?.acct_id, provider.value),
             builder: (_, data, __) {
               return AdButton(
-                  ad_code: '213',
+                  ad_code: ticketCount <= 0 ? '212' : '213',
                   btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
                   useAd: ticketCount <= 0,
                   disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
