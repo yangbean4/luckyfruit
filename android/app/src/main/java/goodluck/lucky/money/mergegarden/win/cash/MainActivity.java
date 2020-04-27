@@ -17,15 +17,18 @@ import android.util.Log;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.ads.AdSettings;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareMessengerGenericTemplateContent;
 import com.facebook.share.model.ShareMessengerGenericTemplateElement;
 import com.facebook.share.model.ShareMessengerURLActionButton;
 import com.facebook.share.widget.MessageDialog;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.mopub.common.MoPub;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
+import com.mopub.mobileads.GooglePlayServicesRewardedVideo;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubRewardedVideoListener;
 import com.mopub.mobileads.MoPubRewardedVideoManager;
@@ -34,6 +37,7 @@ import com.mopub.mobileads.MoPubRewardedVideos;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -259,9 +263,20 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     }
 
     public void loadRewardAds() {
+        AdSettings.addTestDevice("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
+
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
+//        list.add("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
+//        RequestConfiguration.Builder builder = new RequestConfiguration.Builder().;
+//        builder.setTestDeviceIds(list);
         Log.i("tago", "loadRewardAds");
+        GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings settings = new GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings();
+//        settings.setTestDeviceId("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
+        settings.setTestDeviceId("91734d90-38e6-4998-8900-2c693ffd11fd");
         MoPubRewardedVideos.loadRewardedVideo(mAdUnitId,
-                new MoPubRewardedVideoManager.RequestParameters("", "", null, "sample_app_customer_id"));
+                new MoPubRewardedVideoManager.RequestParameters("", "", null, "sample_app_customer_id"),
+                settings);
     }
 
     public boolean isRewardVideoAdReady() {
@@ -282,6 +297,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
             @Override
             public void onInitializationFinished() {
                 Log.i("tago", "onInitializationFinished");
+                loadRewardAds();
             }
         };
     }

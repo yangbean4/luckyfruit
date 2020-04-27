@@ -9,6 +9,8 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:provider/provider.dart';
 
+import 'layer.dart';
+
 class AdButton extends StatefulWidget {
   // 是否使用广告
   final bool useAd;
@@ -117,6 +119,19 @@ class _AdButtonState extends State<AdButton> {
                   widget?.onCancel();
                 }
               }, ad_code: widget.ad_code, adLogParam: adLogParam);
+
+//              MoAd.getInstance(context).viewAd(context).then((res) {
+//                if (res) {
+//                  // 看广告成功
+//                  widget?.onOk();
+//                } else {
+//                  if (widget?.onCancel != null) {
+//                    widget?.onCancel();
+//                  }
+//                  // 看广告失败,弹框提示
+//                  Layer.toastWarning("Number of videos has used up");
+//                }
+//              });
             } else {
               widget.onOk();
             }

@@ -43,9 +43,6 @@ class MoAd {
     // 注册广告播放关闭通知
     channelBus.registerReceiver(Event_Name.mopub_reward_video_closed,
         (arg) => onRewardedVideoClosed(arg));
-
-    // 首次加载广告
-    loadRewardAds();
   }
 
   static MoAd getInstance(BuildContext context) {
@@ -166,5 +163,39 @@ class MoAd {
     if (!isReady) {
       Layer.toastWarning("Ad not ready yet");
     }
+  }
+
+  /// 测试用
+  Future<bool> viewAd(BuildContext context) async {
+    UserModel user = Provider.of<UserModel>(context, listen: false);
+    if (user.userInfo.ad_times == 0) {
+      Layer.toastWarning("Number of videos has used up");
+      return false;
+    }
+
+    if (user.userInfo.ad_times != null) {
+      if (user.userInfo.ad_times > 0) {
+        user.userInfo.ad_times--;
+      } else {
+        user.userInfo.ad_times = 0;
+      }
+    }
+
+    bool result = false;
+    Layer.loading('.....');
+    await Future.delayed(Duration(seconds: 1));
+    // 通知观看广告
+    EVENT_BUS.emit(VIEW_AD);
+    Layer.loadingHide();
+
+    // 观看广告后上报观看次数接口
+    await Service()
+        .videoAdsLog(Util.getVideoLogParams(user?.value?.acct_id))
+        .then((res) {
+      result = res['code'] == 0;
+      print("videoAdsLog result: $result");
+    });
+    print("viewAd return $result");
+    return result;
   }
 }
