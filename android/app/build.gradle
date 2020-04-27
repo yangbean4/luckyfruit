@@ -129,4 +129,5 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
     implementation 'com.facebook.android:facebook-share:[5,6)'
+    implementation 'com.facebook.android:facebook-messenger:[5,6)'
 }

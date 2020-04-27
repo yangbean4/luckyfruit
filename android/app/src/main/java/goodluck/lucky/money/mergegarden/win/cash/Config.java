@@ -13,6 +13,8 @@ public final class Config {
     public static String ACCT_ID;
     //TODO 更换 url地址
     public static final String SERVER_URL_PREFIX = "http://171.8.199.211:8109/public/index.php?r=";
+    public static final String FACEBOOK_PAGE_ID = "EAADS5qG9r1EBACvWYEospZBLwZCjhD9yyTwJdgcf7LitkdFpsY6eVqYWLTT4KY7SOkHP9ZBftJQ7LI3haVuEZCBgIJMD5xSZB5gxBirkyaXAkhnDZCZCpLgjlwPWJSqAZBOGFfnxU42wOB3I7YWVdUFqi3d9t8S3aEJjAMSuZAp8baqZAVhQWzM7kXaoXcovn7zO4ZD";
+
     public static final String METHOD_CHANNEL = "com.bean.flutterchannel/method";
     public static final String EVENT_CHANNEL = "com.bean.flutterchannel/event";
 

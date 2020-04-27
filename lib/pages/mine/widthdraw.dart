@@ -800,6 +800,9 @@ class _Enjoy {
       onCancel: () {},
       okText: 'Submit',
       children: [
+        Container(
+          height: ScreenUtil().setWidth(20),
+        ),
         ModalTitle("Enjoy Lucky Merge"),
         Container(
           height: ScreenUtil().setWidth(100),

@@ -242,7 +242,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                                   onTap: () {
                                     if (userModel.hasLoginedFB) {
                                       // 已经登录了FB,弹窗提示
-                                      Layer.toastWarning("Aleady Logined");
+                                      Layer.toastWarning("Already Logined");
                                     } else {
                                       userModel.loginWithFB();
                                     }

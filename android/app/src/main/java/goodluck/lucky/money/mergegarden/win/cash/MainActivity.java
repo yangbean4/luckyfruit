@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.Sharer;
@@ -36,9 +37,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
+import cn.thinkingdata.android.TDConfig;
 import cn.thinkingdata.android.ThinkingAnalyticsSDK;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.BasicMessageChannel;
@@ -57,14 +60,17 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     private String mAdUnitId = "071798bdd3194939ad25fd6f068448b5";
     private MethodChannel methodChannel;
     private MethodChannel eventChannel;
+    private CallbackManager callbackManager;
+    ThinkingAnalyticsSDK tdInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
         ThinkingAnalyticsSDK.enableTrackLog(true);
-        ThinkingAnalyticsSDK tdInstance = ThinkingAnalyticsSDK.sharedInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
-                "http://tad.sen-sdk.com");
+        TDConfig config = TDConfig.getInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc", "http://tad.sen-sdk.com");
+        config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
+        tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
 
         new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)
                 .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
@@ -112,7 +118,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 }
                                 break;
                             }
-                            case "sendMessage":{
+                            case "sendMessage": {
                                 String urlActionTitle = methodCall.argument("urlActionTitle");
                                 String url = methodCall.argument("url");
                                 String title = methodCall.argument("title");
@@ -163,6 +169,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         initRewardAds();
         // 监听安装卸载
         registerReceiver(this);
+
+        callbackManager = CallbackManager.Factory.create();
     }
 
     private static void registerReceiver(Context context) {
@@ -177,7 +185,10 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         context.registerReceiver(new AppInstallReceiver(), filter);
     }
 
-    private void sendMessage(final  MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
+    private void sendMessage(final MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
+
+//        url="https://share.mkfruit.com?amv=1&apn=com.idle.farm&link=https%3A%2F%2Fgithub.com%2Ffirebase%2FFirebaseUI-Android%2Ftree%2Fmaster%2Fapp%3FinviteCode%3D7X2USJ0P8H";
+//        url = "https://mkfruit.com?sd=mergegarden&si=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fimg%2Fimg.png&st=mergegarden&amv=0&apn=goodluck.lucky.money.mergegarden.win.cash&link=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fzip%2Findex.html%3Fcode%3D587";
         ShareMessengerURLActionButton actionButton =
                 new ShareMessengerURLActionButton.Builder()
                         .setTitle(urlActionTitle)
@@ -189,41 +200,46 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         genericTemplateElementBuilder.setTitle(title);
         genericTemplateElementBuilder.setSubtitle(subtitle);
 
-        if (imageUrl != null && !imageUrl.isEmpty()) genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
+        if (imageUrl != null && !imageUrl.isEmpty())
+            genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
         if (url != null && !url.isEmpty()) genericTemplateElementBuilder.setButton(actionButton);
 
         ShareMessengerGenericTemplateContent genericTemplateContent =
                 new ShareMessengerGenericTemplateContent.Builder()
-                        .setPageId(pageId) // Your page ID, required
+                        .setPageId(Config.FACEBOOK_PAGE_ID) // Your page ID, required
                         .setGenericTemplateElement(genericTemplateElementBuilder.build())
                         .build();
         MessageDialog md = new MessageDialog(this);
-//        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-//
-//            @Override
-//            public void onSuccess(Sharer.Result shareResult) {
-//                result.success(true);
-//                Log.d("ricric", "onSuccess");
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                result.success(false);
-//                Log.d("ricric", "onCancel");
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                result.success(false);
-//                Log.d("ricric", "error => " + error);
-//            }
-//        });
+        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+
+            @Override
+            public void onSuccess(Sharer.Result shareResult) {
+                result.success(true);
+                Log.d("tago", "FacebookCallback_onSuccess");
+            }
+
+            @Override
+            public void onCancel() {
+                result.success(false);
+                Log.d("tago", "FacebookCallback_onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                result.success(false);
+                Log.d("tago", "FacebookCallback_error => " + error);
+            }
+        });
         if (md.canShow(genericTemplateContent)) {
-//            md.show(activity, genericTemplateContent);
             MessageDialog.show(this, genericTemplateContent);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void initRewardAds() {
         Log.i("tago", "initRewardAds");
