@@ -23,7 +23,6 @@ import com.facebook.share.model.ShareMessengerGenericTemplateContent;
 import com.facebook.share.model.ShareMessengerGenericTemplateElement;
 import com.facebook.share.model.ShareMessengerURLActionButton;
 import com.facebook.share.widget.MessageDialog;
-import com.google.android.gms.ads.RequestConfiguration;
 import com.mopub.common.MoPub;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
@@ -37,7 +36,6 @@ import com.mopub.mobileads.MoPubRewardedVideos;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -280,7 +278,9 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     }
 
     public boolean isRewardVideoAdReady() {
-        return MoPubRewardedVideos.hasRewardedVideo(mAdUnitId);
+        boolean isReady = MoPubRewardedVideos.hasRewardedVideo(mAdUnitId);
+        Log.i("tago", "isRewardVideoAdReady: " + isReady);
+        return isReady;
     }
 
     public void showRewardAds() {
