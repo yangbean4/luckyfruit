@@ -10,6 +10,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_recycle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
@@ -68,6 +69,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
     BurialReport.report('page_imp', {'page_code': '001'});
+
+    // 初始化完成后调用java代码上报安装列表
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    channelBus.callNativeMethod(Event_Name.start_report_app_list,
+        arguments: <String, dynamic>{
+          'acct_id': userModel.value?.acct_id,
+        });
   }
 
   @override

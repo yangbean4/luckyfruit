@@ -56,7 +56,7 @@ class DynamicLink {
           imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl),
         ));
     final url = await parameters.buildUrl();
-    print(url);
+    print("get dynatmic link: $url");
     return url.toString();
     // final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
     // return shortDynamicLink.shortUrl.toString();

@@ -32,12 +32,6 @@ public class Application extends FlutterApplication implements PluginRegistrantC
             FacebookSdk.setIsDebugEnabled(true);
             FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         }
-
-        // AppLovinSdk.initializeSdk(this);
-        // final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
-        // ArrayList<String> list = new ArrayList<>();
-        // list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
-        // sdk.getSettings().setTestDeviceAdvertisingIds(list);
     }
 
     @Override

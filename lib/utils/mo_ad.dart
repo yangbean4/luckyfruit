@@ -65,7 +65,7 @@ class MoAd {
     } else {
       retryCount = 0;
 
-      print("retryDelayedTimeInSeconds: $_luckyGroup?.issed?.ad_reset_time");
+      print("retryDelayedTimeInSeconds: ${_luckyGroup?.issed?.ad_reset_time}");
       // x时长后重新请求
       Future.delayed(
           Duration(
