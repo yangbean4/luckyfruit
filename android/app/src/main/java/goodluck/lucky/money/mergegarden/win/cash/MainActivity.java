@@ -136,6 +136,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 String pageId = methodCall.argument("pageId");
 
                                 sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
+                                break;
                             }
                             case Config.MOPUB_INITIALIZE_REWARD_VIDEO: {// mopub初始化
                                 initRewardAds();
