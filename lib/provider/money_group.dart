@@ -6,6 +6,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -320,6 +321,8 @@ class MoneyGroup with ChangeNotifier {
     if (playAnimation) {
       _showDollarImgTrans = true;
     }
+    BurialReport.report('m_currency_change',
+        {'m_currency_number': _money.toString(), 'type': '1'});
     save();
   }
 

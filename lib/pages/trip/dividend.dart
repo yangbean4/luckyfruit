@@ -383,7 +383,8 @@ class _DividendState extends State<Dividend> {
                                                         height: 1))),
                                             GestureDetector(
                                                 onTap: () => MyNavigator()
-                                                    .pushNamed(context,
+                                                    .pushReplacementNamed(
+                                                        context,
                                                         'bonusTreePage'),
                                                 child: Container(
                                                     width: ScreenUtil()

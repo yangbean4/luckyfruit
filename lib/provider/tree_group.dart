@@ -411,10 +411,10 @@ class TreeGroup with ChangeNotifier {
         if (_isAuto) _autoMerge();
       }
     });
-    EVENT_BUS.on(Event_Name.Router_Change, (_) {
-      _autoMergeTimeout();
-      saveComposeTimes();
-    });
+    // EVENT_BUS.on(Event_Name.Router_Change, (_) {
+    //   _autoMergeTimeout();
+    //   saveComposeTimes();
+    // });
     Timer.periodic(Duration(seconds: _treasureInterval), (timer) {
       // Timer.periodic(Duration(seconds: 30), (timer) {
       // 检查出现宝箱

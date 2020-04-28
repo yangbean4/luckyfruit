@@ -66,9 +66,8 @@ class UserModel with ChangeNotifier {
       String res = await Storage.getItem(UserModel.m_currency_change);
       if (_user.update_time != null && res != _user.update_time) {
         Storage.setItem(UserModel.m_currency_change, _user.update_time);
-        BurialReport.report('m_currency_change', {
-          'm_currency_number': _user.acct_bal.toString(),
-        });
+        BurialReport.report('m_currency_change',
+            {'m_currency_number': _user.acct_bal.toString(), 'type': '2'});
       }
 
       // String today_profit_update_time = await Storage.getItem(UserModel.today_profit_update_time);
