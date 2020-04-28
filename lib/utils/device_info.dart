@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:adjust_sdk/adjust.dart';
 import 'package:device_info/device_info.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:package_info/package_info.dart';
@@ -21,7 +23,8 @@ class DeviceIofo {
       DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        device = _readAndroidBuildData(androidInfo);
+        String gaid = await Adjust.getGoogleAdId();
+        device = _readAndroidBuildData(androidInfo, gaid);
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         device = _readIosDeviceInfo(iosInfo);
@@ -55,7 +58,7 @@ class DeviceIofo {
     return info;
   }
 
-  static Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+  static Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build, String gaid) {
     return <String, dynamic>{
       'version.securityPatch': build.version.securityPatch,
       'version.sdkInt': build.version.sdkInt,
@@ -82,7 +85,8 @@ class DeviceIofo {
       'tags': build.tags,
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId
+      'androidId': build.androidId,
+      'gaid': gaid,
     };
   }
 
