@@ -797,7 +797,9 @@ class _Enjoy {
 
     Modal(
       onOk: () => submit(context),
-      onCancel: () {},
+      onCancel: () {
+        BurialReport.report('comment', {'type': '2'});
+      },
       okText: 'Submit',
       children: [
         Container(
@@ -831,7 +833,7 @@ class _Enjoy {
   }
 
   static submit(context) {
-    BurialReport.report('comment', {'star': star.toString()});
+    BurialReport.report('comment', {'star': star.toString(), 'type': '1'});
     if (star > 3) {
       launch(App.APP_GP_URL);
     }

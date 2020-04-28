@@ -108,6 +108,7 @@ class _AdButtonState extends State<AdButton> {
                 'ad_code': widget.ad_code,
                 "union_id": adLogParam['videoLogParam']
               });
+              widget?.onOk();
 
               MoAd.getInstance(context).showRewardVideo(() {
                 //success

@@ -39,7 +39,7 @@ class CoinRainState extends State with TickerProviderStateMixin {
     // controller.addStatusListener((status) {
     //   if (status == AnimationStatus.completed) {
     //     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    //     luckyGroup.setShowCoinRain = false;
+    //     luckyGroup.isDouble = false;
     //   }
     // });
 
@@ -105,6 +105,6 @@ class CoinRainState extends State with TickerProviderStateMixin {
                   animation: controller)
               : Container();
         },
-        selector: (context, provider) => provider.showCoinRain);
+        selector: (context, provider) => provider.isDouble);
   }
 }

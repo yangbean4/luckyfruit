@@ -14,7 +14,7 @@ class CoinRainWidget extends StatelessWidget {
         builder: (_, show, __) {
           return show ? _CoinRain() : Container();
         },
-        selector: (context, provider) => provider.showCoinRain);
+        selector: (context, provider) => provider.isDouble);
   }
 }
 
@@ -41,10 +41,10 @@ class _CoinRainState extends State with TickerProviderStateMixin {
     controller = new AnimationController(
         duration: new Duration(milliseconds: 1500 * screen), vsync: this);
     curveEaseIn = new CurvedAnimation(
-        parent: controller, curve:
+        parent: controller,
+        curve:
 //    _ShakeCurve(longTime: 3000 * screen)
-    Curves.linear
-    );
+            Curves.linear);
 
     posAnimation = Tween<double>(
       begin: -screen.toDouble(),
@@ -54,7 +54,7 @@ class _CoinRainState extends State with TickerProviderStateMixin {
     // controller.addStatusListener((status) {
     //   if (status == AnimationStatus.completed) {
     //     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    //     luckyGroup.setShowCoinRain = false;
+    //     luckyGroup.isDouble = false;
     //   }
     // });
 

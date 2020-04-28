@@ -73,21 +73,6 @@ class LuckyGroup with ChangeNotifier {
 
   DrawInfo get drawInfo => _drawInfo;
 
-  // 是否显示双倍的入口按钮
-  bool _showDouble = false;
-
-  bool get showDouble => _showDouble;
-
-  /// 是否显示金币雨
-  bool _showCoinRain = false;
-
-  bool get showCoinRain => _showCoinRain;
-
-  set setShowCoinRain(bool show) {
-    _showCoinRain = show;
-    notifyListeners();
-  }
-
   /// 是否显示添加树circle指引
   bool _showCircleGuidance = false;
 
@@ -162,11 +147,6 @@ class LuckyGroup with ChangeNotifier {
     }
   }
 
-  // 当前是双倍
-  bool _showAuto = false;
-
-  bool get showAuto => _showAuto;
-
   // 是否显示🎈
   bool _showballoon = false;
 
@@ -212,24 +192,88 @@ class LuckyGroup with ChangeNotifier {
 
   Issued get issed => _issued;
 
+  // 是否显示双倍的入口按钮
+  bool _showDouble = false;
+
+  bool get showDouble => _showDouble;
+
+  bool _isDouble = false;
+
+  bool get isDouble => _isDouble;
+
   void doubleStart() {
+    _isDouble = true;
     hideDoubleAndNextRun();
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, _issued.reward_multiple);
+    _double_coin_time = issed?.double_coin_time;
+    _runDoubleTimer();
     notifyListeners();
   }
 
+  int _double_coin_time;
+  int get double_coin_time => _double_coin_time;
+  set double_coin_time(int value) {
+    _double_coin_time = value;
+    notifyListeners();
+  }
+
+  Timer doubleTimer;
+  _runDoubleTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      double_coin_time = double_coin_time - 1;
+      doubleTimer = timer;
+      if (double_coin_time <= 1) {
+        timer.cancel();
+        doubleEnd();
+      }
+    });
+  }
+
   void doubleEnd() {
+    _isDouble = false;
     EVENT_BUS.emit(MoneyGroup.SET_INCREASE, 1);
     notifyListeners();
   }
 
+  // 当前是双倍
+  bool _showAuto = false;
+
+  bool get showAuto => _showAuto;
+
+  bool _isAuto = false;
+
+  bool get isAuto => _isAuto;
+
   void autoStart() {
+    _isAuto = true;
     hideAutoAndNextRun();
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
+    _automatic_time = issed?.automatic_time;
+    _runAutoTimer();
     notifyListeners();
   }
 
+  int _automatic_time;
+  int get automatic_time => _automatic_time;
+  set automatic_time(int value) {
+    _automatic_time = value;
+    notifyListeners();
+  }
+
+  Timer autoTimer;
+  _runAutoTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      automatic_time = automatic_time - 1;
+      autoTimer = timer;
+      if (automatic_time <= 1) {
+        timer.cancel();
+        autoEnd();
+      }
+    });
+  }
+
   void autoEnd() {
+    _isAuto = false;
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
     notifyListeners();
   }

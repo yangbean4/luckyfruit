@@ -24,9 +24,9 @@ class _RightBtnsState extends State<RightBtns>
   @override
   bool get wantKeepAlive => true;
 
-  bool isDouble = false;
+  // bool isDouble = false;
 
-  bool isAuto = false;
+  // bool isAuto = false;
   // LuckyGroup luckyGroup;
   // 下发的配置
   // Issued issed;
@@ -112,13 +112,25 @@ class _RightBtnsState extends State<RightBtns>
   @override
   Widget build(BuildContext context) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    return Selector<LuckyGroup, Tuple3<Issued, bool, bool>>(
-      selector: (context, luckyGroup) =>
-          Tuple3(luckyGroup.issed, luckyGroup.showDouble, luckyGroup.showAuto),
+    return Selector<LuckyGroup,
+        Tuple7<Issued, bool, bool, bool, bool, int, int>>(
+      selector: (context, luckyGroup) => Tuple7(
+        luckyGroup.issed,
+        luckyGroup.showDouble,
+        luckyGroup.showAuto,
+        luckyGroup.isDouble,
+        luckyGroup.isAuto,
+        luckyGroup.double_coin_time,
+        luckyGroup.automatic_time,
+      ),
       builder: (_, data, __) {
         Issued issed = data.item1;
         bool showDouble = data.item2;
         bool showAuto = data.item3;
+        bool isDouble = data.item4;
+        bool isAuto = data.item5;
+        int doubleTime = data.item6;
+        int autoTime = data.item7;
 
         return Container(
             width: ScreenUtil().setWidth(313),
@@ -136,10 +148,6 @@ class _RightBtnsState extends State<RightBtns>
                           onOk: () {
                             //success
                             luckyGroup.doubleStart();
-                            setState(() {
-                              isDouble = true;
-                              luckyGroup.setShowCoinRain = true;
-                            });
                           },
                           child: renderItem(
                               Container(
@@ -172,22 +180,25 @@ class _RightBtnsState extends State<RightBtns>
                           ),
                         ),
                         topString: 'Earn X${issed?.reward_multiple}',
-                        bottom: CountdownFormatted(
-                          duration: Duration(seconds: issed?.double_coin_time),
-                          onFinish: () {
-                            luckyGroup.doubleEnd();
-                            setState(() {
-                              isDouble = false;
-                              luckyGroup.setShowCoinRain = false;
-                            });
-                          },
-                          builder: (ctx, time) {
-                            // issed?.double_coin_time = time?.inSeconds;
-                            return runderBottomString(
-                                Util.formatCountDownTimer(time), true);
-                          },
-                        ),
-                      )
+                        bottom: runderBottomString(
+                            Util.formatCountDownTimer(
+                                Duration(seconds: doubleTime)),
+                            true)
+                        // bottom: CountdownFormatted(
+                        //   duration: Duration(seconds: issed?.double_coin_time),
+                        //   onFinish: () {
+                        //     luckyGroup.doubleEnd();
+                        //     setState(() {
+                        //       isDouble = false;
+                        //     });
+                        //   },
+                        //   builder: (ctx, time) {
+                        //     // issed?.double_coin_time = time?.inSeconds;
+                        //     return runderBottomString(
+                        //         Util.formatCountDownTimer(time), true);
+                        //   },
+                        // ),
+                        )
                     : Container(),
                 showAuto
                     ? _ShakeAnimation(
@@ -233,21 +244,25 @@ class _RightBtnsState extends State<RightBtns>
                           ),
                         ),
                         topString: 'Auto Merge',
-                        bottom: CountdownFormatted(
-                          duration: Duration(seconds: issed?.automatic_time),
-                          onFinish: () {
-                            luckyGroup.autoEnd();
-                            setState(() {
-                              isAuto = false;
-                            });
-                          },
-                          builder: (ctx, time) {
-                            // issed?.automatic_game_timelen = time?.inSeconds;
-                            return runderBottomString(
-                                Util.formatCountDownTimer(time), true);
-                          },
-                        ),
-                      )
+                        bottom: runderBottomString(
+                            Util.formatCountDownTimer(
+                                Duration(seconds: autoTime)),
+                            true)
+                        // bottom: CountdownFormatted(
+                        //   duration: Duration(seconds: issed?.automatic_time),
+                        //   onFinish: () {
+                        //     luckyGroup.autoEnd();
+                        //     setState(() {
+                        //       isAuto = false;
+                        //     });
+                        //   },
+                        //   builder: (ctx, time) {
+                        //     // issed?.automatic_game_timelen = time?.inSeconds;
+                        //     return runderBottomString(
+                        //         Util.formatCountDownTimer(time), true);
+                        //   },
+                        // ),
+                        )
                     : Container(),
               ],
             ));
