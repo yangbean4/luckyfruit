@@ -282,8 +282,8 @@ class Service {
     return response.data;
   }
 
-  Map getBaseMap() {
-    var map = Map<String, dynamic>();
+  Map<String, String> getBaseMap() {
+    var map = Map<String, String>();
     if (_userModel?.value?.device_id != null) {
       map["device_id"] = _userModel?.value?.device_id;
     }
@@ -339,10 +339,12 @@ class Service {
       print('请求参数:${request.data}');
       print('返回数据:${res.data}');
 
-      // Map<String, dynamic> a = res.data;
-      // if (a['code'] != 0) {
-      //   return _client.reject(a['msg']);
-      // }
+//      Map<String, dynamic> a = res.data;
+      // 返回201，退出fb登录
+//      if (a['code'] != 201) {
+//
+//        return _client.reject('Login Information Invalid');
+//      }
       return res;
     }, onError: (DioError e) {
       print('发生错误:' + e.message);

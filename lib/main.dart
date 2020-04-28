@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:adjust_sdk/adjust.dart';
+import 'package:adjust_sdk/adjust_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +17,6 @@ import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
 import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
-import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 import 'package:luckyfruit/widgets/money_flying_animation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,12 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // Sse.init();\
+
+  // 初始化Adjust
+  AdjustConfig config =
+      new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.sandbox);
+  Adjust.start(config);
+
   UserModel userModel = UserModel();
   TreeGroup treeGroup = TreeGroup();
   MoneyGroup moneyGroup = MoneyGroup();

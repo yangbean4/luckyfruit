@@ -130,4 +130,9 @@ dependencies {
 
     implementation 'com.facebook.android:facebook-share:[5,6)'
     implementation 'com.facebook.android:facebook-messenger:[5,6)'
+
+    // Adjust
+    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation 'com.android.installreferrer:installreferrer:1.1'
+
 }
