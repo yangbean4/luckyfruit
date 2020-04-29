@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart' show Consts;
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/provider/tree_group.dart' show Position;
+import 'package:luckyfruit/provider/tree_group.dart' show Position, TreeGroup;
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
@@ -161,9 +161,9 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
     BurialReport.report('page_imp', {'page_code': '031'});
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 6000), vsync: this);
+        duration: new Duration(milliseconds: 3000), vsync: this);
     curveEaseIn =
-        new CurvedAnimation(parent: controller, curve: Curves.easeInExpo);
+        new CurvedAnimation(parent: controller, curve: Curves.easeOut);
 
     leftPosAnimation = Tween<double>(
       begin: 0.0,
@@ -221,11 +221,18 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
                             dx: left,
                             dy: top,
                           ),
-                          child: Container(
-                            width: ScreenUtil().setWidth(1080),
-                            height: ScreenUtil().setWidth(2500),
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
-                          ),
+                          child: GestureDetector(
+                              onTap: () {
+                                LuckyGroup lucky = Provider.of<LuckyGroup>(
+                                    context,
+                                    listen: false);
+                                lucky.showRecycleRectGuidance = null;
+                              },
+                              child: Container(
+                                width: ScreenUtil().setWidth(1080),
+                                height: ScreenUtil().setWidth(2500),
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                              )),
                         ),
                         Positioned(
                             // 屏幕高-金币速度视图bottom值 +statusBarHeight+手指height

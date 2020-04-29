@@ -507,11 +507,14 @@ class TreeGroup with ChangeNotifier {
   }
 
 // 判断是否显示提示回收的引导
-  showRecycleRectGuidance() {
+  showRecycleRectGuidance() async {
+    String res = await Storage.getItem('showRecycleRectGuidance');
     int _minLevel = _treeList.map((tree) => tree.grade).reduce(min);
-    if (_minLevel < minLevel) {
+
+    if (res == null && _minLevel < minLevel) {
       Tree tree = _treeList.firstWhere((tree) => tree.grade == _minLevel);
       _luckyGroup.showRecycleRectGuidance = new Position(x: tree.x, y: tree.y);
+      Storage.setItem('showRecycleRectGuidance', '_no_');
     }
   }
 
@@ -795,7 +798,6 @@ class TreeGroup with ChangeNotifier {
         await channelBus.callNativeMethod(Event_Name.message_notification);
     if (!result) {
       Layer.messageNotification(() {
-        BurialReport.report('reminder', {});
         channelBus.callNativeMethod(Event_Name.set_message_notification);
       });
     }

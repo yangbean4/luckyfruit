@@ -683,9 +683,12 @@ class Layer {
     BurialReport.report('page_imp', {'page_code': '026'});
 
     Modal(
-        onCancel: () {},
+        onCancel: () {
+          BurialReport.report('reminder', {"type": '2'});
+        },
         okText: 'Yes',
         onOk: () {
+          BurialReport.report('reminder', {"type": '1'});
           onOk();
         },
         children: [
