@@ -16,12 +16,12 @@ class Storage {
   static clearAllCache() async {
     Storage.setItem(TreeGroup.CACHE_KEY, null);
     Storage.setItem(MoneyGroup.CACHE_KEY, null);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Set<String> keys = prefs.getKeys();
-    print("clearAllCache_start ${keys.toString()}");
-    keys.map((value) {
-      print("clearAllCache_value=$value");
-      prefs.setString(value, null);
-    });
+//    SharedPreferences prefs = await SharedPreferences.getInstance();
+//    Set<String> keys = prefs.getKeys();
+//    print("clearAllCache_start ${keys.toString()}");
+//    keys.map((value) {
+//      print("clearAllCache_value=$value");
+//      prefs.setString(value, null);
+//    });
   }
 }

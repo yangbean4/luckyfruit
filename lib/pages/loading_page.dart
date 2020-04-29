@@ -79,92 +79,92 @@ class _LoadingPageState extends State<LoadingPage> {
                     Container(
                         width: ScreenUtil().setWidth(1080),
                         height: ScreenUtil().setWidth(1920),
-                        child: (user != null && user?.rela_account == '') ||
-                                (user != null && user?.access_token == '' ||
-                                        user?.access_token == null) &&
-                                    canJump
-                            ? Center(
-                                child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  GestureDetector(
-                                      child: Image.asset(
-                                        'assets/image/fb_play.png',
-                                        width: ScreenUtil().setWidth(541),
-                                        height: ScreenUtil().setWidth(147),
-                                      ),
-                                      onTap: () async {
-                                        UserModel userModel =
-                                            Provider.of<UserModel>(context,
-                                                listen: false);
-                                        bool loginSuccess =
-                                            await userModel.loginWithFB();
-                                        print(
-                                            "loginWithFB_loginSuccess: $loginSuccess");
-                                        if (loginSuccess) {
-                                          Storage.clearAllCache();
-                                          print("initMain_start");
-                                          Initialize.initMain().then((_) {
-                                            print("initMain_end");
-                                            go();
-                                          });
-                                        } else {
-                                          Layer.toastWarning(
-                                              "Login Failed, Try Again Later");
-                                        }
-                                      }),
-                                  Container(
-                                    height: ScreenUtil().setWidth(78),
-                                  ),
-                                  (user != null && user?.access_token == '' ||
-                                          user?.access_token == null)
-                                      ? Container()
-                                      : GestureDetector(
-                                          child: Image.asset(
-                                            'assets/image/guest_play.png',
-                                            width: ScreenUtil().setWidth(541),
-                                            height: ScreenUtil().setWidth(147),
-                                          ),
-                                          onTap: () {
-                                            go();
-                                          })
-                                ],
-                              ))
-                            : Container()),
-                    Positioned(
-                        left: ScreenUtil().setWidth(143),
-                        bottom: ScreenUtil().setWidth(38),
-                        child: Container(
-                          width: ScreenUtil().setWidth(794),
-                          height: ScreenUtil().setWidth(80),
-                          child: Stack(children: <Widget>[
+                        child: Center(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ((user != null && user?.rela_account == '') ||
+                                    (user != null && user?.access_token == ''))
+                                ? GestureDetector(
+                                    child: Image.asset(
+                                      'assets/image/fb_play.png',
+                                      width: ScreenUtil().setWidth(541),
+                                      height: ScreenUtil().setWidth(147),
+                                    ),
+                                    onTap: () async {
+                                      UserModel userModel =
+                                          Provider.of<UserModel>(context,
+                                              listen: false);
+                                      bool loginSuccess =
+                                          await userModel.loginWithFB();
+                                      print(
+                                          "loginWithFB_loginSuccess: $loginSuccess");
+                                      if (loginSuccess) {
+                                        Storage.clearAllCache();
+                                        print("initMain_start");
+                                        Initialize.initMain().then((_) {
+                                          print("initMain_end");
+                                          go();
+                                        });
+                                      } else {
+                                        Layer.toastWarning(
+                                            "Login Failed, Try Again Later");
+                                      }
+                                    })
+                                : Container(),
                             Container(
+                              height: ScreenUtil().setWidth(78),
+                            ),
+                            canJump &&
+                                    (user != null && user?.access_token != '')
+                                ? GestureDetector(
+                                    child: Image.asset(
+                                      'assets/image/guest_play.png',
+                                      width: ScreenUtil().setWidth(541),
+                                      height: ScreenUtil().setWidth(147),
+                                    ),
+                                    onTap: () {
+                                      go();
+                                    })
+                                : Container()
+                          ],
+                        ))),
+                    (user != null && user?.access_token != '')
+                        ? Positioned(
+                            left: ScreenUtil().setWidth(143),
+                            bottom: ScreenUtil().setWidth(38),
+                            child: Container(
                               width: ScreenUtil().setWidth(794),
                               height: ScreenUtil().setWidth(80),
-                              child: Image.asset(
-                                'assets/image/loading_page_bar.png',
-                                width: ScreenUtil().setWidth(794),
-                                height: ScreenUtil().setWidth(80),
-                              ),
-                            ),
-                            Positioned(
-                              top: ScreenUtil().setWidth(10),
-                              left: ScreenUtil().setWidth(17),
-                              child: Container(
-                                width: ScreenUtil().setWidth(
-                                    761 * trueArr.length / loadArr.length),
-                                height: ScreenUtil().setWidth(44),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/image/loading_bar_small.png'),
-                                        alignment: Alignment.center,
-                                        fit: BoxFit.fitHeight)),
-                              ),
-                            )
-                          ]),
-                        ))
+                              child: Stack(children: <Widget>[
+                                Container(
+                                  width: ScreenUtil().setWidth(794),
+                                  height: ScreenUtil().setWidth(80),
+                                  child: Image.asset(
+                                    'assets/image/loading_page_bar.png',
+                                    width: ScreenUtil().setWidth(794),
+                                    height: ScreenUtil().setWidth(80),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: ScreenUtil().setWidth(10),
+                                  left: ScreenUtil().setWidth(17),
+                                  child: Container(
+                                    width: ScreenUtil().setWidth(
+                                        761 * trueArr.length / loadArr.length),
+                                    height: ScreenUtil().setWidth(44),
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/image/loading_bar_small.png'),
+                                            alignment: Alignment.center,
+                                            fit: BoxFit.fitHeight)),
+                                  ),
+                                )
+                              ]),
+                            ))
+                        : Container()
                   ]),
                 );
               },
