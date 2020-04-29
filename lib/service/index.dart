@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -339,12 +341,14 @@ class Service {
       print('请求参数:${request.data}');
       print('返回数据:${res.data}');
 
-//      Map<String, dynamic> a = res.data;
+      Map<String, dynamic> a = res.data;
       // 返回201，退出fb登录
-//      if (a['code'] != 201) {
-//
-//        return _client.reject('Login Information Invalid');
-//      }
+      if (a['code'] == 201) {
+        _userModel.value.access_token = '';
+        MyNavigator().pushReplacementNamed(
+            Consts.globalKeyBottomBar.currentContext, "loadingPage");
+        return _client.reject('Login Information Invalid');
+      }
       return res;
     }, onError: (DioError e) {
       print('发生错误:' + e.message);
