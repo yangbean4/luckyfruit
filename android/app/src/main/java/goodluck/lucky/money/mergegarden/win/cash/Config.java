@@ -11,6 +11,7 @@ package goodluck.lucky.money.mergegarden.win.cash;
 public final class Config {
 
     public static String ACCT_ID;
+    public static int enableAppMonitor;
     //TODO 更换 url地址
     public static final String SERVER_URL_PREFIX = "http://171.8.199.211:8109/public/index.php?r=";
     public static final String FACEBOOK_PAGE_ID = "EAAImPWcGdkYBAF3hPG3AHb5MnOZCG3AFqx89WqtLDg3ZAu6vRw3hUEMNUk5RFRcQJGYpVYYyjdeGYD3t54lZAn30SuNnZCbZArDm1jb5LV4h2PpeqKAon3d6ZByLgYeuN8dn9dwhY3PwK0iEIP7cPigPcfhjU8d7Cp2qDmcXXQGrxCA0urZAU8G";

@@ -27,6 +27,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..deblock_city = json['deblock_city'] as String
     ..ticket_time = json['ticket_time'] as num
     ..is_m = json['is_m'] as num
+    ..is_dl_p = json['is_dl_p'] as num
     ..update_time = json['update_time'] as String
     ..today_profit_update_time = json['today_profit_update_time'] as String
     ..profit_update_time = json['profit_update_time'] as String
@@ -54,6 +55,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'deblock_city': instance.deblock_city,
       'ticket_time': instance.ticket_time,
       'is_m': instance.is_m,
+      'is_dl_p': instance.is_dl_p,
       'update_time': instance.update_time,
       'today_profit_update_time': instance.today_profit_update_time,
       'profit_update_time': instance.profit_update_time,

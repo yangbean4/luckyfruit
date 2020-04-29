@@ -162,9 +162,19 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 break;
                             }
                             case Config.START_REPORT_APP_LIST: {
+                                if (methodCall == null) {
+                                    return;
+                                }
                                 // 上报安装列表
                                 Config.ACCT_ID = methodCall.argument("acct_id");
-                                Log.i("tago", "onMethodCall_START_REPORT_APP_LIST: " + Config.ACCT_ID);
+                                Config.enableAppMonitor = methodCall.argument("enableAppMonitor");
+
+                                Log.i("tago", "onMethodCall_START_REPORT_APP_LIST: acctId="
+                                        + Config.ACCT_ID + ", enable: " + Config.enableAppMonitor);
+
+                                if (Config.enableAppMonitor == 0) {
+                                    return;
+                                }
                                 AppListUploader.upLoadAppList(MainActivity.this, AppListUploader.STATUS_INSTALL, true);
                                 break;
                             }

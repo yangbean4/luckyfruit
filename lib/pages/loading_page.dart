@@ -64,12 +64,6 @@ class _LoadingPageState extends State<LoadingPage> {
                     } else {
                       go();
                     }
-                    // 初始化完成后调用java代码上报安装列表
-                    channelBus.callNativeMethod(
-                        Event_Name.start_report_app_list,
-                        arguments: <String, dynamic>{
-                          'acct_id': user?.acct_id,
-                        });
                   });
                 }
                 return Container(

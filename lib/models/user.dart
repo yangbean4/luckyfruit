@@ -25,6 +25,7 @@ class User {
     String deblock_city;
     num ticket_time;
     num is_m;
+    num is_dl_p;
     String update_time;
     String today_profit_update_time;
     String profit_update_time;

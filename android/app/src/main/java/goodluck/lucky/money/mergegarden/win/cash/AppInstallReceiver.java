@@ -24,7 +24,8 @@ public class AppInstallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
         try {
-            if (intent == null || context == null) {
+            if (intent == null || context == null || Config.enableAppMonitor == 0) {
+                Log.i("tago", "onReceive_disable_return");
                 return;
             }
 

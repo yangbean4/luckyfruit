@@ -75,6 +75,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     channelBus.callNativeMethod(Event_Name.start_report_app_list,
         arguments: <String, dynamic>{
           'acct_id': userModel.value?.acct_id,
+          'enableAppMonitor': userModel?.value?.is_dl_p ?? 0
         });
   }
 
