@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart' show Consts;
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart' show Position, TreeGroup;
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -180,7 +181,7 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
     Future.delayed(Duration(microseconds: 50)).then((_) {
       startPosition = _Util.getCenter(
           Consts.treeGroupGlobalKey[treePosition.y][treePosition.x]);
-      endPosition = _Util.getCenter(Consts.globalKeyAddTreeBtn);
+      endPosition = _Util.getCenter(Consts.globalKeyRemoveTreeBtn);
       controller..repeat();
     });
   }
@@ -193,16 +194,18 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Selector<LuckyGroup, Position>(
+    return Selector<TreeGroup, Tree>(
       selector: (context, provider) => provider.showRecycleRectGuidance,
-      builder: (_, Position position, __) {
+      builder: (_, Tree position, __) {
         bool show = position != null;
+        treePosition =
+            position == null ? null : Position(x: position.x, y: position.y);
         // show = false;
         if (show) {
           print('--------------------_playAnimation----------');
           _playAnimation();
         }
-        treePosition = position;
+
         return AnimatedBuilder(
             builder: (BuildContext context, Widget child) {
               double left =
@@ -223,7 +226,7 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
                           ),
                           child: GestureDetector(
                               onTap: () {
-                                LuckyGroup lucky = Provider.of<LuckyGroup>(
+                                TreeGroup lucky = Provider.of<TreeGroup>(
                                     context,
                                     listen: false);
                                 lucky.showRecycleRectGuidance = null;

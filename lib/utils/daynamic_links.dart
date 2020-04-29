@@ -53,7 +53,7 @@ class DynamicLink {
         socialMetaTagParameters: SocialMetaTagParameters(
           title: shaerConfig.title,
           description: shaerConfig.subtitle,
-          imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl),
+          imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl[0]),
         ));
     final url = await parameters.buildUrl();
     print("get dynatmic link: $url");

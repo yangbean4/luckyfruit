@@ -32,7 +32,7 @@ class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
   LuckyGroup _luckyGroup;
-
+  UserModel _userModel;
   TreeGroup();
 
   // 存储数据用句柄
@@ -381,6 +381,7 @@ class TreeGroup with ChangeNotifier {
   Future<TreeGroup> init(
       MoneyGroup moneyGroup, LuckyGroup luckyGroup, UserModel userModel) async {
     String accId = userModel.value?.acct_id;
+    _userModel = userModel;
     acct_id = accId;
     _moneyGroup = moneyGroup;
     _luckyGroup = luckyGroup;
@@ -506,21 +507,34 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
-// 判断是否显示提示回收的引导
-  showRecycleRectGuidance() async {
-    String res = await Storage.getItem('showRecycleRectGuidance');
-    int _minLevel = _treeList.map((tree) => tree.grade).reduce(min);
+  /// 是否显示回收指引
+  Tree _showRecycleRectGuidance;
 
+  Tree get showRecycleRectGuidance => _showRecycleRectGuidance;
+
+  set showRecycleRectGuidance(Tree show) {
+    _showRecycleRectGuidance = show;
+    _isrecycle = show;
+
+    notifyListeners();
+  }
+
+// 判断是否显示提示回收的引导
+  checkRecycleRectGuidance() async {
+    String res = await Storage.getItem('checkRecycleRectGuidance');
+    int _minLevel = _treeList.map((tree) => tree.grade).reduce(min);
+    res = null;
     if (res == null && _minLevel < minLevel) {
       Tree tree = _treeList.firstWhere((tree) => tree.grade == _minLevel);
-      _luckyGroup.showRecycleRectGuidance = new Position(x: tree.x, y: tree.y);
-      Storage.setItem('showRecycleRectGuidance', '_no_');
+      showRecycleRectGuidance = tree;
+
+      Storage.setItem('checkRecycleRectGuidance', '_no_');
     }
   }
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
-    // showRecycleRectGuidance();
+    checkRecycleRectGuidance();
     // checkMag();
     // Layer.howGetMoney();
     // Layer.partnerCash();
@@ -682,14 +696,14 @@ class TreeGroup with ChangeNotifier {
           if (hasMaxLevel < 6) {
             return;
           }
-          showRecycleRectGuidance();
+          checkRecycleRectGuidance();
 
           Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
             if (value == null) {
               _luckyGroup.setShowLuckyWheelUnlock = true;
             }
           });
-        });
+        }, showBottom: _userModel.value.is_m != 0);
         // 检测是否出现(1. 限时分红树 2. 全球分红树 3. 啤酒花雌花 4. 啤酒花雄花 5. 许愿树)
         // （只在升级到最新等级时触发）
         checkBonusTree();
@@ -943,7 +957,7 @@ class TreeGroup with ChangeNotifier {
   // 切换添加/回收树按钮 树是否在拖拽.
   void transRecycle(Tree tree) {
     // 隐藏回收引导
-    _luckyGroup.showRecycleRectGuidance = null;
+    showRecycleRectGuidance = null;
     _isrecycle = tree;
     notifyListeners();
   }

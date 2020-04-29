@@ -36,6 +36,12 @@ class _ListItemState extends State<ListItem> {
       },
       child: Container(
         height: ScreenUtil().setWidth(200),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    style: BorderStyle.solid,
+                    width: 1,
+                    color: MyTheme.mainItemColor))),
         padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(70)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,6 +127,12 @@ class _WarehouseState extends State<Warehouse> {
   _showWarehouse(List<Tree> warehouseTreeList) {
     BurialReport.report('page_imp', {'page_code': '013'});
 
+    List<Widget> children = warehouseTreeList
+        .map((tree) => ListItem(tree,
+            onClick: (bool isSelect) =>
+                isSelect ? treeList.add(tree) : treeList.remove(tree)))
+        .toList();
+
     Modal(
         onCancel: () {},
         verticalPadding: 0,
@@ -163,19 +175,13 @@ class _WarehouseState extends State<Warehouse> {
                     ]),
               ),
               Container(
-                height: ScreenUtil().setWidth(740),
-                width: ScreenUtil().setWidth(840),
-                child: ListView.separated(
-                    addAutomaticKeepAlives: true,
-                    itemBuilder: (BuildContext context, int index) => ListItem(
-                        warehouseTreeList[index],
-                        onClick: (bool isSelect) => isSelect
-                            ? treeList.add(warehouseTreeList[index])
-                            : treeList.remove(warehouseTreeList[index])),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(color: MyTheme.mainItemColor),
-                    itemCount: warehouseTreeList.length),
-              ),
+                  height: ScreenUtil().setWidth(740),
+                  width: ScreenUtil().setWidth(840),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: children,
+                    ),
+                  )),
               GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {

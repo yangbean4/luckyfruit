@@ -14,7 +14,8 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
     ..wdl_amt = json['wdl_amt'] as String
     ..wdl_status = json['wdl_status'] as String
     ..claim_code = json['claim_code'] as String
-    ..chan_type = json['chan_type'] as String;
+    ..chan_type = json['chan_type'] as String
+    ..msg_content = json['msg_content'] as String;
 }
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
@@ -24,5 +25,6 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'wdl_amt': instance.wdl_amt,
       'wdl_status': instance.wdl_status,
       'claim_code': instance.claim_code,
-      'chan_type': instance.chan_type
+      'chan_type': instance.chan_type,
+      'msg_content': instance.msg_content
     };

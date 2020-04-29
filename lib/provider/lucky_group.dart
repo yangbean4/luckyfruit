@@ -83,16 +83,6 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
-  /// 是否显示回收指引
-  Position _showRecycleRectGuidance;
-
-  Position get showRecycleRectGuidance => _showRecycleRectGuidance;
-
-  set showRecycleRectGuidance(Position show) {
-    _showRecycleRectGuidance = show;
-    notifyListeners();
-  }
-
   /// 是否显示合成树rrect指引
   bool _showRRectGuidance = false;
 
@@ -322,6 +312,7 @@ class LuckyGroup with ChangeNotifier {
         last_draw_time == null || last_draw_time == '' || last_draw_time == '0';
     _getGoldCountdown = Duration(minutes: noLast ? 30 : 60);
     _receriveTime = (noLast ? 30 : 60) * 60;
+    last_draw_time = _receriveTime.toString();
     // _getGoldCountdown = Duration(minutes: 60);
     // _receriveTime = (60) * 60;
     Service().receiveCoin({

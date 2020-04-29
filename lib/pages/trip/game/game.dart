@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
@@ -250,8 +251,12 @@ class _GameState extends State<Game> with MyNavigator {
                       child: getBtn(
                           'assets/image/Illustration.png', 'Instruction'),
                       onTap: () {
-                        pushNamed(context, 'Illustration');
-                        BurialReport.report('page_imp', {'page_code': '012'});
+                        UserModel userModel =
+                            Provider.of<UserModel>(context, listen: false);
+                        if (userModel.value.is_m != 0) {
+                          pushNamed(context, 'Illustration');
+                          BurialReport.report('page_imp', {'page_code': '012'});
+                        }
                       },
                     ),
                     // 中间的添加树组合图
@@ -376,6 +381,8 @@ class _GameState extends State<Game> with MyNavigator {
                                         // minWidth: ScreenUtil().setWidth(560),
                                         width: ScreenUtil().setWidth(400),
                                         height: ScreenUtil().setWidth(128),
+                                        key: Consts.globalKeyRemoveTreeBtn,
+
                                         decoration: BoxDecoration(
                                           color: Color.fromRGBO(255, 74, 49, 1),
                                           // image: DecorationImage(

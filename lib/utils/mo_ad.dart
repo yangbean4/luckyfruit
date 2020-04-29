@@ -85,7 +85,7 @@ class MoAd {
       "union_id": videoLogParam['videoLogParam']
     });
     // 关闭声效
-    EVENT_BUS.emit(Event_Name.APP_PAUSED);
+    EVENT_BUS.emit(Event_Name.VIEW_AD);
   }
 
   // 完成
@@ -108,16 +108,13 @@ class MoAd {
       }
     }
 
-    // 通知观看广告
-    EVENT_BUS.emit(Event_Name.VIEW_AD);
+    EVENT_BUS.emit(Event_Name.VIEW_AD_END);
     Service().videoAdsLog(videoLogParam);
   }
 
   void onRewardedVideoClosed(arg) {
     print(
         "onRewardedVideoClosed: arg:$arg, reachRewardPoint:$reachRewardPoint");
-    // 恢复声效播放
-    EVENT_BUS.emit(Event_Name.VIEW_AD_END);
     if (reachRewardPoint && successCallback != null) {
       successCallback();
     }

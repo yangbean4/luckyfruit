@@ -215,244 +215,253 @@ class Layer {
   }
 
 // 新等级弹窗
-  static newGrade(Tree tree, {num amount, Function onOk}) => Modal(
-      onOk: () {
-        if (onOk != null) onOk();
-      },
-      okText: 'Claim',
-      children: <Widget>[
-        ModalTitle('${tree.name}'),
-        Container(height: ScreenUtil().setWidth(47)),
-        TreeWidget(
-          tree: tree,
-          imgHeight: ScreenUtil().setWidth(236),
-          imgWidth: ScreenUtil().setWidth(216),
-          labelWidth: ScreenUtil().setWidth(80),
-          primary: true,
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            top: ScreenUtil().setWidth(30),
-            bottom: ScreenUtil().setWidth(47),
-          ),
-          child: Text(
-            'Update successed',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: FontFamily.regular,
-                color: MyTheme.blackColor,
-                fontSize: ScreenUtil().setSp(50),
-                fontWeight: FontWeight.w400),
-          ),
-        ),
-        // SecondaryText('升级成功', color: MyTheme.secondaryColor)
-      ],
-      footer: Container(
-        width: ScreenUtil().setWidth(840),
-        height: ScreenUtil().setWidth(497),
-        padding: EdgeInsets.only(
-          left: ScreenUtil().setWidth(50),
-          right: ScreenUtil().setWidth(50),
-          top: ScreenUtil().setWidth(50),
-          bottom: ScreenUtil().setWidth(57),
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(ScreenUtil().setWidth(100)),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-                width: ScreenUtil().setWidth(444),
-                height: ScreenUtil().setWidth(84),
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text:
-                        '${Tree.MAX_LEVEL - tree.grade} grades away from the "Bouns Tree=',
-                    style: TextStyle(
-                        color: MyTheme.blackColor,
-                        fontSize: ScreenUtil().setSp(40),
-                        fontFamily: FontFamily.bold,
-                        height: 1.1,
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                        text: '${amount}',
-                        style: TextStyle(
-                            color: Color.fromRGBO(255, 80, 52, 1),
-                            fontSize: ScreenUtil().setSp(40),
-                            fontFamily: FontFamily.bold,
-                            height: 1.1,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: '"',
-                        style: TextStyle(
-                            color: MyTheme.blackColor,
-                            fontSize: ScreenUtil().setSp(40),
-                            fontFamily: FontFamily.bold,
-                            height: 1,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                )),
-            Container(
-              width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(144),
-              // padding: EdgeInsets.only(
-              //   right: ScreenUtil().setWidth(119),
-              // ),
-              margin: EdgeInsets.only(
-                top: ScreenUtil().setWidth(18),
-                bottom: ScreenUtil().setWidth(18),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: ScreenUtil().setWidth(360),
-                    height: ScreenUtil().setWidth(90),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '1.Merge 5 continental trees\n2.Merge any 2 trees in Level 37\n3.Stay active in the game',
-                          style: TextStyle(
-                              color: MyTheme.blackColor,
-                              fontFamily: FontFamily.regular,
-                              height: 1,
-                              fontSize: ScreenUtil().setSp(26),
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(66),
-                  ),
-                  Image.asset(
-                    'assets/image/arrow.png',
-                    width: ScreenUtil().setWidth(57),
-                    height: ScreenUtil().setWidth(48),
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(86),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(105),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/image/topTree.png',
-                            width: ScreenUtil().setWidth(105),
-                            height: ScreenUtil().setWidth(120),
-                          ),
-                          Text(
-                            'Bouns Tree',
-                            style: TextStyle(
-                                color: MyTheme.blackColor,
-                                fontFamily: FontFamily.regular,
-                                height: 1,
-                                fontSize: ScreenUtil().setSp(20),
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ]),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(7),
-            ),
-            Container(
-                width: ScreenUtil().setWidth(740),
-                height: ScreenUtil().setWidth(36),
-                // margin: EdgeInsets.only(
-                //   top: ScreenUtil().setWidth(20),
-                //   bottom: ScreenUtil().setWidth(13),
-                // ),
-                child: RichText(
-                  text: TextSpan(
-                      text: 'your progress:',
-                      style: TextStyle(
-                          color: MyTheme.blackColor,
-                          fontSize: ScreenUtil().setSp(30),
-                          fontFamily: FontFamily.semibold,
-                          height: 1.3,
-                          fontWeight: FontWeight.w500),
-                      children: [
-                        TextSpan(
-                            text:
-                                '${(100 * tree.grade / Tree.MAX_LEVEL).toStringAsFixed(2)}%',
-                            style: TextStyle(
-                                color: MyTheme.primaryColor,
-                                fontSize: ScreenUtil().setSp(40),
-                                height: 1,
-                                fontFamily: FontFamily.bold,
-                                fontWeight: FontWeight.bold))
-                      ]),
-                )),
-            SizedBox(
-              height: ScreenUtil().setWidth(10),
-            ),
-            Stack(
+  static newGrade(Tree tree, {num amount, Function onOk, bool showBottom}) =>
+      Modal(
+              onOk: () {
+                if (onOk != null) onOk();
+              },
+              okText: 'Claim',
               children: <Widget>[
+                ModalTitle('${tree.name}'),
+                Container(height: ScreenUtil().setWidth(47)),
+                TreeWidget(
+                  tree: tree,
+                  imgHeight: ScreenUtil().setWidth(236),
+                  imgWidth: ScreenUtil().setWidth(216),
+                  labelWidth: ScreenUtil().setWidth(80),
+                  primary: true,
+                ),
                 Container(
-                  width: ScreenUtil().setWidth(740),
-                  height: ScreenUtil().setWidth(20),
-                  decoration: BoxDecoration(
-                    color: MyTheme.grayColor,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(ScreenUtil().setWidth(10))),
+                  margin: EdgeInsets.only(
+                    top: ScreenUtil().setWidth(30),
+                    bottom: ScreenUtil().setWidth(47),
+                  ),
+                  child: Text(
+                    'Update successed',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: FontFamily.regular,
+                        color: MyTheme.blackColor,
+                        fontSize: ScreenUtil().setSp(50),
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
-                Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: ScreenUtil()
-                          .setWidth((tree.grade / Tree.MAX_LEVEL) * 740),
-                      height: ScreenUtil().setWidth(20),
+                // SecondaryText('升级成功', color: MyTheme.secondaryColor)
+              ],
+              footer: !showBottom
+                  ? Container()
+                  : Container(
+                      width: ScreenUtil().setWidth(840),
+                      height: ScreenUtil().setWidth(497),
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(50),
+                        right: ScreenUtil().setWidth(50),
+                        top: ScreenUtil().setWidth(50),
+                        bottom: ScreenUtil().setWidth(57),
+                      ),
                       decoration: BoxDecoration(
-                        color: MyTheme.primaryColor,
+                        color: Colors.white,
                         borderRadius: BorderRadius.all(
-                            Radius.circular(ScreenUtil().setWidth(10))),
+                          Radius.circular(ScreenUtil().setWidth(100)),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              width: ScreenUtil().setWidth(444),
+                              height: ScreenUtil().setWidth(84),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text:
+                                      '${Tree.MAX_LEVEL - tree.grade} grades away from the "Bouns Tree=',
+                                  style: TextStyle(
+                                      color: MyTheme.blackColor,
+                                      fontSize: ScreenUtil().setSp(40),
+                                      fontFamily: FontFamily.bold,
+                                      height: 1.1,
+                                      fontWeight: FontWeight.bold),
+                                  children: [
+                                    TextSpan(
+                                      text: '${amount}',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(255, 80, 52, 1),
+                                          fontSize: ScreenUtil().setSp(40),
+                                          fontFamily: FontFamily.bold,
+                                          height: 1.1,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text: '"',
+                                      style: TextStyle(
+                                          color: MyTheme.blackColor,
+                                          fontSize: ScreenUtil().setSp(40),
+                                          fontFamily: FontFamily.bold,
+                                          height: 1,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              )),
+                          Container(
+                            width: ScreenUtil().setWidth(740),
+                            height: ScreenUtil().setWidth(144),
+                            // padding: EdgeInsets.only(
+                            //   right: ScreenUtil().setWidth(119),
+                            // ),
+                            margin: EdgeInsets.only(
+                              top: ScreenUtil().setWidth(18),
+                              bottom: ScreenUtil().setWidth(18),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: ScreenUtil().setWidth(360),
+                                  height: ScreenUtil().setWidth(90),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        '1.Merge 5 continental trees\n2.Merge any 2 trees in Level 37\n3.Stay active in the game',
+                                        style: TextStyle(
+                                            color: MyTheme.blackColor,
+                                            fontFamily: FontFamily.regular,
+                                            height: 1,
+                                            fontSize: ScreenUtil().setSp(26),
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: ScreenUtil().setWidth(66),
+                                ),
+                                Image.asset(
+                                  'assets/image/arrow.png',
+                                  width: ScreenUtil().setWidth(57),
+                                  height: ScreenUtil().setWidth(48),
+                                ),
+                                SizedBox(
+                                  width: ScreenUtil().setWidth(86),
+                                ),
+                                Container(
+                                  width: ScreenUtil().setWidth(105),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/image/topTree.png',
+                                          width: ScreenUtil().setWidth(105),
+                                          height: ScreenUtil().setWidth(120),
+                                        ),
+                                        Text(
+                                          'Bouns Tree',
+                                          style: TextStyle(
+                                              color: MyTheme.blackColor,
+                                              fontFamily: FontFamily.regular,
+                                              height: 1,
+                                              fontSize: ScreenUtil().setSp(20),
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(7),
+                          ),
+                          Container(
+                              width: ScreenUtil().setWidth(740),
+                              height: ScreenUtil().setWidth(36),
+                              // margin: EdgeInsets.only(
+                              //   top: ScreenUtil().setWidth(20),
+                              //   bottom: ScreenUtil().setWidth(13),
+                              // ),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: 'your progress:',
+                                    style: TextStyle(
+                                        color: MyTheme.blackColor,
+                                        fontSize: ScreenUtil().setSp(30),
+                                        fontFamily: FontFamily.semibold,
+                                        height: 1.3,
+                                        fontWeight: FontWeight.w500),
+                                    children: [
+                                      TextSpan(
+                                          text:
+                                              '${(100 * tree.grade / Tree.MAX_LEVEL).toStringAsFixed(2)}%',
+                                          style: TextStyle(
+                                              color: MyTheme.primaryColor,
+                                              fontSize: ScreenUtil().setSp(40),
+                                              height: 1,
+                                              fontFamily: FontFamily.bold,
+                                              fontWeight: FontWeight.bold))
+                                    ]),
+                              )),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(10),
+                          ),
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                width: ScreenUtil().setWidth(740),
+                                height: ScreenUtil().setWidth(20),
+                                decoration: BoxDecoration(
+                                  color: MyTheme.grayColor,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          ScreenUtil().setWidth(10))),
+                                ),
+                              ),
+                              Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  child: Container(
+                                    width: ScreenUtil().setWidth(
+                                        (tree.grade / Tree.MAX_LEVEL) * 740),
+                                    height: ScreenUtil().setWidth(20),
+                                    decoration: BoxDecoration(
+                                      color: MyTheme.primaryColor,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              ScreenUtil().setWidth(10))),
+                                    ),
+                                  ))
+                            ],
+                          ),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(29),
+                          ),
+                          Container(
+                            width: ScreenUtil().setWidth(740),
+                            height: ScreenUtil().setWidth(24),
+                            // margin: EdgeInsets.only(
+                            //   top: ScreenUtil().setWidth(26),
+                            // ),
+                            child: Text(
+                              'when your progress reach 100%,you probably will get a “Bouns Tree”.',
+                              style: TextStyle(
+                                  color: MyTheme.tipsColor,
+                                  fontFamily: FontFamily.regular,
+                                  height: 1,
+                                  fontSize: ScreenUtil().setSp(23),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
                       ),
                     ))
-              ],
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(29),
-            ),
-            Container(
-              width: ScreenUtil().setWidth(740),
-              height: ScreenUtil().setWidth(24),
-              // margin: EdgeInsets.only(
-              //   top: ScreenUtil().setWidth(26),
-              // ),
-              child: Text(
-                'when your progress reach 100%,you probably will get a “Bouns Tree”.',
-                style: TextStyle(
-                    color: MyTheme.tipsColor,
-                    fontFamily: FontFamily.regular,
-                    height: 1,
-                    fontSize: ScreenUtil().setSp(23),
-                    fontWeight: FontWeight.w500),
-              ),
-            )
-          ],
-        ),
-      )).show();
+          .show();
 
   static locationFull() {
     Modal(

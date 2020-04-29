@@ -13,6 +13,7 @@ class Message {
     String wdl_status;
     String claim_code;
     String chan_type;
+    String msg_content;
     
     factory Message.fromJson(Map<String,dynamic> json) => _$MessageFromJson(json);
     Map<String, dynamic> toJson() => _$MessageToJson(this);

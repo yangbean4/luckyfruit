@@ -116,8 +116,8 @@ class _MessagePageState extends State<MessagePage> {
                             fontWeight: FontWeight.bold),
                       ),
                       message.wdl_status == '2'
-                          ? Text(
-                              "Your \$${message.wdl_amt} cash out failed,Please check if you haven't login with FB",
+                          ? Text(message.msg_content ?? '',
+                              // "Your \$${message.wdl_amt} cash out failed,Please check if you haven't login with FB",
                               style: TextStyle(
                                   color: MyTheme.blackColor,
                                   fontSize: ScreenUtil().setSp(34),
