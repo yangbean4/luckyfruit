@@ -213,7 +213,12 @@ class _MapPageState extends State<MapPage> {
                                 GestureDetector(
                                     onTap: () {
                                       if (deblokCity?.is_open_box == '0') {
-                                        MapPrizeModal().show(cityInfo);
+                                        UserModel userModel =
+                                            Provider.of<UserModel>(context,
+                                                listen: false);
+                                        if (userModel.value.is_m != 0) {
+                                          MapPrizeModal().show(cityInfo);
+                                        }
                                       }
                                     },
                                     child: index == 0
@@ -229,7 +234,12 @@ class _MapPageState extends State<MapPage> {
                                 GestureDetector(
                                     onTap: () {
                                       if (deblokCity?.is_open_box == '0') {
-                                        MapPrizeModal().show(cityInfo);
+                                        UserModel userModel =
+                                            Provider.of<UserModel>(context,
+                                                listen: false);
+                                        if (userModel.value.is_m != 0) {
+                                          MapPrizeModal().show(cityInfo);
+                                        }
                                       }
                                     },
                                     child: Container(

@@ -12,7 +12,8 @@ ShaerConfig _$ShaerConfigFromJson(Map<String, dynamic> json) {
     ..fireLink = json['fireLink'] as String
     ..title = json['title'] as String
     ..subtitle = json['subtitle'] as String
-    ..imageUrl = (json['imageUrl'] as List)?.map((e) => e as String)?.toList();
+    ..imageUrl = (json['imageUrl'] as List)?.map((e) => e as String)?.toList()
+    ..quote = json['quote'] as String;
 }
 
 Map<String, dynamic> _$ShaerConfigToJson(ShaerConfig instance) =>
@@ -21,5 +22,6 @@ Map<String, dynamic> _$ShaerConfigToJson(ShaerConfig instance) =>
       'fireLink': instance.fireLink,
       'title': instance.title,
       'subtitle': instance.subtitle,
-      'imageUrl': instance.imageUrl
+      'imageUrl': instance.imageUrl,
+      'quote': instance.quote
     };

@@ -12,7 +12,7 @@ import './event_bus.dart';
 import 'method_channel.dart';
 
 class MoAd {
-  static const String VIEW_AD = 'VIEW_AD';
+  // static const String VIEW_AD = 'VIEW_AD';
   static MoAd _instance;
   UserModel _userModel;
   String ad_code;
@@ -109,7 +109,7 @@ class MoAd {
     }
 
     // 通知观看广告
-    EVENT_BUS.emit(VIEW_AD);
+    EVENT_BUS.emit(Event_Name.VIEW_AD);
     Service().videoAdsLog(videoLogParam);
   }
 
@@ -117,7 +117,7 @@ class MoAd {
     print(
         "onRewardedVideoClosed: arg:$arg, reachRewardPoint:$reachRewardPoint");
     // 恢复声效播放
-    EVENT_BUS.emit(Event_Name.APP_RESUMED);
+    EVENT_BUS.emit(Event_Name.VIEW_AD_END);
     if (reachRewardPoint && successCallback != null) {
       successCallback();
     }
@@ -185,7 +185,7 @@ class MoAd {
     Layer.loading('.....');
     await Future.delayed(Duration(seconds: 1));
     // 通知观看广告
-    EVENT_BUS.emit(VIEW_AD);
+    EVENT_BUS.emit(Event_Name.VIEW_AD);
     Layer.loadingHide();
 
     // 观看广告后上报观看次数接口

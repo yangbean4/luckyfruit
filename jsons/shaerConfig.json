@@ -3,5 +3,6 @@
   "fireLink": "http://d1tfe40abnerwd.cloudfront.net/san/sdk/index.html",
   "title": "lucky",
   "subtitle": "luckylucky",
-  "imageUrl": "$[]String"
+  "imageUrl": "$[]String",
+  "quote": "quote"
 }

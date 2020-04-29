@@ -12,6 +12,7 @@ import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:luckyfruit/config/app.dart' show Consts;
 
 import './auto_merge.dart';
 import './grid_item.dart';
@@ -126,6 +127,7 @@ class _GameState extends State<Game> with MyNavigator {
                 child: DragTarget(
                   builder: (context, candidateData, rejectedData) {
                     return GridItem(
+                      key: Consts.treeGroupGlobalKey[y][x],
                       tree: data,
                       animateTargetTree:
                           animateTargetTree == data ? animateTargetTree : null,

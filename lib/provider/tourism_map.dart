@@ -195,7 +195,9 @@ class TourismMap with ChangeNotifier {
       BurialReport.report('unlock_city', {'city_number': _cityId.toString()});
 
       notifyListeners();
-      MapPrizeModal().show(cityInfo);
+      if (_userModel.value.is_m != 0) {
+        MapPrizeModal().show(cityInfo);
+      }
     }
 
     await Service().updateUserInfo(data);

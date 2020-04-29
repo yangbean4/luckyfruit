@@ -32,18 +32,33 @@ class Bgm {
     ]);
     play();
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-      _canPlay = false;
-      fixedPlayer.stop();
+      paused();
     });
-    EVENT_BUS.on(Event_Name.APP_RESUMED, (_) async {
-      _canPlay = true;
-      if (isPlay &&
-          (fixedPlayer == null ||
-              (fixedPlayer.state != null &&
-                  fixedPlayer.state != AudioPlayerState.PLAYING))) {
-        fixedPlayer = await Bgm.player.loop(Bgm._main);
-      }
+    EVENT_BUS.on(Event_Name.APP_RESUMED, (_) {
+      resumed();
     });
+
+    EVENT_BUS.on(Event_Name.VIEW_AD, (_) {
+      paused();
+    });
+    EVENT_BUS.on(Event_Name.VIEW_AD_END, (_) {
+      resumed();
+    });
+  }
+
+  static paused() {
+    _canPlay = false;
+    fixedPlayer.stop();
+  }
+
+  static resumed() async {
+    _canPlay = true;
+    if (isPlay &&
+        (fixedPlayer == null ||
+            (fixedPlayer.state != null &&
+                fixedPlayer.state != AudioPlayerState.PLAYING))) {
+      fixedPlayer = await Bgm.player.loop(Bgm._main);
+    }
   }
 
   static stop() {

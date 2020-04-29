@@ -267,102 +267,107 @@ class _TripBtnsState extends State<TripBtns> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Selector<LuckyGroup, LuckyGroup>(
-          selector: (context, provider) => provider,
-          builder: (_, LuckyGroup selectorUse, __) {
-            return getItem(
-              'assets/image/gold_right_btn.png',
-              isCountdown && selectorUse.getGoldCountdown != null
-                  ? CountdownFormatted(
-                      duration: selectorUse.getGoldCountdown,
-                      onFinish: () {
-                        setState(() {
-                          BurialReport.report('coin_ready', {});
-                          isCountdown = false;
+    return Selector<UserModel, bool>(
+      selector: (context, provider) => provider.value.is_m != 0,
+      builder: (_, bool show, __) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Selector<LuckyGroup, LuckyGroup>(
+              selector: (context, provider) => provider,
+              builder: (_, LuckyGroup selectorUse, __) {
+                return getItem(
+                  'assets/image/gold_right_btn.png',
+                  isCountdown && selectorUse.getGoldCountdown != null
+                      ? CountdownFormatted(
+                          duration: selectorUse.getGoldCountdown,
+                          onFinish: () {
+                            setState(() {
+                              BurialReport.report('coin_ready', {});
+                              isCountdown = false;
+                            });
+                          },
+                          builder: (context, Duration duration) {
+                            selectorUse.setGoldContDownDuration(duration);
+                            return Center(
+                              child: Text(
+                                Util.formatCountDownTimer(duration),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1,
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setSp(20),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            );
+                          })
+                      : 'GET',
+                  labelColor: Color(0xFFFF8109),
+                  onTap: () {
+                    if (!isCountdown) {
+                      double _getGoldCountdown =
+                          Provider.of<TreeGroup>(context, listen: false)
+                              .makeGoldSped;
+                      num coin = selectorUse.receriveTime * _getGoldCountdown;
+                      _showWindow(coin, () {
+                        BurialReport.report('collect_coin', {
+                          'type':
+                              selectorUse.receriveTime ~/ 60 == 30 ? '1' : '2'
                         });
-                      },
-                      builder: (context, Duration duration) {
-                        selectorUse.setGoldContDownDuration(duration);
-                        return Center(
-                          child: Text(
-                            Util.formatCountDownTimer(duration),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                height: 1,
-                                fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setSp(20),
-                                fontWeight: FontWeight.bold),
-                          ),
-                        );
-                      })
-                  : 'GET',
-              labelColor: Color(0xFFFF8109),
-              onTap: () {
-                if (!isCountdown) {
-                  double _getGoldCountdown =
-                      Provider.of<TreeGroup>(context, listen: false)
-                          .makeGoldSped;
-                  num coin = selectorUse.receriveTime * _getGoldCountdown;
-                  _showWindow(coin, () {
-                    BurialReport.report('collect_coin', {
-                      'type': selectorUse.receriveTime ~/ 60 == 30 ? '1' : '2'
-                    });
 
-                    selectorUse.receiveCoin(coin);
-                    setState(() {
-                      isCountdown = true;
-                    });
-                  });
-                }
+                        selectorUse.receiveCoin(coin);
+                        setState(() {
+                          isCountdown = true;
+                        });
+                      });
+                    }
+                  },
+                );
               },
-            );
-          },
-        ),
-        Selector<UserModel, bool>(
-          selector: (context, provider) => provider.value.is_m != 0,
-          builder: (_, bool show, __) {
-            return show
+            ),
+            show
                 ? FreePhone(
                     child: getItem('assets/image/phone.png', 'FREE',
                         labelColor: Color(0xFFF87A46)),
                   )
-                : Container();
-          },
-        ),
-        getItem(
-          'assets/image/spin.png',
-          'SPIN',
-          showMark: true,
-          showLock: true,
-          key: Consts.globalKeyWheel,
-          onTap: () {
-            BurialReport.report('c_wheel_entr', {});
-            BurialReport.report('page_imp', {'page_code': '007'});
-            Layer.showLuckyWheel(context);
-          },
-        ),
-        getItem(
-          'assets/image/rank.png',
-          'RANK',
-          onTap: () {
-            print('rank');
-            MyNavigator().pushNamed(context, "RankPage");
-          },
-        ),
-        getItem(
-          'assets/image/help.png',
-          'HOW TO PLAY',
-          onTap: () {
-            BurialReport.report('page_imp', {'page_code': '010'});
-            MyNavigator().pushNamed(context, "howToPlay");
-          },
-        ),
-      ],
+                : Container(),
+            getItem(
+              'assets/image/spin.png',
+              'SPIN',
+              showMark: true,
+              showLock: true,
+              key: Consts.globalKeyWheel,
+              onTap: () {
+                BurialReport.report('c_wheel_entr', {});
+                BurialReport.report('page_imp', {'page_code': '007'});
+                Layer.showLuckyWheel(context);
+              },
+            ),
+            show
+                ? getItem(
+                    'assets/image/rank.png',
+                    'RANK',
+                    onTap: () {
+                      print('rank');
+                      MyNavigator().pushNamed(context, "RankPage");
+                    },
+                  )
+                : Container(),
+            show
+                ? getItem(
+                    'assets/image/help.png',
+                    'HOW TO PLAY',
+                    onTap: () {
+                      BurialReport.report('page_imp', {'page_code': '010'});
+                      MyNavigator().pushNamed(context, "howToPlay");
+                    },
+                  )
+                : Container(),
+          ],
+        );
+      },
     );
   }
 }

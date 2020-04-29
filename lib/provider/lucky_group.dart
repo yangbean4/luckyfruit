@@ -83,6 +83,16 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 是否显示回收指引
+  Position _showRecycleRectGuidance;
+
+  Position get showRecycleRectGuidance => _showRecycleRectGuidance;
+
+  set showRecycleRectGuidance(Position show) {
+    _showRecycleRectGuidance = show;
+    notifyListeners();
+  }
+
   /// 是否显示合成树rrect指引
   bool _showRRectGuidance = false;
 
@@ -333,7 +343,7 @@ class LuckyGroup with ChangeNotifier {
     _transTime(last_draw_time);
 
     //观看广告 ;重制最后看广告时间
-    EVENT_BUS.on(MoAd.VIEW_AD, (_) => showAd());
+    EVENT_BUS.on(Event_Name.VIEW_AD, (_) => showAd());
 
     Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
       if (value == null) {

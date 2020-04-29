@@ -388,6 +388,7 @@ class __RewardState extends State<_Reward> {
       Layer.loadingHide();
 
       _runAnimation(startInterval);
+      moneyGroup.updateUserInfo();
     }
   }
 
@@ -429,7 +430,6 @@ class __RewardState extends State<_Reward> {
         // moneyGroup.updateUserInfo();
       });
     }
-    moneyGroup.updateUserInfo();
   }
 
   @override
@@ -937,10 +937,9 @@ class _Sign extends StatelessWidget {
                         Sign sign = luckyGroup.drawInfo.sign[sign_times];
                         MoneyGroup moneyGroup =
                             Provider.of<MoneyGroup>(context, listen: false);
+                        moneyGroup.beginSign(sign.sign, sign.count);
 
-                        GetReward.showPhoneWindow(sign.count, () {
-                          moneyGroup.beginSign(sign.sign, sign.count);
-                        });
+                        GetReward.showPhoneWindow(sign.count, () {});
                       },
                       fontSize: 36)
                 ]),

@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 
 class Event_Name {
+  static const VIEW_AD_END = 'VIEW_AD_END';
+  static const VIEW_AD = 'VIEW_AD';
+
   // APP退出
   static const APP_PAUSED = 'APP_PAUSED';
   static const APP_RESUMED = 'APP_RESUMED';
@@ -32,8 +35,7 @@ class Event_Name {
       "mopub_load_reward_video_failure";
   static const String mopub_reward_video_complete =
       "mopub_reward_video_complete";
-  static const String mopub_reward_video_started =
-      "mopub_reward_video_started";
+  static const String mopub_reward_video_started = "mopub_reward_video_started";
   static const String mopub_is_reward_video_ready =
       "mopub_is_reward_video_ready";
   static const String mopub_reward_video_closed = "mopub_reward_video_closed";
@@ -157,10 +159,24 @@ class Consts {
       new GlobalKey(debugLabel: 'key_mine_cash');
   static GlobalKey globalKeyGoldPosition =
       new GlobalKey(debugLabel: 'key_gold_position');
+
+  static List<List<GlobalKey>> treeGroupGlobalKey = getTreeGroup();
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";
   static final String SP_KEY_UNLOCK_WHEEL = "sp_key_unlock_wheel";
+
+  static List<List<GlobalKey>> getTreeGroup() {
+    List<List<GlobalKey>> treeMatrix = List(GameConfig.Y_AMOUNT);
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      List<GlobalKey> yMat = List(GameConfig.X_AMOUNT);
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        yMat[x] = new GlobalKey(debugLabel: 'Tree_${y}_$x');
+      }
+      treeMatrix[y] = yMat;
+    }
+    return treeMatrix;
+  }
 
   ///partner页面的加速等级对照表
   static const StageInfoListOfPartner = [

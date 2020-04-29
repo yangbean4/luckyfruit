@@ -21,6 +21,13 @@ import './lucky_group.dart';
 import './money_group.dart';
 import './user_model.dart';
 
+class Position {
+  num x;
+  num y;
+
+  Position({this.x, this.y});
+}
+
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
@@ -499,8 +506,18 @@ class TreeGroup with ChangeNotifier {
     }
   }
 
+// 判断是否显示提示回收的引导
+  showRecycleRectGuidance() {
+    int _minLevel = _treeList.map((tree) => tree.grade).reduce(min);
+    if (_minLevel < minLevel) {
+      Tree tree = _treeList.firstWhere((tree) => tree.grade == _minLevel);
+      _luckyGroup.showRecycleRectGuidance = new Position(x: tree.x, y: tree.y);
+    }
+  }
+
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
+    // showRecycleRectGuidance();
     // checkMag();
     // Layer.howGetMoney();
     // Layer.partnerCash();
@@ -662,6 +679,8 @@ class TreeGroup with ChangeNotifier {
           if (hasMaxLevel < 6) {
             return;
           }
+          showRecycleRectGuidance();
+
           Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
             if (value == null) {
               _luckyGroup.setShowLuckyWheelUnlock = true;
@@ -921,6 +940,8 @@ class TreeGroup with ChangeNotifier {
 
   // 切换添加/回收树按钮 树是否在拖拽.
   void transRecycle(Tree tree) {
+    // 隐藏回收引导
+    _luckyGroup.showRecycleRectGuidance = null;
     _isrecycle = tree;
     notifyListeners();
   }

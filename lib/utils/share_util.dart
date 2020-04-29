@@ -63,8 +63,11 @@ class ShareUtil {
     // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
 
     // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
+
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
     await SocialSharePlugin.shareToFeedFacebookLink(
-        quote: 'quote',
+        quote: shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！',
         url: url,
         // url: 'https://carbaba.com/tobR',
         onSuccess: (_) {

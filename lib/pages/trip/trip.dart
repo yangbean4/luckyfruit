@@ -512,7 +512,11 @@ class _TripState extends State<Trip>
         // 宝箱 📦
         Treasure(),
         // 弹幕
-        Barrage(),
+        Selector<UserModel, bool>(
+            selector: (context, provider) => provider.value.is_m != 0,
+            builder: (_, bool show, __) {
+              return show ? Barrage() : Container();
+            }),
         // 金币雨动效
         CoinRainWidget(),
       ]),

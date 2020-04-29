@@ -11,6 +11,7 @@ class ShaerConfig {
     String title;
     String subtitle;
     List<String> imageUrl;
+    String quote;
     
     factory ShaerConfig.fromJson(Map<String,dynamic> json) => _$ShaerConfigFromJson(json);
     Map<String, dynamic> toJson() => _$ShaerConfigToJson(this);
