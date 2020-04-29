@@ -304,7 +304,13 @@ class _MapPageState extends State<MapPage> {
           left: ScreenUtil().setWidth(60),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () => MyNavigator().pushNamed(context, 'bonusTreePage'),
+            onTap: () {
+              UserModel userModel =
+                  Provider.of<UserModel>(context, listen: false);
+              if (userModel.value.is_m != 0) {
+                MyNavigator().pushNamed(context, 'bonusTreePage');
+              }
+            },
             child: Container(
               width: ScreenUtil().setWidth(960),
               height: ScreenUtil().setWidth(254),
