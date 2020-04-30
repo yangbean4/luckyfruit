@@ -170,17 +170,17 @@ class SettingsPage extends StatelessWidget {
                               ),
                             ),
                     ]),
-                    Positioned(
-                      bottom: ScreenUtil().setWidth(108),
-                      child: Container(
-                        width: ScreenUtil().setWidth(1080),
-                        alignment: Alignment.bottomCenter,
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: PrimaryButton(
-                                text: "Sign Out", width: 600, height: 124)),
-                      ),
-                    ),
+//                    Positioned(
+//                      bottom: ScreenUtil().setWidth(108),
+//                      child: Container(
+//                        width: ScreenUtil().setWidth(1080),
+//                        alignment: Alignment.bottomCenter,
+//                        child: GestureDetector(
+//                            onTap: () {},
+//                            child: PrimaryButton(
+//                                text: "Sign Out", width: 600, height: 124)),
+//                      ),
+//                    ),
                   ],
                 );
               })),

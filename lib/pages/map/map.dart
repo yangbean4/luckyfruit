@@ -336,7 +336,7 @@ class _MapPageState extends State<MapPage> {
                             fontSize: ScreenUtil().setSp(50))),
                   ),
                   Container(
-                      height: ScreenUtil().setWidth(34),
+                      height: ScreenUtil().setWidth(45),
                       child: Selector<UserModel, num>(
                         selector: (context, provider) =>
                             provider.personalInfo?.count_ratio ?? 0,

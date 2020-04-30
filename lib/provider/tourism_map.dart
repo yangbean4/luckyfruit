@@ -86,7 +86,7 @@ class TourismMap with ChangeNotifier {
     return cc;
   }
 
-  List<CityInfo> get cityInfoList => _luckyGroup.cityInfoList;
+  List<CityInfo> get cityInfoList => _luckyGroup?.cityInfoList;
 
 // 获取已解锁城市列表
   List<DeblokCity> _deblokCityList;

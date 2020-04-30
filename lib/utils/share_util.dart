@@ -1,20 +1,19 @@
+import 'dart:io';
+import 'dart:math' as math;
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'dart:math' as math;
-
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
-
-import 'package:luckyfruit/utils/daynamic_links.dart';
-import 'package:social_share_plugin/social_share_plugin.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart' show ShaerConfig;
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:social_share_plugin/social_share_plugin.dart';
+
 import 'method_channel.dart';
 
 class ShareUtil {
@@ -132,149 +131,167 @@ class __LayerState extends State<_Layer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
-        body: Container(
-          width: ScreenUtil().setWidth(1080),
-          height: ScreenUtil().setHeight(1920),
-          child: Stack(
-            children: <Widget>[
-              // Positioned(
-              //   top: ScreenUtil().setWidth(366),
-              //   child: Container(
-              //     height: ScreenUtil().setWidth(531),
-              //     child: _DesktopCarousel(children: [
-              //       Image.network(
-              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
-              //         width: ScreenUtil().setWidth(943),
-              //         height: ScreenUtil().setWidth(531),
-              //       ),
-              //       Image.network(
-              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
-              //         width: ScreenUtil().setWidth(943),
-              //         height: ScreenUtil().setWidth(531),
-              //       ),
-              //       Image.network(
-              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
-              //         width: ScreenUtil().setWidth(943),
-              //         height: ScreenUtil().setWidth(531),
-              //       ),
-              //       Image.network(
-              //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
-              //         width: ScreenUtil().setWidth(943),
-              //         height: ScreenUtil().setWidth(531),
-              //       ),
-              //     ]),
-              //   ),
-              // ),
-              Positioned(
-                top: ScreenUtil().setWidth(366),
-                left: ScreenUtil().setWidth(76),
-                child: CachedNetworkImage(
-                  imageUrl: widget.imgList[0],
-                  width: ScreenUtil().setWidth(943),
-                  height: ScreenUtil().setWidth(531),
+        backgroundColor: Color.fromRGBO(0, 0, 0, 0.0),
+        body: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            color: Color.fromRGBO(0, 0, 0, 0.5),
+            width: ScreenUtil().setWidth(1080),
+            height: ScreenUtil().setHeight(1920),
+            child: Stack(
+              children: <Widget>[
+                // Positioned(
+                //   top: ScreenUtil().setWidth(366),
+                //   child: Container(
+                //     height: ScreenUtil().setWidth(531),
+                //     child: _DesktopCarousel(children: [
+                //       Image.network(
+                //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+                //         width: ScreenUtil().setWidth(943),
+                //         height: ScreenUtil().setWidth(531),
+                //       ),
+                //       Image.network(
+                //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+                //         width: ScreenUtil().setWidth(943),
+                //         height: ScreenUtil().setWidth(531),
+                //       ),
+                //       Image.network(
+                //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+                //         width: ScreenUtil().setWidth(943),
+                //         height: ScreenUtil().setWidth(531),
+                //       ),
+                //       Image.network(
+                //         'https://mergegarden-cdn.mkfruit.com/cdn/img/share_pic3.png',
+                //         width: ScreenUtil().setWidth(943),
+                //         height: ScreenUtil().setWidth(531),
+                //       ),
+                //     ]),
+                //   ),
+                // ),
+                Positioned(
+                  top: ScreenUtil().setWidth(366),
+                  left: ScreenUtil().setWidth(76),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: CachedNetworkImage(
+                      imageUrl: widget.imgList[0],
+                      width: ScreenUtil().setWidth(943),
+                      height: ScreenUtil().setWidth(531),
+                    ),
+                  ),
                 ),
-              ),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                      width: ScreenUtil().setWidth(1080),
-                      height: ScreenUtil().setWidth(484),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(232, 232, 232, 1),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(ScreenUtil().setWidth(50)),
-                            topRight:
-                                Radius.circular(ScreenUtil().setWidth(50)),
-                          )),
-                      child: Stack(children: <Widget>[
-                        Container(
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
                           width: ScreenUtil().setWidth(1080),
                           height: ScreenUtil().setWidth(484),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    widget.onOk(index, 0);
-                                  },
-                                  child: Container(
-                                    width: ScreenUtil().setWidth(270),
-                                    height: ScreenUtil().setWidth(270),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'assets/image/facebook.png',
-                                            width: ScreenUtil().setWidth(180),
-                                            height: ScreenUtil().setWidth(180),
-                                          ),
-                                          Text(
-                                            'Facebook',
-                                            style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(53, 59, 87, 1),
-                                              fontSize:
-                                                  ScreenUtil().setWidth(48),
-                                            ),
-                                          )
-                                        ]),
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                              borderRadius: BorderRadius.only(
+                                topLeft:
+                                    Radius.circular(ScreenUtil().setWidth(50)),
+                                topRight:
+                                    Radius.circular(ScreenUtil().setWidth(50)),
+                              )),
+                          child: Stack(children: <Widget>[
+                            Container(
+                              width: ScreenUtil().setWidth(1080),
+                              height: ScreenUtil().setWidth(484),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GestureDetector(
+                                      onTap: () {
+                                        widget.onOk(index, 0);
+                                      },
+                                      child: Container(
+                                        width: ScreenUtil().setWidth(270),
+                                        height: ScreenUtil().setWidth(270),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Image.asset(
+                                                'assets/image/facebook.png',
+                                                width:
+                                                    ScreenUtil().setWidth(180),
+                                                height:
+                                                    ScreenUtil().setWidth(180),
+                                              ),
+                                              Text(
+                                                'Facebook',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      53, 59, 87, 1),
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(48),
+                                                ),
+                                              )
+                                            ]),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        widget.onOk(index, 1);
+                                      },
+                                      child: Container(
+                                        width: ScreenUtil().setWidth(270),
+                                        height: ScreenUtil().setWidth(270),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Image.asset(
+                                                'assets/image/Messenger.png',
+                                                width:
+                                                    ScreenUtil().setWidth(180),
+                                                height:
+                                                    ScreenUtil().setWidth(180),
+                                              ),
+                                              Text(
+                                                'Messenger',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      53, 59, 87, 1),
+                                                  fontSize:
+                                                      ScreenUtil().setWidth(48),
+                                                ),
+                                              )
+                                            ]),
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: ScreenUtil().setWidth(0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  width: ScreenUtil().setWidth(140),
+                                  height: ScreenUtil().setWidth(140),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/image/share_close.png',
+                                      width: ScreenUtil().setWidth(40),
+                                      height: ScreenUtil().setWidth(40),
+                                    ),
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    widget.onOk(index, 1);
-                                  },
-                                  child: Container(
-                                    width: ScreenUtil().setWidth(270),
-                                    height: ScreenUtil().setWidth(270),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'assets/image/Messenger.png',
-                                            width: ScreenUtil().setWidth(180),
-                                            height: ScreenUtil().setWidth(180),
-                                          ),
-                                          Text(
-                                            'Messenger',
-                                            style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(53, 59, 87, 1),
-                                              fontSize:
-                                                  ScreenUtil().setWidth(48),
-                                            ),
-                                          )
-                                        ]),
-                                  ),
-                                ),
-                              ]),
-                        ),
-                        Positioned(
-                          right: 0,
-                          top: ScreenUtil().setWidth(0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              width: ScreenUtil().setWidth(140),
-                              height: ScreenUtil().setWidth(140),
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/image/share_close.png',
-                                  width: ScreenUtil().setWidth(40),
-                                  height: ScreenUtil().setWidth(40),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ]))),
-            ],
+                          ])),
+                    )),
+              ],
+            ),
           ),
         ));
   }

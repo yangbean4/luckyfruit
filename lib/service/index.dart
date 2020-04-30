@@ -331,11 +331,10 @@ class Service {
     }, onResponse: (Response res) {
       final request = res.request;
       String str = _aes.decrypt(res.data.toString());
-      print('返回原始数据:$str');
-      res.data = json.decode(str);
       print('请求路径:${request.path}');
       print('请求参数:${request.data}');
-      print('返回数据:${res.data}');
+      print('返回数据:$str');
+      res.data = json.decode(str);
 
       Map<String, dynamic> a = res.data;
       // 返回201，退出fb登录
