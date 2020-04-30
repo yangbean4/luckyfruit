@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
@@ -9,6 +10,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -21,8 +23,38 @@ class LoadingPage extends StatefulWidget {
   _LoadingPageState createState() => _LoadingPageState();
 }
 
-class _LoadingPageState extends State<LoadingPage> {
+class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool canJump = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) {
+      EVENT_BUS.emit(Event_Name.APP_PAUSED);
+    }
+    if (state == AppLifecycleState.resumed) {
+      EVENT_BUS.emit(Event_Name.APP_RESUMED);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+    WidgetsBinding.instance.addObserver(this); // 注册监听器
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    WidgetsBinding.instance.removeObserver(this); // 移除监听器
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    EVENT_BUS.emit(Event_Name.APP_PAUSED);
+    return false;
+  }
 
   useJump() {
     setState(() {
