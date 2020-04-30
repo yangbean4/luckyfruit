@@ -696,7 +696,7 @@ class TreeGroup with ChangeNotifier {
           if (hasMaxLevel < 6) {
             return;
           }
-          checkRecycleRectGuidance();
+          // checkRecycleRectGuidance();
 
           Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
             if (value == null) {
