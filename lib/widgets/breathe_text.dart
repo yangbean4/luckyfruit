@@ -81,14 +81,14 @@ class GrowTransition extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Center(
       child: new AnimatedBuilder(
-          animation: animation,
-          builder: (BuildContext context, Widget child) {
-            return new Transform.scale(
-                alignment: Alignment.center,
-                scale: animation.value,
-                child: child);
-          },
-          child: child),
+        animation: animation,
+        builder: (BuildContext context, Widget _) {
+          return new Transform.scale(
+              alignment: Alignment.center,
+              scale: animation.value,
+              child: child);
+        },
+      ),
     );
   }
 }

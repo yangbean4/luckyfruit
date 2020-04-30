@@ -238,17 +238,18 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
                               )),
                         ),
                         Positioned(
-                            // 屏幕高-金币速度视图bottom值 +statusBarHeight+手指height
-                            top: top,
-                            left: left - ScreenUtil().setWidth(80),
-                            child: BreatheAnimation(
-                              child: Container(
-                                  child: Image.asset(
-                                "assets/image/guidance_finger.png",
-                                width: ScreenUtil().setWidth(120),
-                                height: ScreenUtil().setWidth(130),
-                              )),
-                            ))
+                          // 屏幕高-金币速度视图bottom值 +statusBarHeight+手指height
+                          top: top,
+                          left: left - ScreenUtil().setWidth(80),
+                          child: BreatheAnimation(
+                            child: Container(
+                                child: Image.asset(
+                              "assets/image/guidance_finger.png",
+                              width: ScreenUtil().setWidth(120),
+                              height: ScreenUtil().setWidth(130),
+                            )),
+                          ),
+                        )
 //                          enableFingerAnimatino
 //                              ? GuidanceFingerInRRectWidget(
 //                                  fingerLeftPosAnimation.value, dy)

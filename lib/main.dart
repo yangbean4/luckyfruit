@@ -76,7 +76,7 @@ class Initialize {
   static TourismMap tourismMap = TourismMap();
   static LuckyGroup luckyGroup = LuckyGroup();
 
-  static Future initMain() async{
+  static Future initMain() async {
     print("initMain1");
     await userModel.initUser().then((e) {
       print("initMain2");
@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
               DoubleQuit(
                 child: OKToast(
                   child: MaterialApp(
-                    title: 'Flutter Demo',
+                    title: 'Lucky Merge',
                     theme: ThemeData(
                         primarySwatch: Colors.blue,
                         textTheme:

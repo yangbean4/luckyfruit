@@ -252,6 +252,7 @@ class MoneyGroup with ChangeNotifier {
 
   save({bool now = false}) {
     notifyListeners();
+    print('gold--------save------------$gold');
 
     if (now) {
       _saveThis();

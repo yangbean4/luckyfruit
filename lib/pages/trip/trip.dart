@@ -460,7 +460,8 @@ class _TripState extends State<Trip>
                                   child: Selector<MoneyGroup, double>(
                                     selector: (context, provider) =>
                                         provider.gold,
-                                    builder: (context, double gold, child) {
+                                    builder: (_, double gold, __) {
+                                      print('gold--------------------$gold');
                                       // 金币产生速度视图
                                       return Text(
                                         Util.formatNumber(gold, fixed: 1),
