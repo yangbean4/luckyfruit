@@ -425,88 +425,88 @@ class _TripState extends State<Trip>
           Game(),
         ])),
         Positioned(
-          bottom: ScreenUtil().setWidth(930),
-          left: 0,
-          child: Selector<MoneyGroup, double>(
-            selector: (context, provider) => provider.gold,
-            builder: (context, double gold, child) {
-              // 金币产生速度视图
-              return Container(
-                width: ScreenUtil().setWidth(600),
-                height: ScreenUtil().setWidth(150),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(ScreenUtil().setWidth(75)))),
-                child: Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    // 金币生成速度数字
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        width: ScreenUtil().setWidth(400),
-                        height: ScreenUtil().setWidth(150),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            BreatheAnimation(
-                              child: Container(
-                                  width: ScreenUtil().setWidth(400),
-                                  child: ShaderMask(
-                                    shaderCallback: (bounds) =>
-                                        LinearGradient(colors: [
-                                      Color.fromRGBO(255, 172, 30, 1),
-                                      Color.fromRGBO(255, 131, 30, 1),
-                                    ]).createShader(Rect.fromLTWH(
-                                            0, 0, bounds.width, bounds.height)),
-                                    child: Text(
-                                      Util.formatNumber(gold, fixed: 1),
-                                      style: TextStyle(
-                                          // The color must be set to white for this to work
-                                          color: Colors.white,
-                                          fontFamily: FontFamily.black,
-                                          fontSize: ScreenUtil().setSp(68),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )),
-                            ),
-                            Selector<TreeGroup, double>(
-                              selector: (context, povider) =>
-                                  povider.makeGoldSped,
-                              builder: (_, double makeGoldSped, __) {
-                                return Text(
-                                  '${Util.formatNumber(makeGoldSped, fixed: 1)}/s',
-                                  style: TextStyle(
-                                      color: MyTheme.blackColor,
-                                      fontFamily: FontFamily.bold,
-                                      fontSize: ScreenUtil().setSp(46),
-                                      fontWeight: FontWeight.bold),
-                                );
-                              },
-                            )
-                          ],
-                        ),
+            bottom: ScreenUtil().setWidth(930),
+            left: 0,
+            child: Container(
+              width: ScreenUtil().setWidth(600),
+              height: ScreenUtil().setWidth(150),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(ScreenUtil().setWidth(75)))),
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  // 金币生成速度数字
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      width: ScreenUtil().setWidth(400),
+                      height: ScreenUtil().setWidth(150),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          BreatheAnimation(
+                            child: Container(
+                                width: ScreenUtil().setWidth(400),
+                                child: ShaderMask(
+                                  shaderCallback: (bounds) =>
+                                      LinearGradient(colors: [
+                                    Color.fromRGBO(255, 172, 30, 1),
+                                    Color.fromRGBO(255, 131, 30, 1),
+                                  ]).createShader(Rect.fromLTWH(
+                                          0, 0, bounds.width, bounds.height)),
+                                  child: Selector<MoneyGroup, double>(
+                                    selector: (context, provider) =>
+                                        provider.gold,
+                                    builder: (context, double gold, child) {
+                                      // 金币产生速度视图
+                                      return Text(
+                                        Util.formatNumber(gold, fixed: 1),
+                                        style: TextStyle(
+                                            // The color must be set to white for this to work
+                                            color: Colors.white,
+                                            fontFamily: FontFamily.black,
+                                            fontSize: ScreenUtil().setSp(68),
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    },
+                                  ),
+                                )),
+                          ),
+                          Selector<TreeGroup, double>(
+                            selector: (context, povider) =>
+                                povider.makeGoldSped,
+                            builder: (_, double makeGoldSped, __) {
+                              return Text(
+                                '${Util.formatNumber(makeGoldSped, fixed: 1)}/s',
+                                style: TextStyle(
+                                    color: MyTheme.blackColor,
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setSp(46),
+                                    fontWeight: FontWeight.bold),
+                              );
+                            },
+                          )
+                        ],
                       ),
                     ),
-                    // 金币产生速度中的金币图标
-                    Positioned(
-                      top: ScreenUtil().setWidth(-20),
-                      left: ScreenUtil().setWidth(60),
-                      key: Consts.globalKeyGoldPosition,
-                      child: Image.asset(
-                        'assets/image/gold.png',
-                        width: ScreenUtil().setWidth(120),
-                        height: ScreenUtil().setWidth(120),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+                  ),
+                  // 金币产生速度中的金币图标
+                  Positioned(
+                    top: ScreenUtil().setWidth(-20),
+                    left: ScreenUtil().setWidth(60),
+                    key: Consts.globalKeyGoldPosition,
+                    child: Image.asset(
+                      'assets/image/gold.png',
+                      width: ScreenUtil().setWidth(120),
+                      height: ScreenUtil().setWidth(120),
+                    ),
+                  )
+                ],
+              ),
+            )),
         // 气球🎈
         Balloon(),
         // 宝箱 📦
