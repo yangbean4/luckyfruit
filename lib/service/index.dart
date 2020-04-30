@@ -347,7 +347,8 @@ class Service {
         _userModel.value.access_token = '';
         MyNavigator().pushReplacementNamed(
             Consts.globalKeyBottomBar.currentContext, "loadingPage");
-        return _client.reject('Login Information Invalid');
+        return _client.reject('Login With Your Facebook');
+//        return _client.reject('Login Information Invalid');
       }
       return res;
     }, onError: (DioError e) {

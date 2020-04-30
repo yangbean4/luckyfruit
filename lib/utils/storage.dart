@@ -1,3 +1,4 @@
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ class Storage {
   }
 
   static clearAllCache() async {
+    Storage.setItem(Consts.SP_KEY_GUIDANCE_WELCOME, "1");
     Storage.setItem(TreeGroup.CACHE_KEY, null);
     Storage.setItem(MoneyGroup.CACHE_KEY, null);
 //    SharedPreferences prefs = await SharedPreferences.getInstance();
