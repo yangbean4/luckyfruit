@@ -534,7 +534,7 @@ class TreeGroup with ChangeNotifier {
 
 // 添加树
   bool addTree({Tree tree, bool saveData = true}) {
-    checkRecycleRectGuidance();
+    // checkRecycleRectGuidance();
     // checkMag();
     // Layer.howGetMoney();
     // Layer.partnerCash();
@@ -554,7 +554,12 @@ class TreeGroup with ChangeNotifier {
           grade: minLevel,
           gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
 
-      if (_moneyGroup.gold < tree.consumeGold) {
+      bool canGo = _moneyGroup.checkAddTree(tree.consumeGold);
+      if (canGo) {
+        // EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.consumeGold);
+        treeGradeNumber['$minLevel'] = (treeGradeNumber['$minLevel'] ?? 0) + 1;
+        Bgm.puchaseTree();
+      } else {
         int coin_award = _luckyGroup.issed.coin_award ?? 10;
         num coin = coin_award * makeGoldSped;
         Layer.showCoinInsufficientWindow(coin_award / 60, coin, () {
@@ -562,11 +567,6 @@ class TreeGroup with ChangeNotifier {
         });
         return false;
       }
-
-      EVENT_BUS.emit(MoneyGroup.ACC_GOLD, tree.consumeGold);
-      treeGradeNumber['$minLevel'] = (treeGradeNumber['$minLevel'] ?? 0) + 1;
-
-      Bgm.puchaseTree();
     }
 
     if (tree?.x == null || tree?.y == null) {

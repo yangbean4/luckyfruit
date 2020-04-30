@@ -302,6 +302,15 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
+  bool checkAddTree(double usegold) {
+    bool canGo = usegold < _gold;
+    if (canGo) {
+      _gold -= usegold;
+      save();
+    }
+    return canGo;
+  }
+
   accGold(double gold) {
     _gold -= gold;
     save();
