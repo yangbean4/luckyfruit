@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -331,12 +330,9 @@ class Service {
       return options;
     }, onResponse: (Response res) {
       final request = res.request;
-      // if (request.path == '/User/taskListEncrypt') {
       String str = _aes.decrypt(res.data.toString());
+      print('返回原始数据:$str');
       res.data = json.decode(str);
-      // } else {
-      //   res.data = json.decode(res.data);
-      // }
       print('请求路径:${request.path}');
       print('请求参数:${request.data}');
       print('返回数据:${res.data}');
