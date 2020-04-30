@@ -71,8 +71,6 @@ class PartnerProfitPageState extends State<PartnerProfitPageWidget> {
     PartnerProfitList profitList = PartnerProfitList.fromJson(profitMap);
     // PartnerProfitList profitList =
     //     PartnerProfitList.fromJson(json.decode(testJson));
-    // TODO 测试空白页面使用
-    // await Future.delayed(Duration(seconds: 3));
     return profitList;
   }
 

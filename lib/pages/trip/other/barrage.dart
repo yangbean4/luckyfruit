@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:math' show max;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:provider/provider.dart';
-
-import 'package:luckyfruit/models/index.dart' show BarrageMsg;
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/config/app.dart' show App;
+import 'package:luckyfruit/models/index.dart' show BarrageMsg;
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/service/index.dart';
+import 'package:provider/provider.dart';
 
 class Barrage extends StatefulWidget {
   Barrage({Key key}) : super(key: key);
@@ -52,6 +51,9 @@ class _BarrageState extends State<Barrage> {
     }
 
     List list = await Service().getBarrageList({'acct_id': userId});
+    if (list == null) {
+      return;
+    }
     barrageMsgList = list.map((e) => BarrageMsg.fromJson(e)).toList();
 
     if (barrageMsgList.length != 0) {

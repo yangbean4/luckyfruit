@@ -278,7 +278,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                 selector: (context, provider) => provider.personalInfo),
             Container(
               width: ScreenUtil().setWidth(960),
-              height: ScreenUtil().setWidth(600),
+//              height: ScreenUtil().setWidth(600),
               child: RichText(
                 text: TextSpan(
                     text: 'Invitation Award Rules\n',

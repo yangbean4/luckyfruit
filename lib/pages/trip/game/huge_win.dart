@@ -70,7 +70,6 @@ class LuckyWheelWinResultWindow extends StatelessWidget {
           top: ScreenUtil().setWidth(38),
           bottom: ScreenUtil().setWidth(45),
         ),
-        //TODO 数值要对上
         child: GoldText(
           Util.formatNumber(coinNum),
           textSize: 66,
