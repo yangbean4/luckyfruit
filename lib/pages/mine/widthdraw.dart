@@ -254,7 +254,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
                                                 fontWeight: FontWeight.w500)),
                                         Expanded(
                                           child: Text(
-                                              'It takes up to 3 business days to cash out and the service fee is 3%',
+                                              'It takes up to 3 business days to cash out and the service fee is \$0.3+4.4%',
                                               softWrap: true,
                                               style: TextStyle(
                                                   wordSpacing: 1,

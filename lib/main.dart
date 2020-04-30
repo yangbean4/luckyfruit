@@ -41,29 +41,7 @@ void main() {
 //  config.logLevel = AdjustLogLevel.verbose;
   Adjust.start(config);
 
-  UserModel userModel = UserModel();
-  TreeGroup treeGroup = TreeGroup();
-  MoneyGroup moneyGroup = MoneyGroup();
-  TourismMap tourismMap = TourismMap();
-  LuckyGroup luckyGroup = LuckyGroup();
-  userModel.initUser().then((e) {
-    Service().userModel = userModel;
-    final String userId = userModel.value?.acct_id;
-    // 初始化firebase_messaging
-    FbMsg.init(userId);
-    // 监听来源 :是否是DynamicLink
-    DynamicLink.initDynamicLinks(userId);
-    luckyGroup
-        .init(userModel.value.last_draw_time, userModel.value?.version,
-            userModel.value.share_version, userId)
-        .then((e) {
-      Tree.init(luckyGroup.treeConfig);
-
-      treeGroup.init(moneyGroup, luckyGroup, userModel);
-      tourismMap.init(moneyGroup, luckyGroup, treeGroup, userModel);
-      moneyGroup.init(treeGroup, userModel, luckyGroup.issed.first_reward_coin);
-    });
-  });
+  Initialize.initMain();
 
 // 开启背景音乐
   Bgm.init();
@@ -72,23 +50,57 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<TreeGroup>.value(
-        value: treeGroup,
+        value: Initialize.treeGroup,
       ),
       ChangeNotifierProvider<MoneyGroup>.value(
-        value: moneyGroup,
+        value: Initialize.moneyGroup,
       ),
       ChangeNotifierProvider<TourismMap>.value(
-        value: tourismMap,
+        value: Initialize.tourismMap,
       ),
       ChangeNotifierProvider<LuckyGroup>.value(
-        value: luckyGroup,
+        value: Initialize.luckyGroup,
       ),
       ChangeNotifierProvider<UserModel>.value(
-        value: userModel,
+        value: Initialize.userModel,
       ),
     ],
     child: MyApp(),
   ));
+}
+
+class Initialize {
+  static UserModel userModel = UserModel();
+  static TreeGroup treeGroup = TreeGroup();
+  static MoneyGroup moneyGroup = MoneyGroup();
+  static TourismMap tourismMap = TourismMap();
+  static LuckyGroup luckyGroup = LuckyGroup();
+
+  static Future initMain() async{
+    print("initMain1");
+    await userModel.initUser().then((e) {
+      print("initMain2");
+      Service().userModel = userModel;
+      final String userId = userModel.value?.acct_id;
+      // 初始化firebase_messaging
+      FbMsg.init(userId);
+      // 监听来源 :是否是DynamicLink
+      DynamicLink.initDynamicLinks(userId);
+      print("initMain3");
+      luckyGroup
+          .init(userModel.value.last_draw_time, userModel.value?.version,
+              userModel.value.share_version, userId)
+          .then((e) {
+        Tree.init(luckyGroup.treeConfig);
+
+        treeGroup.init(moneyGroup, luckyGroup, userModel);
+        tourismMap.init(moneyGroup, luckyGroup, treeGroup, userModel);
+        moneyGroup.init(
+            treeGroup, userModel, luckyGroup.issed.first_reward_coin);
+        print("initMain4");
+      });
+    });
+  }
 }
 
 class MyApp extends StatelessWidget {

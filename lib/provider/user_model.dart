@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:luckyfruit/main.dart';
 
 import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
 import 'package:luckyfruit/service/index.dart';
@@ -135,7 +136,8 @@ class UserModel with ChangeNotifier {
     return user;
   }
 
-  loginWithFB() async {
+  Future<bool> loginWithFB() async {
+    bool loginSuccess = false;
     final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logIn(['email']);
     print('--------------------------------------------${result}');
@@ -154,8 +156,12 @@ class UserModel with ChangeNotifier {
           'rela_account': profile['id'] ?? profile['email']
         });
         await getUserInfo();
+
+        Storage.clearAllCache();
+        Initialize.initMain();
         // 登录成功
         hasLoginedFB = true;
+        loginSuccess = true;
         break;
 
       case FacebookLoginStatus.cancelledByUser:
@@ -170,6 +176,8 @@ class UserModel with ChangeNotifier {
 
         break;
     }
+
+    return loginSuccess;
   }
 
   // /// 设置用户信息
