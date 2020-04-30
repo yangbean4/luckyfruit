@@ -12,6 +12,7 @@ class InvertedCircleClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
+    print("InvertedCircleClipper_dy: $dy");
     return new Path()
       ..addOval(Rect.fromCircle(
           center: Offset(
@@ -56,6 +57,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
     scaleAnimation = scaleTween.animate(curveEaseIn);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("addPostFrameCallback_dy: $dy");
       dy = Util.getAddTreeBtnInfoWithGlobalKey()?.dy ?? 0.0;
     });
   }

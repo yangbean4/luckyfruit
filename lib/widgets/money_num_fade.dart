@@ -71,7 +71,7 @@ class MoneyAmountFadingState extends State with TickerProviderStateMixin {
               opacity: _textVisible ? 1 : 0,
               duration: Duration(milliseconds: 1000),
               child: Container(
-                //TODO 数字获取
+                //TODO 数字动态获取
                 child: Text("+\$100",
                     style: TextStyle(
                       color: Colors.red,

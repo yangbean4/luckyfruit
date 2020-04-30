@@ -168,7 +168,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     });
 
     watched_ad = 1;
-    //TODO 测试用 模拟一个网络请求状态
+    // 测试用 模拟一个网络请求状态
     // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
     return luckResultMap;
@@ -282,7 +282,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     if (ticketCount <= 0) {
                       BurialReport.report('spin_wheel', {'type': '2'});
 
-                      //TODO 观看广告添加抽奖券的逻辑 updateUser with ad_times
+                      // 观看广告添加抽奖券的逻辑 updateUser with ad_times
                       Service()
                           .addTicket({'acct_id': data?.item2}).then((value) {
                         // 到这里不管addTicket接口返回成功或失败, 广告次数都已经用过一次了
@@ -298,7 +298,6 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                           if (mounted) {
                             setState(() {
                               // 得到了5张券,更新本地数量
-                              // TODO 是否是增加5次?还是从接口取?
                               data.item3.ticket += 5;
                               ticketCount = data.item3.ticket;
 

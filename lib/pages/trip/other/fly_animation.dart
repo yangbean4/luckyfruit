@@ -110,7 +110,7 @@ class _FlyGroupState extends State<FlyGroup> {
             double sy = (star.position.y - widget.startCenter.y) * axis.value +
                 widget.startCenter.y;
 
-            print("star.index： ${star.index}, $ex, $ey");
+//            print("star.index： ${star.index}, $ex, $ey");
             double vector = min(1.0, top.value + tmp[star.index]);
 
             Widget child = Transform.scale(

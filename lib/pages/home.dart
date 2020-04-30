@@ -253,7 +253,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         // 手指引导
         GuidanceFingerWidget(),
         // 新手引导-回收树木
-        GuidanceDrawRecycleWidget(),
+//        GuidanceDrawRecycleWidget(),
       ],
     );
   }

@@ -548,6 +548,8 @@ class TreeGroup with ChangeNotifier {
     }
 
     if (tree == null) {
+//      print(
+//          "addTree_number=${treeGradeNumber.length}, ${treeGradeNumber['$minLevel']}, minlevel=$minLevel");
       tree = new Tree(
           x: point.x,
           y: point.y,

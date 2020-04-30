@@ -405,108 +405,103 @@ class PartnerState extends State<Partner> {
                                               )
                                             ]),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          //TODO 调起FB分享
-                                        },
-                                        child: Column(children: [
-                                          SizedBox(
-                                            height: ScreenUtil().setWidth(36),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              BurialReport.report('invite_entr',
-                                                  {'entr_code': '001'});
-                                              ShareUtil.share(context);
-                                            },
-                                            child: PrimaryButton(
-                                                width: 600,
-                                                height: 124,
-                                                child: Center(
-                                                    child: Text(
-                                                  "Invite Friends",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    height: 1,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: ScreenUtil()
-                                                        .setWidth(52),
-                                                  ),
-                                                ))),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setWidth(44),
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: <InlineSpan>[
-                                                WidgetSpan(
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      Layer.partnerCash(
-                                                          context);
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 1.0),
-                                                      child: ImageIcon(
-                                                        AssetImage(
-                                                            "assets/image/exclamation_icon.png"),
-                                                        size: ScreenUtil()
-                                                            .setWidth(60),
-                                                        color: Colors.red,
-                                                      ),
+                                      Column(children: [
+                                        SizedBox(
+                                          height: ScreenUtil().setWidth(36),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            BurialReport.report('invite_entr',
+                                                {'entr_code': '001'});
+                                            ShareUtil.share(context);
+                                          },
+                                          child: PrimaryButton(
+                                              width: 600,
+                                              height: 124,
+                                              child: Center(
+                                                  child: Text(
+                                                "Invite Friends",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: ScreenUtil()
+                                                      .setWidth(52),
+                                                ),
+                                              ))),
+                                        ),
+                                        SizedBox(
+                                          height: ScreenUtil().setWidth(44),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: <InlineSpan>[
+                                              WidgetSpan(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Layer.partnerCash(
+                                                        context);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 1.0),
+                                                    child: ImageIcon(
+                                                      AssetImage(
+                                                          "assets/image/exclamation_icon.png"),
+                                                      size: ScreenUtil()
+                                                          .setWidth(60),
+                                                      color: Colors.red,
+                                                    ),
 //                                                      Icon(
 //                                                        Icons.error_outline,
 //                                                        size: ScreenUtil()
 //                                                            .setWidth(40),
 //                                                      ),
-                                                    ),
                                                   ),
                                                 ),
-                                                TextSpan(
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
+                                                style: TextStyle(
+                                                    fontSize: ScreenUtil()
+                                                        .setWidth(30),
+                                                    color: Color(0xFF7C7C7C),
+                                                    fontFamily:
+                                                        FontFamily.regular,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              TextSpan(
                                                   text:
-                                                      "the number of friends who have not logged in facebook is ${_partnerWrap?.friends_total}, those people earned",
+                                                      " \$${Util.formatNumber(_partnerWrap?.fb_no_login_all_profit)}",
+                                                  style: TextStyle(
+                                                      fontSize: ScreenUtil()
+                                                          .setWidth(50),
+                                                      fontFamily:
+                                                          FontFamily.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          Color(0xFFFF4C2F))),
+                                              TextSpan(
+                                                  text:
+                                                      ' for you, inform them  logging in facebook to get those cash.',
                                                   style: TextStyle(
                                                       fontSize: ScreenUtil()
                                                           .setWidth(30),
-                                                      color: Color(0xFF7C7C7C),
+                                                      color:
+                                                          Color(0xFF7C7C7C),
                                                       fontFamily:
                                                           FontFamily.regular,
                                                       fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                TextSpan(
-                                                    text:
-                                                        " \$${Util.formatNumber(_partnerWrap?.fb_no_login_all_profit)}",
-                                                    style: TextStyle(
-                                                        fontSize: ScreenUtil()
-                                                            .setWidth(50),
-                                                        fontFamily:
-                                                            FontFamily.bold,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color:
-                                                            Color(0xFFFF4C2F))),
-                                                TextSpan(
-                                                    text:
-                                                        ' for you, inform them  logging in facebook to get those cash.',
-                                                    style: TextStyle(
-                                                        fontSize: ScreenUtil()
-                                                            .setWidth(30),
-                                                        color:
-                                                            Color(0xFF7C7C7C),
-                                                        fontFamily:
-                                                            FontFamily.regular,
-                                                        fontWeight:
-                                                            FontWeight.w400)),
-                                              ],
-                                            ),
-                                          )
-                                        ]),
-                                      ),
+                                                          FontWeight.w400)),
+                                            ],
+                                          ),
+                                        )
+                                      ]),
                                     ])),
                             SizedBox(
                               height: ScreenUtil().setWidth(30),
@@ -526,7 +521,6 @@ class PartnerState extends State<Partner> {
                                 // 第一行
                                 GestureDetector(
                                   onTap: () {
-                                    // TODO 跳转到玩法介绍界面
                                     MyNavigator()
                                         .pushNamed(context, "instructionPage");
                                   },

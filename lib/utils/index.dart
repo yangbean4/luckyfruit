@@ -164,7 +164,6 @@ class Util {
   }
 
   /// 获取用户观看广告记录接口上报的参数
-  //TODO 广告看完之后上报接口, 各个字段需要再完善
   static Map<String, String> getVideoLogParams(String acct_id) {
     return {
       "acct_id": acct_id,

@@ -754,7 +754,6 @@ class WithDrawAmountItemWidget extends StatelessWidget {
           alignment: Alignment.center,
           width: ScreenUtil().setWidth(300),
           height: ScreenUtil().setWidth(100),
-          //TODO 背景颜色渐变
           decoration: BoxDecoration(
               color: item.disabled
                   ? Color(0xFFDDDDDD)
