@@ -159,7 +159,6 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
   @override
   void initState() {
     super.initState();
-    BurialReport.report('page_imp', {'page_code': '031'});
 
     controller = new AnimationController(
         duration: new Duration(milliseconds: 3000), vsync: this);

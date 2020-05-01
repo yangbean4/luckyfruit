@@ -34,7 +34,6 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    BurialReport.report('page_imp', {'page_code': '028'});
 
     textTips = "assets/image/guidance_message_welcome.png";
     controller = new AnimationController(
@@ -96,6 +95,8 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   }
 
   showExplanationTips() async {
+    BurialReport.report('page_imp', {'page_code': '028'});
+
     flag = true;
     controller.duration = Duration(milliseconds: 500);
     scaleTextInterval = Interval(

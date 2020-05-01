@@ -146,6 +146,8 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   }
 
   _playAnimation() async {
+    BurialReport.report('page_imp', {'page_code': '031'});
+
     try {
       //先正向执行动画
       await controller.forward().orCancel;
@@ -160,7 +162,6 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   void dispose() {
     controller?.dispose();
     super.dispose();
-    BurialReport.report('page_imp', {'page_code': '030'});
   }
 
   @override
