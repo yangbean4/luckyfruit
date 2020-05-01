@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -346,9 +347,12 @@ class Service {
     }, onResponse: (Response res) {
       final request = res.request;
       String str = _aes.decrypt(res.data.toString());
-      print('请求路径:${request.path}');
-      print('请求参数:${request.data}');
-      print('返回数据:$str');
+      if (!kReleaseMode) {
+        // release模式下不打印
+        print('请求路径:${request.path}');
+        print('请求参数:${request.data}');
+        print('返回数据:$str');
+      }
       res.data = json.decode(str);
 
       Map<String, dynamic> a = res.data;
@@ -362,9 +366,11 @@ class Service {
       }
       return res;
     }, onError: (DioError e) {
-      print('发生错误:' + e.message);
-      print('请求路径:${e.request.path}');
-      print('请求参数:${e.request.data}');
+      if (!kReleaseMode) {
+        print('发生错误:' + e.message);
+        print('请求路径:${e.request.path}');
+        print('请求参数:${e.request.data}');
+      }
 
       if (e.message.startsWith('SocketException') ||
           // e.message.startsWith('') ||
