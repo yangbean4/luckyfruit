@@ -11,14 +11,16 @@ class BurialReport {
   static String subSessionid;
   static String configVersion;
   static String appVersion;
+  static String isM;
 
   static DateTime _lastTime;
 
   static init(String _userId,
-      {String config_version, String app_version, String fbID}) {
+      {String config_version, String app_version, String fbID, String is_m}) {
     userId = _userId;
     configVersion = config_version;
     appVersion = app_version;
+    isM = is_m;
 
     ChannelBus().callNativeMethod("tga_login",
         arguments: {'identifyID': _userId, 'loginID': fbID ?? ''});
@@ -44,6 +46,7 @@ class BurialReport {
     map['config_version'] = configVersion;
     map['app_version'] = appVersion;
     map['time'] = DateTime.now().toUtc().toString();
+    map['is_m'] = isM;
 
     Map<String, String> data = _getData(map);
     ChannelBus().callNativeMethod("tga_track", arguments: jsonEncode(data));
