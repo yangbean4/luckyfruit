@@ -8,7 +8,7 @@
 -dontwarn io.flutter.embedding.**
 -keep public class com.google.android.gms.** { public protected *; }
 
--keep class com.adjust.sdk.** { *; }
+-keep public class com.adjust.sdk.** { *; }
 -keep class com.google.android.gms.common.ConnectionResult {
     int SUCCESS;
 }
