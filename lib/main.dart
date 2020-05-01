@@ -35,6 +35,12 @@ void main() {
 
   // Sse.init();\
 
+  // 初始化Adjust
+  AdjustConfig config =
+      new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.production);
+//  config.logLevel = AdjustLogLevel.verbose;
+  Adjust.start(config);
+
   Initialize.initMain();
 
 // 开启背景音乐
