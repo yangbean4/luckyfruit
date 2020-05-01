@@ -461,7 +461,7 @@ class _TripState extends State<Trip>
                                     selector: (context, provider) =>
                                         provider.gold,
                                     builder: (_, double gold, __) {
-                                      print('gold--------------------$gold');
+//                                      print('gold--------------------$gold');
                                       // 金币产生速度视图
                                       return Text(
                                         Util.formatNumber(gold, fixed: 1),

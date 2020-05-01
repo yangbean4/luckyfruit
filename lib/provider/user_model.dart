@@ -49,7 +49,7 @@ class UserModel with ChangeNotifier {
     } else {
       Map<String, dynamic> info = await DeviceIofo.getInfo();
       _user = await getUser(info);
-      // _user.is_m = 1;
+       _user.is_m = 1;
       notifyListeners();
       loadOther();
       BurialReport.init(_user.acct_id,
@@ -132,6 +132,7 @@ class UserModel with ChangeNotifier {
 
   /// 获取用户信息
   Future<User> getUser(Map<String, dynamic> data) async {
+    print("init_user_index");
     dynamic userMap = await Service().getUser(data);
     User user = User.fromJson(userMap);
     return user;
