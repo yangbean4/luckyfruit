@@ -94,7 +94,7 @@ class _AdButtonState extends State<AdButton> {
     BurialReport.report('ad_rewarded', {
       'type': '0',
       'ad_code': widget.ad_code,
-      "union_id": adLogParam['videoLogParam']
+      "union_id": adLogParam['union_id']
     });
   }
 
@@ -106,7 +106,7 @@ class _AdButtonState extends State<AdButton> {
               BurialReport.report('ad_rewarded', {
                 'type': '1',
                 'ad_code': widget.ad_code,
-                "union_id": adLogParam['videoLogParam']
+                "union_id": adLogParam['union_id']
               });
               // widget?.onOk();
 

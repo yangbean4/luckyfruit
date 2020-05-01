@@ -82,7 +82,7 @@ class MoAd {
     BurialReport.report('ad_rewarded', {
       'type': '2',
       'ad_code': ad_code,
-      "union_id": videoLogParam['videoLogParam']
+      "union_id": videoLogParam['union_id']
     });
     // 关闭声效
     EVENT_BUS.emit(Event_Name.VIEW_AD);
@@ -96,7 +96,7 @@ class MoAd {
     BurialReport.report('ad_rewarded', {
       'type': '3',
       'ad_code': ad_code,
-      "union_id": videoLogParam['videoLogParam']
+      "union_id": videoLogParam['union_id']
     });
 
     // 观看广告次数减一
@@ -186,9 +186,9 @@ class MoAd {
     Layer.loadingHide();
 
     // 观看广告后上报观看次数接口
-    await Service()
-        .videoAdsLog(Util.getVideoLogParams(user?.value?.acct_id))
-        .then((res) {
+    await Service().videoAdsLog(
+        // Util.getVideoLogParams(user?.value?.acct_id),
+        videoLogParam).then((res) {
       result = res['code'] == 0;
       print("videoAdsLog result: $result");
     });
