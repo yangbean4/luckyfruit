@@ -448,7 +448,7 @@ class _TripState extends State<Trip>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           BreatheAnimation(
-                            child: Container(
+                            builder: () => Container(
                                 width: ScreenUtil().setWidth(400),
                                 child: ShaderMask(
                                   shaderCallback: (bounds) =>
