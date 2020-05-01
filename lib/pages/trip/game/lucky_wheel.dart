@@ -324,6 +324,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   handleStartSpin(User user) {
     // 重置为3
     maxRetryNum = 3;
+    finalPos = -1;
+    prevPos = 0;
     getLuckResult(context).then((luckResultMap) {
       if (luckResultMap == null) {
         print("luckResultMap = null");
@@ -444,7 +446,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         }
         break;
       default:
-        break;
+        Layer.toastWarning("Failed, Please Try Agagin Later");
+        return;
     }
 
     Layer.showLuckWheelWinResultWindow(luckyWheelType, coinNum);
