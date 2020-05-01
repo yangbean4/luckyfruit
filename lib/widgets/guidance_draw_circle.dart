@@ -40,6 +40,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
   Animation<double> scaleAnimation;
   Tween<double> scaleTween;
   double dy = 0.0;
+  bool hasReported = false;
 
   @override
   void initState() {
@@ -66,7 +67,10 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleWidget>
   _playAnimation() async {
     try {
       print("Draw Circle _playAnimation");
-      BurialReport.report('page_imp', {'page_code': '030'});
+      if (!hasReported) {
+        hasReported = true;
+        BurialReport.report('page_imp', {'page_code': '030'});
+      }
 
       // controller.value = 0;
       // controller.reset();

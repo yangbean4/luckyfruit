@@ -104,6 +104,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
         builder: (_, bool show, __) {
           if (show) {
             _playAnimation();
+            BurialReport.report('page_imp', {'page_code': '033'});
           }
           return show
               ? AnimatedBuilder(
@@ -293,7 +294,7 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> posBottomAnimation;
-  Animation<double> posRightAnimation;
+  Animation<double> posLeftAnimation;
   Animation<double> scaleAnimation;
 
   @override
@@ -316,16 +317,18 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
               1.0,
               curve: Curves.ease,
             )));
-    posRightAnimation = Tween<double>(
-      begin: ScreenUtil().setWidth(270),
-      end: ScreenUtil().setWidth(60 + (960 - 378) / 2 - 270),
-    ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Interval(
-          0.0,
-          1.0,
-          curve: Curves.ease,
-        )));
+    posLeftAnimation = Tween<double>(
+            begin: ScreenUtil().setWidth(270),
+//      end: ScreenUtil().setWidth(60 + (960 - 378) / 2 - 270),
+            end: Util.getWheelInfoWithGlobalKey()?.dx -
+                ScreenUtil().setWidth(270 - 65))
+        .animate(CurvedAnimation(
+            parent: _controller,
+            curve: Interval(
+              0.0,
+              1.0,
+              curve: Curves.ease,
+            )));
     scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 0.0,
@@ -356,8 +359,6 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
   }
 
   Future<Null> _playAnimation() async {
-    BurialReport.report('page_imp', {'page_code': '033'});
-
     try {
       //先正向执行动画
       await _controller.forward().orCancel;
@@ -380,7 +381,7 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
               bottom: posBottomAnimation.value,
 //              bottom: ScreenUtil().setWidth(1920 + 155 + 86 - 410),
 //          bottom: ScreenUtil().setWidth(),
-              right: posRightAnimation.value,
+              left: posLeftAnimation.value,
 //              right: ScreenUtil().setWidth(60 + (960 - 378) / 2 - 270),
 //          right: ScreenUtil().setWidth(80),
               child: Transform.scale(

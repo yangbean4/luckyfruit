@@ -65,6 +65,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   Tween<double> scaleTween;
   bool enableFingerAnimatino = false;
   double dy = 0.0;
+  bool hasReported = false;
 
   @override
   void initState() {
@@ -146,7 +147,10 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectWidget>
   }
 
   _playAnimation() async {
-    BurialReport.report('page_imp', {'page_code': '031'});
+    if (!hasReported) {
+      hasReported = true;
+      BurialReport.report('page_imp', {'page_code': '031'});
+    }
 
     try {
       //先正向执行动画
