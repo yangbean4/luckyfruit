@@ -43,7 +43,7 @@ class UnInstallReport {
             jsonObject.put("aid", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
             jsonObject.put("acct_id", Config.ACCT_ID);
             jsonObject.put("pkg_name", context.getPackageName());
-            jsonObject.put("app_version", Utils.getVersionCode(context, context.getPackageName()));
+            jsonObject.put("app_version", SenUtils.getVersionName(context, context.getPackageName()));
             jsonObject.put("osv", Build.VERSION.RELEASE);
             jsonObject.put("status", AppListUploader.STATUS_UNINSTALL);
             jsonObject.put("is_app_init", 0);

@@ -40,6 +40,8 @@ class Event_Name {
       "mopub_is_reward_video_ready";
   static const String mopub_reward_video_closed = "mopub_reward_video_closed";
   static const String start_report_app_list = "start_report_app_list";
+  static const String get_device_message_from_native =
+      "get_device_message_from_native";
 }
 
 // 游戏相关设置

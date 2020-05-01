@@ -1,40 +1,49 @@
 import 'dart:convert';
+import 'dart:convert' as JSON;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/main.dart';
-
 import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/device_info.dart';
-import 'dart:convert' as JSON;
-import 'package:http/http.dart' as http;
+import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
 
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
+
   //
   static const String m_currency_change = 'm_currency_change';
   static const String today_profit_update_time = 'today_profit_update_time';
   static const String profit_update_time = 'profit_update_time';
 
   UserInfo _userInfo;
+
   UserInfo get userInfo => _userInfo;
 
 // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
+
   bool get dataLoad => _dataLoad;
 
 // 分享链接
   String _shareLink;
+
   String get shareLink => _shareLink;
 
   User _user;
+
   User get value => _user;
 
   PersonalInfo _personalInfo;
+
   PersonalInfo get personalInfo => _personalInfo;
+
   // 是否已经登录了Facebook
   bool hasLoginedFB = false;
 
@@ -44,19 +53,20 @@ class UserModel with ChangeNotifier {
     // 因为有 ‘上一次领取时间戳’ ‘当前配置版本号’ 需要在初始化获取 所有先全走请求不走缓存
     // REVIEW:后续改为 先取混存,再去获取 最后更新 并协同其他依赖于user的模块更新配置等
     String res;
+    print("initMain1_3");
     if (res != null) {
       _user = User.fromJson(json.decode(res));
     } else {
       Map<String, dynamic> info = await DeviceIofo.getInfo();
       _user = await getUser(info);
       // _user.is_m = 1;
-      notifyListeners();
-      loadOther();
       BurialReport.init(_user.acct_id,
           app_version: info['app_version'],
           config_version: _user.version,
           is_m: _user.is_m.toString(),
           fbID: _user.rela_account);
+      notifyListeners();
+      loadOther();
       BurialReport.report('login', {
         'aid': info['os_type'] == 'android'
             ? info['gaid'] ?? info['aid']
@@ -132,7 +142,12 @@ class UserModel with ChangeNotifier {
 
   /// 获取用户信息
   Future<User> getUser(Map<String, dynamic> data) async {
-    print("init_user_index");
+    Map<dynamic, dynamic> deviceMsgMap = await channelBus
+        .callNativeMethod(Event_Name.get_device_message_from_native);
+
+    data.addAll(Map<String, dynamic>.from(deviceMsgMap));
+    print(
+        "init_user_index ${data.toString()}");
     dynamic userMap = await Service().getUser(data);
     User user = User.fromJson(userMap);
     return user;
@@ -182,22 +197,22 @@ class UserModel with ChangeNotifier {
     return loginSuccess;
   }
 
-  // /// 设置用户信息
-  // void setUser(User user) {
-  //   // _user = user;
-  //   // 这里不直接替换对象的原因是为了在结果没有返回或返回空值的情况下使用默认值
-  //   if (_user == null) {
-  //     _user = user;
-  //   } else {
-  //     if (user.acct_id.isNotEmpty) _user.acct_id = user.acct_id;
-  //     _user.acct_bal = user.acct_bal ?? '';
-  //     _user.nickname = user.nickname ?? '';
-  //     _user.icon_path = user.icon_path ?? '';
-  //     _user.last_leave_time = user.last_leave_time ?? '';
+// /// 设置用户信息
+// void setUser(User user) {
+//   // _user = user;
+//   // 这里不直接替换对象的原因是为了在结果没有返回或返回空值的情况下使用默认值
+//   if (_user == null) {
+//     _user = user;
+//   } else {
+//     if (user.acct_id.isNotEmpty) _user.acct_id = user.acct_id;
+//     _user.acct_bal = user.acct_bal ?? '';
+//     _user.nickname = user.nickname ?? '';
+//     _user.icon_path = user.icon_path ?? '';
+//     _user.last_leave_time = user.last_leave_time ?? '';
 
-  //     Storage.setItem('user', _user.toJson().toString());
+//     Storage.setItem('user', _user.toJson().toString());
 
-  //     notifyListeners();
-  //   }
-  // }
+//     notifyListeners();
+//   }
+// }
 }

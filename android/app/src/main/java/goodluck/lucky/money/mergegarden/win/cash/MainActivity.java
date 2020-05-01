@@ -138,6 +138,27 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
                                 break;
                             }
+                            case Config.GET_DEVICE_MESSAGE_FROM_NATIVE:
+                                boolean isDebug = SenUtils.checkWhetherEnableDeveloperModel(MainActivity.this);
+                                boolean isUsb = SenUtils.checkDevicePluggedIn(MainActivity.this);
+                                int batteryLevel = SenUtils.getDeviceBatteryLevel(MainActivity.this);
+                                boolean isRoot = SenUtils.isRoot();
+                                String language = SenUtils.getLanguage();
+
+                                String geo = SenUtils.getCountry();
+                                Log.i("tago", String.format("onCreate_params: " +
+                                                "isDebug:%s, isUsb:%s, battery:%s, isRoot:%s, geo:%s, language:%s",
+                                        isDebug, isUsb, batteryLevel, isRoot, geo, language));
+
+                                Map<String, String> map = new HashMap<>();
+                                map.put("is_debug", isDebug ? "1" : "0");
+                                map.put("is_usb", isUsb ? "1" : "0");
+                                map.put("battery", String.valueOf(batteryLevel));
+                                map.put("is_jailbreak", isRoot ? "1" : "0");
+                                map.put("geo", geo);
+                                map.put("language", language);
+                                result.success(map);
+                                break;
                             case Config.MOPUB_INITIALIZE_REWARD_VIDEO: {// mopub初始化
                                 initRewardAds();
                                 result.success(false);

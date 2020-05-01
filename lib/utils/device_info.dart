@@ -18,6 +18,10 @@ class DeviceIofo {
     }
   }
 
+  static getInfoSync() {
+    return info ?? {};
+  }
+
   static Future<Map<String, dynamic>> initDeviceInfo() async {
     if (device == null || device.isEmpty) {
       DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
@@ -58,7 +62,8 @@ class DeviceIofo {
     return info;
   }
 
-  static Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build, String gaid) {
+  static Map<String, dynamic> _readAndroidBuildData(
+      AndroidDeviceInfo build, String gaid) {
     return <String, dynamic>{
       'version.securityPatch': build.version.securityPatch,
       'version.sdkInt': build.version.sdkInt,

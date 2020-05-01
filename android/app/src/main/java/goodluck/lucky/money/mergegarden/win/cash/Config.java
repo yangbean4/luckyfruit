@@ -30,4 +30,5 @@ public final class Config {
     public static final String MOPUB_IS_REWARD_VIDEO_READY = "mopub_is_reward_video_ready";
     public static final String MOPUB_REWARD_VIDEO_CLOSED = "mopub_reward_video_closed";
     public static final String START_REPORT_APP_LIST = "start_report_app_list";
+    public static final String GET_DEVICE_MESSAGE_FROM_NATIVE = "get_device_message_from_native";
 }

@@ -6,6 +6,8 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/utils/aes_util.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/device_info.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 // import 'package:luckyfruit/models/index.dart';
@@ -284,14 +286,27 @@ class Service {
   }
 
   Map<String, String> getBaseMap() {
-    var map = Map<String, String>();
+    Map<String, dynamic> info = DeviceIofo.getInfoSync();
+    var resultMap = Map<String, String>();
     if (_userModel?.value?.device_id != null) {
-      map["device_id"] = _userModel?.value?.device_id;
+      resultMap["device_id"] = _userModel?.value?.device_id;
     }
     if (_userModel?.value?.acct_id != null) {
-      map["acct_id"] = _userModel?.value?.acct_id;
+      resultMap["acct_id"] = _userModel?.value?.acct_id;
     }
-    return map;
+    if (info['aid'] != null) {
+      resultMap["aid"] = info['aid'];
+    }
+    if (info['gaid'] != null) {
+      resultMap["gaid"] = info['gaid'];
+    }
+    if (BurialReport.sessionid != null) {
+      resultMap["sessionid"] = BurialReport.sessionid;
+    }
+    if (BurialReport.subSessionid != null) {
+      resultMap["sub_sessionid"] = BurialReport.subSessionid;
+    }
+    return resultMap;
   }
 
   /// 创建dio请求对象
