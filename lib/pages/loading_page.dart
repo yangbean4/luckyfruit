@@ -25,15 +25,19 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool canJump = false;
+  bool hasPaused = false;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
+      hasPaused = true;
       EVENT_BUS.emit(Event_Name.APP_PAUSED);
     }
     if (state == AppLifecycleState.resumed) {
-      EVENT_BUS.emit(Event_Name.APP_RESUMED);
+      if (hasPaused) {
+        EVENT_BUS.emit(Event_Name.APP_RESUMED);
+      }
     }
   }
 
