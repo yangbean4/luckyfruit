@@ -107,6 +107,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 String loginID = (String) methodCall.argument("loginID");
                                 tdInstance.identify(identifyID);
                                 tdInstance.login(loginID);
+                                enableTgaAutoTrack(MainActivity.this);
                                 break;
 
                             }
@@ -286,8 +287,6 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                 "http://tad.sen-sdk.com");
         config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
         tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
-
-        enableTgaAutoTrack(this);
     }
 
     private void enableTgaAutoTrack(Context context) {
