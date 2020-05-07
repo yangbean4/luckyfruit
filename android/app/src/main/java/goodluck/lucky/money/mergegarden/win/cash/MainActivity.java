@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
@@ -60,6 +61,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     BasicMessageChannel basicMessageChannel;
     boolean isRewardVideoAdInitialized;
     private String mAdUnitId = "071798bdd3194939ad25fd6f068448b5";
+    private String mTGAKey = "f2328f8dee2b4ed1970be74235b9a5cc";
     private MethodChannel methodChannel;
     private MethodChannel eventChannel;
     private CallbackManager callbackManager;
@@ -278,10 +280,10 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void initTgaSDK(){
+    private void initTgaSDK() {
         ThinkingAnalyticsSDK.enableTrackLog(true);
-        TDConfig config = TDConfig.getInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
-         "http://tad.sen-sdk.com");
+        TDConfig config = TDConfig.getInstance(this, mTGAKey,
+                "http://tad.sen-sdk.com");
         config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
         tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
 
@@ -296,7 +298,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_VIEW_SCREEN);
         eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_CLICK);
         eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_CRASH);
-        ThinkingAnalyticsSDK.sharedInstance(context, getTgaAppId(context)).enableAutoTrack(eventTypeList);
+        ThinkingAnalyticsSDK.sharedInstance(context, mTGAKey).enableAutoTrack(eventTypeList);
     }
 
     public void initRewardAds() {
