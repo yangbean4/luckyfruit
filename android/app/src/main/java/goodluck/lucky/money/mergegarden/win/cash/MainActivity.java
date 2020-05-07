@@ -69,11 +69,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
-        ThinkingAnalyticsSDK.enableTrackLog(true);
-        TDConfig config = TDConfig.getInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc", "http://tad.sen-sdk.com");
-        config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
-        tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
-
+        initTgaSDK();
         final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
         ArrayList<String> list = new ArrayList<>();
         list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
@@ -280,6 +276,27 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void initTgaSDK(){
+        ThinkingAnalyticsSDK.enableTrackLog(true);
+        TDConfig config = TDConfig.getInstance(this, "f2328f8dee2b4ed1970be74235b9a5cc",
+         "http://tad.sen-sdk.com");
+        config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
+        tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
+
+        enableTgaAutoTrack(this);
+    }
+
+    private void enableTgaAutoTrack(Context context) {
+        List<ThinkingAnalyticsSDK.AutoTrackEventType> eventTypeList = new ArrayList<>();
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_INSTALL);
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_START);
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_END);
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_VIEW_SCREEN);
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_CLICK);
+        eventTypeList.add(ThinkingAnalyticsSDK.AutoTrackEventType.APP_CRASH);
+        ThinkingAnalyticsSDK.sharedInstance(context, getTgaAppId(context)).enableAutoTrack(eventTypeList);
     }
 
     public void initRewardAds() {
