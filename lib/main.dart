@@ -79,7 +79,7 @@ class Initialize {
   static Future initMain() async {
     print("initMain1");
     await userModel.initUser().then((e) {
-      print("initMain2");
+      print("initMain2_${userModel.value.device_id}");
       Service().userModel = userModel;
       final String userId = userModel.value?.acct_id;
       // 初始化firebase_messaging

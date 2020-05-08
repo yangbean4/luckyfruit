@@ -288,6 +288,8 @@ class Service {
 
   Map<String, String> getBaseMap() {
     Map<String, dynamic> info = DeviceIofo.getInfoSync();
+    print(
+        "getBaseMap_${_userModel?.value?.acct_id}_${_userModel?.value?.device_id}");
     var resultMap = Map<String, String>();
     if (_userModel?.value?.device_id != null) {
       resultMap["device_id"] = _userModel?.value?.device_id;

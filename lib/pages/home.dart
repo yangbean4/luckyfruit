@@ -12,7 +12,6 @@ import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
-import 'package:luckyfruit/widgets/guidance_draw_recycle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
@@ -87,7 +86,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   }
 
   bool myInterceptor(bool stopDefaultButtonEvent) {
-    print("BACK BUTTON!"); // Do some stuff.
+    print("BACK BUTTON!${ModalRoute.of(context).isCurrent}"); // Do some stuff.
+
+    if (!ModalRoute.of(context).isCurrent) {
+      return false;
+    }
     BurialReport.report('switchback', {'type': '2'});
 
     EVENT_BUS.emit(Event_Name.APP_PAUSED);
