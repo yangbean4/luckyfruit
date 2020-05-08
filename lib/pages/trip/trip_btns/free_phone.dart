@@ -910,7 +910,7 @@ class _Sign extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            disable
+                            disable || sign_times < 3
                                 ? Container()
                                 : Image.asset(
                                     'assets/image/ad_icon.png',
@@ -930,6 +930,7 @@ class _Sign extends StatelessWidget {
                         ),
                       ),
                       disable: is_today_sign == 1,
+                      useAd: sign_times > 2,
                       onOk: () {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);

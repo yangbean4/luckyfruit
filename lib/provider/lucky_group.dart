@@ -151,6 +151,10 @@ class LuckyGroup with ChangeNotifier {
   bool _showballoon = false;
 
   bool get showballoon => _showballoon;
+  set showballoon(bool type) {
+    _showballoon = type;
+    notifyListeners();
+  }
 
   TreeConfig treeConfig;
 
@@ -455,12 +459,12 @@ class LuckyGroup with ChangeNotifier {
   }
 
   hideBallonAndNextRun() {
-    _showballoon = false;
+    showballoon = false;
     notifyListeners();
     _timerRun(
         time1: issed?.balloon_adSpace,
         run1: () {
-          _showballoon = true;
+          showballoon = true;
         },
         time2: issed.automatic_remain_time,
         run2: () {
@@ -514,10 +518,13 @@ class LuckyGroup with ChangeNotifier {
     }
 
     if (issed?.balloon_timeLen != null) {
+      EVENT_BUS.on(Event_Name.Router_Change, (_) {
+        showballoon = false;
+      });
       _timerRun(
           time1: issed?.balloon_timeLen,
           run1: () {
-            _showballoon = true;
+            showballoon = true;
           },
           time2: issed.automatic_remain_time,
           run2: () {

@@ -882,7 +882,6 @@ class TreeGroup with ChangeNotifier {
     if (tree.grade == hasMaxLevel) {
       return Layer.toastWarning('Maximal tree cannot recycle');
     }
-    _treeList.remove(tree);
 
     if (tree.type == TreeType.Type_Wishing) {
       // 许愿树回收金钱

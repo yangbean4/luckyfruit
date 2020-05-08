@@ -252,8 +252,6 @@ class MoneyGroup with ChangeNotifier {
 
   save({bool now = false}) {
     notifyListeners();
-//    print('gold--------save------------$gold');
-
     if (now) {
       _saveThis();
     } else {}
@@ -290,7 +288,7 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addGold(double gold, {bool showAnimate = true}) {
-    gold = gold;
+    gold = gold * 10000;
     _gold = double.parse((_gold + gold).toStringAsFixed(2));
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
     if (showAnimate) {
