@@ -597,6 +597,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.24.0"
+  share:
+    dependency: "direct main"
+    description:
+      name: share
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.4+1"
   shared_preferences:
     dependency: "direct main"
     description:

@@ -15,14 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.applovin.sdk.AppLovinSdk;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareMessengerGenericTemplateContent;
-import com.facebook.share.model.ShareMessengerGenericTemplateElement;
-import com.facebook.share.model.ShareMessengerURLActionButton;
-import com.facebook.share.widget.MessageDialog;
 import com.mopub.common.MoPub;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
@@ -64,7 +56,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     private String mTGAKey = "f2328f8dee2b4ed1970be74235b9a5cc";
     private MethodChannel methodChannel;
     private MethodChannel eventChannel;
-    private CallbackManager callbackManager;
+    //    private CallbackManager callbackManager;
     ThinkingAnalyticsSDK tdInstance;
 
     @Override
@@ -113,7 +105,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                             }
                             case "tga_track": { // TGA 数据上报
                                 String event = (String) methodCall.arguments;
-                                Log.i("event-------------tga", " method event: " + event);
+                                Log.i("event-tga-error", " method event: " + event);
 
                                 try {
                                     JSONObject json = new JSONObject(event);
@@ -121,22 +113,22 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                     tdInstance.track(eventName, (JSONObject) json);
 
                                 } catch (JSONException e) {
-                                    Log.i("event------tga-------error", " method event: " + event);
+                                    Log.i("event-tga-error", " method event: " + event);
                                     e.printStackTrace();
                                 }
                                 break;
                             }
-                            case "sendMessage": {
-                                String urlActionTitle = methodCall.argument("urlActionTitle");
-                                String url = methodCall.argument("url");
-                                String title = methodCall.argument("title");
-                                String subtitle = methodCall.argument("subtitle");
-                                String imageUrl = methodCall.argument("imageUrl");
-                                String pageId = methodCall.argument("pageId");
-
-                                sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
-                                break;
-                            }
+//                            case "sendMessage": {
+//                                String urlActionTitle = methodCall.argument("urlActionTitle");
+//                                String url = methodCall.argument("url");
+//                                String title = methodCall.argument("title");
+//                                String subtitle = methodCall.argument("subtitle");
+//                                String imageUrl = methodCall.argument("imageUrl");
+//                                String pageId = methodCall.argument("pageId");
+//
+//                                sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
+//                                break;
+//                            }
                             case Config.GET_DEVICE_MESSAGE_FROM_NATIVE:
                                 boolean isDebug = SenUtils.checkWhetherEnableDeveloperModel(MainActivity.this);
                                 boolean isUsb = SenUtils.checkDevicePluggedIn(MainActivity.this);
@@ -210,7 +202,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         // 监听安装卸载
         registerReceiver(this);
 
-        callbackManager = CallbackManager.Factory.create();
+//        callbackManager = CallbackManager.Factory.create();
     }
 
     private static void registerReceiver(Context context) {
@@ -225,61 +217,61 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         context.registerReceiver(new AppInstallReceiver(), filter);
     }
 
-    private void sendMessage(final MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
+//    private void sendMessage(final MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
+//
+////        url= "https://mkfruit.com?sd=Merge%20trees%F0%9F%8E%84%2Cdecorating%20my%20garden%2Cearn%20rewards%F0%9F%8E%81%F0%9F%92%B5&si=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fimg%2Ffb_share_merge.png&st=%F0%9F%92%B0%F0%9F%92%B0Believe%20it%20or%20not!%20I%20can%20earn%20money%20by%20merge%20garden%F0%9F%8F%A1%F0%9F%8F%A1!&amv=0&apn=goodluck.lucky.money.mergegarden.win.cash&link=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fzip%2Findex.html%3Fcode%3D771";
+////        url="https://mkfruit.com/Sohr";
+//        ShareMessengerURLActionButton actionButton =
+//                new ShareMessengerURLActionButton.Builder()
+//                        .setTitle(urlActionTitle)
+//                        .setUrl(Uri.parse(url))
+//                        .build();
+//
+//        ShareMessengerGenericTemplateElement.Builder genericTemplateElementBuilder =
+//                new ShareMessengerGenericTemplateElement.Builder();
+//        genericTemplateElementBuilder.setTitle(title);
+//        genericTemplateElementBuilder.setSubtitle(subtitle);
+//
+//        if (imageUrl != null && !imageUrl.isEmpty())
+//            genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
+//        if (url != null && !url.isEmpty()) genericTemplateElementBuilder.setButton(actionButton);
+//
+//        ShareMessengerGenericTemplateContent genericTemplateContent =
+//                new ShareMessengerGenericTemplateContent.Builder()
+//                        .setPageId(Config.FACEBOOK_PAGE_ID) // Your page ID, required
+//                        .setGenericTemplateElement(genericTemplateElementBuilder.build())
+//                        .build();
+//        MessageDialog md = new MessageDialog(this);
+//        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+//
+//            @Override
+//            public void onSuccess(Sharer.Result shareResult) {
+//                result.success(true);
+//                Log.d("tago", "FacebookCallback_onSuccess");
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                result.success(false);
+//                Log.d("tago", "FacebookCallback_onCancel");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                result.success(false);
+//                Log.d("tago", "FacebookCallback_error => " + error);
+//            }
+//        });
+//        if (md.canShow(genericTemplateContent)) {
+//            MessageDialog.show(this, genericTemplateContent);
+//        }
+//    }
 
-//        url="https://share.mkfruit.com?amv=1&apn=com.idle.farm&link=https%3A%2F%2Fgithub.com%2Ffirebase%2FFirebaseUI-Android%2Ftree%2Fmaster%2Fapp%3FinviteCode%3D7X2USJ0P8H";
-//        url = "https://mkfruit.com?sd=mergegarden&si=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fimg%2Fimg.png&st=mergegarden&amv=0&apn=goodluck.lucky.money.mergegarden.win.cash&link=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fzip%2Findex.html%3Fcode%3D587";
-        ShareMessengerURLActionButton actionButton =
-                new ShareMessengerURLActionButton.Builder()
-                        .setTitle(urlActionTitle)
-                        .setUrl(Uri.parse(url))
-                        .build();
-
-        ShareMessengerGenericTemplateElement.Builder genericTemplateElementBuilder =
-                new ShareMessengerGenericTemplateElement.Builder();
-        genericTemplateElementBuilder.setTitle(title);
-        genericTemplateElementBuilder.setSubtitle(subtitle);
-
-        if (imageUrl != null && !imageUrl.isEmpty())
-            genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
-        if (url != null && !url.isEmpty()) genericTemplateElementBuilder.setButton(actionButton);
-
-        ShareMessengerGenericTemplateContent genericTemplateContent =
-                new ShareMessengerGenericTemplateContent.Builder()
-                        .setPageId(Config.FACEBOOK_PAGE_ID) // Your page ID, required
-                        .setGenericTemplateElement(genericTemplateElementBuilder.build())
-                        .build();
-        MessageDialog md = new MessageDialog(this);
-        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-
-            @Override
-            public void onSuccess(Sharer.Result shareResult) {
-                result.success(true);
-                Log.d("tago", "FacebookCallback_onSuccess");
-            }
-
-            @Override
-            public void onCancel() {
-                result.success(false);
-                Log.d("tago", "FacebookCallback_onCancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                result.success(false);
-                Log.d("tago", "FacebookCallback_error => " + error);
-            }
-        });
-        if (md.canShow(genericTemplateContent)) {
-            MessageDialog.show(this, genericTemplateContent);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        callbackManager.onActivityResult(requestCode, resultCode, data);
+//    }
 
     private void initTgaSDK() {
         ThinkingAnalyticsSDK.enableTrackLog(true);

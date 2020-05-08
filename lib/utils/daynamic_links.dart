@@ -1,12 +1,13 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/models/index.dart' show ShaerConfig;
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:provider/provider.dart';
 
 class DynamicLink {
   static String userId;
+
   static initDynamicLinks(String acct_id) async {
     userId = acct_id;
     final PendingDynamicLinkData data =
@@ -55,10 +56,20 @@ class DynamicLink {
           description: shaerConfig.subtitle,
           imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl[0]),
         ));
-    final url = await parameters.buildUrl();
-    print("get dynatmic link: $url");
-    return url.toString();
-    // final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
-    // return shortDynamicLink.shortUrl.toString();
+//    return url.toString();
+
+    String resultUrl;
+
+    try {
+      final ShortDynamicLink shortDynamicLink =
+          await parameters.buildShortLink();
+      resultUrl = shortDynamicLink.shortUrl.toString();
+      print("get dynatmic_short link: $resultUrl");
+    } catch (e) {
+      resultUrl = await parameters.buildUrl().toString();
+      print("get dynatmic_long link: $resultUrl");
+    }
+
+    return resultUrl;
   }
 }

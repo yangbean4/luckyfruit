@@ -74,6 +74,7 @@ dependencies:
   # 缓存网络图片
   cached_network_image: ^2.1.0+1
   adjust_sdk: ^4.21.0
+  share: ^0.6.4+1
 
 dev_dependencies:
   flutter_test:

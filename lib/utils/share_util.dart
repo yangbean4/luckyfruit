@@ -12,106 +12,116 @@ import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:social_share_plugin/social_share_plugin.dart';
 
 import 'method_channel.dart';
 
 class ShareUtil {
-  static void ShareFacebookImage(BuildContext context) async {
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//  static void ShareFacebookImage(BuildContext context) async {
+//    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//
+//    BurialReport.report('invite_entr', {'entr_code': '004'});
+//
+//    // 系统选择图片
+//    // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+//
+//    // 读取包中图片 写入app的cache文件夹 再分享
+//    // final ByteData bytes = await rootBundle.load('assets/instruction.jpg');
+//    // final Uint8List list = bytes.buffer.asUint8List();
+//
+//    // 读取网络图片 写入app的cache文件夹 再分享
+//    var request = await HttpClient()
+//        .getUrl(Uri.parse(luckyGroup.shaerConfig.imageUrl[0]));
+//    var response = await request.close();
+//    Uint8List list = await consolidateHttpClientResponseBytes(response);
+//
+//    final tempDir = await getTemporaryDirectory();
+//    String path = '${tempDir.path}/berwachung.jpg';
+//    File file = await new File(path).create();
+//    file.writeAsBytesSync(list);
+//
+//    await SocialSharePlugin.shareToFeedFacebook(
+//        caption: 'caption',
+//        path: path,
+//        onSuccess: (_) {
+//          print('FACEBOOK SUCCESS');
+//          return;
+//        },
+//        onCancel: () {
+//          print('FACEBOOK CANCELLED');
+//          return;
+//        },
+//        onError: (error) {
+//          print('FACEBOOK ERROR $error');
+//          return;
+//        });
+//  }
 
-    BurialReport.report('invite_entr', {'entr_code': '004'});
+//  static void ShareFacebookLink(BuildContext context, String imagesrc) async {
+//    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
+//    // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
+//
+//    // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
+//
+//    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+//    await SocialSharePlugin.shareToFeedFacebookLink(
+//        quote: shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！',
+//        url: url,
+//        // url: 'https://carbaba.com/tobR',
+//        onSuccess: (_) {
+//          print('FACEBOOK SUCCESS');
+//          return;
+//        },
+//        onCancel: () {
+//          print('FACEBOOK CANCELLED');
+//          return;
+//        },
+//        onError: (error) {
+//          print('FACEBOOK ERROR $error');
+//          return;
+//        });
+//  }
 
-    // 系统选择图片
-    // File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+//  static void ShareFacebookMessager(
+//      BuildContext context, String imagesrc) async {
+//    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
+//    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+//    ChannelBus().callNativeMethod("sendMessage", arguments: {
+//      "urlActionTitle": "Visit",
+//      "url": url,
+//      "title": shaerConfig.title,
+//      "subtitle": shaerConfig.subtitle,
+//      "imageUrl": imagesrc
+//    });
+//  }
 
-    // 读取包中图片 写入app的cache文件夹 再分享
-    // final ByteData bytes = await rootBundle.load('assets/instruction.jpg');
-    // final Uint8List list = bytes.buffer.asUint8List();
+//  static void share(BuildContext context) {
+//    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//    List<String> imgList = luckyGroup.shaerConfig.imageUrl;
+//    showDialog(
+//        context: context,
+//        builder: (_) => _Layer(
+//              imgList: imgList,
+//              onOk: (int index, int type) {
+//                if (type == 0) {
+//                  ShareUtil.ShareFacebookLink(context, imgList[index]);
+//                } else {
+//                  ShareUtil.ShareFacebookMessager(context, imgList[index]);
+//                }
+//              },
+//            ));
+//  }
 
-    // 读取网络图片 写入app的cache文件夹 再分享
-    var request = await HttpClient()
-        .getUrl(Uri.parse(luckyGroup.shaerConfig.imageUrl[0]));
-    var response = await request.close();
-    Uint8List list = await consolidateHttpClientResponseBytes(response);
-
-    final tempDir = await getTemporaryDirectory();
-    String path = '${tempDir.path}/berwachung.jpg';
-    File file = await new File(path).create();
-    file.writeAsBytesSync(list);
-
-    await SocialSharePlugin.shareToFeedFacebook(
-        caption: 'caption',
-        path: path,
-        onSuccess: (_) {
-          print('FACEBOOK SUCCESS');
-          return;
-        },
-        onCancel: () {
-          print('FACEBOOK CANCELLED');
-          return;
-        },
-        onError: (error) {
-          print('FACEBOOK ERROR $error');
-          return;
-        });
-  }
-
-  static void ShareFacebookLink(BuildContext context, String imagesrc) async {
-    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
-    // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
-
-    // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
-
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
-    await SocialSharePlugin.shareToFeedFacebookLink(
-        quote: shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！',
-        url: url,
-        // url: 'https://carbaba.com/tobR',
-        onSuccess: (_) {
-          print('FACEBOOK SUCCESS');
-          return;
-        },
-        onCancel: () {
-          print('FACEBOOK CANCELLED');
-          return;
-        },
-        onError: (error) {
-          print('FACEBOOK ERROR $error');
-          return;
-        });
-  }
-
-  static void ShareFacebookMessager(
-      BuildContext context, String imagesrc) async {
-    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
-    ChannelBus().callNativeMethod("sendMessage", arguments: {
-      "urlActionTitle": "Visit",
-      "url": url,
-      "title": shaerConfig.title,
-      "subtitle": shaerConfig.subtitle,
-      "imageUrl": imagesrc
-    });
-  }
-
-  static void share(BuildContext context) {
+  static void share(BuildContext context) async {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     List<String> imgList = luckyGroup.shaerConfig.imageUrl;
-    showDialog(
-        context: context,
-        builder: (_) => _Layer(
-              imgList: imgList,
-              onOk: (int index, int type) {
-                if (type == 0) {
-                  ShareUtil.ShareFacebookLink(context, imgList[index]);
-                } else {
-                  ShareUtil.ShareFacebookMessager(context, imgList[index]);
-                }
-              },
-            ));
+    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+    String quote = shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！';
+    String url = await DynamicLink.getLinks(context, imageSrc: imgList[0]);
+    Share.share('$quote $url');
   }
 }
 
