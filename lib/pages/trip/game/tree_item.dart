@@ -86,6 +86,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
   Future<void> runAction() async {
     try {
       Bgm.coinIncrease();
+      await Future.delayed(Duration(milliseconds: 800));
       await treeAnimationController?.forward();
 
       goldAnimationController

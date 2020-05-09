@@ -315,7 +315,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     handleStartSpin(data?.item3);
                   },
                   tips:
-                      "Number of videos reset at 12:00 am&pm (${data?.item1?.ad_times ?? 0} times left)");
+                      "Number of videos reset at 12am&12pm (${data?.item1?.ad_times ?? 0} times left)");
             },
           ))
     ]);

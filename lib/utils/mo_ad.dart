@@ -22,7 +22,7 @@ class MoAd {
   bool reachRewardPoint = false;
   int retryCount = 0;
   int retryDelayedTimeInSeconds = 60;
-  Map<String, String> videoLogParam;
+  Map<String, String> videoLogParam = {};
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);

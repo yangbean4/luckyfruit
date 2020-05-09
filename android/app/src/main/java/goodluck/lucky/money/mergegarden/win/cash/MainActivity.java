@@ -347,7 +347,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoLoadSuccess(@NonNull String adUnitId) {
-        Log.i("tago", "onRewardedVideoLoadSuccess");
+        Log.i("tago", "onRewardedVideoLoadSuccess_" + adUnitId);
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_SUCCESS);
@@ -363,7 +363,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoLoadFailure(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
-        Log.i("tago", "onRewardedVideoLoadFailure " + errorCode);
+        Log.i("tago", "onRewardedVideoLoadFailure_" + adUnitId + "_error:" + errorCode);
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_FAILURE);
         json.put("data", "param");
@@ -378,7 +378,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoStarted(@NonNull String adUnitId) {
-        Log.i("tago", "onRewardedVideoStarted");
+        Log.i("tago", "onRewardedVideoStarted_" + adUnitId);
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_STARTED);

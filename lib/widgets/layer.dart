@@ -585,7 +585,7 @@ class Layer {
                         modal.hide();
                       },
                       tips:
-                          "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                          "Number of videos reset at 12am&12pm (${userInfo.ad_times} times left)",
                     );
                   })
             ]).show();
@@ -1172,7 +1172,7 @@ class Layer {
                             onOk();
                           },
                           tips:
-                              "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                              "Number of videos reset at 12am&12pm (${userInfo.ad_times} times left)",
                         );
                       }))
             ]).show();
@@ -1256,7 +1256,7 @@ class Layer {
                       onOk(true);
                     },
                     // tips:
-                    //     "Number of videos reset at 12:00 am&pm (${userInfo.ad_times} times left)",
+                    //     "Number of videos reset at 12am&12pm (${userInfo.ad_times} times left)",
                   ),
                   Positioned(
                       top: 0,

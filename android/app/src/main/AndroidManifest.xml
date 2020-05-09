@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="goodluck.lucky.money.mergegarden.win.cash">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
@@ -11,6 +12,7 @@
         android:name=".Application"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
+        tools:replace="android:label"
         android:label="Lucky Merge">
         <activity
             android:name=".MainActivity"

@@ -118,6 +118,7 @@ class UserModel with ChangeNotifier {
   getUserInfo() async {
     Map<String, dynamic> ajaxData = await Service().getUserInfo({
       'acct_id': value.acct_id,
+      'device_id': value.device_id,
     });
     // 保存数据
     _userInfo = UserInfo.fromJson(ajaxData);
@@ -131,8 +132,8 @@ class UserModel with ChangeNotifier {
       // 有就直接返回
       return Future.value(_personalInfo);
     } else {
-      Map<String, dynamic> userMap =
-          await Service().getPersonalInfo({"acct_id": value.acct_id});
+      Map<String, dynamic> userMap = await Service().getPersonalInfo(
+          {"acct_id": value.acct_id, "device_id": value.device_id});
       PersonalInfo personalInfo = PersonalInfo.fromJson(userMap);
       _personalInfo = personalInfo;
       notifyListeners();
@@ -146,8 +147,7 @@ class UserModel with ChangeNotifier {
         .callNativeMethod(Event_Name.get_device_message_from_native);
 
     data.addAll(Map<String, dynamic>.from(deviceMsgMap));
-    print(
-        "init_user_index ${data.toString()}");
+    print("init_user_index ${data.toString()}");
     dynamic userMap = await Service().getUser(data);
     User user = User.fromJson(userMap);
     return user;

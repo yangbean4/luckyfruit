@@ -93,6 +93,7 @@ flutter {
 repositories {
     // Add the following repositories
     maven { url 'https://chartboostmobile.bintray.com/Chartboost' }
+    maven { url 'https://dl.bintray.com/ironsource-mobile/android-sdk'}
 }
 
 dependencies {
@@ -139,6 +140,11 @@ dependencies {
     // Adjust
     implementation 'com.google.android.gms:play-services-analytics:17.0.0'
     implementation 'com.android.installreferrer:installreferrer:1.1'
+
+    // ironSource
+    implementation 'com.ironsource.sdk:mediationsdk:6.16.0'
+    implementation 'com.mopub.mediation:ironsource:6.16.0.0'
+
     // 原生分享框
     compile 'gdut.bsx:share2:0.9.3'
 }
