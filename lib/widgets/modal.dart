@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:math' show min;
 
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oktoast/oktoast.dart';
-
+import 'package:luckyfruit/config/app.dart' show Event_Name;
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:luckyfruit/config/app.dart' show Event_Name;
+import 'package:oktoast/oktoast.dart';
 
 class Modal {
   ToastFuture _future;
@@ -14,12 +13,16 @@ class Modal {
   static const int DismissDuration = 1000;
   final String okText;
   final Function onOk;
+
   // 返回值:是否启用onCancel的点击事件
   final Function onCancel;
+
   // final BuildContext context;
   final Widget footer;
+
   // 垂直填充
   final double verticalPadding;
+
   // 水平填充
   final double horizontalPadding;
   final double marginBottom;
@@ -41,7 +44,11 @@ class Modal {
       this.onOk,
       this.onCancel,
       this.children,
-      this.footer, this.btnColors,
+      this.footer,
+      this.btnColors = const <Color>[
+        Color.fromRGBO(49, 200, 84, 1),
+        Color.fromRGBO(36, 185, 71, 1)
+      ],
       this.childrenBuilder,
       this.width = 840,
       this.stack = const [],
