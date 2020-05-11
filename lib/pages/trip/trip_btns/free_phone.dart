@@ -802,13 +802,21 @@ class _Wishing extends StatelessWidget {
   }
 }
 
-class _Sign extends StatelessWidget {
+class _Sign extends StatefulWidget {
   final int sign_times;
   final int is_today_sign;
   _Sign({Key key, this.sign_times, this.is_today_sign}) : super(key: key);
+
+  @override
+  __SignState createState() => __SignState();
+}
+
+class __SignState extends State<_Sign> {
+  bool hasUse = false;
+
   @override
   Widget build(BuildContext context) {
-    bool disable = is_today_sign == 1;
+    bool disable = widget.is_today_sign == 1 || hasUse;
     return Container(
         width: ScreenUtil().setWidth(815),
         height: ScreenUtil().setWidth(854),
@@ -877,7 +885,7 @@ class _Sign extends StatelessWidget {
                           index < (drawInfo?.sign?.length ?? 0);
                           index++) {
                         wrap.add(_PhoneItem(
-                            disable: index < sign_times,
+                            disable: index < widget.sign_times,
                             index: index,
                             sign: drawInfo.sign[index]));
                       }
@@ -912,7 +920,7 @@ class _Sign extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            disable || sign_times < 3
+                            disable || widget.sign_times < 3
                                 ? Container()
                                 : Image.asset(
                                     'assets/image/ad_icon.png',
@@ -931,17 +939,19 @@ class _Sign extends StatelessWidget {
                           ],
                         ),
                       ),
-                      disable: is_today_sign == 1,
-                      useAd: sign_times > 2,
+                      disable: disable,
+                      useAd: widget.sign_times > 2,
                       onOk: () {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);
 
-                        Sign sign = luckyGroup.drawInfo.sign[sign_times];
+                        Sign sign = luckyGroup.drawInfo.sign[widget.sign_times];
                         MoneyGroup moneyGroup =
                             Provider.of<MoneyGroup>(context, listen: false);
                         moneyGroup.beginSign(sign.sign, sign.count);
-
+                        setState(() {
+                          hasUse = true;
+                        });
                         GetReward.showPhoneWindow(sign.count, () {});
                       },
                       fontSize: 36)
