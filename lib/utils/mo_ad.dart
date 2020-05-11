@@ -22,7 +22,11 @@ class MoAd {
   bool reachRewardPoint = false;
   int retryCount = 0;
   int retryDelayedTimeInSeconds = 60;
+  int loadingTimeInSeconds = 10;
   Map<String, String> videoLogParam = {};
+
+  // 是否自动弹出广告
+  bool autoPopupAds = false;
 
   MoAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
@@ -43,6 +47,8 @@ class MoAd {
     // 注册广告播放关闭通知
     channelBus.registerReceiver(Event_Name.mopub_reward_video_closed,
         (arg) => onRewardedVideoClosed(arg));
+
+    loadingTimeInSeconds = _luckyGroup?.issed?.ad_reset_time ?? 3;
   }
 
   static MoAd getInstance(BuildContext context) {
@@ -53,25 +59,31 @@ class MoAd {
   }
 
   void onRewardedVideoLoadSuccess(arg) {
-    print("onRewardAdsLoadSuccess: $arg");
+    print("onRewardAdsLoadSuccess: $arg, $autoPopupAds");
     retryCount = 0;
+//    Layer.loadingHide();
+    if (autoPopupAds) {
+      channelBus.callNativeMethod(Event_Name.mopub_show_reward_video,
+          arguments: <String, dynamic>{'adUnitIdFlag': arg});
+    }
   }
 
   void onRewardedVideoLoadFailure(arg) {
     retryCount++;
+    Layer.loadingHide();
     print("onRewardedVideoLoadFailure: $arg, retryCount:$retryCount");
     if (retryCount <= 3) {
-      loadRewardAds();
+      loadRewardAds(arg);
     } else {
       retryCount = 0;
 
       print("retryDelayedTimeInSeconds: ${_luckyGroup?.issed?.ad_reset_time}");
       // x时长后重新请求
-      Future.delayed(
-          Duration(
-              seconds: _luckyGroup?.issed?.ad_reset_time ??
-                  retryDelayedTimeInSeconds), () {
-        loadRewardAds();
+      num delay =
+          _luckyGroup?.issed?.ad_reset_time ?? retryDelayedTimeInSeconds;
+      Future.delayed(Duration(seconds: delay), () {
+        print("retry load ad after $delay delay...");
+        loadRewardAds(arg);
       });
     }
   }
@@ -108,7 +120,6 @@ class MoAd {
       }
     }
 
-    EVENT_BUS.emit(Event_Name.VIEW_AD_END);
     Service().videoAdsLog(videoLogParam);
   }
 
@@ -123,21 +134,24 @@ class MoAd {
       failCallback(arg);
     }
 
-    loadRewardAds();
+    EVENT_BUS.emit(Event_Name.VIEW_AD_END);
+    loadRewardAds(arg);
   }
 
   ///开始加载激励视频广告
-  void loadRewardAds() async {
-    print("loadRewardAds");
-    channelBus.callNativeMethod(Event_Name.mopub_load_reward_video);
+  void loadRewardAds(int adUnitIdFlag) async {
+    print("loadRewardAds_$adUnitIdFlag");
+    channelBus.callNativeMethod(Event_Name.mopub_load_reward_video,
+        arguments: <String, dynamic>{'adUnitIdFlag': adUnitIdFlag});
   }
 
-  isMopubRewardVideoReady() async {
-    return channelBus.callNativeMethod(Event_Name.mopub_is_reward_video_ready);
-  }
+//  isMopubRewardVideoReady() async {
+//    return channelBus.callNativeMethod(Event_Name.mopub_is_reward_video_ready);
+//  }
 
   ///开始展示激励视频广告
   void showRewardVideo(
+    int adUnitIdFlag,
     Function successCallback,
     Function(String) failCallback, {
     String ad_code,
@@ -155,10 +169,19 @@ class MoAd {
     this.successCallback = successCallback;
     this.failCallback = failCallback;
     this.ad_code = ad_code;
-    bool isReady =
-        await channelBus.callNativeMethod(Event_Name.mopub_show_reward_video);
+    bool isReady = await channelBus.callNativeMethod(
+        Event_Name.mopub_show_reward_video,
+        arguments: <String, dynamic>{'adUnitIdFlag': adUnitIdFlag});
     if (!isReady) {
-      Layer.toastWarning("Ad not ready yet");
+//      Layer.toastWarning("Ad not ready yet");
+      // 如果观看时发现广告还没有准备好，就弹出loading，并去请求广告
+      loadRewardAds(adUnitIdFlag);
+      Layer.loading('Wait A Second');
+      autoPopupAds = true;
+      await Future.delayed(Duration(seconds: loadingTimeInSeconds));
+      autoPopupAds = false;
+      print("close loading after delay");
+      Layer.loadingHide();
     }
   }
 

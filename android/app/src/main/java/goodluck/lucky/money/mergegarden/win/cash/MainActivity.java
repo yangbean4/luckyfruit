@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.applovin.sdk.AppLovinSdk;
@@ -52,7 +53,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     BasicMessageChannel basicMessageChannel;
     boolean isRewardVideoAdInitialized;
-    private String mAdUnitId = "071798bdd3194939ad25fd6f068448b5";
+    private String mAdUnitId1 = "071798bdd3194939ad25fd6f068448b5";
+    private String mAdUnitId2 = "5589f1cc81f543f19c895dc453aaa816";
     private String mTGAKey = "f2328f8dee2b4ed1970be74235b9a5cc";
     private MethodChannel methodChannel;
     private MethodChannel eventChannel;
@@ -156,23 +158,38 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 break;
                             }
                             case Config.MOPUB_LOAD_REWARD_VIDEO: {
-                                loadRewardAds();
+                                if (methodCall == null) {
+                                    return;
+                                }
+                                int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
+                                loadRewardAds(adUnitIdFlag == 2 ? mAdUnitId2 :
+                                        mAdUnitId1);
                                 result.success(true);
                                 break;
                             }
                             case Config.MOPUB_SHOW_REWARD_VIDEO: {
-                                boolean isReady = isRewardVideoAdReady();
-                                Log.i("tago", "onMethodCall_MOPUB_SHOW_REWARD_VIDEO " + isReady);
+                                if (methodCall == null) {
+                                    return;
+                                }
+                                int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
+                                String adUnitId = adUnitIdFlag == 2 ? mAdUnitId2 : mAdUnitId1;
+                                boolean isReady = isRewardVideoAdReady(adUnitId);
+                                Log.i("tago", "onMethodCall_MOPUB_SHOW_REWARD_VIDEO_" + adUnitId + "_" + isReady);
                                 result.success(isReady);
                                 if (isReady) {
-                                    showRewardAds();
+                                    showRewardAds(adUnitId);
                                 }
                                 break;
                             }
-                            case Config.MOPUB_IS_REWARD_VIDEO_READY: {
-                                result.success(isRewardVideoAdReady());
-                                break;
-                            }
+//                            case Config.MOPUB_IS_REWARD_VIDEO_READY: {
+//                                if (methodCall == null) {
+//                                    return;
+//                                }
+//                                int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
+//                                String adUnitId = adUnitIdFlag == 2 ? mAdUnitId2 : mAdUnitId1;
+//                                result.success(isRewardVideoAdReady(adUnitId));
+//                                break;
+//                            }
                             case Config.START_REPORT_APP_LIST: {
                                 if (methodCall == null) {
                                     return;
@@ -297,7 +314,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         if (isRewardVideoAdInitialized) {
             return;
         }
-        SdkConfiguration.Builder configBuilder = new SdkConfiguration.Builder(mAdUnitId);
+        SdkConfiguration.Builder configBuilder = new SdkConfiguration.Builder(mAdUnitId1);
         if (BuildConfig.DEBUG) {
             configBuilder.withLogLevel(DEBUG);
         } else {
@@ -309,29 +326,28 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         isRewardVideoAdInitialized = true;
     }
 
-    public void loadRewardAds() {
-        Log.i("tago", "loadRewardAds");
+    public void loadRewardAds(String adUnitId) {
+        Log.i("tago", "loadRewardAds_" + adUnitId);
 //        GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings settings = new GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings();
 //        settings.setTestDeviceId("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
 //        settings.setTestDeviceId("91734d90-38e6-4998-8900-2c693ffd11fd");
-        MoPubRewardedVideos.loadRewardedVideo(mAdUnitId,
-                new MoPubRewardedVideoManager.RequestParameters("", "", null, "sample_app_customer_id")
-//                settings
-        );
+        MoPubRewardedVideos.loadRewardedVideo(adUnitId,
+                new MoPubRewardedVideoManager.RequestParameters("",
+                        "", null, "sample_app_customer_id"));
     }
 
-    public boolean isRewardVideoAdReady() {
-        boolean isReady = MoPubRewardedVideos.hasRewardedVideo(mAdUnitId);
-        Log.i("tago", "isRewardVideoAdReady: " + isReady);
+    public boolean isRewardVideoAdReady(String adUnitId) {
+        boolean isReady = MoPubRewardedVideos.hasRewardedVideo(adUnitId);
+        Log.i("tago", "isRewardVideoAdReady: " + isReady + "_" + adUnitId);
         return isReady;
     }
 
-    public void showRewardAds() {
-        Log.i("tago", "showRewardAds");
-        boolean isReady = isRewardVideoAdReady();
+    public void showRewardAds(String adUnitId) {
+        Log.i("tago", "showRewardAds_" + adUnitId);
+        boolean isReady = isRewardVideoAdReady(adUnitId);
         Log.i("tago", "isRewardVideoAdReady: " + isReady);
         if (isReady) {
-            MoPubRewardedVideos.showRewardedVideo(mAdUnitId, "");
+            MoPubRewardedVideos.showRewardedVideo(adUnitId, "");
         }
     }
 
@@ -340,7 +356,10 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
             @Override
             public void onInitializationFinished() {
                 Log.i("tago", "onInitializationFinished");
-                loadRewardAds();
+                loadRewardAds(mAdUnitId1);
+                loadRewardAds(mAdUnitId2);
+                // ironsource的检查集成环境的方法
+//                IntegrationHelper.validateIntegration(MainActivity.this);
             }
         };
     }
@@ -351,7 +370,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_SUCCESS);
-        json.put("data", adUnitId);
+        json.put("data", TextUtils.equals(adUnitId, mAdUnitId1) ? 1 : 2);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
@@ -366,7 +385,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         Log.i("tago", "onRewardedVideoLoadFailure_" + adUnitId + "_error:" + errorCode);
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_LOAD_REWARD_VIDEO_FAILURE);
-        json.put("data", "param");
+        json.put("data", TextUtils.equals(adUnitId, mAdUnitId1) ? 1 : 2);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
@@ -399,12 +418,12 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoClicked(@NonNull String adUnitId) {
-        Log.i("tago", "onRewardedVideoClicked");
+        Log.i("tago", "onRewardedVideoClicked_" + adUnitId);
     }
 
     @Override
     public void onRewardedVideoClosed(@NonNull String adUnitId) {
-        Log.i("tago", "onRewardedVideoClosed");
+        Log.i("tago", "onRewardedVideoClosed_" + adUnitId);
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_CLOSED);
