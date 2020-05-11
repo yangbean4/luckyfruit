@@ -29,9 +29,8 @@ void main() {
   // debugProfileBuildsEnabled = true;
   // debugPrintRebuildDirtyWidgets = true;
   // debugProfilePaintsEnabled = true;
-  DynamicLink.initDynamicLinks();
-
   WidgetsFlutterBinding.ensureInitialized();
+  DynamicLink.initDynamicLinks();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 

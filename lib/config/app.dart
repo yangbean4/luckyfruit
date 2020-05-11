@@ -63,6 +63,8 @@ class AnimationConfig {
 }
 
 class App {
+  ///是否是release mode
+  static const bool ReleaseOrDebug = kReleaseMode;
   static String appVersion = "";
 
   // 存储金币的时间间隔 单位秒
@@ -78,7 +80,7 @@ class App {
   static const int BarrageTimer = 5 * 60;
 
   static const String AESKEY = '06BB48CFA768694D';
-  static const String BASE_URL = !kReleaseMode
+  static const String BASE_URL = true
       ? 'http://171.8.199.211:8109/public/index.php?r='
       : 'https://api-luckymerge.mklucky.com/public/index.php?r=';
   static const String METHOD_CHANNEL = "com.bean.flutterchannel/method";
