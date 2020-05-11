@@ -80,7 +80,7 @@ class App {
   static const int BarrageTimer = 5 * 60;
 
   static const String AESKEY = '06BB48CFA768694D';
-  static const String BASE_URL = true
+  static const String BASE_URL = !kReleaseMode
       ? 'http://171.8.199.211:8109/public/index.php?r='
       : 'https://api-luckymerge.mklucky.com/public/index.php?r=';
   static const String METHOD_CHANNEL = "com.bean.flutterchannel/method";
