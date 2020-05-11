@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Author:  bean^ <bean_4@163.com>
+ * @Date: 2020-05-11 10:43:13
+ * @LastEditors:  bean^ <bean_4@163.com>
+ * @LastEditTime: 2020-05-11 10:56:28
+ */
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/models/index.dart' show ShaerConfig;
@@ -7,28 +14,34 @@ import 'package:provider/provider.dart';
 
 class DynamicLink {
   static String userId;
-
-  static initDynamicLinks(String acct_id) async {
-    userId = acct_id;
+  static Uri link;
+  static initDynamicLinks({String acct_id}) async {
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
-    update(deepLink, acct_id);
+    update(deepLink: deepLink, acct_id: acct_id);
 
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
       final Uri deepLink = dynamicLink?.link;
-      update(deepLink, acct_id);
+      update(deepLink: deepLink, acct_id: acct_id);
     }, onError: (OnLinkErrorException e) async {
       print(e.message);
     });
   }
 
-  static update(Uri deepLink, String acct_id) {
-    if (deepLink != null) {
-      String url = deepLink.toString();
+  static setUserId(String acct_id) {
+    update(acct_id: acct_id);
+  }
+
+  static update({Uri deepLink, String acct_id}) {
+    link = link ?? deepLink;
+    userId = userId ?? acct_id;
+
+    if (link != null && userId != null) {
+      String url = link.toString();
       String code = url.split('code=')[1];
-      Service().inviteCode({'acct_id': acct_id, 'invite_code': code});
+      Service().inviteCode({'acct_id': userId, 'invite_code': code});
     }
   }
 

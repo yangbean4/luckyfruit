@@ -29,6 +29,8 @@ void main() {
   // debugProfileBuildsEnabled = true;
   // debugPrintRebuildDirtyWidgets = true;
   // debugProfilePaintsEnabled = true;
+  DynamicLink.initDynamicLinks();
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -85,7 +87,7 @@ class Initialize {
       // 初始化firebase_messaging
       FbMsg.init(userId);
       // 监听来源 :是否是DynamicLink
-      DynamicLink.initDynamicLinks(userId);
+      DynamicLink.setUserId(userId);
       print("initMain3");
       luckyGroup
           .init(userModel.value.last_draw_time, userModel.value?.version,

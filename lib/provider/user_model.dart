@@ -9,6 +9,7 @@ import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/utils/device_info.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -147,6 +148,8 @@ class UserModel with ChangeNotifier {
         .callNativeMethod(Event_Name.get_device_message_from_native);
 
     data.addAll(Map<String, dynamic>.from(deviceMsgMap));
+    data['is_share'] = DynamicLink.link == null ? 1 : 2;
+
     print("init_user_index ${data.toString()}");
     dynamic userMap = await Service().getUser(data);
     User user = User.fromJson(userMap);
