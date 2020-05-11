@@ -103,9 +103,9 @@ class TourismMap with ChangeNotifier {
   // 当前城市 cityInfo.name
   // String _city => cityInfo.code;
 
-  String get city => cityInfo.code;
+  String get city => cityInfo?.code;
 
-  String get _cityName => cityInfo.code.replaceAll(' ', '').toLowerCase();
+  String get _cityName => cityInfo?.code?.replaceAll(' ', '')?.toLowerCase();
 
   String get cityImgSrc => 'assets/city/$_cityName.png';
 

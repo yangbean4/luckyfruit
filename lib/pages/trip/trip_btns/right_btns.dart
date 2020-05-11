@@ -6,9 +6,7 @@ import 'package:luckyfruit/models/index.dart' show Issued;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
-import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -145,6 +143,7 @@ class _RightBtnsState extends State<RightBtns>
                                 (issed?.double_coin_remain_time ?? 10) * 1000),
                         child: AdButton(
                           ad_code: '201',
+                          adUnitIdFlag: 1,
                           onOk: () {
                             //success
                             luckyGroup.doubleStart();
@@ -207,6 +206,7 @@ class _RightBtnsState extends State<RightBtns>
                                 (issed?.automatic_remain_time ?? 10) * 1000),
                         child: AdButton(
                           ad_code: '202',
+                          adUnitIdFlag: 2,
                           onOk: () {
                             //success
                             luckyGroup.autoStart();

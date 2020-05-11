@@ -642,6 +642,7 @@ class __MapPrizeState extends State<_MapPrize> {
           onCancel: () => widget.modal.hide(),
           onOk: () => _goRun(),
           ad_code: '214',
+          adUnitIdFlag: 2,
         )
       ],
     );

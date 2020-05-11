@@ -47,6 +47,7 @@ class _TreasureState extends State<Treasure> {
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
                   child: AdButton(
                       ad_code: '205',
+                      adUnitIdFlag: 2,
                       btnText: 'Got it',
                       onCancel: () {
                         treeGroup.pickTreasure(false);

@@ -131,16 +131,20 @@ class _EarningWidgetState extends State<EarningWidget>
                                   runAction();
                                 }
                                 amount = result.item2;
-                                return Text(
-                                    widget.type ==
-                                            EarningWidgetType.Earning_Type_Bonus
-                                        ? '\$${Util.formatNumber(result.item1)}'
-                                        : "\$${Util.formatNumber(result.item2)}",
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontFamily: FontFamily.bold,
-                                        fontWeight: FontWeight.bold,
-                                        color: MyTheme.redColor));
+                                return Transform.scale(
+                                  scale: scaleAnimation.value,
+                                  child: Text(
+                                      widget.type ==
+                                              EarningWidgetType
+                                                  .Earning_Type_Bonus
+                                          ? '\$${Util.formatNumber(result.item1)}'
+                                          : "\$${Util.formatNumber(result.item2)}",
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(32),
+                                          fontFamily: FontFamily.bold,
+                                          fontWeight: FontWeight.bold,
+                                          color: MyTheme.redColor)),
+                                );
                               })
                         ],
                       )),

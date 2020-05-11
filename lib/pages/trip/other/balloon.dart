@@ -47,6 +47,7 @@ class _BalloonState extends State<Balloon> {
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
                   child: AdButton(
                       ad_code: '204',
+                      adUnitIdFlag: 1,
                       btnText: 'Free',
                       onCancel: modal.hide,
                       onOk: () {

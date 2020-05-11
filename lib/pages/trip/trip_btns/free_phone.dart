@@ -515,6 +515,7 @@ class __RewardState extends State<_Reward> {
                     )),
                 AdButton(
                     ad_code: '209',
+                    adUnitIdFlag: 2,
                     child: Container(
                       width: ScreenUtil().setWidth(274),
                       height: ScreenUtil().setWidth(90),
@@ -890,6 +891,7 @@ class _Sign extends StatelessWidget {
                   SizedBox(height: ScreenUtil().setWidth(20)),
                   AdButton(
                       ad_code: '210',
+                      adUnitIdFlag: 1,
                       child: Container(
                         width: ScreenUtil().setWidth(274),
                         height: ScreenUtil().setWidth(90),

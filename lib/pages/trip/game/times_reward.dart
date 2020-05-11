@@ -85,6 +85,7 @@ class TimesRewardWidget extends StatelessWidget {
               builder: (_, UserInfo userInfo, __) {
                 return AdButton(
                   ad_code: '213',
+                  adUnitIdFlag: 1,
                   btnText: 'Got it',
                   onCancel: () {
                     onCancel();

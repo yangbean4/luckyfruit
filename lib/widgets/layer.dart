@@ -578,6 +578,7 @@ class Layer {
                   builder: (_, UserInfo userInfo, __) {
                     return AdButton(
                       ad_code: '203',
+                      adUnitIdFlag: 1,
                       btnText: '5x Reward',
                       onCancel: modal.hide,
                       onOk: () {
@@ -1089,12 +1090,12 @@ class Layer {
     }
 
     /// 4. 本地请求到广告了
-    bool isReady = await MoAd.getInstance(context).isMopubRewardVideoReady();
-    if (!isReady) {
-      // 不满足条件，不弹出弹框，走正常流程
-      onCancel();
-      return;
-    }
+//    bool isReady = await MoAd.getInstance(context).isMopubRewardVideoReady();
+//    if (!isReady) {
+//      // 不满足条件，不弹出弹框，走正常流程
+//      onCancel();
+//      return;
+//    }
     Modal(
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Free Upgrade"),
@@ -1160,6 +1161,7 @@ class Layer {
                       builder: (_, UserInfo userInfo, __) {
                         return AdButton(
                           ad_code: '206',
+                          adUnitIdFlag: 1,
                           btnText: 'Upgrade',
                           onCancel: () {
                             print("取消了越级升级");
@@ -1206,6 +1208,7 @@ class Layer {
                       builder: (_, UserInfo userInfo, __) {
                         return AdButton(
                           btnText: 'Got it',
+                          adUnitIdFlag: 2,
                           ad_code: '207',
                           onCancel: () {
                             modal.hide();
@@ -1246,6 +1249,7 @@ class Layer {
                 child: Stack(overflow: Overflow.visible, children: [
                   AdButton(
                     ad_code: '208',
+                    adUnitIdFlag: 2,
                     btnText: '+${Util.formatNumber(glod * 2)}',
                     onCancel: () {
                       modal.hide();

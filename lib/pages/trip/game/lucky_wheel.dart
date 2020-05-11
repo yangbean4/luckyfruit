@@ -26,16 +26,22 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
       body: Center(
         child: Container(
           width: ScreenUtil().setWidth(900),
-          height: ScreenUtil().setWidth(1140),
+          height: ScreenUtil().setWidth(1240),
           decoration: BoxDecoration(
-            color: Colors.white,
+            gradient: LinearGradient(
+                begin: Alignment(0.0, -1.0),
+                end: Alignment(0.0, 1.0),
+                colors: <Color>[
+                  Color(0xffF1D34E),
+                  Color(0xffF59A22),
+                ]),
             borderRadius: BorderRadius.all(
               Radius.circular(ScreenUtil().setWidth(100)),
             ),
           ),
           child: Stack(overflow: Overflow.visible, children: [
             Positioned(
-                top: -ScreenUtil().setWidth(54),
+                top: -ScreenUtil().setWidth(80),
                 child: Container(
                     width: ScreenUtil().setWidth(900),
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -52,7 +58,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: Image.asset(
-                      'assets/image/close_icon_modal_top_right.png',
+                      'assets/image/close_icon_modal_bottom_center.png',
                       width: ScreenUtil().setWidth(40),
                       height: ScreenUtil().setWidth(40),
                     ),
@@ -195,25 +201,25 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Container(
-            width: ScreenUtil().setWidth(670),
-            height: ScreenUtil().setWidth(670),
-            // color: Colors.red,
-            child: Image.asset(
-              "assets/image/lucky_wheel_round_board.png",
-            ),
-          ),
+//          Container(
+//            width: ScreenUtil().setWidth(670),
+//            height: ScreenUtil().setWidth(670),
+////             color: Colors.red,
+////            child: Image.asset(
+////              "assets/image/lucky_wheel_round_board.png",
+////            ),
+//          ),
           RepaintBoundary(
             child: AnimatedBuilder(
                 animation: animation,
                 child: Container(
-                  width: ScreenUtil().setWidth(600),
-                  height: ScreenUtil().setWidth(600),
-                  // color: Colors.green,
+                  width: ScreenUtil().setWidth(770),
+                  height: ScreenUtil().setWidth(770),
+//                   color: Colors.green,
                   child: Image.asset(
                     "assets/image/lucky_wheel_gift_bg.png",
-                    width: ScreenUtil().setWidth(600),
-                    height: ScreenUtil().setWidth(600),
+                    width: ScreenUtil().setWidth(700),
+                    height: ScreenUtil().setWidth(700),
                   ),
                 ),
                 builder: (BuildContext context, Widget child) {
@@ -225,9 +231,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                 }),
           ),
           Container(
-              width: ScreenUtil().setWidth(270),
-              height: ScreenUtil().setWidth(270),
-              // color: Colors.blue,
+              width: ScreenUtil().setWidth(200),
+              height: ScreenUtil().setWidth(226),
+//               color: Colors.blue,
               child: Image.asset(
                 "assets/image/lucky_wheel_arrow.png",
               )),
@@ -239,7 +245,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           top: ScreenUtil().setWidth(20),
           // bottom: ScreenUtil().setWidth(30),
         ),
-        child: ModalTitle("TICKET x ${ticketCount < 0 ? 0 : ticketCount}"),
+        child: ModalTitle(
+          "TICKET x ${ticketCount < 0 ? 0 : ticketCount}",
+          color: Colors.white,
+        ),
       ),
       Container(
         // color: Colors.red,
@@ -250,7 +259,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           "After depleted，\nyou'll get 10 free tickets at 00:00",
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: Color(0xFF7C7C7C),
+//              color: Color(0xFF7C7C7C),
+              color: Colors.white,
               fontSize: ScreenUtil().setWidth(36),
               fontFamily: FontFamily.regular,
               fontWeight: FontWeight.w400),
@@ -264,6 +274,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             builder: (_, data, __) {
               return AdButton(
                   ad_code: ticketCount <= 0 ? '212' : '213',
+                  adUnitIdFlag: ticketCount <= 0 ? 2 : 1,
+                  colorsOnBtn: <Color>[
+                    Color(0xffF1D34E),
+                    Color(0xffF59A22),
+                  ],
                   btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
                   useAd: ticketCount <= 0,
                   disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
@@ -314,6 +329,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
                     handleStartSpin(data?.item3);
                   },
+                  tipsColor: Colors.white,
                   tips:
                       "Number of videos reset at 12am&12pm (${data?.item1?.ad_times ?? 0} times left)");
             },

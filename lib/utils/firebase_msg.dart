@@ -10,22 +10,22 @@ class FbMsg {
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
     firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          print("onMessage: $message");
+          print("FbMsg_onMessage: $message");
           _handelMsg(message);
         },
         onBackgroundMessage: _myBackgroundMessageHandler,
         onLaunch: (Map<String, dynamic> message) async {
-          print("onLaunch: $message");
+          print("FbMsg_onLaunch: $message");
           _handelMsg(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          print("onResume: $message");
+          print("FbMsg_onResume: $message");
           _handelMsg(message);
         });
     try {
       firebaseMessaging.getToken().then((token) {
         Service().updateUserInfo({'acct_id': accId, "push_token": token});
-        print(token); // Print the Token in Console
+        print("FbMsg_token_$token"); // Print the Token in Console
       });
     } catch (e) {
       print('firebaseMessaging----------------error $e');

@@ -13,6 +13,7 @@ class Bgm {
   static String puchase_tree = 'puchase_tree.mp3';
 
   static String claimmoney = 'claimmoney.mp3';
+  static String claimGold = 'claimgold.mp3';
   static String captainlevelup = 'captainlevelup.mp3';
   static String newleveluptree = 'newleveluptree.mp3';
 
@@ -27,6 +28,7 @@ class Bgm {
       Bgm.merge_tree,
       Bgm.puchase_tree,
       Bgm.claimmoney,
+      Bgm.claimGold,
       Bgm.captainlevelup,
       Bgm.newleveluptree
     ]);
@@ -96,6 +98,12 @@ class Bgm {
   static playMoney() {
     if (isPlay && _canPlay) {
       Bgm.player.play(Bgm.claimmoney);
+    }
+  }
+
+  static playClaimGold() {
+    if (isPlay && _canPlay) {
+      Bgm.player.play(Bgm.claimGold);
     }
   }
 

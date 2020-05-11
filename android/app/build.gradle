@@ -128,8 +128,8 @@ dependencies {
     implementation 'com.mopub.mediation:unityads:3.4.2.0'
 
     // AppLovin
-    implementation 'com.applovin:applovin-sdk:9.12.2'
-    implementation 'com.mopub.mediation:applovin:9.12.2.0'
+    implementation 'com.applovin:applovin-sdk:9.12.4'
+    implementation 'com.mopub.mediation:applovin:9.12.4.0'
 
     // Facebook 分析SDK
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
@@ -142,9 +142,9 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:1.1'
 
     // ironSource
-    implementation 'com.ironsource.sdk:mediationsdk:6.16.0'
-    implementation 'com.mopub.mediation:ironsource:6.16.0.0'
+    implementation 'com.ironsource.sdk:mediationsdk:6.16.1'
+    implementation 'com.mopub.mediation:ironsource:6.16.1.0'
 
     // 原生分享框
-    compile 'gdut.bsx:share2:0.9.3'
+    implementation 'gdut.bsx:share2:0.9.3'
 }

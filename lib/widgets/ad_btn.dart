@@ -9,8 +9,6 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:provider/provider.dart';
 
-import 'layer.dart';
-
 class AdButton extends StatefulWidget {
   // 是否使用广告
   final bool useAd;
@@ -28,6 +26,7 @@ class AdButton extends StatefulWidget {
 
   // 提示
   final String tips;
+  final Color tipsColor;
 
   // 取消按钮显示的时间
   final Duration interval;
@@ -42,14 +41,24 @@ class AdButton extends StatefulWidget {
   final Widget child;
   final num fontSize;
 
+  /// 取值为1和2，代表使用哪个mopub unit id请求广告，默认为1
+  final num adUnitIdFlag;
+
+  final List<Color> colorsOnBtn;
+
   AdButton(
       {Key key,
       this.useAd = true,
       this.btnText,
+      this.adUnitIdFlag = 1,
       this.cancelText = 'No,Thanks',
       this.onCancel,
-      this.tips =
-          'Number of videos reset at 12am&12pm ({{times}} times left)',
+      this.colorsOnBtn = const <Color>[
+        Color(0xFF42CE66),
+        Color(0xFF42CE66),
+      ],
+      this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
+      this.tipsColor,
       this.interval = const Duration(seconds: 3),
       this.onOk,
       this.width = 600,
@@ -156,17 +165,29 @@ class _AdButtonState extends State<AdButton> {
                     width: ScreenUtil().setWidth(widget.width),
                     height: ScreenUtil().setWidth(widget.height),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(
-                          ScreenUtil().setWidth(widget.width / 2),
-                        )),
-                        color: widget.disable ? MyTheme.darkGrayColor : null,
-                        image: widget.disable
-                            ? null
-                            : DecorationImage(
-                                alignment: Alignment.center,
-                                image: AssetImage('assets/image/ad_btn.png'),
-                                fit: BoxFit.cover,
-                              )),
+                      borderRadius: BorderRadius.all(Radius.circular(
+                        ScreenUtil().setWidth(widget.width / 2),
+                      )),
+                      color: widget.disable ? MyTheme.darkGrayColor : null,
+                      boxShadow: [
+                        //阴影
+                        BoxShadow(
+                            color: Colors.black54,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 4.0),
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: widget.colorsOnBtn),
+//                        image: widget.disable
+//                            ? null
+//                            : DecorationImage(
+//                                alignment: Alignment.center,
+//                                image: AssetImage('assets/image/ad_btn.png'),
+//                                fit: BoxFit.cover,
+//                              )
+                    ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +239,9 @@ class _AdButtonState extends State<AdButton> {
                                     .replaceAll('{{times}}', '$ad_times'),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: MyTheme.tipsColor,
+                                  color: widget.tipsColor == null
+                                      ? MyTheme.tipsColor
+                                      : widget.tipsColor,
                                   height: 1,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.regular,

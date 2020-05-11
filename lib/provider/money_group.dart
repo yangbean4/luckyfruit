@@ -293,6 +293,7 @@ class MoneyGroup with ChangeNotifier {
     _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
     if (showAnimate) {
       _showGoldAnimation = true;
+      Bgm.playClaimGold();
       notifyListeners();
     }
     EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
