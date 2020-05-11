@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class DynamicLink {
   static String userId;
   static Uri link;
+
   static initDynamicLinks({String acct_id}) async {
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
@@ -23,10 +24,11 @@ class DynamicLink {
 
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      print("dynamiclink_${dynamicLink.link}_$acct_id");
       final Uri deepLink = dynamicLink?.link;
       update(deepLink: deepLink, acct_id: acct_id);
     }, onError: (OnLinkErrorException e) async {
-      print(e.message);
+      print("dynamiclink_${e.message}");
     });
   }
 
