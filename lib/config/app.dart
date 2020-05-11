@@ -1,4 +1,5 @@
 // 放全局的事件句柄
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Event_Name {
@@ -77,9 +78,9 @@ class App {
   static const int BarrageTimer = 5 * 60;
 
   static const String AESKEY = '06BB48CFA768694D';
-  static const String BASE_URL =
-//      'http://171.8.199.211:8109/public/index.php?r=';
-      'https://api-luckymerge.mklucky.com/public/index.php?r=';
+  static const String BASE_URL = !kReleaseMode
+      ? 'http://171.8.199.211:8109/public/index.php?r='
+      : 'https://api-luckymerge.mklucky.com/public/index.php?r=';
   static const String METHOD_CHANNEL = "com.bean.flutterchannel/method";
   static const String EVENT_CHANNEL = "com.bean.flutterchannel/event";
 

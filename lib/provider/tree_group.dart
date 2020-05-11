@@ -688,10 +688,19 @@ class TreeGroup with ChangeNotifier {
       treeMergeAnimateEnd(animateTargetTree);
       removeAnimateTargetTree(animateSourceTree);
 
+      if (target.grade + 1 > hasMaxLevel) {
+        BurialReport.report('merge_level',
+            {'tree_level': (target.grade + 1).toString(), "type": "0"});
+      } else {
+        BurialReport.report('merge_level',
+            {'tree_level': (target.grade + 1).toString(), "type": "1"});
+      }
+
       // 解锁新等级
       if (target.grade + 1 > hasMaxLevel) {
         hasMaxLevel = target.grade + 1;
         Bgm.treenewlevelup();
+
         Layer.newGrade(new Tree(grade: hasMaxLevel),
             amount: globalDividendTree?.amount, onOk: () {
           // 到达6级的时候，解锁大转盘
@@ -729,9 +738,6 @@ class TreeGroup with ChangeNotifier {
     if (animateTargetTree != null && animateSourceTree != null) {
       Bgm.mergeTree();
       animateTargetTree.grade++;
-
-      BurialReport.report(
-          'merge_level', {'tree_level': animateTargetTree.grade.toString()});
 
       // 设置等级+1
       // 移除动画用到的树
@@ -782,6 +788,14 @@ class TreeGroup with ChangeNotifier {
           'currency': value?.amount.toString(),
           'tree_grade': hasMaxLevel.toString()
         });
+
+        if (hasMaxLevel == 3) {
+          BurialReport.report('currency_incr', {
+            'type': '9',
+            'currency': value?.amount.toString(),
+            'tree_grade': hasMaxLevel.toString()
+          });
+        }
 
         String res = await Storage.getItem(CACHE_IS_FIRST_TIMELIMT_START);
         if (res == null) {

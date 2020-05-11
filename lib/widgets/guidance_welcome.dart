@@ -30,6 +30,7 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   Interval transPeopleInterval;
   bool show = false;
   bool clickFlag = false;
+  bool reportFlag = true;
 
   @override
   void initState() {
@@ -95,8 +96,6 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   }
 
   showExplanationTips() async {
-    BurialReport.report('page_imp', {'page_code': '028'});
-
     flag = true;
     controller.duration = Duration(milliseconds: 500);
     scaleTextInterval = Interval(
@@ -156,6 +155,10 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     print(
         "build::: trans: show=$show, ${transPeopleAnimation?.value}, scale: ${scaleTextAnimation?.value}");
+    if (show && reportFlag) {
+      reportFlag = false;
+      BurialReport.report('page_imp', {'page_code': '028'});
+    }
     return show
         ? AnimatedBuilder(
             builder: (BuildContext context, Widget child) {

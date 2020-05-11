@@ -20,6 +20,7 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
   Animation<double> posImageAnimation;
   Animation<double> scaleSunShineAnimation;
   bool endOfAnimation = false;
+  bool reportFlag = true;
 
   @override
   void initState() {
@@ -104,7 +105,10 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
         builder: (_, bool show, __) {
           if (show) {
             _playAnimation();
-            BurialReport.report('page_imp', {'page_code': '033'});
+            if (reportFlag) {
+              reportFlag = false;
+              BurialReport.report('page_imp', {'page_code': '033'});
+            }
           }
           return show
               ? AnimatedBuilder(
