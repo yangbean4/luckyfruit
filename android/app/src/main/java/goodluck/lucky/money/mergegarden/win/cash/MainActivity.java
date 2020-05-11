@@ -64,6 +64,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SenUtils.installPrevention(this);
         GeneratedPluginRegistrant.registerWith(this);
         initTgaSDK();
         final AppLovinSdk sdk = AppLovinSdk.getInstance(this);

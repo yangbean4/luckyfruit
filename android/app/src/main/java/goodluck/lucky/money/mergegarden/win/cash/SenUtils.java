@@ -15,12 +15,16 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.io.File;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import goodluck.lucky.money.mergegarden.win.cash.prevention.Prevention;
+import goodluck.lucky.money.mergegarden.win.cash.prevention.PreventionExceptionHandler;
 
 
 /**
@@ -293,38 +297,30 @@ public class SenUtils {
         if (context == null || context.getApplicationContext() == null) {
             return;
         }
-        // TODO 先关闭，后面再打开
-//        Prevention.install(context.getApplicationContext(), new PreventionExceptionHandler() {
-//            @Override
-//            protected void onUncaughtExceptionHappened(Thread thread, Throwable throwable) {
-//                if (SenLogger.DEBUG) {
-//                    SenLogger.e(TAG, "onUncaughtExceptionHappened " + throwable);
-//                }
+        Log.i("tago", "installPrevention");
+        Prevention.install(context.getApplicationContext(), new PreventionExceptionHandler() {
+            @Override
+            protected void onUncaughtExceptionHappened(Thread thread, Throwable throwable) {
+                Log.i("tago", "onUncaughtExceptionHappened " + throwable);
 //                SenCrashHandler.instance(context.getApplicationContext()).saveHttpExceptions(throwable);
-//            }
-//
-//            @Override
-//            protected void onBandageExceptionHappened(Throwable throwable) {
-//                if (SenLogger.DEBUG) {
-//                    SenLogger.e(TAG, "onBandageExceptionHappened " + throwable);
-//                }
+            }
+
+            @Override
+            protected void onBandageExceptionHappened(Throwable throwable) {
+                Log.i("tago", "onBandageExceptionHappened " + throwable);
 //                SenCrashHandler.instance(context.getApplicationContext()).saveHttpExceptions(throwable);
-//            }
-//
-//            @Override
-//            protected void onEnterSafeMode() {
-//                if (SenLogger.DEBUG) {
-//                    SenLogger.e(TAG, "onEnterSafeMode");
-//                }
-//            }
-//
-//            @Override
-//            protected void onMayBeBlackScreen(Throwable e) {
-//                if (SenLogger.DEBUG) {
-//                    SenLogger.e(TAG, "onMayBeBlackScreen " + e);
-//                }
-//            }
-//        });
+            }
+
+            @Override
+            protected void onEnterSafeMode() {
+                Log.i("tago", "onEnterSafeMode");
+            }
+
+            @Override
+            protected void onMayBeBlackScreen(Throwable e) {
+                Log.i("tago", "onMayBeBlackScreen " + e);
+            }
+        });
     }
 
 }
