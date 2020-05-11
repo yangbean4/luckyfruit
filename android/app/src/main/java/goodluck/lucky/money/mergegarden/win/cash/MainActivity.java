@@ -401,7 +401,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_STARTED);
-        json.put("data", "params");
+        json.put("data", TextUtils.equals(adUnitId, mAdUnitId1) ? 1 : 2);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
@@ -427,7 +427,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_CLOSED);
-        json.put("data", "params");
+        json.put("data", TextUtils.equals(adUnitId, mAdUnitId1) ? 1 : 2);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
@@ -439,11 +439,11 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds, @NonNull MoPubReward reward) {
-        Log.i("tago", "onRewardedVideoCompleted");
-
+        Log.i("tago", "onRewardedVideoCompleted_" + adUnitIds.toString()
+                + ", contains(1)_" + adUnitIds.contains(mAdUnitId1));
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_COMPLETE);
-        json.put("data", "params");
+        json.put("data", adUnitIds.contains(mAdUnitId1) ? 1 : 2);
 
         basicMessageChannel.send(json, new BasicMessageChannel.Reply() {
             @Override
