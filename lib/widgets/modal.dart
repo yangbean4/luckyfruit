@@ -33,6 +33,7 @@ class Modal {
   final Color decorationColor;
   final closeType;
   final int dismissDurationInMilliseconds;
+  final List<Color> btnColors;
 
   Modal(
       {this.okText,
@@ -40,7 +41,7 @@ class Modal {
       this.onOk,
       this.onCancel,
       this.children,
-      this.footer,
+      this.footer, this.btnColors,
       this.childrenBuilder,
       this.width = 840,
       this.stack = const [],
@@ -211,6 +212,7 @@ class Modal {
       child: PrimaryButton(
           width: 600,
           height: 124,
+          colors: btnColors,
           child: Center(
               child: Text(
             text,

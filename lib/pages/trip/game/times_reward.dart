@@ -87,6 +87,11 @@ class TimesRewardWidget extends StatelessWidget {
                   ad_code: '213',
                   adUnitIdFlag: 1,
                   btnText: 'Got it',
+                  adIconPath: "assets/image/ad_icon_white.png",
+                  colorsOnBtn: <Color>[
+                    Color(0xffF1D34E),
+                    Color(0xffF59A22),
+                  ],
                   onCancel: () {
                     onCancel();
                   },

@@ -22,7 +22,6 @@ import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:luckyfruit/utils/share_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
@@ -1296,6 +1295,10 @@ class Layer {
   static showLuckWheelWinResultWindow(int winType, num coinNum) {
     Modal(
         okText: "Claim",
+        btnColors: <Color>[
+          Color(0xffF1D34E),
+          Color(0xffF59A22),
+        ],
         onOk: () {
           //将获取的金币增加到账户上
           EVENT_BUS.emit(MoneyGroup.ADD_GOLD, coinNum.toDouble());

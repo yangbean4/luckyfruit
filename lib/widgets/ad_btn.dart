@@ -45,6 +45,7 @@ class AdButton extends StatefulWidget {
   final num adUnitIdFlag;
 
   final List<Color> colorsOnBtn;
+  final String adIconPath;
 
   AdButton(
       {Key key,
@@ -57,6 +58,7 @@ class AdButton extends StatefulWidget {
         Color(0xFF42CE66),
         Color(0xFF42CE66),
       ],
+        this.adIconPath = "assets/image/ad_icon.png",
       this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
       this.tipsColor,
       this.interval = const Duration(seconds: 3),
@@ -198,7 +200,7 @@ class _AdButtonState extends State<AdButton> {
                                 padding: EdgeInsets.only(
                                     right: ScreenUtil().setWidth(33)),
                                 child: Image.asset(
-                                  'assets/image/ad_icon.png',
+                                  widget.adIconPath,
                                   width: ScreenUtil().setWidth(75),
                                   height: ScreenUtil().setWidth(75),
                                 ),

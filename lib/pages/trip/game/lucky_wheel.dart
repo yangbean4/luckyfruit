@@ -275,6 +275,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
               return AdButton(
                   ad_code: ticketCount <= 0 ? '212' : '213',
                   adUnitIdFlag: ticketCount <= 0 ? 2 : 1,
+                  adIconPath: "assets/image/ad_icon_white.png",
                   colorsOnBtn: <Color>[
                     Color(0xffF1D34E),
                     Color(0xffF59A22),
