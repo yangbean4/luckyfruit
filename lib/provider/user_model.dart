@@ -68,16 +68,18 @@ class UserModel with ChangeNotifier {
           fbID: _user.rela_account);
       notifyListeners();
       loadOther();
+      String res = await Storage.getItem(UserModel.m_currency_change);
+
       BurialReport.report('login', {
         'aid': info['os_type'] == 'android'
             ? info['gaid'] ?? info['aid']
             : info['idfa'],
         'userid': _user.acct_id,
         'app_version': info['app_version'],
-        'config_version': _user.version
+        'config_version': _user.version,
+        'type': (res == null ? 0 : 1).toString()
       });
 
-      String res = await Storage.getItem(UserModel.m_currency_change);
       if (_user.update_time != null && res != _user.update_time) {
         Storage.setItem(UserModel.m_currency_change, _user.update_time);
         BurialReport.report('m_currency_change',
