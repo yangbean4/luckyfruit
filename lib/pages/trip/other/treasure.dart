@@ -33,9 +33,7 @@ class _TreasureState extends State<Treasure> {
   String adCode = '205';
   Map<String, String> adLogParam = {};
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  report() {
     UserModel _userModel = Provider.of<UserModel>(context, listen: false);
     adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
     BurialReport.report('ad_rewarded',
@@ -81,8 +79,13 @@ class _TreasureState extends State<Treasure> {
     return Selector<TreeGroup, Tree>(
         builder: (context, Tree tree, child) {
           if (tree == null) {
+            adLogParam = null;
+
             return Container();
           } else {
+            if (adLogParam == null) {
+              report();
+            }
             // 将宝盒的坐标转成
             PositionLT positionLT = PositionLT(x: tree.x, y: tree.y);
             return _TreasureAnimation(

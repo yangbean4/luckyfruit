@@ -28,15 +28,6 @@ class _BalloonState extends State<Balloon> {
   String adCode = '204';
   Map<String, String> adLogParam = {};
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    UserModel _userModel = Provider.of<UserModel>(context, listen: false);
-    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
-    BurialReport.report('ad_rewarded',
-        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
-  }
-
   _showModal(num balloon_time) {
     MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
     num getGlod = moneyGroup.makeGoldSped * balloon_time;
@@ -75,6 +66,13 @@ class _BalloonState extends State<Balloon> {
             ]).show();
   }
 
+  report() {
+    UserModel _userModel = Provider.of<UserModel>(context, listen: false);
+    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
+    BurialReport.report('ad_rewarded',
+        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
+  }
+
   @override
   Widget build(BuildContext context) {
     num width = 1080 / 4;
@@ -85,6 +83,14 @@ class _BalloonState extends State<Balloon> {
           Issued issed = data.item1;
 
           final bool show = data.item2;
+
+          if (show) {
+            if (adLogParam == null) {
+              report();
+            }
+          } else {
+            adLogParam = null;
+          }
 
           return show
               ? AlightingAnimation(

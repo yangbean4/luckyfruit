@@ -105,7 +105,7 @@ class _AdButtonState extends State<AdButton> {
 
     adLogParam =
         widget.adLogParam ?? Util.getVideoLogParams(_userModel?.value?.acct_id);
-    if (widget.adLogParam != null && widget.useAd) {
+    if (widget.adLogParam == null && widget.useAd) {
       BurialReport.report('ad_rewarded', {
         'type': '0',
         'ad_code': widget.ad_code,

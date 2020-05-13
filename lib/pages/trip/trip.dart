@@ -385,7 +385,15 @@ class _TripState extends State<Trip>
                                                       ))
                                                 ],
                                               )),
-                                          FriendsFestEntranceWidget(),
+                                          Selector<UserModel, bool>(
+                                              selector: (context, provider) =>
+                                                  provider.value.is_m != 0,
+                                              builder: (_, bool show, __) {
+                                                return show
+                                                    ? FriendsFestEntranceWidget()
+                                                    : Container();
+                                              }),
+
                                           // 今日分红树收益提示
                                           // Selector<UserModel, bool>(
                                           //   selector: (context, provider) =>

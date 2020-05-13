@@ -86,13 +86,13 @@ class _TripBtnsState extends State<TripBtns> {
                       child: showLock && !show
                           ? Stack(overflow: Overflow.visible, children: [
                               Positioned(
-                                  left: ScreenUtil().setWidth(-78),
-                                  top: ScreenUtil().setWidth(-78),
+                                  left: ScreenUtil().setWidth(-82),
+                                  top: ScreenUtil().setWidth(-82),
                                   // child: Center(
                                   child: Lottie.asset(
                                     'assets/lottiefiles/lucky_wheel/data.json',
-                                    width: ScreenUtil().setWidth(300),
-                                    height: ScreenUtil().setWidth(300),
+                                    width: ScreenUtil().setWidth(306),
+                                    height: ScreenUtil().setWidth(306),
                                   ))
                             ])
                           : Image.asset(
@@ -145,8 +145,8 @@ class _TripBtnsState extends State<TripBtns> {
                                   ),
                                   Image.asset(
                                     "assets/image/lucky_wheel_lock.png",
-                                    width: ScreenUtil().setWidth(32),
-                                    height: ScreenUtil().setWidth(40),
+                                    width: ScreenUtil().setWidth(36),
+                                    height: ScreenUtil().setWidth(45),
                                   )
                                 ],
                               )
