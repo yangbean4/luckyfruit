@@ -475,6 +475,10 @@ class Layer {
         onCancel: () {},
         onOk: () {},
         horizontalPadding: 100,
+        btnColors: [
+          Color.fromRGBO(242, 212, 80, 1),
+          Color.fromRGBO(245, 154, 34, 1),
+        ],
         okText: 'Ok',
         children: <Widget>[
           Container(

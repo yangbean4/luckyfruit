@@ -1030,11 +1030,19 @@ class __SignState extends State<_Sign> {
                         Sign sign = luckyGroup.drawInfo.sign[widget.sign_times];
                         MoneyGroup moneyGroup =
                             Provider.of<MoneyGroup>(context, listen: false);
+
+                        if (sign.module != '1') {
+                          TreeGroup treeGroup =
+                              Provider.of<TreeGroup>(context, listen: false);
+
+                          if (treeGroup.isFull) {
+                            return Layer.locationFull();
+                          }
+                        }
                         moneyGroup.beginSign(sign.sign, sign.count);
                         setState(() {
                           hasUse = true;
                         });
-                        GetReward.showPhoneWindow(sign.count, () {});
                       },
                       fontSize: 36)
                 ]),

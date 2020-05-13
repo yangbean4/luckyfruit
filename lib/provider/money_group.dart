@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
+import 'package:luckyfruit/models/invite_award.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -230,9 +232,26 @@ class MoneyGroup with ChangeNotifier {
 
   // 用户签到
   beginSign(String reward_id, String number) async {
-    await Service().beginSign(
+    Map<String, dynamic> res = await Service().beginSign(
         {'acct_id': acct_id, "reward_id": reward_id, "count": number});
     await updateUserInfo();
+    if (res == null) {
+      GetReward.showPhoneWindow(number, () {});
+    } else {
+      Invite_award invite_award = Invite_award.fromJson(res);
+      GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
+        treeGroup.addTree(
+            tree: Tree(
+          grade: Tree.MAX_LEVEL,
+          type: TreeType.Type_TimeLimited_Bonus,
+          duration: invite_award.duration,
+          amount: invite_award.amount,
+          showCountDown: true,
+          treeId: invite_award.tree_id,
+          timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
+        ));
+      });
+    }
   }
 
 // 更新userInfo
