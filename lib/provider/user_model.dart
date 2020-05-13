@@ -189,6 +189,8 @@ class UserModel with ChangeNotifier {
         // 登录成功
         hasLoginedFB = true;
         loginSuccess = true;
+        BurialReport.reportAdjust(
+            BurialReport.Adjust_Event_Token_Completed_Registration);
         break;
 
       case FacebookLoginStatus.cancelledByUser:

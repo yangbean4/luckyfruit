@@ -33,6 +33,7 @@ class TreeGroup with ChangeNotifier {
   MoneyGroup _moneyGroup;
   LuckyGroup _luckyGroup;
   UserModel _userModel;
+
   TreeGroup();
 
   // 存储数据用句柄
@@ -700,6 +701,16 @@ class TreeGroup with ChangeNotifier {
       if (target.grade + 1 > hasMaxLevel) {
         hasMaxLevel = target.grade + 1;
         Bgm.treenewlevelup();
+
+        if (hasMaxLevel == 3) {
+          BurialReport.reportAdjust(
+              BurialReport.Adjust_Event_Token_Completed_Tutorial);
+        }
+
+        if (hasMaxLevel == 6) {
+          BurialReport.reportAdjust(
+              BurialReport.Adjust_Event_Token_Achieved_Level_6);
+        }
 
         Layer.newGrade(new Tree(grade: hasMaxLevel),
             amount: globalDividendTree?.amount, onOk: () {

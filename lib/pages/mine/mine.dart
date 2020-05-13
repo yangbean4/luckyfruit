@@ -168,6 +168,9 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                                   MyNavigator().pushNamed(
                                       context, "WithDrawPage",
                                       arguments: Util.formatNumber(amount));
+
+                                  BurialReport.reportAdjust(
+                                      BurialReport.Adjust_Event_Token_My_Wallet);
                                 },
                                 rightText: '\$${Util.formatNumber(amount)}',
                                 // onTap: () =>

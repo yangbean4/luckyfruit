@@ -96,6 +96,10 @@ class MoAd {
       'ad_code': ad_code,
       "union_id": videoLogParam['union_id']
     });
+
+    BurialReport.reportAdjust(
+        BurialReport.Adjust_Event_Token_Ads_Imp);
+
     // 关闭声效
     EVENT_BUS.emit(Event_Name.VIEW_AD);
   }
@@ -110,6 +114,9 @@ class MoAd {
       'ad_code': ad_code,
       "union_id": videoLogParam['union_id']
     });
+
+    BurialReport.reportAdjust(
+        BurialReport.Adjust_Event_Token_Ads_Bouns);
 
     // 观看广告次数减一
     if (_userModel?.userInfo?.ad_times != null) {

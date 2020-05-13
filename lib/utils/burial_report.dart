@@ -1,11 +1,37 @@
 import 'dart:convert';
 
-import './index.dart';
-import './event_bus.dart';
+import 'package:adjust_sdk/adjust.dart';
+import 'package:adjust_sdk/adjust_event.dart';
 import 'package:luckyfruit/config/app.dart' show Event_Name;
+
+import './event_bus.dart';
 import './method_channel.dart';
 
 class BurialReport {
+  /// 完成fb登陆
+  static const String Adjust_Event_Token_Completed_Registration = "amn2y7";
+
+  /// 完成新手引导,即解锁3级树木
+  static const String Adjust_Event_Token_Completed_Tutorial = "ux4oig";
+
+  /// 解锁6级树木
+  static const String Adjust_Event_Token_Achieved_Level_6 = "c6ivye";
+
+  /// 用户点击invite
+  static const String Adjust_Event_Token_Invite = "2pmatk";
+
+  /// 用户点击mine→my wallet
+  static const String Adjust_Event_Token_My_Wallet = "yvpwzv";
+
+  /// 广告入口展示成功上报，每展示成功1次，上报1次
+  static const String Adjust_Event_Token_Ads_Entr_Imp = "mh11kd";
+
+  /// 用户观看视频次数，每观看1次广告，上报1次(此处的观看1次为广告展示成功)
+  static const String Adjust_Event_Token_Ads_Imp = "teckq0";
+
+  /// 用户达到奖励节点次数，该用户达到奖励节点，上报1次
+  static const String Adjust_Event_Token_Ads_Bouns = "4k8nqh";
+
   static String userId;
   static String sessionid;
   static String subSessionid;
@@ -61,5 +87,11 @@ class BurialReport {
     };
     res.addAll(data);
     return res;
+  }
+
+  static reportAdjust(String token) {
+    print("reportAdjust_$token");
+    AdjustEvent adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
   }
 }

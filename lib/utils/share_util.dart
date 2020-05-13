@@ -123,6 +123,9 @@ class ShareUtil {
     String url =
         await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
     Share.share('$quote $url');
+
+    BurialReport.reportAdjust(
+        BurialReport.Adjust_Event_Token_Invite);
   }
 }
 
