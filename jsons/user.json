@@ -24,5 +24,7 @@
   "today_profit_update_time": "1587545749",
   "profit_update_time": "1587545749",
   "access_token": "",
-  "device_id": ""
+  "device_id": "",
+  "invite_friend": [],
+  "residue_7days_time": []
 }

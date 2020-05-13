@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/provider/money_group.dart';
@@ -14,6 +15,7 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/EarningWidget.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
 import './game/game.dart';
@@ -382,6 +384,75 @@ class _TripState extends State<Trip>
                                                       ))
                                                 ],
                                               )),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Layer
+                                                  .showSevenDaysInviteEventWindow(
+                                                      context);
+                                            },
+                                            child: Container(
+                                              width: ScreenUtil().setWidth(270),
+                                              height:
+                                                  ScreenUtil().setWidth(230),
+                                              color: Colors.transparent,
+                                              child: Stack(
+                                                overflow: Overflow.visible,
+                                                children: <Widget>[
+                                                  Positioned(
+                                                    bottom: ScreenUtil()
+                                                        .setWidth(20),
+                                                    left: ScreenUtil()
+                                                        .setWidth(10),
+                                                    child: Container(
+                                                        width: ScreenUtil()
+                                                            .setWidth(250),
+                                                        height: ScreenUtil()
+                                                            .setWidth(80),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          gradient:
+                                                              LinearGradient(
+                                                                  begin:
+                                                                      Alignment(
+                                                                          0.0,
+                                                                          -1.0),
+                                                                  end:
+                                                                      Alignment(
+                                                                          0.0,
+                                                                          1.0),
+                                                                  colors: <
+                                                                      Color>[
+                                                                Color(
+                                                                    0xffFFF1C6),
+                                                                Color(
+                                                                    0xffFFC200),
+                                                              ]),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                ScreenUtil()
+                                                                    .setWidth(
+                                                                        100)),
+                                                          ),
+                                                        )),
+                                                  ),
+                                                  Container(
+//                                                  color: Colors.green,
+                                                    child: Transform.scale(
+                                                      scale: 1.3,
+                                                      child: Lottie.asset(
+                                                        'assets/lottiefiles/img_sweep_share.json',
+                                                        width: ScreenUtil()
+                                                            .setWidth(270),
+                                                        height: ScreenUtil()
+                                                            .setWidth(170),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                           // 今日分红树收益提示
                                           Selector<UserModel, bool>(
                                             selector: (context, provider) =>

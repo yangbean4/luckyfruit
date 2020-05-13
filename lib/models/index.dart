@@ -14,6 +14,7 @@ export 'cityInfo.dart' ;
 export 'drawInfo.dart' ; 
 export 'Issued.dart' ; 
 export 'userInfo.dart' ; 
+export 'invite_award.dart' ; 
 export 'rank_bonus_trees.dart' ; 
 export 'partnerProfitList.dart' ; 
 export 'unlockNewTreeLevel.dart' ; 

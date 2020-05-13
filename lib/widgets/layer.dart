@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -30,6 +32,7 @@ import 'package:provider/provider.dart';
 
 import './ad_btn.dart';
 import './modal.dart';
+import 'friends_fest_reward_widget.dart';
 
 /// 公共函数库
 class Layer {
@@ -1376,6 +1379,252 @@ class Layer {
                 height: ScreenUtil().setWidth(140),
               ),
               SizedBox(height: ScreenUtil().setWidth(80))
+            ])
+      ..show();
+  }
+
+  /// 7天邀请活动
+  static void showSevenDaysInviteEventWindow(BuildContext context) {
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    List<dynamic> friends = userModel.value.invite_friend ?? [];
+    dynamic inviteFriendsNum = 0;
+    if (friends != null && friends.length > 0) {
+      inviteFriendsNum = friends[0] ?? 0;
+    }
+
+    List rewardedList = [];
+    if (friends != null && friends.length > 1) {
+      rewardedList = friends[1];
+    }
+
+    List<dynamic> timerList = userModel.value.residue_7days_time;
+    dynamic timerStr = "-- --";
+    if (timerList != null && timerList.length > 1) {
+      timerStr = "${timerList[0] ?? 0}d ${timerList[1] ?? 0}h";
+    }
+
+    FriendsFestStatusType first = FriendsFestStatusType.Status_Disable;
+    FriendsFestStatusType second = FriendsFestStatusType.Status_Disable;
+    FriendsFestStatusType third = FriendsFestStatusType.Status_Disable;
+
+    if (rewardedList.contains(1)) {
+      first = FriendsFestStatusType.Status_Rewarded;
+    } else if (inviteFriendsNum >= 1) {
+      first = FriendsFestStatusType.Status_Enable;
+    }
+
+    if (rewardedList.contains(3)) {
+      second = FriendsFestStatusType.Status_Rewarded;
+    } else if (inviteFriendsNum >= 3) {
+      second = FriendsFestStatusType.Status_Enable;
+    }
+
+    if (rewardedList.contains(5)) {
+      third = FriendsFestStatusType.Status_Rewarded;
+    } else if (inviteFriendsNum >= 5) {
+      third = FriendsFestStatusType.Status_Enable;
+    }
+
+    num progrssValue = min(inviteFriendsNum / 5.0, 1.0);
+    Modal(
+        onCancel: () {},
+        width: 900,
+        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
+        verticalPadding: 0,
+        horizontalPadding: 0,
+        childrenBuilder: (modal) => <Widget>[
+              Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Container(
+                    height: ScreenUtil().setWidth(174),
+                    width: ScreenUtil().setWidth(900),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(ScreenUtil().setWidth(100)),
+                        topRight: Radius.circular(ScreenUtil().setWidth(100)),
+                      ),
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: <Color>[
+                            Color(0xFFf59f26),
+                            Color(0xFFf2d54f),
+                          ]),
+                    ),
+                    child: Center(
+                      child: ModalTitle(
+                        'Friends Fest',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: -ScreenUtil().setWidth(360),
+                    child: Image.asset(
+                      'assets/image/friends_fest_header_cover.png',
+                      height: ScreenUtil().setWidth(576),
+                      width: ScreenUtil().setWidth(900),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(80),
+              ),
+              Text(
+                "Get rewarded for EVERY invite accepted!",
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.bold,
+                    fontSize: ScreenUtil().setSp(42),
+                    fontWeight: FontWeight.bold),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                alignment: Alignment.center,
+                child: Container(
+                  width: ScreenUtil().setWidth(280),
+                  height: ScreenUtil().setWidth(55),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/image/friends_fest_timer_bg.png',
+                      ),
+                      Align(
+                        alignment: Alignment(0.2, 0.3),
+                        child: Text(
+                          timerStr,
+                          style: TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontFamily: FontFamily.semibold,
+                              fontSize: ScreenUtil().setSp(34),
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Stack(
+                alignment: AlignmentDirectional.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: ScreenUtil().setWidth(800),
+                    height: ScreenUtil().setWidth(55),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        valueColor: AlwaysStoppedAnimation(Color(0xFFFF961A)),
+                        value: progrssValue,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      FriendsFestRewardWidget(
+                          FriendsFestProgressType.Progress_One, first),
+                      FriendsFestRewardWidget(
+                          FriendsFestProgressType.Progress_Three, second),
+                      FriendsFestRewardWidget(
+                          FriendsFestProgressType.Progress_Five, third),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(75),
+              ),
+              Container(
+                width: ScreenUtil().setWidth(244),
+                height: ScreenUtil().setWidth(80),
+                decoration: BoxDecoration(
+                  color: Color(0xFF3EA1FE),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setWidth(40))),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/image/friends_fest_people_couple.png',
+                      width: ScreenUtil().setWidth(68),
+                      height: ScreenUtil().setWidth(60),
+                    ),
+                    Text(
+                      "$inviteFriendsNum/5",
+                      style: TextStyle(
+                          color: Colors.white,
+                          height: 1,
+                          fontFamily: FontFamily.bold,
+                          fontSize: ScreenUtil().setSp(46),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(60),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "More Partner,More Cash",
+                      style: TextStyle(
+                          color: Color(0xffB4B4B4),
+                          height: 1,
+                          fontFamily: FontFamily.semibold,
+                          fontSize: ScreenUtil().setSp(40),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(20),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                        child: ImageIcon(
+                          AssetImage("assets/image/friends_fest_help.png"),
+                          size: ScreenUtil().setWidth(60),
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(40),
+              ),
+              PrimaryButton(
+                  width: 600,
+                  height: 124,
+                  colors: const <Color>[
+                    Color.fromRGBO(49, 200, 84, 1),
+                    Color.fromRGBO(36, 185, 71, 1)
+                  ],
+                  child: Center(
+                      child: Text(
+                    "Invite",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      height: 1,
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(56),
+                    ),
+                  ))),
+              SizedBox(
+                height: ScreenUtil().setWidth(60),
+              ),
             ])
       ..show();
   }

@@ -31,6 +31,8 @@ class User {
     String profit_update_time;
     String access_token;
     String device_id;
+    List invite_friend;
+    List residue_7days_time;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);

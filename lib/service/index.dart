@@ -285,6 +285,14 @@ class Service {
     return response.data;
   }
 
+  // 完成邀请好友领取对应奖励
+  Future<Map<String, dynamic>> inviteAward(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/User/inviteAward', data: data);
+    return response.data;
+  }
+
   Map<String, String> getBaseMap() {
     Map<String, dynamic> info = DeviceIofo.getInfoSync();
     print(
