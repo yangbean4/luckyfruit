@@ -55,6 +55,7 @@ class Layer {
   static partnerCash(BuildContext context) {
     AnimationController _controller;
     AnimationController _controller2;
+    BurialReport.report('page_imp', {'page_code': '036'});
 
     Modal(
         verticalPadding: 0,
@@ -131,15 +132,15 @@ class Layer {
                               //       ),
                               //     )),
                               Positioned(
-                                  right: ScreenUtil().setWidth(-20),
-                                  top: ScreenUtil().setWidth(-24),
+                                  right: ScreenUtil().setWidth(-90),
+                                  top: ScreenUtil().setWidth(-395),
                                   child: Container(
-                                    width: ScreenUtil().setWidth(948),
-                                    height: ScreenUtil().setWidth(1034),
+                                    width: ScreenUtil().setWidth(1080),
+                                    height: ScreenUtil().setWidth(1920),
                                     child: Lottie.asset(
                                       'assets/lottiefiles/data.json',
-                                      width: ScreenUtil().setWidth(928),
-                                      height: ScreenUtil().setWidth(1014),
+                                      width: ScreenUtil().setWidth(1080),
+                                      height: ScreenUtil().setWidth(1920),
                                       // controller: _controller2,
                                       // onLoaded: (composition) {
                                       //   _controller2.duration =
@@ -169,6 +170,9 @@ class Layer {
                           GestureDetector(
                             onTap: () {
                               modal.hide();
+                              BurialReport.report(
+                                  'invite_entr', {'entr_code': '008'});
+
                               ShareUtil.share(context);
                             },
                             child: PrimaryButton(
@@ -192,23 +196,23 @@ class Layer {
                       ),
                     ),
                     Positioned(
-                        top: ScreenUtil().setWidth(-61),
-                        left: ScreenUtil().setWidth(55),
+                        top: ScreenUtil().setWidth(-161),
+                        left: ScreenUtil().setWidth(85),
                         child: Container(
-                          width: ScreenUtil().setWidth(966),
-                          height: ScreenUtil().setWidth(200),
+                          width: ScreenUtil().setWidth(952),
+                          height: ScreenUtil().setWidth(288),
                           child: Center(
-                              child: ModalTitle(
-                            'Partner cash gift package',
-                            fontsize: 60,
-                            color: MyTheme.blackColor,
+                              child: Image.asset(
+                            'assets/image/invite_bvar.png',
+                            width: ScreenUtil().setWidth(952),
+                            height: ScreenUtil().setWidth(288),
                           )),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                  image: AssetImage(
-                                      'assets/image/invite_bvar.png'))),
+                          // decoration: BoxDecoration(
+                          //     image: DecorationImage(
+                          //         alignment: Alignment.center,
+                          //         fit: BoxFit.contain,
+                          //         image: AssetImage(
+                          //             'assets/image/invite_bvar.png'))),
                         )),
                   ],
                 ),
@@ -1385,6 +1389,8 @@ class Layer {
 
   /// 7天邀请活动
   static void showSevenDaysInviteEventWindow(BuildContext context) {
+    BurialReport.report('page_imp', {'page_code': '035'});
+
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     List<dynamic> friends = userModel.value.invite_friend ?? [];
     dynamic inviteFriendsNum = 0;
@@ -1588,7 +1594,10 @@ class Layer {
                       width: ScreenUtil().setWidth(20),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        modal.hide();
+                        partnerCash(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 1.0),
                         child: ImageIcon(
@@ -1604,24 +1613,32 @@ class Layer {
               SizedBox(
                 height: ScreenUtil().setWidth(40),
               ),
-              PrimaryButton(
-                  width: 600,
-                  height: 124,
-                  colors: const <Color>[
-                    Color.fromRGBO(49, 200, 84, 1),
-                    Color.fromRGBO(36, 185, 71, 1)
-                  ],
-                  child: Center(
-                      child: Text(
-                    "Invite",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      height: 1,
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(56),
-                    ),
-                  ))),
+              GestureDetector(
+                onTap: () {
+                  modal.hide();
+                  BurialReport.report('invite_entr', {'entr_code': '007'});
+
+                  ShareUtil.share(context);
+                },
+                child: PrimaryButton(
+                    width: 600,
+                    height: 124,
+                    colors: const <Color>[
+                      Color.fromRGBO(49, 200, 84, 1),
+                      Color.fromRGBO(36, 185, 71, 1)
+                    ],
+                    child: Center(
+                        child: Text(
+                      "Invite",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        height: 1,
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(56),
+                      ),
+                    ))),
+              ),
               SizedBox(
                 height: ScreenUtil().setWidth(60),
               ),
@@ -1697,6 +1714,10 @@ class GetReward {
     Modal(
         okText: 'Claim',
         onOk: onOk,
+        btnColors: [
+          Color.fromRGBO(242, 212, 80, 1),
+          Color.fromRGBO(245, 154, 34, 1),
+        ],
         dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
               Container(
@@ -1739,6 +1760,10 @@ class GetReward {
     Modal(
         okText: 'Claim',
         onOk: onOk,
+        btnColors: [
+          Color.fromRGBO(242, 212, 80, 1),
+          Color.fromRGBO(245, 154, 34, 1),
+        ],
         childrenBuilder: (modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(70),
@@ -1778,6 +1803,10 @@ class GetReward {
     Modal(
         okText: 'Claim',
         onOk: onOk,
+        btnColors: [
+          Color.fromRGBO(242, 212, 80, 1),
+          Color.fromRGBO(245, 154, 34, 1),
+        ],
         childrenBuilder: (modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(70),

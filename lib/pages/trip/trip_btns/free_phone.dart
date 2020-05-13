@@ -244,6 +244,10 @@ class _Phone extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Modal(
+                              btnColors: [
+                                Color.fromRGBO(242, 212, 80, 1),
+                                Color.fromRGBO(245, 154, 34, 1),
+                              ],
                               horizontalPadding: 100,
                               // onCancel: () {},
                               onOk: () {},

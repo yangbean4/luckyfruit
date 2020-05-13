@@ -124,19 +124,19 @@ class _AdButtonState extends State<AdButton> {
                 'ad_code': widget.ad_code,
                 "union_id": adLogParam['union_id']
               });
-              widget?.onOk();
+              // widget?.onOk();
 
-              // MoAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
-              //     () {
-              //   //success
-              //   widget?.onOk();
-              // }, (error) {
-              //   //failed
-              //   print("$error");
-              //   if (widget?.onCancel != null) {
-              //     widget?.onCancel();
-              //   }
-              // }, ad_code: widget.ad_code, adLogParam: adLogParam);
+              MoAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
+                  () {
+                //success
+                widget?.onOk();
+              }, (error) {
+                //failed
+                print("$error");
+                if (widget?.onCancel != null) {
+                  widget?.onCancel();
+                }
+              }, ad_code: widget.ad_code, adLogParam: adLogParam);
 
 //              MoAd.getInstance(context).viewAd(context).then((res) {
 //                if (res) {
