@@ -78,16 +78,16 @@ class FreePhone extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                           // color: Color.fromRGBO(193, 245, 204, 1),
-                          color: Colors.white),
+                          color: Color.fromRGBO(242, 234, 208, 1)),
                       child: _Group(),
                     ),
                     Positioned(
-                      left: ScreenUtil().setWidth(0),
-                      top: ScreenUtil().setWidth(1),
+                      left: ScreenUtil().setWidth(-12),
+                      top: ScreenUtil().setWidth(-18),
                       child: Image.asset(
                         'assets/image/phone_bvar.png',
-                        width: ScreenUtil().setWidth(939),
-                        height: ScreenUtil().setWidth(193),
+                        width: ScreenUtil().setWidth(943),
+                        height: ScreenUtil().setWidth(200),
                       ),
                     )
                   ]))
@@ -142,12 +142,10 @@ class _Phone extends StatelessWidget {
             width: ScreenUtil().setWidth(214.2),
             height: ScreenUtil().setWidth(252),
             decoration: BoxDecoration(
-              image: DecorationImage(
-                alignment: Alignment.center,
-                fit: BoxFit.contain,
-                image: AssetImage('assets/image/phone_bg.png'),
-              ),
-            ),
+                color: Color.fromRGBO(244, 176, 51, 1),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(ScreenUtil().setWidth(30)),
+                )),
             child: Center(
               child: Image.asset(
                 'assets/image/phone11.png',
@@ -180,8 +178,10 @@ class _Phone extends StatelessWidget {
                     width: ScreenUtil().setWidth(503),
                     height: ScreenUtil().setWidth(26),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(66, 96, 73, 1),
-                    ),
+                        color: Color.fromRGBO(69, 55, 46, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(ScreenUtil().setWidth(30)),
+                        )),
                     child: Stack(children: <Widget>[
                       Container(
                         width: ScreenUtil().setWidth(503 * (piecesx / 100)),
@@ -192,8 +192,8 @@ class _Phone extends StatelessWidget {
                               begin: Alignment(0.0, -1.0),
                               end: Alignment(0.0, 1.0),
                               colors: [
-                                Color.fromRGBO(254, 250, 94, 1),
-                                Color.fromRGBO(244, 199, 82, 1),
+                                Color.fromRGBO(254, 233, 94, 1),
+                                Color.fromRGBO(244, 148, 82, 1),
                               ]),
                         ),
                       ),
@@ -202,7 +202,7 @@ class _Phone extends StatelessWidget {
                         '$piecesx/100',
                         style: TextStyle(
                             fontFamily: FontFamily.bold,
-                            color: Color.fromRGBO(248, 108, 51, 1),
+                            color: Colors.white,
                             fontSize: ScreenUtil().setSp(26),
                             height: 1,
                             fontWeight: FontWeight.bold),
@@ -269,7 +269,7 @@ class _Phone extends StatelessWidget {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontFamily: FontFamily.semibold,
-                                color: Color.fromRGBO(66, 96, 73, 1),
+                                color: Color.fromRGBO(95, 77, 66, 1),
                                 height: 1,
                                 fontSize: ScreenUtil().setSp(32),
                                 fontWeight: FontWeight.bold)),
@@ -448,17 +448,26 @@ class __RewardState extends State<_Reward> {
             decoration: BoxDecoration(
                 // color: Color.fromRGBO(52, 200, 130, 1),
                 gradient: LinearGradient(
-                    begin: Alignment(-1.0, 1.0),
-                    end: Alignment(1.0, -1.0),
+                    begin: Alignment(0, -1.0),
+                    end: Alignment(0, 1.0),
                     colors: [
-                      Color.fromRGBO(52, 200, 130, 1),
-                      Color.fromRGBO(39, 177, 112, 1),
+                      Color.fromRGBO(245, 159, 38, 1),
+                      Color.fromRGBO(242, 213, 79, 1),
                     ]),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    spreadRadius: 0.0,
+                    blurRadius: ScreenUtil().setWidth(4),
+                    offset: Offset(
+                        ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
+                    color: Color.fromRGBO(169, 156, 119, 1),
+                  ),
+                ],
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                     topRight: Radius.circular(ScreenUtil().setWidth(50)))),
             child: Center(
-                child: Text('3 lucky draw chances per day',
+                child: Text('3 lucky Draw Chances Per Day',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: FontFamily.black,
@@ -476,14 +485,22 @@ class __RewardState extends State<_Reward> {
               ScreenUtil().setWidth(30),
             ),
             decoration: BoxDecoration(
-              color: Color.fromRGBO(192, 228, 200, 1),
+              color: Color.fromRGBO(252, 250, 232, 1),
             ),
             child: Column(
               children: <Widget>[
                 Container(
                     height: ScreenUtil().setWidth(689),
                     width: ScreenUtil().setWidth(694),
-                    color: Color.fromRGBO(65, 167, 92, 1),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: [
+                            Color.fromRGBO(255, 116, 47, 1),
+                            Color.fromRGBO(255, 172, 54, 1),
+                          ]),
+                    ),
                     margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
                     padding: EdgeInsets.only(top: ScreenUtil().setWidth(22)),
                     child: Selector<LuckyGroup, DrawInfo>(
@@ -520,17 +537,27 @@ class __RewardState extends State<_Reward> {
                       width: ScreenUtil().setWidth(274),
                       height: ScreenUtil().setWidth(90),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                            ScreenUtil().setWidth(45),
-                          )),
-                          color: disable ? MyTheme.darkGrayColor : null,
-                          image: disable
-                              ? null
-                              : DecorationImage(
-                                  alignment: Alignment.center,
-                                  image: AssetImage('assets/image/ad_btn.png'),
-                                  fit: BoxFit.cover,
-                                )),
+                        gradient: disable
+                            ? null
+                            : LinearGradient(
+                                begin: Alignment(0.0, -1.0),
+                                end: Alignment(0.0, 1.0),
+                                colors: [
+                                    Color.fromRGBO(242, 212, 80, 1),
+                                    Color.fromRGBO(245, 154, 34, 1),
+                                  ]),
+                        borderRadius: BorderRadius.all(Radius.circular(
+                          ScreenUtil().setWidth(45),
+                        )),
+                        color: disable ? MyTheme.darkGrayColor : null,
+                        // image: disable
+                        //     ? null
+                        //     : DecorationImage(
+                        //         alignment: Alignment.center,
+                        //         image: AssetImage('assets/image/ad_btn.png'),
+                        //         fit: BoxFit.cover,
+                        //       ),
+                      ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -538,7 +565,7 @@ class __RewardState extends State<_Reward> {
                           disable
                               ? Container()
                               : Image.asset(
-                                  'assets/image/ad_icon.png',
+                                  'assets/image/free_phone_ad_icon.png',
                                   width: ScreenUtil().setWidth(72),
                                   height: ScreenUtil().setWidth(72),
                                 ),
@@ -674,71 +701,95 @@ class _Wishing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(816),
-      height: ScreenUtil().setWidth(348),
+      height: ScreenUtil().setWidth(312),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(232, 252, 242, 1),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(ScreenUtil().setWidth(50)),
-              topRight: Radius.circular(ScreenUtil().setWidth(50)))),
+        color: Color.fromRGBO(255, 250, 232, 1),
+      ),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            // Container(
+            //   width: ScreenUtil().setWidth(816),
+            //   height: ScreenUtil().setWidth(106),
+            //   decoration: BoxDecoration(
+            //       // color: Color.fromRGBO(52, 200, 130, 1),
+            //       gradient: LinearGradient(
+            //           begin: Alignment(-1.0, 1.0),
+            //           end: Alignment(1.0, -1.0),
+            //           colors: [
+            //             Color.fromRGBO(52, 200, 130, 1),
+            //             Color.fromRGBO(39, 177, 112, 1),
+            //           ]),
+            //       borderRadius: BorderRadius.only(
+            //           topLeft: Radius.circular(ScreenUtil().setWidth(50)),
+            //           topRight: Radius.circular(ScreenUtil().setWidth(50)))),
+            //   child: Center(
+            //       child: Text('My Wishing Tree Pieces',
+            //           textAlign: TextAlign.center,
+            //           style: TextStyle(
+            //               fontFamily: FontFamily.black,
+            //               color: Colors.white,
+            //               fontSize: ScreenUtil().setSp(42),
+            //               fontWeight: FontWeight.bold))),
+            // ),
             Container(
               width: ScreenUtil().setWidth(816),
-              height: ScreenUtil().setWidth(106),
-              decoration: BoxDecoration(
-                  // color: Color.fromRGBO(52, 200, 130, 1),
-                  gradient: LinearGradient(
-                      begin: Alignment(-1.0, 1.0),
-                      end: Alignment(1.0, -1.0),
-                      colors: [
-                        Color.fromRGBO(52, 200, 130, 1),
-                        Color.fromRGBO(39, 177, 112, 1),
-                      ]),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(ScreenUtil().setWidth(50)),
-                      topRight: Radius.circular(ScreenUtil().setWidth(50)))),
-              child: Center(
-                  child: Text('My Wishing Tree Pieces',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: FontFamily.black,
-                          color: Colors.white,
-                          fontSize: ScreenUtil().setSp(42),
-                          fontWeight: FontWeight.bold))),
-            ),
-            Container(
-              width: ScreenUtil().setWidth(756),
-              height: ScreenUtil().setWidth(191),
-              margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
+              height: ScreenUtil().setWidth(312),
+              // width: ScreenUtil().setWidth(756),
+              // height: ScreenUtil().setWidth(191),
+              // margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
               // padding: EdgeInsets.symmetric(
               //   horizontal: ScreenUtil().setWidth(30),
               //   vertical: ScreenUtil().setWidth(8),
               // ),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(165, 206, 174, 1),
-              ),
+              // decoration: BoxDecoration(
+              //   color: Color.fromRGBO(165, 206, 174, 1),
+              // ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(
-                    'assets/tree/wishing.png',
-                    width: ScreenUtil().setWidth(176),
-                    height: ScreenUtil().setWidth(176),
+                  Container(
+                    width: ScreenUtil().setWidth(208),
+                    height: ScreenUtil().setWidth(252),
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(244, 176, 51, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(ScreenUtil().setWidth(30)),
+                        )),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/tree/wishing.png',
+                        width: ScreenUtil().setWidth(180),
+                        height: ScreenUtil().setWidth(180),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: ScreenUtil().setWidth(27),
                   ),
                   Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        Text('My Wishing Tree Pieces',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: FontFamily.black,
+                                color: MyTheme.blackColor,
+                                fontSize: ScreenUtil().setSp(42),
+                                fontWeight: FontWeight.w500)),
+                        SizedBox(height: ScreenUtil().setWidth(43)),
                         Container(
                             width: ScreenUtil().setWidth(533),
                             height: ScreenUtil().setWidth(26),
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(66, 96, 73, 1),
-                            ),
+                                color: Color.fromRGBO(69, 55, 46, 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(ScreenUtil().setWidth(30)),
+                                )),
                             child: Stack(children: <Widget>[
                               Container(
                                 width: ScreenUtil()
@@ -750,8 +801,8 @@ class _Wishing extends StatelessWidget {
                                       begin: Alignment(0.0, -1.0),
                                       end: Alignment(0.0, 1.0),
                                       colors: [
-                                        Color.fromRGBO(254, 250, 94, 1),
-                                        Color.fromRGBO(244, 199, 82, 1),
+                                        Color.fromRGBO(254, 233, 94, 1),
+                                        Color.fromRGBO(244, 148, 82, 1),
                                       ]),
                                 ),
                               ),
@@ -760,13 +811,13 @@ class _Wishing extends StatelessWidget {
                                 '$wishTreeNum/100',
                                 style: TextStyle(
                                     fontFamily: FontFamily.bold,
-                                    color: Color.fromRGBO(248, 108, 51, 1),
+                                    color: Colors.white,
                                     fontSize: ScreenUtil().setSp(26),
                                     height: 1,
                                     fontWeight: FontWeight.bold),
                               )),
                             ])),
-                        SizedBox(height: ScreenUtil().setWidth(20)),
+                        SizedBox(height: ScreenUtil().setWidth(50)),
                         GestureDetector(
                             onTap: () {
                               _redeemTree(context);
@@ -776,8 +827,17 @@ class _Wishing extends StatelessWidget {
                               height: ScreenUtil().setWidth(66),
                               decoration: BoxDecoration(
                                 color: wishTreeNum >= 100
-                                    ? MyTheme.primaryColor
+                                    ? null
                                     : MyTheme.darkGrayColor,
+                                gradient: wishTreeNum >= 100
+                                    ? LinearGradient(
+                                        begin: Alignment(0.0, -1.0),
+                                        end: Alignment(0.0, 1.0),
+                                        colors: [
+                                            Color.fromRGBO(242, 212, 80, 1),
+                                            Color.fromRGBO(245, 154, 34, 1),
+                                          ])
+                                    : null,
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(ScreenUtil().setWidth(33))),
                               ),
@@ -786,7 +846,9 @@ class _Wishing extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontFamily: FontFamily.bold,
-                                          color: MyTheme.tipsColor,
+                                          color: wishTreeNum >= 100
+                                              ? Colors.white
+                                              : MyTheme.tipsColor,
                                           height: 1,
                                           fontSize: ScreenUtil().setSp(36),
                                           fontWeight: FontWeight.bold))),
@@ -826,9 +888,6 @@ class __SignState extends State<_Sign> {
           ScreenUtil().setWidth(24),
           ScreenUtil().setWidth(30),
         ),
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(192, 228, 200, 1),
-        ),
         child: Container(
           width: ScreenUtil().setWidth(767),
           height: ScreenUtil().setWidth(791),
@@ -842,12 +901,21 @@ class __SignState extends State<_Sign> {
                 decoration: BoxDecoration(
                     // color: Color.fromRGBO(52, 200, 130, 1),
                     gradient: LinearGradient(
-                        begin: Alignment(-1.0, 1.0),
-                        end: Alignment(1.0, -1.0),
+                        begin: Alignment(0, -1.0),
+                        end: Alignment(0, 1.0),
                         colors: [
-                          Color.fromRGBO(52, 200, 130, 1),
-                          Color.fromRGBO(39, 177, 112, 1),
+                          Color.fromRGBO(245, 159, 38, 1),
+                          Color.fromRGBO(242, 213, 79, 1),
                         ]),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        spreadRadius: 0.0,
+                        blurRadius: ScreenUtil().setWidth(4),
+                        offset: Offset(
+                            ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
+                        color: Color.fromRGBO(169, 156, 119, 1),
+                      ),
+                    ],
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                         topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -867,7 +935,7 @@ class __SignState extends State<_Sign> {
                     top: ScreenUtil().setWidth(27),
                     bottom: ScreenUtil().setWidth(30)),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(232, 252, 242, 1),
+                  color: Color.fromRGBO(252, 250, 232, 1),
                   // gradient: LinearGradient(
                   //     begin: Alignment(0.0, -1.0),
                   //     end: Alignment(0.0, 1.0),
@@ -904,26 +972,36 @@ class __SignState extends State<_Sign> {
                         width: ScreenUtil().setWidth(274),
                         height: ScreenUtil().setWidth(90),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(
-                              ScreenUtil().setWidth(45),
-                            )),
-                            color: disable ? MyTheme.darkGrayColor : null,
-                            image: disable
-                                ? null
-                                : DecorationImage(
-                                    alignment: Alignment.center,
-                                    image:
-                                        AssetImage('assets/image/ad_btn.png'),
-                                    fit: BoxFit.cover,
-                                  )),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                            ScreenUtil().setWidth(45),
+                          )),
+                          gradient: disable
+                              ? null
+                              : LinearGradient(
+                                  begin: Alignment(0.0, -1.0),
+                                  end: Alignment(0.0, 1.0),
+                                  colors: [
+                                      Color.fromRGBO(242, 212, 80, 1),
+                                      Color.fromRGBO(245, 154, 34, 1),
+                                    ]),
+                          color: disable ? MyTheme.darkGrayColor : null,
+                          // image: disable
+                          //     ? null
+                          //     : DecorationImage(
+                          //         alignment: Alignment.center,
+                          //         image:
+                          //             AssetImage('assets/image/ad_btn.png'),
+                          //         fit: BoxFit.cover,
+                          //       )
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            disable || widget.sign_times < 3
+                            disable || widget.sign_times < 2
                                 ? Container()
                                 : Image.asset(
-                                    'assets/image/ad_icon.png',
+                                    'assets/image/free_phone_ad_icon.png',
                                     width: ScreenUtil().setWidth(72),
                                     height: ScreenUtil().setWidth(72),
                                   ),
@@ -940,7 +1018,7 @@ class __SignState extends State<_Sign> {
                         ),
                       ),
                       disable: disable,
-                      useAd: widget.sign_times > 2,
+                      useAd: widget.sign_times > 1,
                       onOk: () {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);
@@ -994,7 +1072,13 @@ class _PhoneItem extends StatelessWidget {
                 width: ScreenUtil().setWidth(162),
                 height: ScreenUtil().setWidth(50),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(52, 200, 108, 1),
+                    gradient: LinearGradient(
+                        begin: Alignment(0, -1.0),
+                        end: Alignment(0, 1.0),
+                        colors: [
+                          Color.fromRGBO(232, 87, 25, 1),
+                          Color.fromRGBO(250, 130, 49, 1),
+                        ]),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(ScreenUtil().setWidth(20)),
                       topRight: Radius.circular(ScreenUtil().setWidth(20)),
@@ -1016,7 +1100,7 @@ class _PhoneItem extends StatelessWidget {
                 width: ScreenUtil().setWidth(82),
                 height: ScreenUtil().setWidth(10),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(208, 242, 213, 1),
+                  color: Color.fromRGBO(242, 234, 208, 1),
                   borderRadius: BorderRadius.all(Radius.elliptical(
                       ScreenUtil().setWidth(41), ScreenUtil().setWidth(5))),
                 ),

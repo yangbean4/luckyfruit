@@ -29,80 +29,81 @@ class _RightBtnsState extends State<RightBtns>
   // 下发的配置
   // Issued issed;
 
-  renderItem(
-    Widget icon, {
+  renderItem({
+    String type,
     Widget top,
     Widget bottom,
     String topString,
     String bottomString,
     Color color,
-    bool active,
+    bool active = true,
   }) {
     return Container(
-      width: ScreenUtil().setWidth(288),
-      height: ScreenUtil().setWidth(112),
+      width: ScreenUtil().setWidth(345),
+      height: ScreenUtil().setWidth(146),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 0, 0, 0.6),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(ScreenUtil().setWidth(56)),
-              topLeft: Radius.circular(ScreenUtil().setWidth(56)))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+          image: DecorationImage(
+              image: AssetImage('assets/image/right_btn_$type.png'),
+              alignment: Alignment.center,
+              fit: BoxFit.fill)),
+      child: Stack(
         children: <Widget>[
-          Container(
-            width: ScreenUtil().setWidth(100),
-            height: ScreenUtil().setWidth(100),
-            child: icon,
-          ),
-          Container(
-            width: ScreenUtil().setWidth(166),
-            height: ScreenUtil().setWidth(90),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: color != null
-                  ? BorderRadius.all(Radius.circular(ScreenUtil().setWidth(10)))
-                  : null,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                top == null
-                    ? Text(
-                        topString,
-                        style: TextStyle(
-                            color: MyTheme.redColor,
-                            fontFamily: FontFamily.bold,
-                            fontSize: ScreenUtil().setWidth(32),
-                            fontWeight: FontWeight.bold),
-                      )
-                    : top,
-                bottom == null
-                    ? Text(
-                        bottomString,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: FontFamily.semibold,
-                            fontSize: ScreenUtil().setWidth(30),
-                            fontWeight: FontWeight.w500),
-                      )
-                    : bottom,
-              ],
-            ),
-          )
+          Positioned(
+              right: ScreenUtil().setWidth(24),
+              bottom: ScreenUtil().setWidth(14),
+              child: Container(
+                width: ScreenUtil().setWidth(187),
+                height: ScreenUtil().setWidth(76),
+                alignment: Alignment(0.5, 0),
+                decoration: active
+                    ? BoxDecoration()
+                    : BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage('assets/image/right_btn_play.png'),
+                            alignment: Alignment.center,
+                            fit: BoxFit.fill)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    top == null
+                        ? Text(
+                            topString,
+                            style: TextStyle(
+                                height: 1,
+                                color: Color.fromRGBO(255, 242, 94, 1),
+                                fontFamily: FontFamily.bold,
+                                fontSize: ScreenUtil().setWidth(28),
+                                fontWeight: FontWeight.bold),
+                          )
+                        : top,
+                    bottom == null
+                        ? Text(
+                            bottomString,
+                            style: TextStyle(
+                                height: 1,
+                                color: Colors.white,
+                                fontFamily: FontFamily.semibold,
+                                fontSize: ScreenUtil().setWidth(28),
+                                fontWeight: FontWeight.w500),
+                          )
+                        : bottom,
+                  ],
+                ),
+              )),
         ],
       ),
     );
   }
 
-  runderBottomString(String bottomString, bool active) {
+  runderBottomString(String bottomString) {
     return Text(
       bottomString,
       style: TextStyle(
           color: Colors.white,
           fontFamily: FontFamily.semibold,
-          fontSize: ScreenUtil().setWidth(30),
+          fontSize: ScreenUtil().setWidth(28),
           fontWeight: FontWeight.w500),
     );
   }
@@ -131,8 +132,8 @@ class _RightBtnsState extends State<RightBtns>
         int autoTime = data.item7;
 
         return Container(
-            width: ScreenUtil().setWidth(313),
-            height: ScreenUtil().setWidth(262),
+            width: ScreenUtil().setWidth(345),
+            height: ScreenUtil().setWidth(320),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -149,16 +150,7 @@ class _RightBtnsState extends State<RightBtns>
                             luckyGroup.doubleStart();
                           },
                           child: renderItem(
-                              Container(
-                                width: ScreenUtil().setWidth(73),
-                                height: ScreenUtil().setWidth(74),
-                                alignment: Alignment(0.3, 0),
-                                child: Image.asset(
-                                  'assets/image/right_gold.png',
-                                  width: ScreenUtil().setWidth(73),
-                                  height: ScreenUtil().setWidth(74),
-                                ),
-                              ),
+                              type: 'double',
                               active: false,
                               bottomString: 'in ${issed?.double_coin_time}s',
                               topString: 'Earn X${issed?.reward_multiple}',
@@ -168,36 +160,12 @@ class _RightBtnsState extends State<RightBtns>
                     : Container(),
                 isDouble
                     ? renderItem(
-                        Container(
-                          width: ScreenUtil().setWidth(73),
-                          height: ScreenUtil().setWidth(74),
-                          alignment: Alignment(0.3, 0),
-                          child: Image.asset(
-                            'assets/image/right_gold.png',
-                            width: ScreenUtil().setWidth(73),
-                            height: ScreenUtil().setWidth(74),
-                          ),
-                        ),
+                        type: 'double',
                         topString: 'Earn X${issed?.reward_multiple}',
                         bottom: runderBottomString(
-                            Util.formatCountDownTimer(
-                                Duration(seconds: doubleTime)),
-                            true)
-                        // bottom: CountdownFormatted(
-                        //   duration: Duration(seconds: issed?.double_coin_time),
-                        //   onFinish: () {
-                        //     luckyGroup.doubleEnd();
-                        //     setState(() {
-                        //       isDouble = false;
-                        //     });
-                        //   },
-                        //   builder: (ctx, time) {
-                        //     // issed?.double_coin_time = time?.inSeconds;
-                        //     return runderBottomString(
-                        //         Util.formatCountDownTimer(time), true);
-                        //   },
-                        // ),
-                        )
+                          Util.formatCountDownTimer(
+                              Duration(seconds: doubleTime)),
+                        ))
                     : Container(),
                 showAuto
                     ? _ShakeAnimation(
@@ -215,16 +183,7 @@ class _RightBtnsState extends State<RightBtns>
                             });
                           },
                           child: renderItem(
-                              Container(
-                                width: ScreenUtil().setWidth(89),
-                                height: ScreenUtil().setWidth(89),
-                                alignment: Alignment(0.3, 0),
-                                child: Image.asset(
-                                  'assets/image/right_loop.png',
-                                  width: ScreenUtil().setWidth(89),
-                                  height: ScreenUtil().setWidth(89),
-                                ),
-                              ),
+                              type: 'auto',
                               active: false,
                               bottomString: 'in ${issed?.automatic_time}s',
                               topString: 'Auto',
@@ -233,36 +192,12 @@ class _RightBtnsState extends State<RightBtns>
                     : Container(),
                 isAuto
                     ? renderItem(
-                        Container(
-                          width: ScreenUtil().setWidth(89),
-                          height: ScreenUtil().setWidth(89),
-                          alignment: Alignment(0.3, 0),
-                          child: Image.asset(
-                            'assets/image/right_loop.png',
-                            width: ScreenUtil().setWidth(89),
-                            height: ScreenUtil().setWidth(89),
-                          ),
-                        ),
+                        type: 'auto',
                         topString: 'Auto Merge',
                         bottom: runderBottomString(
-                            Util.formatCountDownTimer(
-                                Duration(seconds: autoTime)),
-                            true)
-                        // bottom: CountdownFormatted(
-                        //   duration: Duration(seconds: issed?.automatic_time),
-                        //   onFinish: () {
-                        //     luckyGroup.autoEnd();
-                        //     setState(() {
-                        //       isAuto = false;
-                        //     });
-                        //   },
-                        //   builder: (ctx, time) {
-                        //     // issed?.automatic_game_timelen = time?.inSeconds;
-                        //     return runderBottomString(
-                        //         Util.formatCountDownTimer(time), true);
-                        //   },
-                        // ),
-                        )
+                          Util.formatCountDownTimer(
+                              Duration(seconds: autoTime)),
+                        ))
                     : Container(),
               ],
             ));

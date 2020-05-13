@@ -71,6 +71,7 @@ class _EarningWidgetState extends State<EarningWidget>
 
   @override
   Widget build(BuildContext context) {
+    bool isTree = widget.type == EarningWidgetType.Earning_Type_Bonus;
     return AnimatedBuilder(
         animation: scaleAnimation,
         builder: (BuildContext context, Widget child) {
@@ -85,104 +86,40 @@ class _EarningWidgetState extends State<EarningWidget>
               }
             },
             child: Container(
-              width: ScreenUtil().setWidth(378),
-              height: ScreenUtil().setWidth(80),
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(15),
-              ),
+              width: ScreenUtil().setWidth(isTree ? 300 : 320),
+              height: ScreenUtil().setWidth(isTree ? 92 : 80),
+              alignment: Alignment(isTree ? 0.1 : -0.1, 0.4),
+              margin:
+                  EdgeInsets.only(top: ScreenUtil().setWidth(isTree ? 0 : 10)),
               decoration: BoxDecoration(
-//            color: Colors.red,
                   image: DecorationImage(
-                alignment: Alignment.center,
-                image: AssetImage('assets/image/dividend.png'),
-                fit: BoxFit.fill,
-              )),
-              child: Stack(
-                overflow: Overflow.visible,
-                alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: ScreenUtil().setWidth(40),
-                      ),
-                      Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(title,
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(24),
-                                  fontFamily: FontFamily.bold,
-                                  fontWeight: FontWeight.bold,
-                                  color: MyTheme.blackColor)),
-                          Selector<MoneyGroup, Tuple2<num, num>>(
-                              selector: (context, provider) => Tuple2(
-                                  provider
-                                      ?.treeGroup?.globalDividendTree?.amount,
-                                  provider?.money),
-                              builder: (context, Tuple2 result, child) {
-                                if (amount != result.item2 &&
-                                    widget.type ==
-                                        EarningWidgetType.Earning_Type_CASH) {
-                                  runAction();
-                                }
-                                amount = result.item2;
-                                return Transform.scale(
-                                  scale: scaleAnimation.value,
-                                  child: Text(
-                                      widget.type ==
-                                              EarningWidgetType
-                                                  .Earning_Type_Bonus
-                                          ? '\$${Util.formatNumber(result.item1)}'
-                                          : "\$${Util.formatNumber(result.item2)}",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(32),
-                                          fontFamily: FontFamily.bold,
-                                          fontWeight: FontWeight.bold,
-                                          color: MyTheme.redColor)),
-                                );
-                              })
-                        ],
-                      )),
-                      Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          alignment: Alignment.center,
-                          image: AssetImage('assets/image/dividend_btn.png'),
-                          fit: BoxFit.fill,
-                        )),
-                        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-                        child: Text(desc,
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(30),
-                                fontFamily: FontFamily.bold,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFF94C31))),
-                      )
-                    ],
-                  ),
-                  Positioned(
-                    left: -ScreenUtil().setWidth(40),
-                    child: Container(
-//                color: Colors.blue,
-                      key: widget.type == EarningWidgetType.Earning_Type_CASH
-                          ? Consts.globalKeyMineCash
-                          : null,
-                      child: Image.asset(
-                        imgPath,
-                        width:
-                            ScreenUtil().setWidth(110) * scaleAnimation.value,
-                        height:
-                            ScreenUtil().setWidth(110) * scaleAnimation.value,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                      image: AssetImage(
+                          'assets/image/top_btn_${isTree ? 'tree' : 'cash'}.png'),
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill)),
+              child: Selector<MoneyGroup, Tuple2<num, num>>(
+                  selector: (context, provider) => Tuple2(
+                      provider?.treeGroup?.globalDividendTree?.amount,
+                      provider?.money),
+                  builder: (context, Tuple2 result, child) {
+                    if (amount != result.item2 &&
+                        widget.type == EarningWidgetType.Earning_Type_CASH) {
+                      runAction();
+                    }
+                    amount = result.item2;
+                    return Transform.scale(
+                      scale: scaleAnimation.value,
+                      child: Text(
+                          widget.type == EarningWidgetType.Earning_Type_Bonus
+                              ? '\$${Util.formatNumber(result.item1)}'
+                              : "\$${Util.formatNumber(result.item2)}",
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(32),
+                              fontFamily: FontFamily.bold,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
+                    );
+                  }),
             ),
           );
         });

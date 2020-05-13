@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -27,6 +30,18 @@ class Treasure extends StatefulWidget {
 }
 
 class _TreasureState extends State<Treasure> {
+  String adCode = '205';
+  Map<String, String> adLogParam = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    UserModel _userModel = Provider.of<UserModel>(context, listen: false);
+    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
+    BurialReport.report('ad_rewarded',
+        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
+  }
+
   _showModal(Tree tree) {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
@@ -46,9 +61,10 @@ class _TreasureState extends State<Treasure> {
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
                   child: AdButton(
-                      ad_code: '205',
+                      ad_code: adCode,
                       adUnitIdFlag: 2,
                       btnText: 'Got it',
+                      adLogParam: adLogParam,
                       onCancel: () {
                         treeGroup.pickTreasure(false);
                         modal.hide();

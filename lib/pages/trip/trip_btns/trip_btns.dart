@@ -54,18 +54,15 @@ class _TripBtnsState extends State<TripBtns> {
     // });
   }
 
-  Widget getItem(
-    String imgSrc,
-    label, {
-    Color labelColor,
-    double labelWith,
-    GlobalKey key,
-    Function onTap,
-    bool showMark = false,
-    bool showLock = false,
-  }) {
+  Widget getItem(String imgSrc, label,
+      {double labelWith,
+      GlobalKey key,
+      Function onTap,
+      bool showMark = false,
+      bool showLock = false,
+      bool showFree = false}) {
     Widget item = Container(
-      width: ScreenUtil().setWidth(130),
+      width: ScreenUtil().setWidth(142),
       // height: ScreenUtil().setWidth(130),
       margin: EdgeInsets.only(right: ScreenUtil().setWidth(15)),
       key: key,
@@ -73,12 +70,12 @@ class _TripBtnsState extends State<TripBtns> {
         overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(130),
-            height: ScreenUtil().setWidth(130),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
+            width: ScreenUtil().setWidth(142),
+            height: ScreenUtil().setWidth(142),
+            // decoration: BoxDecoration(
+            //   color: Colors.white,
+            //   shape: BoxShape.circle,
+            // ),
             child: Stack(alignment: AlignmentDirectional.center, children: [
               Selector<LuckyGroup, bool>(
                   selector: (context, provider) =>
@@ -87,15 +84,16 @@ class _TripBtnsState extends State<TripBtns> {
                     return GestureDetector(
                       onTap: onTap,
                       child: showLock && !show
-                          ? Lottie.asset(
+                          ? Center(
+                              child: Lottie.asset(
                               'assets/lottiefiles/lucky_wheel.json',
-                              width: ScreenUtil().setWidth(90),
-                              height: ScreenUtil().setWidth(90),
-                            )
+                              width: ScreenUtil().setWidth(152),
+                              height: ScreenUtil().setWidth(152),
+                            ))
                           : Image.asset(
                               imgSrc,
-                              width: ScreenUtil().setWidth(90),
-                              height: ScreenUtil().setWidth(90),
+                              width: ScreenUtil().setWidth(142),
+                              height: ScreenUtil().setWidth(142),
                             ),
                     );
                   }),
@@ -109,15 +107,19 @@ class _TripBtnsState extends State<TripBtns> {
                                 top: ScreenUtil().setWidth(10),
                                 right: ScreenUtil().setWidth(10),
                                 child: Container(
-                                  width: ScreenUtil().setWidth(24),
-                                  height: ScreenUtil().setWidth(24),
+                                  width: ScreenUtil().setWidth(35),
+                                  height: ScreenUtil().setWidth(35),
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: ScreenUtil().setWidth(2),
+                                        style: BorderStyle.solid,
+                                        color: Colors.white),
                                     gradient: LinearGradient(
                                         begin: Alignment(-1.0, 0.0),
                                         end: Alignment(1.0, 0.0),
                                         colors: <Color>[
-                                          Color.fromRGBO(253, 217, 76, 1),
-                                          Color.fromRGBO(249, 93, 76, 1),
+                                          Color.fromRGBO(238, 71, 31, 1),
+                                          Color.fromRGBO(201, 79, 81, 1)
                                         ]),
                                     shape: BoxShape.circle,
                                   ),
@@ -136,8 +138,8 @@ class _TripBtnsState extends State<TripBtns> {
                                 alignment: AlignmentDirectional.center,
                                 children: <Widget>[
                                   Container(
-                                    width: ScreenUtil().setWidth(130),
-                                    height: ScreenUtil().setWidth(130),
+                                    width: ScreenUtil().setWidth(142),
+                                    height: ScreenUtil().setWidth(142),
                                     decoration: BoxDecoration(
                                       color: Color.fromRGBO(0, 0, 0, 0.5),
                                       shape: BoxShape.circle,
@@ -156,62 +158,50 @@ class _TripBtnsState extends State<TripBtns> {
             ]),
           ),
           Positioned(
-            top: ScreenUtil().setWidth(110),
-            left: ScreenUtil().setWidth(130 - (labelColor == null ? 146 : 80)) /
-                2,
+            top: ScreenUtil().setWidth(118),
             child: Center(
               child: Container(
                 height: ScreenUtil().setWidth(32),
-                width: ScreenUtil().setWidth(labelColor == null ? 146 : 80),
-                decoration: BoxDecoration(
-                    color: labelColor,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(ScreenUtil().setWidth(10)))),
+                width: ScreenUtil().setWidth(142),
                 child: label is Widget
                     ? label
-                    : labelColor == null
-                        ? Center(
-                            child: Stack(children: <Widget>[
-                            Text(
-                              label,
-                              style: TextStyle(
-                                  height: 1,
-                                  foreground: new Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = ScreenUtil().setWidth(3)
-                                    ..color = Colors.white,
-                                  fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(24),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              label,
-                              style: TextStyle(
-                                  color: labelColor == null
-                                      ? MyTheme.blackColor
-                                      : Colors.white,
-                                  height: 1,
-                                  fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(24),
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ]))
-                        : Center(
-                            child: Text(
-                            label,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: labelColor == null
-                                    ? MyTheme.blackColor
-                                    : Colors.white,
-                                height: 1,
-                                fontFamily: FontFamily.bold,
-                                fontSize: ScreenUtil().setSp(24),
-                                fontWeight: FontWeight.bold),
-                          )),
+                    : Center(
+                        child: Stack(children: <Widget>[
+                        Text(
+                          label,
+                          style: TextStyle(
+                              height: 1,
+                              foreground: new Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = ScreenUtil().setWidth(8)
+                                ..color = Color.fromRGBO(196, 61, 27, 1),
+                              fontFamily: FontFamily.bold,
+                              fontSize: ScreenUtil().setSp(30),
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          label,
+                          style: TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontFamily: FontFamily.bold,
+                              fontSize: ScreenUtil().setSp(30),
+                              fontWeight: FontWeight.bold),
+                        )
+                      ])),
               ),
             ),
-          )
+          ),
+          showFree
+              ? Positioned(
+                  top: ScreenUtil().setWidth(-16),
+                  left: ScreenUtil().setWidth(-40),
+                  child: Image.asset(
+                    'assets/image/top_btn_phone_free.png',
+                    width: ScreenUtil().setWidth(85),
+                    height: ScreenUtil().setWidth(73),
+                  ))
+              : Container()
         ],
       ),
     );
@@ -278,7 +268,7 @@ class _TripBtnsState extends State<TripBtns> {
               selector: (context, provider) => provider,
               builder: (_, LuckyGroup selectorUse, __) {
                 return getItem(
-                  'assets/image/gold_right_btn.png',
+                  'assets/image/top_btn_get.png',
                   isCountdown && selectorUse.getGoldCountdown != null
                       ? CountdownFormatted(
                           duration: selectorUse.getGoldCountdown,
@@ -303,8 +293,7 @@ class _TripBtnsState extends State<TripBtns> {
                               ),
                             );
                           })
-                      : 'GET',
-                  labelColor: Color(0xFFFF8109),
+                      : 'Get',
                   onTap: () {
                     if (!isCountdown) {
                       double _getGoldCountdown =
@@ -329,13 +318,13 @@ class _TripBtnsState extends State<TripBtns> {
             ),
             show
                 ? FreePhone(
-                    child: getItem('assets/image/phone.png', 'FREE',
-                        labelColor: Color(0xFFF87A46)),
+                    child: getItem('assets/image/top_btn_phone.png', 'Phone',
+                        showFree: true),
                   )
                 : Container(),
             getItem(
-              'assets/image/spin.png',
-              'SPIN',
+              'assets/image/top_btn_spin.png',
+              'Spin',
               showMark: true,
               showLock: true,
               key: Consts.globalKeyWheel,
@@ -347,24 +336,24 @@ class _TripBtnsState extends State<TripBtns> {
             ),
             show
                 ? getItem(
-                    'assets/image/rank.png',
-                    'RANK',
+                    'assets/image/top_btn_rank.png',
+                    'Rank',
                     onTap: () {
                       print('rank');
                       MyNavigator().pushNamed(context, "RankPage");
                     },
                   )
                 : Container(),
-            show
-                ? getItem(
-                    'assets/image/help.png',
-                    'HOW TO PLAY',
-                    onTap: () {
-                      BurialReport.report('page_imp', {'page_code': '010'});
-                      MyNavigator().pushNamed(context, "howToPlay");
-                    },
-                  )
-                : Container(),
+            // show
+            //     ? getItem(
+            //         'assets/image/top_btn_help.png',
+            //         'HOW TO PLAY',
+            //         onTap: () {
+            //           BurialReport.report('page_imp', {'page_code': '010'});
+            //           MyNavigator().pushNamed(context, "howToPlay");
+            //         },
+            //       )
+            //     : Container(),
           ],
         );
       },

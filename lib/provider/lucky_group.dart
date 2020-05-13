@@ -6,6 +6,7 @@ import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
 import 'package:luckyfruit/models/index.dart'
     show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig, ShaerConfig;
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
@@ -332,8 +333,15 @@ class LuckyGroup with ChangeNotifier {
    * last_draw_time : 上一次领取时间戳 用于 30/60分钟的领取
    * configVersion: 后端下发的配置版本号
    */
-  init(String last_draw_time, String configVersion, String share_version,
-      String _acct_id) async {
+  init(
+    UserModel userModel,
+  ) async {
+    String last_draw_time = userModel.value.last_draw_time;
+    String _acct_id = userModel.value.acct_id;
+    String configVersion = userModel.value.version;
+
+    String share_version = userModel.value.share_version;
+
     acct_id = _acct_id;
     _transTime(last_draw_time);
 
@@ -420,6 +428,8 @@ class LuckyGroup with ChangeNotifier {
     _rightBtnShow();
     _dataLoad = true;
     // 等所有的请求结束,通知更新
+    userModel.setShareLink(shaerConfig);
+
     notifyListeners();
   }
 

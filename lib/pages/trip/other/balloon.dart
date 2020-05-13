@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 
 import './alighting.dart';
@@ -23,6 +25,17 @@ class Balloon extends StatefulWidget {
 
 class _BalloonState extends State<Balloon> {
   bool visibity = true;
+  String adCode = '204';
+  Map<String, String> adLogParam = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    UserModel _userModel = Provider.of<UserModel>(context, listen: false);
+    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
+    BurialReport.report('ad_rewarded',
+        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
+  }
 
   _showModal(num balloon_time) {
     MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
@@ -46,10 +59,11 @@ class _BalloonState extends State<Balloon> {
               Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
                   child: AdButton(
-                      ad_code: '204',
+                      ad_code: adCode,
                       adUnitIdFlag: 1,
                       btnText: 'Free',
                       onCancel: modal.hide,
+                      adLogParam: adLogParam,
                       onOk: () {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);

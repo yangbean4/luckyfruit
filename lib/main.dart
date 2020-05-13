@@ -88,10 +88,7 @@ class Initialize {
       // 监听来源 :是否是DynamicLink
       DynamicLink.setUserId(userId);
       print("initMain3");
-      luckyGroup
-          .init(userModel.value.last_draw_time, userModel.value?.version,
-              userModel.value.share_version, userId)
-          .then((e) {
+      luckyGroup.init(userModel).then((e) {
         Tree.init(luckyGroup.treeConfig);
 
         treeGroup.init(moneyGroup, luckyGroup, userModel);

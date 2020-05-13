@@ -11,6 +11,7 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/EarningWidget.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
@@ -125,7 +126,7 @@ class _TripState extends State<Trip>
                       top: ScreenUtil().setWidth(223),
                       child: RightBtns()),
                   Positioned(
-                    bottom: ScreenUtil().setWidth(50),
+                    bottom: ScreenUtil().setWidth(100),
                     right: 0,
                     child: GestureDetector(
                         onTap: () {
@@ -148,15 +149,16 @@ class _TripState extends State<Trip>
                         )),
                   ),
                   // 头部 多按钮等
-                  Positioned(
-                      top: ScreenUtil().setWidth(24),
-                      right: 0,
-                      child: // 右上角入口按钮
-                          Container(
-                        width: ScreenUtil().setWidth(740),
-                        height: ScreenUtil().setWidth(140),
-                        child: TripBtns(),
-                      )),
+                  // Positioned(
+                  //     top: ScreenUtil().setWidth(24),
+                  //     right: 0,
+                  //     child: // 右上角入口按钮
+                  //         Container(
+                  //       width: ScreenUtil().setWidth(740),
+                  //       height: ScreenUtil().setWidth(140),
+                  //       child: TripBtns(),
+                  //     )),
+
                   Positioned(
                     top: ScreenUtil().setWidth(24),
                     child: Container(
@@ -454,40 +456,88 @@ class _TripState extends State<Trip>
                                             ),
                                           ),
                                           // 今日分红树收益提示
-                                          Selector<UserModel, bool>(
-                                            selector: (context, provider) =>
-                                                provider.value.is_m != 0,
-                                            builder: (_, bool show, __) {
-                                              return show
-                                                  ? EarningWidget(
-                                                      EarningWidgetType
-                                                          .Earning_Type_Bonus,
-                                                    )
-                                                  : Container();
-                                            },
-                                          ),
+                                          // Selector<UserModel, bool>(
+                                          //   selector: (context, provider) =>
+                                          //       provider.value.is_m != 0,
+                                          //   builder: (_, bool show, __) {
+                                          //     return show
+                                          //         ? EarningWidget(
+                                          //             EarningWidgetType
+                                          //                 .Earning_Type_Bonus,
+                                          //           )
+                                          //         : Container();
+                                          //   },
+                                          // ),
 
-                                          SizedBox(
-                                            height: ScreenUtil().setWidth(10),
-                                          ),
-                                          Selector<UserModel, bool>(
-                                            selector: (context, provider) =>
-                                                provider.value.is_m != 0,
-                                            builder: (_, bool show, __) {
-                                              return show
-                                                  ? EarningWidget(
-                                                      EarningWidgetType
-                                                          .Earning_Type_CASH,
-                                                    )
-                                                  : Container();
-                                            },
-                                          ),
+                                          // SizedBox(
+                                          //   height: ScreenUtil().setWidth(10),
+                                          // ),
+                                          // Selector<UserModel, bool>(
+                                          //   selector: (context, provider) =>
+                                          //       provider.value.is_m != 0,
+                                          //   builder: (_, bool show, __) {
+                                          //     return show
+                                          //         ? EarningWidget(
+                                          //             EarningWidgetType
+                                          //                 .Earning_Type_CASH,
+                                          //           )
+                                          //         : Container();
+                                          //   },
+                                          // ),
                                         ],
                                       )),
                                 ],
                               );
                             })),
                   ),
+                  Positioned(
+                      right: 0,
+                      top: ScreenUtil().setWidth(21),
+                      child: Selector<UserModel, bool>(
+                          selector: (context, provider) =>
+                              provider.value.is_m != 0,
+                          builder: (_, bool show, __) {
+                            return !show
+                                ? Container()
+                                : Container(
+                                    width: ScreenUtil().setWidth(780),
+                                    height: ScreenUtil().setWidth(110),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        EarningWidget(
+                                          EarningWidgetType.Earning_Type_Bonus,
+                                        ),
+                                        EarningWidget(
+                                          EarningWidgetType.Earning_Type_CASH,
+                                        ),
+                                        GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
+                                            onTap: () {
+                                              BurialReport.report('page_imp',
+                                                  {'page_code': '010'});
+                                              MyNavigator().pushNamed(
+                                                  context, "howToPlay");
+                                            },
+                                            child: Container(
+                                              width: ScreenUtil().setWidth(95),
+                                              height: ScreenUtil().setWidth(74),
+                                              child: Image.asset(
+                                                'assets/image/top_btn_help.png',
+                                                width:
+                                                    ScreenUtil().setWidth(95),
+                                                height:
+                                                    ScreenUtil().setWidth(74),
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  );
+                          })),
                 ],
               ),
             ),
@@ -497,9 +547,18 @@ class _TripState extends State<Trip>
         ])),
         Positioned(
             bottom: ScreenUtil().setWidth(930),
+            right: 0,
+            child: // 右上角入口按钮
+                Container(
+              width: ScreenUtil().setWidth(740),
+              height: ScreenUtil().setWidth(140),
+              child: TripBtns(),
+            )),
+        Positioned(
+            bottom: ScreenUtil().setWidth(930),
             left: 0,
             child: Container(
-              width: ScreenUtil().setWidth(600),
+              width: ScreenUtil().setWidth(433),
               height: ScreenUtil().setWidth(150),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -512,7 +571,7 @@ class _TripState extends State<Trip>
                   Positioned(
                     right: 0,
                     child: Container(
-                      width: ScreenUtil().setWidth(400),
+                      width: ScreenUtil().setWidth(300),
                       height: ScreenUtil().setWidth(150),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,7 +579,7 @@ class _TripState extends State<Trip>
                         children: <Widget>[
                           BreatheAnimation(
                             builder: () => Container(
-                                width: ScreenUtil().setWidth(400),
+                                width: ScreenUtil().setWidth(300),
                                 child: ShaderMask(
                                   shaderCallback: (bounds) =>
                                       LinearGradient(colors: [
@@ -568,7 +627,7 @@ class _TripState extends State<Trip>
                   // 金币产生速度中的金币图标
                   Positioned(
                     top: ScreenUtil().setWidth(-20),
-                    left: ScreenUtil().setWidth(60),
+                    left: ScreenUtil().setWidth(10),
                     key: Consts.globalKeyGoldPosition,
                     child: Image.asset(
                       'assets/image/gold.png',

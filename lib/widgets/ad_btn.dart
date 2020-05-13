@@ -46,6 +46,7 @@ class AdButton extends StatefulWidget {
 
   final List<Color> colorsOnBtn;
   final String adIconPath;
+  final Map<String, String> adLogParam;
 
   AdButton(
       {Key key,
@@ -58,7 +59,7 @@ class AdButton extends StatefulWidget {
         Color(0xFF42CE66),
         Color(0xFF42CE66),
       ],
-        this.adIconPath = "assets/image/ad_icon.png",
+      this.adIconPath = "assets/image/ad_icon.png",
       this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
       this.tipsColor,
       this.interval = const Duration(seconds: 3),
@@ -68,6 +69,7 @@ class AdButton extends StatefulWidget {
       this.child,
       this.disable = false,
       this.fontSize = 64,
+      this.adLogParam,
       this.ad_code})
       : super(key: key);
 
@@ -101,12 +103,15 @@ class _AdButtonState extends State<AdButton> {
 
     UserModel _userModel = Provider.of<UserModel>(context, listen: false);
 
-    adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
-    BurialReport.report('ad_rewarded', {
-      'type': '0',
-      'ad_code': widget.ad_code,
-      "union_id": adLogParam['union_id']
-    });
+    adLogParam =
+        widget.adLogParam ?? Util.getVideoLogParams(_userModel?.value?.acct_id);
+    if (widget.adLogParam != null) {
+      BurialReport.report('ad_rewarded', {
+        'type': '0',
+        'ad_code': widget.ad_code,
+        "union_id": adLogParam['union_id']
+      });
+    }
   }
 
   @override
@@ -119,19 +124,19 @@ class _AdButtonState extends State<AdButton> {
                 'ad_code': widget.ad_code,
                 "union_id": adLogParam['union_id']
               });
-              // widget?.onOk();
+              widget?.onOk();
 
-              MoAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
-                  () {
-                //success
-                widget?.onOk();
-              }, (error) {
-                //failed
-                print("$error");
-                if (widget?.onCancel != null) {
-                  widget?.onCancel();
-                }
-              }, ad_code: widget.ad_code, adLogParam: adLogParam);
+              // MoAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
+              //     () {
+              //   //success
+              //   widget?.onOk();
+              // }, (error) {
+              //   //failed
+              //   print("$error");
+              //   if (widget?.onCancel != null) {
+              //     widget?.onCancel();
+              //   }
+              // }, ad_code: widget.ad_code, adLogParam: adLogParam);
 
 //              MoAd.getInstance(context).viewAd(context).then((res) {
 //                if (res) {

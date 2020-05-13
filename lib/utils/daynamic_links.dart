@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-11 10:43:13
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-05-11 10:56:28
+ * @LastEditTime: 2020-05-13 10:55:18
  */
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class DynamicLink {
   static String userId;
   static Uri link;
+  static String shareLink;
 
   static initDynamicLinks({String acct_id}) async {
     final PendingDynamicLinkData data =
@@ -47,14 +48,20 @@ class DynamicLink {
     }
   }
 
-  static Future<String> getLinks(BuildContext context,
-      {String imageSrc}) async {
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
+  static Future<String> getLinks(
+      {String imageSrc, ShaerConfig shaerConfig, BuildContext context}) async {
+    if (shareLink != null) {
+      return shareLink;
+    }
+    ShaerConfig _shaerConfig = shaerConfig;
+    if (shaerConfig == null) {
+      LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+      _shaerConfig = luckyGroup.shaerConfig;
+    }
 
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: shaerConfig.uriPrefix,
-        link: Uri.parse('${shaerConfig.fireLink}?code=$userId'),
+        uriPrefix: _shaerConfig.uriPrefix,
+        link: Uri.parse('${_shaerConfig.fireLink}?code=$userId'),
         androidParameters: AndroidParameters(
           packageName: 'goodluck.lucky.money.mergegarden.win.cash',
           minimumVersion: 0,
@@ -67,9 +74,9 @@ class DynamicLink {
         //   minimumVersion: '0',
         // ),
         socialMetaTagParameters: SocialMetaTagParameters(
-          title: shaerConfig.title,
-          description: shaerConfig.subtitle,
-          imageUrl: Uri.parse(imageSrc ?? shaerConfig.imageUrl[0]),
+          title: _shaerConfig.title,
+          description: _shaerConfig.subtitle,
+          imageUrl: Uri.parse(imageSrc ?? _shaerConfig.imageUrl[0]),
         ));
 //    return url.toString();
 
@@ -84,7 +91,7 @@ class DynamicLink {
       resultUrl = await parameters.buildUrl().toString();
       print("get dynatmic_long link: $resultUrl");
     }
-
+    shareLink = resultUrl;
     return resultUrl;
   }
 }

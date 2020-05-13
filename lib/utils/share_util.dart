@@ -59,7 +59,7 @@ class ShareUtil {
 //  }
 
 //  static void ShareFacebookLink(BuildContext context, String imagesrc) async {
-//    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
+//    final String url = await DynamicLink.getLinks(context: context, imageSrc: imagesrc);
 //    // final String url = 'https://luckyfruit-firelink.mklucky.com/c2Sd';
 //
 //    // 分享网站 设置 标题 图片等 https://developers.facebook.com/docs/sharing/webmasters/
@@ -86,7 +86,7 @@ class ShareUtil {
 
 //  static void ShareFacebookMessager(
 //      BuildContext context, String imagesrc) async {
-//    final String url = await DynamicLink.getLinks(context, imageSrc: imagesrc);
+//    final String url = await DynamicLink.getLinks(context: context, imageSrc: imagesrc);
 //    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
 //    ShaerConfig shaerConfig = luckyGroup.shaerConfig;
 //    ChannelBus().callNativeMethod("sendMessage", arguments: {
@@ -120,7 +120,8 @@ class ShareUtil {
     List<String> imgList = luckyGroup.shaerConfig.imageUrl;
     ShaerConfig shaerConfig = luckyGroup.shaerConfig;
     String quote = shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！';
-    String url = await DynamicLink.getLinks(context, imageSrc: imgList[0]);
+    String url =
+        await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
     Share.share('$quote $url');
   }
 }

@@ -6,7 +6,8 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/main.dart';
-import 'package:luckyfruit/models/index.dart' show User, PersonalInfo, UserInfo;
+import 'package:luckyfruit/models/index.dart'
+    show PersonalInfo, ShaerConfig, User, UserInfo;
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
@@ -47,6 +48,10 @@ class UserModel with ChangeNotifier {
 
   // 是否已经登录了Facebook
   bool hasLoginedFB = false;
+
+  setShareLink(ShaerConfig shaerConfig) async {
+    _shareLink = await DynamicLink.getLinks(shaerConfig: shaerConfig);
+  }
 
   /// 初始化用户
   Future<User> initUser() async {

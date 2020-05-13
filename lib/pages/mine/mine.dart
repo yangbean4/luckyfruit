@@ -64,7 +64,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
   }
 
   getLink() async {
-    shareLink = await DynamicLink.getLinks(context);
+    shareLink = await DynamicLink.getLinks(context: context);
   }
 
   @override
