@@ -173,8 +173,8 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
                                                           Alignment(0.0, -1.0),
                                                       end: Alignment(0.0, 1.0),
                                                       colors: <Color>[
-                                                        Color(0xFFFBA22A),
-                                                        Color(0xFFF94856),
+                                                        Color(0xFFFBDD25),
+                                                        Color(0xFFF05F1E),
                                                       ]),
                                                 ),
                                               ),
@@ -238,8 +238,27 @@ class _WheelUnlockState extends State with TickerProviderStateMixin {
                                               scale:
                                                   scaleImageAnimation?.value ??
                                                       0,
-                                              child: Image.asset(
-                                                'assets/image/wheel_unlock_animation.png',
+                                              child: Stack(
+                                                alignment:
+                                                    AlignmentDirectional.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                'assets/image/lucky_wheel_gift_bg.png'),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            fit: BoxFit.fill)),
+                                                  ),
+                                                  Image.asset(
+                                                    'assets/image/lucky_wheel_arrow.png',
+                                                    width: ScreenUtil()
+                                                        .setWidth(177),
+                                                    height: ScreenUtil()
+                                                        .setWidth(200),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -391,13 +410,25 @@ class _WheelScaleAinmationWidgetState extends State<WheelScaleAinmationWidget>
               child: Transform.scale(
 //                scale: 0.1,
                 scale: scaleAnimation.value,
-                child: Container(
-//                  color: Colors.cyanAccent,
-                  width: ScreenUtil().setWidth(540),
-                  height: ScreenUtil().setWidth(540),
-                  child: Image.asset(
-                    'assets/image/wheel_unlock_animation.png',
-                  ),
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(540),
+                      height: ScreenUtil().setWidth(540),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/image/lucky_wheel_gift_bg.png'),
+                              alignment: Alignment.center,
+                              fit: BoxFit.fill)),
+                    ),
+                    Image.asset(
+                      'assets/image/lucky_wheel_arrow.png',
+                      width: ScreenUtil().setWidth(177),
+                      height: ScreenUtil().setWidth(200),
+                    ),
+                  ],
                 ),
               ),
             ),

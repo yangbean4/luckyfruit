@@ -441,8 +441,9 @@ class TreeGroup with ChangeNotifier {
       _luckyGroup.setShowLuckyWheelLockIcon(false, notify: false);
 
       Storage.getItem(Consts.SP_KEY_GUIDANCE_WHEEL).then((value) {
-        print("SP_KEY_GUIDANCE_WHEEL_cache_value: $value");
-        if (value == null) {
+        print(
+            "SP_KEY_GUIDANCE_WHEEL_cache_value: $value, ad_times:${userModel.userInfo.ad_times}");
+        if (value == null || userModel.userInfo.ad_times == 15) {
           _luckyGroup.setShowLuckyWheelDot(true, notify: false);
         }
       });
