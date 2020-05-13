@@ -1615,7 +1615,7 @@ class Layer {
               ),
               GestureDetector(
                 onTap: () {
-                  modal.hide();
+//                  modal.hide();
                   BurialReport.report('invite_entr', {'entr_code': '007'});
 
                   ShareUtil.share(context);

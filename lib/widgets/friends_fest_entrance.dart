@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -16,7 +15,7 @@ class FriendsFestEntranceWidget extends StatefulWidget {
 class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
   int inviteFriendsNum = 0;
   bool timeReached = false;
-  double itemWidth = 40;
+  double itemWidth = 41.2;
   double spaceWidth = 1;
 
   @override
@@ -85,11 +84,11 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                       width: ScreenUtil().setWidth(200),
                       height: ScreenUtil().setWidth(30),
                       decoration: BoxDecoration(
-                        color: Color(0xff604E42),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setWidth(20)),
-                        ),
-                      ),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/image/friends_fest_progress_bg.png'),
+                              alignment: Alignment.bottomCenter,
+                              fit: BoxFit.fill)),
                     ),
                   ),
             timeReached
@@ -99,7 +98,7 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                     left: ScreenUtil().setWidth(30),
                     child: Container(
                       width: ScreenUtil().setWidth(210),
-                      height: ScreenUtil().setWidth(30),
+                      height: ScreenUtil().setWidth(31),
                       child: Stack(
                           alignment: AlignmentDirectional.center,
                           children: <Widget>[
