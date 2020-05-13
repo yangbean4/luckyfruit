@@ -46,6 +46,11 @@ class UserModel with ChangeNotifier {
 
   PersonalInfo get personalInfo => _personalInfo;
 
+  bool get freePhoneMask {
+    return userInfo.residue_times != 0 ||
+        (userInfo.sign_times < 7 && userInfo.is_today_sign != 1);
+  }
+
   // 是否已经登录了Facebook
   bool hasLoginedFB = false;
 

@@ -1097,9 +1097,13 @@ class _PhoneItem extends StatelessWidget {
                             fontSize: ScreenUtil().setSp(32),
                             fontWeight: FontWeight.bold))),
               ),
-              Image.asset('assets/image/phone11.png',
-                  width: ScreenUtil().setWidth(73),
-                  height: ScreenUtil().setWidth(100)),
+              sign.module == '1'
+                  ? Image.asset('assets/image/phone11.png',
+                      width: ScreenUtil().setWidth(73),
+                      height: ScreenUtil().setWidth(100))
+                  : Image.asset('assets/tree/bonus.png',
+                      width: ScreenUtil().setWidth(120),
+                      height: ScreenUtil().setWidth(84)),
               Container(
                 width: ScreenUtil().setWidth(82),
                 height: ScreenUtil().setWidth(10),
@@ -1116,7 +1120,8 @@ class _PhoneItem extends StatelessWidget {
                         fontFamily: FontFamily.semibold,
                         color: MyTheme.blackColor,
                         height: 1,
-                        fontSize: ScreenUtil().setSp(32),
+                        fontSize:
+                            ScreenUtil().setSp(sign.module == '1' ? 32 : 24),
                         fontWeight: FontWeight.w500)),
               ),
               SizedBox(

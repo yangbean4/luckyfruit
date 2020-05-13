@@ -84,12 +84,17 @@ class _TripBtnsState extends State<TripBtns> {
                     return GestureDetector(
                       onTap: onTap,
                       child: showLock && !show
-                          ? Center(
-                              child: Lottie.asset(
-                              'assets/lottiefiles/lucky_wheel.json',
-                              width: ScreenUtil().setWidth(152),
-                              height: ScreenUtil().setWidth(152),
-                            ))
+                          ? Stack(overflow: Overflow.visible, children: [
+                              Positioned(
+                                  left: ScreenUtil().setWidth(-78),
+                                  top: ScreenUtil().setWidth(-78),
+                                  // child: Center(
+                                  child: Lottie.asset(
+                                    'assets/lottiefiles/lucky_wheel/data.json',
+                                    width: ScreenUtil().setWidth(300),
+                                    height: ScreenUtil().setWidth(300),
+                                  ))
+                            ])
                           : Image.asset(
                               imgSrc,
                               width: ScreenUtil().setWidth(142),
@@ -98,35 +103,28 @@ class _TripBtnsState extends State<TripBtns> {
                     );
                   }),
               showMark
-                  ? Selector<LuckyGroup, bool>(
-                      selector: (context, provider) =>
-                          provider.showLuckyWheelDot,
-                      builder: (_, bool show, __) {
-                        return show
-                            ? Positioned(
-                                top: ScreenUtil().setWidth(10),
-                                right: ScreenUtil().setWidth(10),
-                                child: Container(
-                                  width: ScreenUtil().setWidth(35),
-                                  height: ScreenUtil().setWidth(35),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: ScreenUtil().setWidth(2),
-                                        style: BorderStyle.solid,
-                                        color: Colors.white),
-                                    gradient: LinearGradient(
-                                        begin: Alignment(-1.0, 0.0),
-                                        end: Alignment(1.0, 0.0),
-                                        colors: <Color>[
-                                          Color.fromRGBO(238, 71, 31, 1),
-                                          Color.fromRGBO(201, 79, 81, 1)
-                                        ]),
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              )
-                            : Container();
-                      })
+                  ? Positioned(
+                      top: ScreenUtil().setWidth(10),
+                      right: ScreenUtil().setWidth(10),
+                      child: Container(
+                        width: ScreenUtil().setWidth(35),
+                        height: ScreenUtil().setWidth(35),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: ScreenUtil().setWidth(2),
+                              style: BorderStyle.solid,
+                              color: Colors.white),
+                          gradient: LinearGradient(
+                              begin: Alignment(-1.0, 0.0),
+                              end: Alignment(1.0, 0.0),
+                              colors: <Color>[
+                                Color.fromRGBO(238, 71, 31, 1),
+                                Color.fromRGBO(201, 79, 81, 1)
+                              ]),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
                   : Container(),
               showLock
                   ? Selector<LuckyGroup, bool>(
@@ -280,18 +278,44 @@ class _TripBtnsState extends State<TripBtns> {
                           },
                           builder: (context, Duration duration) {
                             selectorUse.setGoldContDownDuration(duration);
+                            String label = Util.formatCountDownTimer(duration);
+
                             return Center(
-                              child: Text(
-                                Util.formatCountDownTimer(duration),
-                                textAlign: TextAlign.center,
+                                child: Stack(children: <Widget>[
+                              Text(
+                                label,
+                                style: TextStyle(
+                                    height: 1,
+                                    foreground: new Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = ScreenUtil().setWidth(8)
+                                      ..color = Color.fromRGBO(196, 61, 27, 1),
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setSp(30),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                label,
                                 style: TextStyle(
                                     color: Colors.white,
                                     height: 1,
                                     fontFamily: FontFamily.bold,
-                                    fontSize: ScreenUtil().setSp(20),
+                                    fontSize: ScreenUtil().setSp(30),
                                     fontWeight: FontWeight.bold),
-                              ),
-                            );
+                              )
+                            ]));
+
+                            // Center(
+                            //   child: Text(
+                            //     textAlign: TextAlign.center,
+                            //     style: TextStyle(
+                            //         color: Colors.white,
+                            //         height: 1,
+                            //         fontFamily: FontFamily.bold,
+                            //         fontSize: ScreenUtil().setSp(20),
+                            //         fontWeight: FontWeight.bold),
+                            //   ),
+                            // );
                           })
                       : 'Get',
                   onTap: () {
@@ -318,22 +342,35 @@ class _TripBtnsState extends State<TripBtns> {
             ),
             show
                 ? FreePhone(
-                    child: getItem('assets/image/top_btn_phone.png', 'Phone',
-                        showFree: true),
+                    child: Selector<UserModel, bool>(
+                        selector: (context, provider) => provider.freePhoneMask,
+                        builder: (_, bool show, __) {
+                          return getItem(
+                              'assets/image/top_btn_phone.png', 'Phone',
+                              showMark: show, showFree: true);
+                        }),
                   )
                 : Container(),
-            getItem(
-              'assets/image/top_btn_spin.png',
-              'Spin',
-              showMark: true,
-              showLock: true,
-              key: Consts.globalKeyWheel,
-              onTap: () {
-                BurialReport.report('c_wheel_entr', {});
-                BurialReport.report('page_imp', {'page_code': '007'});
-                Layer.showLuckyWheel(context);
-              },
-            ),
+
+            show
+                ? Selector<LuckyGroup, bool>(
+                    selector: (context, provider) => provider.showLuckyWheelDot,
+                    builder: (_, bool show, __) {
+                      return getItem(
+                        'assets/image/top_btn_spin.png',
+                        'Spin',
+                        showMark: show,
+                        showLock: true,
+                        key: Consts.globalKeyWheel,
+                        onTap: () {
+                          BurialReport.report('c_wheel_entr', {});
+                          BurialReport.report('page_imp', {'page_code': '007'});
+                          Layer.showLuckyWheel(context);
+                        },
+                      );
+                    })
+                : Container(),
+
             show
                 ? getItem(
                     'assets/image/top_btn_rank.png',
