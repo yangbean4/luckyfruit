@@ -37,6 +37,7 @@ class Modal {
   final closeType;
   final int dismissDurationInMilliseconds;
   final List<Color> btnColors;
+  final String closeIconPath;
 
   Modal(
       {this.okText,
@@ -45,6 +46,7 @@ class Modal {
       this.onCancel,
       this.children,
       this.footer,
+      this.closeIconPath,
       this.btnColors = const <Color>[
         Color.fromRGBO(49, 200, 84, 1),
         Color.fromRGBO(36, 185, 71, 1)
@@ -126,7 +128,8 @@ class Modal {
                         height: ScreenUtil().setWidth(120),
                         child: Center(
                             child: Image.asset(
-                          'assets/image/close_icon_modal_top_right.png',
+                          closeIconPath ??
+                              'assets/image/close_icon_modal_top_right.png',
                           width: ScreenUtil().setWidth(40),
                           height: ScreenUtil().setWidth(40),
                         )),
@@ -158,7 +161,8 @@ class Modal {
             height: ScreenUtil().setWidth(200),
             child: Center(
                 child: Image.asset(
-              'assets/image/close_icon_modal_bottom_center.png',
+              closeIconPath ??
+                  'assets/image/close_icon_modal_bottom_center.png',
               width: ScreenUtil().setWidth(40),
               height: ScreenUtil().setWidth(40),
             ))),

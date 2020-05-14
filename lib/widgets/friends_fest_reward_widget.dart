@@ -60,8 +60,8 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
           },
           child: Image.asset(
             getSecondImgPath(),
-            width: ScreenUtil().setWidth(170),
-            height: ScreenUtil().setWidth(170),
+            width: ScreenUtil().setWidth(getSecondImageSize().width),
+            height: ScreenUtil().setWidth(getSecondImageSize().height),
           ),
         ),
         Container(
@@ -199,7 +199,7 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         if (widget.statusType == FriendsFestStatusType.Status_Disable) {
           path = "assets/image/friends_fest_second_1stage_disable.png";
         } else if (widget.statusType == FriendsFestStatusType.Status_Enable) {
-          path = "assets/image/friends_fest_second_1stage_enable.png";
+          path = "assets/image/friends_fest_second_1stage_enable.gif";
         } else if (widget.statusType == FriendsFestStatusType.Status_Rewarded) {
           path = "assets/image/friends_fest_second_1stage_rewarded.png";
         }
@@ -208,7 +208,7 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         if (widget.statusType == FriendsFestStatusType.Status_Disable) {
           path = "assets/image/friends_fest_second_3stage_disable.png";
         } else if (widget.statusType == FriendsFestStatusType.Status_Enable) {
-          path = "assets/image/friends_fest_second_3stage_enable.png";
+          path = "assets/image/friends_fest_second_3stage_enable.gif";
         } else if (widget.statusType == FriendsFestStatusType.Status_Rewarded) {
           path = "assets/image/friends_fest_second_3stage_rewarded.png";
         }
@@ -218,10 +218,11 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         if (widget.statusType == FriendsFestStatusType.Status_Disable) {
           path = "assets/image/friends_fest_second_5stage_disable.png";
         } else if (widget.statusType == FriendsFestStatusType.Status_Enable) {
-          path = "assets/image/friends_fest_second_5stage_enable.png";
+          path = "assets/image/friends_fest_second_5stage_enable.gif";
         } else if (widget.statusType == FriendsFestStatusType.Status_Rewarded) {
           path = "assets/image/friends_fest_second_5stage_rewarded.png";
         }
+
         break;
       default:
         break;
@@ -266,5 +267,24 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
     }
 
     return num;
+  }
+
+  Size getSecondImageSize() {
+    Size size;
+    switch (widget.progressType) {
+      case FriendsFestProgressType.Progress_One:
+        size = Size(154, 154);
+        break;
+      case FriendsFestProgressType.Progress_Three:
+        size = Size(176, 154);
+        break;
+      case FriendsFestProgressType.Progress_Five:
+        size = Size(176, 154);
+        break;
+      default:
+        break;
+    }
+
+    return size;
   }
 }

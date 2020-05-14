@@ -75,6 +75,7 @@ dependencies:
   cached_network_image: ^2.1.0+1
   adjust_sdk: ^4.21.0
   share: ^0.6.4+1
+  just_debounce_it: ^3.0.0+2
 
 dev_dependencies:
   flutter_test:

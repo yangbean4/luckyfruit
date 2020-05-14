@@ -401,6 +401,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.0"
+  just_debounce_it:
+    dependency: "direct main"
+    description:
+      name: just_debounce_it
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.0+2"
   kernel:
     dependency: transitive
     description:

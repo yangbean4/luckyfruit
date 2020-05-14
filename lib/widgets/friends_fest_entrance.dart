@@ -123,9 +123,10 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                     )),
             Container(
               child: Transform.scale(
-                scale: 1.3,
-                child: Lottie.asset(
-                  'assets/lottiefiles/img_sweep_share.json',
+                scale: 1.0,
+                child:
+                Image.asset(
+                  'assets/image/friends_fest_icon_gif.gif',
                   width: ScreenUtil().setWidth(270),
                   height: ScreenUtil().setWidth(170),
                 ),
