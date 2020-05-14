@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +12,7 @@ import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -26,6 +28,8 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool canJump = false;
   bool hasPaused = false;
+  bool timeReached = false;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -46,6 +50,13 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
+
+    Future.delayed(Duration(seconds: 10), () {
+      print("loading_end");
+      setState(() {
+        timeReached = true;
+      });
+    });
   }
 
   @override
@@ -97,7 +108,9 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                   MoneyGroup, List<bool>>(
               builder: (_, List<bool> loadArr, __) {
                 List<bool> trueArr = loadArr.where((i) => i).toList();
-                if (trueArr.length == loadArr.length && user != null) {
+                if (timeReached &&
+                    trueArr.length == loadArr.length &&
+                    user != null) {
                   Future.delayed(Duration(microseconds: 100)).then((e) {
                     if (user?.rela_account == '' ||
                         user?.access_token == '' ||
@@ -110,6 +123,13 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                     }
                   });
                 }
+
+                num progress = (min(
+                    trueArr.length / loadArr.length, timeReached ? 0.0 : .9));
+
+//                print(
+//                    "loading_${progress}_${trueArr.length / loadArr.length}_$timeReached");
+
                 return Container(
                   width: ScreenUtil().setWidth(1080),
                   height: ScreenUtil().setWidth(1920),
@@ -189,8 +209,8 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                   top: ScreenUtil().setWidth(10),
                                   left: ScreenUtil().setWidth(17),
                                   child: Container(
-                                    width: ScreenUtil().setWidth(
-                                        761 * trueArr.length / loadArr.length),
+                                    width:
+                                        ScreenUtil().setWidth(761 * progress),
                                     height: ScreenUtil().setWidth(44),
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
@@ -202,7 +222,24 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                 )
                               ]),
                             ))
-                        : Container()
+                        : Container(),
+                    Positioned(
+                      top: ScreenUtil().setWidth(20),
+                      right: ScreenUtil().setWidth(20),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "UserID:${user?.acct_id ?? ""}",
+                          style: TextStyle(
+                              decoration: TextDecoration.none,
+                              color: Colors.white,
+                              fontSize: ScreenUtil().setSp(35),
+                              height: 1,
+                              fontFamily: FontFamily.bold,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   ]),
                 );
               },

@@ -8,15 +8,14 @@ import 'package:luckyfruit/models/rank_friends.dart';
 import 'package:luckyfruit/models/ranklist.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/compatible_avatar_widget.dart';
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/share_util.dart';
 import 'package:provider/provider.dart';
-import 'package:luckyfruit/service/index.dart';
-import 'dart:convert';
-
 import 'package:visibility_detector/visibility_detector.dart';
 
 class RankPage extends StatefulWidget {
@@ -798,7 +797,7 @@ class RankPageState extends State<RankPage>
                 ),
               ),
               Text(
-                "\$${friendsList[index]?.separate_amount ?? '--'}",
+                "\$${Util.formatNumber(num.tryParse(friendsList[index]?.separate_amount))}",
                 style: TextStyle(
                     color: Color.fromRGBO(38, 38, 38, 1),
                     fontSize: ScreenUtil().setWidth(56),

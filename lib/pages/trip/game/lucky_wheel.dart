@@ -375,37 +375,68 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   }
 
   double _getAngelWithSelectedPosition(int pos) {
-    var x = 0.14, y = 0.22, z = 1 / 2;
+    var x = 0.125;
     switch (pos) {
       case 8:
-        return x + y;
+        return 2*x;
         break;
       case 7:
-        return z + x;
+        return 4*x;
         break;
       case 6:
-        return z + x + y;
+        return 6*x;
         break;
       case 5:
-        return 2 * z + x;
+        return 8*x;
         break;
       case 4:
-        return 2 * z + x + y;
+        return 10*x;
         break;
       case 3:
-        return 3 * z + x;
+        return 12*x;
         break;
       case 2:
-        print("_getAngelWithSelectedPosition $pos ${3 * z + x + y}");
-        return 3 * z + x + y;
+        return 14*x;
         break;
       case 1:
-        return x;
+        return 0;
         break;
       default:
         return 0;
     }
   }
+//  double _getAngelWithSelectedPosition(int pos) {
+//    var x = 0.14, y = 0.22, z = 1 / 2;
+//    switch (pos) {
+//      case 8:
+//        return x + y;
+//        break;
+//      case 7:
+//        return z + x;
+//        break;
+//      case 6:
+//        return z + x + y;
+//        break;
+//      case 5:
+//        return 2 * z + x;
+//        break;
+//      case 4:
+//        return 2 * z + x + y;
+//        break;
+//      case 3:
+//        return 3 * z + x;
+//        break;
+//      case 2:
+//        print("_getAngelWithSelectedPosition $pos ${3 * z + x + y}");
+//        return 3 * z + x + y;
+//        break;
+//      case 1:
+//        return x;
+//        break;
+//      default:
+//        return 0;
+//    }
+//  }
 
   void showRewardWindowWithFinalPostion(int finalPosition) {
     int luckyWheelType;

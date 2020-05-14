@@ -97,8 +97,7 @@ class MoAd {
       "union_id": videoLogParam['union_id']
     });
 
-    BurialReport.reportAdjust(
-        BurialReport.Adjust_Event_Token_Ads_Imp);
+    BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Imp);
 
     // 关闭声效
     EVENT_BUS.emit(Event_Name.VIEW_AD);
@@ -115,8 +114,7 @@ class MoAd {
       "union_id": videoLogParam['union_id']
     });
 
-    BurialReport.reportAdjust(
-        BurialReport.Adjust_Event_Token_Ads_Bouns);
+    BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Bouns);
 
     // 观看广告次数减一
     if (_userModel?.userInfo?.ad_times != null) {
@@ -168,7 +166,9 @@ class MoAd {
     videoLogParam =
         adLogParam ?? Util.getVideoLogParams(_userModel?.value?.acct_id);
     if (_userModel?.userInfo?.ad_times == 0) {
-      Layer.toastWarning("Number of videos has used up");
+      Layer.toastWarning(
+          "Video has used up. Number of videos reset at 12am and 12pm",
+          padding: 40);
       return;
     }
 
