@@ -36,7 +36,11 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Layer.showSevenDaysInviteEventWindow(context);
+        if (!timeReached) {
+          Layer.showSevenDaysInviteEventWindow(context);
+        } else {
+          Layer.partnerCash(context);
+        }
       },
       child: Container(
         width: ScreenUtil().setWidth(270),

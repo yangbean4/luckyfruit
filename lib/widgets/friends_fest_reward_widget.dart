@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
@@ -73,7 +71,8 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
                   grade: Tree.MAX_LEVEL,
                   type: TreeType.Type_TimeLimited_Bonus,
                   duration: invite_award.duration,
-                  amount: invite_award.amount,
+                  // amount返回的是时长，单位s
+                  amount: invite_award.amount * treeGroup.makeGoldSped,
                   showCountDown: true,
                   treeId: invite_award.tree_id,
                   timePlantedLimitedBonusTree:
