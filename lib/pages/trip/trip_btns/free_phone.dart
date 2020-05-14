@@ -915,15 +915,15 @@ class __SignState extends State<_Sign> {
                           Color.fromRGBO(245, 159, 38, 1),
                           Color.fromRGBO(242, 213, 79, 1),
                         ]),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        spreadRadius: 0.0,
-                        blurRadius: ScreenUtil().setWidth(4),
-                        offset: Offset(
-                            ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
-                        color: Color.fromRGBO(169, 156, 119, 1),
-                      ),
-                    ],
+                    // boxShadow: <BoxShadow>[
+                    //   BoxShadow(
+                    //       spreadRadius: 8.0,
+                    //       blurRadius: ScreenUtil().setWidth(40),
+                    //       offset: Offset(ScreenUtil().setWidth(0),
+                    //           ScreenUtil().setWidth(-18)),
+                    //       // color: Color.fromRGBO(169, 156, 119, 1),
+                    //       color: Colors.red),
+                    // ],
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                         topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -1070,13 +1070,13 @@ class _PhoneItem extends StatelessWidget {
       width: ScreenUtil().setWidth(162),
       height: ScreenUtil().setWidth(238),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color.fromRGBO(252, 250, 232, 1),
         image: DecorationImage(
             image: AssetImage('assets/image/sign_phone_bg.png'),
-            alignment: Alignment.bottomCenter,
-            fit: BoxFit.contain),
-        borderRadius:
-            BorderRadius.all(Radius.circular(ScreenUtil().setWidth(22))),
+            alignment: Alignment.center,
+            fit: BoxFit.fill),
+        // borderRadius:
+        //     BorderRadius.all(Radius.circular(ScreenUtil().setWidth(22))),
       ),
       child: Stack(
         children: <Widget>[
@@ -1088,17 +1088,17 @@ class _PhoneItem extends StatelessWidget {
                 width: ScreenUtil().setWidth(162),
                 height: ScreenUtil().setWidth(50),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment(0, -1.0),
-                        end: Alignment(0, 1.0),
-                        colors: [
-                          Color.fromRGBO(232, 87, 25, 1),
-                          Color.fromRGBO(250, 130, 49, 1),
-                        ]),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment(0, -1.0),
+                    //     end: Alignment(0, 1.0),
+                    //     colors: [
+                    //       Color.fromRGBO(232, 87, 25, 1),
+                    //       Color.fromRGBO(250, 130, 49, 1),
+                    //     ]),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(ScreenUtil().setWidth(20)),
-                      topRight: Radius.circular(ScreenUtil().setWidth(20)),
-                    )),
+                  topLeft: Radius.circular(ScreenUtil().setWidth(20)),
+                  topRight: Radius.circular(ScreenUtil().setWidth(20)),
+                )),
                 child: Center(
                     child: Text('Day ${index + 1}',
                         textAlign: TextAlign.center,

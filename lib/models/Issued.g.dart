@@ -35,7 +35,8 @@ Issued _$IssuedFromJson(Map<String, dynamic> json) {
             e == null ? null : Cash_amount.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..ad_reset_time = json['ad_reset_time'] as num
-    ..merge_number = json['merge_number'] as num;
+    ..merge_number = json['merge_number'] as num
+    ..randon_remain_time = json['randon_remain_time'] as num;
 }
 
 Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
@@ -63,5 +64,6 @@ Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
       'first_reward_coin': instance.first_reward_coin,
       'cash_amount_list': instance.cash_amount_list,
       'ad_reset_time': instance.ad_reset_time,
-      'merge_number': instance.merge_number
+      'merge_number': instance.merge_number,
+      'randon_remain_time': instance.randon_remain_time
     };

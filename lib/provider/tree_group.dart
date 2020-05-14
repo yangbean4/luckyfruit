@@ -427,11 +427,18 @@ class TreeGroup with ChangeNotifier {
     //   _autoMergeTimeout();
     //   saveComposeTimes();
     // });
-    Timer.periodic(Duration(seconds: _treasureInterval), (timer) {
-      // Timer.periodic(Duration(seconds: 30), (timer) {
-      // 检查出现宝箱
-      _boxTimer = timer;
-      checkTreasure();
+
+    Future.delayed(Duration(seconds: _luckyGroup.issed?.randon_remain_time))
+        .then((e) {
+      Timer.periodic(
+          Duration(
+              seconds: _treasureInterval ??
+                  _luckyGroup.issed?.randon_remain_time), (timer) {
+        // Timer.periodic(Duration(seconds: 30), (timer) {
+        // 检查出现宝箱
+        _boxTimer = timer;
+        checkTreasure();
+      });
     });
 
     _isLoad = true;

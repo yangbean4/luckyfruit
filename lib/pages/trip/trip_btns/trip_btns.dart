@@ -16,6 +16,7 @@ import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/count_down.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
+import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:provider/provider.dart';
 
 import './free_phone.dart';
@@ -193,12 +194,13 @@ class _TripBtnsState extends State<TripBtns> {
           ),
           showFree
               ? Positioned(
-                  top: ScreenUtil().setWidth(-16),
-                  left: ScreenUtil().setWidth(-40),
-                  child: Image.asset(
-                    'assets/image/top_btn_phone_free.png',
-                    width: ScreenUtil().setWidth(85),
-                    height: ScreenUtil().setWidth(73),
+                  left: ScreenUtil().setWidth(-140),
+                  top: ScreenUtil().setWidth(-140),
+                  // child: Center(
+                  child: Lottie.asset(
+                    'assets/lottiefiles/free_phone/data.json',
+                    width: ScreenUtil().setWidth(300),
+                    height: ScreenUtil().setWidth(300),
                   ))
               : Container()
         ],

@@ -31,6 +31,7 @@ class Issued {
     List<Cash_amount> cash_amount_list;
     num ad_reset_time;
     num merge_number;
+    num randon_remain_time;
     
     factory Issued.fromJson(Map<String,dynamic> json) => _$IssuedFromJson(json);
     Map<String, dynamic> toJson() => _$IssuedToJson(this);
