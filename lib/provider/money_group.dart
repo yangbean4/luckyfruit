@@ -6,6 +6,8 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -19,6 +21,7 @@ import './user_model.dart';
 
 class MoneyGroup with ChangeNotifier {
   UserModel _userModel;
+  LuckyGroup _luckyGroup;
 
   // 对TreeGroup Provider引用
   TreeGroup treeGroup;
@@ -120,7 +123,11 @@ class MoneyGroup with ChangeNotifier {
           if (!timeReached) {
             Layer.showSevenDaysInviteEventWindow(context);
           } else {
-            Layer.partnerCash(context);
+            Layer.partnerCash(context, onOK: () {
+              if (_luckyGroup.issed.merge_number == 0) {
+                FreePhone().showModal();
+              }
+            });
           }
         });
       }
@@ -185,7 +192,9 @@ class MoneyGroup with ChangeNotifier {
 
   //初始化 form请求&Storage
   Future<MoneyGroup> init(
-      TreeGroup _treeGroup, UserModel userModel, num startCoin) async {
+      TreeGroup _treeGroup, UserModel userModel, LuckyGroup luckyGroup) async {
+    num startCoin = luckyGroup.issed.first_reward_coin;
+    _luckyGroup = luckyGroup;
     _gold = startCoin.toDouble();
     acct_id = userModel.value.acct_id;
     treeGroup = _treeGroup;

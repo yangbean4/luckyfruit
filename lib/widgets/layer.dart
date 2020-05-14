@@ -52,7 +52,7 @@ class Layer {
   /// 隐藏loading
   static loadingHide() => _future?.dismiss();
 
-  static partnerCash(BuildContext context) {
+  static partnerCash(BuildContext context, {Function onOK}) {
     AnimationController _controller;
     AnimationController _controller2;
     BurialReport.report('page_imp', {'page_code': '036'});
@@ -71,6 +71,9 @@ class Layer {
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
                         modal.hide();
+                        if (onOK != null) {
+                          onOK();
+                        }
                       },
                       child: Container(
                           width: ScreenUtil().setWidth(200),
@@ -174,6 +177,9 @@ class Layer {
                                   'invite_entr', {'entr_code': '008'});
 
                               ShareUtil.share(context);
+                              if (onOK != null) {
+                                onOK();
+                              }
                             },
                             child: PrimaryButton(
                               width: 600,

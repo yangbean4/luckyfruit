@@ -93,8 +93,7 @@ class Initialize {
 
         treeGroup.init(moneyGroup, luckyGroup, userModel);
         tourismMap.init(moneyGroup, luckyGroup, treeGroup, userModel);
-        moneyGroup.init(
-            treeGroup, userModel, luckyGroup.issed.first_reward_coin);
+        moneyGroup.init(treeGroup, userModel, luckyGroup);
         print("initMain4");
       });
     });
