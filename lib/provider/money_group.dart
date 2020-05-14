@@ -245,7 +245,7 @@ class MoneyGroup with ChangeNotifier {
           grade: Tree.MAX_LEVEL,
           type: TreeType.Type_TimeLimited_Bonus,
           duration: invite_award.duration,
-          amount: invite_award.amount,
+          amount: invite_award.amount.toDouble(),
           showCountDown: true,
           treeId: invite_award.tree_id,
           timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,

@@ -141,7 +141,7 @@ class TourismMap with ChangeNotifier {
         grade: Tree.MAX_LEVEL,
         type: TreeType.Type_TimeLimited_Bonus,
         duration: ajax['duration'],
-        amount: ajax['amount'],
+        amount: ajax['amount'].toDouble(),
         showCountDown: true,
         treeId: ajax['tree_id'],
         timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,

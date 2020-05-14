@@ -484,7 +484,7 @@ class Layer {
           Container(
             margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(70)),
             child: Text(
-              'The location is full, please merge the fruit tree or recycle the fruit tree before redeeming id!!',
+              'The location is full, please merge the fruit tree or recycle the fruit tree before redeem!',
               style: TextStyle(
                   color: MyTheme.blackColor,
                   fontFamily: FontFamily.regular,
@@ -853,7 +853,7 @@ class Layer {
                     grade: Tree.MAX_LEVEL,
                     type: TreeType.Type_TimeLimited_Bonus,
                     duration: value?.duration,
-                    amount: value?.amount,
+                    amount: value?.amount.toDouble(),
                     showCountDown: true,
                     treeId: value.tree_id,
                     timePlantedLimitedBonusTree:

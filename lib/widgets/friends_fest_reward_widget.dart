@@ -43,7 +43,17 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         ),
         GestureDetector(
           onTap: () {
+            Layer.locationFull();
             if (widget.statusType != FriendsFestStatusType.Status_Enable) {
+              return;
+            }
+            TreeGroup treeGroup =
+                Provider.of<TreeGroup>(context, listen: false);
+
+            /// 如果领取的是限时分红树，且没有坑位的时候
+            if (widget.progressType != FriendsFestProgressType.Progress_One &&
+                treeGroup.isFull) {
+              Layer.locationFull();
               return;
             }
 
@@ -121,7 +131,7 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
           type: TreeType.Type_TimeLimited_Bonus,
           duration: invite_award.duration,
           // amount返回的是时长，单位s
-          amount: invite_award.amount,
+          amount: invite_award.amount.toDouble(),
           showCountDown: true,
           treeId: invite_award.tree_id,
           timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
