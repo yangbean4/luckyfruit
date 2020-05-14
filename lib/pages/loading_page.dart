@@ -66,13 +66,15 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
     });
   }
 
-  go() {
+  go(String login_type) {
     BottomNavigationBar navigationBar = Consts.globalKeyBottomBar.currentWidget;
     if (navigationBar != null) {
       navigationBar?.onTap(0);
     } else {
       MyNavigator().pushReplacementNamed(context, 'Home');
     }
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    userModel.reportLogin(login_type);
     EVENT_BUS.emit(Event_Name.JUMP_TO_HOME);
   }
 
@@ -104,7 +106,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                       useJump();
                     } else {
                       // 跳转到首页
-                      go();
+                      go('1');
                     }
                   });
                 }
@@ -141,7 +143,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                         print("initMain_start");
                                         Initialize.initMain().then((_) {
                                           print("initMain_end");
-                                          go();
+                                          go('1');
                                         });
                                       } else {
                                         Layer.toastWarning(
@@ -161,7 +163,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                       height: ScreenUtil().setWidth(147),
                                     ),
                                     onTap: () {
-                                      go();
+                                      go('0');
                                     })
                                 : Container()
                           ],

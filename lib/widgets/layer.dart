@@ -157,7 +157,7 @@ class Layer {
                             height: ScreenUtil().setWidth(30),
                           ),
                           Text(
-                            'More Partners，More cash',
+                            "More Partner,More Cash",
                             style: TextStyle(
                               color: Color.fromRGBO(51, 51, 51, 1),
                               fontFamily: FontFamily.regular,

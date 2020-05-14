@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class FreePhone extends StatelessWidget {
   final Widget child;
   FreePhone({Key key, this.child}) : super(key: key);
 
-  _showModal() {
+  showModal() {
     BurialReport.report('page_imp', {'page_code': '006'});
     BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
     BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
@@ -97,7 +98,10 @@ class FreePhone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _showModal,
+      onTap: () {
+        showModal();
+        Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
+      },
       child: child,
     );
   }

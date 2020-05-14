@@ -42,6 +42,8 @@ class UserModel with ChangeNotifier {
 
   User get value => _user;
 
+  Map<String, String> reportMap;
+
   PersonalInfo _personalInfo;
 
   PersonalInfo get personalInfo => _personalInfo;
@@ -56,6 +58,11 @@ class UserModel with ChangeNotifier {
 
   setShareLink(ShaerConfig shaerConfig) async {
     _shareLink = await DynamicLink.getLinks(shaerConfig: shaerConfig);
+  }
+
+  reportLogin(String login_type) {
+    reportMap['login_type'] = login_type;
+    BurialReport.report('login', reportMap);
   }
 
   /// 初始化用户
@@ -80,7 +87,7 @@ class UserModel with ChangeNotifier {
       loadOther();
       String res = await Storage.getItem(UserModel.m_currency_change);
 
-      BurialReport.report('login', {
+      reportMap = {
         'aid': info['os_type'] == 'android'
             ? info['gaid'] ?? info['aid']
             : info['idfa'],
@@ -88,7 +95,7 @@ class UserModel with ChangeNotifier {
         'app_version': info['app_version'],
         'config_version': _user.version,
         'type': (res == null ? 0 : 1).toString()
-      });
+      };
 
       if (_user.update_time != null && res != _user.update_time) {
         Storage.setItem(UserModel.m_currency_change, _user.update_time);

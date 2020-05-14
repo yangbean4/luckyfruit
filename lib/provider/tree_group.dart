@@ -8,6 +8,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart'
     show GlobalDividendTree, UnlockNewTreeLevel;
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -44,6 +45,8 @@ class TreeGroup with ChangeNotifier {
 
   static const String CACHE_IS_FIRST_TIMELIMT_START =
       'CACHE_IS_FIRST_TIMELIMT_START';
+
+  static const String CACHE_IS_FIRST_CLICK_PHONE = 'CACHE_IS_FIRST_CLICK_PHONE';
 
   static const String AUTO_MERGE_START = 'AUTO_MERGE_START';
 
@@ -662,6 +665,10 @@ class TreeGroup with ChangeNotifier {
   mergeTree(Tree source, Tree target) {
     // 每合成一次统计一下
     totalMergeCount++;
+    if (totalMergeCount == _luckyGroup?.issed?.merge_number) {
+      FreePhone().showModal();
+    }
+
     if (target.grade == Tree.MAX_LEVEL) {
       // 判断是什么类型
       if (target.type.contains("continents") &&
@@ -718,6 +725,15 @@ class TreeGroup with ChangeNotifier {
           // 到达6级的时候，解锁大转盘
           if (hasMaxLevel < 6) {
             return;
+          }
+          if (hasMaxLevel == 8) {
+            Storage.getItem(
+              TreeGroup.CACHE_IS_FIRST_CLICK_PHONE,
+            ).then((value) {
+              if (value == null) {
+                FreePhone().showModal();
+              }
+            });
           }
           // checkRecycleRectGuidance();
 
