@@ -106,6 +106,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("initMain4_1");
+    MoneyGroup.context = context;
     MoAd.getInstance(context);
     var overlay = Overlay(initialEntries: [
       OverlayEntry(

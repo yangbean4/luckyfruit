@@ -43,7 +43,6 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         ),
         GestureDetector(
           onTap: () {
-            Layer.locationFull();
             if (widget.statusType != FriendsFestStatusType.Status_Enable) {
               return;
             }

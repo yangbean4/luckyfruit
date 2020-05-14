@@ -1393,6 +1393,9 @@ class Layer {
 
   /// 7天邀请活动
   static void showSevenDaysInviteEventWindow(BuildContext context) {
+    if (context == null) {
+      return;
+    }
     BurialReport.report('page_imp', {'page_code': '035'});
 
     UserModel userModel = Provider.of<UserModel>(context, listen: false);

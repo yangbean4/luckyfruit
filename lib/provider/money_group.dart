@@ -99,6 +99,8 @@ class MoneyGroup with ChangeNotifier {
 
   double get makeGoldSped => treeGroup?.makeGoldSped;
 
+  static BuildContext context;
+
   // 离线收益计算
   addUnLineGet(DateTime upDateTime, num sped) {
     if (upDateTime != null && sped != null && _isHome) {
@@ -108,6 +110,18 @@ class MoneyGroup with ChangeNotifier {
         diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
         Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
           addGold(sped * diffTime * (isDouble ? 2 : 1));
+
+          List<dynamic> timerList = userModel.value.residue_7days_time;
+          bool timeReached =
+              timerList != null && timerList.isNotEmpty ? false : true;
+
+          timeReached = true;
+          // 关闭后出现分享活动弹框或者Cash Gift Packs
+          if (!timeReached) {
+            Layer.showSevenDaysInviteEventWindow(context);
+          } else {
+            Layer.partnerCash(context);
+          }
         });
       }
       // 加过就卸载避免多次添加

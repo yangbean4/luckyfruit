@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
@@ -10,12 +8,8 @@ import 'package:luckyfruit/models/index.dart' show ShaerConfig;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:social_share_plugin/social_share_plugin.dart';
-
-import 'method_channel.dart';
 
 class ShareUtil {
 //  static void ShareFacebookImage(BuildContext context) async {
@@ -116,6 +110,9 @@ class ShareUtil {
 //  }
 
   static void share(BuildContext context) async {
+    if (context == null) {
+      return;
+    }
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     List<String> imgList = luckyGroup.shaerConfig.imageUrl;
     ShaerConfig shaerConfig = luckyGroup.shaerConfig;
@@ -124,8 +121,7 @@ class ShareUtil {
         await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
     Share.share('$quote $url');
 
-    BurialReport.reportAdjust(
-        BurialReport.Adjust_Event_Token_Invite);
+    BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Invite);
   }
 }
 
