@@ -290,7 +290,7 @@ class Service {
       Map<String, dynamic> data) async {
     Response response =
         await _client.post('/User/inviteAward', data: data);
-    return response.data;
+    return response.data['data'];
   }
 
   Map<String, String> getBaseMap() {

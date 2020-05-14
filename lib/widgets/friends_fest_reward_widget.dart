@@ -5,6 +5,7 @@ import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
@@ -46,52 +47,7 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
               return;
             }
 
-            dynamic stateMap =
-                Service().inviteAward({'num': widget.progressType});
-
-//            String test = """{
-//                          "tree_type": 0,
-//                          "tree_id": 8827,
-//                          "amount": 1000.0,
-//                          "duration": 300
-//                          }""";
-//            stateMap = json.decode(test);
-
-            if (stateMap == null) {
-              return;
-            }
-            Invite_award invite_award = Invite_award.fromJson(stateMap);
-            if (invite_award.tree_type == 1) {
-              // 限时分红树
-              GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
-                TreeGroup treeGroup =
-                    Provider.of<TreeGroup>(context, listen: false);
-                treeGroup.addTree(
-                    tree: Tree(
-                  grade: Tree.MAX_LEVEL,
-                  type: TreeType.Type_TimeLimited_Bonus,
-                  duration: invite_award.duration,
-                  // amount返回的是时长，单位s
-                  amount: invite_award.amount * treeGroup.makeGoldSped,
-                  showCountDown: true,
-                  treeId: invite_award.tree_id,
-                  timePlantedLimitedBonusTree:
-                      DateTime.now().millisecondsSinceEpoch,
-                ));
-
-                setState(() {
-                  widget.statusType = FriendsFestStatusType.Status_Rewarded;
-                });
-              });
-            } else if (invite_award.tree_type == 0) {
-              // 奖励金币
-              GetReward.showGoldWindow(invite_award.amount, () {
-                EVENT_BUS.emit(MoneyGroup.ADD_GOLD, invite_award.amount);
-                setState(() {
-                  widget.statusType = FriendsFestStatusType.Status_Rewarded;
-                });
-              });
-            }
+            handleOnTap();
           },
           child: Image.asset(
             getSecondImgPath(),
@@ -129,6 +85,65 @@ class _FriendsFestRewardWidgetState extends State<FriendsFestRewardWidget> {
         )
       ],
     );
+  }
+
+  void handleOnTap() async {
+    dynamic stateMap =
+        await Service().inviteAward({'num': widget.progressType});
+
+//            String test = """{
+//                          "tree_type": 0,
+//                          "tree_id": 8827,
+//                          "amount": 1000.0,
+//                          "duration": 300
+//                          }""";
+//            stateMap = json.decode(test);
+
+    if (stateMap == null) {
+      return;
+    }
+
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    List<dynamic> friends = userModel.value.invite_friend ?? [];
+
+    if (userModel.value.invite_friend == null) {
+      userModel.value.invite_friend = [];
+    }
+
+    Invite_award invite_award = Invite_award.fromJson(stateMap);
+    if (invite_award.tree_type == 1) {
+      // 限时分红树
+      GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
+        treeGroup.addTree(
+            tree: Tree(
+          grade: Tree.MAX_LEVEL,
+          type: TreeType.Type_TimeLimited_Bonus,
+          duration: invite_award.duration,
+          // amount返回的是时长，单位s
+          amount: invite_award.amount,
+          showCountDown: true,
+          treeId: invite_award.tree_id,
+          timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
+        ));
+
+        userModel.value.invite_friend[1].add(widget.progressType);
+        setState(() {
+          widget.statusType = FriendsFestStatusType.Status_Rewarded;
+        });
+      });
+    } else if (invite_award.tree_type == 0) {
+      // 奖励金币
+      GetReward.showGoldWindow(invite_award.amount * treeGroup.makeGoldSped,
+          () {
+        EVENT_BUS.emit(
+            MoneyGroup.ADD_GOLD, invite_award.amount * treeGroup.makeGoldSped);
+        setState(() {
+          widget.statusType = FriendsFestStatusType.Status_Rewarded;
+        });
+        userModel.value.invite_friend[1].add(widget.progressType);
+      });
+    }
   }
 
   String getFirstImgPath() {
