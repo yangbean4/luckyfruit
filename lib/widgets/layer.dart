@@ -1449,6 +1449,7 @@ class Layer {
         onCancel: () {},
         width: 900,
         closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
+        closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
         verticalPadding: 0,
         horizontalPadding: 0,
         childrenBuilder: (modal) => <Widget>[

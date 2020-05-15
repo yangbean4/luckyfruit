@@ -246,7 +246,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           // bottom: ScreenUtil().setWidth(30),
         ),
         child: ModalTitle(
-          "TICKET x ${ticketCount < 0 ? 0 : ticketCount}",
+          "Ticket x ${ticketCount < 0 ? 0 : ticketCount}",
+          shadows: [
+            BoxShadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 2)
+          ],
           color: Colors.white,
         ),
       ),
@@ -260,6 +263,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
           textAlign: TextAlign.center,
           style: TextStyle(
 //              color: Color(0xFF7C7C7C),
+              shadows: [
+                BoxShadow(
+                    color: Colors.black, offset: Offset(0, 1), blurRadius: 2)
+              ],
               color: Colors.white,
               fontSize: ScreenUtil().setWidth(36),
               fontFamily: FontFamily.regular,
@@ -331,6 +338,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     handleStartSpin(data?.item3);
                   },
                   tipsColor: Colors.white,
+                  tipsShadows: [
+                    BoxShadow(
+                        color: Colors.black,
+                        offset: Offset(0, 1),
+                        blurRadius: 2)
+                  ],
                   tips:
                       "Number of videos reset at 12am&12pm (${data?.item1?.ad_times ?? 0} times left)");
             },
@@ -378,25 +391,25 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     var x = 0.125;
     switch (pos) {
       case 8:
-        return 2*x;
+        return 2 * x;
         break;
       case 7:
-        return 4*x;
+        return 4 * x;
         break;
       case 6:
-        return 6*x;
+        return 6 * x;
         break;
       case 5:
-        return 8*x;
+        return 8 * x;
         break;
       case 4:
-        return 10*x;
+        return 10 * x;
         break;
       case 3:
-        return 12*x;
+        return 12 * x;
         break;
       case 2:
-        return 14*x;
+        return 14 * x;
         break;
       case 1:
         return 0;
@@ -405,6 +418,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         return 0;
     }
   }
+
 //  double _getAngelWithSelectedPosition(int pos) {
 //    var x = 0.14, y = 0.22, z = 1 / 2;
 //    switch (pos) {

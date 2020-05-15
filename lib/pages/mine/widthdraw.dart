@@ -804,7 +804,7 @@ class _Enjoy {
         Container(
           height: ScreenUtil().setWidth(20),
         ),
-        ModalTitle("Enjoy Lucky Merge"),
+        ModalTitle("Enjoy Merge Garden"),
         Container(
           height: ScreenUtil().setWidth(100),
         ),

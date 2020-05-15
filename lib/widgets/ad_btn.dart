@@ -47,6 +47,7 @@ class AdButton extends StatefulWidget {
   final List<Color> colorsOnBtn;
   final String adIconPath;
   final Map<String, String> adLogParam;
+  final List<Shadow> tipsShadows;
 
   AdButton(
       {Key key,
@@ -55,6 +56,7 @@ class AdButton extends StatefulWidget {
       this.adUnitIdFlag = 1,
       this.cancelText = 'No,Thanks',
       this.onCancel,
+      this.tipsShadows,
       this.colorsOnBtn = const <Color>[
         Color(0xFF42CE66),
         Color(0xFF42CE66),
@@ -253,6 +255,7 @@ class _AdButtonState extends State<AdButton> {
                                       ? MyTheme.tipsColor
                                       : widget.tipsColor,
                                   height: 1,
+                                  shadows: widget.tipsShadows,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.regular,
                                   fontSize: ScreenUtil().setSp(30),

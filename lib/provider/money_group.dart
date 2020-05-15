@@ -118,7 +118,6 @@ class MoneyGroup with ChangeNotifier {
           bool timeReached =
               timerList != null && timerList.isNotEmpty ? false : true;
 
-          timeReached = true;
           // 关闭后出现分享活动弹框或者Cash Gift Packs
           if (!timeReached) {
             Layer.showSevenDaysInviteEventWindow(context);
