@@ -178,9 +178,9 @@ class MoneyGroup with ChangeNotifier {
 
       if (upDateTime != null) {
         // 如果此时没有makeGoldSped的值的话就等通知
-        addUnLineGet(upDateTime, treeGroup.makeGoldSped);
-        EVENT_BUS.on(TreeGroup.LOAD,
-            (_) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
+        // addUnLineGet(upDateTime, treeGroup.makeGoldSped);
+        // EVENT_BUS.on(TreeGroup.LOAD,
+        //     (_) => addUnLineGet(upDateTime, treeGroup.makeGoldSped));
         EVENT_BUS.on(Event_Name.JUMP_TO_HOME, (_) {
           _isHome = true;
           addUnLineGet(upDateTime, treeGroup.makeGoldSped);
@@ -332,18 +332,26 @@ class MoneyGroup with ChangeNotifier {
   }
 
   addGold(double gold, {bool showAnimate = true}) {
+    Function callback = () {
+      _gold = double.parse((_gold + gold).toStringAsFixed(2));
+      _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
+
+      EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
+
+      save();
+    };
     // gold = gold * 10000;
-    _gold = double.parse((_gold + gold).toStringAsFixed(2));
-    _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
+
     if (showAnimate) {
       _showGoldAnimation = true;
       Bgm.playClaimGold();
       notifyListeners();
+      Future.delayed(Duration(milliseconds: 1500)).then((value) {
+        callback();
+      });
+    } else {
+      callback();
     }
-    EVENT_BUS.emit(MoneyGroup.ADD_ALL_GOLD, _allgold);
-
-    // Bgm.coinIncrease();
-    save();
   }
 
   bool checkAddTree(double usegold) {
