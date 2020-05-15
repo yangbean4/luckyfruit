@@ -310,7 +310,9 @@ class MoneyGroup with ChangeNotifier {
       'coin': _gold,
       'last_leave_time': _upDateTime.millisecondsSinceEpoch.toString(),
       '_allgold': _allgold,
-      'paypal_account': _userInfo?.paypal_account
+      'paypal_account': _userInfo?.paypal_account,
+      'makeGoldSped': treeGroup?.makeGoldSped,
+      'hasMaxLevel': treeGroup?.hasMaxLevel,
     });
 
     // 通知等级检查

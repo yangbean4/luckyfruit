@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -15,8 +14,6 @@ class FriendsFestEntranceWidget extends StatefulWidget {
 class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
   int inviteFriendsNum = 0;
   bool timeReached = false;
-  double itemWidth = 41.2;
-  double spaceWidth = 1;
 
   @override
   void initState() {
@@ -43,18 +40,18 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
         }
       },
       child: Container(
-        width: ScreenUtil().setWidth(270),
-        height: ScreenUtil().setWidth(230),
+        width: ScreenUtil().setWidth(210),
+        height: ScreenUtil().setWidth(150),
         color: Colors.transparent,
         child: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
             Positioned(
-              bottom: ScreenUtil().setWidth(20),
+              bottom: ScreenUtil().setWidth(0),
               left: ScreenUtil().setWidth(10),
               child: Container(
-                width: ScreenUtil().setWidth(250),
-                height: ScreenUtil().setWidth(80),
+                width: ScreenUtil().setWidth(190),
+                height: ScreenUtil().setWidth(60),
                 decoration: BoxDecoration(
                     gradient: timeReached
                         ? null
@@ -82,11 +79,11 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
             timeReached
                 ? Container()
                 : Positioned(
-                    bottom: ScreenUtil().setWidth(30),
-                    left: ScreenUtil().setWidth(35),
+                    bottom: ScreenUtil().setWidth(5),
+                    left: ScreenUtil().setWidth(45),
                     child: Container(
-                      width: ScreenUtil().setWidth(200),
-                      height: ScreenUtil().setWidth(30),
+                      width: ScreenUtil().setWidth(120),
+                      height: ScreenUtil().setWidth(23),
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
@@ -98,11 +95,12 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
             timeReached
                 ? Container()
                 : Positioned(
-                    bottom: ScreenUtil().setWidth(30),
-                    left: ScreenUtil().setWidth(30),
+                    bottom: ScreenUtil().setWidth(5),
+                    left: ScreenUtil().setWidth(43),
                     child: Container(
-                      width: ScreenUtil().setWidth(210),
-                      height: ScreenUtil().setWidth(31),
+//                      color: Colors.red,
+                      width: ScreenUtil().setWidth(128),
+                      height: ScreenUtil().setWidth(24),
                       child: Stack(
                           alignment: AlignmentDirectional.center,
                           children: <Widget>[
@@ -114,7 +112,7 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                               "$inviteFriendsNum/5",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: ScreenUtil().setSp(40),
+                                  fontSize: ScreenUtil().setSp(28),
                                   height: 1,
                                   fontFamily: FontFamily.bold,
                                   fontWeight: FontWeight.bold),
@@ -124,11 +122,10 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
             Container(
               child: Transform.scale(
                 scale: 1.0,
-                child:
-                Image.asset(
+                child: Image.asset(
                   'assets/image/friends_fest_icon_gif.gif',
-                  width: ScreenUtil().setWidth(270),
-                  height: ScreenUtil().setWidth(170),
+                  width: ScreenUtil().setWidth(210),
+                  height: ScreenUtil().setWidth(115),
                 ),
               ),
             ),
@@ -143,24 +140,24 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
 
     Widget item1 = Image.asset(
       'assets/image/friends_fest_progress_1.png',
-      width: ScreenUtil().setWidth(itemWidth),
-      height: ScreenUtil().setWidth(31),
+      width: ScreenUtil().setWidth(24),
+      height: ScreenUtil().setWidth(30),
     );
 
     Widget item2 = Image.asset(
       'assets/image/friends_fest_progress_m.png',
-      width: ScreenUtil().setWidth(itemWidth),
+      width: ScreenUtil().setWidth(24),
       height: ScreenUtil().setWidth(30),
     );
 
     Widget item3 = Image.asset(
       'assets/image/friends_fest_progress_5.png',
-      width: ScreenUtil().setWidth(itemWidth),
+      width: ScreenUtil().setWidth(24),
       height: ScreenUtil().setWidth(30),
     );
 
     Widget space = SizedBox(
-      width: ScreenUtil().setWidth(spaceWidth),
+      width: ScreenUtil().setWidth(2),
     );
 
     for (int i = 0; i < inviteFriendsNum; i++) {

@@ -125,7 +125,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                 }
 
                 num progress = (min(
-                    trueArr.length / loadArr.length, timeReached ? 0.0 : .9));
+                    trueArr.length / loadArr.length, timeReached ? 1.0 : .9));
 
 //                print(
 //                    "loading_${progress}_${trueArr.length / loadArr.length}_$timeReached");

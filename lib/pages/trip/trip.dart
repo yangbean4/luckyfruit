@@ -296,7 +296,7 @@ class _TripState extends State<Trip>
                                               height: ScreenUtil().setWidth(36),
                                               margin: EdgeInsets.only(
                                                   bottom: ScreenUtil()
-                                                      .setWidth(27)),
+                                                      .setWidth(10)),
                                               child: Stack(
                                                 children: <Widget>[
                                                   Container(
@@ -393,36 +393,6 @@ class _TripState extends State<Trip>
                                                     ? FriendsFestEntranceWidget()
                                                     : Container();
                                               }),
-
-                                          // 今日分红树收益提示
-                                          // Selector<UserModel, bool>(
-                                          //   selector: (context, provider) =>
-                                          //       provider.value.is_m != 0,
-                                          //   builder: (_, bool show, __) {
-                                          //     return show
-                                          //         ? EarningWidget(
-                                          //             EarningWidgetType
-                                          //                 .Earning_Type_Bonus,
-                                          //           )
-                                          //         : Container();
-                                          //   },
-                                          // ),
-
-                                          // SizedBox(
-                                          //   height: ScreenUtil().setWidth(10),
-                                          // ),
-                                          // Selector<UserModel, bool>(
-                                          //   selector: (context, provider) =>
-                                          //       provider.value.is_m != 0,
-                                          //   builder: (_, bool show, __) {
-                                          //     return show
-                                          //         ? EarningWidget(
-                                          //             EarningWidgetType
-                                          //                 .Earning_Type_CASH,
-                                          //           )
-                                          //         : Container();
-                                          //   },
-                                          // ),
                                         ],
                                       )),
                                 ],
