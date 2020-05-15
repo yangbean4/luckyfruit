@@ -184,9 +184,9 @@ class _AdButtonState extends State<AdButton> {
                       boxShadow: [
                         //阴影
                         BoxShadow(
-                            color: Colors.black54,
+                            color: Colors.black26,
                             offset: Offset(2.0, 2.0),
-                            blurRadius: 4.0),
+                            blurRadius: 2.0),
                       ],
                       gradient: LinearGradient(
                           begin: Alignment(0.0, -1.0),

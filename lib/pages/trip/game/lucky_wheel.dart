@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -112,7 +113,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     }""";
 
   num coinNum = 0;
-  int watched_ad = 1;
+  int watched_ad = 0;
 
   startSpin() {
     // controller.value = 0;
@@ -173,7 +174,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       'watched_ad': watched_ad
     });
 
-    watched_ad = 1;
+    watched_ad = 0;
     // 测试用 模拟一个网络请求状态
     // luckResultMap = json.decode(testJson);
     print("luckResultMap= $luckResultMap");
@@ -327,6 +328,14 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                               // 用掉了一次看广告换转盘券的机会，本地减去1
                               data.item3.ticket_time--;
                               watchAdForTicketTimes = data.item3.ticket_time;
+
+                              if (watchAdForTicketTimes <= 0) {
+                                // 不能转大转盘了，则隐藏红点
+                                LuckyGroup luckyGroup = Provider.of<LuckyGroup>(
+                                    context,
+                                    listen: false);
+                                luckyGroup.setShowLuckyWheelDot(false);
+                              }
                             });
                           }
                         }
@@ -457,6 +466,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     switch (finalPosition) {
       case 8:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES, () {
+          watched_ad = 1;
+        }, () {
           watched_ad = 0;
         });
         return;
@@ -494,6 +505,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         break;
       case 4:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES, () {
+          watched_ad = 1;
+        }, () {
           watched_ad = 0;
         });
         return;

@@ -88,10 +88,11 @@ class DynamicLink {
       resultUrl = shortDynamicLink.shortUrl.toString();
       print("get dynatmic_short link: $resultUrl");
     } catch (e) {
-      resultUrl = await parameters.buildUrl().toString();
-      print("get dynatmic_long link: $resultUrl");
+      final url = await parameters.buildUrl();
+      resultUrl = url.toString();
+      print("get dynatmic_long link: $resultUrl)");
     }
-    shareLink = resultUrl;
+    shareLink = resultUrl.toString();
     return resultUrl;
   }
 }

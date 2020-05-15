@@ -276,7 +276,7 @@ class MoneyGroup with ChangeNotifier {
 
   timeLimitedTreeAddMoney(double amout) {
     // 限时分红树，每8秒本地更新一次余额
-    addMoney(amout, playAudio: false, playAnimation: false);
+    addMoney(amout, playAudio: false, playAnimation: false, canSave: false);
   }
 
   // 用户签到
@@ -395,7 +395,8 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
-  addMoney(double money, {bool playAudio = true, bool playAnimation = true}) {
+  addMoney(double money,
+      {bool playAudio = true, bool playAnimation = true, bool canSave = true}) {
     if (playAudio) {
       Bgm.playMoney();
     }
@@ -406,7 +407,9 @@ class MoneyGroup with ChangeNotifier {
     }
     BurialReport.report('m_currency_change',
         {'m_currency_number': _money.toString(), 'type': '1'});
-    save();
+    if (canSave) {
+      save();
+    }
   }
 
   hideGoldAnimation() {

@@ -83,8 +83,8 @@ class _GuidanceLuckyWheelState extends State with TickerProviderStateMixin {
     } on TickerCanceled {}
     bgColor = null;
 
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    luckyGroup.setShowLuckyWheelDot(false);
+//    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+//    luckyGroup.setShowLuckyWheelDot(false);
     Storage.setItem(Consts.SP_KEY_GUIDANCE_WHEEL, "1");
   }
 

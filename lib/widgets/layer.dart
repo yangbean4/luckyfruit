@@ -172,7 +172,6 @@ class Layer {
                           ),
                           GestureDetector(
                             onTap: () {
-                              modal.hide();
                               BurialReport.report(
                                   'invite_entr', {'entr_code': '008'});
 
@@ -1293,13 +1292,14 @@ class Layer {
   }
 
   /// 5倍或10倍宝���弹框
-  static show5TimesTreasureWindow(int type, Function _onCancel) {
+  static show5TimesTreasureWindow(int type, Function _onOk, Function _onCancel) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               TimesRewardWidget(
                 typeOfTimes: type,
                 onOk: () {
                   modal.hide();
+                  _onOk();
                 },
                 onCancel: () {
                   modal.hide();
@@ -1610,7 +1610,6 @@ class Layer {
                     ),
                     GestureDetector(
                       onTap: () {
-                        modal.hide();
                         partnerCash(context);
                       },
                       child: Padding(

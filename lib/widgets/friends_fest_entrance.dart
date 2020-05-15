@@ -59,8 +59,8 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                             begin: Alignment(0.0, -1.0),
                             end: Alignment(0.0, 1.0),
                             colors: <Color>[
-                                Color(0xffFFF1C6),
-                                Color(0xffFFC200),
+                                Color(0xffFF90FE),
+                                Color(0xff8840FF),
                               ]),
                     borderRadius: timeReached
                         ? null
@@ -96,10 +96,10 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
                 ? Container()
                 : Positioned(
                     bottom: ScreenUtil().setWidth(5),
-                    left: ScreenUtil().setWidth(43),
+                    left: ScreenUtil().setWidth(38),
                     child: Container(
 //                      color: Colors.red,
-                      width: ScreenUtil().setWidth(128),
+                      width: ScreenUtil().setWidth(138),
                       height: ScreenUtil().setWidth(24),
                       child: Stack(
                           alignment: AlignmentDirectional.center,
@@ -140,19 +140,19 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
 
     Widget item1 = Image.asset(
       'assets/image/friends_fest_progress_1.png',
-      width: ScreenUtil().setWidth(24),
+      width: ScreenUtil().setWidth(26),
       height: ScreenUtil().setWidth(30),
     );
 
     Widget item2 = Image.asset(
       'assets/image/friends_fest_progress_m.png',
-      width: ScreenUtil().setWidth(24),
+      width: ScreenUtil().setWidth(26),
       height: ScreenUtil().setWidth(30),
     );
 
     Widget item3 = Image.asset(
       'assets/image/friends_fest_progress_5.png',
-      width: ScreenUtil().setWidth(24),
+      width: ScreenUtil().setWidth(26),
       height: ScreenUtil().setWidth(30),
     );
 
