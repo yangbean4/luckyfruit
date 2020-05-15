@@ -313,7 +313,8 @@ class __GroupState extends State<_Group> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     MoneyGroup userModel = Provider.of<MoneyGroup>(context, listen: false);
-    if (userModel.userInfo?.sign_times == 7) {
+    if (userModel.userInfo?.sign_times == 7 ||
+        userModel.userInfo.is_today_sign == 1) {
       Future.delayed(Duration(milliseconds: 300)).then((e) {
         controller?.animateTo(ScreenUtil().setWidth(870.0),
             duration: Duration(milliseconds: 800), curve: Curves.easeOutQuad);
@@ -345,7 +346,7 @@ class __GroupState extends State<_Group> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(height: ScreenUtil().setWidth(30)),
+                    // Container(height: ScreenUtil().setWidth(30)),
                     _Sign(
                         sign_times: userInfo?.sign_times ?? 0,
                         is_today_sign: userInfo.is_today_sign ?? 1),
@@ -444,33 +445,49 @@ class __RewardState extends State<_Reward> {
   Widget build(BuildContext context) {
     bool disable = widget.residue_times == 0;
     return Container(
-      width: ScreenUtil().setWidth(816),
+      width: ScreenUtil().setWidth(826),
       height: ScreenUtil().setWidth(975),
+      // decoration: BoxDecoration(
+      //   boxShadow: <BoxShadow>[
+      //     BoxShadow(
+      //       spreadRadius: 0.0,
+      //       blurRadius: ScreenUtil().setWidth(4),
+      //       offset: Offset(ScreenUtil().setWidth(4), ScreenUtil().setWidth(8)),
+      //       color: Color.fromRGBO(169, 156, 119, 1),
+      //     ),
+      //   ],
+      // ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(816),
+            width: ScreenUtil().setWidth(826),
             height: ScreenUtil().setWidth(106),
             decoration: BoxDecoration(
                 // color: Color.fromRGBO(52, 200, 130, 1),
-                gradient: LinearGradient(
-                    begin: Alignment(0, -1.0),
-                    end: Alignment(0, 1.0),
-                    colors: [
-                      Color.fromRGBO(245, 159, 38, 1),
-                      Color.fromRGBO(242, 213, 79, 1),
-                    ]),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    spreadRadius: 0.0,
-                    blurRadius: ScreenUtil().setWidth(4),
-                    offset: Offset(
-                        ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
-                    color: Color.fromRGBO(169, 156, 119, 1),
-                  ),
-                ],
+                image: DecorationImage(
+                  alignment: Alignment.center,
+                  image: AssetImage("assets/image/free_phone_title_bg.png"),
+                  fit: BoxFit.fill,
+                ),
+                color: Color.fromRGBO(0, 250, 232, 0),
+                // gradient: LinearGradient(
+                //     begin: Alignment(0, -1.0),
+                //     end: Alignment(0, 1.0),
+                //     colors: [
+                //       Color.fromRGBO(245, 159, 38, 1),
+                //       Color.fromRGBO(242, 213, 79, 1),
+                //     ]),
+                // boxShadow: <BoxShadow>[
+                //   BoxShadow(
+                //     spreadRadius: 0.0,
+                //     blurRadius: ScreenUtil().setWidth(4),
+                //     offset: Offset(
+                //         ScreenUtil().setWidth(0), ScreenUtil().setWidth(8)),
+                //     color: Color.fromRGBO(169, 156, 119, 1),
+                //   ),
+                // ],
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(ScreenUtil().setWidth(50)),
                     topRight: Radius.circular(ScreenUtil().setWidth(50)))),
@@ -907,14 +924,20 @@ class __SignState extends State<_Sign> {
                 width: ScreenUtil().setWidth(767),
                 height: ScreenUtil().setWidth(106),
                 decoration: BoxDecoration(
-                    // color: Color.fromRGBO(52, 200, 130, 1),
-                    gradient: LinearGradient(
-                        begin: Alignment(0, -1.0),
-                        end: Alignment(0, 1.0),
-                        colors: [
-                          Color.fromRGBO(245, 159, 38, 1),
-                          Color.fromRGBO(242, 213, 79, 1),
-                        ]),
+                    image: DecorationImage(
+                      alignment: Alignment.center,
+                      image: AssetImage("assets/image/free_phone_title_bg.png"),
+                      fit: BoxFit.fill,
+                    ),
+                    color: Color.fromRGBO(0, 250, 232, 0),
+
+                    // gradient: LinearGradient(
+                    //     begin: Alignment(0, -1.0),
+                    //     end: Alignment(0, 1.0),
+                    //     colors: [
+                    //       Color.fromRGBO(245, 159, 38, 1),
+                    //       Color.fromRGBO(242, 213, 79, 1),
+                    //     ]),
                     // boxShadow: <BoxShadow>[
                     //   BoxShadow(
                     //       spreadRadius: 8.0,

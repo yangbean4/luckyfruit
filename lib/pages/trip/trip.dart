@@ -230,7 +230,7 @@ class _TripState extends State<Trip>
                                                                   cityName.length >=
                                                                           9
                                                                       ? 36
-                                                                      : 56)),
+                                                                      : 50)),
                                                     ),
                                                   ),
                                                   Container(

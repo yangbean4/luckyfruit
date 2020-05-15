@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
               DoubleQuit(
                 child: OKToast(
                   child: MaterialApp(
-                    title: 'Lucky Merge',
+                    title: 'Merge Garden',
                     theme: ThemeData(
                         primarySwatch: Colors.blue,
                         textTheme:

@@ -215,6 +215,8 @@ class TreeGroup with ChangeNotifier {
 
   List<Tree> get allTreeList => _treeList + _warehouseTreeList;
 
+  bool isFirstFreePhone = true;
+
   // 更新时间
   DateTime _upDateTime;
 
@@ -672,7 +674,9 @@ class TreeGroup with ChangeNotifier {
   mergeTree(Tree source, Tree target) {
     // 每合成一次统计一下
     totalMergeCount++;
-    if (totalMergeCount == _luckyGroup?.issed?.merge_number) {
+    if (totalMergeCount == _luckyGroup?.issed?.merge_number &&
+        isFirstFreePhone) {
+      isFirstFreePhone = false;
       FreePhone().showModal();
     }
 
