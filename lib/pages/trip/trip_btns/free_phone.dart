@@ -75,7 +75,7 @@ class FreePhone extends StatelessWidget {
                           left: ScreenUtil().setWidth(37)),
                       padding: EdgeInsets.only(
                         bottom: ScreenUtil().setWidth(20),
-                        top: ScreenUtil().setWidth(130),
+                        top: ScreenUtil().setWidth(90),
                       ),
                       decoration: BoxDecoration(
                           // color: Color.fromRGBO(193, 245, 204, 1),
@@ -125,6 +125,7 @@ class _Phone extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         // color: Color.fromRGBO(232, 252, 242, 1),
+        // color: Color.fromRGBO(252, 250, 232, 1),
         image: DecorationImage(
             image: AssetImage('assets/image/phone_card_bg.png'),
             alignment: Alignment.center,
@@ -192,6 +193,9 @@ class _Phone extends StatelessWidget {
                         height: ScreenUtil().setWidth(26),
                         decoration: BoxDecoration(
                           color: MyTheme.primaryColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(30)),
+                          ),
                           gradient: LinearGradient(
                               begin: Alignment(0.0, -1.0),
                               end: Alignment(0.0, 1.0),
@@ -379,6 +383,7 @@ class __RewardState extends State<_Reward> {
   int speed = 15;
   int server = 1;
 
+  int residue_times = 0;
   _goRun() async {
     Layer.loading('loading...');
 
@@ -442,8 +447,14 @@ class __RewardState extends State<_Reward> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    residue_times = widget.residue_times;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool disable = widget.residue_times == 0;
+    bool disable = residue_times == 0;
     return Container(
       width: ScreenUtil().setWidth(826),
       height: ScreenUtil().setWidth(975),
@@ -596,7 +607,7 @@ class __RewardState extends State<_Reward> {
                                 ),
                           SizedBox(width: ScreenUtil().setWidth(15)),
                           Text(
-                            'Free ${widget.residue_times}/3',
+                            'Free $residue_times/3',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -608,6 +619,9 @@ class __RewardState extends State<_Reward> {
                     ),
                     onOk: () {
                       _goRun();
+                      setState(() {
+                        residue_times -= 1;
+                      });
                     },
                     disable: disable,
                     fontSize: 50)
@@ -822,6 +836,9 @@ class _Wishing extends StatelessWidget {
                                 height: ScreenUtil().setWidth(26),
                                 decoration: BoxDecoration(
                                   color: MyTheme.primaryColor,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(ScreenUtil().setWidth(30)),
+                                  ),
                                   gradient: LinearGradient(
                                       begin: Alignment(0.0, -1.0),
                                       end: Alignment(0.0, 1.0),

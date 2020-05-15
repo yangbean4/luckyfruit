@@ -217,6 +217,8 @@ class TreeGroup with ChangeNotifier {
 
   bool isFirstFreePhone = true;
 
+  bool _canShowTreasure = false;
+
   // 更新时间
   DateTime _upDateTime;
 
@@ -404,6 +406,12 @@ class TreeGroup with ChangeNotifier {
       _boxTimer?.cancel();
       saveComposeTimes();
       save();
+      _boxTimer = null;
+    });
+
+    _boxTimerRun();
+    EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
+      _boxTimerRun();
     });
     // 自动合成  开始/结束
     EVENT_BUS.on(TreeGroup.AUTO_MERGE_START, (_) {
@@ -412,7 +420,7 @@ class TreeGroup with ChangeNotifier {
     });
     EVENT_BUS.on(TreeGroup.AUTO_MERGE_END, (_) {
       _autoMergeTimeout();
-      saveComposeTimes();
+      // saveComposeTimes();
     });
     // 弹窗显示时�������动合��暂停
     EVENT_BUS.on(Event_Name.MODAL_SHOW, (_) {
@@ -424,23 +432,6 @@ class TreeGroup with ChangeNotifier {
         // 如果仅仅是暂停但是 自动合成还未结束(_isAuto) 在暂停结束时重新开始
         if (_isAuto) _autoMerge();
       }
-    });
-    // EVENT_BUS.on(Event_Name.Router_Change, (_) {
-    //   _autoMergeTimeout();
-    //   saveComposeTimes();
-    // });
-
-    Future.delayed(Duration(seconds: _luckyGroup.issed?.randon_remain_time))
-        .then((e) {
-      Timer.periodic(
-          Duration(
-              seconds: _treasureInterval ??
-                  _luckyGroup.issed?.randon_remain_time), (timer) {
-        // Timer.periodic(Duration(seconds: 30), (timer) {
-        // 检查出现宝箱
-        _boxTimer = timer;
-        checkTreasure();
-      });
     });
 
     _isLoad = true;
@@ -461,6 +452,24 @@ class TreeGroup with ChangeNotifier {
       });
     }
     return this;
+  }
+
+  _boxTimerRun() {
+    if (_boxTimer == null) {
+      Future.delayed(Duration(seconds: _luckyGroup.issed?.randon_remain_time))
+          .then((e) {
+        Timer.periodic(
+            Duration(
+                seconds: _treasureInterval ??
+                    _luckyGroup.issed?.randon_remain_time), (timer) {
+          // Timer.periodic(Duration(seconds: 30), (timer) {
+          // 检查出现宝箱
+          _boxTimer = timer;
+          _canShowTreasure = true;
+          checkTreasure();
+        });
+      });
+    }
   }
 
   Future<GlobalDividendTree> _getGlobalDividendTree() async {
@@ -665,9 +674,11 @@ class TreeGroup with ChangeNotifier {
   }
 
   saveComposeTimes() async {
-    await Service()
-        .composeTimes({'acct_id': acct_id, 'times': totalMergeCount});
+    num _totalMergeCount = totalMergeCount;
     totalMergeCount = 0;
+
+    await Service()
+        .composeTimes({'acct_id': acct_id, 'times': _totalMergeCount});
   }
 
 // 合并树
@@ -675,7 +686,9 @@ class TreeGroup with ChangeNotifier {
     // 每合成一次统计一下
     totalMergeCount++;
     if (totalMergeCount == _luckyGroup?.issed?.merge_number &&
-        isFirstFreePhone) {
+        _userModel.freePhoneMask &&
+        isFirstFreePhone &&
+        hasMaxLevel > 8) {
       isFirstFreePhone = false;
       FreePhone().showModal();
     }
@@ -737,6 +750,7 @@ class TreeGroup with ChangeNotifier {
           if (hasMaxLevel < 6) {
             return;
           }
+
           if (hasMaxLevel == 8) {
             Storage.getItem(
               TreeGroup.CACHE_IS_FIRST_CLICK_PHONE,
@@ -782,11 +796,14 @@ class TreeGroup with ChangeNotifier {
       // 移除动画用到的树
     }
     animateSourceTree = null;
+    checkTreasure();
 
     notifyListeners();
   }
 
   removeAnimateTargetTree(Tree tree) {
+    checkTreasure();
+
     animateTargetTree = null;
     notifyListeners();
   }
@@ -892,8 +909,9 @@ class TreeGroup with ChangeNotifier {
   checkTreasure() {
     TreePoint point = _findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
-    if (treasureTree == null && point != null) {
+    if (_canShowTreasure && treasureTree == null && point != null) {
       makeTreasure(point);
+      _canShowTreasure = false;
     }
   }
 
@@ -911,9 +929,10 @@ class TreeGroup with ChangeNotifier {
     notifyListeners();
     // 设置时长结束后隐藏
     Duration duration = Duration(seconds: _treasuReremain);
-    Tree _tree = treasureTree;
+    // Tree _tree = treasureTree;
     Future.delayed(duration).then((e) {
-      if (treasureTree == _tree) treasureTree = null;
+      //  if (treasureTree == _tree)
+      treasureTree = null;
       notifyListeners();
     });
   }
@@ -928,6 +947,8 @@ class TreeGroup with ChangeNotifier {
 
   // 回收树木
   recycle(Tree tree) {
+    checkTreasure();
+
     if (_treeList.length == 1) {
       Layer.toastWarning('Keep at least one tree');
       return;

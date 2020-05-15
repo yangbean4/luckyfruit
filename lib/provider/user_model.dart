@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:convert' as JSON;
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
@@ -170,7 +171,20 @@ class UserModel with ChangeNotifier {
     data['is_share'] = DynamicLink.link == null ? 1 : 2;
 
     print("init_user_index ${data.toString()}");
-    dynamic userMap = await Service().getUser(data);
+    Response response = await Service().getUser(data);
+
+    BurialReport.report('inite_app', {
+      'aid': data['os_type'] == 'android'
+          ? data['gaid'] ?? data['aid']
+          : data['idfa'],
+      "type": response.statusCode == 504
+          ? '0'
+          : response.statusCode != 200 ? '1' : '2',
+      'httpstatus_code': response.statusCode.toString(),
+      'server_code': response.data['code'].toString()
+    });
+
+    dynamic userMap = response.data['data'];
     User user = User.fromJson(userMap);
     return user;
   }

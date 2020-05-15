@@ -228,7 +228,14 @@ class _AdButtonState extends State<AdButton> {
                 ),
                 widget.useAd && widget.onCancel != null
                     ? GestureDetector(
-                        onTap: widget.onCancel,
+                        onTap: () {
+                          widget.onCancel();
+                          BurialReport.report('ad_rewarded', {
+                            'type': '4',
+                            'ad_code': widget.ad_code,
+                            "union_id": adLogParam['union_id']
+                          });
+                        },
                         child: Padding(
                             padding:
                                 EdgeInsets.only(top: ScreenUtil().setWidth(20)),

@@ -1099,11 +1099,12 @@ class Layer {
         // 2. 可购买等级要小于等于接口返回的purchase_tree_level
         treeGroup.minLevel > luckyGroup?.issed?.purchase_tree_level ||
         // 3. 每合成 compose_numbers次数后触发一次
-        treeGroup.totalMergeCount % luckyGroup?.issed?.compose_numbers != 0) {
+        luckyGroup.issed.compose_numbers > treeGroup.totalMergeCount) {
       // 不满足条件，不弹出弹框，走正常流程
       onCancel();
       return;
     }
+    treeGroup.saveComposeTimes();
 
     /// 4. 本地请求到广告了
 //    bool isReady = await MoAd.getInstance(context).isMopubRewardVideoReady();

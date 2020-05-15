@@ -41,9 +41,9 @@ class Service {
   }
 
   /// 获取用户信息
-  Future<Map<String, dynamic>> getUser(Map<String, dynamic> data) async {
-    Response response = await _client.post('/User/index', data: data);
-    return response.data['data'];
+  Future<Response> getUser(Map<String, dynamic> data) async {
+    Response res = await _client.post('/User/index', data: data);
+    return res;
   }
 
   // 获取用户树数据
@@ -286,10 +286,8 @@ class Service {
   }
 
   // 完成邀请好友领取对应奖励
-  Future<Map<String, dynamic>> inviteAward(
-      Map<String, dynamic> data) async {
-    Response response =
-        await _client.post('/User/inviteAward', data: data);
+  Future<Map<String, dynamic>> inviteAward(Map<String, dynamic> data) async {
+    Response response = await _client.post('/User/inviteAward', data: data);
     return response.data['data'];
   }
 

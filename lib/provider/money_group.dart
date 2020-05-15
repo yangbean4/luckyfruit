@@ -71,6 +71,8 @@ class MoneyGroup with ChangeNotifier {
 // 定时器引用
   Timer _timer;
 
+  Timer addGoldTimer;
+
 // 金币
   double _gold = 400;
 
@@ -223,28 +225,53 @@ class MoneyGroup with ChangeNotifier {
     });
     // 退出时保存数据 并取消记时器
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
-      save(now: true);
-      _timer?.cancel();
-    });
-    const period = const Duration(seconds: App.SAVE_INTERVAL);
-    Timer.periodic(period, (timer) {
-      _timer = _timer;
-      save(now: true);
+      _appPush();
     });
 
-    // EVENT_BUS.on(MoneyGroup.TREE_ADD_GOLD, (makeGoldSped) {
-    //   addGold(makeGoldSped * makeGoldIncrease * App.SAVE_INTERVAL,
-    //       showAnimate: false);
-    // });
+    EVENT_BUS.on(Event_Name.APP_RESUMED, (_) {
+      _appBack();
+    });
+    _appBack();
 
     save();
     _dataLoad = true;
     return this;
   }
 
+  _appBack() {
+    const period = const Duration(seconds: App.SAVE_INTERVAL);
+    if (_timer == null) {
+      Timer.periodic(period, (timer) {
+        _timer = timer;
+        save(now: true);
+      });
+    }
+    if (addGoldTimer == null) {
+      Timer.periodic(Duration(seconds: AnimationConfig.TreeAnimationTime),
+          (timer) {
+        addGoldTimer = timer;
+        addTimeMakeGlod(AnimationConfig.TreeAnimationTime);
+      });
+    }
+  }
+
+  _appPush() {
+    save(now: true);
+    _timer?.cancel();
+    addGoldTimer?.cancel();
+    _timer = null;
+    addGoldTimer = null;
+  }
+
+// 树木产生金币
   treeAddGold(makeGoldAmout) {
     // 每8秒本地更新一次金币数量
     addGold(makeGoldAmout * makeGoldIncrease, showAnimate: false);
+  }
+
+  addTimeMakeGlod(inSeconds) {
+    addGold(inSeconds * treeGroup.makeGoldSped * makeGoldIncrease,
+        showAnimate: false);
   }
 
   timeLimitedTreeAddMoney(double amout) {
@@ -318,10 +345,6 @@ class MoneyGroup with ChangeNotifier {
     print("addGold: gold=$gold, _gold=$_gold, _allgold=$_allgold");
 
     return saveSuccess;
-  }
-
-  addTimeMakeGlod(inSeconds) {
-    addGold(inSeconds * treeGroup.makeGoldSped);
   }
 
 // 升级是清除金币

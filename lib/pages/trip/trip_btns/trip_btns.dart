@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_debounce_it/just_debounce_it.dart';
+// import 'package:just_debounce_it/just_debounce_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart'
     show App, Consts, Event_Name, TreeType;
@@ -380,7 +380,7 @@ class _TripBtnsState extends State<TripBtns> {
                     'Rank',
                     onTap: () {
                       // 防抖动设置
-                      Debounce.milliseconds(1000, print, ["rank"]);
+                      // Debounce.milliseconds(1000, print, ["rank"]);
                       MyNavigator().pushNamed(context, "RankPage");
                     },
                   )

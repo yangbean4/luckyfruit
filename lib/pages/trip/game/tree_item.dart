@@ -96,7 +96,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
       await treeAnimationController?.reverse();
       // await Future.delayed(Duration(milliseconds: 300));
       MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
-      moneyGroup.treeAddGold(widget.tree.gold * TreeAnimationTime);
+      // moneyGroup.treeAddGold(widget.tree.gold * TreeAnimationTime);
 
       if (widget.tree.type == TreeType.Type_TimeLimited_Bonus &&
           widget.tree?.amount != null &&
