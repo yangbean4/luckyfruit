@@ -85,7 +85,7 @@ class TimesRewardWidget extends StatelessWidget {
               builder: (_, UserInfo userInfo, __) {
                 return AdButton(
                   ad_code: '213',
-                  adUnitIdFlag: 1,
+                  adUnitIdFlag: 2,
                   btnText: 'Got it',
                   adIconPath: "assets/image/ad_icon_white.png",
                   colorsOnBtn: <Color>[

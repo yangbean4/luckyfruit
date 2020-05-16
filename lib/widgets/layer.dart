@@ -803,9 +803,12 @@ class Layer {
             ]).show();
   }
 
+  static bool limitedTimeBonusTree = false;
+
   /// 显示限时分红树开始
   static void showLimitedTimeBonusTree(
       TreeGroup treeGroup, UnlockNewTreeLevel value) {
+    limitedTimeBonusTree = false;
     Modal(
         childrenBuilder: (modal) => <Widget>[
               Container(
@@ -852,18 +855,7 @@ class Layer {
                 btnText: 'Claim',
                 onCancel: modal.hide,
                 onOk: () {
-                  modal.hide();
-                  treeGroup.addTree(
-                      tree: Tree(
-                    grade: Tree.MAX_LEVEL,
-                    type: TreeType.Type_TimeLimited_Bonus,
-                    duration: value?.duration,
-                    amount: value?.amount.toDouble(),
-                    showCountDown: true,
-                    treeId: value.tree_id,
-                    timePlantedLimitedBonusTree:
-                        DateTime.now().millisecondsSinceEpoch,
-                  ));
+                  onClickGetTree(modal, treeGroup, value);
                 },
                 interval: Duration(seconds: 0),
                 tips:
@@ -871,6 +863,28 @@ class Layer {
               )
             ])
       ..show();
+  }
+
+  static onClickGetTree(
+      Modal modal, TreeGroup treeGroup, UnlockNewTreeLevel value) async {
+    print("adcd_start");
+    if (limitedTimeBonusTree) {
+      print("adcd_return");
+      return;
+    }
+    limitedTimeBonusTree = true;
+    modal.hide();
+    print("adcd_start_pass");
+    treeGroup.addTree(
+        tree: Tree(
+      grade: Tree.MAX_LEVEL,
+      type: TreeType.Type_TimeLimited_Bonus,
+      duration: value?.duration,
+      amount: value?.amount.toDouble(),
+      showCountDown: true,
+      treeId: value.tree_id,
+      timePlantedLimitedBonusTree: DateTime.now().millisecondsSinceEpoch,
+    ));
   }
 
   static Future<dynamic> plantTimeLimitTree(
@@ -1292,7 +1306,8 @@ class Layer {
   }
 
   /// 5倍或10倍宝���弹框
-  static show5TimesTreasureWindow(int type, Function _onOk, Function _onCancel) {
+  static show5TimesTreasureWindow(
+      int type, Function _onOk, Function _onCancel) {
     Modal(
         childrenBuilder: (modal) => <Widget>[
               TimesRewardWidget(

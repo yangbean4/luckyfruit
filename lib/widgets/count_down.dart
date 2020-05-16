@@ -52,6 +52,7 @@ class _CountdownState extends State<Countdown> {
 //          print("timerCallback_timer");
           timer.cancel();
 //          print("timerCallback_onFinish: ${widget.onFinish}");
+          _duration -= widget.interval;
           if (widget.onFinish != null) widget.onFinish();
         } else {
           _duration -= widget.interval;

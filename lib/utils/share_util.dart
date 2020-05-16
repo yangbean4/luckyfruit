@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart' show ShaerConfig;
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
@@ -114,13 +114,20 @@ class ShareUtil {
       return;
     }
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    List<String> imgList = luckyGroup.shaerConfig.imageUrl;
+//    List<String> imgList = luckyGroup.shaerConfig.imageUrl;
     ShaerConfig shaerConfig = luckyGroup.shaerConfig;
     String quote = shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！';
-    String url =
-        await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
-    Share.share('$quote $url');
+//    String url =
+//        await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
 
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+
+    String adjustUrl =
+        shaerConfig.adjustUrl ?? "https://app.adjust.com/ubwqr44?label=";
+
+    String finalUrl = '$quote $adjustUrl${userModel.value.acct_id}';
+    Share.share(finalUrl);
+    print("Share.share_${finalUrl}_${shaerConfig.adjustUrl}");
     BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Invite);
   }
 }

@@ -60,7 +60,7 @@ class _TreasureState extends State<Treasure> {
                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(60)),
                   child: AdButton(
                       ad_code: adCode,
-                      adUnitIdFlag: 2,
+                      adUnitIdFlag: 1,
                       btnText: 'Got it',
                       adLogParam: adLogParam,
                       onCancel: () {

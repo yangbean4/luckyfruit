@@ -195,32 +195,44 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                             child: Container(
                               width: ScreenUtil().setWidth(794),
                               height: ScreenUtil().setWidth(80),
-                              child: Stack(children: <Widget>[
-                                Container(
-                                  width: ScreenUtil().setWidth(794),
-                                  height: ScreenUtil().setWidth(80),
-                                  child: Image.asset(
-                                    'assets/image/loading_page_bar.png',
-                                    width: ScreenUtil().setWidth(794),
-                                    height: ScreenUtil().setWidth(80),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: ScreenUtil().setWidth(10),
-                                  left: ScreenUtil().setWidth(17),
-                                  child: Container(
-                                    width:
-                                        ScreenUtil().setWidth(761 * progress),
-                                    height: ScreenUtil().setWidth(44),
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/image/loading_bar_small.png'),
-                                            alignment: Alignment.center,
-                                            fit: BoxFit.fitHeight)),
-                                  ),
-                                )
-                              ]),
+                              child: Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: <Widget>[
+                                    Container(
+                                      width: ScreenUtil().setWidth(794),
+                                      height: ScreenUtil().setWidth(80),
+                                      child: Image.asset(
+                                        'assets/image/loading_page_bar.png',
+                                        width: ScreenUtil().setWidth(794),
+                                        height: ScreenUtil().setWidth(80),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: ScreenUtil().setWidth(10),
+                                      left: ScreenUtil().setWidth(17),
+                                      child: Container(
+                                        width: ScreenUtil()
+                                            .setWidth(761 * progress),
+                                        height: ScreenUtil().setWidth(44),
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/image/loading_bar_small.png'),
+                                                alignment: Alignment.center,
+                                                fit: BoxFit.fitHeight)),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Loading Resource...",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          color: Colors.white,
+                                          fontSize: ScreenUtil().setSp(35),
+                                          height: 1,
+                                          fontFamily: FontFamily.bold,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ]),
                             ))
                         : Container(),
                     Positioned(

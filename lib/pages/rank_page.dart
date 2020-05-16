@@ -797,7 +797,7 @@ class RankPageState extends State<RankPage>
                 ),
               ),
               Text(
-                "\$${Util.formatNumber(num.tryParse(friendsList[index]?.separate_amount))}",
+                "\$${Util.formatNumber(num.tryParse(friendsList[index]?.amount))}",
                 style: TextStyle(
                     color: Color.fromRGBO(38, 38, 38, 1),
                     fontSize: ScreenUtil().setWidth(56),

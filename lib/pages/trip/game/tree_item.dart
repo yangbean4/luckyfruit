@@ -108,14 +108,16 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
             widget.tree?.amount / widget.tree?.originalDuration?.toDouble();
 
         double gold;
+        bool lastMoney=false;
         if (widget.tree?.duration < TreeAnimationTime) {
           gold = widget.tree.amount - widget.tree.limitedBonusedAmount;
+          lastMoney = true;
         } else {
           gold = speedPerSecond * TreeAnimationTime;
           widget.tree.limitedBonusedAmount += gold;
         }
 
-        moneyGroup.timeLimitedTreeAddMoney(gold);
+        moneyGroup.timeLimitedTreeAddMoney(gold, isLastLTTreeMoney: lastMoney);
         print(
             "timeLimitedTreeAddMoney: $speedPerSecond, $gold， ${widget.tree?.duration}");
       }

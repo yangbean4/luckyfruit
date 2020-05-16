@@ -67,11 +67,11 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         SenUtils.installPrevention(this);
         GeneratedPluginRegistrant.registerWith(this);
         initTgaSDK();
-        final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
-        sdk.getSettings().setTestDeviceAdvertisingIds(list);
-        AppLovinSdk.getInstance(this).getSettings().setVerboseLogging(true);
+//        final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
+//        sdk.getSettings().setTestDeviceAdvertisingIds(list);
+//        AppLovinSdk.getInstance(this).getSettings().setVerboseLogging(true);
         AppLovinSdk.initializeSdk(this);
 
         new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)

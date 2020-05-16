@@ -274,9 +274,14 @@ class MoneyGroup with ChangeNotifier {
         showAnimate: false);
   }
 
-  timeLimitedTreeAddMoney(double amout) {
+  timeLimitedTreeAddMoney(double amout, {bool isLastLTTreeMoney = false}) {
+    print("timeLimitedTreeAddMoney_${isLastLTTreeMoney}_$amout");
     // 限时分红树，每8秒本地更新一次余额
-    addMoney(amout, playAudio: false, playAnimation: false, canSave: false);
+    addMoney(amout,
+        playAudio: false,
+        playAnimation: false,
+        canSave: false,
+        isLastLTTreeMoney: isLastLTTreeMoney);
   }
 
   // 用户签到
@@ -395,8 +400,12 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
+  /// isLastLTTreeMoney:是否是限时分红树最后一笔加钱
   addMoney(double money,
-      {bool playAudio = true, bool playAnimation = true, bool canSave = true}) {
+      {bool playAudio = true,
+      bool playAnimation = true,
+      bool canSave = true,
+      bool isLastLTTreeMoney = false}) {
     if (playAudio) {
       Bgm.playMoney();
     }
@@ -405,8 +414,14 @@ class MoneyGroup with ChangeNotifier {
     if (playAnimation) {
       _showDollarImgTrans = true;
     }
-    BurialReport.report('m_currency_change',
-        {'m_currency_number': _money.toString(), 'type': '1'});
+
+    if (!isLastLTTreeMoney) {
+      BurialReport.report('m_currency_change',
+          {'m_currency_number': _money.toString(), 'type': '1'});
+    } else {
+      BurialReport.report('m_currency_change',
+          {'m_currency_number': _money.toString(), 'type': '3'});
+    }
     if (canSave) {
       save();
     }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:adjust_sdk/adjust.dart';
+import 'package:adjust_sdk/adjust_attribution.dart';
 import 'package:adjust_sdk/adjust_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,6 +13,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/router.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
@@ -30,18 +32,14 @@ void main() {
   // debugPrintRebuildDirtyWidgets = true;
   // debugProfilePaintsEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
-  DynamicLink.initDynamicLinks();
+//  DynamicLink.initDynamicLinks();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // Sse.init();\
 
   // 初始化Adjust
-  AdjustConfig config =
-      new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.production);
-//  config.logLevel = AdjustLogLevel.verbose;
-  Adjust.start(config);
-
+  AdjustSdk.initAdjustSdk();
   Initialize.initMain();
 
 // 开启背景音乐

@@ -302,7 +302,8 @@ class TreeGroup with ChangeNotifier {
           speedPerSecond * min(difference.inSeconds, tree.originalDuration);
       // 总共产生的金额-已经领取过的金额=还应该再给余额上加上的数额
       double left = earning - tree.limitedBonusedAmount;
-      _moneyGroup.timeLimitedTreeAddMoney(left);
+      _moneyGroup.timeLimitedTreeAddMoney(left,
+          isLastLTTreeMoney: remainTime <= 0);
     }
   }
 
