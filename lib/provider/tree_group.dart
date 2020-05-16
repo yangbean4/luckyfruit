@@ -682,7 +682,8 @@ class TreeGroup with ChangeNotifier {
   mergeTree(Tree source, Tree target) {
     // 每合成一次统计一下
     totalMergeCount++;
-    if (totalMergeCount == _luckyGroup?.issed?.merge_number &&
+    if (_userModel.value.is_m == 1 &&
+        totalMergeCount == _luckyGroup?.issed?.merge_number &&
         _userModel.freePhoneMask &&
         isFirstFreePhone &&
         hasMaxLevel > 8) {
@@ -752,7 +753,7 @@ class TreeGroup with ChangeNotifier {
             Storage.getItem(
               TreeGroup.CACHE_IS_FIRST_CLICK_PHONE,
             ).then((value) {
-              if (value == null) {
+              if (value == null && _userModel.value.is_m == 1) {
                 FreePhone().showModal();
               }
             });
@@ -760,7 +761,7 @@ class TreeGroup with ChangeNotifier {
           // checkRecycleRectGuidance();
 
           Storage.getItem(Consts.SP_KEY_UNLOCK_WHEEL).then((value) {
-            if (value == null) {
+            if (value == null && _userModel.value.is_m == 1) {
               _luckyGroup.setShowLuckyWheelUnlock = true;
             }
           });

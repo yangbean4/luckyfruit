@@ -116,6 +116,9 @@ class MoneyGroup with ChangeNotifier {
         Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
           addGold(sped * diffTime * (isDouble ? 2 : 1));
 
+          if (userModel.value.is_m != 1) {
+            return;
+          }
           List<dynamic> timerList = userModel.value.residue_7days_time;
           bool timeReached =
               timerList != null && timerList.isNotEmpty ? false : true;

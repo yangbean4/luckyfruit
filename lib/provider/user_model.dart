@@ -104,6 +104,7 @@ class UserModel with ChangeNotifier {
             {'m_currency_number': _user.acct_bal.toString(), 'type': '2'});
       }
 
+      hasLoginedFB = _user.rela_account != '';
       // String today_profit_update_time = await Storage.getItem(UserModel.today_profit_update_time);
       // if (_user.today_profit_update_time != null && today_profit_update_time != _user.today_profit_update_time) {
       //   Storage.setItem(UserModel.m_currency_change, _user.today_profit_update_time);

@@ -396,10 +396,10 @@ class _WithDrawPageState extends State<WithDrawPage> {
   }
 }
 
-class InputingInfoWidget extends StatelessWidget {
-  final TextEditingController _controllerFirst = new TextEditingController();
-  final TextEditingController _controllerRepeat = new TextEditingController();
+final TextEditingController _controllerFirst = new TextEditingController();
+final TextEditingController _controllerRepeat = new TextEditingController();
 
+class InputingInfoWidget extends StatelessWidget {
   final Cash_amount amount;
   final WithDrawTypes type;
   final String paypal_account;
