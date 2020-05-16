@@ -6,8 +6,8 @@ import 'package:luckyfruit/service/index.dart';
 class AdjustSdk {
   static initAdjustSdk() {
     AdjustConfig config =
-        new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.sandbox);
-    config.logLevel = AdjustLogLevel.verbose;
+        new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.production);
+//    config.logLevel = AdjustLogLevel.verbose;
 
     config.attributionCallback = (AdjustAttribution attributionChangedData) {
       print('[Adjust]: Attribution changed!');
