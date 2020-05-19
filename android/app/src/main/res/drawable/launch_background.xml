@@ -7,6 +7,6 @@
     <item>
         <bitmap
             android:gravity="center|fill"
-            android:src="@mipmap/screen" />
+            android:src="@drawable/screen" />
     </item>
 </layer-list>

@@ -1,45 +1,59 @@
 import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_attribution.dart';
 import 'package:adjust_sdk/adjust_config.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 
 class AdjustSdk {
-  static initAdjustSdk() {
+  static String lableString;
+
+  static initAdjustSdk(UserModel userModel) {
     AdjustConfig config =
         new AdjustConfig('p3j6r5u7mvi8', AdjustEnvironment.production);
 //    config.logLevel = AdjustLogLevel.verbose;
 
-    config.attributionCallback = (AdjustAttribution attributionChangedData) {
+    config.attributionCallback = (AdjustAttribution data) {
       print('[Adjust]: Attribution changed!');
 
-      if (attributionChangedData.trackerToken != null) {
-        print(
-            '[Adjust]: Tracker token: ' + attributionChangedData.trackerToken);
+      if (data.trackerToken != null) {
+        print('[Adjust]: Tracker token: ' + data.trackerToken);
       }
-      if (attributionChangedData.trackerName != null) {
-        print('[Adjust]: Tracker name: ' + attributionChangedData.trackerName);
+      if (data.trackerName != null) {
+        print('[Adjust]: Tracker name: ' + data.trackerName);
       }
-      if (attributionChangedData.campaign != null) {
-        print('[Adjust]: Campaign: ' + attributionChangedData.campaign);
+      if (data.campaign != null) {
+        print('[Adjust]: Campaign: ' + data.campaign);
       }
-      if (attributionChangedData.network != null) {
-        print('[Adjust]: Network: ' + attributionChangedData.network);
+      if (data.network != null) {
+        print('[Adjust]: Network: ' + data.network);
       }
-      if (attributionChangedData.creative != null) {
-        print('[Adjust]: Creative: ' + attributionChangedData.creative);
+      if (data.creative != null) {
+        print('[Adjust]: Creative: ' + data.creative);
       }
-      if (attributionChangedData.adgroup != null) {
-        print('[Adjust]: Adgroup: ' + attributionChangedData.adgroup);
+      if (data.adgroup != null) {
+        print('[Adjust]: Adgroup: ' + data.adgroup);
       }
-      if (attributionChangedData.clickLabel != null) {
-        print('[Adjust]: Click label: ' + attributionChangedData.clickLabel);
+      if (data.clickLabel != null) {
+        print('[Adjust]: Click label: ' + data.clickLabel);
+        lableString = data.clickLabel;
+      }
+      if (data.adid != null) {
+        print('[Adjust]: Adid: ' + data.adid);
+      }
 
-        Service()
-            .inviteCode({'invite_code': attributionChangedData.clickLabel});
-      }
-      if (attributionChangedData.adid != null) {
-        print('[Adjust]: Adid: ' + attributionChangedData.adid);
-      }
+      Service().inviteCode({
+        'invite_code': lableString ?? "0",
+        'tracker_name': data.trackerName ?? "0",
+        'tracker_token': data.trackerToken ?? "0",
+        'adjust_network': data.network ?? "0",
+        'adjust_adid': data.adid ?? "0",
+      }).then((dataMap) {
+        if (dataMap == null || dataMap['is_m'] == null || userModel == null) {
+          return;
+        }
+        print("update_is_m_from_adjust_${dataMap['is_m']}");
+        userModel?.value?.is_m = dataMap['is_m'];
+      });
     };
 
     Adjust.start(config);

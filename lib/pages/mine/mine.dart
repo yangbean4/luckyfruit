@@ -60,12 +60,12 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
   void didChangeDependencies() {
     super.didChangeDependencies();
     print("tago_didChangeDependencies");
-    getLink();
+//    getLink();
   }
 
-  getLink() async {
-    shareLink = await DynamicLink.getLinks(context: context);
-  }
+//  getLink() async {
+//    shareLink = await DynamicLink.getLinks(context: context);
+//  }
 
   @override
   Widget build(BuildContext context) {

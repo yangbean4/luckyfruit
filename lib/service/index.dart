@@ -296,6 +296,9 @@ class Service {
     print(
         "getBaseMap_${_userModel?.value?.acct_id}_${_userModel?.value?.device_id}");
     var resultMap = Map<String, String>();
+    if (info == null) {
+      return resultMap;
+    }
     if (_userModel?.value?.device_id != null) {
       resultMap["device_id"] = _userModel?.value?.device_id;
     }
@@ -373,11 +376,9 @@ class Service {
       }
       return res;
     }, onError: (DioError e) {
-      if (!App.ReleaseOrDebug) {
-        print('发生错误:' + e.message);
-        print('请求路径:${e.request.path}');
-        print('请求参数:${e.request.data}');
-      }
+      print('发生错误:' + e.message);
+      print('请求路径:${e.request.path}');
+      print('请求参数:${e.request.data}');
 
       if (e.message.startsWith('SocketException') ||
           // e.message.startsWith('') ||

@@ -1,8 +1,5 @@
 import 'dart:ui';
 
-import 'package:adjust_sdk/adjust.dart';
-import 'package:adjust_sdk/adjust_attribution.dart';
-import 'package:adjust_sdk/adjust_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +12,6 @@ import 'package:luckyfruit/routes/router.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/bgm.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
 import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
@@ -36,11 +32,8 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  // Sse.init();\
-
-  // 初始化Adjust
-  AdjustSdk.initAdjustSdk();
   Initialize.initMain();
+  Initialize.initAdjustSdk();
 
 // 开启背景音乐
   Bgm.init();
@@ -75,6 +68,11 @@ class Initialize {
   static TourismMap tourismMap = TourismMap();
   static LuckyGroup luckyGroup = LuckyGroup();
 
+  // 初始化Adjust
+  static initAdjustSdk() {
+    AdjustSdk.initAdjustSdk(userModel);
+  }
+
   static Future initMain() async {
     print("initMain1");
     await userModel.initUser().then((e) {
@@ -84,7 +82,7 @@ class Initialize {
       // 初始化firebase_messaging
       FbMsg.init(userId);
       // 监听来源 :是否是DynamicLink
-      DynamicLink.setUserId(userId);
+//      DynamicLink.setUserId(userId);
       print("initMain3");
       luckyGroup.init(userModel).then((e) {
         Tree.init(luckyGroup.treeConfig);

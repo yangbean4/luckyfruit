@@ -17,42 +17,42 @@ class DynamicLink {
   static Uri link;
   static String shareLink;
 
-  static initDynamicLinks({String acct_id}) async {
-    final PendingDynamicLinkData data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
-    update(deepLink: deepLink, acct_id: acct_id);
+//  static initDynamicLinks({String acct_id}) async {
+//    final PendingDynamicLinkData data =
+//        await FirebaseDynamicLinks.instance.getInitialLink();
+//    final Uri deepLink = data?.link;
+//    update(deepLink: deepLink, acct_id: acct_id);
+//
+//    FirebaseDynamicLinks.instance.onLink(
+//        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+//      print("dynamiclink_${dynamicLink.link}_$acct_id");
+//      final Uri deepLink = dynamicLink?.link;
+//      update(deepLink: deepLink, acct_id: acct_id);
+//    }, onError: (OnLinkErrorException e) async {
+//      print("dynamiclink_${e.message}");
+//    });
+//  }
 
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      print("dynamiclink_${dynamicLink.link}_$acct_id");
-      final Uri deepLink = dynamicLink?.link;
-      update(deepLink: deepLink, acct_id: acct_id);
-    }, onError: (OnLinkErrorException e) async {
-      print("dynamiclink_${e.message}");
-    });
-  }
+//  static setUserId(String acct_id) {
+//    update(acct_id: acct_id);
+//  }
 
-  static setUserId(String acct_id) {
-    update(acct_id: acct_id);
-  }
-
-  static update({Uri deepLink, String acct_id}) {
-    link = link ?? deepLink;
-    userId = userId ?? acct_id;
-
-    if (link != null && userId != null) {
-      String url = link.toString();
-      String code = url.split('code=')[1];
-      Service().inviteCode({'acct_id': userId, 'invite_code': code});
-    }
-  }
+//  static update({Uri deepLink, String acct_id}) {
+//    link = link ?? deepLink;
+//    userId = userId ?? acct_id;
+//
+//    if (link != null && userId != null) {
+//      String url = link.toString();
+//      String code = url.split('code=')[1];
+//      Service().inviteCode({'acct_id': userId, 'invite_code': code});
+//    }
+//  }
 
   static Future<String> getLinks(
       {String imageSrc, ShaerConfig shaerConfig, BuildContext context}) async {
-    if (shareLink != null) {
-      return shareLink;
-    }
+//    if (shareLink != null) {
+//      return shareLink;
+//    }
     ShaerConfig _shaerConfig = shaerConfig;
     if (shaerConfig == null) {
       LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);

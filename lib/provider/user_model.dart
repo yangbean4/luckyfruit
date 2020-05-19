@@ -10,6 +10,7 @@ import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/index.dart'
     show PersonalInfo, ShaerConfig, User, UserInfo;
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/utils/device_info.dart';
@@ -57,9 +58,9 @@ class UserModel with ChangeNotifier {
   // 是否已经登录了Facebook
   bool hasLoginedFB = false;
 
-  setShareLink(ShaerConfig shaerConfig) async {
-    _shareLink = await DynamicLink.getLinks(shaerConfig: shaerConfig);
-  }
+//  setShareLink(ShaerConfig shaerConfig) async {
+//    _shareLink = await DynamicLink.getLinks(shaerConfig: shaerConfig);
+//  }
 
   reportLogin(String login_type) {
     reportMap['login_type'] = login_type;
@@ -169,11 +170,13 @@ class UserModel with ChangeNotifier {
         .callNativeMethod(Event_Name.get_device_message_from_native);
 
     data.addAll(Map<String, dynamic>.from(deviceMsgMap));
-    data['is_share'] = DynamicLink.link == null ? 1 : 2;
+    data['is_share'] = AdjustSdk.lableString == null ? 1 : 2;
+    data['invite_code'] = AdjustSdk.lableString ?? "0";
 
     print("init_user_index ${data.toString()}");
     Response response = await Service().getUser(data);
 
+    // TODO 放这里不对
     BurialReport.report('inite_app', {
       'aid': data['os_type'] == 'android'
           ? data['gaid'] ?? data['aid']

@@ -19,7 +19,7 @@ class DeviceIofo {
   }
 
   static getInfoSync() {
-    return info ?? {};
+    return info ?? null;
   }
 
   static Future<Map<String, dynamic>> initDeviceInfo() async {

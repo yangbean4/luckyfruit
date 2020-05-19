@@ -428,7 +428,7 @@ class LuckyGroup with ChangeNotifier {
     _rightBtnShow();
     _dataLoad = true;
     // 等所有的请求结束,通知更新
-    userModel.setShareLink(shaerConfig);
+//    userModel.setShareLink(shaerConfig);
 
     notifyListeners();
   }
