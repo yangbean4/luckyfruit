@@ -87,6 +87,7 @@ class _WarehouseState extends State<Warehouse> {
   _showWillModal(BuildContext context, Tree tree) {
     Modal(
         onCancel: () {},
+        closeIconDelayedTime: 0,
         childrenBuilder: (Modal modal) => <Widget>[
               TreeWidget(
                 tree: tree,
@@ -137,6 +138,7 @@ class _WarehouseState extends State<Warehouse> {
         onCancel: () {},
         verticalPadding: 0,
         horizontalPadding: 0,
+        closeIconDelayedTime: 0,
         childrenBuilder: (Modal modal) => <Widget>[
               Container(
                 height: ScreenUtil().setWidth(174),

@@ -521,6 +521,7 @@ class Layer {
         onOk: onOk,
         onCancel: () {},
         okText: 'Claim',
+        closeIconDelayedTime: 0,
         dismissDurationInMilliseconds: Modal.DismissDuration,
         children: <Widget>[
           Image.asset(
@@ -716,6 +717,7 @@ class Layer {
           BurialReport.report('reminder', {"type": '1'});
           onOk();
         },
+        closeIconDelayedTime: 0,
         children: [
           ModalTitle('Turn On Reminders'),
           Container(
@@ -1309,6 +1311,7 @@ class Layer {
   static show5TimesTreasureWindow(
       int type, Function _onOk, Function _onCancel) {
     Modal(
+        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               TimesRewardWidget(
                 typeOfTimes: type,
@@ -1389,6 +1392,7 @@ class Layer {
         },
         onCancel: () {},
         okText: "Login",
+        closeIconDelayedTime: 0,
         closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
         horizontalPadding: 73,
         childrenBuilder: (modal) => <Widget>[

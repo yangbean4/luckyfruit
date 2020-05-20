@@ -64,6 +64,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
     } else {
       Modal(
           onCancel: () {},
+          closeIconDelayedTime: 0,
           childrenBuilder: (Modal modal) => <Widget>[
                 ModalTitle('My Inviter'),
                 Container(

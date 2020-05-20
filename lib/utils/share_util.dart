@@ -114,20 +114,22 @@ class ShareUtil {
       return;
     }
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-//    List<String> imgList = luckyGroup.shaerConfig.imageUrl;
     ShaerConfig shaerConfig = luckyGroup.shaerConfig;
     String quote = shaerConfig.quote ?? 'Merge Garden🏡，Win Rewards🎁！';
-//    String url =
+
+    /// 使用firebase获取动态链接
+//    List<String> imgList = luckyGroup.shaerConfig.imageUrl;
+//    String dynamicUrl =
 //        await DynamicLink.getLinks(context: context, imageSrc: imgList[0]);
+//    String finalUrl = '$quote $dynamicUrl';
 
+    /// 使用adjust获取分享url
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
-
     String adjustUrl =
         shaerConfig.adjustUrl ?? "https://app.adjust.com/ubwqr44?label=";
-
     String finalUrl = '$quote $adjustUrl${userModel.value.acct_id}';
     Share.share(finalUrl);
-    print("Share.share_${finalUrl}_${shaerConfig.adjustUrl}");
+    print("Share.share_${finalUrl}");
     BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Invite);
   }
 }

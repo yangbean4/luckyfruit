@@ -456,6 +456,7 @@ class MapPrizeModal {
     Modal(
         okText: 'Open',
         onCancel: () {},
+        closeIconDelayedTime: 0,
         onOk: () => _nextModalShow(cityInfo.id),
         children: <Widget>[
           Text('Welcome To \n ${cityInfo.code}',

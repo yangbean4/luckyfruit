@@ -800,6 +800,7 @@ class _Enjoy {
         BurialReport.report('comment', {'type': '2'});
       },
       okText: 'Submit',
+      closeIconDelayedTime: 0,
       children: [
         Container(
           height: ScreenUtil().setWidth(20),

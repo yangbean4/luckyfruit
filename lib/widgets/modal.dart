@@ -7,7 +7,7 @@ import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:oktoast/oktoast.dart';
 
-class Modal {
+class Modal extends StatefulWidget {
   ToastFuture _future;
 
   static const int DismissDuration = 1000;
@@ -38,6 +38,8 @@ class Modal {
   final int dismissDurationInMilliseconds;
   final List<Color> btnColors;
   final String closeIconPath;
+  final int closeIconDelayedTime;
+  bool closeIconDelayedOver = false;
 
   Modal(
       {this.okText,
@@ -58,6 +60,7 @@ class Modal {
       this.horizontalPadding = 40,
       this.marginBottom = 70,
       this.autoHide = true,
+      this.closeIconDelayedTime = 4,
       this.dismissDurationInMilliseconds = 0,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})
@@ -73,44 +76,99 @@ class Modal {
 
   // 显示modal
   show() {
-    children = children ?? childrenBuilder(this);
-    if (okText != null) {
-      children?.add(_createButton(okText, () {
-        if (autoHide) {
-          this.hide();
+    EVENT_BUS.emit(Event_Name.MODAL_SHOW);
+
+    _future = showToastWidget(
+      this,
+      dismissOtherToast: false,
+      duration: Duration(days: 1),
+      handleTouch: true,
+      animationCurve: Curves.easeIn,
+      // OffsetAnimationBuilder OpacityAnimationBuilder
+      animationBuilder: Miui10AnimBuilder(),
+      // context: context,
+    );
+  }
+
+  @override
+  State<StatefulWidget> createState() => _ModalWidgetState();
+}
+
+class _ModalWidgetState extends State<Modal> with WidgetsBindingObserver {
+  _createButton(String text, Function fn) => GestureDetector(
+      onTap: fn,
+      child: PrimaryButton(
+          width: 600,
+          height: 124,
+          colors: widget.btnColors,
+          child: Center(
+              child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              height: 1,
+              fontWeight: FontWeight.bold,
+              fontSize: ScreenUtil().setSp(56),
+            ),
+          ))));
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.children = widget.children ?? widget.childrenBuilder(widget);
+    if (widget.okText != null) {
+      widget.children?.add(_createButton(widget.okText, () {
+        if (widget.autoHide) {
+          this.widget.hide();
         }
-        if (onOk != null) {
-          onOk();
+        if (widget.onOk != null) {
+          widget.onOk();
         }
       }));
     }
 
+    if (widget.onCancel != null &&
+        widget.closeType == CloseType.CLOSE_TYPE_TOP_RIGHT) {
+      Future.delayed(Duration(seconds: widget.closeIconDelayedTime), () {
+        setState(() {
+          widget.closeIconDelayedOver = true;
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final topWidget = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(children: [
           Container(
-            width: ScreenUtil().setWidth(width),
+            width: ScreenUtil().setWidth(widget.width),
             margin: EdgeInsets.only(
-              bottom: ScreenUtil().setWidth(marginBottom),
+              bottom: ScreenUtil().setWidth(widget.marginBottom),
             ),
             padding: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setWidth(verticalPadding),
-              horizontal: ScreenUtil().setWidth(horizontalPadding),
+              vertical: ScreenUtil().setWidth(widget.verticalPadding),
+              horizontal: ScreenUtil().setWidth(widget.horizontalPadding),
             ),
             decoration: BoxDecoration(
-              color: decorationColor,
+              color: widget.decorationColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(ScreenUtil().setWidth(100)),
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: children,
+              children: widget.children,
             ),
           ),
-          closeType == CloseType.CLOSE_TYPE_TOP_RIGHT && onCancel != null
+          widget.closeType == CloseType.CLOSE_TYPE_TOP_RIGHT &&
+                  widget.closeIconDelayedOver &&
+                  widget.onCancel != null
               ? Positioned(
                   top: ScreenUtil().setWidth(20),
                   right: ScreenUtil().setWidth(20),
@@ -118,9 +176,9 @@ class Modal {
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        hide();
-                        if (onCancel != null) {
-                          onCancel();
+                        widget.hide();
+                        if (widget.onCancel != null) {
+                          widget.onCancel();
                         }
                       },
                       child: Container(
@@ -128,7 +186,7 @@ class Modal {
                         height: ScreenUtil().setWidth(120),
                         child: Center(
                             child: Image.asset(
-                          closeIconPath ??
+                          widget.closeIconPath ??
                               'assets/image/close_icon_modal_top_right.png',
                           width: ScreenUtil().setWidth(40),
                           height: ScreenUtil().setWidth(40),
@@ -145,15 +203,15 @@ class Modal {
     );
 
     List<Widget> widgetList = [topWidget];
-    if (footer != null) {
-      widgetList.add(footer);
-    } else if (footer == null &&
-        closeType == CloseType.CLOSE_TYPE_BOTTOM_CENTER &&
-        onCancel != null) {
+    if (widget.footer != null) {
+      widgetList.add(widget.footer);
+    } else if (widget.footer == null &&
+        widget.closeType == CloseType.CLOSE_TYPE_BOTTOM_CENTER &&
+        widget.onCancel != null) {
       widgetList.add(GestureDetector(
         onTap: () {
-          if (onCancel() != false) {
-            hide();
+          if (widget.onCancel() != false) {
+            widget.hide();
           }
         },
         child: Container(
@@ -161,7 +219,7 @@ class Modal {
             height: ScreenUtil().setWidth(200),
             child: Center(
                 child: Image.asset(
-              closeIconPath ??
+              widget.closeIconPath ??
                   'assets/image/close_icon_modal_bottom_center.png',
               width: ScreenUtil().setWidth(40),
               height: ScreenUtil().setWidth(40),
@@ -175,66 +233,13 @@ class Modal {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: widgetList,
       )
-    ]..addAll(stack);
+    ]..addAll(widget.stack);
 
-    Widget widget = Container(
+    return Container(
       color: Color.fromRGBO(0, 0, 0, 0.5),
       child: Center(child: Stack(overflow: Overflow.visible, children: stackC)),
     );
-
-    EVENT_BUS.emit(Event_Name.MODAL_SHOW);
-
-    _future = showToastWidget(
-      widget,
-      dismissOtherToast: false,
-      duration: Duration(days: 1),
-      handleTouch: true,
-      animationCurve: Curves.easeIn,
-      // OffsetAnimationBuilder OpacityAnimationBuilder
-      animationBuilder: Miui10AnimBuilder(),
-      // context: context,
-    );
   }
-
-  // _createButton(String text, Function fn) => ButtonTheme(
-  //       minWidth: ScreenUtil().setWidth(600),
-  //       height: ScreenUtil().setWidth(124),
-  //       shape: RoundedRectangleBorder(
-  //         side: BorderSide.none,
-  //         borderRadius: BorderRadius.all(Radius.circular(62)),
-  //       ),
-  //       buttonColor: MyTheme.primaryColor,
-  //       disabledColor: const Color.fromRGBO(193, 193, 193, 1),
-  //       child: RaisedButton(
-  //         onPressed: fn,
-  //         child: Text(
-  //           text,
-  //           style: TextStyle(
-  //             color: Colors.white,
-  //             fontWeight: FontWeight.bold,
-  //             fontSize: ScreenUtil().setSp(52),
-  //           ),
-  //         ),
-  //       ),
-  //     );
-
-  _createButton(String text, Function fn) => GestureDetector(
-      onTap: fn,
-      child: PrimaryButton(
-          width: 600,
-          height: 124,
-          colors: btnColors,
-          child: Center(
-              child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              height: 1,
-              fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setSp(56),
-            ),
-          ))));
 }
 
 enum CloseType { CLOSE_TYPE_TOP_RIGHT, CLOSE_TYPE_BOTTOM_CENTER }
