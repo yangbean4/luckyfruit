@@ -1,23 +1,21 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/utils/index.dart';
-import 'package:luckyfruit/widgets/shake_button.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/pages/trip/game/game.dart' show PositionLT;
-import 'package:luckyfruit/widgets/modal.dart';
-import 'package:luckyfruit/widgets/tree_widget.dart';
-import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/widgets/modal.dart';
+import 'package:luckyfruit/widgets/shake_button.dart';
+import 'package:luckyfruit/widgets/tree_widget.dart';
+import 'package:provider/provider.dart';
 
 typedef Widget _BuilderFun(BuildContext context,
     {Animation<double> top, Animation<double> size});
@@ -36,8 +34,12 @@ class _TreasureState extends State<Treasure> {
   report() {
     UserModel _userModel = Provider.of<UserModel>(context, listen: false);
     adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
-    BurialReport.report('ad_rewarded',
-        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
+    BurialReport.report('ad_rewarded', {
+      'type': '0',
+      'ad_code': adCode,
+      "union_id": adLogParam['union_id'],
+      'is_new': "1"
+    });
   }
 
   _showModal(Tree tree) {

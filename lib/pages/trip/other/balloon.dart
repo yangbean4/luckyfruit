@@ -1,20 +1,20 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:provider/provider.dart';
-
-import './alighting.dart';
-import 'package:luckyfruit/widgets/modal.dart';
-import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/widgets/ad_btn.dart';
-import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/models/index.dart' show Issued;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
+import 'package:luckyfruit/theme/public/public.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/widgets/modal.dart';
+import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:luckyfruit/models/index.dart' show Issued;
+
+import './alighting.dart';
 
 class Balloon extends StatefulWidget {
   Balloon({Key key}) : super(key: key);
@@ -69,8 +69,12 @@ class _BalloonState extends State<Balloon> {
   report() {
     UserModel _userModel = Provider.of<UserModel>(context, listen: false);
     adLogParam = Util.getVideoLogParams(_userModel?.value?.acct_id);
-    BurialReport.report('ad_rewarded',
-        {'type': '0', 'ad_code': adCode, "union_id": adLogParam['union_id']});
+    BurialReport.report('ad_rewarded', {
+      'type': '0',
+      'ad_code': adCode,
+      "union_id": adLogParam['union_id'],
+      'is_new': "1"
+    });
   }
 
   @override

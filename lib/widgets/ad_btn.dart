@@ -107,11 +107,14 @@ class _AdButtonState extends State<AdButton> {
 
     adLogParam =
         widget.adLogParam ?? Util.getVideoLogParams(_userModel?.value?.acct_id);
-    if (widget.adLogParam == null && widget.useAd) {
+    if ((widget.adLogParam == null && widget.useAd) ||
+        widget.ad_code == '202') {
       BurialReport.report('ad_rewarded', {
         'type': '0',
         'ad_code': widget.ad_code,
-        "union_id": adLogParam['union_id']
+        "union_id": adLogParam['union_id'],
+        // 针对auto merge，第一次出现时出现新手引导，且不用看广告
+        'is_new': (widget.ad_code == '202' && !widget.useAd) ? "0" : "1"
       });
 
       BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Entr_Imp);
@@ -126,7 +129,8 @@ class _AdButtonState extends State<AdButton> {
               BurialReport.report('ad_rewarded', {
                 'type': '1',
                 'ad_code': widget.ad_code,
-                "union_id": adLogParam['union_id']
+                "union_id": adLogParam['union_id'],
+                'is_new': "1"
               });
               // widget?.onOk();
 
@@ -156,6 +160,16 @@ class _AdButtonState extends State<AdButton> {
 //              });
             } else {
               widget.onOk();
+
+              // 针对auto merge，第一次出现时出现新手引导，且不用看广告
+              if (widget.ad_code == '202') {
+                BurialReport.report('ad_rewarded', {
+                  'type': '1',
+                  'ad_code': widget.ad_code,
+                  "union_id": adLogParam['union_id'],
+                  'is_new': "0"
+                });
+              }
             }
           }
         : () {};
@@ -233,7 +247,8 @@ class _AdButtonState extends State<AdButton> {
                           BurialReport.report('ad_rewarded', {
                             'type': '4',
                             'ad_code': widget.ad_code,
-                            "union_id": adLogParam['union_id']
+                            "union_id": adLogParam['union_id'],
+                            'is_new': "1"
                           });
                         },
                         child: Padding(

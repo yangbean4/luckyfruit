@@ -131,7 +131,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawRRectAutoMergeWidget>
                   _playAnimation();
                 }
 
-                print("topPosAnimation?.value: ${topPosAnimation?.value}, $dy");
+//                print("topPosAnimation?.value: ${topPosAnimation?.value}, $dy");
                 return show
                     ? Stack(
                         children: <Widget>[

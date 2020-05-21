@@ -94,7 +94,8 @@ class MoAd {
     BurialReport.report('ad_rewarded', {
       'type': '2',
       'ad_code': ad_code,
-      "union_id": videoLogParam['union_id']
+      "union_id": videoLogParam['union_id'],
+      'is_new': "1"
     });
 
     BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Imp);
@@ -111,7 +112,8 @@ class MoAd {
     BurialReport.report('ad_rewarded', {
       'type': '3',
       'ad_code': ad_code,
-      "union_id": videoLogParam['union_id']
+      "union_id": videoLogParam['union_id'],
+      'is_new': "1"
     });
 
     BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Bouns);
