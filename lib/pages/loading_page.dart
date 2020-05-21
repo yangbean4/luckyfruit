@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
+import 'package:luckyfruit/config/app.dart' show App, Consts, Event_Name;
 import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/user.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
@@ -28,7 +28,7 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool canJump = false;
   bool hasPaused = false;
-  bool timeReached = false;
+  bool timeReached = !App.ReleaseOrDebug;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -53,9 +53,10 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
     print("loading_start");
     Future.delayed(Duration(seconds: 10), () {
       print("loading_end");
-      setState(() {
-        timeReached = true;
-      });
+      if (mounted)
+        setState(() {
+          timeReached = true;
+        });
     });
   }
 

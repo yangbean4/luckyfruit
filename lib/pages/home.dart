@@ -5,6 +5,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -13,7 +14,9 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
+import 'package:luckyfruit/widgets/guidance_draw_rrect_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
+import 'package:luckyfruit/widgets/guidance_finger_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
@@ -257,6 +260,20 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         GuidanceFingerWidget(),
         // 新手引导-回收树木
 //        GuidanceDrawRecycleWidget(),
+        // 新手引导-auto merge
+        Selector<LuckyGroup, bool>(
+            selector: (context, provider) =>
+                provider.showAutoMergeCircleGuidance,
+            builder: (_, bool show, __) {
+              return show ? GuidanceDrawRRectAutoMergeWidget() : Container();
+            }),
+        // 新手引导-auto merge finger
+        Selector<LuckyGroup, bool>(
+            selector: (context, provider) =>
+                provider.showAutoMergeFingerGuidance,
+            builder: (_, bool show, __) {
+              return show ? GuidanceFingerAutoMergeWidget() : Container();
+            }),
       ],
     );
   }

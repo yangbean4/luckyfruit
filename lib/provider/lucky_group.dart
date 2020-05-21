@@ -9,7 +9,6 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
-import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:luckyfruit/utils/storage.dart';
 
 import './money_group.dart';
@@ -61,6 +60,7 @@ class LuckyGroup with ChangeNotifier {
   List<_Check> _checkList = [];
 
   ShaerConfig shaerConfig;
+
   // 等级数据
   List<LevelRoule> _levelRouleList;
 
@@ -148,10 +148,33 @@ class LuckyGroup with ChangeNotifier {
     }
   }
 
+  /// 是否显示auto merge的circle指引
+  bool _showAutoMergeCircleGuidance = false;
+
+  bool get showAutoMergeCircleGuidance => _showAutoMergeCircleGuidance;
+
+  set setShowAutoMergeCircleGuidance(bool show) {
+    print("setShowAutoMergeCircleGuidance__1");
+    _showAutoMergeCircleGuidance = show;
+    notifyListeners();
+  }
+
+  /// 是否显示auto merge的finger指引
+  bool _showAutoMergeFingerGuidance = false;
+
+  bool get showAutoMergeFingerGuidance => _showAutoMergeFingerGuidance;
+
+  set setShowAutoMergeFingerGuidance(bool show) {
+    print("setShowAutoMergeCircleGuidance__1");
+    _showAutoMergeFingerGuidance = show;
+    notifyListeners();
+  }
+
   // 是否显示🎈
   bool _showballoon = false;
 
   bool get showballoon => _showballoon;
+
   set showballoon(bool type) {
     _showballoon = type;
     notifyListeners();
@@ -216,13 +239,16 @@ class LuckyGroup with ChangeNotifier {
   }
 
   int _double_coin_time;
+
   int get double_coin_time => _double_coin_time;
+
   set double_coin_time(int value) {
     _double_coin_time = value;
     notifyListeners();
   }
 
   Timer doubleTimer;
+
   _runDoubleTimer() {
     Timer.periodic(Duration(seconds: 1), (timer) {
       double_coin_time = double_coin_time - 1;
@@ -245,6 +271,21 @@ class LuckyGroup with ChangeNotifier {
 
   bool get showAuto => _showAuto;
 
+  void setShowAuto(bool value) {
+    _showAuto = value;
+    if (value) {
+      Storage.getItem(Consts.SP_KEY_AUTO_MERGE_GUIDANCE).then((value) {
+        if (value == null) {
+          setShowAutoMergeCircleGuidance = true;
+          Storage.setItem(Consts.SP_KEY_AUTO_MERGE_GUIDANCE, "1");
+        }
+      });
+    } else {
+      setShowAutoMergeCircleGuidance = false;
+      setShowAutoMergeFingerGuidance = false;
+    }
+  }
+
   bool _isAuto = false;
 
   bool get isAuto => _isAuto;
@@ -259,13 +300,16 @@ class LuckyGroup with ChangeNotifier {
   }
 
   int _automatic_time;
+
   int get automatic_time => _automatic_time;
+
   set automatic_time(int value) {
     _automatic_time = value;
     notifyListeners();
   }
 
   Timer autoTimer;
+
   _runAutoTimer() {
     Timer.periodic(Duration(seconds: 1), (timer) {
       automatic_time = automatic_time - 1;
@@ -452,17 +496,17 @@ class LuckyGroup with ChangeNotifier {
   }
 
   hideAutoAndNextRun() {
-    _showAuto = false;
+    setShowAuto(false);
     notifyListeners();
 
     _timerRun(
         time1: issed?.automatic_two_adSpace,
         run1: () {
-          _showAuto = true;
+          setShowAuto(true);
         },
         time2: issed.automatic_remain_time,
         run2: () {
-          if (_showAuto == true) {
+          if (showAuto == true) {
             hideAutoAndNextRun();
           }
         });
@@ -517,11 +561,11 @@ class LuckyGroup with ChangeNotifier {
       _timerRun(
           time1: issed?.automatic_game_timelen,
           run1: () {
-            _showAuto = true;
+            setShowAuto(true);
           },
           time2: issed.automatic_remain_time,
           run2: () {
-            if (_showAuto == true) {
+            if (showAuto == true) {
               hideAutoAndNextRun();
             }
           });

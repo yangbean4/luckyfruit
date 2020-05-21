@@ -167,12 +167,15 @@ class Consts {
       new GlobalKey(debugLabel: 'key_mine_cash');
   static GlobalKey globalKeyGoldPosition =
       new GlobalKey(debugLabel: 'key_gold_position');
+  static GlobalKey globalKeyAutoMerge =
+      new GlobalKey(debugLabel: 'key_auto_merge');
 
   static List<List<GlobalKey>> treeGroupGlobalKey = getTreeGroup();
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";
   static final String SP_KEY_UNLOCK_WHEEL = "sp_key_unlock_wheel";
+  static final String SP_KEY_AUTO_MERGE_GUIDANCE = "sp_key_auto_merge_guidance";
 
   static List<List<GlobalKey>> getTreeGroup() {
     List<List<GlobalKey>> treeMatrix = List(GameConfig.Y_AMOUNT);

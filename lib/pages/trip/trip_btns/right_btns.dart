@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show Issued;
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/theme/index.dart';
@@ -37,6 +38,7 @@ class _RightBtnsState extends State<RightBtns>
     String bottomString,
     Color color,
     bool active = true,
+    bool userNoAdImg = false,
   }) {
     return Container(
       width: ScreenUtil().setWidth(345),
@@ -59,8 +61,10 @@ class _RightBtnsState extends State<RightBtns>
                     ? BoxDecoration()
                     : BoxDecoration(
                         image: DecorationImage(
-                            image:
-                                AssetImage('assets/image/right_btn_play.png'),
+                            image: userNoAdImg
+                                ? AssetImage(
+                                    'assets/image/right_btn_play_noad.png')
+                                : AssetImage('assets/image/right_btn_play.png'),
                             alignment: Alignment.center,
                             fit: BoxFit.fill)),
                 child: Column(
@@ -175,8 +179,12 @@ class _RightBtnsState extends State<RightBtns>
                         child: AdButton(
                           ad_code: '202',
                           adUnitIdFlag: 2,
+                          key: Consts.globalKeyAutoMerge,
+                          useAd: !luckyGroup.showAutoMergeCircleGuidance,
                           onOk: () {
                             //success
+                            luckyGroup.setShowAutoMergeCircleGuidance = false;
+                            luckyGroup.setShowAutoMergeFingerGuidance = false;
                             luckyGroup.autoStart();
                             setState(() {
                               isAuto = true;
@@ -187,6 +195,8 @@ class _RightBtnsState extends State<RightBtns>
                               active: false,
                               bottomString: 'in ${issed?.automatic_time}s',
                               topString: 'Auto',
+                              userNoAdImg:
+                                  luckyGroup.showAutoMergeCircleGuidance,
                               color: Color.fromRGBO(49, 200, 84, 1)),
                         ))
                     : Container(),
@@ -209,6 +219,7 @@ class _RightBtnsState extends State<RightBtns>
 class _ShakeAnimation extends StatefulWidget {
   final Widget child;
   final Duration animateTime;
+
   _ShakeAnimation({
     Key key,
     this.child,
@@ -283,6 +294,7 @@ class _GrowTransition extends StatelessWidget {
 
 class _ShakeCurve extends Curve {
   final int longTime;
+
   _ShakeCurve({this.longTime});
 
   @override
