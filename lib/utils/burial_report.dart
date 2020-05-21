@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_event.dart';
 import 'package:luckyfruit/config/app.dart' show Event_Name;
+import 'package:luckyfruit/utils/device_info.dart';
 
 import './event_bus.dart';
 import './method_channel.dart';
@@ -68,11 +69,17 @@ class BurialReport {
   }
 
   static report(String event_name, Map<String, String> map) {
+    Map<String, dynamic> info = DeviceIofo.getInfoSync();
     map['event_name'] = event_name;
     map['config_version'] = configVersion;
     map['app_version'] = appVersion;
     map['time'] = DateTime.now().toUtc().toString();
     map['is_m'] = isM;
+    if (info != null) {
+      map['aid'] = info['os_type'] == 'android'
+          ? info['gaid'] ?? info['aid']
+          : info['idfa'];
+    }
 
     Map<String, String> data = _getData(map);
     ChannelBus().callNativeMethod("tga_track", arguments: jsonEncode(data));

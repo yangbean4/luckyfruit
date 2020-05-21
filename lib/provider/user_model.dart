@@ -12,7 +12,6 @@ import 'package:luckyfruit/models/index.dart'
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/utils/daynamic_links.dart';
 import 'package:luckyfruit/utils/device_info.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -176,16 +175,14 @@ class UserModel with ChangeNotifier {
     print("init_user_index ${data.toString()}");
     Response response = await Service().getUser(data);
 
-    // TODO 放这里不对
     BurialReport.report('inite_app', {
       'aid': data['os_type'] == 'android'
           ? data['gaid'] ?? data['aid']
           : data['idfa'],
-      "type": response.statusCode == 504
-          ? '0'
-          : response.statusCode != 200 ? '1' : '2',
+      "type": response.statusCode != 200 ? '1' : '2',
       'httpstatus_code': response.statusCode.toString(),
-      'server_code': response.data['code'].toString()
+      'server_code': response.data['code'].toString(),
+      'api_path': 'User/index'
     });
 
     dynamic userMap = response.data['data'];
