@@ -60,7 +60,7 @@ class Modal extends StatefulWidget {
       this.horizontalPadding = 40,
       this.marginBottom = 70,
       this.autoHide = true,
-      this.closeIconDelayedTime = 4,
+      this.closeIconDelayedTime = 5,
       this.dismissDurationInMilliseconds = 0,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
       this.decorationColor = Colors.white})

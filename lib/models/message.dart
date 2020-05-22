@@ -14,6 +14,8 @@ class Message {
     String claim_code;
     String chan_type;
     String msg_content;
+    String type;
+    String create_time;
     
     factory Message.fromJson(Map<String,dynamic> json) => _$MessageFromJson(json);
     Map<String, dynamic> toJson() => _$MessageToJson(this);

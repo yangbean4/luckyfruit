@@ -6,5 +6,7 @@
   "wdl_status": "2",
   "claim_code": "",
   "chan_type": "",
-  "msg_content": "123"
+  "msg_content": "123",
+  "type": "1",
+  "create_time": ""
 }

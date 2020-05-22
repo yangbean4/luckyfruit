@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/widgets/no_data.dart';
-import 'package:provider/provider.dart';
-
 import 'package:luckyfruit/models/index.dart' show Message;
-import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/index.dart';
+import 'package:provider/provider.dart';
 
 class MessagePage extends StatefulWidget {
   MessagePage({Key key}) : super(key: key);
@@ -107,42 +105,28 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                       Text(
                         message.wdl_status == '2'
-                            ? 'cash out failed'
-                            : 'cash out success',
+                            ? 'Cash Out Failed'
+                            : 'Cash Out Success',
                         style: TextStyle(
                             color: MyTheme.blackColor,
                             fontSize: ScreenUtil().setSp(70),
                             fontFamily: FontFamily.bold,
                             fontWeight: FontWeight.bold),
                       ),
-                      message.wdl_status == '2'
-                          ? Text(message.msg_content ?? '',
-                              // "Your \$${message.wdl_amt} cash out failed,Please check if you haven't login with FB",
-                              style: TextStyle(
-                                  color: MyTheme.blackColor,
-                                  fontSize: ScreenUtil().setSp(34),
-                                  fontFamily: FontFamily.regular,
-                                  fontWeight: FontWeight.w400))
-                          : RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                  text:
-                                      'your \$${message.wdl_amt} Amazon Gift card redeeded sucessfully,your came is:',
-                                  style: TextStyle(
-                                      color: MyTheme.blackColor,
-                                      fontSize: ScreenUtil().setSp(34),
-                                      fontFamily: FontFamily.regular,
-                                      fontWeight: FontWeight.w400),
-                                  children: [
-                                    TextSpan(
-                                        text: message.gift_id,
-                                        style: TextStyle(
-                                            color: MyTheme.blackColor,
-                                            fontSize: ScreenUtil().setSp(34),
-                                            fontFamily: FontFamily.semibold,
-                                            fontWeight: FontWeight.w400))
-                                  ]),
-                            ),
+                      Text(message.msg_content ?? '',
+                          style: TextStyle(
+                              color: MyTheme.blackColor,
+                              fontSize: ScreenUtil().setSp(34),
+                              fontFamily: FontFamily.regular,
+                              fontWeight: FontWeight.w400)),
+                      Text(
+                          Util.formatDate(
+                              time: num.tryParse(message.create_time)),
+                          style: TextStyle(
+                              color: MyTheme.blackColor,
+                              fontSize: ScreenUtil().setSp(34),
+                              fontFamily: FontFamily.regular,
+                              fontWeight: FontWeight.w400)),
                     ],
                   ),
                 );
