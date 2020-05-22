@@ -29,6 +29,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool canJump = false;
   bool hasPaused = false;
   bool timeReached = !App.ReleaseOrDebug;
+  bool clickFlag = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -152,6 +153,10 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                       height: ScreenUtil().setWidth(147),
                                     ),
                                     onTap: () async {
+                                      if (clickFlag) {
+                                        return;
+                                      }
+                                      clickFlag = true;
                                       UserModel userModel =
                                           Provider.of<UserModel>(context,
                                               listen: false);
@@ -167,6 +172,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
                                           go('1');
                                         });
                                       } else {
+                                        clickFlag = false;
                                         Layer.toastWarning(
                                             "Login Failed, Try Again Later");
                                       }

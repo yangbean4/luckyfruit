@@ -20,7 +20,7 @@ import 'package:luckyfruit/widgets/layer.dart';
 class UserModel with ChangeNotifier {
   static const String CACHE_KEY = 'user';
 
-  //
+  static const String is_new_user = 'is_new_user';
   static const String m_currency_change = 'm_currency_change';
   static const String today_profit_update_time = 'today_profit_update_time';
   static const String profit_update_time = 'profit_update_time';
@@ -61,8 +61,13 @@ class UserModel with ChangeNotifier {
 //    _shareLink = await DynamicLink.getLinks(shaerConfig: shaerConfig);
 //  }
 
-  reportLogin(String login_type) {
+  reportLogin(String login_type) async {
+    String isNewUser = await Storage.getItem(UserModel.is_new_user);
+
     reportMap['login_type'] = login_type;
+    reportMap['type'] = (isNewUser == null ? 0 : 1).toString();
+
+    Storage.setItem(UserModel.is_new_user, "no");
     BurialReport.report('login', reportMap);
   }
 
@@ -95,7 +100,6 @@ class UserModel with ChangeNotifier {
         'userid': _user.acct_id,
         'app_version': info['app_version'],
         'config_version': _user.version,
-        'type': (res == null ? 0 : 1).toString()
       };
 
       if (_user.update_time != null && res != _user.update_time) {

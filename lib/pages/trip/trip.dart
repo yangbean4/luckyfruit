@@ -173,7 +173,8 @@ class _TripState extends State<Trip>
                                 level: provider.level),
                             builder:
                                 (context, _SelectorUse _selectorUse, child) {
-                              String cityName = _selectorUse.city.toUpperCase();
+                              String cityName =
+                                  _selectorUse?.city?.toUpperCase() ?? "";
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[

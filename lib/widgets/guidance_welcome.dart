@@ -142,11 +142,15 @@ class _GuidanceWelcomeState extends State with TickerProviderStateMixin {
     } on TickerCanceled {}
     bgColor = null;
 
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    // 显示添加树circle指引
-    luckyGroup.setShowCircleGuidance = true;
-    // 显示合成树rrect指引
-    // luckyGroup.setShowRRectGuidance = true;
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    print("transToHideGuidance_${treeGroup?.treeList?.length}");
+    if (treeGroup?.treeList?.length == 0) {
+      LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+      // 显示添加树circle指引
+      luckyGroup.setShowCircleGuidance = true;
+      // 显示合成树rrect指引
+      // luckyGroup.setShowRRectGuidance = true;
+    }
 
     Storage.setItem(Consts.SP_KEY_GUIDANCE_WELCOME, "1");
   }
