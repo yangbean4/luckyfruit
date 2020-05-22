@@ -154,8 +154,10 @@ class TreeGroup with ChangeNotifier {
     return Tree(grade: hasMaxLevel).highLevelCanPurchese;
   }
 
-  Tree get minLevelTree =>
-      new Tree(grade: minLevel, gradeNumber: treeGradeNumber['$minLevel'] ?? 0);
+  Tree get minLevelTree => new Tree(
+      grade: minLevel,
+      gradeNumber:
+          treeGradeNumber == null ? 0 : (treeGradeNumber['$minLevel'] ?? 0));
 
 // 第一次领取限时分红树的partner处红点提示
   bool _isFirstTimeimt = false;
@@ -344,7 +346,7 @@ class TreeGroup with ChangeNotifier {
           ? jsonDecode(group['treeGradeNumber'])
           : {};
       treeGradeNumber =
-          Map.castFrom<String, dynamic, String, int>(_treeGradeNumber);
+          Map.castFrom<String, dynamic, String, int>(_treeGradeNumber) ?? {};
       bool invalid =
           group['hasMaxLevel'] == null || group['hasMaxLevel'] == "null";
       print("group['hasMaxLevel']= ${group['hasMaxLevel']}");
@@ -406,7 +408,7 @@ class TreeGroup with ChangeNotifier {
     EVENT_BUS.on(Event_Name.APP_PAUSED, (_) {
       _boxTimer?.cancel();
       saveComposeTimes();
-      save();
+      save(skipIsAuto: true);
       _boxTimer = null;
     });
 
@@ -480,11 +482,11 @@ class TreeGroup with ChangeNotifier {
   }
 
   // 保存
-  Future<bool> save() async {
+  Future<bool> save({bool skipIsAuto = false}) async {
     notifyListeners();
 
     // 如果实在自动合成 则返回 避免频繁触发
-    if (_isAuto) return false;
+    if (_isAuto && !skipIsAuto) return false;
     _upDateTime = DateTime.now();
     String data = jsonEncode(this);
     bool saveSuccess = await Storage.setItem(TreeGroup.CACHE_KEY, data);

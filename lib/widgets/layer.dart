@@ -573,6 +573,7 @@ class Layer {
 
     Modal(
         dismissDurationInMilliseconds: Modal.DismissDuration,
+        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               ModalTitle('Level Up $level'),
               SizedBox(height: ScreenUtil().setWidth(38)),
@@ -1129,6 +1130,7 @@ class Layer {
 //      return;
 //    }
     Modal(
+        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Free Upgrade"),
               Container(height: ScreenUtil().setWidth(37)),
@@ -1215,6 +1217,7 @@ class Layer {
   /// 购买树提示金币不足弹窗
   static showCoinInsufficientWindow(num time, num gold, Function onOk) {
     Modal(
+        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Coin Shortage"),
               Container(height: ScreenUtil().setWidth(36)),
@@ -1257,6 +1260,7 @@ class Layer {
   /// 离线奖励弹窗
   static showOffLineRewardWindow(num glod, Function onOk) {
     Modal(
+        onCancel: () {},
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Offline Earnings"),
               Container(height: ScreenUtil().setWidth(29)),

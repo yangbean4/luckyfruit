@@ -20,9 +20,9 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     super.initState();
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 1000), vsync: this);
+        duration: new Duration(milliseconds: 500), vsync: this);
     curveEaseIn =
-        new CurvedAnimation(parent: controller, curve: Curves.easeOutBack);
+        new CurvedAnimation(parent: controller, curve: Curves.linear);
 
     scaleAnimation = Tween<double>(
       begin: 1.0,

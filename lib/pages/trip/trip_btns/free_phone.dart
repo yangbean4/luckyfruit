@@ -27,7 +27,6 @@ class FreePhone extends StatelessWidget {
 
   showModal() {
     BurialReport.report('page_imp', {'page_code': '006'});
-    BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
     BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
 
     Modal(
@@ -100,6 +99,7 @@ class FreePhone extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         showModal();
+        BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
         Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
       },
       child: child,

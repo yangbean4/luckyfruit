@@ -30,6 +30,7 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   bool hasPaused = false;
   bool timeReached = !App.ReleaseOrDebug;
   bool clickFlag = false;
+  bool jumpToHomeFlag = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -80,6 +81,11 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
   }
 
   go(String login_type) {
+    if (jumpToHomeFlag) {
+      // 防止多次跳转
+      return;
+    }
+    jumpToHomeFlag = true;
     BottomNavigationBar navigationBar = Consts.globalKeyBottomBar.currentWidget;
     if (navigationBar != null) {
       navigationBar?.onTap(0);

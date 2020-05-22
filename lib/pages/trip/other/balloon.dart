@@ -32,6 +32,7 @@ class _BalloonState extends State<Balloon> {
     MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
     num getGlod = moneyGroup.makeGoldSped * balloon_time;
     Modal(
+        onCancel: () {},
         childrenBuilder: (Modal modal) => <Widget>[
               ModalTitle('Cash Bonus'),
               SizedBox(height: ScreenUtil().setWidth(40)),

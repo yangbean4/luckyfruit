@@ -46,6 +46,7 @@ class _TreasureState extends State<Treasure> {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
 
     Modal(
+        onCancel: () {},
         childrenBuilder: (Modal modal) => <Widget>[
               ModalTitle('Free Mango Tree'),
               SizedBox(
