@@ -396,10 +396,7 @@ class _WithDrawPageState extends State<WithDrawPage> {
   }
 }
 
-final TextEditingController _controllerFirst = new TextEditingController();
-final TextEditingController _controllerRepeat = new TextEditingController();
-
-class InputingInfoWidget extends StatelessWidget {
+class InputingInfoWidget extends StatefulWidget {
   final Cash_amount amount;
   final WithDrawTypes type;
   final String paypal_account;
@@ -407,6 +404,21 @@ class InputingInfoWidget extends StatelessWidget {
 
   InputingInfoWidget(
       this.amount, this.type, this.paypal_account, this.callback);
+
+  @override
+  _InputingInfoWidgetState createState() => _InputingInfoWidgetState();
+}
+
+class _InputingInfoWidgetState extends State<InputingInfoWidget> {
+  TextEditingController _controllerFirst;
+  TextEditingController _controllerRepeat;
+
+  @override
+  void initState() {
+    super.initState();
+    _controllerFirst = new TextEditingController();
+    _controllerRepeat = new TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -444,7 +456,7 @@ class InputingInfoWidget extends StatelessWidget {
                               ModalTitle("Paypal"),
                               InputFiledWidget(
                                   "Paypal Account", _controllerFirst,
-                                  paypalAccount: paypal_account),
+                                  paypalAccount: widget.paypal_account),
                               InputFiledWidget(
                                   "Confirm Paypal Account", _controllerRepeat),
                               GestureDetector(
@@ -468,8 +480,8 @@ class InputingInfoWidget extends StatelessWidget {
                                     return;
                                   }
 
-                                  postWithDrawInfo(context, amount, type,
-                                          _controllerFirst.text)
+                                  postWithDrawInfo(context, widget.amount,
+                                          widget.type, _controllerFirst.text)
                                       .then((e) {
                                     // 更新本地的PayPal账号信息
                                     userInfo.paypal_account =
@@ -485,12 +497,12 @@ class InputingInfoWidget extends StatelessWidget {
                                     }
                                     userModel.getUserInfo();
                                     // 本地减去提现的金额
-                                    EVENT_BUS.emit(
-                                        MoneyGroup.ACC_MONEY, amount.show);
+                                    EVENT_BUS.emit(MoneyGroup.ACC_MONEY,
+                                        widget.amount.show);
 
                                     // 删除掉首次提现项
-                                    if (callback != null) {
-                                      callback();
+                                    if (widget.callback != null) {
+                                      widget.callback();
                                     }
                                     handleAfterSummitWithDraw();
                                   });
@@ -583,7 +595,7 @@ class InputFiledWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _controller.text = paypalAccount;
+//    _controller.text = paypalAccount;
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
