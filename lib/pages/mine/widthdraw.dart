@@ -381,10 +381,16 @@ class _WithDrawPageState extends State<WithDrawPage> {
     }
 
     if (type == WithDrawTypes.Type_Amazon) {
-      // 不弹框,直接给出toast
-      Navigator.pop(context);
-      Layer.toastSuccess("Submit Success, Please Check In Your Message Page",
-          padding: 40);
+      postWithDrawInfo(context, amount, WithDrawTypes.Type_Amazon, null)
+          .then((e) {
+        // 本地减去提现的金额
+        EVENT_BUS.emit(MoneyGroup.ACC_MONEY, amount?.show?.toDouble() ?? 0.0);
+
+        // 不弹框,直接给出toast
+        Navigator.pop(context);
+        Layer.toastSuccess("Submit Success, Please Check In Your Message Page",
+            padding: 40);
+      });
       return;
     }
     BurialReport.report('page_imp', {'page_code': '023'});
@@ -480,8 +486,11 @@ class _InputingInfoWidgetState extends State<InputingInfoWidget> {
                                     return;
                                   }
 
-                                  postWithDrawInfo(context, widget.amount,
-                                          widget.type, _controllerFirst.text)
+                                  postWithDrawInfo(
+                                          context,
+                                          widget.amount,
+                                          WithDrawTypes.Type_Paypal,
+                                          _controllerFirst.text)
                                       .then((e) {
                                     // 更新本地的PayPal账号信息
                                     userInfo.paypal_account =
@@ -497,8 +506,10 @@ class _InputingInfoWidgetState extends State<InputingInfoWidget> {
                                     }
                                     userModel.getUserInfo();
                                     // 本地减去提现的金额
-                                    EVENT_BUS.emit(MoneyGroup.ACC_MONEY,
-                                        widget.amount.show);
+                                    EVENT_BUS.emit(
+                                        MoneyGroup.ACC_MONEY,
+                                        widget?.amount?.show?.toDouble() ??
+                                            0.0);
 
                                     // 删除掉首次提现项
                                     if (widget.callback != null) {
