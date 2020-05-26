@@ -683,7 +683,7 @@ class Layer {
   }
 
   ///大转盘抽奖
-  static showLuckyWheel(BuildContext context) {
+  static showLuckyWheel(BuildContext context, {bool fromAppLaunch = false}) {
 //    Modal(
 //        onCancel: () {},
 //        horizontalPadding: ScreenUtil().setWidth(70),
@@ -703,7 +703,11 @@ class Layer {
       luckyGroup.setShowLuckyWheelGuidance = true;
     });
 
-    showDialog(context: context, builder: (_) => LuckyWheelWrapperWidget());
+    showDialog(
+        context: context,
+        builder: (_) => LuckyWheelWrapperWidget(
+              fromAppLaunch: fromAppLaunch,
+            ));
   }
 
   static messageNotification(Function onOk) {
@@ -1260,7 +1264,9 @@ class Layer {
   /// 离线奖励弹窗
   static showOffLineRewardWindow(num glod, Function onOk) {
     Modal(
-        onCancel: () {},
+        onCancel: () {
+          onOk(false);
+        },
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Offline Earnings"),
               Container(height: ScreenUtil().setWidth(29)),

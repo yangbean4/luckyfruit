@@ -6,6 +6,7 @@ import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tourism_map.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -215,6 +216,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // 设置屏幕适配插件
     // ScreenUtil.init(context, width: 1080, height: 1920);
+    MoneyGroup.context = context;
     return Stack(
       children: <Widget>[
         Scaffold(

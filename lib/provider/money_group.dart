@@ -119,19 +119,10 @@ class MoneyGroup with ChangeNotifier {
           if (userModel.value.is_m != 1) {
             return;
           }
-          List<dynamic> timerList = userModel.value.residue_7days_time;
-          bool timeReached =
-              timerList != null && timerList.isNotEmpty ? false : true;
 
-          // 关闭后出现分享活动弹框或者Cash Gift Packs
-          if (!timeReached) {
-            Layer.showSevenDaysInviteEventWindow(context);
-          } else {
-            Layer.partnerCash(context, onOK: () {
-              if (_luckyGroup.issed.merge_number == 0) {
-                FreePhone().showModal();
-              }
-            });
+          if (userModel?.value?.ticket > 0 ||
+              userModel?.value?.ticket_time > 0) {
+            Layer.showLuckyWheel(context, fromAppLaunch: true);
           }
         });
       }

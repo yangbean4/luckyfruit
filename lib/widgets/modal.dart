@@ -132,9 +132,10 @@ class _ModalWidgetState extends State<Modal> with WidgetsBindingObserver {
     if (widget.onCancel != null &&
         widget.closeType == CloseType.CLOSE_TYPE_TOP_RIGHT) {
       Future.delayed(Duration(seconds: widget.closeIconDelayedTime), () {
-        setState(() {
-          widget.closeIconDelayedOver = true;
-        });
+        if (mounted)
+          setState(() {
+            widget.closeIconDelayedOver = true;
+          });
       });
     }
   }

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
+import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -20,6 +21,34 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class LuckyWheelWrapperWidget extends StatelessWidget {
+  final bool fromAppLaunch;
+
+  LuckyWheelWrapperWidget({this.fromAppLaunch = false});
+
+  void onCloseWindow(BuildContext context) {
+    Navigator.pop(context);
+
+    if (fromAppLaunch) {
+      UserModel userModel = Provider.of<UserModel>(context, listen: false);
+      List<dynamic> timerList = userModel.value.residue_7days_time;
+      bool timeReached =
+          timerList != null && timerList.isNotEmpty ? false : true;
+
+      // 关闭后出现分享活动弹框或者Cash Gift Packs
+      if (!timeReached) {
+        Layer.showSevenDaysInviteEventWindow(context);
+      } else {
+        Layer.partnerCash(context, onOK: () {
+          LuckyGroup luckyGroup =
+              Provider.of<LuckyGroup>(context, listen: false);
+          if (luckyGroup.issed.merge_number == 0) {
+            FreePhone().showModal();
+          }
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +76,14 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
                     width: ScreenUtil().setWidth(900),
                     padding: EdgeInsets.symmetric(horizontal: 10),
 //                    color: Colors.red,
-                    child: LuckyWheelWidget(null))),
+                    child: LuckyWheelWidget(null, onCloseWindow))),
             Positioned(
                 top: ScreenUtil().setWidth(50),
                 right: ScreenUtil().setWidth(50),
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
-                    Navigator.pop(context);
+                    onCloseWindow(context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -74,8 +103,9 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
 
 class LuckyWheelWidget extends StatefulWidget {
   Modal modal;
+  final Function(BuildContext) onCloseCallback;
 
-  LuckyWheelWidget(this.modal);
+  LuckyWheelWidget(this.modal, this.onCloseCallback);
 
   @override
   State<StatefulWidget> createState() => LuckyWheelWidgetState();
@@ -294,6 +324,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                   onCancel: () {
                     if (widget?.modal != null) {
                       widget?.modal?.hide();
+                    } else if (widget.onCloseCallback != null) {
+                      widget.onCloseCallback(context);
                     } else {
                       Navigator.pop(context);
                     }
