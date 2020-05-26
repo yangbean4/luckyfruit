@@ -115,7 +115,7 @@ class _DividendState extends State<Dividend> {
                     ),
                     child: Center(
                       child: Text(
-                          'Permanent receive 20% ads earnings from "Lucky Fruit”',
+                          'Permanent receive 20% ads earnings from Merge Garden',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: FontFamily.semibold,

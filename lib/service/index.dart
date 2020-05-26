@@ -324,7 +324,7 @@ class Service {
   _createClient() {
     BaseOptions options = BaseOptions(
         baseUrl: App.BASE_URL,
-        connectTimeout: 5000,
+        connectTimeout: 10000,
         responseType: ResponseType.plain,
         receiveTimeout: 10000);
 
@@ -380,19 +380,26 @@ class Service {
       print('请求路径:${e.request.path}');
       print('请求参数:${e.request.data}');
 
+      String errMsg = e.message;
+      String errType = '0';
+      if (e.message.startsWith('SocketException') ||
+          // e.message.startsWith('') ||
+          e.message.startsWith('Connecting timed')) {
+        errMsg = 'Network disconnected, try again later';
+        errType = '3';
+      }
+
+      if (e.message.startsWith('Login With Your Facebook')) {
+        errType = '4';
+      }
+      Layer.toastWarning(errMsg);
+
       BurialReport.report('inite_app', {
-        "type": '0',
+        "type": errType,
         'httpstatus_code': e?.response?.statusCode?.toString() ?? "-1",
         'error_msg': e?.message,
         'api_path': e?.request?.path
       });
-
-      if (e.message.startsWith('SocketException') ||
-          // e.message.startsWith('') ||
-          e.message.startsWith('Connecting timed')) {
-        return Layer.toastWarning('Network disconnected, try again later');
-      }
-      Layer.toastWarning(e.message);
     }));
   }
 }

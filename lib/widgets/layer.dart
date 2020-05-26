@@ -1471,6 +1471,7 @@ class Layer {
     num progrssValue = min(inviteFriendsNum / 5.0, 1.0);
     Modal(
         onCancel: () {},
+        closeIconDelayedTime: 0,
         width: 900,
         closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
         closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',

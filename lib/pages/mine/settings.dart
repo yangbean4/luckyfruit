@@ -118,7 +118,7 @@ class SettingsPage extends StatelessWidget {
                         height: ScreenUtil().setWidth(2),
                       ),
                       ItemWidget(
-                          title: "About Lucky Fruit",
+                          title: "About Merge Garden",
                           trailingText: App.appVersion),
                       Divider(
                         height: ScreenUtil().setWidth(2),
