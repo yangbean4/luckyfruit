@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luckyfruit/pages/how_to_play.dart';
 
 import 'package:luckyfruit/pages/illustration/illustration.dart';
+import 'package:luckyfruit/pages/lotto/lotto_page.dart';
 import 'package:luckyfruit/pages/mine/privacy_page.dart';
 import 'package:luckyfruit/pages/mine/settings.dart';
 import 'package:luckyfruit/pages/mine/widthdraw.dart';
@@ -28,6 +29,7 @@ final routes = {
   'RankPage': (context) => RankPage(),
   'Dividend': (context) => Dividend(),
   'map': (context) => MapPage(),
+  'lotto': (context) => LottoPage(),
   'partner': (context) => Partner(),
   'InvitatioinPage': (context, {arguments}) => InvitationRecordListPage(
         partnerSubordinateList: arguments,

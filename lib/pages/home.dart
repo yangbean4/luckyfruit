@@ -2,6 +2,7 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/pages/lotto/lotto_page.dart';
 import 'package:luckyfruit/pages/map/map.dart' show MapPage;
 import 'package:luckyfruit/pages/mine/mine.dart' show MinePage;
 import 'package:luckyfruit/pages/partner/partner.dart';
@@ -44,7 +45,13 @@ Map<String, String> pageCodeTarget = {
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   int tabIndex = 0;
-  List<Widget> pageList = [Trip(), MapPage(), Partner(), MinePage()];
+  List<Widget> pageList = [
+    Trip(),
+    MapPage(),
+    LottoPage(),
+    Partner(),
+    MinePage()
+  ];
 
   final pageController = PageController();
 
@@ -168,6 +175,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           remind: remind['map'] ?? false,
           activeIconUrl: 'assets/image/map_active.png',
           name: 'MAP'),
+      _createBarItem(
+          iconUrl: 'assets/image/lotto.png',
+          remind: remind['lotto'] ?? false,
+          activeIconUrl: 'assets/image/lotto_active.png',
+          name: 'LOTTO'),
     ];
     if (remind['isM']) {
       items.add(_createBarItem(
@@ -195,7 +207,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       items: items,
       currentIndex: this.tabIndex,
       onTap: (int index) {
-        List<String> pageName = ['trip', 'map', 'partner', 'mine'];
+        List<String> pageName = ['trip', 'map', 'lotto', 'partner', 'mine'];
         pageController.jumpToPage(index);
         String goName = pageName[index];
         BurialReport.report('page_imp', {'page_code': pageCodeTarget[goName]});
