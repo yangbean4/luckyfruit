@@ -3,7 +3,12 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/widgets/circular_progress_route.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 
-enum CircularProgressType { Type_Normal, Type_Lucky_One, Type_Lucky_Two }
+enum CircularProgressType {
+  Type_Normal,
+  Type_Lucky_One,
+  Type_Lucky_Two,
+  Type_Lucky_Three
+}
 
 class CircularProgressWidget extends StatefulWidget {
   CircularProgressType type;
@@ -42,11 +47,18 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget> {
         Colors.yellow[200],
         Colors.yellow[700],
       ];
-    } else {
+    } else if (widget.type == CircularProgressType.Type_Lucky_Two) {
       return [
         Colors.deepPurpleAccent[700],
         Colors.purple[200],
         Colors.deepPurpleAccent[700],
+      ];
+    } else {
+      return [
+        Color(0xFFDDFF9A),
+        Color(0xFF32B54A),
+        Color(0xFF66CC1F),
+        Color(0xFFDDFF9A),
       ];
     }
   }

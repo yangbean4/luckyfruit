@@ -2,10 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/circular_progress_widget.dart';
+import 'package:luckyfruit/widgets/layer.dart';
+import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class LottoPage extends StatefulWidget {
   @override
@@ -14,27 +20,52 @@ class LottoPage extends StatefulWidget {
 
 class _LottoPageState extends State<LottoPage> {
   @override
+  void initState() {
+    super.initState();
+
+    getLottoList();
+  }
+
+  getLottoList() async {
+    dynamic lottoListInfo = await Service().getPartnerListInfo({});
+    LottoList lottoList = LottoList.fromJson(lottoListInfo);
+    lottoList.data;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment(0.0, -1.0),
-              end: Alignment(0.0, 1.0),
-              colors: <Color>[
-                Color(0xFFF1D34E),
-                Color(0xffF59A22),
-              ]),
-        ),
-        child: Column(
-          children: <Widget>[
-            LottoHeaderWidget(),
-            LottoHeaderImageWidget(),
-            SizedBox(
-              height: ScreenUtil().setWidth(150),
-            ),
-            LottoItemPickWidget(),
-          ],
-        ));
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment(0.0, -1.0),
+            end: Alignment(0.0, 1.0),
+            colors: <Color>[
+              Color(0xFFF1D34E),
+              Color(0xffF59A22),
+            ]),
+      ),
+      child: Selector<LuckyGroup, Tuple2>(
+          selector: (context, provider) => Tuple2(
+              true,
+//              provider.lottoPickedFinished,
+              provider.currentPeriodlottoList),
+          builder: (_, tuple2, __) {
+            return Column(
+              children: <Widget>[
+                LottoHeaderWidget(),
+                tuple2.item1
+                    ? LottoStatusHeaderImageWidget()
+                    : LottoHeaderImageWidget(),
+                SizedBox(
+                  height: ScreenUtil().setWidth(tuple2.item1 ? 30 : 150),
+                ),
+                tuple2.item1
+                    ? LottoStatusShowcaseWidget(tuple2.item2)
+                    : LottoItemPickWidget(),
+              ],
+            );
+          }),
+    );
   }
 }
 
@@ -82,6 +113,32 @@ class LottoHeaderWidget extends StatelessWidget {
               ),
             ),
           ),
+          Positioned(
+            left: ScreenUtil().setWidth(28),
+            bottom: ScreenUtil().setWidth(8),
+            child: Selector<LuckyGroup, int>(
+                selector: (context, provider) => provider.lottoTicketNum,
+                builder: (_, lottoTicketNum, __) {
+                  return Row(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/image/lotto_tickets_icon.png",
+                        width: ScreenUtil().setWidth(136),
+                        height: ScreenUtil().setWidth(105),
+                      ),
+                      Text(
+                        ' X $lottoTicketNum',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: FontFamily.semibold,
+                          fontWeight: FontWeight.w500,
+                          fontSize: ScreenUtil().setSp(60),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          ),
         ],
       ),
     );
@@ -121,7 +178,7 @@ class LottoItemPickWidget extends StatefulWidget {
 }
 
 class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
-  List selectedNumList = [];
+  List<String> selectedNumList = [];
   bool pick6 = false;
 
   bool onHandleClickItem(String item, bool enable) {
@@ -219,7 +276,12 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
               });
             } else {
               // 选中了6个之后（Submit）
+              LuckyGroup luckyGroup =
+                  Provider.of<LuckyGroup>(context, listen: false);
+              luckyGroup.lottoPickedFinished = true;
 
+              luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
+              luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
             }
           },
           useAd: false,
@@ -358,5 +420,374 @@ class _SelectedLottoWidgetState extends State<SelectedLottoWidget> {
     }
 
     return widgetList;
+  }
+}
+
+class LottoStatusHeaderImageWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ScreenUtil().setWidth(1080),
+      height: ScreenUtil().setWidth(830),
+      child: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          Image.asset(
+            "assets/image/lotto_bg_top.png",
+            width: ScreenUtil().setWidth(1080),
+            height: ScreenUtil().setWidth(145),
+          ),
+          Positioned(
+            top: ScreenUtil().setWidth(70),
+            left: ScreenUtil().setWidth(38),
+            child: Container(
+              child: Image.asset(
+                "assets/image/lotto_status_balls.png",
+                width: ScreenUtil().setWidth(1004),
+                height: ScreenUtil().setWidth(760),
+              ),
+            ),
+          ),
+          Positioned(bottom: 0, child: LottoStatusRewardedWidget()),
+          Selector<LuckyGroup, bool>(
+              selector: (context, provider) =>
+                  provider.lottoRewardedTimeReached,
+              builder: (_, timeReached, __) {
+                return Align(
+                  alignment: Alignment(.0, .1),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: timeReached
+                          ? "Winning Numbers"
+                          : "Winning Numbers In",
+                      style: TextStyle(
+                          fontFamily: FontFamily.semibold,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(48)),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: timeReached ? '\n\$1000' : "\n16h 43m",
+                          style: TextStyle(
+                              fontFamily: FontFamily.bold,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: ScreenUtil().setSp(120)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+  }
+}
+
+class LottoStatusRewardedWidget extends StatefulWidget {
+  @override
+  _LottoStatusRewardedWidgetState createState() =>
+      _LottoStatusRewardedWidgetState();
+}
+
+class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ScreenUtil().setWidth(1080),
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: <Widget>[
+          Selector<LuckyGroup, bool>(
+              selector: (context, provider) =>
+                  provider.lottoRewardedTimeReached,
+              builder: (_, timeReached, __) {
+                timeReached = true;
+                return timeReached
+                    ? Container(
+                        child: Wrap(
+                            spacing: ScreenUtil().setWidth(64),
+                            alignment: WrapAlignment.center,
+                            children: getRewardedLottoWidget()))
+                    : Container();
+              }),
+          Container(
+              width: ScreenUtil().setWidth(1080),
+              height: ScreenUtil().setWidth(10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment(-1.0, 0.0),
+                    end: Alignment(1.0, 0.0),
+                    colors: <Color>[
+                      Color(0xffF3BD3D),
+                      Color(0xffFFEF29),
+                      Color(0xffF3BD3D),
+                    ]),
+                borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(
+                  ScreenUtil().setWidth(30),
+                )),
+              )),
+        ],
+      ),
+    );
+  }
+
+  getRewardedLottoWidget() {
+    List<Widget> widgetList = [];
+    List<String> temp = [
+      '12',
+      '23',
+      '34',
+      '45',
+      '56',
+      '67',
+    ];
+    for (int i = 0; i < 6; i++) {
+      widgetList.add(FlipLottoItemWidget(
+        i + 1,
+        temp[i],
+        i,
+        getRewarded: checkIfGetRewarded(i),
+      ));
+    }
+
+    return widgetList;
+  }
+
+  bool checkIfGetRewarded(int index) {
+    if (index == 4) {
+      return true;
+    }
+    return false;
+  }
+}
+
+class LottoStatusShowcaseWidget extends StatefulWidget {
+  List<String> currentPeriodsLottoList;
+
+  LottoStatusShowcaseWidget(this.currentPeriodsLottoList);
+
+  @override
+  _LottoStatusShowcaseWidgetState createState() =>
+      _LottoStatusShowcaseWidgetState();
+}
+
+class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+            width: ScreenUtil().setWidth(1080),
+            margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
+            decoration: BoxDecoration(
+              color: Color(0xFFFCFAE8),
+              boxShadow: [
+                //阴影
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 2.0),
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(
+                ScreenUtil().setWidth(30),
+              )),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: ScreenUtil().setWidth(400),
+                  height: ScreenUtil().setWidth(95),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment(0.0, -1.0),
+                        end: Alignment(0.0, 1.0),
+                        colors: <Color>[
+                          Color(0xff39D780),
+                          Color(0xff28A06E),
+                        ]),
+                    borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(
+                      ScreenUtil().setWidth(30),
+                    )),
+                  ),
+                  child: Text(
+                    "Your Numbers",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: FontFamily.semibold,
+                      fontWeight: FontWeight.w500,
+                      fontSize: ScreenUtil().setSp(48),
+                    ),
+                  ),
+                ),
+                Wrap(
+                    spacing: ScreenUtil().setWidth(64),
+                    runSpacing: ScreenUtil().setWidth(20),
+                    alignment: WrapAlignment.center,
+                    runAlignment: WrapAlignment.center,
+                    children: getShowcaseLottoWidget()),
+              ],
+            )),
+        SizedBox(
+          height: ScreenUtil().setWidth(30),
+        ),
+        Selector<LuckyGroup, Tuple2>(
+            selector: (context, provider) => Tuple2(
+                provider.lottoRewardedTimeReached, provider.lottoTicketNum),
+            builder: (_, tuple2, __) {
+              return AdButton(
+                adUnitIdFlag: 1,
+                colorsOnBtn: <Color>[
+                  Color(0xffF1D34E),
+                  Color(0xffF59A22),
+                ],
+                onOk: () {
+                  if (tuple2.item1) {
+                    // 开奖界面点击collect
+                  } else {
+                    // 倒计时界面重新选择
+                    if (tuple2.item2 <= 0) {
+                      Layer.toastWarning("Ticket Not Enough");
+                      return;
+                    }
+                    LuckyGroup luckyGroup =
+                        Provider.of<LuckyGroup>(context, listen: false);
+                    luckyGroup.lottoPickedFinished = false;
+                  }
+                },
+                useAd: false,
+                btnText: tuple2.item1 ? 'Collect' : 'Bet',
+                tips: null,
+              );
+            })
+      ],
+    );
+  }
+
+  List<Widget> getShowcaseLottoWidget() {
+    List<Widget> widgetList = [];
+    for (int i = 0; i < widget.currentPeriodsLottoList.length; i++) {
+      bool getRewarded = checkIfGetRewarded(i);
+      widgetList.add(Container(
+          width: ScreenUtil().setWidth(108),
+          height: ScreenUtil().setWidth(108),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(26)),
+          child: CircularProgressWidget(
+            widget.currentPeriodsLottoList[i],
+            type: getRewarded
+                ? CircularProgressType.Type_Lucky_Three
+                : (i + 1) % 6 == 0
+                    ? CircularProgressType.Type_Lucky_Two
+                    : CircularProgressType.Type_Lucky_One,
+            size: 108,
+          )));
+    }
+
+    return widgetList;
+  }
+
+  bool checkIfGetRewarded(int index) {
+    if (index == 4) {
+      return true;
+    }
+    return false;
+  }
+}
+
+class FlipLottoItemWidget extends StatefulWidget {
+  int delayedTime;
+  String text;
+  bool getRewarded;
+  int index;
+
+  FlipLottoItemWidget(this.delayedTime, this.text, this.index,
+      {this.getRewarded = false});
+
+  @override
+  _FlipLottoItemWidgetState createState() => new _FlipLottoItemWidgetState();
+}
+
+class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation flip_anim;
+  bool animationStart = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: Duration(seconds: 3), vsync: this);
+
+    flip_anim = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: controller, curve: Interval(0.0, .5, curve: Curves.linear)));
+
+    Future.delayed(Duration(seconds: widget.delayedTime ?? 0), () {
+      animationStart = true;
+      controller.forward().orCancel;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget emptyItem = Container(
+      width: ScreenUtil().setWidth(108),
+      height: ScreenUtil().setWidth(108),
+      margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(5)),
+      decoration: BoxDecoration(
+        color: Color(0xFFDFDFDF),
+        shape: BoxShape.circle,
+        boxShadow: [
+          const BoxShadow(
+            color: Color(0xFF000000),
+          ),
+          const BoxShadow(
+            color: Color(0xFFDFDFDF),
+            spreadRadius: -12.0,
+            blurRadius: 12.0,
+          ),
+        ],
+      ),
+    );
+    return AnimatedBuilder(
+        animation: controller,
+        builder: (BuildContext context, Widget child) {
+          return Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.005)
+                ..rotateY(2 * pi * flip_anim.value),
+              alignment: Alignment.center,
+              child: animationStart
+                  ? Container(
+                      width: ScreenUtil().setWidth(108),
+                      height: ScreenUtil().setWidth(108),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(5)),
+                      child: RotationTransition(
+                        turns: flip_anim,
+                        child: CircularProgressWidget(
+                          widget.text,
+                          type: widget.getRewarded
+                              ? CircularProgressType.Type_Lucky_Three
+                              : (widget.index + 1) % 6 == 0
+                                  ? CircularProgressType.Type_Lucky_Two
+                                  : CircularProgressType.Type_Lucky_One,
+                          size: 108,
+                        ),
+                      ))
+                  : emptyItem);
+        });
   }
 }

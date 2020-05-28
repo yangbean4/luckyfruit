@@ -291,6 +291,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 用户获取lotto历史列表数据
+  Future<Map<String, dynamic>> getLottoListInfo(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Lottohandle/lottoList', data: data);
+    return response.data;
+  }
+
   Map<String, String> getBaseMap() {
     Map<String, dynamic> info = DeviceIofo.getInfoSync();
     print(

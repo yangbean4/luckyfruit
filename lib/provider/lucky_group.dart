@@ -148,6 +148,53 @@ class LuckyGroup with ChangeNotifier {
     }
   }
 
+  // 当前期数下选择的lotto
+  List<String> currentPeriodlottoList = [
+    '21',
+    '32',
+    '43',
+    '54',
+    '56',
+    '76',
+    '21',
+    '32',
+    '43',
+    '54',
+    '56',
+    '76',
+    '21',
+    '32',
+    '43',
+    '54',
+    '56',
+    '76',
+  ];
+
+  bool _lottoPickedFinished = false;
+
+  bool get lottoPickedFinished => _lottoPickedFinished;
+
+  set lottoPickedFinished(bool value) {
+    _lottoPickedFinished = value;
+    notifyListeners();
+  }
+
+  bool _lottoRewardedTimeReached = false;
+
+  bool get lottoRewardedTimeReached => _lottoRewardedTimeReached;
+
+  set lottoRewardedTimeReached(bool value) {
+    _lottoRewardedTimeReached = value;
+  }
+
+  int _lottoTicketNum = 3;
+
+  int get lottoTicketNum => _lottoTicketNum;
+
+  set lottoTicketNum(int value) {
+    _lottoTicketNum = value;
+  }
+
   /// 是否显示auto merge的circle指引
   bool _showAutoMergeCircleGuidance = false;
 

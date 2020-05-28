@@ -9,6 +9,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/index.dart'
     show PersonalInfo, ShaerConfig, User, UserInfo;
+import 'package:luckyfruit/models/lotto_list.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
@@ -48,6 +49,14 @@ class UserModel with ChangeNotifier {
   PersonalInfo _personalInfo;
 
   PersonalInfo get personalInfo => _personalInfo;
+
+  LottoList _lottoList;
+
+  LottoList get lottoList => _lottoList;
+
+  set lottoList(LottoList value) {
+    _lottoList = value;
+  }
 
   bool get freePhoneMask {
     return userInfo.residue_times != 0 ||
