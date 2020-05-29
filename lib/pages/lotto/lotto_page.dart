@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
@@ -22,14 +20,6 @@ class _LottoPageState extends State<LottoPage> {
   @override
   void initState() {
     super.initState();
-
-    getLottoList();
-  }
-
-  getLottoList() async {
-    dynamic lottoListInfo = await Service().getPartnerListInfo({});
-    LottoList lottoList = LottoList.fromJson(lottoListInfo);
-    lottoList.data;
   }
 
   @override
@@ -46,9 +36,7 @@ class _LottoPageState extends State<LottoPage> {
       ),
       child: Selector<LuckyGroup, Tuple2>(
           selector: (context, provider) => Tuple2(
-              true,
-//              provider.lottoPickedFinished,
-              provider.currentPeriodlottoList),
+              provider.lottoPickedFinished, provider.currentPeriodlottoList),
           builder: (_, tuple2, __) {
             return Column(
               children: <Widget>[
@@ -259,39 +247,42 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
         SizedBox(
           height: ScreenUtil().setWidth(80),
         ),
-        AdButton(
-          adUnitIdFlag: 1,
-          colorsOnBtn: <Color>[
-            Color(0xffF1D34E),
-            Color(0xffF59A22),
-          ],
-          onOk: () {
-            if (selectedNumList.length < 5) {
-              // 随机取几个值
-              getRandomNum();
-            } else if (selectedNumList.length == 5) {
-              // 取完五个之后，再去取第六个 (Continue)
-              setState(() {
-                pick6 = true;
-              });
-            } else {
-              // 选中了6个之后（Submit）
-              LuckyGroup luckyGroup =
-                  Provider.of<LuckyGroup>(context, listen: false);
-              luckyGroup.lottoPickedFinished = true;
+        Selector<LuckyGroup, LuckyGroup>(
+            selector: (context, provider) => provider,
+            builder: (_, luckyGroup, __) {
+              return AdButton(
+                adUnitIdFlag: 1,
+                colorsOnBtn: <Color>[
+                  Color(0xffF1D34E),
+                  Color(0xffF59A22),
+                ],
+                onOk: () {
+                  if (selectedNumList.length < 5) {
+                    // 随机取几个值
+                    getRandomNum();
+                  } else if (selectedNumList.length == 5) {
+                    // 取完五个之后，再去取第六个 (Continue)
+                    setState(() {
+                      pick6 = true;
+                    });
+                  } else {
+                    // 选中了6个之后（Submit）
+                    luckyGroup.lottoPickedFinished = true;
 
-              luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
-              luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
-            }
-          },
-          useAd: false,
-          btnText: selectedNumList.length == 6
-              ? 'Submit'
-              : (pick6 || selectedNumList.length < 5)
-                  ? 'Quick Pick'
-                  : 'Continue',
-          tips: null,
-        ),
+                    luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
+                    luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
+                  }
+                },
+                useAd: false,
+                disable: luckyGroup.isDisableToPickLotto(),
+                btnText: selectedNumList.length == 6
+                    ? 'Submit'
+                    : (pick6 || selectedNumList.length < 5)
+                        ? 'Quick Pick'
+                        : 'Continue',
+                tips: null,
+              );
+            }),
       ],
     );
   }
@@ -449,16 +440,15 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
             ),
           ),
           Positioned(bottom: 0, child: LottoStatusRewardedWidget()),
-          Selector<LuckyGroup, bool>(
-              selector: (context, provider) =>
-                  provider.lottoRewardedTimeReached,
-              builder: (_, timeReached, __) {
+          Selector<LuckyGroup, LuckyGroup>(
+              selector: (context, provider) => provider,
+              builder: (_, luckGroup, __) {
                 return Align(
                   alignment: Alignment(.0, .1),
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: timeReached
+                      text: luckGroup.isLottoRewardedTimeReached()
                           ? "Winning Numbers"
                           : "Winning Numbers In",
                       style: TextStyle(
@@ -468,7 +458,9 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
                           fontSize: ScreenUtil().setSp(48)),
                       children: <TextSpan>[
                         TextSpan(
-                          text: timeReached ? '\n\$1000' : "\n16h 43m",
+                          text: luckGroup.isLottoRewardedTimeReached()
+                              ? '\n${Util.formatNumber(luckGroup.getWinningNumnersOfLotto())}'
+                              : "\n${luckGroup.getCountDownTimerStringOfLotto()}",
                           style: TextStyle(
                               fontFamily: FontFamily.bold,
                               fontWeight: FontWeight.bold,
@@ -500,17 +492,16 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
-          Selector<LuckyGroup, bool>(
-              selector: (context, provider) =>
-                  provider.lottoRewardedTimeReached,
-              builder: (_, timeReached, __) {
-                timeReached = true;
-                return timeReached
+          Selector<LuckyGroup, LuckyGroup>(
+              selector: (context, provider) => provider,
+              builder: (_, luckGroup, __) {
+                return luckGroup.isLottoRewardedTimeReached()
                     ? Container(
                         child: Wrap(
                             spacing: ScreenUtil().setWidth(64),
                             alignment: WrapAlignment.center,
-                            children: getRewardedLottoWidget()))
+                            children: getRewardedLottoWidget(
+                                luckGroup.getWinningNumberList())))
                     : Container();
               }),
           Container(
@@ -535,20 +526,12 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
     );
   }
 
-  getRewardedLottoWidget() {
+  getRewardedLottoWidget(List<String> winningList) {
     List<Widget> widgetList = [];
-    List<String> temp = [
-      '12',
-      '23',
-      '34',
-      '45',
-      '56',
-      '67',
-    ];
     for (int i = 0; i < 6; i++) {
       widgetList.add(FlipLottoItemWidget(
         i + 1,
-        temp[i],
+        winningList[i],
         i,
         getRewarded: checkIfGetRewarded(i),
       ));
@@ -558,9 +541,19 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
   }
 
   bool checkIfGetRewarded(int index) {
-    if (index == 4) {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    Map<String, List<String>> pickedMap = {};
+    for (int i = 0; i < luckyGroup.currentPeriodlottoList.length; i++) {
+      List<String> listValue = pickedMap[(i % 6).toString()] ?? [];
+      listValue.add(luckyGroup.currentPeriodlottoList[i]);
+      pickedMap.putIfAbsent((i % 6).toString(), () => listValue);
+    }
+
+    if (pickedMap[index.toString()]
+        .contains(luckyGroup.getWinningNumberList()[index])) {
       return true;
     }
+
     return false;
   }
 }
@@ -640,7 +633,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
         ),
         Selector<LuckyGroup, Tuple2>(
             selector: (context, provider) => Tuple2(
-                provider.lottoRewardedTimeReached, provider.lottoTicketNum),
+                provider.isLottoRewardedTimeReached(), provider.lottoTicketNum),
             builder: (_, tuple2, __) {
               return AdButton(
                 adUnitIdFlag: 1,
@@ -697,9 +690,12 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   }
 
   bool checkIfGetRewarded(int index) {
-    if (index == 4) {
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    if (widget.currentPeriodsLottoList[index] ==
+        luckyGroup.getWinningNumberList()[index % 6]) {
       return true;
     }
+
     return false;
   }
 }

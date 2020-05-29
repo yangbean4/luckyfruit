@@ -1,20 +1,10 @@
 {
   "acct_id": "811",
   "awards_date": "20200527",
-  "winning_grade": "3",
   "is_cash_prize": "1",
   "update_time": "1590572104",
   "lottery_draw_num_win": "5,14,2,48,34",
   "lottery_plus_one_num_win": "3",
   "countdown_prize": [],
-  "reward_list": [
-    {
-      "lottery_draw_num": "2,3,5,1,17",
-      "lottery_plus_one_num": "8"
-    },
-    {
-      "lottery_draw_num": "2,3,5,1,5",
-      "lottery_plus_one_num": "8"
-    }
-  ]
+  "reward_list": "$[]lottoRewardListItem"
 }

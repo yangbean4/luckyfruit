@@ -26,5 +26,6 @@
   "access_token": "",
   "device_id": "",
   "invite_friend": [],
-  "residue_7days_time": []
+  "residue_7days_time": [],
+  "lotto_nums": 0
 }

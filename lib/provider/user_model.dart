@@ -50,14 +50,6 @@ class UserModel with ChangeNotifier {
 
   PersonalInfo get personalInfo => _personalInfo;
 
-  LottoList _lottoList;
-
-  LottoList get lottoList => _lottoList;
-
-  set lottoList(LottoList value) {
-    _lottoList = value;
-  }
-
   bool get freePhoneMask {
     return userInfo.residue_times != 0 ||
         (userInfo.sign_times < 7 && userInfo.is_today_sign != 1);

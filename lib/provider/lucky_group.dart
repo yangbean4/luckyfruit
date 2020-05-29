@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:luckyfruit/config/app.dart' show Consts, Event_Name;
+import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/index.dart'
     show LevelRoule, Issued, DrawInfo, CityInfo, TreeConfig, ShaerConfig;
+import 'package:luckyfruit/models/lottoListItem.dart';
+import 'package:luckyfruit/models/lottoRewardListItem.dart';
+import 'package:luckyfruit/models/lotto_list.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -148,27 +153,120 @@ class LuckyGroup with ChangeNotifier {
     }
   }
 
+  // 当前期数所选择的数据
+  LottoListItem _currentLottoItem;
+
+  LottoListItem get currentLottoItem => _currentLottoItem;
+
+  set currentLottoItem(LottoListItem value) {
+    _currentLottoItem = value;
+  }
+
   // 当前期数下选择的lotto
-  List<String> currentPeriodlottoList = [
-    '21',
-    '32',
-    '43',
-    '54',
-    '56',
-    '76',
-    '21',
-    '32',
-    '43',
-    '54',
-    '56',
-    '76',
-    '21',
-    '32',
-    '43',
-    '54',
-    '56',
-    '76',
-  ];
+  List<String> currentPeriodlottoList = [];
+
+  /// 如果已经选择了三组之后则不能再选择
+  bool isDisableToPickLotto() {
+    return currentPeriodlottoList != null &&
+        currentPeriodlottoList.length >= 3 * 6;
+  }
+
+  String getCountDownTimerStringOfLotto() {
+    if (_currentLottoItem?.countdown_prize == null ||
+        _currentLottoItem?.countdown_prize?.isEmpty) {
+      return '';
+    }
+
+    String hourStr = _currentLottoItem.countdown_prize[0];
+    String minuteStr = _currentLottoItem.countdown_prize[1];
+//    String secondsStr = _currentLottoItem.countdown_prize[2];
+
+    return "${hourStr}h ${minuteStr}m";
+  }
+
+  num getWinningNumnersOfLotto() {
+    List<LottoRewardListItem> list = _currentLottoItem.reward_list;
+    if (list == null || list.isEmpty) {
+      return 0;
+    }
+
+    double coinNum = 0;
+    for (int i = 0; i < list.length; i++) {
+      coinNum += getCoinNumWithWinningGrade(list[i].winning_grade);
+    }
+
+    return coinNum;
+  }
+
+  double getCoinNumWithWinningGrade(int grade) {
+    double coinSpeed = Initialize.moneyGroup.makeGoldSped ?? 0;
+    int timeInSeconds = 0;
+
+    switch (grade) {
+      case 0:
+        timeInSeconds = 10 * 60;
+        break;
+      case 1:
+        timeInSeconds = 15 * 60;
+        break;
+      case 2:
+        timeInSeconds = 20 * 60;
+        break;
+      case 3:
+        timeInSeconds = 30 * 60;
+        break;
+      default:
+        break;
+    }
+
+    return coinSpeed * timeInSeconds;
+  }
+
+  List<String> getCurrentPeriodlottoList() {
+    // 如果倒计时为空，且已经领奖
+    if ((_currentLottoItem.countdown_prize == null ||
+            _currentLottoItem.countdown_prize.isEmpty) &&
+        _currentLottoItem.is_cash_prize == "1") {
+      return [];
+    }
+
+    List<LottoRewardListItem> list = _currentLottoItem.reward_list;
+    if (list == null || list.isEmpty) {
+      return [];
+    }
+
+    /**
+     * 取今天这一期的用户选择过的数字
+     * 1. 如果倒计时有值，则说明这条就是今天的数据，还没有开奖；
+     *    则登录App后进入倒计时界面，可以再次选择号码（ticket还有的话）；
+     *    返回所取的列表；
+     * 2. 如果倒计时为空，且已经领奖，则这条是之前期数的数据，已经开过奖了；
+     *    则登录App后进入选择号码的初始界面；
+     *    返回空；
+     * 3. 如果倒计时为空，且没有领奖，则这条是之前的数据；
+     *    则登录App后进入领取奖励界面，领取奖励后回到选择号码的初始界面；
+     *    返回所取的列表；
+     * 4. 如果倒计时不足一小时，则提示用户不能再选择；
+     */
+
+    List<String> lottoList = [];
+    for (int i = 0; i < list.length; i++) {
+      LottoRewardListItem item = list[i];
+      lottoList.addAll(item?.lottery_draw_num?.split(',') ?? []);
+      lottoList.addAll(item?.lottery_plus_one_num?.split(',') ?? []);
+    }
+    return lottoList ?? [];
+  }
+
+  /// 获取本期中奖号码列表
+  List<String> getWinningNumberList() {
+    List<String> lottoList = [];
+    lottoList.addAll(_currentLottoItem.lottery_draw_num_win.split(',') ?? []);
+    lottoList
+        .addAll(_currentLottoItem.lottery_plus_one_num_win.split(',') ?? []);
+
+    return lottoList;
+  }
 
   bool _lottoPickedFinished = false;
 
@@ -179,17 +277,14 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _lottoRewardedTimeReached = false;
-
-  bool get lottoRewardedTimeReached => _lottoRewardedTimeReached;
-
-  set lottoRewardedTimeReached(bool value) {
-    _lottoRewardedTimeReached = value;
+  bool isLottoRewardedTimeReached() {
+    return _currentLottoItem.countdown_prize == null ||
+        _currentLottoItem.countdown_prize.isEmpty;
   }
 
-  int _lottoTicketNum = 3;
+  int _lottoTicketNum;
 
-  int get lottoTicketNum => _lottoTicketNum;
+  int get lottoTicketNum => max(0, _lottoTicketNum);
 
   set lottoTicketNum(int value) {
     _lottoTicketNum = value;
@@ -432,6 +527,7 @@ class LuckyGroup with ChangeNotifier {
     String configVersion = userModel.value.version;
 
     String share_version = userModel.value.share_version;
+    _lottoTicketNum = userModel.value.lotto_nums;
 
     acct_id = _acct_id;
     _transTime(last_draw_time);
@@ -521,7 +617,68 @@ class LuckyGroup with ChangeNotifier {
     // 等所有的请求结束,通知更新
 //    userModel.setShareLink(shaerConfig);
 
+    checkLottoListInfo();
     notifyListeners();
+  }
+
+  checkLottoListInfo() async {
+    dynamic lottoListInfo = await Service().getLottoListInfo({});
+
+    String test = """
+         {
+            "code": 0,
+            "msg": "Success",
+            "data": [
+                {
+                    "acct_id": "814",
+                    "awards_date": "20200526",
+                    "is_cash_prize": "0",
+                    "update_time": null,
+                    "lottery_draw_num_win": "1,32,3,4,63",
+                    "lottery_plus_one_num_win": "27",
+                    "countdown_prize": [],
+                    "reward_list": [
+                        {
+                            "lottery_draw_num": "2,3,4,5,6",
+                            "lottery_plus_one_num": "27",
+                            "winning_grade": 3
+                        },
+                        {
+                            "lottery_draw_num": "2,32,43,5,63",
+                            "lottery_plus_one_num": "67",
+                            "winning_grade": 2
+                        }
+                    ]
+                },
+                {
+                    "acct_id": "814",
+                    "awards_date": "20200527",
+                    "is_cash_prize": "1",
+                    "update_time": "1590572104",
+                    "lottery_draw_num_win": "5,14,2,48,34",
+                    "lottery_plus_one_num_win": "3",
+                    "countdown_prize": ["0", "50"],
+                    "reward_list": [
+                        {
+                            "lottery_draw_num": "2,3,5,1,17",
+                            "lottery_plus_one_num": "8",
+                             "winning_grade": 2
+                        }
+                    ]
+                }
+            ]
+        }
+         """;
+    lottoListInfo = json.decode(test);
+
+    Lotto_list lottoList = Lotto_list.fromJson(lottoListInfo);
+    if (lottoList.data == null || lottoList.data.isEmpty) {
+      return;
+    }
+
+    currentLottoItem = lottoList.data[0];
+
+    currentPeriodlottoList = getCurrentPeriodlottoList();
   }
 
   hideDoubleAndNextRun() {
