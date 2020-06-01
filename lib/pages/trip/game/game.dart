@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/flowers/flowers.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -110,6 +111,7 @@ class _GameState extends State<Game> with MyNavigator {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context);
     Tree animateTargetTree = treeGroup.animateTargetTree;
     Tree animateSourceTree = treeGroup.animateSourceTree;
+    int animationUseflower = treeGroup.animationUseflower;
     List<List<Tree>> treeMatrix = treeGroup.treeMatrix;
     // REVIEW:还是否需要使用Selector
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
@@ -134,6 +136,10 @@ class _GameState extends State<Game> with MyNavigator {
                           animateTargetTree == data ? animateTargetTree : null,
                       animateSourceTree:
                           animateTargetTree == data ? animateSourceTree : null,
+                      animationUseflower:
+                          (animateTargetTree == data && data != null)
+                              ? animationUseflower
+                              : 0,
                     );
                   },
                   onWillAccept: (Tree source) {
@@ -208,16 +214,21 @@ class _GameState extends State<Game> with MyNavigator {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(1080),
-        height: ScreenUtil().setWidth(980),
+        height: ScreenUtil().setWidth(1085),
         color: Color.fromRGBO(255, 255, 255, 1),
         padding: EdgeInsets.only(
           left: ScreenUtil().setWidth(60),
           right: ScreenUtil().setWidth(60),
-          top: ScreenUtil().setWidth(90),
+          top: ScreenUtil().setWidth(70),
           bottom: ScreenUtil().setWidth(46),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
             Widget>[
+          // Flowers(),
+          Container(
+            height: ScreenUtil().setWidth(125),
+            child: null,
+          ),
           // 树木所在的网格
           Container(
             key: Consts.globalKeyTreeGrid,

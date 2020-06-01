@@ -167,6 +167,10 @@ class Consts {
       new GlobalKey(debugLabel: 'key_mine_cash');
   static GlobalKey globalKeyGoldPosition =
       new GlobalKey(debugLabel: 'key_gold_position');
+  static GlobalKey globalKeyPhonePosition =
+      new GlobalKey(debugLabel: 'globalKeyPhonePosition');
+  static GlobalKey globalKeyFlowerPosition =
+      new GlobalKey(debugLabel: 'globalKeyFlowerPosition');
   static GlobalKey globalKeyAutoMerge =
       new GlobalKey(debugLabel: 'key_auto_merge');
 

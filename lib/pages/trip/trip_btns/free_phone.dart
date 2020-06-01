@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/storage.dart';
@@ -99,7 +100,8 @@ class FreePhone extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         showModal();
-        BurialReport.report('c_phone_entr', {'time': DateTime.now().toString()});
+        BurialReport.report(
+            'c_phone_entr', {'time': DateTime.now().toString()});
         Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
       },
       child: child,
@@ -144,6 +146,7 @@ class _Phone extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
+            key: Consts.globalKeyPhonePosition,
             width: ScreenUtil().setWidth(214.2),
             height: ScreenUtil().setWidth(252),
             decoration: BoxDecoration(
@@ -438,6 +441,7 @@ class __RewardState extends State<_Reward> {
     } else if (reward.module == '1') {
       GetReward.showPhoneWindow(reward.count, () {
         // moneyGroup.updateUserInfo();
+        moneyGroup.showPhoneAnimation = int.parse(reward.count);
       });
     } else if (reward.module == '2') {
       GetReward.showTreeWindow(reward.count, () {
@@ -920,7 +924,9 @@ class __SignState extends State<_Sign> {
 
   @override
   Widget build(BuildContext context) {
-    bool disable = widget.is_today_sign == 1 || hasUse;
+    bool disable =
+        // false;
+        widget.is_today_sign == 1 || hasUse;
     return Container(
         width: ScreenUtil().setWidth(815),
         height: ScreenUtil().setWidth(854),

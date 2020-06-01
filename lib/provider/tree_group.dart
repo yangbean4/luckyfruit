@@ -22,13 +22,6 @@ import './lucky_group.dart';
 import './money_group.dart';
 import './user_model.dart';
 
-class Position {
-  num x;
-  num y;
-
-  Position({this.x, this.y});
-}
-
 class TreeGroup with ChangeNotifier {
   // MoneyGroup Provider引用
   MoneyGroup _moneyGroup;
@@ -396,7 +389,10 @@ class TreeGroup with ChangeNotifier {
     acct_id = accId;
     _moneyGroup = moneyGroup;
     _luckyGroup = luckyGroup;
+    hasFlowerCount = userModel.value?.flower_nums ?? 0;
     _getGlobalDividendTree();
+
+    _getFlower();
     String res = await Storage.getItem(TreeGroup.CACHE_KEY);
 
     Map<String, dynamic> ajaxData =
@@ -693,7 +689,16 @@ class TreeGroup with ChangeNotifier {
       FreePhone().showModal();
     }
 
+    if (target.grade + 1 > hasMaxLevel) {
+      BurialReport.report('merge_level',
+          {'tree_level': (target.grade + 1).toString(), "type": "0"});
+    } else {
+      BurialReport.report('merge_level',
+          {'tree_level': (target.grade + 1).toString(), "type": "1"});
+    }
+
     if (target.grade == Tree.MAX_LEVEL) {
+      //合成38
       // 判断是什么类型
       if (target.type.contains("continents") &&
           source.type.contains("continents")) {
@@ -712,22 +717,17 @@ class TreeGroup with ChangeNotifier {
         });
       }
     } else if (target.grade == Tree.MAX_LEVEL - 1) {
+      //合成37
       BurialReport.report('page_imp', {'page_code': '002'});
 
       // 37级树合成的时候弹出选择合成哪种38级树的弹窗（五大洲树或者啤酒花树）
       Layer.showTopLevelMergeWindow(this, source, target);
     } else {
+      // 其他的合成
+
       // 结束前一个合成队列的动画, 避免前一个后一个合成动作重叠
       treeMergeAnimateEnd(animateTargetTree);
       removeAnimateTargetTree(animateSourceTree);
-
-      if (target.grade + 1 > hasMaxLevel) {
-        BurialReport.report('merge_level',
-            {'tree_level': (target.grade + 1).toString(), "type": "0"});
-      } else {
-        BurialReport.report('merge_level',
-            {'tree_level': (target.grade + 1).toString(), "type": "1"});
-      }
 
       // 解锁新等级
       if (target.grade + 1 > hasMaxLevel) {
@@ -776,6 +776,9 @@ class TreeGroup with ChangeNotifier {
       // 设置animateTree 开始执行动画
       animateSourceTree = source;
       animateTargetTree = target;
+
+      _checkFlower(target.x, target.y);
+
       notifyListeners();
       // 设置animateTree的两个树 使得动画开始执行
       _treeList.remove(source);
@@ -1090,6 +1093,64 @@ class TreeGroup with ChangeNotifier {
         'type': '5',
         // 'currency': newLevel?.amount.toString(),
       });
+    }
+  }
+
+// ------------------🌹------🌹🌹🌹🌹🌹🌹------
+
+  static int FLOWER_LUCKY_NUMBER = 150;
+  static int CAN_GET_FLOWER_LEVEL = 8;
+// 获得🌹队列
+  List<int> _flowerList = [];
+  // 当前拥有🌹的个数
+  int _hasFlowerCount = 0;
+  int get hasFlowerCount => _hasFlowerCount;
+  set hasFlowerCount(int count) {
+    _hasFlowerCount = count;
+    _submitFlower();
+    notifyListeners();
+  }
+
+  _submitFlower() {
+    _userModel.upDate({'flower_nums': min(hasFlowerCount, 150)});
+  }
+
+  // 进行动画用的🌹个数
+  int _animationUseflower = 0;
+  int get animationUseflower => _animationUseflower;
+
+  set animationUseflower(int count) {
+    _animationUseflower = count;
+    notifyListeners();
+  }
+
+  TreePoint _flowerPoint;
+  TreePoint get flowerPoint => _flowerPoint;
+
+  set flowerPoint(TreePoint count) {
+    _flowerPoint = count;
+    notifyListeners();
+  }
+
+  // 获取花朵数据
+  _getFlower() async {
+    List<int> list = await Service().getFlower({'acct_id': acct_id});
+    _flowerList.addAll(list);
+  }
+
+  _checkFlower(int x, int y) {
+    if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
+      return;
+    }
+    if (_flowerList.length != 0) {
+      flowerPoint = TreePoint(x: x, y: y);
+      // _animationUseflower = 150;
+      _animationUseflower = _flowerList[0];
+      _flowerList.removeAt(0);
+      notifyListeners();
+    }
+    if (_flowerList.length < 10) {
+      _getFlower();
     }
   }
 }

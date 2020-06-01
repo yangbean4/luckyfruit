@@ -34,6 +34,7 @@ class User {
     List invite_friend;
     List residue_7days_time;
     num lotto_nums;
+    num flower_nums;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);

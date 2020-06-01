@@ -96,6 +96,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取大转盘结果
+  Future<Map<String, dynamic>> exchangeRouletteGift(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Flower/exchangeRouletteGift', data: data);
+    return response.data['data'];
+  }
+
   // 获取游戏时长等相关配置数据
   Future<Map<String, dynamic>> getDefaultDeploy(
       Map<String, dynamic> data) async {
@@ -243,6 +251,14 @@ class Service {
   Future<List> profitLog(Map<String, dynamic> data) async {
     Response response = await _client.post('/Personal/profitLog', data: data);
     return response.data['data'];
+  }
+
+  // 树木合成花朵奖励池（50条）
+  Future<List<int>> getFlower(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Flower/pool', data: data);
+    return (response.data['data'] as List)
+        .map((e) => int.parse(e.toString()))
+        .toList();
   }
 
 // 获取邀请人信息

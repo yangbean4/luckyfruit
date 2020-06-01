@@ -24,6 +24,7 @@ import './other/barrage.dart';
 import './other/treasure.dart';
 import './trip_btns/right_btns.dart';
 import './trip_btns/trip_btns.dart';
+import 'flowers/flowers.dart';
 
 class _SelectorUse {
   String city;
@@ -456,7 +457,13 @@ class _TripState extends State<Trip>
           Game(),
         ])),
         Positioned(
-            bottom: ScreenUtil().setWidth(930),
+          bottom: ScreenUtil().setWidth(910),
+          right: ScreenUtil().setWidth(60),
+          child: // 右上角入口按钮
+              Flowers(),
+        ),
+        Positioned(
+            bottom: ScreenUtil().setWidth(1030),
             right: 0,
             child: // 右上角入口按钮
                 Container(
@@ -465,7 +472,7 @@ class _TripState extends State<Trip>
               child: TripBtns(),
             )),
         Positioned(
-            bottom: ScreenUtil().setWidth(930),
+            bottom: ScreenUtil().setWidth(1030),
             left: 0,
             child: Container(
               width: ScreenUtil().setWidth(433),
@@ -508,8 +515,8 @@ class _TripState extends State<Trip>
                                         style: TextStyle(
                                             // The color must be set to white for this to work
                                             color: Colors.white,
-                                            fontFamily: FontFamily.black,
-                                            fontSize: ScreenUtil().setSp(68),
+                                            fontFamily: FontFamily.bold,
+                                            fontSize: ScreenUtil().setSp(50),
                                             fontWeight: FontWeight.bold),
                                       );
                                     },
@@ -525,7 +532,7 @@ class _TripState extends State<Trip>
                                 style: TextStyle(
                                     color: MyTheme.blackColor,
                                     fontFamily: FontFamily.bold,
-                                    fontSize: ScreenUtil().setSp(46),
+                                    fontSize: ScreenUtil().setSp(42),
                                     fontWeight: FontWeight.bold),
                               );
                             },

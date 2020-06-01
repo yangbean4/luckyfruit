@@ -289,7 +289,9 @@ class MoneyGroup with ChangeNotifier {
         {'acct_id': acct_id, "reward_id": reward_id, "count": number});
     await updateUserInfo();
     if (res == null) {
-      GetReward.showPhoneWindow(number, () {});
+      GetReward.showPhoneWindow(number, () {
+        showPhoneAnimation = int.parse(number);
+      });
     } else {
       Invite_award invite_award = Invite_award.fromJson(res);
       GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
@@ -444,6 +446,16 @@ class MoneyGroup with ChangeNotifier {
 
   set setShowDollarAmountFading(bool show) {
     _showDollarAmountFading = show;
+    notifyListeners();
+  }
+
+  /// 是否显示手机碎片收集的动画
+  int _showPhoneAnimation = 0;
+
+  int get showPhoneAnimation => _showPhoneAnimation;
+
+  set showPhoneAnimation(int show) {
+    _showPhoneAnimation = show;
     notifyListeners();
   }
 

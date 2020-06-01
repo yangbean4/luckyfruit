@@ -7,6 +7,7 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart' show Position, TreeGroup;
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/position.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:provider/provider.dart';
 
