@@ -186,6 +186,7 @@ class _RightBtnsState extends State<RightBtns>
                             luckyGroup.setShowAutoMergeCircleGuidance = false;
                             luckyGroup.setShowAutoMergeFingerGuidance = false;
                             luckyGroup.autoStart();
+                            luckyGroup.autoMergeDurationFromLuckyWheel = 0;
                             setState(() {
                               isAuto = true;
                             });
@@ -193,7 +194,8 @@ class _RightBtnsState extends State<RightBtns>
                           child: renderItem(
                               type: 'auto',
                               active: false,
-                              bottomString: 'in ${issed?.automatic_time}s',
+                              bottomString:
+                                  'in ${luckyGroup.autoMergeDurationFromLuckyWheel > 0 ? luckyGroup.autoMergeDurationFromLuckyWheel : issed?.automatic_time}s',
                               topString: 'Auto',
                               userNoAdImg:
                                   luckyGroup.showAutoMergeCircleGuidance,

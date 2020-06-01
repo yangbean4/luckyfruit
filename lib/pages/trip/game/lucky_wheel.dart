@@ -28,6 +28,12 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
   void onCloseWindow(BuildContext context) {
     Navigator.pop(context);
 
+    // 关闭之后检查是否需要开始auto merge
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    if (luckyGroup.autoMergeDurationFromLuckyWheel > 0) {
+      luckyGroup.setShowAuto(true, notify: true);
+    }
+
     if (fromAppLaunch) {
       UserModel userModel = Provider.of<UserModel>(context, listen: false);
       List<dynamic> timerList = userModel.value.residue_7days_time;
@@ -543,15 +549,19 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         });
         return;
       case 1:
-        if (prevPos == 8) {
-          // 如果上次返回的是5倍奖励
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
-        } else if (prevPos == 4) {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
-        } else {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
-        }
-        break;
+//        if (prevPos == 8) {
+//          // 如果上次返回的是5倍奖励
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
+//        } else if (prevPos == 4) {
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
+//        } else {
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
+//        }
+
+        // 转到auto merge，每次一分钟
+        LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+        luckyGroup.autoMergeDurationFromLuckyWheel += 60;
+        return;
       default:
         Layer.toastWarning("Failed, Please Try Agagin Later");
         return;

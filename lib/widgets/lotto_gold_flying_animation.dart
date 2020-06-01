@@ -31,7 +31,7 @@ class LottoGoldFlyingAnimation extends StatelessWidget {
                           y: offset?.dy ?? ScreenUtil().setWidth(1920)),
                       startCenter: Position(
                           x: ScreenUtil().setWidth(540),
-                          y: ScreenUtil().setHeight(1200)),
+                          y: ScreenUtil().setHeight(600)),
                       radius: ScreenUtil().setWidth(200),
                       animateTime: Duration(milliseconds: 1500),
                       child: Image.asset(

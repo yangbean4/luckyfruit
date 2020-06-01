@@ -7,6 +7,7 @@ import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/modal_title.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/circular_progress_widget.dart';
@@ -839,6 +840,8 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                           Layer.toastWarning("Times Used Up");
                           return;
                         }
+                        // lotto下赌注
+                        BurialReport.report('lotto_bet', {});
                         luckyGroup.lottoPickedFinished = false;
                       }
                     },
@@ -870,14 +873,19 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 
     // TODO 测试
     String test = """
-    {"award_num": [3, 2]}
+    {"award_num": [3, 2, 1]}
     """;
     lottoReceivePrizeInfo = json.decode(test);
 
+    if (lottoReceivePrizeInfo == null) {
+      return;
+    }
     luckyGroup.lottoReceivePrizeRecords =
         List<num>.from(lottoReceivePrizeInfo['award_num'] ?? []);
-
     luckyGroup.showLottoAwardShowup = true;
+
+    // lotto领取奖励
+    BurialReport.report('lotto_reward_collect', {});
   }
 
   List<Widget> getShowcaseLottoWidget() {

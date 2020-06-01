@@ -311,7 +311,7 @@ class LuckyGroup with ChangeNotifier {
   bool _lottoAwardShowupFlag1 = true;
   bool _lottoAwardShowupFlag2 = false;
   bool _lottoAwardShowupFlag3 = false;
-  bool _showLottoAwardShowupCollect=false;
+  bool _showLottoAwardShowupCollect = false;
 
   bool get lottoAwardShowupFlag1 => _lottoAwardShowupFlag1;
 
@@ -481,8 +481,11 @@ class LuckyGroup with ChangeNotifier {
 
   bool get showAuto => _showAuto;
 
-  void setShowAuto(bool value) {
+  void setShowAuto(bool value, {bool notify=false}) {
     _showAuto = value;
+    if (notify) {
+      notifyListeners();
+    }
     if (value) {
       Storage.getItem(Consts.SP_KEY_AUTO_MERGE_GUIDANCE).then((value) {
         if (value == null) {
@@ -504,7 +507,9 @@ class LuckyGroup with ChangeNotifier {
     _isAuto = true;
     hideAutoAndNextRun();
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
-    _automatic_time = issed?.automatic_time;
+    _automatic_time = autoMergeDurationFromLuckyWheel > 0
+        ? autoMergeDurationFromLuckyWheel
+        : issed?.automatic_time;
     _runAutoTimer();
     notifyListeners();
   }
@@ -516,6 +521,15 @@ class LuckyGroup with ChangeNotifier {
   set automatic_time(int value) {
     _automatic_time = value;
     notifyListeners();
+  }
+
+  // 从大转盘中获取的automerge的时长
+  int _autoMergeDurationFromLuckyWheel = 0;
+
+  int get autoMergeDurationFromLuckyWheel => _autoMergeDurationFromLuckyWheel;
+
+  set autoMergeDurationFromLuckyWheel(int value) {
+    _autoMergeDurationFromLuckyWheel = value;
   }
 
   Timer autoTimer;
@@ -739,6 +753,7 @@ class LuckyGroup with ChangeNotifier {
             ]
         }
          """;
+    // TODO 测试
     lottoListInfo = json.decode(test);
 
     Lotto_list lottoList = Lotto_list.fromJson(lottoListInfo);
