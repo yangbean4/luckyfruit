@@ -39,12 +39,16 @@ class Layer {
   static ToastFuture _future;
 
   /// 显示完成弹窗
-  static toastSuccess(String msg, {int padding = 68}) =>
-      _showToast('success', msg, padding: padding);
+  static toastSuccess(String msg,
+          {int padding = 68, int width = 400, int height = 400}) =>
+      _showToast('success', msg,
+          padding: padding, width: width, height: height);
 
   /// 显示警告弹窗
-  static toastWarning(String msg, {int padding = 68}) =>
-      _showToast('warning', msg, padding: padding);
+  static toastWarning(String msg,
+          {int padding = 68, int width = 400, int height = 400}) =>
+      _showToast('warning', msg,
+          padding: padding, width: width, height: height);
 
   /// 显示loading
   static loading(msg) => _showToast('loading', msg);
@@ -610,7 +614,8 @@ class Layer {
   }
 
   /// toast���窗
-  static _showToast(String type, String msg, {int padding = 68}) {
+  static _showToast(String type, String msg,
+      {int padding = 68, int width = 400, int height = 400}) {
     Widget icon;
     switch (type) {
       case 'loading':
@@ -637,8 +642,8 @@ class Layer {
 
     Widget widget = Center(
       child: Container(
-        width: ScreenUtil().setWidth(400),
-        height: ScreenUtil().setWidth(400),
+        width: ScreenUtil().setWidth(width),
+        height: ScreenUtil().setWidth(height),
         padding: EdgeInsets.all(ScreenUtil().setWidth(padding)),
         decoration: BoxDecoration(
           borderRadius:

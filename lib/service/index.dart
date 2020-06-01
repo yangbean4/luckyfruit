@@ -299,6 +299,20 @@ class Service {
     return response.data;
   }
 
+  // 用户新选择奖号
+  Future<Map<String, dynamic>> addLottoData(Map<String, dynamic> data) async {
+    Response response = await _client.post('/Lottohandle/addData', data: data);
+    return response.data['data'];
+  }
+
+  // 用户新选择奖号
+  Future<Map<String, dynamic>> lottoReceivePrize(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Lottohandle/receivePrize', data: data);
+    return response.data['data'];
+  }
+
   Map<String, String> getBaseMap() {
     Map<String, dynamic> info = DeviceIofo.getInfoSync();
     print(

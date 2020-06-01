@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
@@ -205,7 +207,9 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
           child: Column(
             children: <Widget>[
               Container(
-                width: ScreenUtil().setWidth(400),
+                width: pick6
+                    ? ScreenUtil().setWidth(533)
+                    : ScreenUtil().setWidth(400),
                 height: ScreenUtil().setWidth(95),
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
@@ -223,7 +227,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                   )),
                 ),
                 child: Text(
-                  "Pick 5 Numbers",
+                  pick6 ? 'Pick 1 Lucky Number' : "Pick 5 Numbers",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -257,24 +261,38 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                   Color(0xffF59A22),
                 ],
                 onOk: () {
+                  if (luckyGroup.isDisableToPickLotto()) {
+                    Layer.toastWarning("Times Used Up");
+                    return;
+                  }
+
+                  if (luckyGroup.checkLastOneHourLimit()) {
+                    Layer.toastWarning(
+                        'The lottery jackpot is about to be drawn, Welcome to the lotto jackpot after '
+                        '${luckyGroup.getCountDownTimerStringOfLotto(containSeconds: true)}',
+                        padding: 20,
+                        width: 600);
+                    return;
+                  }
                   if (selectedNumList.length < 5) {
                     // 随机取几个值
-                    getRandomNum();
+                    getRandomNumForFirstFiveNum();
                   } else if (selectedNumList.length == 5) {
                     // 取完五个之后，再去取第六个 (Continue)
-                    setState(() {
-                      pick6 = true;
-                    });
+                    if (!pick6) {
+                      setState(() {
+                        pick6 = true;
+                      });
+                    } else {
+                      // 第六个数，取随机数
+                      getRandomNumForSixthNum();
+                    }
                   } else {
                     // 选中了6个之后（Submit）
-                    luckyGroup.lottoPickedFinished = true;
-
-                    luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
-                    luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
+                    submitLottoData(luckyGroup);
                   }
                 },
                 useAd: false,
-                disable: luckyGroup.isDisableToPickLotto(),
                 btnText: selectedNumList.length == 6
                     ? 'Submit'
                     : (pick6 || selectedNumList.length < 5)
@@ -285,6 +303,33 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
             }),
       ],
     );
+  }
+
+  /// 选完后提交信息
+  submitLottoData(LuckyGroup luckyGroup) async {
+    String firstFive = selectedNumList.sublist(0, 5).map((e) {
+      return "${e},";
+    }).join(',');
+
+    dynamic addLottoData = await Service().addLottoData({
+      'lottery_draw_num': firstFive,
+      'lottery_plus_one_num': selectedNumList[5]
+    });
+
+    // TODO 测试
+    String test = """{
+        "residue_time":10
+        }""";
+    addLottoData = json.decode(test);
+
+    if (addLottoData != null) {
+      luckyGroup.lottoRemainingTimes = addLottoData['residue_time'] ?? 0;
+    }
+
+    luckyGroup.lottoPickedFinished = true;
+
+    luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
+    luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
   }
 
   List<Widget> getCircularWidgetList(Function(String, bool) clickCallback) {
@@ -315,9 +360,9 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
     }).toList();
   }
 
-  getRandomNum() {
-    int length = selectedNumList.length;
-    for (int i = 0; i < 5 - length; i++) {
+  getRandomNumForFirstFiveNum() {
+    selectedNumList.clear();
+    for (int i = 0; i < 5; i++) {
       String result;
       do {
         result = Random().nextInt(59).toString();
@@ -326,6 +371,15 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
       selectedNumList.add(result);
     }
+    setState(() {});
+  }
+
+  getRandomNumForSixthNum() {
+    String result = Random().nextInt(59).toString();
+    if (selectedNumList.length == 5) {
+      selectedNumList.add(result);
+    }
+
     setState(() {});
   }
 }
@@ -571,97 +625,125 @@ class LottoStatusShowcaseWidget extends StatefulWidget {
 class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-            width: ScreenUtil().setWidth(1080),
-            margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
-            decoration: BoxDecoration(
-              color: Color(0xFFFCFAE8),
-              boxShadow: [
-                //阴影
-                BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(2.0, 2.0),
-                    blurRadius: 2.0),
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(
-                ScreenUtil().setWidth(30),
-              )),
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: ScreenUtil().setWidth(400),
-                  height: ScreenUtil().setWidth(95),
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment(0.0, -1.0),
-                        end: Alignment(0.0, 1.0),
-                        colors: <Color>[
-                          Color(0xff39D780),
-                          Color(0xff28A06E),
-                        ]),
-                    borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(
-                      ScreenUtil().setWidth(30),
-                    )),
-                  ),
-                  child: Text(
-                    "Your Numbers",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: FontFamily.semibold,
-                      fontWeight: FontWeight.w500,
-                      fontSize: ScreenUtil().setSp(48),
+    return Expanded(
+      child: Stack(
+        children: <Widget>[
+          Container(
+              width: ScreenUtil().setWidth(1080),
+              margin:
+                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
+              decoration: BoxDecoration(
+                color: Color(0xFFFCFAE8),
+                boxShadow: [
+                  //阴影
+                  BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 2.0),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(
+                  ScreenUtil().setWidth(30),
+                )),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().setWidth(400),
+                    height: ScreenUtil().setWidth(95),
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: <Color>[
+                            Color(0xff39D780),
+                            Color(0xff28A06E),
+                          ]),
+                      borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(
+                        ScreenUtil().setWidth(30),
+                      )),
+                    ),
+                    child: Text(
+                      "Your Numbers",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: FontFamily.semibold,
+                        fontWeight: FontWeight.w500,
+                        fontSize: ScreenUtil().setSp(48),
+                      ),
                     ),
                   ),
-                ),
-                Wrap(
-                    spacing: ScreenUtil().setWidth(64),
-                    runSpacing: ScreenUtil().setWidth(20),
-                    alignment: WrapAlignment.center,
-                    runAlignment: WrapAlignment.center,
-                    children: getShowcaseLottoWidget()),
-              ],
-            )),
-        SizedBox(
-          height: ScreenUtil().setWidth(30),
-        ),
-        Selector<LuckyGroup, Tuple2>(
-            selector: (context, provider) => Tuple2(
-                provider.isLottoRewardedTimeReached(), provider.lottoTicketNum),
-            builder: (_, tuple2, __) {
-              return AdButton(
-                adUnitIdFlag: 1,
-                colorsOnBtn: <Color>[
-                  Color(0xffF1D34E),
-                  Color(0xffF59A22),
+                  Wrap(
+                      spacing: ScreenUtil().setWidth(64),
+                      runSpacing: ScreenUtil().setWidth(20),
+                      alignment: WrapAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      children: getShowcaseLottoWidget()),
                 ],
-                onOk: () {
-                  if (tuple2.item1) {
-                    // 开奖界面点击collect
-                  } else {
-                    // 倒计时界面重新选择
-                    if (tuple2.item2 <= 0) {
-                      Layer.toastWarning("Ticket Not Enough");
-                      return;
-                    }
-                    LuckyGroup luckyGroup =
-                        Provider.of<LuckyGroup>(context, listen: false);
-                    luckyGroup.lottoPickedFinished = false;
-                  }
-                },
-                useAd: false,
-                btnText: tuple2.item1 ? 'Collect' : 'Bet',
-                tips: null,
-              );
-            })
-      ],
+              )),
+//        SizedBox(
+//          height: ScreenUtil().setWidth(30),
+//        ),
+          Selector<LuckyGroup, LuckyGroup>(
+              selector: (context, provider) => provider,
+              builder: (_, luckyGroup, __) {
+                return Positioned(
+                  bottom: ScreenUtil().setWidth(50),
+                  left: ScreenUtil().setWidth(160),
+                  child: AdButton(
+                    adUnitIdFlag: 1,
+                    colorsOnBtn: <Color>[
+                      Color(0xffF1D34E),
+                      Color(0xffF59A22),
+                    ],
+                    onOk: () {
+                      if (luckyGroup.isLottoRewardedTimeReached()) {
+                        // 开奖界面点击collect
+                        hanldeLottoReceivePrize(luckyGroup);
+                      } else {
+                        // 倒计时界面重新选择
+                        if (luckyGroup.lottoRemainingTimes <= 0) {
+                          Layer.toastWarning("Times Used Up");
+                          return;
+                        }
+                        luckyGroup.lottoPickedFinished = false;
+                      }
+                    },
+                    //TODO 什么时候可以看广告？
+                    useAd: false,
+//                    disable: luckyGroup.lottoRemainingTimes <= 0,
+                    btnText: luckyGroup.isLottoRewardedTimeReached()
+                        ? 'Collect'
+                        : 'Bet',
+                    tips: null,
+                  ),
+                );
+              })
+        ],
+      ),
     );
+  }
+
+  /// 开奖界面点击领奖
+  hanldeLottoReceivePrize(LuckyGroup luckyGroup) async {
+    dynamic lottoReceivePrizeInfo = await Service().receiveCoin({
+      'awards_date': luckyGroup.currentLottoItem.awards_date,
+    });
+
+    // TODO 测试
+    String test = """
+    {"award_num": [3, 2, 1]}
+    """;
+    lottoReceivePrizeInfo = json.decode(test);
+
+    luckyGroup.lottoReceivePrizeRecords =
+        List<num>.from(lottoReceivePrizeInfo['award_num'] ?? []);
+
+    luckyGroup.showLottoAwardShowup = true;
   }
 
   List<Widget> getShowcaseLottoWidget() {

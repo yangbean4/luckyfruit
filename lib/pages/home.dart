@@ -23,6 +23,7 @@ import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
 import 'package:luckyfruit/widgets/guidance_map.dart';
 import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/lotto_award_showup_widget.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 import 'package:provider/provider.dart';
 
@@ -287,6 +288,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 provider.showAutoMergeFingerGuidance,
             builder: (_, bool show, __) {
               return show ? GuidanceFingerAutoMergeWidget() : Container();
+            }),
+        Selector<LuckyGroup, bool>(
+            selector: (context, provider) =>
+                provider.showLottoAwardShowup,
+            builder: (_, bool show, __) {
+              return show ? LottoAwardShowupWidget() : Container();
             }),
       ],
     );

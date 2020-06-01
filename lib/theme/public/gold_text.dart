@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:luckyfruit/theme/index.dart';
 
 class GoldText extends StatelessWidget {
@@ -12,6 +10,7 @@ class GoldText extends StatelessWidget {
   final String imgUrl;
   final String fontFamily;
   final FontWeight fontWeight;
+
   const GoldText(this.text,
       {Key key,
       this.imgUrl = "assets/image/gold.png",
@@ -41,6 +40,7 @@ class GoldText extends StatelessWidget {
               text,
               style: TextStyle(
                 color: textColor,
+                decoration: TextDecoration.none,
                 fontSize: ScreenUtil().setSp(textSize),
                 fontFamily: fontFamily,
                 fontWeight: fontWeight,

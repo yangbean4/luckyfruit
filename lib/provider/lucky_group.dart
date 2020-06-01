@@ -171,17 +171,30 @@ class LuckyGroup with ChangeNotifier {
         currentPeriodlottoList.length >= 3 * 6;
   }
 
-  String getCountDownTimerStringOfLotto() {
+  String getCountDownTimerStringOfLotto({bool containSeconds = false}) {
     if (_currentLottoItem?.countdown_prize == null ||
         _currentLottoItem?.countdown_prize?.isEmpty) {
       return '';
     }
 
-    String hourStr = _currentLottoItem.countdown_prize[0];
-    String minuteStr = _currentLottoItem.countdown_prize[1];
-//    String secondsStr = _currentLottoItem.countdown_prize[2];
+    String hourStr = _currentLottoItem.countdown_prize[0] ?? '--';
+    String minuteStr = _currentLottoItem.countdown_prize[1] ?? '--';
+    String secondsStr = _currentLottoItem.countdown_prize[2] ?? '--';
+    if (containSeconds) {
+      return "${minuteStr}m:${secondsStr}s";
+    }
 
     return "${hourStr}h ${minuteStr}m";
+  }
+
+  /// 开奖前一个小时不能选取
+  bool checkLastOneHourLimit() {
+    if (_currentLottoItem?.countdown_prize == null ||
+        _currentLottoItem?.countdown_prize?.isEmpty) {
+      return false;
+    }
+
+    return _currentLottoItem.countdown_prize[0] == '0';
   }
 
   num getWinningNumnersOfLotto() {
@@ -235,20 +248,6 @@ class LuckyGroup with ChangeNotifier {
       return [];
     }
 
-    /**
-     * 取今天这一期的用户选择过的数字
-     * 1. 如果倒计时有值，则说明这条就是今天的数据，还没有开奖；
-     *    则登录App后进入倒计时界面，可以再次选择号码（ticket还有的话）；
-     *    返回所取的列表；
-     * 2. 如果倒计时为空，且已经领奖，则这条是之前期数的数据，已经开过奖了；
-     *    则登录App后进入选择号码的初始界面；
-     *    返回空；
-     * 3. 如果倒计时为空，且没有领奖，则这条是之前的数据；
-     *    则登录App后进入领取奖励界面，领取奖励后回到选择号码的初始界面；
-     *    返回所取的列表；
-     * 4. 如果倒计时不足一小时，则提示用户不能再选择；
-     */
-
     List<String> lottoList = [];
     for (int i = 0; i < list.length; i++) {
       LottoRewardListItem item = list[i];
@@ -282,12 +281,73 @@ class LuckyGroup with ChangeNotifier {
         _currentLottoItem.countdown_prize.isEmpty;
   }
 
+  // 账户中总共还剩下多少券
   int _lottoTicketNum;
 
   int get lottoTicketNum => max(0, _lottoTicketNum);
 
   set lottoTicketNum(int value) {
     _lottoTicketNum = value;
+  }
+
+  /// 当日还剩下几次参与的机会
+  int _lottoRemainingTimes = 0;
+
+  int get lottoRemainingTimes => _lottoRemainingTimes;
+
+  set lottoRemainingTimes(int value) {
+    _lottoRemainingTimes = value;
+  }
+
+//  List<bool> _lottoAwardShowupFlag = [true, false, false];
+
+//  List<bool> get lottoAwardShowupFlag => _lottoAwardShowupFlag;
+
+//  set lottoAwardShowupFlag(List<bool> value) {
+//    _lottoAwardShowupFlag = value;
+//    notifyListeners();
+//  }
+
+  bool _lottoAwardShowupFlag1 = true;
+  bool _lottoAwardShowupFlag2 = false;
+  bool _lottoAwardShowupFlag3 = false;
+
+  bool get lottoAwardShowupFlag1 => _lottoAwardShowupFlag1;
+
+  set lottoAwardShowupFlag1(bool value) {
+    _lottoAwardShowupFlag1 = value;
+    notifyListeners();
+  }
+
+  bool get lottoAwardShowupFlag2 => _lottoAwardShowupFlag2;
+
+  set lottoAwardShowupFlag2(bool value) {
+    _lottoAwardShowupFlag2 = value;
+    notifyListeners();
+  }
+
+  bool get lottoAwardShowupFlag3 => _lottoAwardShowupFlag3;
+
+  set lottoAwardShowupFlag3(bool value) {
+    _lottoAwardShowupFlag3 = value;
+    notifyListeners();
+  }
+
+  List<num> _lottoReceivePrizeRecords = [];
+
+  List<num> get lottoReceivePrizeRecords => _lottoReceivePrizeRecords;
+
+  set lottoReceivePrizeRecords(List<num> value) {
+    _lottoReceivePrizeRecords = value;
+  }
+
+  bool _showLottoAwardShowup = false;
+
+  bool get showLottoAwardShowup => _showLottoAwardShowup;
+
+  set showLottoAwardShowup(bool value) {
+    _showLottoAwardShowup = value;
+    notifyListeners();
   }
 
   /// 是否显示auto merge的circle指引
@@ -638,16 +698,7 @@ class LuckyGroup with ChangeNotifier {
                     "lottery_plus_one_num_win": "27",
                     "countdown_prize": [],
                     "reward_list": [
-                        {
-                            "lottery_draw_num": "2,3,4,5,6",
-                            "lottery_plus_one_num": "27",
-                            "winning_grade": 3
-                        },
-                        {
-                            "lottery_draw_num": "2,32,43,5,63",
-                            "lottery_plus_one_num": "67",
-                            "winning_grade": 2
-                        }
+
                     ]
                 },
                 {
@@ -657,7 +708,7 @@ class LuckyGroup with ChangeNotifier {
                     "update_time": "1590572104",
                     "lottery_draw_num_win": "5,14,2,48,34",
                     "lottery_plus_one_num_win": "3",
-                    "countdown_prize": ["0", "50"],
+                    "countdown_prize": ["0", "50", "8"],
                     "reward_list": [
                         {
                             "lottery_draw_num": "2,3,5,1,17",
@@ -679,6 +730,37 @@ class LuckyGroup with ChangeNotifier {
     currentLottoItem = lottoList.data[0];
 
     currentPeriodlottoList = getCurrentPeriodlottoList();
+
+    /**
+     * 取今天这一期的用户选择过的数字
+     * 1. 如果倒计时有值，则说明这条就是今天的数据，还没有开奖；
+     *    a. 如果用户没有提交过号码，则进入选择号码的初始界面；
+     *    b. 如果用户提交过号码，则进入倒计时界面，可以再次选择号码（ticket还有的话）；
+     *    返回所取的列表；
+     * 2. 如果倒计时为空，且已经领奖，则这条是之前期数的数据，已经开过奖了；
+     *    则登录App后进入选择号码的初始界面；
+     *    返回空；
+     * 3. 如果倒计时为空，且没有领奖，则这条是之前的数据；
+     *    a. 如果用户没有提交过号码，则进入选择号码的初始界面；
+     *    b. 如果用户提交过号码，则进入领取奖励界面，领取奖励后回到选择号码的初始界面；
+     *    返回所取的列表；
+     * 4. 如果倒计时不足一小时，则提示用户不能再选择；
+     */
+
+    // 1.
+    if (currentLottoItem.countdown_prize != null &&
+        currentLottoItem.countdown_prize.isNotEmpty) {
+      if (currentLottoItem.reward_list != null &&
+          currentLottoItem.reward_list.isNotEmpty) {
+        lottoPickedFinished = true;
+      }
+    } else if (currentLottoItem.is_cash_prize != '1') {
+      // 3.
+      if (currentLottoItem.reward_list != null &&
+          currentLottoItem.reward_list.isNotEmpty) {
+        lottoPickedFinished = true;
+      }
+    }
   }
 
   hideDoubleAndNextRun() {
