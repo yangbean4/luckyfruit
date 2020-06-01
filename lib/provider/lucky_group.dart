@@ -282,21 +282,21 @@ class LuckyGroup with ChangeNotifier {
   }
 
   // 账户中总共还剩下多少券
-  int _lottoTicketNum;
+  int _lottoTicketNumTotal;
 
-  int get lottoTicketNum => max(0, _lottoTicketNum);
+  int get lottoTicketNumTotal => max(0, _lottoTicketNumTotal);
 
-  set lottoTicketNum(int value) {
-    _lottoTicketNum = value;
+  set lottoTicketNumTotal(int value) {
+    _lottoTicketNumTotal = value;
   }
 
   /// 当日还剩下几次参与的机会
-  int _lottoRemainingTimes = 0;
+  int _lottoRemainingTimesToday = 0;
 
-  int get lottoRemainingTimes => _lottoRemainingTimes;
+  int get lottoRemainingTimesToday => _lottoRemainingTimesToday;
 
-  set lottoRemainingTimes(int value) {
-    _lottoRemainingTimes = value;
+  set lottoRemainingTimesToday(int value) {
+    _lottoRemainingTimesToday = value;
   }
 
 //  List<bool> _lottoAwardShowupFlag = [true, false, false];
@@ -311,6 +311,7 @@ class LuckyGroup with ChangeNotifier {
   bool _lottoAwardShowupFlag1 = true;
   bool _lottoAwardShowupFlag2 = false;
   bool _lottoAwardShowupFlag3 = false;
+  bool _showLottoAwardShowupCollect=false;
 
   bool get lottoAwardShowupFlag1 => _lottoAwardShowupFlag1;
 
@@ -330,6 +331,13 @@ class LuckyGroup with ChangeNotifier {
 
   set lottoAwardShowupFlag3(bool value) {
     _lottoAwardShowupFlag3 = value;
+    notifyListeners();
+  }
+
+  bool get showLottoAwardShowupCollect => _showLottoAwardShowupCollect;
+
+  set showLottoAwardShowupCollect(bool value) {
+    _showLottoAwardShowupCollect = value;
     notifyListeners();
   }
 
@@ -587,7 +595,9 @@ class LuckyGroup with ChangeNotifier {
     String configVersion = userModel.value.version;
 
     String share_version = userModel.value.share_version;
-    _lottoTicketNum = userModel.value.lotto_nums;
+    lottoTicketNumTotal = userModel.value.lotto_nums;
+    // TODO 测试
+    lottoTicketNumTotal = 1000;
 
     acct_id = _acct_id;
     _transTime(last_draw_time);
@@ -698,7 +708,16 @@ class LuckyGroup with ChangeNotifier {
                     "lottery_plus_one_num_win": "27",
                     "countdown_prize": [],
                     "reward_list": [
-
+                        {
+                            "lottery_draw_num": "2,3,4,5,6",
+                            "lottery_plus_one_num": "27",
+                            "winning_grade": 3
+                        },
+                        {
+                            "lottery_draw_num": "2,32,43,5,63",
+                            "lottery_plus_one_num": "67",
+                            "winning_grade": 2
+                        }
                     ]
                 },
                 {

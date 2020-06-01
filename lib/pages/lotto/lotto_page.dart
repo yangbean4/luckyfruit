@@ -107,7 +107,7 @@ class LottoHeaderWidget extends StatelessWidget {
             left: ScreenUtil().setWidth(28),
             bottom: ScreenUtil().setWidth(8),
             child: Selector<LuckyGroup, int>(
-                selector: (context, provider) => provider.lottoTicketNum,
+                selector: (context, provider) => provider.lottoTicketNumTotal,
                 builder: (_, lottoTicketNum, __) {
                   return Row(
                     children: <Widget>[
@@ -318,18 +318,18 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
     // TODO 测试
     String test = """{
-        "residue_time":10
+        "residue_time":3
         }""";
     addLottoData = json.decode(test);
 
     if (addLottoData != null) {
-      luckyGroup.lottoRemainingTimes = addLottoData['residue_time'] ?? 0;
+      luckyGroup.lottoRemainingTimesToday = addLottoData['residue_time'] ?? 0;
     }
 
     luckyGroup.lottoPickedFinished = true;
 
     luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
-    luckyGroup.lottoTicketNum = luckyGroup.lottoTicketNum - 1;
+    luckyGroup.lottoTicketNumTotal = luckyGroup.lottoTicketNumTotal - 1;
   }
 
   List<Widget> getCircularWidgetList(Function(String, bool) clickCallback) {
@@ -706,15 +706,20 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                         hanldeLottoReceivePrize(luckyGroup);
                       } else {
                         // 倒计时界面重新选择
-                        if (luckyGroup.lottoRemainingTimes <= 0) {
+                        if (luckyGroup.isDisableToPickLotto()) {
                           Layer.toastWarning("Times Used Up");
                           return;
                         }
                         luckyGroup.lottoPickedFinished = false;
                       }
                     },
-                    //TODO 什么时候可以看广告？
-                    useAd: false,
+                    // 1. 开奖界面的时候不需要看广告
+                    // 2. 倒计时界面：
+                    //    a. 如果一天里面的三次机会还没有用完，并且可用的券已经用完了
+                    //    这个时候可以观看广告来进行一次抽取
+                    useAd: (!luckyGroup.isLottoRewardedTimeReached() &&
+                        luckyGroup.lottoRemainingTimesToday > 0 &&
+                        luckyGroup.lottoTicketNumTotal <= 0),
 //                    disable: luckyGroup.lottoRemainingTimes <= 0,
                     btnText: luckyGroup.isLottoRewardedTimeReached()
                         ? 'Collect'
@@ -730,13 +735,13 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 
   /// 开奖界面点击领奖
   hanldeLottoReceivePrize(LuckyGroup luckyGroup) async {
-    dynamic lottoReceivePrizeInfo = await Service().receiveCoin({
+    dynamic lottoReceivePrizeInfo = await Service().lottoReceivePrize({
       'awards_date': luckyGroup.currentLottoItem.awards_date,
     });
 
     // TODO 测试
     String test = """
-    {"award_num": [3, 2, 1]}
+    {"award_num": [3, 2]}
     """;
     lottoReceivePrizeInfo = json.decode(test);
 
@@ -773,6 +778,11 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 
   bool checkIfGetRewarded(int index) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+
+    // 如果是在倒计时界面，不标识中奖的item
+    if (!luckyGroup.isLottoRewardedTimeReached()) {
+      return false;
+    }
     if (widget.currentPeriodsLottoList[index] ==
         luckyGroup.getWinningNumberList()[index % 6]) {
       return true;

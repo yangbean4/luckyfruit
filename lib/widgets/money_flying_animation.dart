@@ -11,7 +11,7 @@ class MoneyFlyingAnimation extends StatelessWidget {
     return Stack(children: [
       Selector<MoneyGroup, bool>(
           builder: (_, show, __) {
-            Offset offset = Util.getMineCashInfoWithGlobalKey();
+            Offset offset = Util.getTripIconInfoWithGlobalKey();
             print("MoneyFlyingAnimation_offert: $offset");
             return show
                 ? Positioned(

@@ -139,12 +139,12 @@ class Util {
     return offset;
   }
 
-  static Offset getMineCashInfoWithGlobalKey() {
+  static Offset getTripIconInfoWithGlobalKey() {
     Offset offset = Offset(0, 0);
     RenderBox renderBox =
-        Consts.globalKeyMineCash.currentContext?.findRenderObject();
+        Consts.globalKeyTripIcon.currentContext?.findRenderObject();
     offset = renderBox?.localToGlobal(Offset.zero);
-    print("mineCash:localToGlobal ${offset}");
+    print("tripicon:localToGlobal ${offset}");
     return offset;
   }
 

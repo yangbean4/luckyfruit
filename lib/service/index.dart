@@ -305,7 +305,7 @@ class Service {
     return response.data['data'];
   }
 
-  // 用户新选择奖号
+  // 用户兑奖
   Future<Map<String, dynamic>> lottoReceivePrize(
       Map<String, dynamic> data) async {
     Response response =

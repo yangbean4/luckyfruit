@@ -148,6 +148,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               )
             : Image.asset(
                 iconUrl,
+                key: name == 'TRIP' ? Consts.globalKeyTripIcon : null,
                 width: ScreenUtil().setWidth(56),
               ),
         activeIcon: Image.asset(
@@ -290,8 +291,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               return show ? GuidanceFingerAutoMergeWidget() : Container();
             }),
         Selector<LuckyGroup, bool>(
-            selector: (context, provider) =>
-                provider.showLottoAwardShowup,
+            selector: (context, provider) => provider.showLottoAwardShowup,
             builder: (_, bool show, __) {
               return show ? LottoAwardShowupWidget() : Container();
             }),

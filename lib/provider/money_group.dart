@@ -6,7 +6,6 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
@@ -36,6 +35,7 @@ class MoneyGroup with ChangeNotifier {
 
 // 用于增加/减少 金币金钱的事件句柄
   static const String ADD_GOLD = 'ADD_GOLD';
+  static const String ADD_GOLD_LOTTO = 'ADD_GOLD_LOTTO';
   static const String ACC_GOLD = 'ACC_GOLD';
   static const String TREE_ADD_GOLD = 'TREE_ADD_GOLD';
   static const String ADD_MONEY = 'ADD_MONEY';
@@ -53,6 +53,9 @@ class MoneyGroup with ChangeNotifier {
   bool get dataLoad => _dataLoad;
 
   bool _showGoldAnimation = false;
+  bool _showLottoGoldAnimation = false;
+
+  bool get showLottoGoldAnimation => _showLottoGoldAnimation;
 
   bool get showGoldAnimation => _showGoldAnimation;
 
@@ -207,6 +210,8 @@ class MoneyGroup with ChangeNotifier {
     }));
 
     EVENT_BUS.on(MoneyGroup.ADD_GOLD, (gold) => addGold(gold));
+    EVENT_BUS.on(MoneyGroup.ADD_GOLD_LOTTO,
+        (gold) => addGold(gold, isLottoAnimation: true));
     EVENT_BUS.on(MoneyGroup.ACC_GOLD, (gold) => accGold(gold));
     EVENT_BUS.on(MoneyGroup.ADD_MONEY, (gold) => addMoney(gold));
     EVENT_BUS.on(MoneyGroup.ACC_MONEY, (gold) => accMoney(gold));
@@ -352,7 +357,8 @@ class MoneyGroup with ChangeNotifier {
     save();
   }
 
-  addGold(double gold, {bool showAnimate = true}) {
+  addGold(double gold,
+      {bool showAnimate = true, bool isLottoAnimation = false}) {
     Function callback = () {
       _gold = double.parse((_gold + gold).toStringAsFixed(2));
       _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
@@ -364,7 +370,11 @@ class MoneyGroup with ChangeNotifier {
     // gold = gold * 10000;
 
     if (showAnimate) {
-      _showGoldAnimation = true;
+      if (isLottoAnimation) {
+        _showLottoGoldAnimation = true;
+      } else {
+        _showGoldAnimation = true;
+      }
       Bgm.playClaimGold();
       notifyListeners();
       Future.delayed(Duration(milliseconds: 1500)).then((value) {
@@ -423,6 +433,7 @@ class MoneyGroup with ChangeNotifier {
 
   hideGoldAnimation() {
     _showGoldAnimation = false;
+    _showLottoGoldAnimation = false;
     notifyListeners();
   }
 

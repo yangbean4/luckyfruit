@@ -163,7 +163,7 @@ class Consts {
       new GlobalKey(debugLabel: 'key_remove_tree');
   static GlobalKey globalKeyTreeGrid =
       new GlobalKey(debugLabel: 'key_tree_grid');
-  static GlobalKey globalKeyMineCash =
+  static GlobalKey globalKeyTripIcon =
       new GlobalKey(debugLabel: 'key_mine_cash');
   static GlobalKey globalKeyGoldPosition =
       new GlobalKey(debugLabel: 'key_gold_position');

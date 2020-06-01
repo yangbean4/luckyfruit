@@ -15,7 +15,7 @@ import 'package:luckyfruit/utils/bgm.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
 import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
-import 'package:luckyfruit/widgets/money_flying_animation.dart';
+import 'package:luckyfruit/widgets/lotto_gold_flying_animation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -123,9 +123,10 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               // 美元图标飞向右下角动效
-              MoneyFlyingAnimation(),
+//              MoneyFlyingAnimation(),
               // 领取金币动画
               GoldFlyingAnimation(),
+              LottoGoldFlyingAnimation(),
               // 新手引导-大转盘
               GuidanceLuckyWheelWidget(),
             ],
