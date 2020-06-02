@@ -611,7 +611,7 @@ class LuckyGroup with ChangeNotifier {
     String share_version = userModel.value.share_version;
     lottoTicketNumTotal = userModel.value.lotto_nums;
     // TODO 测试
-    lottoTicketNumTotal = 1000;
+//    lottoTicketNumTotal = 1000;
 
     acct_id = _acct_id;
     _transTime(last_draw_time);
