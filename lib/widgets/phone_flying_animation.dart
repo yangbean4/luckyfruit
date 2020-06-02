@@ -3,12 +3,13 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-05-28 17:24:21
+ * @LastEditTime: 2020-06-01 19:21:15
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/pages/trip/other/fly_animation.dart';
+import 'package:luckyfruit/utils/position.dart';
+import './fly_anica.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,6 @@ class PhoneFlyingAnimation extends StatelessWidget {
                         width: ScreenUtil().setWidth(83),
                         height: ScreenUtil().setWidth(114),
                       ),
-                      type: PositionType.Type_Top,
                     ),
                   ))
               : Container();

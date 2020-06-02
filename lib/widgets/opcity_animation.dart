@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:26:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-05-29 21:33:11
+ * @LastEditTime: 2020-06-01 20:14:39
  */
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class OpacityAnimation extends StatefulWidget {
   OpacityAnimation({
     Key key,
     this.child,
-    this.animateTime = const Duration(milliseconds: 100),
+    this.animateTime = const Duration(milliseconds: 200),
     this.onFinish,
   }) : super(key: key);
 

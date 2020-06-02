@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-01 19:04:13
+ * @LastEditTime: 2020-06-01 19:35:05
  */
 import 'dart:math';
 
@@ -285,8 +285,8 @@ class __LuckyModelState extends State<_LuckyModel>
                   MoneyGroup moneyGroup =
                       Provider.of<MoneyGroup>(context, listen: false);
 
-                  double gold =
-                      moneyGroup.makeGoldSped * int.parse(res['duration']);
+                  double gold = moneyGroup.makeGoldSped *
+                      int.parse(res['duration'].toString());
                   GetReward.showGoldWindow(gold, () {
                     moneyGroup.addGold(gold);
                   });
@@ -306,11 +306,9 @@ class __LuckyModelState extends State<_LuckyModel>
 
   ///接口中取到结果后更新
   updateTween() {
-    double needAngle = giftId == 0 ? 0.33 : giftId == 2 ? 0 : 0.66;
+    double needAngle = giftId == 0 ? 2 / 3 : giftId == 2 ? 0 : 4 / 3;
     curTween.end = curTween.end + needAngle;
-    if (controller.isAnimating) {
-      controller.forward();
-    }
+    controller.forward();
   }
 
   _handleStartSpin() async {
@@ -324,6 +322,7 @@ class __LuckyModelState extends State<_LuckyModel>
       Layer.toastWarning("Failed, Try Agagin Later");
       controller.reset();
     } else {
+      treeGroup.hasFlowerCount = 0;
       giftId = luckResultMap['gift_id'] as num;
       updateTween();
     }
