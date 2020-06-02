@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-01 19:35:05
+ * @LastEditTime: 2020-06-02 11:32:39
  */
 import 'dart:math';
 
@@ -174,10 +174,8 @@ class _FlowersState extends State<Flowers> {
                           BurialReport.report(
                               'event_entr_click', {'entr_code': '18'});
                         } else {
-                          showDialog(
-                              context: context, builder: (_) => _LuckyModel());
                           setState(() {
-                            showMsg = true;
+                            showMsg = !showMsg;
                           });
                         }
                       },
