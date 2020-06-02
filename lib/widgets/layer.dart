@@ -724,6 +724,7 @@ class Layer {
           BurialReport.report('reminder', {"type": '2'});
         },
         okText: 'Yes',
+        isUsePage: true,
         onOk: () {
           BurialReport.report('reminder', {"type": '1'});
           onOk();

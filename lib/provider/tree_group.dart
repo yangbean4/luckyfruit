@@ -554,8 +554,6 @@ class TreeGroup with ChangeNotifier {
   bool addTree({Tree tree, bool saveData = true}) {
     // checkRecycleRectGuidance();
     // checkMag();
-    // Layer.howGetMoney();
-    // Layer.partnerCash();
 
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;

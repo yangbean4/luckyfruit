@@ -30,6 +30,7 @@ class FreePhone extends StatelessWidget {
         verticalPadding: 0,
         horizontalPadding: 0,
         width: 1080,
+        isUsePage: true,
         decorationColor: Color.fromRGBO(0, 0, 0, 0),
         childrenBuilder: (Modal modal) => <Widget>[
               Container(

@@ -30,6 +30,11 @@ class Modal extends StatefulWidget {
   final num width;
   final List<Widget> stack;
 
+  // 是否认为是页面级别的弹窗
+  final bool isUsePage;
+  static bool otherModalShow = false;
+  static List<Modal> modalList = [];
+
   // 在children中需要用到Modal实例(如调用隐藏)时可以使用childrenBuilder
   final List<Widget> Function(Modal modal) childrenBuilder;
   final bool autoHide;
@@ -56,6 +61,7 @@ class Modal extends StatefulWidget {
       this.childrenBuilder,
       this.width = 840,
       this.stack = const [],
+      this.isUsePage = false,
       this.verticalPadding = 90,
       this.horizontalPadding = 40,
       this.marginBottom = 70,
@@ -74,20 +80,36 @@ class Modal extends StatefulWidget {
     EVENT_BUS.emit(Event_Name.MODAL_HIDE);
   }
 
+  static showNext() {
+    Modal.otherModalShow = false;
+    if (Modal.modalList.length > 0) {
+      Modal.modalList[0].show();
+      Modal.modalList.removeAt(0);
+    }
+  }
+
   // 显示modal
   show() {
-    EVENT_BUS.emit(Event_Name.MODAL_SHOW);
+    if (Modal.otherModalShow == true) {
+      Modal.modalList.add(this);
+    } else {
+      EVENT_BUS.emit(Event_Name.MODAL_SHOW);
+      Modal.otherModalShow = isUsePage ? false : true;
 
-    _future = showToastWidget(
-      this,
-      dismissOtherToast: false,
-      duration: Duration(days: 1),
-      handleTouch: true,
-      animationCurve: Curves.easeIn,
-      // OffsetAnimationBuilder OpacityAnimationBuilder
-      animationBuilder: Miui10AnimBuilder(),
-      // context: context,
-    );
+      _future = showToastWidget(
+        this,
+        dismissOtherToast: false,
+        duration: Duration(days: 1),
+        handleTouch: true,
+        onDismiss: () {
+          Modal.showNext();
+        },
+        animationCurve: Curves.easeIn,
+        // OffsetAnimationBuilder OpacityAnimationBuilder
+        animationBuilder: Miui10AnimBuilder(),
+        // context: context,
+      );
+    }
   }
 
   @override
