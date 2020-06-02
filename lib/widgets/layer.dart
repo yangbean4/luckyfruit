@@ -26,6 +26,7 @@ import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/share_util.dart';
 import 'package:luckyfruit/utils/storage.dart';
+import 'package:luckyfruit/widgets/round_check_box.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -1738,6 +1739,119 @@ class Layer {
               ),
               Container(height: ScreenUtil().setWidth(46)),
             ]).show();
+  }
+
+  static void showLottoHelpMessage() {
+    Modal(
+        onCancel: () {},
+        closeIconDelayedTime: 0,
+        width: 877,
+        closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
+        closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
+        verticalPadding: 0,
+        horizontalPadding: 0,
+        childrenBuilder: (modal) => <Widget>[
+              Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Container(
+                    height: ScreenUtil().setWidth(174),
+                    width: ScreenUtil().setWidth(900),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(ScreenUtil().setWidth(100)),
+                        topRight: Radius.circular(ScreenUtil().setWidth(100)),
+                      ),
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: <Color>[
+                            Color(0xFFf59f26),
+                            Color(0xFFf2d54f),
+                          ]),
+                    ),
+                    child: Center(
+                      child: ModalTitle(
+                        'How to win',
+                        fontsize: 60,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(50),
+              ),
+              RichText(
+                text: TextSpan(
+                    text: "0 match=10min coins\n"
+                        "1 match=15min coins\n"
+                        "2 matches= 20min coins\n"
+                        "3 matches=30min coins\n"
+                        "4 matched=\$5\n"
+                        "5 matched=\$50\n",
+                    style: TextStyle(
+                        color: Color(0xFF262626),
+                        fontFamily: FontFamily.semibold,
+                        fontSize: ScreenUtil().setSp(48),
+                        fontWeight: FontWeight.w500),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "6 matched=\$2000",
+                        style: TextStyle(
+                            fontFamily: FontFamily.semibold,
+                            fontSize: ScreenUtil().setSp(48),
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF32B54A)),
+                      ),
+                    ]),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(60),
+              ),
+              Container(
+                width: ScreenUtil().setWidth(600),
+                height: ScreenUtil().setWidth(124),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(
+                    ScreenUtil().setWidth(68),
+                  )),
+                  gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: <Color>[
+                        Color(0xffF2D450),
+                        Color(0xffF59A22),
+                      ]),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "Continue",
+                  style: TextStyle(
+                    color: Colors.white,
+                    decoration: TextDecoration.none,
+                    fontFamily: FontFamily.semibold,
+                    fontWeight: FontWeight.bold,
+                    fontSize: ScreenUtil().setSp(66),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(30),
+              ),
+              RoundCheckBox(
+                value: false,
+                text: "Don't show this message again.",
+                onChanged: (val) {
+                  Storage.setItem("lotto_help", val ? "1" : null);
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(30),
+              ),
+            ])
+      ..show();
   }
 }
 

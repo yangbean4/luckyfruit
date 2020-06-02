@@ -6,13 +6,12 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/theme/index.dart';
-import 'package:luckyfruit/theme/public/modal_title.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
+import 'package:luckyfruit/utils/storage.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/circular_progress_widget.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/widgets/modal.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -152,108 +151,7 @@ class LottoHelpModalWidget extends StatelessWidget {
       top: ScreenUtil().setWidth(40),
       child: GestureDetector(
         onTap: () {
-          Modal(
-              onCancel: () {},
-              closeIconDelayedTime: 0,
-              width: 877,
-              closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
-              closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
-              verticalPadding: 0,
-              horizontalPadding: 0,
-              childrenBuilder: (modal) => <Widget>[
-                    Stack(
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Container(
-                          height: ScreenUtil().setWidth(174),
-                          width: ScreenUtil().setWidth(900),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft:
-                                  Radius.circular(ScreenUtil().setWidth(100)),
-                              topRight:
-                                  Radius.circular(ScreenUtil().setWidth(100)),
-                            ),
-                            gradient: LinearGradient(
-                                begin: Alignment(0.0, -1.0),
-                                end: Alignment(0.0, 1.0),
-                                colors: <Color>[
-                                  Color(0xFFf59f26),
-                                  Color(0xFFf2d54f),
-                                ]),
-                          ),
-                          child: Center(
-                            child: ModalTitle(
-                              'How to win',
-                              fontsize: 60,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(50),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                          text: "0 match=10min coins\n"
-                              "1 match=15min coins\n"
-                              "2 matches= 20min coins\n"
-                              "3 matches=30min coins\n"
-                              "4 matched=\$5\n"
-                              "5 matched=\$50\n",
-                          style: TextStyle(
-                              color: Color(0xFF262626),
-                              fontFamily: FontFamily.semibold,
-                              fontSize: ScreenUtil().setSp(48),
-                              fontWeight: FontWeight.w500),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "6 matched=\$2000",
-                              style: TextStyle(
-                                  fontFamily: FontFamily.semibold,
-                                  fontSize: ScreenUtil().setSp(48),
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF32B54A)),
-                            ),
-                          ]),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(60),
-                    ),
-                    Container(
-                      width: ScreenUtil().setWidth(600),
-                      height: ScreenUtil().setWidth(124),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(
-                          ScreenUtil().setWidth(68),
-                        )),
-                        gradient: LinearGradient(
-                            begin: Alignment(0.0, -1.0),
-                            end: Alignment(0.0, 1.0),
-                            colors: <Color>[
-                              Color(0xffF2D450),
-                              Color(0xffF59A22),
-                            ]),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Continue",
-                        style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.none,
-                          fontFamily: FontFamily.semibold,
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(66),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(80),
-                    ),
-                  ])
-            ..show();
+          Layer.showLottoHelpMessage();
         },
         child: ImageIcon(
           AssetImage("assets/image/exclamation_icon.png"),
@@ -314,6 +212,29 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
     });
 
     return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLottoHelpShowup();
+  }
+
+  checkLottoHelpShowup() {
+    Storage.getItem("lotto_help").then((lotto_help) {
+      if (lotto_help != null) {
+        return;
+      }
+      Storage.getItem("lotto_help_update_time").then((value) {
+        DateTime hisDate = DateTime.tryParse(value ?? "");
+        print("hisDate:${hisDate?.day}, ${DateTime.now().day}");
+        if (hisDate == null || DateTime.now().day != hisDate?.day) {
+          Layer.showLottoHelpMessage();
+          Storage.setItem("lotto_help_update_time",
+              Util.formatDate(dateTime: DateTime.now()));
+        }
+      });
+    });
   }
 
   @override
@@ -399,7 +320,8 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                 ],
                 onOk: () {
                   if (luckyGroup.isDisableToPickLotto()) {
-                    Layer.toastWarning("Times Used Up");
+                    Layer.toastWarning(
+                        "3 chances per day, plaease try tomorrow");
                     return;
                   }
 
@@ -849,7 +771,8 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                       } else {
                         // 倒计时界面重新选择
                         if (luckyGroup.isDisableToPickLotto()) {
-                          Layer.toastWarning("Times Used Up");
+                          Layer.toastWarning(
+                              "3 chances per day, plaease try tomorrow");
                           return;
                         }
                         // lotto下赌注
@@ -967,7 +890,8 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
         AnimationController(duration: Duration(seconds: 3), vsync: this);
 
     flip_anim = Tween(begin: 0.0, end: 2.0).animate(CurvedAnimation(
-        parent: controller, curve: Interval(0.0, .5, curve: Curves.easeOutCubic)));
+        parent: controller,
+        curve: Interval(0.0, .5, curve: Curves.easeOutCubic)));
 
     Future.delayed(Duration(seconds: widget.delayedTime ?? 0), () {
       animationStart = true;
