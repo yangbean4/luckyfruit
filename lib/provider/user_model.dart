@@ -84,7 +84,8 @@ class UserModel with ChangeNotifier {
     } else {
       Map<String, dynamic> info = await DeviceIofo.getInfo();
       _user = await getUser(info);
-      // _user.is_m = 1;
+
+      // _user.is_m = 0;
       BurialReport.init(_user.acct_id,
           app_version: info['app_version'],
           config_version: _user.version,

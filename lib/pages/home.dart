@@ -247,12 +247,14 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           remind: remind['map'] ?? false,
           activeIconUrl: 'assets/image/map_active.png',
           name: 'MAP'),
-      _createBarItem(
+    ];
+    if (remind['isM']) {
+      items.add(_createBarItem(
           iconUrl: 'assets/image/lotto.png',
           remind: remind['lotto'] ?? false,
           activeIconUrl: 'assets/image/lotto_active.png',
-          name: 'LOTTO'),
-    ];
+          name: 'LOTTO'));
+    }
     if (remind['isM']) {
       items.add(_createBarItem(
           iconUrl: 'assets/image/partner.png',
