@@ -376,10 +376,10 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
     });
 
     // TODO 测试
-    String test = """{
-        "residue_time":3
-        }""";
-    addLottoData = json.decode(test);
+//    String test = """{
+//        "residue_time":3
+//        }""";
+//    addLottoData = json.decode(test);
 
     if (addLottoData != null) {
       luckyGroup.lottoRemainingTimesToday = addLottoData['residue_time'] ?? 0;
@@ -807,10 +807,10 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
     });
 
     // TODO 测试
-    String test = """
-    {"award_num": [3, 2, 1]}
-    """;
-    lottoReceivePrizeInfo = json.decode(test);
+//    String test = """
+//    {"award_num": [3, 2, 1]}
+//    """;
+//    lottoReceivePrizeInfo = json.decode(test);
 
     if (lottoReceivePrizeInfo == null) {
       return;

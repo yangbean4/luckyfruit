@@ -1811,30 +1811,35 @@ class Layer {
               SizedBox(
                 height: ScreenUtil().setWidth(60),
               ),
-              Container(
-                width: ScreenUtil().setWidth(600),
-                height: ScreenUtil().setWidth(124),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(
-                    ScreenUtil().setWidth(68),
-                  )),
-                  gradient: LinearGradient(
-                      begin: Alignment(0.0, -1.0),
-                      end: Alignment(0.0, 1.0),
-                      colors: <Color>[
-                        Color(0xffF2D450),
-                        Color(0xffF59A22),
-                      ]),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Continue",
-                  style: TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.none,
-                    fontFamily: FontFamily.semibold,
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(66),
+              GestureDetector(
+                onTap: () {
+                  modal.hide();
+                },
+                child: Container(
+                  width: ScreenUtil().setWidth(600),
+                  height: ScreenUtil().setWidth(124),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(
+                      ScreenUtil().setWidth(68),
+                    )),
+                    gradient: LinearGradient(
+                        begin: Alignment(0.0, -1.0),
+                        end: Alignment(0.0, 1.0),
+                        colors: <Color>[
+                          Color(0xffF2D450),
+                          Color(0xffF59A22),
+                        ]),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Continue",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      fontFamily: FontFamily.semibold,
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(66),
+                    ),
                   ),
                 ),
               ),

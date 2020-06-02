@@ -754,7 +754,7 @@ class LuckyGroup with ChangeNotifier {
         }
          """;
     // TODO 测试
-    lottoListInfo = json.decode(test);
+//    lottoListInfo = json.decode(test);
 
     Lotto_list lottoList = Lotto_list.fromJson(lottoListInfo);
     if (lottoList.data == null || lottoList.data.isEmpty) {
