@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class _LottoPageState extends State<LottoPage> {
                     ? LottoStatusHeaderImageWidget()
                     : LottoHeaderImageWidget(),
                 SizedBox(
-                  height: ScreenUtil().setWidth(tuple2.item1 ? 30 : 150),
+                  height: ScreenUtil().setWidth(tuple2.item1 ? 30 : 104),
                 ),
                 tuple2.item1
                     ? LottoStatusShowcaseWidget(tuple2.item2)
@@ -302,12 +301,9 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
             ],
           ),
         ),
-        SizedBox(
-          height: ScreenUtil().setWidth(30),
-        ),
         SelectedLottoWidget(selectedNumList, pick6),
         SizedBox(
-          height: ScreenUtil().setWidth(80),
+          height: ScreenUtil().setWidth(50),
         ),
         Selector<LuckyGroup, LuckyGroup>(
             selector: (context, provider) => provider,
@@ -368,7 +364,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
   submitLottoData(LuckyGroup luckyGroup) async {
     String firstFive = selectedNumList.sublist(0, 5).map((e) {
       return "${e},";
-    }).join(',');
+    }).join('');
 
     dynamic addLottoData = await Service().addLottoData({
       'lottery_draw_num': firstFive,
@@ -381,14 +377,17 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 //        }""";
 //    addLottoData = json.decode(test);
 
-    if (addLottoData != null) {
+    if (addLottoData['data'] != null) {
       luckyGroup.lottoRemainingTimesToday = addLottoData['residue_time'] ?? 0;
+      luckyGroup.countDownPrizeFromAddData =
+          addLottoData['countdown_prize'] ?? [];
+      luckyGroup.lottoPickedFinished = true;
+
+      luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
+      luckyGroup.lottoTicketNumTotal = luckyGroup.lottoTicketNumTotal - 1;
+    } else {
+      Layer.toastWarning(addLottoData['msg']);
     }
-
-    luckyGroup.lottoPickedFinished = true;
-
-    luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
-    luckyGroup.lottoTicketNumTotal = luckyGroup.lottoTicketNumTotal - 1;
   }
 
   List<Widget> getCircularWidgetList(Function(String, bool) clickCallback) {
@@ -644,8 +643,11 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
     );
   }
 
-  getRewardedLottoWidget(List<String> winningList) {
+  List<Widget> getRewardedLottoWidget(List<String> winningList) {
     List<Widget> widgetList = [];
+    if (winningList == null || winningList.isEmpty) {
+      return [];
+    }
     for (int i = 0; i < 6; i++) {
       widgetList.add(FlipLottoItemWidget(
         i + 1,
@@ -660,6 +662,10 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
 
   bool checkIfGetRewarded(int index) {
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+
+    if (luckyGroup.getWinningNumberList().isEmpty) {
+      return false;
+    }
     Map<String, List<String>> pickedMap = {};
     for (int i = 0; i < luckyGroup.currentPeriodlottoList.length; i++) {
       List<String> listValue = pickedMap[(i % 6).toString()] ?? [];
@@ -803,7 +809,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   /// 开奖界面点击领奖
   hanldeLottoReceivePrize(LuckyGroup luckyGroup) async {
     dynamic lottoReceivePrizeInfo = await Service().lottoReceivePrize({
-      'awards_date': luckyGroup.currentLottoItem.awards_date,
+      'awards_date': luckyGroup.currentLottoItem?.awards_date,
     });
 
     // TODO 测试
@@ -855,8 +861,9 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
     if (!luckyGroup.isLottoRewardedTimeReached()) {
       return false;
     }
-    if (widget.currentPeriodsLottoList[index] ==
-        luckyGroup.getWinningNumberList()[index % 6]) {
+    if (luckyGroup.getWinningNumberList().length > (index % 6) &&
+        widget.currentPeriodsLottoList[index] ==
+            luckyGroup.getWinningNumberList()[index % 6]) {
       return true;
     }
 

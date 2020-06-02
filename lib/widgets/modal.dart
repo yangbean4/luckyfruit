@@ -44,6 +44,8 @@ class Modal extends StatefulWidget {
   final List<Color> btnColors;
   final String closeIconPath;
   final int closeIconDelayedTime;
+  final int radiusOfTop;
+  final int radiusOfBottom;
   bool closeIconDelayedOver = false;
 
   Modal(
@@ -66,6 +68,8 @@ class Modal extends StatefulWidget {
       this.horizontalPadding = 40,
       this.marginBottom = 70,
       this.autoHide = true,
+      this.radiusOfTop = 100,
+      this.radiusOfBottom = 100,
       this.closeIconDelayedTime = 5,
       this.dismissDurationInMilliseconds = 0,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
@@ -180,8 +184,15 @@ class _ModalWidgetState extends State<Modal> with WidgetsBindingObserver {
             ),
             decoration: BoxDecoration(
               color: widget.decorationColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(ScreenUtil().setWidth(100)),
+              borderRadius: BorderRadius.only(
+                topLeft:
+                    Radius.circular(ScreenUtil().setWidth(widget.radiusOfTop)),
+                topRight:
+                    Radius.circular(ScreenUtil().setWidth(widget.radiusOfTop)),
+                bottomLeft: Radius.circular(
+                    ScreenUtil().setWidth(widget.radiusOfBottom)),
+                bottomRight: Radius.circular(
+                    ScreenUtil().setWidth(widget.radiusOfBottom)),
               ),
             ),
             child: Column(

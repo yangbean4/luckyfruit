@@ -8,6 +8,7 @@ import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -31,7 +32,10 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
     // 关闭之后检查是否需要开始auto merge
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     if (luckyGroup.autoMergeDurationFromLuckyWheel > 0) {
-      luckyGroup.setShowAuto(true, notify: true);
+      luckyGroup.setShowAutoMergeCircleGuidance = false;
+      luckyGroup.setShowAutoMergeFingerGuidance = false;
+      luckyGroup.autoStart();
+      luckyGroup.autoMergeDurationFromLuckyWheel = 0;
     }
 
     if (fromAppLaunch) {
@@ -42,9 +46,9 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
 
       // 关闭后出现分享活动弹框或者Cash Gift Packs
       if (!timeReached) {
-        Layer.showSevenDaysInviteEventWindow(context);
+        Layer.showSevenDaysInviteEventWindow(MoneyGroup.context);
       } else {
-        Layer.partnerCash(context, onOK: () {
+        Layer.partnerCash(MoneyGroup.context, onOK: () {
           LuckyGroup luckyGroup =
               Provider.of<LuckyGroup>(context, listen: false);
           if (luckyGroup.issed.merge_number == 0) {

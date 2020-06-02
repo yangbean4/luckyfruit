@@ -180,8 +180,7 @@ class _RightBtnsState extends State<RightBtns>
                           ad_code: '202',
                           adUnitIdFlag: 2,
                           key: Consts.globalKeyAutoMerge,
-                          useAd: !luckyGroup.showAutoMergeCircleGuidance &&
-                              luckyGroup.autoMergeDurationFromLuckyWheel <= 0,
+                          useAd: !luckyGroup.showAutoMergeCircleGuidance,
                           onOk: () {
                             //success
                             luckyGroup.setShowAutoMergeCircleGuidance = false;
@@ -198,10 +197,8 @@ class _RightBtnsState extends State<RightBtns>
                               bottomString:
                                   'in ${luckyGroup.autoMergeDurationFromLuckyWheel > 0 ? luckyGroup.autoMergeDurationFromLuckyWheel : issed?.automatic_time}s',
                               topString: 'Auto',
-                              userNoAdImg: luckyGroup
-                                      .showAutoMergeCircleGuidance ||
-                                  luckyGroup.autoMergeDurationFromLuckyWheel >
-                                      0,
+                              userNoAdImg:
+                                  luckyGroup.showAutoMergeCircleGuidance,
                               color: Color.fromRGBO(49, 200, 84, 1)),
                         ))
                     : Container(),

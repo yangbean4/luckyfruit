@@ -172,14 +172,21 @@ class LuckyGroup with ChangeNotifier {
   }
 
   String getCountDownTimerStringOfLotto({bool containSeconds = false}) {
-    if (_currentLottoItem?.countdown_prize == null ||
-        _currentLottoItem?.countdown_prize?.isEmpty) {
+    List<String> list = [];
+    if (countDownPrizeFromAddData.isNotEmpty) {
+      list.addAll(countDownPrizeFromAddData);
+    } else if (_currentLottoItem?.countdown_prize != null &&
+        _currentLottoItem?.countdown_prize?.isNotEmpty) {
+      list.addAll(List<String>.from(_currentLottoItem?.countdown_prize));
+    }
+
+    if (list.isEmpty || list.length < 3) {
       return '';
     }
 
-    String hourStr = _currentLottoItem.countdown_prize[0] ?? '--';
-    String minuteStr = _currentLottoItem.countdown_prize[1] ?? '--';
-    String secondsStr = _currentLottoItem.countdown_prize[2] ?? '--';
+    String hourStr = list[0] ?? '--';
+    String minuteStr = list[1] ?? '--';
+    String secondsStr = list[2] ?? '--';
     if (containSeconds) {
       return "${minuteStr}m:${secondsStr}s";
     }
@@ -198,7 +205,7 @@ class LuckyGroup with ChangeNotifier {
   }
 
   num getWinningNumnersOfLotto() {
-    List<LottoRewardListItem> list = _currentLottoItem.reward_list;
+    List<LottoRewardListItem> list = _currentLottoItem?.reward_list;
     if (list == null || list.isEmpty) {
       return 0;
     }
@@ -237,13 +244,13 @@ class LuckyGroup with ChangeNotifier {
 
   List<String> getCurrentPeriodlottoList() {
     // 如果倒计时为空，且已经领奖
-    if ((_currentLottoItem.countdown_prize == null ||
-            _currentLottoItem.countdown_prize.isEmpty) &&
-        _currentLottoItem.is_cash_prize == "1") {
+    if ((_currentLottoItem?.countdown_prize == null ||
+            _currentLottoItem?.countdown_prize?.isEmpty) &&
+        _currentLottoItem?.is_cash_prize == "1") {
       return [];
     }
 
-    List<LottoRewardListItem> list = _currentLottoItem.reward_list;
+    List<LottoRewardListItem> list = _currentLottoItem?.reward_list;
     if (list == null || list.isEmpty) {
       return [];
     }
@@ -260,9 +267,9 @@ class LuckyGroup with ChangeNotifier {
   /// 获取本期中奖号码列表
   List<String> getWinningNumberList() {
     List<String> lottoList = [];
-    lottoList.addAll(_currentLottoItem.lottery_draw_num_win.split(',') ?? []);
+    lottoList.addAll(_currentLottoItem?.lottery_draw_num_win?.split(',') ?? []);
     lottoList
-        .addAll(_currentLottoItem.lottery_plus_one_num_win.split(',') ?? []);
+        .addAll(_currentLottoItem?.lottery_plus_one_num_win?.split(',') ?? []);
 
     return lottoList;
   }
@@ -276,9 +283,20 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> _countDownPrizeFromAddData = [];
+
+  List<String> get countDownPrizeFromAddData => _countDownPrizeFromAddData;
+
+  set countDownPrizeFromAddData(List<String> value) {
+    _countDownPrizeFromAddData = value;
+  }
+
   bool isLottoRewardedTimeReached() {
-    return _currentLottoItem.countdown_prize == null ||
-        _currentLottoItem.countdown_prize.isEmpty;
+    if (countDownPrizeFromAddData.isNotEmpty) {
+      return false;
+    }
+    return _currentLottoItem?.countdown_prize == null ||
+        _currentLottoItem?.countdown_prize?.isEmpty;
   }
 
   // 账户中总共还剩下多少券
@@ -481,7 +499,7 @@ class LuckyGroup with ChangeNotifier {
 
   bool get showAuto => _showAuto;
 
-  void setShowAuto(bool value, {bool notify=false}) {
+  void setShowAuto(bool value, {bool notify = false}) {
     _showAuto = value;
     if (notify) {
       notifyListeners();

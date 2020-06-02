@@ -1746,11 +1746,13 @@ class Layer {
     Modal(
         onCancel: () {},
         closeIconDelayedTime: 0,
-        width: 877,
+        width: 800,
         closeType: CloseType.CLOSE_TYPE_TOP_RIGHT,
         closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
         verticalPadding: 0,
         horizontalPadding: 0,
+        radiusOfTop: 80,
+        radiusOfBottom: 30,
         childrenBuilder: (modal) => <Widget>[
               Stack(
                 overflow: Overflow.visible,
@@ -1760,8 +1762,8 @@ class Layer {
                     width: ScreenUtil().setWidth(900),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(ScreenUtil().setWidth(100)),
-                        topRight: Radius.circular(ScreenUtil().setWidth(100)),
+                        topLeft: Radius.circular(ScreenUtil().setWidth(80)),
+                        topRight: Radius.circular(ScreenUtil().setWidth(80)),
                       ),
                       gradient: LinearGradient(
                           begin: Alignment(0.0, -1.0),
