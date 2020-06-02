@@ -562,6 +562,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         // 转到auto merge，每次一分钟
         LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
         luckyGroup.autoMergeDurationFromLuckyWheel += 60;
+        Layer.showAutoMergeInLuckyWheel();
         return;
       default:
         Layer.toastWarning("Failed, Please Try Agagin Later");

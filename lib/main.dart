@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("initMain4_1");
-    MoAd.getInstance(context);
+    MopubAd.getInstance(context);
     var overlay = Overlay(initialEntries: [
       OverlayEntry(
         builder: (BuildContext context) {

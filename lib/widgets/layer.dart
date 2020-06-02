@@ -1694,6 +1694,51 @@ class Layer {
             ])
       ..show();
   }
+
+  static void showAutoMergeInLuckyWheel() {
+    Modal(
+        okText: 'Claim',
+        onOk: () {},
+        onCancel: () {},
+        closeIconDelayedTime: 0,
+        btnColors: [
+          Color.fromRGBO(242, 212, 80, 1),
+          Color.fromRGBO(245, 154, 34, 1),
+        ],
+        childrenBuilder: (modal) => <Widget>[
+              Container(
+                height: ScreenUtil().setWidth(70),
+                child: Text(
+                  "Awesome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: MyTheme.blackColor,
+                      height: 1,
+                      fontFamily: FontFamily.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(height: ScreenUtil().setWidth(60)),
+              Image.asset(
+                "assets/image/lucky_wheel_auto_merge_icon.png",
+                width: ScreenUtil().setWidth(240),
+                height: ScreenUtil().setWidth(240),
+              ),
+              Container(height: ScreenUtil().setWidth(60)),
+              Text(
+                "Auto Merge",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: MyTheme.blackColor,
+                    height: 1,
+                    fontFamily: FontFamily.regular,
+                    fontSize: ScreenUtil().setSp(42),
+                    fontWeight: FontWeight.w400),
+              ),
+              Container(height: ScreenUtil().setWidth(46)),
+            ]).show();
+  }
 }
 
 class GetReward {

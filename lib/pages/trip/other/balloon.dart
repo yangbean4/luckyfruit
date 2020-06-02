@@ -110,6 +110,13 @@ class _BalloonState extends State<Balloon> {
                           (2 + math.sin(animation.value * math.pi * 4))),
                       child: GestureDetector(
                           onTap: () {
+                            BurialReport.report('ad_rewarded', {
+                              'type': '5',
+                              'ad_code': adCode,
+                              "union_id": adLogParam['union_id'],
+                              'is_new': "1"
+                            });
+
                             _showModal(issed.balloon_time);
                             setState(() {
                               visibity = false;

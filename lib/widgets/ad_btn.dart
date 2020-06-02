@@ -134,7 +134,7 @@ class _AdButtonState extends State<AdButton> {
               });
               // widget?.onOk();
 
-              MoAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
+              MopubAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
                   () {
                 //success
                 widget?.onOk();

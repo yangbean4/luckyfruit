@@ -154,23 +154,85 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                       ))
                 ],
               )
-            : Image.asset(
-                iconUrl,
-                key: name == 'TRIP' ? Consts.globalKeyTripIcon : null,
-                width: ScreenUtil().setWidth(56),
-              ),
-        activeIcon: Image.asset(
-          activeIconUrl,
-          width: ScreenUtil().setWidth(56),
-        ),
+            : name == 'LOTTO'
+                ? getLottoInActiveWidget(iconUrl)
+                : Image.asset(
+                    iconUrl,
+                    key: name == 'TRIP' ? Consts.globalKeyTripIcon : null,
+                    width: ScreenUtil().setWidth(56),
+                  ),
+        activeIcon: name == 'LOTTO'
+            ? getLottoActiveWidget(activeIconUrl)
+            : Image.asset(activeIconUrl, width: ScreenUtil().setWidth(56)),
         title: Text(
-          name,
+          name == 'LOTTO' ? '' : name,
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: 'semibold',
               height: 1.2,
               fontSize: ScreenUtil().setSp(34)),
         ));
+  }
+
+  Widget getLottoInActiveWidget(String url) {
+    return Stack(
+      overflow: Overflow.visible,
+      children: <Widget>[
+        Transform.scale(
+          scale: 2.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Transform.scale(
+                scale: 1.0,
+                child: Image.asset(
+                  url,
+                  width: ScreenUtil().setWidth(56),
+                ),
+              ),
+              Text(
+                "LOTTO",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'semibold',
+                    color: Color(0xFFCACACA),
+                    fontSize: ScreenUtil().setSp(17)),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getLottoActiveWidget(String url) {
+    return Stack(
+      overflow: Overflow.visible,
+      children: <Widget>[
+        Transform.scale(
+          scale: 2.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Transform.scale(
+                scale: 1.0,
+                child: Image.asset(
+                  url,
+                  width: ScreenUtil().setWidth(56),
+                ),
+              ),
+              Text(
+                "LOTTO",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'semibold',
+                    fontSize: ScreenUtil().setSp(17)),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _createBottomBar(Map<String, bool> remind) {

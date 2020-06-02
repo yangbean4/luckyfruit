@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 import './event_bus.dart';
 import 'method_channel.dart';
 
-class MoAd {
+class MopubAd {
   // static const String VIEW_AD = 'VIEW_AD';
-  static MoAd _instance;
+  static MopubAd _instance;
   UserModel _userModel;
   String ad_code;
   LuckyGroup _luckyGroup;
@@ -28,7 +28,7 @@ class MoAd {
   // 是否自动弹出广告
   bool autoPopupAds = false;
 
-  MoAd(BuildContext context) {
+  MopubAd(BuildContext context) {
     _userModel = Provider.of<UserModel>(context, listen: false);
     _luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
 
@@ -51,9 +51,9 @@ class MoAd {
     loadingTimeInSeconds = _luckyGroup?.issed?.ad_reset_time ?? 3;
   }
 
-  static MoAd getInstance(BuildContext context) {
+  static MopubAd getInstance(BuildContext context) {
     if (_instance == null) {
-      _instance = MoAd(context);
+      _instance = MopubAd(context);
     }
     return _instance;
   }
@@ -69,6 +69,8 @@ class MoAd {
   }
 
   void onRewardedVideoLoadFailure(arg) {
+    // 下面这一行是去掉重试三次的逻辑
+    retryCount = 3;
     retryCount++;
     Layer.loadingHide();
     print("onRewardedVideoLoadFailure: $arg, retryCount:$retryCount");
