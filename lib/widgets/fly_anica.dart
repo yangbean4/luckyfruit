@@ -145,10 +145,10 @@ class _GrowTransition extends StatelessWidget {
         // 大小
         enlargeSize = Tween<double>(
           begin: 1.0,
-          end: 0.4,
+          end: 0.5,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.6, 1.0, curve: Curves.bounceInOut))),
+            curve: Interval(0.8, 1.0, curve: Curves.bounceInOut))),
         super(key: key);
 
   final Animation<double> controller;

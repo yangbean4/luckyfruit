@@ -110,7 +110,7 @@ class _GameState extends State<Game> with MyNavigator {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context);
     Tree animateTargetTree = treeGroup.animateTargetTree;
     Tree animateSourceTree = treeGroup.animateSourceTree;
-    int animationUseflower = treeGroup.animationUseflower;
+    int gridAnimationUseflower = treeGroup.gridAnimationUseflower;
     TreePoint flowerPoint = treeGroup.flowerPoint;
     List<List<Tree>> treeMatrix = treeGroup.treeMatrix;
     // REVIEW:还是否需要使用Selector
@@ -136,11 +136,11 @@ class _GameState extends State<Game> with MyNavigator {
                           animateTargetTree == data ? animateTargetTree : null,
                       animateSourceTree:
                           animateTargetTree == data ? animateSourceTree : null,
-                      animationUseflower: (flowerPoint != null &&
+                      gridAnimationUseflower: (flowerPoint != null &&
                               data != null &&
                               flowerPoint?.x == data?.x &&
                               flowerPoint?.y == data?.y)
-                          ? animationUseflower
+                          ? gridAnimationUseflower
                           : 0,
                       // animationUseflower: animationUseflower,
                     );

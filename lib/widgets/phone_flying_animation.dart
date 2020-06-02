@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-01 19:21:15
+ * @LastEditTime: 2020-06-02 20:01:41
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +51,7 @@ class PhoneFlyingAnimation extends StatelessWidget {
                           x: ScreenUtil().setWidth(540),
                           y: ScreenUtil().setHeight(1200)),
                       radius: ScreenUtil().setWidth(200),
-                      animateTime: Duration(milliseconds: 1500),
+                      animateTime: Duration(milliseconds: 600),
                       child: Image.asset(
                         'assets/image/phone11.png',
                         width: ScreenUtil().setWidth(83),

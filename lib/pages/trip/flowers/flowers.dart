@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-02 11:32:39
+ * @LastEditTime: 2020-06-02 18:32:23
  */
 import 'dart:math';
 
@@ -14,6 +14,7 @@ import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
@@ -168,6 +169,13 @@ class _FlowersState extends State<Flowers> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
+                        UserModel userModel =
+                            Provider.of<UserModel>(context, listen: false);
+
+                        if (userModel.value.is_m == 0) {
+                          return;
+                        }
+
                         if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
                           showDialog(
                               context: context, builder: (_) => _LuckyModel());
@@ -204,17 +212,17 @@ class _FlowersState extends State<Flowers> {
                         ))
                     : Container(),
                 // 小于8级 🔒
-                level < TreeGroup.CAN_GET_FLOWER_LEVEL
-                    ? Positioned(
-                        left: 0,
-                        right: 0,
-                        child: Image.asset(
-                          'assets/image/flower/img_sl.png',
-                          width: ScreenUtil().setWidth(960),
-                          height: ScreenUtil().setWidth(105),
-                        ),
-                      )
-                    : Container(),
+                // level < TreeGroup.CAN_GET_FLOWER_LEVEL
+                //     ? Positioned(
+                //         left: 0,
+                //         right: 0,
+                //         child: Image.asset(
+                //           'assets/image/flower/img_sl.png',
+                //           width: ScreenUtil().setWidth(960),
+                //           height: ScreenUtil().setWidth(105),
+                //         ),
+                //       )
+                //     : Container(),
               ],
             );
           },

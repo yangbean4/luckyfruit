@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:35:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-01 15:47:19
+ * @LastEditTime: 2020-06-02 19:34:37
  */
 
 import 'package:flutter/material.dart';
@@ -55,13 +55,13 @@ class FlowerFlyingAnimation extends StatelessWidget {
                             Provider.of<TreeGroup>(context, listen: false);
                         moneyGroup.flowerPoint = null;
                       },
-                      count: number,
+                      count: 1,
                       endPos: Position(
                           x: offsetEnd.dx + ScreenUtil().setWidth(40),
                           y: offsetEnd.dy + ScreenUtil().setWidth(40)),
                       startCenter: Position(
-                          x: offsetSt.dx + ScreenUtil().setWidth(180),
-                          y: offsetSt.dy + ScreenUtil().setWidth(180)),
+                          x: offsetSt.dx + ScreenUtil().setWidth(170),
+                          y: offsetSt.dy + ScreenUtil().setWidth(170)),
                       radius: ScreenUtil().setWidth(20),
                       animateTime: Duration(milliseconds: 1500),
                       child: Image.asset(

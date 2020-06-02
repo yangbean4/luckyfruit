@@ -97,7 +97,7 @@ class _TripState extends State<Trip>
                     builder: (context, String carImgSrc, child) {
                       return Positioned(
                         bottom: ScreenUtil().setWidth(46),
-                        left: ScreenUtil().setWidth(256),
+                        left: ScreenUtil().setWidth(276),
                         child: Image.asset(
                           carImgSrc,
                           width: ScreenUtil().setWidth(687),
@@ -112,7 +112,7 @@ class _TripState extends State<Trip>
                     builder: (context, String manImgSrc, child) {
                       return Positioned(
                         bottom: ScreenUtil().setWidth(88),
-                        left: ScreenUtil().setWidth(88),
+                        left: ScreenUtil().setWidth(180),
                         child: Image.asset(
                           manImgSrc,
                           width: ScreenUtil().setWidth(172),
@@ -123,10 +123,10 @@ class _TripState extends State<Trip>
                   ),
                   Positioned(
                       right: 0,
-                      top: ScreenUtil().setWidth(223),
+                      top: ScreenUtil().setWidth(180),
                       child: RightBtns()),
                   Positioned(
-                    bottom: ScreenUtil().setWidth(100),
+                    bottom: ScreenUtil().setWidth(80),
                     right: 0,
                     child: GestureDetector(
                         onTap: () {

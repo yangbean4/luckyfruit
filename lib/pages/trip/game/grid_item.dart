@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class GridItem extends StatefulWidget {
   final Tree tree;
   final Tree animateTargetTree;
   final Tree animateSourceTree;
-  final int animationUseflower;
+  final int gridAnimationUseflower;
 
   final bool showAnimation;
   GridItem(
@@ -24,7 +25,7 @@ class GridItem extends StatefulWidget {
       this.tree,
       this.animateTargetTree,
       this.animateSourceTree,
-      this.animationUseflower})
+      this.gridAnimationUseflower})
       : showAnimation = animateTargetTree != null,
         super(key: key);
 
@@ -57,7 +58,7 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Widget _tree = TreeItem(widget.tree);
-    int flower = widget.animationUseflower;
+    int flower = widget.gridAnimationUseflower;
     return Container(
       width: ScreenUtil().setWidth(200),
       height: ScreenUtil().setWidth(210),
@@ -147,42 +148,52 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                   //         showFlower = false;
                   //       });
                   //     },
-                  child: Container(
-                    width: ScreenUtil().setWidth(120),
-                    height: ScreenUtil().setWidth(41),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/image/flower/img_flower.png',
-                            width: ScreenUtil().setWidth(40),
-                            height: ScreenUtil().setWidth(41),
-                          ),
-                          Center(
-                              child: Stack(children: <Widget>[
-                            Text(
-                              'x $flower',
-                              style: TextStyle(
-                                  height: 1,
-                                  foreground: new Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = ScreenUtil().setWidth(8)
-                                    ..color = Color.fromRGBO(196, 61, 27, 1),
-                                  fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(30),
-                                  fontWeight: FontWeight.bold),
+                  child: ExpandAnimation(
+                    animateTime: Duration(milliseconds: 700),
+                    onFinish: () {
+                      TreeGroup treeGroup =
+                          Provider.of<TreeGroup>(context, listen: false);
+                      treeGroup.animationUseflower =
+                          treeGroup.gridAnimationUseflower;
+                      treeGroup.gridAnimationUseflower = 0;
+                    },
+                    child: Container(
+                      width: ScreenUtil().setWidth(120),
+                      height: ScreenUtil().setWidth(41),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Image.asset(
+                              'assets/image/flower/img_flower.png',
+                              width: ScreenUtil().setWidth(40),
+                              height: ScreenUtil().setWidth(41),
                             ),
-                            Text(
-                              'x $flower',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  height: 1,
-                                  fontFamily: FontFamily.bold,
-                                  fontSize: ScreenUtil().setSp(30),
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ]))
-                        ]),
+                            Center(
+                                child: Stack(children: <Widget>[
+                              Text(
+                                'x $flower',
+                                style: TextStyle(
+                                    height: 1,
+                                    foreground: new Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = ScreenUtil().setWidth(8)
+                                      ..color = Color.fromRGBO(196, 61, 27, 1),
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setSp(30),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'x $flower',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1,
+                                    fontFamily: FontFamily.bold,
+                                    fontSize: ScreenUtil().setSp(30),
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ]))
+                          ]),
+                    ),
                   ))
               // ,)
               : Container(),

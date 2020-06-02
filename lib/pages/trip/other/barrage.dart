@@ -124,6 +124,7 @@ class _BarrageState extends State<Barrage> {
               child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   controller: controller,
+                  physics: NeverScrollableScrollPhysics(),
                   child: Row(children: <Widget>[
                     Container(
                       width: ScreenUtil().setWidth(820),

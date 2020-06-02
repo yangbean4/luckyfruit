@@ -1130,6 +1130,16 @@ class TreeGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  // 进行动画用的🌹个数
+  int _gridAnimationUseflower = 0;
+
+  int get gridAnimationUseflower => _gridAnimationUseflower;
+
+  set gridAnimationUseflower(int count) {
+    _gridAnimationUseflower = count;
+    notifyListeners();
+  }
+
   TreePoint _flowerPoint;
 
   TreePoint get flowerPoint => _flowerPoint;
@@ -1146,15 +1156,15 @@ class TreeGroup with ChangeNotifier {
   }
 
   _checkFlower(int x, int y) {
-    if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
-      return;
-    }
+    // if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
+    //   return;
+    // }
     if (_flowerList.length != 0) {
       flowerPoint = TreePoint(x: x, y: y);
-      // _animationUseflower = 15;
-      _animationUseflower = _flowerList[0];
+      gridAnimationUseflower = _flowerList[0];
+      gridAnimationUseflower = 15;
+      // animationUseflower = 15;
       _flowerList.removeAt(0);
-      notifyListeners();
     }
     if (_flowerList.length < 10) {
       _getFlower();

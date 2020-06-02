@@ -144,20 +144,30 @@ class _Phone extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            key: Consts.globalKeyPhonePosition,
-            width: ScreenUtil().setWidth(214.2),
-            height: ScreenUtil().setWidth(252),
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(244, 176, 51, 1),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(ScreenUtil().setWidth(30)),
-                )),
-            child: Center(
-              child: Image.asset(
-                'assets/image/phone11.png',
-                width: ScreenUtil().setWidth(131),
-                height: ScreenUtil().setWidth(180),
+          GestureDetector(
+            // onTap: () {
+            //   GetReward.showPhoneWindow('5', () {
+            //     MoneyGroup moneyGroup =
+            //         Provider.of<MoneyGroup>(context, listen: false);
+
+            //     moneyGroup.showPhoneAnimation = 5;
+            //   });
+            // },
+            child: Container(
+              key: Consts.globalKeyPhonePosition,
+              width: ScreenUtil().setWidth(214.2),
+              height: ScreenUtil().setWidth(252),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(244, 176, 51, 1),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(ScreenUtil().setWidth(30)),
+                  )),
+              child: Center(
+                child: Image.asset(
+                  'assets/image/phone11.png',
+                  width: ScreenUtil().setWidth(131),
+                  height: ScreenUtil().setWidth(180),
+                ),
               ),
             ),
           ),
