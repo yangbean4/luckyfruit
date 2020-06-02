@@ -159,6 +159,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   initState() {
     super.initState();
 
+    BurialReport.report('page_imp', {'page_code': '007'});
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     ticketCount = userModel?.value?.ticket;
     watchAdForTicketTimes = userModel?.value?.ticket_time ?? 0;

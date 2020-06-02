@@ -44,6 +44,14 @@ Map<String, String> pageCodeTarget = {
   "mine": '034',
 };
 
+Map<String, String> pageCodeTargetInEventEntrClick = {
+  "trip": '12',
+  "map": '13',
+  "partner": '14',
+  "mine": '15',
+  "lotto": '16',
+};
+
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   int tabIndex = 0;
   List<Widget> pageList = [
@@ -212,7 +220,14 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         List<String> pageName = ['trip', 'map', 'lotto', 'partner', 'mine'];
         pageController.jumpToPage(index);
         String goName = pageName[index];
-        BurialReport.report('page_imp', {'page_code': pageCodeTarget[goName]});
+        if (pageCodeTarget[goName] != null) {
+          BurialReport.report(
+              'page_imp', {'page_code': pageCodeTarget[goName]});
+        }
+        if (pageCodeTargetInEventEntrClick[goName] != null) {
+          BurialReport.report('event_entr_click',
+              {'entr_code': pageCodeTargetInEventEntrClick[goName]});
+        }
         if (goName == 'map' && remind['map']) {
           TourismMap tourismMap =
               Provider.of<TourismMap>(context, listen: false);

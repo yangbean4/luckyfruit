@@ -127,7 +127,7 @@ class _WarehouseState extends State<Warehouse> {
 
   _showWarehouse(List<Tree> warehouseTreeList) {
     BurialReport.report('page_imp', {'page_code': '013'});
-
+    BurialReport.report('event_entr_click', {'entr_code': '8'});
     List<Widget> children = warehouseTreeList
         .map((tree) => ListItem(tree,
             onClick: (bool isSelect) =>

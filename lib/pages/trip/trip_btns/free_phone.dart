@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/config/app.dart';
-import 'package:luckyfruit/provider/user_model.dart';
-import 'package:luckyfruit/utils/burial_report.dart';
-import 'package:luckyfruit/utils/storage.dart';
-import 'package:luckyfruit/widgets/layer.dart';
-import 'package:provider/provider.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:luckyfruit/widgets/modal.dart';
-import 'package:luckyfruit/theme/public/public.dart';
-import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart'
     show UserInfo, DrawInfo, Sign, Reward;
-import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
-
-import 'package:luckyfruit/theme/public/elliptical_widget.dart';
-import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/storage.dart';
+import 'package:luckyfruit/widgets/ad_btn.dart';
+import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/layer.dart' show GetReward;
+import 'package:luckyfruit/widgets/modal.dart';
+import 'package:provider/provider.dart';
 
 class FreePhone extends StatelessWidget {
   final Widget child;
+
   FreePhone({Key key, this.child}) : super(key: key);
 
   showModal() {
@@ -102,6 +98,7 @@ class FreePhone extends StatelessWidget {
         showModal();
         BurialReport.report(
             'c_phone_entr', {'time': DateTime.now().toString()});
+        BurialReport.report('event_entr_click', {'entr_code': '3'});
         Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
       },
       child: child,
@@ -111,6 +108,7 @@ class FreePhone extends StatelessWidget {
 
 class _Phone extends StatelessWidget {
   final int piecesx;
+
   const _Phone({Key key, this.piecesx}) : super(key: key);
 
   @override
@@ -311,6 +309,7 @@ class _Group extends StatefulWidget {
 class __GroupState extends State<_Group> {
   ScrollController controller =
       ScrollController(keepScrollOffset: false, initialScrollOffset: 0.0);
+
   @override
   void initState() {
     super.initState();
@@ -373,6 +372,7 @@ class __GroupState extends State<_Group> {
 
 class _Reward extends StatefulWidget {
   final int residue_times;
+
   _Reward({Key key, this.residue_times}) : super(key: key);
 
   @override
@@ -387,6 +387,7 @@ class __RewardState extends State<_Reward> {
   int server = 1;
 
   int residue_times = 0;
+
   _goRun() async {
     Layer.loading('loading...');
 
@@ -669,6 +670,7 @@ Map<String, Widget> imgMap = {
 class _RewardItem extends StatelessWidget {
   final bool active;
   final Reward reward;
+
   const _RewardItem({Key key, this.active, this.reward}) : super(key: key);
 
   @override
@@ -729,6 +731,7 @@ class _RewardItem extends StatelessWidget {
 
 class _Wishing extends StatelessWidget {
   final int wishTreeNum;
+
   const _Wishing({Key key, this.wishTreeNum}) : super(key: key);
 
   _redeemTree(BuildContext context) async {
@@ -913,6 +916,7 @@ class _Wishing extends StatelessWidget {
 class _Sign extends StatefulWidget {
   final int sign_times;
   final int is_today_sign;
+
   _Sign({Key key, this.sign_times, this.is_today_sign}) : super(key: key);
 
   @override
@@ -1107,6 +1111,7 @@ class _PhoneItem extends StatelessWidget {
   final int index;
   final Sign sign;
   final bool disable;
+
   const _PhoneItem({Key key, this.index, this.disable, this.sign})
       : super(key: key);
 

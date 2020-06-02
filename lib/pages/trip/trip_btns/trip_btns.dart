@@ -276,6 +276,7 @@ class _TripBtnsState extends State<TripBtns> {
                           onFinish: () {
                             setState(() {
                               BurialReport.report('coin_ready', {});
+                              BurialReport.report('event_entr_click', {'entr_code': '1'});
                               isCountdown = false;
                             });
                           },
@@ -333,6 +334,8 @@ class _TripBtnsState extends State<TripBtns> {
                               selectorUse.receriveTime ~/ 60 == 30 ? '1' : '2'
                         });
 
+                        BurialReport.report('event_entr_click', {'entr_code': '2'});
+
                         selectorUse.receiveCoin(coin);
                         setState(() {
                           isCountdown = true;
@@ -367,7 +370,7 @@ class _TripBtnsState extends State<TripBtns> {
                         key: Consts.globalKeyWheel,
                         onTap: () {
                           BurialReport.report('c_wheel_entr', {});
-                          BurialReport.report('page_imp', {'page_code': '007'});
+                          BurialReport.report('event_entr_click', {'entr_code': '4'});
                           Layer.showLuckyWheel(context);
                         },
                       );
@@ -381,6 +384,7 @@ class _TripBtnsState extends State<TripBtns> {
                     onTap: () {
                       // 防抖动设置
                       // Debounce.milliseconds(1000, print, ["rank"]);
+                      BurialReport.report('event_entr_click', {'entr_code': '6'});
                       MyNavigator().pushNamed(context, "RankPage");
                     },
                   )

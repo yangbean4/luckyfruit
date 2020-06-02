@@ -197,6 +197,9 @@ class _TripState extends State<Trip>
                                                       .globalKeyBottomBar
                                                       .currentWidget;
                                               navigationBar?.onTap(1);
+                                              BurialReport.report(
+                                                  'event_entr_click',
+                                                  {'entr_code': '9'});
                                             },
                                             // pushNamed(context, 'map'),
                                             child: Container(

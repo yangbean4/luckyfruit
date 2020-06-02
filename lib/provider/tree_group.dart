@@ -1100,13 +1100,20 @@ class TreeGroup with ChangeNotifier {
 
   static int FLOWER_LUCKY_NUMBER = 150;
   static int CAN_GET_FLOWER_LEVEL = 8;
+
 // 获得🌹队列
   List<int> _flowerList = [];
+
   // 当前拥有🌹的个数
   int _hasFlowerCount = 0;
+
   int get hasFlowerCount => _hasFlowerCount;
+
   set hasFlowerCount(int count) {
     _hasFlowerCount = count;
+    if (_hasFlowerCount >= TreeGroup.FLOWER_LUCKY_NUMBER) {
+      BurialReport.report('event_entr_click', {'entr_code': '17'});
+    }
     _submitFlower();
     notifyListeners();
   }
@@ -1117,6 +1124,7 @@ class TreeGroup with ChangeNotifier {
 
   // 进行动画用的🌹个数
   int _animationUseflower = 0;
+
   int get animationUseflower => _animationUseflower;
 
   set animationUseflower(int count) {
@@ -1125,6 +1133,7 @@ class TreeGroup with ChangeNotifier {
   }
 
   TreePoint _flowerPoint;
+
   TreePoint get flowerPoint => _flowerPoint;
 
   set flowerPoint(TreePoint count) {

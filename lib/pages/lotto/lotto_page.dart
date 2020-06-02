@@ -318,6 +318,13 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (selectedNumList.length == 6) {
+      BurialReport.report('page_imp', {'page_code': '040'});
+    } else if (pick6) {
+      BurialReport.report('page_imp', {'page_code': '039'});
+    } else {
+      BurialReport.report('page_imp', {'page_code': '038'});
+    }
     return Column(
       children: <Widget>[
         Container(
@@ -627,6 +634,11 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
           Selector<LuckyGroup, LuckyGroup>(
               selector: (context, provider) => provider,
               builder: (_, luckGroup, __) {
+                if (luckGroup.isLottoRewardedTimeReached()) {
+                  BurialReport.report('page_imp', {'page_code': '041'});
+                } else {
+                  BurialReport.report('page_imp', {'page_code': '042'});
+                }
                 return Align(
                   alignment: Alignment(.0, .1),
                   child: RichText(
@@ -954,8 +966,8 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
     controller =
         AnimationController(duration: Duration(seconds: 3), vsync: this);
 
-    flip_anim = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-        parent: controller, curve: Interval(0.0, .5, curve: Curves.linear)));
+    flip_anim = Tween(begin: 0.0, end: 2.0).animate(CurvedAnimation(
+        parent: controller, curve: Interval(0.0, .5, curve: Curves.easeOutCubic)));
 
     Future.delayed(Duration(seconds: widget.delayedTime ?? 0), () {
       animationStart = true;
@@ -987,10 +999,8 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
     return AnimatedBuilder(
         animation: controller,
         builder: (BuildContext context, Widget child) {
-          return Transform(
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.005)
-                ..rotateY(2 * pi * flip_anim.value),
+          return Transform.rotate(
+              angle: flip_anim.value * pi,
               alignment: Alignment.center,
               child: animationStart
                   ? Container(
@@ -1000,17 +1010,14 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
                         shape: BoxShape.circle,
                       ),
                       margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(5)),
-                      child: RotationTransition(
-                        turns: flip_anim,
-                        child: CircularProgressWidget(
-                          widget.text,
-                          type: widget.getRewarded
-                              ? CircularProgressType.Type_Lucky_Three
-                              : (widget.index + 1) % 6 == 0
-                                  ? CircularProgressType.Type_Lucky_Two
-                                  : CircularProgressType.Type_Lucky_One,
-                          size: 108,
-                        ),
+                      child: CircularProgressWidget(
+                        widget.text,
+                        type: widget.getRewarded
+                            ? CircularProgressType.Type_Lucky_Three
+                            : (widget.index + 1) % 6 == 0
+                                ? CircularProgressType.Type_Lucky_Two
+                                : CircularProgressType.Type_Lucky_One,
+                        size: 108,
                       ))
                   : emptyItem);
         });

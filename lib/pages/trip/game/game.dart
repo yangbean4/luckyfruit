@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/config/app.dart' show Consts;
 import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/pages/trip/flowers/flowers.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
@@ -14,7 +14,6 @@ import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/shake_button.dart';
 import 'package:luckyfruit/widgets/tree_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:luckyfruit/config/app.dart' show Consts;
 
 import './auto_merge.dart';
 import './grid_item.dart';
@@ -137,9 +136,10 @@ class _GameState extends State<Game> with MyNavigator {
                           animateTargetTree == data ? animateTargetTree : null,
                       animateSourceTree:
                           animateTargetTree == data ? animateSourceTree : null,
-                      animationUseflower: (flowerPoint.x == data.x &&
-                              flowerPoint.y == data.y &&
-                              data != null)
+                      animationUseflower: (flowerPoint != null &&
+                              data != null &&
+                              flowerPoint?.x == data?.x &&
+                              flowerPoint?.y == data?.y)
                           ? animationUseflower
                           : 0,
                     );
@@ -269,6 +269,8 @@ class _GameState extends State<Game> with MyNavigator {
                         if (userModel.value.is_m != 0) {
                           pushNamed(context, 'Illustration');
                           BurialReport.report('page_imp', {'page_code': '012'});
+                          BurialReport.report(
+                              'event_entr_click', {'entr_code': '7'});
                         }
                       },
                     ),

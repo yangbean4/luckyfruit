@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ class _FriendsFestEntranceWidgetState extends State<FriendsFestEntranceWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        BurialReport.report('event_entr_click', {'entr_code': '5'});
         if (!timeReached) {
           Layer.showSevenDaysInviteEventWindow(context);
         } else {

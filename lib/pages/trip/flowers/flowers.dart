@@ -15,6 +15,7 @@ import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/service/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class Flowers extends StatefulWidget {
 class _FlowersState extends State<Flowers> {
   bool showMsg = false;
   bool showAnimation = false;
+
   @override
   Widget build(BuildContext context) {
     int width = 740;
@@ -169,6 +171,8 @@ class _FlowersState extends State<Flowers> {
                         if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
                           showDialog(
                               context: context, builder: (_) => _LuckyModel());
+                          BurialReport.report(
+                              'event_entr_click', {'entr_code': '18'});
                         } else {
                           showDialog(
                               context: context, builder: (_) => _LuckyModel());
@@ -235,6 +239,7 @@ class __LuckyModelState extends State<_LuckyModel>
   int giftId;
 
   Map<String, dynamic> res;
+
   // 默认3圈
   static const defaultNumOfTurns = 3 * 2.0;
 
@@ -247,6 +252,8 @@ class __LuckyModelState extends State<_LuckyModel>
   @override
   void initState() {
     super.initState();
+
+    BurialReport.report('page_imp', {'page_code': '037'});
     controller = new AnimationController(
         duration: const Duration(milliseconds: 1500), vsync: this);
 
@@ -312,6 +319,7 @@ class __LuckyModelState extends State<_LuckyModel>
   }
 
   _handleStartSpin() async {
+    BurialReport.report('flower_bouns', {});
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     Map<String, dynamic> luckResultMap;
     luckResultMap = await Service().exchangeRouletteGift({
@@ -324,6 +332,8 @@ class __LuckyModelState extends State<_LuckyModel>
     } else {
       treeGroup.hasFlowerCount = 0;
       giftId = luckResultMap['gift_id'] as num;
+      BurialReport.report(
+          'flower_spin_result', {'spin_result': (giftId + 1).toString()});
       updateTween();
     }
   }

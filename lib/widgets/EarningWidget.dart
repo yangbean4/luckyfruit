@@ -6,6 +6,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/routes/my_navigator.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -80,9 +81,11 @@ class _EarningWidgetState extends State<EarningWidget>
             onTap: () {
               if (widget.type == EarningWidgetType.Earning_Type_Bonus) {
                 MyNavigator().pushNamed(context, 'Dividend');
+                BurialReport.report('event_entr_click', {'entr_code': '10'});
               } else {
                 MyNavigator().pushNamed(context, 'WithDrawPage',
                     arguments: Util.formatNumber(amount));
+                BurialReport.report('event_entr_click', {'entr_code': '11'});
               }
             },
             child: Container(
