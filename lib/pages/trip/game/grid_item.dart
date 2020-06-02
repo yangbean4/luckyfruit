@@ -148,10 +148,10 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                   //       });
                   //     },
                   child: Container(
-                    width: ScreenUtil().setWidth(90),
+                    width: ScreenUtil().setWidth(120),
                     height: ScreenUtil().setWidth(41),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Image.asset(
                             'assets/image/flower/img_flower.png',

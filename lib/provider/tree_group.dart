@@ -1151,7 +1151,7 @@ class TreeGroup with ChangeNotifier {
     }
     if (_flowerList.length != 0) {
       flowerPoint = TreePoint(x: x, y: y);
-      // _animationUseflower = 150;
+      // _animationUseflower = 15;
       _animationUseflower = _flowerList[0];
       _flowerList.removeAt(0);
       notifyListeners();

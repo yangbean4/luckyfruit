@@ -142,6 +142,7 @@ class _GameState extends State<Game> with MyNavigator {
                               flowerPoint?.y == data?.y)
                           ? animationUseflower
                           : 0,
+                      // animationUseflower: animationUseflower,
                     );
                   },
                   onWillAccept: (Tree source) {
