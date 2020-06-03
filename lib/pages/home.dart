@@ -124,7 +124,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   }
 
   BottomNavigationBarItem _createBarItem(
-      {String iconUrl, String activeIconUrl, String name, bool remind = true}) {
+      {String iconUrl,
+      String activeIconUrl,
+      String name,
+      bool remind = true,
+      GlobalKey key}) {
     return BottomNavigationBarItem(
         icon: remind
             ? Stack(
@@ -187,6 +191,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 scale: 1.0,
                 child: Image.asset(
                   url,
+                  key: Consts.globalKeyLottoBtn,
                   width: ScreenUtil().setWidth(56),
                 ),
               ),
@@ -250,6 +255,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     ];
     if (remind['isM']) {
       items.add(_createBarItem(
+          key: Consts.globalKeyLottoBtn,
           iconUrl: 'assets/image/lotto.png',
           remind: remind['lotto'] ?? false,
           activeIconUrl: 'assets/image/lotto_active.png',

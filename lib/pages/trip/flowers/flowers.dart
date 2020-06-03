@@ -3,9 +3,8 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-03 18:25:07
+ * @LastEditTime: 2020-06-03 19:32:18
  */
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
-import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -38,14 +36,17 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   bool showAnimation = false;
   GifController gifController;
   AnimationController _controller;
-  int period = 200;
+  bool dialogIsShow = false;
+  int period = 300;
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this)
       ..addStatusListener((status) {
+        print(status);
         if (status == AnimationStatus.completed) {
           _showSpin();
+          _controller.reset();
         }
       });
     gifController = GifController(vsync: this);
@@ -63,8 +64,15 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   }
 
   _showSpin() {
-    showDialog(context: context, builder: (_) => _LuckyModel());
-    BurialReport.report('event_entr_click', {'entr_code': '18'});
+    if (!dialogIsShow) {
+      dialogIsShow = true;
+      showDialog(
+          context: context,
+          builder: (_) => _LuckyModel(onClose: () {
+                dialogIsShow = false;
+              }));
+      BurialReport.report('event_entr_click', {'entr_code': '18'});
+    }
   }
 
   @override
@@ -170,13 +178,12 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                         left: ScreenUtil().setWidth((940 - width) / 2),
                         top: ScreenUtil().setWidth(18),
                         child: OpacityAnimation(
-                          animateTime: Duration(milliseconds: 1000),
-                          onFinish: () {
+                          animateTime: Duration(milliseconds: 200),
+                          onFinish2: () {
                             setState(() {
                               showAnimation = true;
-                              Future.delayed(Duration(
-                                      milliseconds:
-                                          (period * flowersProgess).toInt()))
+                              Future.delayed(
+                                      Duration(milliseconds: (period).toInt()))
                                   .then((value) {
                                 setState(() {
                                   showAnimation = false;
@@ -258,6 +265,11 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                       child: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
                           ? Lottie.asset(
                               'assets/lottiefiles/flower_spin/data.json',
+                              controller: _controller,
+                              onLoaded: (composition) {
+                                _controller.duration = composition.duration;
+                                _controller.forward();
+                              },
                               width: ScreenUtil().setWidth(180),
                               height: ScreenUtil().setWidth(182),
                             )
@@ -305,7 +317,9 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
 }
 
 class _LuckyModel extends StatefulWidget {
-  _LuckyModel({Key key}) : super(key: key);
+  final void Function() onClose;
+
+  _LuckyModel({Key key, this.onClose}) : super(key: key);
 
   @override
   __LuckyModelState createState() => __LuckyModelState();
@@ -378,28 +392,31 @@ class __LuckyModelState extends State<_LuckyModel>
                   break;
                 }
               case 0:
-                LuckyGroup luckyGroup =
-                    Provider.of<LuckyGroup>(context, listen: false);
-                luckyGroup.lottoTicketNumTotal +=
+                TreeGroup treeGroup =
+                    Provider.of<TreeGroup>(context, listen: false);
+                treeGroup.lottoAnimationNumber =
                     int.tryParse(res['ticket_num'].toString());
                 break;
             }
           }
-        }
 
-        onCloseWindow(context);
+          Future.delayed(Duration(milliseconds: 500)).then((value) {
+            onCloseWindow(context);
+          });
+        }
       });
+    _handleStartSpin();
   }
 
   void onCloseWindow(BuildContext context) {
     Navigator.pop(context);
+    widget.onClose();
   }
 
   ///接口中取到结果后更新
   updateTween() {
     double needAngle = giftId == 0 ? 2 / 3 : giftId == 2 ? 0 : 4 / 3;
     curTween.end = curTween.end + needAngle;
-    controller.forward();
   }
 
   _handleStartSpin() async {
@@ -424,6 +441,7 @@ class __LuckyModelState extends State<_LuckyModel>
       Layer.toastWarning("Failed, Try Agagin Later");
       controller.reset();
     } else {
+      TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
       treeGroup.hasFlowerCount = 0;
       giftId = luckResultMap['gift_id'] as num;
       BurialReport.report(
@@ -489,7 +507,7 @@ class __LuckyModelState extends State<_LuckyModel>
                   child: Center(
                       child: GestureDetector(
                     onTap: () {
-                      _handleStartSpin();
+                      controller.forward();
                     },
                     child: Image.asset(
                       'assets/image/flower/spin.png',

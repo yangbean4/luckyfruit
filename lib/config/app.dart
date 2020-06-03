@@ -174,6 +174,9 @@ class Consts {
   static GlobalKey globalKeyAutoMerge =
       new GlobalKey(debugLabel: 'key_auto_merge');
 
+  static GlobalKey globalKeyLottoBtn =
+      new GlobalKey(debugLabel: 'key_lotto_btn');
+
   static List<List<GlobalKey>> treeGroupGlobalKey = getTreeGroup();
   static List<List<GlobalKey>> flowerGroupGlobalKey = getFlowerGroup();
 

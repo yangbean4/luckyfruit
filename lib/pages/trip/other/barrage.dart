@@ -22,7 +22,7 @@ class _BarrageState extends State<Barrage> {
   Timer timer;
   Timer showTimer;
   int index;
-  int animationTime = 8000;
+  int animationTime = 18000;
   bool show = false;
   ScrollController controller =
       ScrollController(keepScrollOffset: false, initialScrollOffset: 0.0);
