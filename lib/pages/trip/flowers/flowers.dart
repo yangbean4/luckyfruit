@@ -420,7 +420,7 @@ class __LuckyModelState extends State<_LuckyModel>
   }
 
   _handleStartSpin() async {
-    BurialReport.report('flower_bouns', {});
+    BurialReport.report('flower_bouns', {'type': '1'});
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     Map<String, dynamic> luckResultMap;
     luckResultMap = await Service().exchangeRouletteGift({

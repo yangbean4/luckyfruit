@@ -33,8 +33,8 @@ class User {
     String device_id;
     List invite_friend;
     List residue_7days_time;
+    num lotto_residue_time;
     num lotto_nums;
-    num residue_time;
     num flower_nums;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);

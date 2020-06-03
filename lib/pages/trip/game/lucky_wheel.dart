@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 
@@ -147,13 +148,11 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 当前剩余观看广告次数，用尽后不能再触发点击
   int watchAdForTicketTimes = 0;
-  String testJson = """{
-        "gift_id": 2,
-        "coin": 9300
-    }""";
+  String testJson = """{"gift_id":1,"coin":1000,"prev":0,"duration":6}""";
 
   num coinNum = 0;
   int watched_ad = 0;
+  int durationOfAutoMerge = 0;
 
   startSpin() {
     // controller.value = 0;
@@ -420,8 +419,9 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       finalPos = luckResultMap['gift_id'] as num;
       prevPos = luckResultMap['prev'] as num;
       coinNum = luckResultMap['coin'] as num;
+      durationOfAutoMerge = luckResultMap['duration'] as num;
 
-      print("返回的gift_id=$finalPos，coin=$coinNum");
+      print("返回的gift_id=$finalPos，coin=$coinNum, durationOfAutoMerge=$durationOfAutoMerge");
 
       if (mounted) {
         setState(() {
@@ -565,7 +565,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
         // 转到auto merge，每次一分钟
         LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-        luckyGroup.autoMergeDurationFromLuckyWheel += 60;
+        luckyGroup.autoMergeDurationFromLuckyWheel += durationOfAutoMerge;
         Layer.showAutoMergeInLuckyWheel();
         return;
       default:

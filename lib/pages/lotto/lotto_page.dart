@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -534,7 +533,7 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(1080),
-      height: ScreenUtil().setWidth(830),
+      height: ScreenUtil().setWidth(800),
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
@@ -544,7 +543,7 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
             height: ScreenUtil().setWidth(145),
           ),
           Positioned(
-            top: ScreenUtil().setWidth(70),
+            top: ScreenUtil().setWidth(40),
             left: ScreenUtil().setWidth(38),
             child: Container(
               child: Image.asset(
@@ -711,6 +710,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
               width: ScreenUtil().setWidth(1080),
               margin:
                   EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(24)),
+              padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(20)),
               decoration: BoxDecoration(
                 color: Color(0xFFFCFAE8),
                 boxShadow: [
@@ -771,7 +771,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
               selector: (context, provider) => provider,
               builder: (_, luckyGroup, __) {
                 return Positioned(
-                  bottom: ScreenUtil().setWidth(50),
+                  bottom: ScreenUtil().setWidth(30),
                   left: ScreenUtil().setWidth(160),
                   child: AdButton(
                     adUnitIdFlag: 1,
@@ -869,7 +869,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
           ),
-          margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(26)),
+//            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(26)),
           child: CircularProgressWidget(
             widget.currentPeriodsLottoList[i],
             type: getRewarded

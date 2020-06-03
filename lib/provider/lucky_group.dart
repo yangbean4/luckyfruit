@@ -627,7 +627,7 @@ class LuckyGroup with ChangeNotifier {
     String configVersion = userModel.value.version;
 
     String share_version = userModel.value.share_version;
-    lottoRemainingTimesToday = userModel.value.residue_time;
+    lottoRemainingTimesToday = userModel.value.lotto_residue_time;
     lottoTicketNumTotal = userModel.value.lotto_nums;
     // TODO 测试
 //    lottoTicketNumTotal = 0;
