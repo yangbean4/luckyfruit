@@ -70,7 +70,7 @@ class _TreasureState extends State<Treasure> {
                         treeGroup.pickTreasure(false);
                         modal.hide();
                       },
-                      onOk: () {
+                      onOk: (isFromAd) {
                         treeGroup.pickTreasure(true);
                         modal.hide();
                       }))

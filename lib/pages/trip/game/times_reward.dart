@@ -95,7 +95,7 @@ class TimesRewardWidget extends StatelessWidget {
                   onCancel: () {
                     onCancel();
                   },
-                  onOk: () {
+                  onOk: (isFromAd) {
                     onOk();
                   },
                   tips:

@@ -341,7 +341,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                       Navigator.pop(context);
                     }
                   },
-                  onOk: () {
+                  onOk: (isFromAd) {
                     if (controller.isAnimating) {
                       print("controller.isAnimating");
                       return;

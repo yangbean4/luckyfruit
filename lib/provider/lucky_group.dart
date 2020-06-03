@@ -317,14 +317,14 @@ class LuckyGroup with ChangeNotifier {
     _lottoRemainingTimesToday = value;
   }
 
-//  List<bool> _lottoAwardShowupFlag = [true, false, false];
+  /// 是否已经看了广告来获取lotto抽奖
+  bool _lotto_from_ads = false;
 
-//  List<bool> get lottoAwardShowupFlag => _lottoAwardShowupFlag;
+  bool get lotto_from_ads => _lotto_from_ads;
 
-//  set lottoAwardShowupFlag(List<bool> value) {
-//    _lottoAwardShowupFlag = value;
-//    notifyListeners();
-//  }
+  set lotto_from_ads(bool value) {
+    _lotto_from_ads = value;
+  }
 
   bool _lottoAwardShowupFlag1 = true;
   bool _lottoAwardShowupFlag2 = false;
@@ -720,6 +720,10 @@ class LuckyGroup with ChangeNotifier {
 //    userModel.setShareLink(shaerConfig);
 
     checkLottoListInfo();
+    Storage.getItem('lotto_from_ads').then((value) {
+      print("lotto_from_ads_init_$value");
+      lotto_from_ads = value != null;
+    });
     notifyListeners();
   }
 

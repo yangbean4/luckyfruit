@@ -149,7 +149,7 @@ class _RightBtnsState extends State<RightBtns>
                         child: AdButton(
                           ad_code: '201',
                           adUnitIdFlag: 1,
-                          onOk: () {
+                          onOk: (isFromAd) {
                             //success
                             luckyGroup.doubleStart();
                           },
@@ -181,7 +181,7 @@ class _RightBtnsState extends State<RightBtns>
                           adUnitIdFlag: 2,
                           key: Consts.globalKeyAutoMerge,
                           useAd: !luckyGroup.showAutoMergeCircleGuidance,
-                          onOk: () {
+                          onOk: (isFromAd) {
                             //success
                             luckyGroup.setShowAutoMergeCircleGuidance = false;
                             luckyGroup.setShowAutoMergeFingerGuidance = false;

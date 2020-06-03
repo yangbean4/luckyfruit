@@ -314,7 +314,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                   Color(0xffF1D34E),
                   Color(0xffF59A22),
                 ],
-                onOk: () {
+                onOk: (isFromAd) {
                   if (luckyGroup.isDisableToPickLotto()) {
                     Layer.toastWarning(
                         "3 chances per day, plaease try tomorrow");
@@ -668,16 +668,22 @@ class _LottoStatusRewardedWidgetState extends State<LottoStatusRewardedWidget> {
     if (luckyGroup.getWinningNumberList().isEmpty) {
       return false;
     }
-    Map<String, List<String>> pickedMap = {};
-    for (int i = 0; i < luckyGroup.currentPeriodlottoList.length; i++) {
-      List<String> listValue = pickedMap[(i % 6).toString()] ?? [];
-      listValue.add(luckyGroup.currentPeriodlottoList[i]);
-      pickedMap.putIfAbsent((i % 6).toString(), () => listValue);
-    }
 
-    if (pickedMap[index.toString()]
-        .contains(luckyGroup.getWinningNumberList()[index])) {
-      return true;
+    for (int i = 0; i < luckyGroup.currentPeriodlottoList.length; i++) {
+      // 第六个数字
+      if (index == 5 && ((i + 1) % 6) == 0) {
+        if (luckyGroup.getWinningNumberList()[index] ==
+            luckyGroup.currentPeriodlottoList[i]) {
+          return true;
+        }
+      }
+      // 前五个数字
+      if (index != 5 && ((i + 1) % 6) != 0) {
+        if (luckyGroup.getWinningNumberList()[index] ==
+            luckyGroup.currentPeriodlottoList[i]) {
+          return true;
+        }
+      }
     }
 
     return false;
@@ -772,7 +778,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                       Color(0xffF1D34E),
                       Color(0xffF59A22),
                     ],
-                    onOk: () {
+                    onOk: (isFromAd) {
                       if (luckyGroup.isLottoRewardedTimeReached()) {
                         // 开奖界面点击collect
                         hanldeLottoReceivePrize(luckyGroup);
@@ -783,6 +789,17 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                               "3 chances per day, plaease try tomorrow");
                           return;
                         }
+
+                        if (isFromAd) {
+                          Storage.setItem('lotto_from_ads', '1');
+                          luckyGroup.lotto_from_ads = true;
+                        } else if (luckyGroup.lottoRemainingTimesToday <= 0 ||
+                            luckyGroup.lottoTicketNumTotal <= 0) {
+                          Layer.toastWarning(
+                              "No chances, plaease try tomorrow");
+                          return;
+                        }
+
                         // lotto下赌注
                         BurialReport.report('lotto_bet', {});
                         luckyGroup.lottoPickedFinished = false;
@@ -792,9 +809,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                     // 2. 倒计时界面：
                     //    a. 如果一天里面的三次机会还没有用完，并且可用的券已经用完了
                     //    这个时候可以观看广告来进行一次抽取
-                    useAd: (!luckyGroup.isLottoRewardedTimeReached() &&
-                        luckyGroup.lottoRemainingTimesToday > 0 &&
-                        luckyGroup.lottoTicketNumTotal <= 0),
+                    useAd: checkUseAd(luckyGroup),
 //                    disable: luckyGroup.lottoRemainingTimes <= 0,
                     btnText: luckyGroup.isLottoRewardedTimeReached()
                         ? 'Collect'
@@ -806,6 +821,13 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
         ],
       ),
     );
+  }
+
+  bool checkUseAd(LuckyGroup luckyGroup) {
+    return !luckyGroup.lotto_from_ads &&
+        (!luckyGroup.isLottoRewardedTimeReached() &&
+            luckyGroup.lottoRemainingTimesToday > 0 &&
+            luckyGroup.lottoTicketNumTotal <= 0);
   }
 
   /// 开奖界面点击领奖
@@ -866,10 +888,27 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
     if (!luckyGroup.isLottoRewardedTimeReached()) {
       return false;
     }
-    if (luckyGroup.getWinningNumberList().length > (index % 6) &&
-        widget.currentPeriodsLottoList[index] ==
-            luckyGroup.getWinningNumberList()[index % 6]) {
-      return true;
+
+    if (luckyGroup.getWinningNumberList().isEmpty) {
+      return false;
+    }
+
+    // 第六位数字
+    if ((index + 1) % 6 == 0) {
+      if (luckyGroup.getWinningNumberList().length > 5 &&
+          luckyGroup.getWinningNumberList()[5] ==
+              widget.currentPeriodsLottoList[index]) {
+        return true;
+      }
+    }
+
+    //前五个数字
+    for (int i = 0; i < 5; i++) {
+      if (luckyGroup.getWinningNumberList().length > i &&
+          luckyGroup.getWinningNumberList()[i] ==
+              widget.currentPeriodsLottoList[index]) {
+        return true;
+      }
     }
 
     return false;
@@ -894,6 +933,7 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
   AnimationController controller;
   Animation flip_anim;
   bool animationStart = false;
+  bool hasDisposed = false;
 
   @override
   void initState() {
@@ -906,9 +946,18 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
         curve: Interval(0.0, .5, curve: Curves.easeOutCubic)));
 
     Future.delayed(Duration(seconds: widget.delayedTime ?? 0), () {
-      animationStart = true;
-      controller.forward().orCancel;
+      if (!hasDisposed) {
+        animationStart = true;
+        controller.forward().orCancel;
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    hasDisposed = true;
+    controller.dispose();
+    super.dispose();
   }
 
   @override

@@ -633,7 +633,7 @@ class __RewardState extends State<_Reward> {
                         ],
                       ),
                     ),
-                    onOk: () {
+                    onOk: (isFromAd) {
                       _goRun();
                       setState(() {
                         residue_times -= 1;
@@ -1088,7 +1088,7 @@ class __SignState extends State<_Sign> {
                       ),
                       disable: disable,
                       useAd: widget.sign_times > 1,
-                      onOk: () {
+                      onOk: (isFromAd) {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);
 
