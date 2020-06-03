@@ -1162,7 +1162,7 @@ class TreeGroup with ChangeNotifier {
     if (_flowerList.length != 0) {
       flowerPoint = TreePoint(x: x, y: y);
       gridAnimationUseflower = _flowerList[0];
-      gridAnimationUseflower = 15;
+//      gridAnimationUseflower = 15;
       // animationUseflower = 15;
       _flowerList.removeAt(0);
     }

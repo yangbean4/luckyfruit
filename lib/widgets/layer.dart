@@ -1490,6 +1490,7 @@ class Layer {
         closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
         verticalPadding: 0,
         horizontalPadding: 0,
+        isUsePage: true,
         childrenBuilder: (modal) => <Widget>[
               Stack(
                 overflow: Overflow.visible,

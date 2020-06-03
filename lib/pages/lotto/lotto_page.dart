@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -375,7 +376,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
     // TODO 测试
 //    String test =
-//        """{"code":0,"msg":"Success","data":{"residue_time":0,"countdown_prize":["2","12","44"]}}""";
+//        """{"code":0,"msg":"Success","data":{"residue_time":2,"countdown_prize":["2","12","44"]}}""";
 //    addLottoData = json.decode(test);
 
     if (addLottoData['data'] != null) {
@@ -842,11 +843,12 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 //    """;
 //    lottoReceivePrizeInfo = json.decode(test);
 
-    if (lottoReceivePrizeInfo == null) {
+    if (lottoReceivePrizeInfo['data'] == null) {
+      Layer.toastWarning(lottoReceivePrizeInfo['msg'] ?? "Failed to collect");
       return;
     }
     luckyGroup.lottoReceivePrizeRecords =
-        List<num>.from(lottoReceivePrizeInfo['award_num'] ?? []);
+        List<num>.from(lottoReceivePrizeInfo['data']['award_num'] ?? []);
     luckyGroup.showLottoAwardShowup = true;
 
     // lotto领取奖励
