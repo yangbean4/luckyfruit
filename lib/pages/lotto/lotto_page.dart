@@ -366,21 +366,23 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
       return "${e},";
     }).join('');
 
+    firstFive = firstFive.substring(0, firstFive.length - 1);
+
     dynamic addLottoData = await Service().addLottoData({
       'lottery_draw_num': firstFive,
       'lottery_plus_one_num': selectedNumList[5]
     });
 
     // TODO 测试
-//    String test = """{
-//        "residue_time":3
-//        }""";
+//    String test =
+//        """{"code":0,"msg":"Success","data":{"residue_time":0,"countdown_prize":["2","12","44"]}}""";
 //    addLottoData = json.decode(test);
 
     if (addLottoData['data'] != null) {
-      luckyGroup.lottoRemainingTimesToday = addLottoData['residue_time'] ?? 0;
+      luckyGroup.lottoRemainingTimesToday =
+          addLottoData['data']['residue_time'] ?? 0;
       luckyGroup.countDownPrizeFromAddData =
-          addLottoData['countdown_prize'] ?? [];
+          List<String>.from(addLottoData['data']['countdown_prize'] ?? []);
       luckyGroup.lottoPickedFinished = true;
 
       luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
@@ -832,6 +834,9 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   List<Widget> getShowcaseLottoWidget() {
     List<Widget> widgetList = [];
     for (int i = 0; i < widget.currentPeriodsLottoList.length; i++) {
+      if (i > 17) {
+        continue;
+      }
       bool getRewarded = checkIfGetRewarded(i);
       widgetList.add(Container(
           width: ScreenUtil().setWidth(108),
