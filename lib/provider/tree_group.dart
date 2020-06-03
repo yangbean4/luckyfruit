@@ -1170,4 +1170,14 @@ class TreeGroup with ChangeNotifier {
       _getFlower();
     }
   }
+
+  int _lottoAnimationNumber = 0;
+
+  int get lottoAnimationNumber => _lottoAnimationNumber;
+
+  set lottoAnimationNumber(int count) {
+    _lottoAnimationNumber = count;
+
+    notifyListeners();
+  }
 }

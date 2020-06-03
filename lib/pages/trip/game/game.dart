@@ -136,6 +136,7 @@ class _GameState extends State<Game> with MyNavigator {
                           animateTargetTree == data ? animateTargetTree : null,
                       animateSourceTree:
                           animateTargetTree == data ? animateSourceTree : null,
+                      flowerKey: Consts.flowerGroupGlobalKey[y][x],
                       gridAnimationUseflower: (flowerPoint != null &&
                               data != null &&
                               flowerPoint?.x == data?.x &&

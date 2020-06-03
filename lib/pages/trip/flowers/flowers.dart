@@ -3,12 +3,14 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-02 18:32:23
+ * @LastEditTime: 2020-06-03 18:25:07
  */
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
@@ -29,9 +31,39 @@ class Flowers extends StatefulWidget {
   _FlowersState createState() => _FlowersState();
 }
 
-class _FlowersState extends State<Flowers> {
+class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   bool showMsg = false;
   bool showAnimation = false;
+  GifController gifController;
+  AnimationController _controller;
+  int period = 200;
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _showSpin();
+        }
+      });
+    gifController = GifController(vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      gifController.repeat(
+          min: 0, max: 9, period: Duration(milliseconds: period));
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    gifController.dispose();
+    super.dispose();
+  }
+
+  _showSpin() {
+    showDialog(context: context, builder: (_) => _LuckyModel());
+    BurialReport.report('event_entr_click', {'entr_code': '18'});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,17 +114,30 @@ class _FlowersState extends State<Flowers> {
                         child: Container(
                           width: ScreenUtil().setWidth(width),
                           height: ScreenUtil().setWidth(50),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/image/flower/sg.gif'),
-                                  alignment: Alignment.center,
-                                  repeat: ImageRepeat.repeatX,
-                                  fit: BoxFit.contain)),
-                          child: null,
+                          child: GifImage(
+                            controller: gifController,
+                            image: AssetImage("assets/image/flower/sg.gif"),
+                          ),
                         ),
                       )
                     : Container(),
+                // Positioned(
+                //   left: ScreenUtil().setWidth((960 - width) / 2),
+                //   top: ScreenUtil().setWidth(22),
+                //   child: Container(
+                //     width: ScreenUtil().setWidth(width),
+                //     height: ScreenUtil().setWidth(50),
+                //     child: GifImage(
+                //       controller: gifController,
+                //       image: AssetImage("assets/image/flower/sg.gif"),
+                //     ),
+                //     // child: Lottie.asset(
+                //     //   'assets/lottiefiles/flower_light/data.json',
+                //     //   width: ScreenUtil().setWidth(180),
+                //     //   height: ScreenUtil().setWidth(182),
+                //     // ),
+                //   ),
+                // ),
                 Positioned(
                   right: ScreenUtil().setWidth((960 - width) / 2),
                   top: ScreenUtil().setWidth(22),
@@ -123,10 +168,13 @@ class _FlowersState extends State<Flowers> {
                         left: ScreenUtil().setWidth((940 - width) / 2),
                         top: ScreenUtil().setWidth(18),
                         child: OpacityAnimation(
+                          animateTime: Duration(milliseconds: 1000),
                           onFinish: () {
                             setState(() {
                               showAnimation = true;
-                              Future.delayed(Duration(milliseconds: 100))
+                              Future.delayed(Duration(
+                                      milliseconds:
+                                          (period * flowersProgess).toInt()))
                                   .then((value) {
                                 setState(() {
                                   showAnimation = false;
@@ -153,6 +201,23 @@ class _FlowersState extends State<Flowers> {
                         ),
                       )
                     : Container(),
+
+                // Positioned(
+                //   left: ScreenUtil().setWidth((940 - width) / 2),
+                //   top: ScreenUtil().setWidth(18),
+                //   child: Container(
+                //     width: ScreenUtil().setWidth(width + 20),
+                //     height: ScreenUtil().setWidth(56),
+                //     decoration: BoxDecoration(
+                //         image: DecorationImage(
+                //             image: AssetImage(
+                //                 'assets/image/flower/img_light_1.png'),
+                //             alignment: Alignment.center,
+                //             repeat: ImageRepeat.repeatX,
+                //             fit: BoxFit.cover)),
+                //   ),
+                // ),
+
                 Positioned(
                   left: ScreenUtil().setWidth(18),
                   top: ScreenUtil().setWidth(8),
@@ -164,8 +229,12 @@ class _FlowersState extends State<Flowers> {
                   ),
                 ),
                 Positioned(
-                    right: ScreenUtil().setWidth(18),
-                    top: ScreenUtil().setWidth(8),
+                    right: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                        ? ScreenUtil().setWidth(-22)
+                        : ScreenUtil().setWidth(18),
+                    top: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                        ? ScreenUtil().setWidth(-42)
+                        : ScreenUtil().setWidth(8),
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
@@ -177,21 +246,24 @@ class _FlowersState extends State<Flowers> {
                         }
 
                         if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
-                          showDialog(
-                              context: context, builder: (_) => _LuckyModel());
-                          BurialReport.report(
-                              'event_entr_click', {'entr_code': '18'});
+                          _showSpin();
                         } else {
                           setState(() {
                             showMsg = !showMsg;
                           });
                         }
                       },
-                      child: Image.asset(
-                        'assets/image/flower/btn_zp.png',
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(82),
-                      ),
+                      child: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                          ? Lottie.asset(
+                              'assets/lottiefiles/flower_spin/data.json',
+                              width: ScreenUtil().setWidth(180),
+                              height: ScreenUtil().setWidth(182),
+                            )
+                          : Image.asset(
+                              'assets/image/flower/btn_zp.png',
+                              width: ScreenUtil().setWidth(80),
+                              height: ScreenUtil().setWidth(82),
+                            ),
                     )),
                 showMsg
                     ? Positioned(
@@ -300,9 +372,7 @@ class __LuckyModelState extends State<_LuckyModel>
 
                   double gold = moneyGroup.makeGoldSped *
                       int.parse(res['duration'].toString());
-                  GetReward.showGoldWindow(gold, () {
-                    moneyGroup.addGold(gold);
-                  });
+                  moneyGroup.addGold(gold);
                   break;
                 }
               case 0:
@@ -310,6 +380,8 @@ class __LuckyModelState extends State<_LuckyModel>
             }
           }
         }
+
+        onCloseWindow(context);
       });
   }
 
@@ -380,23 +452,23 @@ class __LuckyModelState extends State<_LuckyModel>
                     ),
                   ),
                 ),
-                Positioned(
-                    top: ScreenUtil().setWidth(40),
-                    right: ScreenUtil().setWidth(40),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        onCloseWindow(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Image.asset(
-                          'assets/image/close_icon_modal_bottom_center.png',
-                          width: ScreenUtil().setWidth(50),
-                          height: ScreenUtil().setWidth(50),
-                        ),
-                      ),
-                    )),
+                // Positioned(
+                //     top: ScreenUtil().setWidth(40),
+                //     right: ScreenUtil().setWidth(40),
+                //     child: GestureDetector(
+                //       behavior: HitTestBehavior.translucent,
+                //       onTap: () {
+                //         onCloseWindow(context);
+                //       },
+                //       child: Container(
+                //         padding: EdgeInsets.all(10),
+                //         child: Image.asset(
+                //           'assets/image/close_icon_modal_bottom_center.png',
+                //           width: ScreenUtil().setWidth(50),
+                //           height: ScreenUtil().setWidth(50),
+                //         ),
+                //       ),
+                //     )),
                 Positioned(
                   child: Center(
                       child: GestureDetector(

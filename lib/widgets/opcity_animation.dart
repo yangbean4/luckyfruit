@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:26:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-01 20:14:39
+ * @LastEditTime: 2020-06-03 15:25:33
  */
 import 'package:flutter/material.dart';
 
@@ -11,12 +11,14 @@ class OpacityAnimation extends StatefulWidget {
   final Widget child;
   final Duration animateTime;
   final void Function() onFinish;
+  final void Function() onForwardFinish;
 
   OpacityAnimation({
     Key key,
     this.child,
     this.animateTime = const Duration(milliseconds: 200),
     this.onFinish,
+    this.onForwardFinish,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,9 @@ class __OpacityAnimationState extends State<OpacityAnimation>
 
   Future<void> runAnimation() async {
     await controller?.forward();
+    if (widget.onForwardFinish != null) {
+      widget.onForwardFinish();
+    }
     await controller.reverse();
     if (widget.onFinish != null) {
       widget.onFinish();

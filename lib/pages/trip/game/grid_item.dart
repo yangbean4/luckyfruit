@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/theme/public/gold_text.dart';
 import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,14 @@ class GridItem extends StatefulWidget {
   final Tree animateTargetTree;
   final Tree animateSourceTree;
   final int gridAnimationUseflower;
+  final GlobalKey flowerKey;
 
   final bool showAnimation;
   GridItem(
       {Key key,
       this.tree,
       this.animateTargetTree,
+      this.flowerKey,
       this.animateSourceTree,
       this.gridAnimationUseflower})
       : showAnimation = animateTargetTree != null,
@@ -142,15 +145,9 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
               ? Positioned(
                   left: ScreenUtil().setWidth(152),
                   bottom: ScreenUtil().setWidth(27),
-                  // child: OpacityAnimation(
-                  //     onFinish: () {
-                  //       setState(() {
-                  //         showFlower = false;
-                  //       });
-                  //     },
-                  child: ExpandAnimation(
+                  child: OpacityAnimation(
                     animateTime: Duration(milliseconds: 700),
-                    onFinish: () {
+                    onForwardFinish: () {
                       TreeGroup treeGroup =
                           Provider.of<TreeGroup>(context, listen: false);
                       treeGroup.animationUseflower =
@@ -165,6 +162,7 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                           children: <Widget>[
                             Image.asset(
                               'assets/image/flower/img_flower.png',
+                              key: widget.flowerKey,
                               width: ScreenUtil().setWidth(40),
                               height: ScreenUtil().setWidth(41),
                             ),
@@ -194,7 +192,8 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                             ]))
                           ]),
                     ),
-                  ))
+                  ),
+                )
               // ,)
               : Container(),
           // Positioned(child: null)

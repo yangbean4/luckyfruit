@@ -175,6 +175,8 @@ class Consts {
       new GlobalKey(debugLabel: 'key_auto_merge');
 
   static List<List<GlobalKey>> treeGroupGlobalKey = getTreeGroup();
+  static List<List<GlobalKey>> flowerGroupGlobalKey = getFlowerGroup();
+
   static final String SP_KEY_GUIDANCE_WELCOME = "sp_key_guidance_welcome";
   static final String SP_KEY_GUIDANCE_MAP = "sp_key_guidance_map";
   static final String SP_KEY_GUIDANCE_WHEEL = "sp_key_guidance_wheel";
@@ -187,6 +189,18 @@ class Consts {
       List<GlobalKey> yMat = List(GameConfig.X_AMOUNT);
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         yMat[x] = new GlobalKey(debugLabel: 'Tree_${y}_$x');
+      }
+      treeMatrix[y] = yMat;
+    }
+    return treeMatrix;
+  }
+
+  static List<List<GlobalKey>> getFlowerGroup() {
+    List<List<GlobalKey>> treeMatrix = List(GameConfig.Y_AMOUNT);
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      List<GlobalKey> yMat = List(GameConfig.X_AMOUNT);
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        yMat[x] = new GlobalKey(debugLabel: 'flower_${y}_$x');
       }
       treeMatrix[y] = yMat;
     }
