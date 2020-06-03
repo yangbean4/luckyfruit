@@ -32,7 +32,7 @@ class AdButton extends StatefulWidget {
   final Duration interval;
 
   // 点击确定按钮
-  final Function onOk;
+  final Function(bool) onOk;
 
   final bool disable;
 
@@ -137,7 +137,7 @@ class _AdButtonState extends State<AdButton> {
               MopubAd.getInstance(context).showRewardVideo(widget.adUnitIdFlag,
                   () {
                 //success
-                widget?.onOk();
+                widget?.onOk(true);
               }, (error) {
                 //failed
                 print("$error");
@@ -159,7 +159,7 @@ class _AdButtonState extends State<AdButton> {
 //                }
 //              });
             } else {
-              widget.onOk();
+              widget.onOk(false);
 
               // 针对auto merge，第一次出现时出现新手引导，且不用看广告
               if (widget.ad_code == '202') {

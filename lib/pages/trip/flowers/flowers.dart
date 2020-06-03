@@ -5,6 +5,7 @@
  * @LastEditors:  bean^ <bean_4@163.com>
  * @LastEditTime: 2020-06-03 18:25:07
  */
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -376,7 +378,11 @@ class __LuckyModelState extends State<_LuckyModel>
                   break;
                 }
               case 0:
-                {}
+                LuckyGroup luckyGroup =
+                    Provider.of<LuckyGroup>(context, listen: false);
+                luckyGroup.lottoTicketNumTotal +=
+                    int.tryParse(res['ticket_num'].toString());
+                break;
             }
           }
         }
@@ -403,6 +409,16 @@ class __LuckyModelState extends State<_LuckyModel>
     luckResultMap = await Service().exchangeRouletteGift({
       'acct_id': treeGroup.acct_id,
     });
+
+    // TODO 测试
+//    String test = """
+//    {
+//      "gift_id": 0,
+//      "gift_name": "Lotto X 2",
+//      "ticket_num": 2
+//    }
+//    """;
+//    luckResultMap = json.decode(test);
     res = luckResultMap;
     if (luckResultMap == null) {
       Layer.toastWarning("Failed, Try Agagin Later");

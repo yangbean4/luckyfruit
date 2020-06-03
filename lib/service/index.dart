@@ -326,7 +326,7 @@ class Service {
       Map<String, dynamic> data) async {
     Response response =
         await _client.post('/Lottohandle/receivePrize', data: data);
-    return response.data['data'];
+    return response.data;
   }
 
   Map<String, String> getBaseMap() {

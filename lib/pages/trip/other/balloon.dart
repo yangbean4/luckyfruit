@@ -56,7 +56,7 @@ class _BalloonState extends State<Balloon> {
                       btnText: 'Free',
                       onCancel: modal.hide,
                       adLogParam: adLogParam,
-                      onOk: () {
+                      onOk: (isFromAd) {
                         LuckyGroup luckyGroup =
                             Provider.of<LuckyGroup>(context, listen: false);
 

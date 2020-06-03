@@ -603,7 +603,7 @@ class Layer {
                       adUnitIdFlag: 1,
                       btnText: '5x Reward',
                       onCancel: modal.hide,
-                      onOk: () {
+                      onOk: (isFromAd) {
                         onOk();
                         modal.hide();
                       },
@@ -868,7 +868,7 @@ class Layer {
                 useAd: false,
                 btnText: 'Claim',
                 onCancel: modal.hide,
-                onOk: () {
+                onOk: (isFromAd) {
                   onClickGetTree(modal, treeGroup, value);
                 },
                 interval: Duration(seconds: 0),
@@ -1213,7 +1213,7 @@ class Layer {
                             modal.hide();
                             onCancel();
                           },
-                          onOk: () {
+                          onOk: (isFromAd) {
                             print("点击了越级升级");
                             modal.hide();
                             onOk();
@@ -1259,7 +1259,7 @@ class Layer {
                           onCancel: () {
                             modal.hide();
                           },
-                          onOk: () {
+                          onOk: (isFromAd) {
                             modal.hide();
                             onOk();
                           },
@@ -1304,7 +1304,7 @@ class Layer {
                       modal.hide();
                       onOk(false);
                     },
-                    onOk: () {
+                    onOk: (isFromAd) {
                       modal.hide();
                       onOk(true);
                     },
@@ -1490,6 +1490,7 @@ class Layer {
         closeIconPath: 'assets/image/close_icon_modal_bottom_center.png',
         verticalPadding: 0,
         horizontalPadding: 0,
+        isUsePage: true,
         childrenBuilder: (modal) => <Widget>[
               Stack(
                 overflow: Overflow.visible,
@@ -1789,11 +1790,11 @@ class Layer {
               RichText(
                 text: TextSpan(
                     text: "0 match=10min coins\n"
-                        "1 match=15min coins\n"
-                        "2 matches= 20min coins\n"
-                        "3 matches=30min coins\n"
-                        "4 matched=\$5\n"
-                        "5 matched=\$50\n",
+                        "1 match=20min coins\n"
+                        "2 matches=30min coins\n"
+                        "3 matches=60min coins\n"
+                        "4 matched=\$50\n"
+                        "5 matched=\$1000\n",
                     style: TextStyle(
                         color: Color(0xFF262626),
                         fontFamily: FontFamily.semibold,
@@ -1801,7 +1802,7 @@ class Layer {
                         fontWeight: FontWeight.w500),
                     children: <TextSpan>[
                       TextSpan(
-                        text: "6 matched=\$2000",
+                        text: "6 matched=\$10000",
                         style: TextStyle(
                             fontFamily: FontFamily.semibold,
                             fontSize: ScreenUtil().setSp(48),
@@ -1914,7 +1915,7 @@ class GetReward {
               AdButton(
                 useAd: false,
                 btnText: 'Claim',
-                onOk: () {
+                onOk: (isFromAd) {
                   modal.hide();
                   onOk();
                 },
