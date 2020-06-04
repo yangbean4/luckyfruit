@@ -24,5 +24,6 @@
   "cash_amount_list": "$[]cash_amount",
   "ad_reset_time": 0,
   "merge_number": 6,
+  "level_up_reward_multipe": 4,
   "randon_remain_time": 10
 }

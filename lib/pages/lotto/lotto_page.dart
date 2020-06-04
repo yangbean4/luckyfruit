@@ -310,6 +310,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
             builder: (_, luckyGroup, __) {
               return AdButton(
                 adUnitIdFlag: 1,
+                ad_code: "216",
                 colorsOnBtn: <Color>[
                   Color(0xffF1D34E),
                   Color(0xffF59A22),

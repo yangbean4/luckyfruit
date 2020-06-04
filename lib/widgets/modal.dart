@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart' show Event_Name;
 import 'package:luckyfruit/theme/public/primary_btn.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
+import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:oktoast/oktoast.dart';
 
 class Modal extends StatefulWidget {
@@ -214,6 +215,7 @@ class _ModalWidgetState extends State<Modal> with WidgetsBindingObserver {
                         if (widget.onCancel != null) {
                           widget.onCancel();
                         }
+                        EVENT_BUS.emit(AdButton.CLOSE_ON_TOP_RIGHT, null);
                       },
                       child: Container(
                         width: ScreenUtil().setWidth(120),

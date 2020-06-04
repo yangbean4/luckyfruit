@@ -5,11 +5,14 @@ import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/theme/index.dart';
 import 'package:luckyfruit/theme/public/public.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/utils/mo_ad.dart';
 import 'package:provider/provider.dart';
 
 class AdButton extends StatefulWidget {
+  static final String CLOSE_ON_TOP_RIGHT = "close_on_top_right";
+
   // 是否使用广告
   final bool useAd;
 
@@ -45,6 +48,7 @@ class AdButton extends StatefulWidget {
   final num adUnitIdFlag;
 
   final List<Color> colorsOnBtn;
+  final List<Color> colorsOnBtnDisabled;
   final String adIconPath;
   final Map<String, String> adLogParam;
   final List<Shadow> tipsShadows;
@@ -61,6 +65,7 @@ class AdButton extends StatefulWidget {
         Color(0xFF42CE66),
         Color(0xFF42CE66),
       ],
+      this.colorsOnBtnDisabled,
       this.adIconPath = "assets/image/ad_icon.png",
       this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
       this.tipsColor,
@@ -96,6 +101,18 @@ class _AdButtonState extends State<AdButton> {
         }
       });
     }
+
+    if (widget.child == null) {
+      EVENT_BUS.on(AdButton.CLOSE_ON_TOP_RIGHT, (val) {
+        print("close_on_top_right_");
+        BurialReport.report('ad_rewarded', {
+          'type': '6',
+          'ad_code': widget.ad_code,
+          "union_id": adLogParam['union_id'],
+          'is_new': "1"
+        });
+      });
+    }
   }
 
   // didChangeDependencies
@@ -119,6 +136,13 @@ class _AdButtonState extends State<AdButton> {
 
       BurialReport.reportAdjust(BurialReport.Adjust_Event_Token_Ads_Entr_Imp);
     }
+  }
+
+  @override
+  void dispose() {
+    print("close_on_top_right_dispose");
+    EVENT_BUS.off(AdButton.CLOSE_ON_TOP_RIGHT);
+    super.dispose();
   }
 
   @override
@@ -205,7 +229,10 @@ class _AdButtonState extends State<AdButton> {
                       gradient: LinearGradient(
                           begin: Alignment(0.0, -1.0),
                           end: Alignment(0.0, 1.0),
-                          colors: widget.colorsOnBtn),
+                          colors: widget.disable
+                              ? (widget.colorsOnBtnDisabled ??
+                                  widget.colorsOnBtn)
+                              : widget.colorsOnBtn),
 //                        image: widget.disable
 //                            ? null
 //                            : DecorationImage(

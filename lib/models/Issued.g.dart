@@ -36,6 +36,7 @@ Issued _$IssuedFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..ad_reset_time = json['ad_reset_time'] as num
     ..merge_number = json['merge_number'] as num
+    ..level_up_reward_multipe = json['level_up_reward_multipe'] as num
     ..randon_remain_time = json['randon_remain_time'] as num;
 }
 
@@ -65,5 +66,6 @@ Map<String, dynamic> _$IssuedToJson(Issued instance) => <String, dynamic>{
       'cash_amount_list': instance.cash_amount_list,
       'ad_reset_time': instance.ad_reset_time,
       'merge_number': instance.merge_number,
+      'level_up_reward_multipe': instance.level_up_reward_multipe,
       'randon_remain_time': instance.randon_remain_time
     };

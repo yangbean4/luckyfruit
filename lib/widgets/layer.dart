@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/pages/trip/game/continents_merge_widget.dart';
@@ -576,6 +577,8 @@ class Layer {
   static levelUp(String level, {double getGlod, Function onOk}) {
     BurialReport.report('page_imp', {'page_code': '005'});
 
+    num multiple = Initialize.luckyGroup.issed.level_up_reward_multipe;
+    print("levelUp__${multiple}");
     Modal(
         dismissDurationInMilliseconds: Modal.DismissDuration,
         onCancel: () {},
@@ -601,7 +604,7 @@ class Layer {
                     return AdButton(
                       ad_code: '203',
                       adUnitIdFlag: 1,
-                      btnText: '5x Reward',
+                      btnText: '${multiple}x Reward',
                       onCancel: modal.hide,
                       onOk: (isFromAd) {
                         onOk();

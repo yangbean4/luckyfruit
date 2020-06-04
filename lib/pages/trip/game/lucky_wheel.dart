@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 
@@ -320,6 +319,10 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             selector: (context, provider) => Tuple3(
                 provider?.userInfo, provider?.value?.acct_id, provider.value),
             builder: (_, data, __) {
+              bool disable = watchAdForTicketTimes <= 0 && ticketCount <= 0;
+              String btnText = disable
+                  ? "Times Used Up"
+                  : ticketCount <= 0 ? 'Get 5 Tickets' : "Spin";
               return AdButton(
                   ad_code: '212',
                   adUnitIdFlag: 1,
@@ -328,9 +331,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     Color(0xffF1D34E),
                     Color(0xffF59A22),
                   ],
-                  btnText: ticketCount <= 0 ? 'Get 5 Tickets' : "Spin",
+                  colorsOnBtnDisabled: [
+                    Color(0xffF1D34E),
+                    Color(0xffF59A22),
+                  ],
+                  btnText: btnText,
                   useAd: ticketCount <= 0,
-                  disable: watchAdForTicketTimes <= 0 && ticketCount <= 0,
+                  disable: disable,
                   onCancel: () {
                     if (widget?.modal != null) {
                       widget?.modal?.hide();
@@ -421,7 +428,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       coinNum = luckResultMap['coin'] as num;
       durationOfAutoMerge = luckResultMap['duration'] as num;
 
-      print("返回的gift_id=$finalPos，coin=$coinNum, durationOfAutoMerge=$durationOfAutoMerge");
+      print(
+          "返回的gift_id=$finalPos，coin=$coinNum, durationOfAutoMerge=$durationOfAutoMerge");
 
       if (mounted) {
         setState(() {
@@ -537,15 +545,20 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         }
         break;
       case 5:
-        if (prevPos == 8) {
-          // 如果上次返回的是5倍奖励
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_5X;
-        } else if (prevPos == 4) {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_10X;
-        } else {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
-        }
-        break;
+//        if (prevPos == 8) {
+//          // 如果上次返回的是5倍奖励
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_5X;
+//        } else if (prevPos == 4) {
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_10X;
+//        } else {
+//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
+//        }
+//        break;
+        // 转到auto merge，每次一分钟
+        LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+        luckyGroup.autoMergeDurationFromLuckyWheel += durationOfAutoMerge;
+        Layer.showAutoMergeInLuckyWheel();
+        return;
       case 4:
         Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES, () {
           watched_ad = 1;
@@ -554,20 +567,15 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         });
         return;
       case 1:
-//        if (prevPos == 8) {
-//          // 如果上次返回的是5倍奖励
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
-//        } else if (prevPos == 4) {
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
-//        } else {
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
-//        }
-
-        // 转到auto merge，每次一分钟
-        LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-        luckyGroup.autoMergeDurationFromLuckyWheel += durationOfAutoMerge;
-        Layer.showAutoMergeInLuckyWheel();
-        return;
+        if (prevPos == 8) {
+          // 如果上次返回的是5倍奖励
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
+        } else if (prevPos == 4) {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
+        } else {
+          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
+        }
+        break;
       default:
         Layer.toastWarning("Failed, Please Try Agagin Later");
         return;
