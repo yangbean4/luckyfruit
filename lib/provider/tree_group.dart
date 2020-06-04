@@ -623,7 +623,9 @@ class TreeGroup with ChangeNotifier {
   _autoMerge() {
     // 动画时间的1.2倍时间检查一次
     // final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
-    final period = Duration(milliseconds: 2000);
+    // final period = Duration(milliseconds: ti);
+
+    final period = Duration(milliseconds: 1500);
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
@@ -1184,9 +1186,12 @@ class TreeGroup with ChangeNotifier {
     // if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
     //   return;
     // }
-    if (_flowerList.length != 0 &&
-        ((animationUseflower == 0 && animationUseflower == 0) ||
-            _flowerList[0] == 0)) {
+    if (_flowerList.length != 0
+        //  &&
+        //     ((animationUseflower == 0 && animationUseflower == 0) ||
+        //         _flowerList[0] == 0
+        //         )
+        ) {
       flowerPoint = TreePoint(x: x, y: y);
       gridAnimationUseflower = _flowerList[0];
       // gridAnimationUseflower = 150;

@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 21:56:42
+ * @LastEditTime: 2020-06-04 22:46:20
  */
 import 'dart:math';
 
@@ -347,7 +347,7 @@ class __LuckyModelState extends State<_LuckyModel>
   int awardCount = 0;
   String awardType = '';
   Map<String, dynamic> res;
-  Duration duration = Duration(milliseconds: 1000);
+  Duration duration = Duration(milliseconds: 1500);
 
   // 默认3圈
   static const defaultNumOfTurns = 3 * 2.0;
