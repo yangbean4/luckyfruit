@@ -555,7 +555,6 @@ class _TripState extends State<Trip>
                 ],
               ),
             )),
-        FlowerFlyingAnimation(),
         Flowers(
           showMsg: showFlowerMsg,
           showMsgHandel: () {
@@ -582,6 +581,8 @@ class _TripState extends State<Trip>
                     )),
               )
             : Container(),
+        FlowerFlyingAnimation(),
+
         // 气球🎈
         Balloon(),
         // 宝箱 📦

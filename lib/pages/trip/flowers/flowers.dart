@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 16:49:26
+ * @LastEditTime: 2020-06-04 17:54:09
  */
 import 'dart:math';
 
@@ -407,7 +407,7 @@ class __LuckyModelState extends State<_LuckyModel>
           });
         }
       });
-    _handleStartSpin();
+    // _handleStartSpin();
   }
 
   void onCloseWindow(BuildContext context) {
@@ -419,6 +419,7 @@ class __LuckyModelState extends State<_LuckyModel>
   updateTween() {
     double needAngle = giftId == 0 ? 2 / 3 : giftId == 2 ? 0 : 4 / 3;
     curTween.end = curTween.end + needAngle;
+    controller.forward();
   }
 
   _handleStartSpin() async {
@@ -509,7 +510,8 @@ class __LuckyModelState extends State<_LuckyModel>
                       child: GestureDetector(
                     onTap: () {
                       BurialReport.report('flower_bouns', {'type': '1'});
-                      controller.forward();
+                      // controller.forward();
+                      _handleStartSpin();
                     },
                     child: Lottie.asset(
                       'assets/lottiefiles/btn_light/data.json',
