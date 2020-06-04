@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 19:18:22
+ * @LastEditTime: 2020-06-04 21:59:53
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +33,7 @@ class LottoFlyingAnimation extends StatelessWidget {
 
           Offset offset = getPhonePositionInfoWithGlobalKey();
           if (number != null) {
-            ofStart = Util.getOffset(Consts.globalKeyFlowerBtn);
+            ofStart = Util.getOffset(Consts.globalKeyFlowerSpinLotto);
           }
           return number != 0
               ? Positioned(

@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 20:10:06
+ * @LastEditTime: 2020-06-04 21:56:42
  */
 import 'dart:math';
 
@@ -21,7 +21,7 @@ import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import 'package:luckyfruit/widgets/lotto_award_showup_Item_widget.dart';
+import './lotto_award_showup_Item_widget.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -242,7 +242,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                       child: animationUseflower != 0 && flowerPoint == null
                           ? ExpandAnimation(
                               animateTime: Duration(milliseconds: 200),
-                              count: 2,
+                              count: 1,
                               child: Image.asset(
                                 'assets/image/flower/img_flower.png',
                                 key: Consts.globalKeyFlowerPosition,
@@ -344,7 +344,8 @@ class __LuckyModelState extends State<_LuckyModel>
   AnimationController controller;
   Tween<double> curTween;
   int giftId;
-  int getGoldCount = 0;
+  int awardCount = 0;
+  String awardType = '';
   Map<String, dynamic> res;
   Duration duration = Duration(milliseconds: 1000);
 
@@ -378,18 +379,23 @@ class __LuckyModelState extends State<_LuckyModel>
               case 2:
                 {
                   Invite_award invite_award = Invite_award.fromJson(res);
+
                   TreeGroup treeGroup =
                       Provider.of<TreeGroup>(context, listen: false);
-                  treeGroup.flowerMakeTree = Tree(
-                    grade: Tree.MAX_LEVEL,
-                    type: TreeType.Type_TimeLimited_Bonus,
-                    duration: invite_award.duration,
-                    amount: invite_award.amount.toDouble(),
-                    showCountDown: true,
-                    treeId: invite_award.tree_id,
-                    timePlantedLimitedBonusTree:
-                        DateTime.now().millisecondsSinceEpoch,
-                  );
+                  goAward(1, DwardType.tree,
+                      callback: () => {
+                            treeGroup.flowerMakeTree = Tree(
+                              grade: Tree.MAX_LEVEL,
+                              type: TreeType.Type_TimeLimited_Bonus,
+                              duration: invite_award.duration,
+                              amount: invite_award.amount.toDouble(),
+                              showCountDown: true,
+                              treeId: invite_award.tree_id,
+                              timePlantedLimitedBonusTree:
+                                  DateTime.now().millisecondsSinceEpoch,
+                            )
+                          });
+
                   break;
                 }
               case 1:
@@ -400,23 +406,19 @@ class __LuckyModelState extends State<_LuckyModel>
                   int gold = (moneyGroup.makeGoldSped *
                           int.parse(res['duration'].toString()))
                       .toInt();
-                  setState(() {
-                    getGoldCount = gold;
-                  });
-                  Future.delayed(duration).then((value) {
-                    moneyGroup.addGold(gold.toDouble());
-                    setState(() {
-                      getGoldCount = 0;
-                    });
-                  });
+                  goAward(gold, DwardType.gold,
+                      callback: () => {moneyGroup.addGold(gold.toDouble())});
 
                   break;
                 }
               case 0:
                 TreeGroup treeGroup =
                     Provider.of<TreeGroup>(context, listen: false);
-                treeGroup.lottoAnimationNumber =
-                    int.tryParse(res['ticket_num'].toString());
+                int lottoNumber = int.tryParse(res['ticket_num'].toString());
+                goAward(lottoNumber, DwardType.lotto,
+                    callback: () =>
+                        {treeGroup.lottoAnimationNumber = lottoNumber});
+
                 break;
             }
           }
@@ -427,6 +429,21 @@ class __LuckyModelState extends State<_LuckyModel>
         }
       });
     // _handleStartSpin();
+  }
+
+  void goAward(int count, String type, {Function callback}) {
+    setState(() {
+      awardCount = count;
+      awardType = type;
+    });
+    Future.delayed(duration).then((value) {
+      setState(() {
+        awardCount = 0;
+        awardType = '';
+      });
+
+      callback != null && callback();
+    });
   }
 
   void onCloseWindow(BuildContext context) {
@@ -545,7 +562,7 @@ class __LuckyModelState extends State<_LuckyModel>
               ),
             ),
           ),
-          getGoldCount != 0
+          awardCount != 0
               ? Positioned(
                   left: 0,
                   bottom: 0,
@@ -558,7 +575,8 @@ class __LuckyModelState extends State<_LuckyModel>
                         positonLeft: 395,
                         hidePlusIcon: true,
                         animationTime: duration - Duration(milliseconds: 600),
-                        goldNum: getGoldCount,
+                        goldNum: awardCount,
+                        awardType: awardType,
                       )
                     ]),
                     // child: Center(

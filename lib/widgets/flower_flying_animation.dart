@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:35:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 19:21:28
+ * @LastEditTime: 2020-06-04 21:04:13
  */
 
 import 'dart:math';
@@ -229,7 +229,7 @@ class _GrowTransition extends StatelessWidget {
           end: 1.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.65, 0.8, curve: Curves.easeIn))),
+            curve: Interval(0.65, 1.0, curve: Curves.easeIn))),
         // 大小
         enlargeSize = Tween<double>(
           begin: 1.0,
@@ -242,7 +242,7 @@ class _GrowTransition extends StatelessWidget {
           end: 0.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.8, 1.0, curve: Curves.bounceInOut))),
+            curve: Interval(1.0, 1.0, curve: Curves.bounceInOut))),
         super(key: key);
 
   final Animation<double> controller;

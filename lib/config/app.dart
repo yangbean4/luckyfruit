@@ -178,6 +178,11 @@ class Consts {
   static GlobalKey globalKeyAutoMerge =
       new GlobalKey(debugLabel: 'key_auto_merge');
 
+  static GlobalKey globalKeyFlowerSpinBouns =
+      new GlobalKey(debugLabel: 'globalKeyFlowerSpinBouns');
+  static GlobalKey globalKeyFlowerSpinLotto =
+      new GlobalKey(debugLabel: 'globalKeyFlowerSpinLotto');
+
   static GlobalKey globalKeyLottoBtn =
       new GlobalKey(debugLabel: 'key_lotto_btn');
 

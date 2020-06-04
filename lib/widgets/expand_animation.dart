@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:26:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 19:31:19
+ * @LastEditTime: 2020-06-04 20:58:10
  */
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,7 @@ class __ExpandAnimationState extends State<ExpandAnimation>
     final CurvedAnimation curve =
         new CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
-    animation = new Tween(begin: 0.6, end: 1.2).animate(curve);
+    animation = new Tween(begin: 0.8, end: 1.1).animate(curve);
     runAnimation();
   }
 

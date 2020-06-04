@@ -171,7 +171,7 @@ class _RightBtnsState extends State<RightBtns>
                               Duration(seconds: doubleTime)),
                         ))
                     : Container(),
-                showAuto || true
+                showAuto
                     ? _ShakeAnimation(
                         animateTime: Duration(
                             milliseconds:
