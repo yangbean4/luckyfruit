@@ -685,7 +685,7 @@ class Layer {
             )
           : widget,
       duration: Duration(
-        milliseconds: type == 'loading' ? 300000 : 2000,
+        milliseconds: type == 'loading' ? 300000 : 1500,
       ),
       dismissOtherToast: false,
       handleTouch: true,

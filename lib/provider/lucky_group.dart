@@ -207,10 +207,10 @@ class LuckyGroup with ChangeNotifier {
   num getWinningNumnersOfLotto() {
     List<LottoRewardListItem> list = _currentLottoItem?.reward_list;
     if (list == null || list.isEmpty) {
-      return 0;
+      return 0.0;
     }
 
-    double coinNum = 0;
+    double coinNum = 0.0;
     for (int i = 0; i < list.length; i++) {
       coinNum += getCoinNumWithWinningGrade(list[i].winning_grade);
     }
