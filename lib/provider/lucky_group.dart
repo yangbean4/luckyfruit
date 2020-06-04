@@ -317,6 +317,15 @@ class LuckyGroup with ChangeNotifier {
     _lottoRemainingTimesToday = value;
   }
 
+  /// 是看了广告才获取到提交lotto券的机会的
+  bool _addLottoDataFromAds = false;
+
+  bool get addLottoDataFromAds => _addLottoDataFromAds;
+
+  set addLottoDataFromAds(bool value) {
+    _addLottoDataFromAds = value;
+  }
+
   /// 是否已经看了广告来获取lotto抽奖
   bool _lotto_from_ads = false;
 
@@ -724,7 +733,11 @@ class LuckyGroup with ChangeNotifier {
     checkLottoListInfo();
     Storage.getItem('lotto_from_ads').then((value) {
       print("lotto_from_ads_init_$value");
-      lotto_from_ads = value != null;
+      DateTime hisDate = DateTime.tryParse(value ?? "");
+      print("lotto_from_ads_hisData:${hisDate?.day}, ${DateTime.now().day}");
+      if (hisDate != null && DateTime.now().day == hisDate?.day) {
+        lotto_from_ads = true;
+      }
     });
     notifyListeners();
   }

@@ -344,7 +344,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                     }
                   } else {
                     // 选中了6个之后（Submit）
-                    submitLottoData(luckyGroup, isFromAd);
+                    submitLottoData(luckyGroup);
                   }
                 },
                 useAd: false,
@@ -361,7 +361,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
   }
 
   /// 选完后提交信息
-  submitLottoData(LuckyGroup luckyGroup, bool isFromAd) async {
+  submitLottoData(LuckyGroup luckyGroup) async {
     String firstFive = selectedNumList.sublist(0, 5).map((e) {
       return "${e},";
     }).join('');
@@ -371,7 +371,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
     dynamic addLottoData = await Service().addLottoData({
       'lottery_draw_num': firstFive,
       'lottery_plus_one_num': selectedNumList[5],
-      'is_video': isFromAd ? 1 : 0
+      'is_video': luckyGroup.addLottoDataFromAds ? 1 : 0
     });
 
     // TODO 测试
@@ -388,6 +388,8 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
       luckyGroup.currentPeriodlottoList.addAll(selectedNumList);
       luckyGroup.lottoTicketNumTotal = luckyGroup.lottoTicketNumTotal - 1;
+
+      luckyGroup.addLottoDataFromAds = false;
     } else {
       Layer.toastWarning(addLottoData['msg']);
     }
@@ -795,8 +797,10 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                         }
 
                         if (isFromAd) {
-                          Storage.setItem('lotto_from_ads', '1');
+                          Storage.setItem('lotto_from_ads',
+                              Util.formatDate(dateTime: DateTime.now()));
                           luckyGroup.lotto_from_ads = true;
+                          luckyGroup.addLottoDataFromAds = true;
                         } else if (luckyGroup.lottoRemainingTimesToday <= 0 ||
                             luckyGroup.lottoTicketNumTotal <= 0) {
                           Layer.toastWarning(
