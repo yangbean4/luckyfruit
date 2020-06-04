@@ -159,6 +159,8 @@ class Consts {
       new GlobalKey(debugLabel: 'key_lucky_wheel');
   static GlobalKey globalKeyAddTreeBtn =
       new GlobalKey(debugLabel: 'key_add_tree');
+  static GlobalKey globalKeyWarehouse =
+      new GlobalKey(debugLabel: 'globalKeyWarehouse');
   static GlobalKey globalKeyRemoveTreeBtn =
       new GlobalKey(debugLabel: 'key_remove_tree');
   static GlobalKey globalKeyTreeGrid =

@@ -199,7 +199,7 @@ class TreeGroup with ChangeNotifier {
   List<Tree> get treeList => _treeList;
 
 // 是否是满的
-  bool get isFull => _findFirstEmty() == null;
+  bool get isFull => findFirstEmty() == null;
 
   // treeList.length == GameConfig.Y_AMOUNT * GameConfig.X_AMOUNT;
 
@@ -514,7 +514,7 @@ class TreeGroup with ChangeNotifier {
   // }
 
   // 找到空的位置
-  TreePoint _findFirstEmty() {
+  TreePoint findFirstEmty() {
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
         if (treeMatrix[y][x] == null &&
@@ -563,7 +563,7 @@ class TreeGroup with ChangeNotifier {
       return false;
     }
 
-    TreePoint point = _findFirstEmty();
+    TreePoint point = findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
     if (point == null && tree?.x == null) {
@@ -916,7 +916,7 @@ class TreeGroup with ChangeNotifier {
 
   // 检查是否生成宝箱
   checkTreasure() {
-    TreePoint point = _findFirstEmty();
+    TreePoint point = findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
     if (_canShowTreasure && treasureTree == null && point != null) {
       makeTreasure(point);
@@ -1073,7 +1073,7 @@ class TreeGroup with ChangeNotifier {
   }
 
   void addWishTree() async {
-    TreePoint point = _findFirstEmty();
+    TreePoint point = findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     if (point == null) {
       Layer.locationFull();
@@ -1135,6 +1135,20 @@ class TreeGroup with ChangeNotifier {
 
   set animationUseflower(int count) {
     _animationUseflower = count;
+    notifyListeners();
+  }
+
+  Tree _flowerMakeTree;
+
+  Tree get flowerMakeTree => _flowerMakeTree;
+
+  set flowerMakeTree(Tree count) {
+    _flowerMakeTree = count;
+    if (count != null && count is Tree) {
+      TreePoint treePoint = findFirstEmty();
+      _flowerMakeTree.x = treePoint?.x;
+      _flowerMakeTree.y = treePoint?.y;
+    }
     notifyListeners();
   }
 

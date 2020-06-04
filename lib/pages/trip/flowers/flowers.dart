@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 15:51:49
+ * @LastEditTime: 2020-06-04 16:49:26
  */
 import 'dart:math';
 
@@ -367,19 +367,20 @@ class __LuckyModelState extends State<_LuckyModel>
                   Invite_award invite_award = Invite_award.fromJson(res);
                   TreeGroup treeGroup =
                       Provider.of<TreeGroup>(context, listen: false);
-                  GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
-                    treeGroup.addTree(
-                        tree: Tree(
-                      grade: Tree.MAX_LEVEL,
-                      type: TreeType.Type_TimeLimited_Bonus,
-                      duration: invite_award.duration,
-                      amount: invite_award.amount.toDouble(),
-                      showCountDown: true,
-                      treeId: invite_award.tree_id,
-                      timePlantedLimitedBonusTree:
-                          DateTime.now().millisecondsSinceEpoch,
-                    ));
-                  });
+                  treeGroup.flowerMakeTree = Tree(
+                    grade: Tree.MAX_LEVEL,
+                    type: TreeType.Type_TimeLimited_Bonus,
+                    duration: invite_award.duration,
+                    amount: invite_award.amount.toDouble(),
+                    showCountDown: true,
+                    treeId: invite_award.tree_id,
+                    timePlantedLimitedBonusTree:
+                        DateTime.now().millisecondsSinceEpoch,
+                  );
+                  // GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
+                  //   treeGroup.addTree(
+                  //       tree: );
+                  // });
                   break;
                 }
               case 1:

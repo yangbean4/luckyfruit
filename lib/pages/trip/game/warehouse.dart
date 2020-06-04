@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:provider/provider.dart';
 
@@ -214,6 +215,7 @@ class _WarehouseState extends State<Warehouse> {
             builder: (context, List<Tree> warehouseTreeList, child) {
               return GestureDetector(
                 behavior: HitTestBehavior.translucent,
+                key: Consts.globalKeyWarehouse,
                 child: widget.child,
                 onTap: () {
                   setState(() {

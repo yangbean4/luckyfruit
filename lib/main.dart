@@ -18,6 +18,7 @@ import 'package:luckyfruit/widgets/gold_flying_animation.dart';
 import 'package:luckyfruit/widgets/guidance_lucky_wheel.dart';
 import 'package:luckyfruit/widgets/lotto_flying_animation.dart';
 import 'package:luckyfruit/widgets/lotto_gold_flying_animation.dart';
+import 'package:luckyfruit/widgets/ltree_flying_animation.dart';
 import 'package:luckyfruit/widgets/money_flying_animation.dart';
 import 'package:luckyfruit/widgets/phone_flying_animation.dart';
 import 'package:oktoast/oktoast.dart';
@@ -134,7 +135,7 @@ class MyApp extends StatelessWidget {
               LottoGoldFlyingAnimation(),
               // 领取手机碎片动画
               PhoneFlyingAnimation(),
-
+              TreeFlyingAnimation(),
               LottoFlyingAnimation(),
               // 领取手机碎片动画
               // 新手引导-大转盘
