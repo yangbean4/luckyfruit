@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 15:01:57
+ * @LastEditTime: 2020-06-04 19:18:22
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +29,12 @@ class LottoFlyingAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Selector<TreeGroup, int>(
         builder: (_, number, __) {
+          Offset ofStart;
+
           Offset offset = getPhonePositionInfoWithGlobalKey();
+          if (number != null) {
+            ofStart = Util.getOffset(Consts.globalKeyFlowerBtn);
+          }
           return number != 0
               ? Positioned(
                   left: 0,
@@ -37,7 +42,7 @@ class LottoFlyingAnimation extends StatelessWidget {
                   child: Container(
                     width: ScreenUtil().setWidth(1080),
                     height: ScreenUtil().setHeight(1920),
-                    // color: Colors.red,
+                    color: Color.fromRGBO(0, 0, 0, 0.5),
                     child: FlyGroup(
                       onFinish: () {
                         TreeGroup treeGroup =
@@ -49,9 +54,9 @@ class LottoFlyingAnimation extends StatelessWidget {
                           x: offset.dx + ScreenUtil().setWidth(50),
                           y: offset.dy + ScreenUtil().setWidth(50)),
                       startCenter: Position(
-                          x: ScreenUtil().setWidth(540),
-                          y: ScreenUtil().setHeight(1000)),
-                      radius: ScreenUtil().setWidth(200),
+                          x: ofStart.dx + ScreenUtil().setWidth(60),
+                          y: ofStart.dy + ScreenUtil().setHeight(0)),
+                      radius: ScreenUtil().setWidth(50),
                       animateTime: Duration(milliseconds: 1500),
                       child: Image.asset(
                         'assets/image/lotto_tickets_icon.png',

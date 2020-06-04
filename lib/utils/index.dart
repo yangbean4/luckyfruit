@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/position.dart';
 
 class Util {
   /// 金币相关的保留一位小数，money相关的保留两位小数
@@ -180,5 +181,20 @@ class Util {
       "union_id":
           "${acct_id}_${DateTime.now().millisecondsSinceEpoch}_${RandomString(6)}",
     };
+  }
+
+  static Offset getOffset(GlobalKey globalKey) {
+    RenderBox renderBox = globalKey.currentContext?.findRenderObject();
+    Offset offset = renderBox?.localToGlobal(Offset.zero);
+    return offset;
+  }
+
+  static Size getSize(GlobalKey globalKey) => globalKey.currentContext?.size;
+
+  static Position getCenter(GlobalKey globalKey) {
+    Offset offset = getOffset(globalKey);
+    Size size = getSize(globalKey);
+    return new Position(
+        x: (offset.dx + size.width / 2), y: offset.dy + size.height / 2);
   }
 }

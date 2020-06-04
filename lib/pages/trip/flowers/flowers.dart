@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 17:54:09
+ * @LastEditTime: 2020-06-04 20:10:06
  */
 import 'dart:math';
 
@@ -19,7 +19,9 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/layer.dart';
+import 'package:luckyfruit/widgets/lotto_award_showup_Item_widget.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -234,16 +236,26 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                     //             fit: BoxFit.cover)),
                     //   ),
                     // ),
-
                     Positioned(
                       left: ScreenUtil().setWidth(18),
                       top: ScreenUtil().setWidth(8),
-                      child: Image.asset(
-                        'assets/image/flower/img_flower.png',
-                        key: Consts.globalKeyFlowerPosition,
-                        width: ScreenUtil().setWidth(80),
-                        height: ScreenUtil().setWidth(82),
-                      ),
+                      child: animationUseflower != 0 && flowerPoint == null
+                          ? ExpandAnimation(
+                              animateTime: Duration(milliseconds: 200),
+                              count: 2,
+                              child: Image.asset(
+                                'assets/image/flower/img_flower.png',
+                                key: Consts.globalKeyFlowerPosition,
+                                width: ScreenUtil().setWidth(80),
+                                height: ScreenUtil().setWidth(82),
+                              ),
+                            )
+                          : Image.asset(
+                              'assets/image/flower/img_flower.png',
+                              key: Consts.globalKeyFlowerPosition,
+                              width: ScreenUtil().setWidth(80),
+                              height: ScreenUtil().setWidth(82),
+                            ),
                     ),
                     Positioned(
                         right: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
@@ -332,8 +344,9 @@ class __LuckyModelState extends State<_LuckyModel>
   AnimationController controller;
   Tween<double> curTween;
   int giftId;
-
+  int getGoldCount = 0;
   Map<String, dynamic> res;
+  Duration duration = Duration(milliseconds: 1000);
 
   // 默认3圈
   static const defaultNumOfTurns = 3 * 2.0;
@@ -377,10 +390,6 @@ class __LuckyModelState extends State<_LuckyModel>
                     timePlantedLimitedBonusTree:
                         DateTime.now().millisecondsSinceEpoch,
                   );
-                  // GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
-                  //   treeGroup.addTree(
-                  //       tree: );
-                  // });
                   break;
                 }
               case 1:
@@ -388,9 +397,19 @@ class __LuckyModelState extends State<_LuckyModel>
                   MoneyGroup moneyGroup =
                       Provider.of<MoneyGroup>(context, listen: false);
 
-                  double gold = moneyGroup.makeGoldSped *
-                      int.parse(res['duration'].toString());
-                  moneyGroup.addGold(gold);
+                  int gold = (moneyGroup.makeGoldSped *
+                          int.parse(res['duration'].toString()))
+                      .toInt();
+                  setState(() {
+                    getGoldCount = gold;
+                  });
+                  Future.delayed(duration).then((value) {
+                    moneyGroup.addGold(gold.toDouble());
+                    setState(() {
+                      getGoldCount = 0;
+                    });
+                  });
+
                   break;
                 }
               case 0:
@@ -402,7 +421,7 @@ class __LuckyModelState extends State<_LuckyModel>
             }
           }
 
-          Future.delayed(Duration(milliseconds: 500)).then((value) {
+          Future.delayed(duration).then((value) {
             onCloseWindow(context);
           });
         }
@@ -456,73 +475,106 @@ class __LuckyModelState extends State<_LuckyModel>
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
-        body: Center(
-          child: Container(
-            width: ScreenUtil().setWidth(900),
-            height: ScreenUtil().setWidth(900),
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  child: Container(
-                    width: ScreenUtil().setWidth(900),
-                    child: RepaintBoundary(
-                      child: AnimatedBuilder(
-                          animation: animation,
-                          child: Container(
-                            width: ScreenUtil().setWidth(900),
-                            height: ScreenUtil().setWidth(900),
-//                   color: Colors.green,
-                            child: Image.asset(
-                              'assets/image/flower/spin_bg.png',
+        body: Stack(children: [
+          Center(
+            child: Container(
+              width: ScreenUtil().setWidth(900),
+              height: ScreenUtil().setWidth(900),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    child: Container(
+                      width: ScreenUtil().setWidth(900),
+                      child: RepaintBoundary(
+                        child: AnimatedBuilder(
+                            animation: animation,
+                            child: Container(
                               width: ScreenUtil().setWidth(900),
                               height: ScreenUtil().setWidth(900),
+//                   color: Colors.green,
+                              child: Image.asset(
+                                'assets/image/flower/spin_bg.png',
+                                width: ScreenUtil().setWidth(900),
+                                height: ScreenUtil().setWidth(900),
+                              ),
                             ),
-                          ),
-                          builder: (BuildContext context, Widget child) {
-                            return Transform.rotate(
-                              angle: animation.value * pi,
-                              alignment: Alignment.center,
-                              child: child,
-                            );
-                          }),
+                            builder: (BuildContext context, Widget child) {
+                              return Transform.rotate(
+                                angle: animation.value * pi,
+                                alignment: Alignment.center,
+                                child: child,
+                              );
+                            }),
+                      ),
                     ),
                   ),
-                ),
-                // Positioned(
-                //     top: ScreenUtil().setWidth(40),
-                //     right: ScreenUtil().setWidth(40),
-                //     child: GestureDetector(
-                //       behavior: HitTestBehavior.translucent,
-                //       onTap: () {
-                //         onCloseWindow(context);
-                //       },
-                //       child: Container(
-                //         padding: EdgeInsets.all(10),
-                //         child: Image.asset(
-                //           'assets/image/close_icon_modal_bottom_center.png',
-                //           width: ScreenUtil().setWidth(50),
-                //           height: ScreenUtil().setWidth(50),
-                //         ),
-                //       ),
-                //     )),
-                Positioned(
-                  child: Center(
-                      child: GestureDetector(
-                    onTap: () {
-                      BurialReport.report('flower_bouns', {'type': '1'});
-                      // controller.forward();
-                      _handleStartSpin();
-                    },
-                    child: Lottie.asset(
-                      'assets/lottiefiles/btn_light/data.json',
-                      width: ScreenUtil().setWidth(340),
-                      height: ScreenUtil().setWidth(404),
-                    ),
-                  )),
-                )
-              ],
+                  // Positioned(
+                  //     top: ScreenUtil().setWidth(40),
+                  //     right: ScreenUtil().setWidth(40),
+                  //     child: GestureDetector(
+                  //       behavior: HitTestBehavior.translucent,
+                  //       onTap: () {
+                  //         onCloseWindow(context);
+                  //       },
+                  //       child: Container(
+                  //         padding: EdgeInsets.all(10),
+                  //         child: Image.asset(
+                  //           'assets/image/close_icon_modal_bottom_center.png',
+                  //           width: ScreenUtil().setWidth(50),
+                  //           height: ScreenUtil().setWidth(50),
+                  //         ),
+                  //       ),
+                  //     )),
+                  Positioned(
+                    child: Center(
+                        child: GestureDetector(
+                      key: Consts.globalKeyFlowerBtn,
+                      onTap: () {
+                        BurialReport.report('flower_bouns', {'type': '1'});
+                        // controller.forward();
+                        _handleStartSpin();
+                      },
+                      child: Lottie.asset(
+                        'assets/lottiefiles/btn_light/data.json',
+                        width: ScreenUtil().setWidth(340),
+                        height: ScreenUtil().setWidth(404),
+                      ),
+                    )),
+                  )
+                ],
+              ),
             ),
           ),
-        ));
+          getGoldCount != 0
+              ? Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: ScreenUtil().setWidth(1080),
+                    height: ScreenUtil().setHeight(1920),
+                    color: Color.fromRGBO(0, 0, 0, 0.5),
+                    child: Stack(children: [
+                      LottoAwardShowupItemWidget(
+                        positonLeft: 395,
+                        hidePlusIcon: true,
+                        animationTime: duration - Duration(milliseconds: 600),
+                        goldNum: getGoldCount,
+                      )
+                    ]),
+                    // child: Center(
+                    //   child: Container(
+                    //     width: ScreenUtil().setWidth(1080),
+                    //     height: ScreenUtil().setWidth(440),
+                    //     child: Column(
+                    //       children:[
+
+                    //       ]
+                    //     ),
+                    //   ),
+                    // ),
+                  ),
+                )
+              : Container()
+        ]));
   }
 }

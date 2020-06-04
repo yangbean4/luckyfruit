@@ -111,12 +111,13 @@ class _FlyAnimationState extends State<FlyAnimation>
       vsync: this,
     )
       ..value = 0.0
-      ..forward()
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           widget.onFinish();
         }
       });
+    Future.delayed(Duration(milliseconds: 500))
+        .then((value) => controller.forward());
   }
 
   @override

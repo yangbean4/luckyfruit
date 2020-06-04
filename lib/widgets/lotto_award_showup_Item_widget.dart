@@ -9,11 +9,15 @@ class LottoAwardShowupItemWidget extends StatefulWidget {
   Function callback;
   int positonLeft;
   bool hidePlusIcon;
-  num goldNumGrade;
+  int goldNumGrade;
+  int goldNum;
+  Duration animationTime;
 
   LottoAwardShowupItemWidget(
       {this.callback,
       this.positonLeft,
+      this.goldNum,
+      this.animationTime = const Duration(milliseconds: 1000),
       this.hidePlusIcon = false,
       this.goldNumGrade});
 
@@ -37,10 +41,11 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
     super.initState();
 
     luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    goldNum = luckyGroup.getCoinNumWithWinningGrade(widget.goldNumGrade);
+    goldNum = widget.goldNum ??
+        luckyGroup.getCoinNumWithWinningGrade(widget.goldNumGrade);
 
-    controller = new AnimationController(
-        duration: new Duration(milliseconds: 1000), vsync: this);
+    controller =
+        new AnimationController(duration: widget.animationTime, vsync: this);
 
     posImageAnimation = Tween<double>(
       begin: ScreenUtil().setHeight(360),

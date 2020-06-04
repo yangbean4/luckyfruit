@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:26:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-02 19:06:11
+ * @LastEditTime: 2020-06-04 19:31:19
  */
 import 'package:flutter/material.dart';
 
@@ -11,12 +11,13 @@ class ExpandAnimation extends StatefulWidget {
   final Widget child;
   final Duration animateTime;
   final void Function() onFinish;
-
+  final int count;
   ExpandAnimation({
     Key key,
     this.child,
     this.animateTime = const Duration(milliseconds: 200),
     this.onFinish,
+    this.count = 0,
   }) : super(key: key);
 
   @override
@@ -41,9 +42,13 @@ class __ExpandAnimationState extends State<ExpandAnimation>
   }
 
   Future<void> runAnimation() async {
-    await controller?.forward();
-    if (widget.onFinish != null) {
-      widget.onFinish();
+    int _count = widget.count;
+    while (_count-- != 0) {
+      await controller?.forward();
+      if (_count == widget.count - 1 && widget.onFinish != null) {
+        widget.onFinish();
+      }
+      await controller?.reverse();
     }
   }
 

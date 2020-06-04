@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 17:19:20
+ * @LastEditTime: 2020-06-04 18:30:52
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,35 +12,30 @@ import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/utils/position.dart';
 import './fly_anica.dart';
-import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class TreeFlyingAnimation extends StatelessWidget {
-  static Offset getPhonePositionInfoWithGlobalKey(GlobalKey globalKey) {
-    Offset offset = Offset(0, 0);
-    RenderBox renderBox = globalKey.currentContext?.findRenderObject();
-    offset = renderBox?.localToGlobal(Offset.zero);
-    return offset;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Selector<TreeGroup, Tree>(
         builder: (_, tree, __) {
           Offset offset;
+          Offset ofStart;
 
           if (tree == null || tree?.x == null || tree?.y == null) {
-            offset =
-                getPhonePositionInfoWithGlobalKey(Consts.globalKeyWarehouse);
+            offset = Util.getOffset(Consts.globalKeyWarehouse);
           } else {
-            offset = getPhonePositionInfoWithGlobalKey(
-                Consts.treeGroupGlobalKey[tree.y][tree.x]);
+            offset = Util.getOffset(Consts.treeGroupGlobalKey[tree.y][tree.x]);
           }
+          if (tree != null) {
+            ofStart = Util.getOffset(Consts.globalKeyFlowerBtn);
+          }
+
           return tree != null
               ? Positioned(
                   left: 0,
-                  bottom: 0,
+                  top: 0,
                   child: Container(
                     width: ScreenUtil().setWidth(1080),
                     height: ScreenUtil().setHeight(1920),
@@ -61,14 +56,14 @@ class TreeFlyingAnimation extends StatelessWidget {
                           x: offset.dx + ScreenUtil().setWidth(50),
                           y: offset.dy + ScreenUtil().setWidth(50)),
                       startCenter: Position(
-                          x: ScreenUtil().setWidth(540),
-                          y: ScreenUtil().setHeight(1000)),
-                      radius: ScreenUtil().setWidth(200),
+                          x: ofStart.dx + ScreenUtil().setWidth(0),
+                          y: ofStart.dy + ScreenUtil().setHeight(0)),
+                      radius: 0,
                       animateTime: Duration(milliseconds: 1500),
                       child: Image.asset(
                         'assets/tree/bonus.png',
-                        width: ScreenUtil().setWidth(136),
-                        height: ScreenUtil().setWidth(105),
+                        width: ScreenUtil().setWidth(220),
+                        height: ScreenUtil().setWidth(240),
                       ),
                     ),
                   ))

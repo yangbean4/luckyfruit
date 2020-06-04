@@ -179,9 +179,9 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
 
   _playAnimation() async {
     Future.delayed(Duration(microseconds: 50)).then((_) {
-      startPosition = _Util.getCenter(
+      startPosition = Util.getCenter(
           Consts.treeGroupGlobalKey[treePosition.y][treePosition.x]);
-      endPosition = _Util.getCenter(Consts.globalKeyRemoveTreeBtn);
+      endPosition = Util.getCenter(Consts.globalKeyRemoveTreeBtn);
       controller..repeat();
     });
   }
@@ -261,23 +261,6 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
             animation: controller);
       },
     );
-  }
-}
-
-class _Util {
-  static Offset getOffset(GlobalKey globalKey) {
-    RenderBox renderBox = globalKey.currentContext?.findRenderObject();
-    Offset offset = renderBox?.localToGlobal(Offset.zero);
-    return offset;
-  }
-
-  static Size getSize(GlobalKey globalKey) => globalKey.currentContext.size;
-
-  static Position getCenter(GlobalKey globalKey) {
-    Offset offset = getOffset(globalKey);
-    Size size = getSize(globalKey);
-    return new Position(
-        x: (offset.dx + size.width / 2), y: offset.dy + size.height / 2);
   }
 }
 

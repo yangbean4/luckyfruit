@@ -161,6 +161,8 @@ class Consts {
       new GlobalKey(debugLabel: 'key_add_tree');
   static GlobalKey globalKeyWarehouse =
       new GlobalKey(debugLabel: 'globalKeyWarehouse');
+  static GlobalKey globalKeyFlowerBtn =
+      new GlobalKey(debugLabel: 'globalKeyFlowerBtn');
   static GlobalKey globalKeyRemoveTreeBtn =
       new GlobalKey(debugLabel: 'key_remove_tree');
   static GlobalKey globalKeyTreeGrid =
