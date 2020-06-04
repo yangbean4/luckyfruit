@@ -112,7 +112,8 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context) {
           return Stack(
             children: <Widget>[
-              DoubleQuit(
+              Positioned(
+                  child: DoubleQuit(
                 child: OKToast(
                   child: MaterialApp(
                     title: 'Merge Garden',
@@ -125,7 +126,7 @@ class MyApp extends StatelessWidget {
                     // showPerformanceOverlay: true,
                   ),
                 ),
-              ),
+              )),
               // 美元图标飞向右下角动效
 //              MoneyFlyingAnimation(),
               // 领取金币动画
@@ -136,7 +137,6 @@ class MyApp extends StatelessWidget {
 
               LottoFlyingAnimation(),
               // 领取手机碎片动画
-              FlowerFlyingAnimation(),
               // 新手引导-大转盘
               GuidanceLuckyWheelWidget(),
             ],

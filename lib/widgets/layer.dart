@@ -1870,6 +1870,7 @@ class Layer {
 class GetReward {
   static void showLimitedTimeBonusTree(int duration, Function onOk) {
     Modal(
+        directShow: true,
         onCancel: () {},
         dismissDurationInMilliseconds: Modal.DismissDuration,
         childrenBuilder: (modal) => <Widget>[
@@ -1932,6 +1933,7 @@ class GetReward {
 
   static showGoldWindow(num glod, Function onOk) {
     Modal(
+        directShow: true,
         okText: 'Claim',
         onOk: onOk,
         btnColors: [
@@ -1979,6 +1981,7 @@ class GetReward {
   static showPhoneWindow(String chips, Function onOk) {
     Modal(
         okText: 'Claim',
+        directShow: true,
         onOk: onOk,
         btnColors: [
           Color.fromRGBO(242, 212, 80, 1),
@@ -2022,6 +2025,7 @@ class GetReward {
   static showTreeWindow(String chips, Function onOk) {
     Modal(
         okText: 'Claim',
+        directShow: true,
         onOk: onOk,
         btnColors: [
           Color.fromRGBO(242, 212, 80, 1),

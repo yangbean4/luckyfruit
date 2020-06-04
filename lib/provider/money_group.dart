@@ -362,6 +362,7 @@ class MoneyGroup with ChangeNotifier {
   addGold(double gold,
       {bool showAnimate = true, bool isLottoAnimation = false}) {
     Function callback = () {
+      // gold *= 100000000000;
       _gold = double.parse((_gold + gold).toStringAsFixed(2));
       _allgold = double.parse((_allgold + gold).toStringAsFixed(2));
 

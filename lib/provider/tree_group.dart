@@ -555,6 +555,14 @@ class TreeGroup with ChangeNotifier {
     // checkRecycleRectGuidance();
     // checkMag();
 
+// 已经存在的限时分红树不能重复种
+    if (tree?.type == TreeType.Type_TimeLimited_Bonus &&
+        allTreeList.firstWhere((element) => tree.treeId == element.treeId,
+                orElse: () => null) !=
+            null) {
+      return false;
+    }
+
     TreePoint point = _findFirstEmty();
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
@@ -614,8 +622,8 @@ class TreeGroup with ChangeNotifier {
   // 自动合成开启
   _autoMerge() {
     // 动画时间的1.2倍时间检查一次
-    final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
-    final period = Duration(milliseconds: ti);
+    // final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
+    final period = Duration(milliseconds: 2000);
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
@@ -1159,10 +1167,12 @@ class TreeGroup with ChangeNotifier {
     // if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
     //   return;
     // }
-    if (_flowerList.length != 0) {
+    if (_flowerList.length != 0 &&
+        ((animationUseflower == 0 && animationUseflower == 0) ||
+            _flowerList[0] == 0)) {
       flowerPoint = TreePoint(x: x, y: y);
       gridAnimationUseflower = _flowerList[0];
-      // gridAnimationUseflower = 15;
+      // gridAnimationUseflower = 150;
       // animationUseflower = 15;
       _flowerList.removeAt(0);
     }

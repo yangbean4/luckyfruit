@@ -482,6 +482,7 @@ class MapPrizeModal {
 
   _nextModalShow(String cityId) {
     Modal(
+        directShow: true,
         childrenBuilder: (Modal modal) =>
             <Widget>[_MapPrize(modal: modal, cityId: cityId)]).show();
   }

@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-03 19:32:18
+ * @LastEditTime: 2020-06-04 15:51:49
  */
 import 'dart:math';
 
@@ -25,19 +25,21 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class Flowers extends StatefulWidget {
-  Flowers({Key key}) : super(key: key);
+  bool showMsg = false;
+  Function showMsgHandel;
+
+  Flowers({Key key, this.showMsg, this.showMsgHandel}) : super(key: key);
 
   @override
   _FlowersState createState() => _FlowersState();
 }
 
 class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
-  bool showMsg = false;
   bool showAnimation = false;
   GifController gifController;
   AnimationController _controller;
   bool dialogIsShow = false;
-  int period = 300;
+  int period = 500;
   @override
   void initState() {
     super.initState();
@@ -79,240 +81,237 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     int width = 740;
 
-    return Container(
-        width: ScreenUtil().setWidth(960),
-        height: ScreenUtil().setWidth(105),
-        // color: Colors.red,
-        // level flowernumber animationUseflower
-        child: Selector<TreeGroup, Tuple4<int, int, int, TreePoint>>(
-          selector: (context, provider) => Tuple4(
-              provider.hasMaxLevel,
-              provider.hasFlowerCount,
-              provider.animationUseflower,
-              provider.flowerPoint),
-          builder: (_, data, __) {
-            int level = data.item1;
-            int flowernumber = data.item2;
-            int animationUseflower = data.item3;
-            TreePoint flowerPoint = data.item4;
+    return Positioned(
+        bottom: ScreenUtil().setWidth(910),
+        right: ScreenUtil().setWidth(60),
+        child: Container(
+            width: ScreenUtil().setWidth(960),
+            height: ScreenUtil().setWidth(105),
+            // color: Colors.red,
+            // level flowernumber animationUseflower
+            child: Selector<TreeGroup, Tuple4<int, int, int, TreePoint>>(
+              selector: (context, provider) => Tuple4(
+                  provider.hasMaxLevel,
+                  provider.hasFlowerCount,
+                  provider.animationUseflower,
+                  provider.flowerPoint),
+              builder: (_, data, __) {
+                int level = data.item1;
+                int flowernumber = data.item2;
+                int animationUseflower = data.item3;
+                TreePoint flowerPoint = data.item4;
 
-            double flowersProgess =
-                min(flowernumber / TreeGroup.FLOWER_LUCKY_NUMBER, 1);
-            return Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  left: ScreenUtil().setWidth((960 - width) / 2),
-                  top: ScreenUtil().setWidth(22),
-                  child: Container(
-                    width: ScreenUtil().setWidth(width),
-                    height: ScreenUtil().setWidth(50),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage('assets/image/flower/img_red.png'),
-                            alignment: Alignment.center,
-                            repeat: ImageRepeat.repeatX,
-                            fit: BoxFit.contain)),
-                    child: null,
-                  ),
-                ),
-                showAnimation
-                    ? Positioned(
-                        left: ScreenUtil().setWidth((960 - width) / 2),
-                        top: ScreenUtil().setWidth(22),
-                        child: Container(
-                          width: ScreenUtil().setWidth(width),
-                          height: ScreenUtil().setWidth(50),
-                          child: GifImage(
-                            controller: gifController,
-                            image: AssetImage("assets/image/flower/sg.gif"),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                // Positioned(
-                //   left: ScreenUtil().setWidth((960 - width) / 2),
-                //   top: ScreenUtil().setWidth(22),
-                //   child: Container(
-                //     width: ScreenUtil().setWidth(width),
-                //     height: ScreenUtil().setWidth(50),
-                //     child: GifImage(
-                //       controller: gifController,
-                //       image: AssetImage("assets/image/flower/sg.gif"),
-                //     ),
-                //     // child: Lottie.asset(
-                //     //   'assets/lottiefiles/flower_light/data.json',
-                //     //   width: ScreenUtil().setWidth(180),
-                //     //   height: ScreenUtil().setWidth(182),
-                //     // ),
-                //   ),
-                // ),
-                Positioned(
-                  right: ScreenUtil().setWidth((960 - width) / 2),
-                  top: ScreenUtil().setWidth(22),
-                  child: Container(
-                    width: ScreenUtil().setWidth(width * (1 - flowersProgess)),
-                    height: ScreenUtil().setWidth(50),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage('assets/image/flower/img_bg_2.png'),
-                            alignment: Alignment.center,
-                            repeat: ImageRepeat.repeatX,
-                            fit: BoxFit.cover)),
-                    child: null,
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  child: Image.asset(
-                    'assets/image/flower/img_bg_1.png',
-                    width: ScreenUtil().setWidth(960),
-                    height: ScreenUtil().setWidth(105),
-                  ),
-                ),
-                animationUseflower != 0 && flowerPoint == null
-                    ? Positioned(
-                        left: ScreenUtil().setWidth((940 - width) / 2),
-                        top: ScreenUtil().setWidth(18),
-                        child: OpacityAnimation(
-                          animateTime: Duration(milliseconds: 200),
-                          onFinish2: () {
-                            setState(() {
-                              showAnimation = true;
-                              Future.delayed(
-                                      Duration(milliseconds: (period).toInt()))
-                                  .then((value) {
-                                setState(() {
-                                  showAnimation = false;
-                                });
-                                TreeGroup tourismMap = Provider.of<TreeGroup>(
-                                    context,
-                                    listen: false);
-                                tourismMap.hasFlowerCount += animationUseflower;
-                                tourismMap.animationUseflower = 0;
-                              });
-                            });
-                          },
-                          child: Container(
-                            width: ScreenUtil().setWidth(width + 20),
-                            height: ScreenUtil().setWidth(56),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/image/flower/img_light_1.png'),
-                                    alignment: Alignment.center,
-                                    repeat: ImageRepeat.repeatX,
-                                    fit: BoxFit.cover)),
-                          ),
-                        ),
-                      )
-                    : Container(),
-
-                // Positioned(
-                //   left: ScreenUtil().setWidth((940 - width) / 2),
-                //   top: ScreenUtil().setWidth(18),
-                //   child: Container(
-                //     width: ScreenUtil().setWidth(width + 20),
-                //     height: ScreenUtil().setWidth(56),
-                //     decoration: BoxDecoration(
-                //         image: DecorationImage(
-                //             image: AssetImage(
-                //                 'assets/image/flower/img_light_1.png'),
-                //             alignment: Alignment.center,
-                //             repeat: ImageRepeat.repeatX,
-                //             fit: BoxFit.cover)),
-                //   ),
-                // ),
-
-                Positioned(
-                  left: ScreenUtil().setWidth(18),
-                  top: ScreenUtil().setWidth(8),
-                  child: Image.asset(
-                    'assets/image/flower/img_flower.png',
-                    key: Consts.globalKeyFlowerPosition,
-                    width: ScreenUtil().setWidth(80),
-                    height: ScreenUtil().setWidth(82),
-                  ),
-                ),
-                Positioned(
-                    right: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
-                        ? ScreenUtil().setWidth(-22)
-                        : ScreenUtil().setWidth(18),
-                    top: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
-                        ? ScreenUtil().setWidth(-42)
-                        : ScreenUtil().setWidth(8),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        UserModel userModel =
-                            Provider.of<UserModel>(context, listen: false);
-
-                        if (userModel.value.is_m == 0) {
-                          return;
-                        }
-
-                        if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
-                          _showSpin();
-                        } else {
-                          setState(() {
-                            showMsg = !showMsg;
-                          });
-                        }
-                      },
-                      child: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
-                          ? Lottie.asset(
-                              'assets/lottiefiles/flower_spin/data.json',
-                              controller: _controller,
-                              onLoaded: (composition) {
-                                _controller.duration = composition.duration;
-                                _controller.forward();
-                              },
-                              width: ScreenUtil().setWidth(180),
-                              height: ScreenUtil().setWidth(182),
-                            )
-                          : Image.asset(
-                              'assets/image/flower/btn_zp.png',
-                              width: ScreenUtil().setWidth(80),
-                              height: ScreenUtil().setWidth(82),
+                double flowersProgess =
+                    min(flowernumber / TreeGroup.FLOWER_LUCKY_NUMBER, 1);
+                return Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Positioned(
+                      left: ScreenUtil().setWidth((960 - width) / 2),
+                      top: ScreenUtil().setWidth(22),
+                      child: Container(
+                        width: ScreenUtil().setWidth(width),
+                        height: ScreenUtil().setWidth(50),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/image/flower/img_red.png'),
+                                alignment: Alignment.center,
+                                repeat: ImageRepeat.repeatX,
+                                fit: BoxFit.contain)),
+                        child: null,
+                      ),
+                    ),
+                    showAnimation
+                        ? Positioned(
+                            left: ScreenUtil().setWidth((960 - width) / 2),
+                            top: ScreenUtil().setWidth(22),
+                            child: Container(
+                              width: ScreenUtil().setWidth(width),
+                              height: ScreenUtil().setWidth(50),
+                              child: GifImage(
+                                controller: gifController,
+                                image: AssetImage("assets/image/flower/sg.gif"),
+                              ),
                             ),
-                    )),
-                showMsg
-                    ? Positioned(
-                        right: ScreenUtil().setWidth(-40),
-                        top: ScreenUtil().setWidth(50),
+                          )
+                        : Container(),
+                    // Positioned(
+                    //   left: ScreenUtil().setWidth((960 - width) / 2),
+                    //   top: ScreenUtil().setWidth(22),
+                    //   child: Container(
+                    //     width: ScreenUtil().setWidth(width),
+                    //     height: ScreenUtil().setWidth(50),
+                    //     child: GifImage(
+                    //       controller: gifController,
+                    //       image: AssetImage("assets/image/flower/sg.gif"),
+                    //     ),
+                    //     // child: Lottie.asset(
+                    //     //   'assets/lottiefiles/flower_light/data.json',
+                    //     //   width: ScreenUtil().setWidth(180),
+                    //     //   height: ScreenUtil().setWidth(182),
+                    //     // ),
+                    //   ),
+                    // ),
+                    Positioned(
+                      right: ScreenUtil().setWidth((960 - width) / 2),
+                      top: ScreenUtil().setWidth(22),
+                      child: Container(
+                        width:
+                            ScreenUtil().setWidth(width * (1 - flowersProgess)),
+                        height: ScreenUtil().setWidth(50),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/image/flower/img_bg_2.png'),
+                                alignment: Alignment.center,
+                                repeat: ImageRepeat.repeatX,
+                                fit: BoxFit.cover)),
+                        child: null,
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      child: Image.asset(
+                        'assets/image/flower/img_bg_1.png',
+                        width: ScreenUtil().setWidth(960),
+                        height: ScreenUtil().setWidth(105),
+                      ),
+                    ),
+                    animationUseflower != 0 && flowerPoint == null
+                        ? Positioned(
+                            left: ScreenUtil().setWidth((940 - width) / 2),
+                            top: ScreenUtil().setWidth(18),
+                            child: OpacityAnimation(
+                              animateTime: Duration(milliseconds: 200),
+                              onFinish2: () {
+                                setState(() {
+                                  showAnimation = true;
+                                  // gifController.reset();
+                                  Future.delayed(Duration(
+                                          milliseconds: (period).toInt()))
+                                      .then((value) {
+                                    setState(() {
+                                      showAnimation = false;
+                                    });
+                                    TreeGroup tourismMap =
+                                        Provider.of<TreeGroup>(context,
+                                            listen: false);
+                                    tourismMap.hasFlowerCount +=
+                                        animationUseflower;
+                                    tourismMap.animationUseflower = 0;
+                                  });
+                                });
+                              },
+                              child: Container(
+                                width: ScreenUtil().setWidth(width + 20),
+                                height: ScreenUtil().setWidth(56),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/image/flower/img_light_1.png'),
+                                        alignment: Alignment.center,
+                                        repeat: ImageRepeat.repeatX,
+                                        fit: BoxFit.cover)),
+                              ),
+                            ),
+                          )
+                        : Container(),
+
+                    // Positioned(
+                    //   left: ScreenUtil().setWidth((940 - width) / 2),
+                    //   top: ScreenUtil().setWidth(18),
+                    //   child: Container(
+                    //     width: ScreenUtil().setWidth(width + 20),
+                    //     height: ScreenUtil().setWidth(56),
+                    //     decoration: BoxDecoration(
+                    //         image: DecorationImage(
+                    //             image: AssetImage(
+                    //                 'assets/image/flower/img_light_1.png'),
+                    //             alignment: Alignment.center,
+                    //             repeat: ImageRepeat.repeatX,
+                    //             fit: BoxFit.cover)),
+                    //   ),
+                    // ),
+
+                    Positioned(
+                      left: ScreenUtil().setWidth(18),
+                      top: ScreenUtil().setWidth(8),
+                      child: Image.asset(
+                        'assets/image/flower/img_flower.png',
+                        key: Consts.globalKeyFlowerPosition,
+                        width: ScreenUtil().setWidth(80),
+                        height: ScreenUtil().setWidth(82),
+                      ),
+                    ),
+                    Positioned(
+                        right: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                            ? ScreenUtil().setWidth(-22)
+                            : ScreenUtil().setWidth(18),
+                        top: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                            ? ScreenUtil().setWidth(-42)
+                            : ScreenUtil().setWidth(8),
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              showMsg = false;
-                            });
-                          },
                           // behavior: HitTestBehavior.translucent,
-                          child: Image.asset(
-                            'assets/image/flower/img_prizes.png',
-                            width: ScreenUtil().setWidth(749),
-                            height: ScreenUtil().setWidth(432),
-                          ),
-                        ))
-                    : Container(),
-                // 小于8级 🔒
-                // level < TreeGroup.CAN_GET_FLOWER_LEVEL
-                //     ? Positioned(
-                //         left: 0,
-                //         right: 0,
-                //         child: Image.asset(
-                //           'assets/image/flower/img_sl.png',
-                //           width: ScreenUtil().setWidth(960),
-                //           height: ScreenUtil().setWidth(105),
-                //         ),
-                //       )
-                //     : Container(),
-              ],
-            );
-          },
-        ));
+                          onTap: () {
+                            UserModel userModel =
+                                Provider.of<UserModel>(context, listen: false);
+
+                            if (userModel.value.is_m == 0) {
+                              return;
+                            }
+
+                            if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
+                              _showSpin();
+                            } else {
+                              widget.showMsgHandel();
+                            }
+                          },
+                          child: flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER
+                              ? Lottie.asset(
+                                  'assets/lottiefiles/flower_spin/data.json',
+                                  controller: _controller,
+                                  onLoaded: (composition) {
+                                    _controller.duration = composition.duration;
+                                    _controller.forward();
+                                  },
+                                  width: ScreenUtil().setWidth(180),
+                                  height: ScreenUtil().setWidth(182),
+                                )
+                              : Image.asset(
+                                  'assets/image/flower/btn_zp.png',
+                                  width: ScreenUtil().setWidth(80),
+                                  height: ScreenUtil().setWidth(82),
+                                ),
+                        )),
+                    widget.showMsg
+                        ? Positioned(
+                            right: ScreenUtil().setWidth(-40),
+                            top: ScreenUtil().setWidth(50),
+                            child: Image.asset(
+                              'assets/image/flower/img_prizes.png',
+                              width: ScreenUtil().setWidth(749),
+                              height: ScreenUtil().setWidth(432),
+                            ),
+                          )
+                        : Container(),
+                    // 小于8级 🔒
+                    // level < TreeGroup.CAN_GET_FLOWER_LEVEL
+                    //     ? Positioned(
+                    //         left: 0,
+                    //         right: 0,
+                    //         child: Image.asset(
+                    //           'assets/image/flower/img_sl.png',
+                    //           width: ScreenUtil().setWidth(960),
+                    //           height: ScreenUtil().setWidth(105),
+                    //         ),
+                    //       )
+                    //     : Container(),
+                  ],
+                );
+              },
+            )));
   }
 }
 
@@ -509,8 +508,8 @@ class __LuckyModelState extends State<_LuckyModel>
                     onTap: () {
                       controller.forward();
                     },
-                    child: Image.asset(
-                      'assets/image/flower/spin.png',
+                    child: Lottie.asset(
+                      'assets/lottiefiles/btn_light/data.json',
                       width: ScreenUtil().setWidth(340),
                       height: ScreenUtil().setWidth(404),
                     ),

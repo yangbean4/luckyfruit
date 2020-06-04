@@ -15,6 +15,7 @@ import 'package:luckyfruit/utils/index.dart';
 import 'package:luckyfruit/widgets/EarningWidget.dart';
 import 'package:luckyfruit/widgets/breathe_text.dart';
 import 'package:luckyfruit/widgets/coin_rain.dart';
+import 'package:luckyfruit/widgets/flower_flying_animation.dart';
 import 'package:luckyfruit/widgets/friends_fest_entrance.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,8 @@ class _TripState extends State<Trip>
   @override
   bool get wantKeepAlive => true;
 
+  bool showFlowerMsg = false;
+
   bool isPlay = Bgm.isPlay;
 
   @override
@@ -64,7 +67,7 @@ class _TripState extends State<Trip>
     return Container(
       width: ScreenUtil().setWidth(1080),
       height: ScreenUtil().setHeight(1920),
-      child: Stack(children: <Widget>[
+      child: Stack(overflow: Overflow.visible, children: <Widget>[
         Container(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
@@ -460,12 +463,6 @@ class _TripState extends State<Trip>
           Game(),
         ])),
         Positioned(
-          bottom: ScreenUtil().setWidth(910),
-          right: ScreenUtil().setWidth(60),
-          child: // 右上角入口按钮
-              Flowers(),
-        ),
-        Positioned(
             bottom: ScreenUtil().setWidth(1030),
             right: 0,
             child: // 右上角入口按钮
@@ -558,6 +555,33 @@ class _TripState extends State<Trip>
                 ],
               ),
             )),
+        FlowerFlyingAnimation(),
+        Flowers(
+          showMsg: showFlowerMsg,
+          showMsgHandel: () {
+            setState(() {
+              showFlowerMsg = true;
+            });
+          },
+        ),
+        showFlowerMsg
+            ? Positioned(
+                top: 0,
+                left: 0,
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showFlowerMsg = false;
+                      });
+                    },
+                    child: Container(
+                      width: ScreenUtil().setWidth(1080),
+                      height: ScreenUtil().setHeight(1920),
+                      color: Color.fromRGBO(0, 0, 0, 0),
+                      child: null,
+                    )),
+              )
+            : Container(),
         // 气球🎈
         Balloon(),
         // 宝箱 📦
@@ -568,6 +592,7 @@ class _TripState extends State<Trip>
             builder: (_, bool show, __) {
               return show ? Barrage() : Container();
             }),
+
         // 金币雨动效
         CoinRainWidget(),
       ]),

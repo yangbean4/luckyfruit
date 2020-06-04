@@ -23,7 +23,6 @@ class Modal extends StatefulWidget {
 
   // 垂直填充
   final double verticalPadding;
-
   // 水平填充
   final double horizontalPadding;
   final double marginBottom;
@@ -33,6 +32,8 @@ class Modal extends StatefulWidget {
 
   // 是否认为是页面级别的弹窗
   final bool isUsePage;
+  final bool directShow;
+
   static bool otherModalShow = false;
   static List<Modal> modalList = [];
 
@@ -74,7 +75,8 @@ class Modal extends StatefulWidget {
       this.closeIconDelayedTime = 5,
       this.dismissDurationInMilliseconds = 0,
       this.closeType = CloseType.CLOSE_TYPE_TOP_RIGHT,
-      this.decorationColor = Colors.white})
+      this.decorationColor = Colors.white,
+      this.directShow = false})
       // 要求 stack 定位元素必须是 Positioned
       : assert(stack.every((it) => it is Positioned));
 
@@ -96,7 +98,11 @@ class Modal extends StatefulWidget {
   // 显示modal
   show() {
     if (Modal.otherModalShow == true) {
-      Modal.modalList.add(this);
+      if (directShow) {
+        Modal.modalList.insert(0, this);
+      } else {
+        Modal.modalList.add(this);
+      }
     } else {
       EVENT_BUS.emit(Event_Name.MODAL_SHOW);
       Modal.otherModalShow = isUsePage ? false : true;
@@ -107,7 +113,8 @@ class Modal extends StatefulWidget {
         duration: Duration(days: 1),
         handleTouch: true,
         onDismiss: () {
-          Modal.showNext();
+          Future.delayed(Duration(milliseconds: 100))
+              .then((value) => Modal.showNext());
         },
         animationCurve: Curves.easeIn,
         // OffsetAnimationBuilder OpacityAnimationBuilder

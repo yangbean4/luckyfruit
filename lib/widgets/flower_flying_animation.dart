@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:35:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-03 16:29:56
+ * @LastEditTime: 2020-06-04 11:21:43
  */
 
 import 'dart:math';
@@ -34,19 +34,20 @@ class FlowerFlyingAnimation extends StatelessWidget {
 
           int number = data.item2;
           Offset offsetSt;
-          Offset offsetEnd =
-              getPhonePositionInfoWithGlobalKey(Consts.globalKeyFlowerPosition);
+          Offset offsetEnd;
 
           if (flowerPoint != null) {
             offsetSt = getPhonePositionInfoWithGlobalKey(
                 Consts.treeGroupGlobalKey[flowerPoint.y][flowerPoint.x]);
+            offsetEnd = getPhonePositionInfoWithGlobalKey(
+                Consts.globalKeyFlowerPosition);
             // );
           }
 
           return number != 0 && flowerPoint != null
               ? Positioned(
                   left: 0,
-                  bottom: 0,
+                  top: 0,
                   child: Container(
                     width: ScreenUtil().setWidth(1080),
                     height: ScreenUtil().setHeight(1920),
@@ -59,13 +60,13 @@ class FlowerFlyingAnimation extends StatelessWidget {
                       },
                       count: 1,
                       endPos: Position(
-                          x: offsetEnd.dx + ScreenUtil().setWidth(40),
-                          y: offsetEnd.dy + ScreenUtil().setWidth(40)),
+                          x: offsetEnd.dx + ScreenUtil().setWidth(15),
+                          y: offsetEnd.dy + ScreenUtil().setWidth(15)),
                       startCenter: Position(
                           x: offsetSt.dx + ScreenUtil().setWidth(172),
                           y: offsetSt.dy + ScreenUtil().setWidth(160)),
                       radius: ScreenUtil().setWidth(20),
-                      animateTime: Duration(milliseconds: 1500),
+                      animateTime: Duration(milliseconds: 1000),
                       child: Container(
                         width: ScreenUtil().setWidth(40),
                         height: ScreenUtil().setWidth(41),
@@ -86,7 +87,7 @@ class FlowerFlyingAnimation extends StatelessWidget {
 }
 
 typedef Widget _BuilderFun(BuildContext context,
-    {Animation<double> top, Animation<double> size});
+    {Animation<double> top, Animation<double> size, Animation<double> opacity});
 
 class _FlyGroup extends StatefulWidget {
   final Widget child;
@@ -129,24 +130,30 @@ class __FlyGroupState extends State<_FlyGroup> {
   Widget build(BuildContext context) {
     double ex = widget.endPos.x;
     double ey = widget.endPos.y;
-    return FlyAnimation(
-        onFinish: widget.onFinish,
-        animateTime: widget.animateTime,
-        builder: (ctx, {Animation<double> top, Animation<double> size}) {
-          return Stack(
-              children: starList.map((_Star star) {
-            double sx = star.position.x;
-            double sy = star.position.y;
+    return RepaintBoundary(
+      child: FlyAnimation(
+          onFinish: widget.onFinish,
+          animateTime: widget.animateTime,
+          builder: (ctx,
+              {Animation<double> top,
+              Animation<double> size,
+              Animation<double> opacity}) {
+            return Stack(
+                children: starList.map((_Star star) {
+              double sx = star.position.x;
+              double sy = star.position.y;
 
-            return Positioned(
-                left: sx + (ex - sx) * top.value,
-                top: sy + (ey - sy) * top.value,
-                child: Transform.scale(
-                    alignment: Alignment.center,
-                    scale: size.value,
-                    child: widget.child));
-          }).toList());
-        });
+              return Positioned(
+                  left: sx + (ex - sx) * top.value,
+                  top: sy + (ey - sy) * top.value,
+                  child: Transform.scale(
+                      alignment: Alignment.center,
+                      scale: size.value,
+                      child: Opacity(
+                          opacity: opacity.value, child: widget.child)));
+            }).toList());
+          }),
+    );
   }
 }
 
@@ -222,19 +229,26 @@ class _GrowTransition extends StatelessWidget {
           end: 1.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.8, 1.0, curve: Curves.easeInToLinear))),
+            curve: Interval(0.65, 0.8, curve: Curves.easeIn))),
         // 大小
         enlargeSize = Tween<double>(
           begin: 1.0,
           end: 2.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 0.8, curve: Curves.bounceInOut))),
+            curve: Interval(0.0, 0.6, curve: Curves.bounceInOut))),
+        opacityAnimation = Tween<double>(
+          begin: 1.0,
+          end: 0.0,
+        ).animate(CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.8, 1.0, curve: Curves.bounceInOut))),
         super(key: key);
 
   final Animation<double> controller;
   final Animation<double> enlargeSize;
   final Animation<double> positionTop;
+  final Animation<double> opacityAnimation;
   final _BuilderFun builder;
 
   @override
@@ -242,7 +256,8 @@ class _GrowTransition extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, Widget child) {
-        return builder(context, top: positionTop, size: enlargeSize);
+        return builder(context,
+            top: positionTop, size: enlargeSize, opacity: opacityAnimation);
       },
     );
   }
