@@ -126,6 +126,8 @@ class MoneyGroup with ChangeNotifier {
           if (userModel?.value?.ticket > 0 ||
               userModel?.value?.ticket_time > 0) {
             Layer.showLuckyWheel(context, fromAppLaunch: true);
+          } else {
+            Layer.checkShowInviteEventOrPartnerCash(context);
           }
         });
       }

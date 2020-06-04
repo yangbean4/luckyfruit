@@ -14,6 +14,7 @@ import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/lucky_wheel.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/pages/trip/top_level_merger.dart';
+import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
@@ -1435,6 +1436,26 @@ class Layer {
               SizedBox(height: ScreenUtil().setWidth(80))
             ])
       ..show();
+  }
+
+  static void checkShowInviteEventOrPartnerCash(BuildContext context){
+    UserModel userModel = Provider.of<UserModel>(context, listen: false);
+    List<dynamic> timerList = userModel.value.residue_7days_time;
+    bool timeReached =
+    timerList != null && timerList.isNotEmpty ? false : true;
+
+    // 关闭后出现分享活动弹框或者Cash Gift Packs
+    if (!timeReached) {
+      Layer.showSevenDaysInviteEventWindow(MoneyGroup.context);
+    } else {
+      Layer.partnerCash(MoneyGroup.context, onOK: () {
+        LuckyGroup luckyGroup =
+        Provider.of<LuckyGroup>(context, listen: false);
+        if (luckyGroup.issed.merge_number == 0) {
+          FreePhone().showModal();
+        }
+      });
+    }
   }
 
   /// 7天邀请活动

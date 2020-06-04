@@ -256,9 +256,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     if (remind['isM']) {
       items.add(_createBarItem(
           key: Consts.globalKeyLottoBtn,
-          iconUrl: 'assets/image/lotto.png',
+          iconUrl: 'assets/image/lotto_icon.png',
           remind: remind['lotto'] ?? false,
-          activeIconUrl: 'assets/image/lotto_active.png',
+          activeIconUrl: 'assets/image/lotto_icon.png',
           name: 'LOTTO'));
     }
     if (remind['isM']) {

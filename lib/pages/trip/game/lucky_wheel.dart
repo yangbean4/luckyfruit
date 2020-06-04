@@ -6,9 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
 import 'package:luckyfruit/pages/trip/game/huge_win.dart';
 import 'package:luckyfruit/pages/trip/game/times_reward.dart';
-import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
-import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -39,23 +37,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
     }
 
     if (fromAppLaunch) {
-      UserModel userModel = Provider.of<UserModel>(context, listen: false);
-      List<dynamic> timerList = userModel.value.residue_7days_time;
-      bool timeReached =
-          timerList != null && timerList.isNotEmpty ? false : true;
-
-      // 关闭后出现分享活动弹框或者Cash Gift Packs
-      if (!timeReached) {
-        Layer.showSevenDaysInviteEventWindow(MoneyGroup.context);
-      } else {
-        Layer.partnerCash(MoneyGroup.context, onOK: () {
-          LuckyGroup luckyGroup =
-              Provider.of<LuckyGroup>(context, listen: false);
-          if (luckyGroup.issed.merge_number == 0) {
-            FreePhone().showModal();
-          }
-        });
-      }
+      Layer.checkShowInviteEventOrPartnerCash(context);
     }
   }
 
@@ -321,7 +303,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
             builder: (_, data, __) {
               bool disable = watchAdForTicketTimes <= 0 && ticketCount <= 0;
               String btnText = disable
-                  ? "Times Used Up"
+                  ? "Tickets Used Up"
                   : ticketCount <= 0 ? 'Get 5 Tickets' : "Spin";
               return AdButton(
                   ad_code: '212',
@@ -332,8 +314,8 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     Color(0xffF59A22),
                   ],
                   colorsOnBtnDisabled: [
-                    Color(0xffF1D34E),
-                    Color(0xffF59A22),
+                    Color(0xffF3DB83),
+                    Color(0xffF3DB83),
                   ],
                   btnText: btnText,
                   useAd: ticketCount <= 0,

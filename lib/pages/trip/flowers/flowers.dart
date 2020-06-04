@@ -40,6 +40,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   AnimationController _controller;
   bool dialogIsShow = false;
   int period = 500;
+
   @override
   void initState() {
     super.initState();
@@ -73,7 +74,6 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
           builder: (_) => _LuckyModel(onClose: () {
                 dialogIsShow = false;
               }));
-      BurialReport.report('event_entr_click', {'entr_code': '18'});
     }
   }
 
@@ -264,6 +264,8 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
 
                             if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
                               _showSpin();
+                              BurialReport.report(
+                                  'event_entr_click', {'entr_code': '18'});
                             } else {
                               widget.showMsgHandel();
                             }
@@ -419,7 +421,6 @@ class __LuckyModelState extends State<_LuckyModel>
   }
 
   _handleStartSpin() async {
-    BurialReport.report('flower_bouns', {'type': '1'});
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     Map<String, dynamic> luckResultMap;
     luckResultMap = await Service().exchangeRouletteGift({
@@ -506,6 +507,7 @@ class __LuckyModelState extends State<_LuckyModel>
                   child: Center(
                       child: GestureDetector(
                     onTap: () {
+                      BurialReport.report('flower_bouns', {'type': '1'});
                       controller.forward();
                     },
                     child: Lottie.asset(
