@@ -65,7 +65,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
 
   Map<String, num> positonLeft = {
     DwardType.gold: 395,
-    DwardType.tree: 180,
+    DwardType.tree: 280,
     DwardType.lotto: 395
   };
 
@@ -123,18 +123,24 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
         iconSize: 54,
         textColor: Colors.white,
       ),
-      DwardType.tree: Text(
-        'Limited Time Bonus Tree x $goldNum',
-        style: TextStyle(
-          color: Colors.white,
-          decoration: TextDecoration.none,
-          fontSize: ScreenUtil().setSp(60),
-          fontFamily: FontFamily.semibold,
-          fontWeight: FontWeight.w600,
+      DwardType.tree: Container(
+        width: ScreenUtil().setWidth(600),
+        height: ScreenUtil().setWidth(120),
+        alignment: Alignment(-0.5, 0),
+        child: Text(
+          'The Limited Time \nBonus Tree x $goldNum',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            decoration: TextDecoration.none,
+            fontSize: ScreenUtil().setSp(48),
+            fontFamily: FontFamily.semibold,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       DwardType.lotto: GoldText(
-        Util.formatNumber(goldNum),
+        goldNum.toString(),
         textSize: 60,
         iconSize: 54,
         imgUrl: "assets/image/lotto_tickets_icon.png",
@@ -164,7 +170,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
                       child: imageSource[widget.awardType],
                     ),
                     SizedBox(
-                      width: ScreenUtil().setWidth(5),
+                      width: ScreenUtil().setWidth(25),
                     ),
                     AnimatedOpacity(
                       opacity: (_visible && !widget.hidePlusIcon) ? 1.0 : 0.0,
