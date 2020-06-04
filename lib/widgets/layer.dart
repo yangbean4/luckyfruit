@@ -294,7 +294,7 @@ class Layer {
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   text:
-                                      '${Tree.MAX_LEVEL - tree.grade} grades away from the "Bouns Tree=',
+                                      '${Tree.MAX_LEVEL - tree.grade} grades away from the "Bouns Tree=\$',
                                   style: TextStyle(
                                       color: MyTheme.blackColor,
                                       fontSize: ScreenUtil().setSp(40),
@@ -685,7 +685,7 @@ class Layer {
             )
           : widget,
       duration: Duration(
-        milliseconds: type == 'loading' ? 300000 : 3000,
+        milliseconds: type == 'loading' ? 300000 : 2000,
       ),
       dismissOtherToast: false,
       handleTouch: true,
@@ -1243,7 +1243,7 @@ class Layer {
               ),
               Container(height: ScreenUtil().setWidth(18)),
               SecondaryText(
-                "${Util.formatNumber(time)} mins reward",
+                "${Util.formatNumber(time, fixed: 0)} mins reward",
                 color: MyTheme.blackColor,
               ),
               Container(height: ScreenUtil().setWidth(36)),

@@ -40,7 +40,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
     goldNum = luckyGroup.getCoinNumWithWinningGrade(widget.goldNumGrade);
 
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 2000), vsync: this);
+        duration: new Duration(milliseconds: 1000), vsync: this);
 
     posImageAnimation = Tween<double>(
       begin: ScreenUtil().setHeight(360),

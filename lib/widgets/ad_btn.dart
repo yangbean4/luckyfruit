@@ -69,7 +69,7 @@ class AdButton extends StatefulWidget {
       this.adIconPath = "assets/image/ad_icon.png",
       this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
       this.tipsColor,
-      this.interval = const Duration(seconds: 3),
+      this.interval = const Duration(seconds: 2),
       this.onOk,
       this.width = 600,
       this.height = 124,

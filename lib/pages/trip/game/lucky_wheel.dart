@@ -129,7 +129,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 当前剩余观看广告次数，用尽后不能再触发点击
   int watchAdForTicketTimes = 0;
-  String testJson = """{"gift_id":1,"coin":1000,"prev":0,"duration":6}""";
+  String testJson = """{"gift_id":5,"coin":1000,"prev":0,"duration":6}""";
 
   num coinNum = 0;
   int watched_ad = 0;

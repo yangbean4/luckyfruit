@@ -99,7 +99,7 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget> {
         }
 
         if (!widget.clickCallback(null, widget.enable)) {
-          Layer.toastWarning("Location is full");
+          Layer.toastWarning("Location is Full");
           return;
         }
 

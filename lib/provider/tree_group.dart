@@ -567,7 +567,7 @@ class TreeGroup with ChangeNotifier {
     // 找空的位置 如果没有则无法添加 返回;
     // 找不到空位置 且传过来的树没有坐标; 有可能树是treasureTree 礼物盒子中的树占用
     if (point == null && tree?.x == null) {
-      Layer.toastWarning('The location is full!');
+      Layer.toastWarning('Location is Full');
       return false;
     }
 
@@ -918,7 +918,10 @@ class TreeGroup with ChangeNotifier {
   checkTreasure() {
     TreePoint point = findFirstEmty();
     // 时间间隔 不存在宝箱 存在空的位置
-    if (_canShowTreasure && treasureTree == null && point != null) {
+    if (hasMaxLevel >= 3 &&
+        _canShowTreasure &&
+        treasureTree == null &&
+        point != null) {
       makeTreasure(point);
       _canShowTreasure = false;
     }

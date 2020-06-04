@@ -310,7 +310,6 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
             builder: (_, luckyGroup, __) {
               return AdButton(
                 adUnitIdFlag: 1,
-                ad_code: "216",
                 colorsOnBtn: <Color>[
                   Color(0xffF1D34E),
                   Color(0xffF59A22),
@@ -345,7 +344,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
                     }
                   } else {
                     // 选中了6个之后（Submit）
-                    submitLottoData(luckyGroup);
+                    submitLottoData(luckyGroup, isFromAd);
                   }
                 },
                 useAd: false,
@@ -362,7 +361,7 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
   }
 
   /// 选完后提交信息
-  submitLottoData(LuckyGroup luckyGroup) async {
+  submitLottoData(LuckyGroup luckyGroup, bool isFromAd) async {
     String firstFive = selectedNumList.sublist(0, 5).map((e) {
       return "${e},";
     }).join('');
@@ -371,7 +370,8 @@ class _LottoItemPickWidgetState extends State<LottoItemPickWidget> {
 
     dynamic addLottoData = await Service().addLottoData({
       'lottery_draw_num': firstFive,
-      'lottery_plus_one_num': selectedNumList[5]
+      'lottery_plus_one_num': selectedNumList[5],
+      'is_video': isFromAd ? 1 : 0
     });
 
     // TODO 测试
@@ -776,6 +776,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
                   left: ScreenUtil().setWidth(160),
                   child: AdButton(
                     adUnitIdFlag: 1,
+                    ad_code: "216",
                     adIconPath: "assets/image/ad_icon_white.png",
                     colorsOnBtn: <Color>[
                       Color(0xffF1D34E),

@@ -60,6 +60,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     private MethodChannel eventChannel;
     //    private CallbackManager callbackManager;
     ThinkingAnalyticsSDK tdInstance;
+    private AppInstallReceiver appInstallReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 //        sdk.getSettings().setTestDeviceAdvertisingIds(list);
 //        AppLovinSdk.getInstance(this).getSettings().setVerboseLogging(true);
         AppLovinSdk.initializeSdk(this);
-
+        appInstallReceiver = new AppInstallReceiver();
         new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)
                 .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
                     @Override
@@ -223,7 +224,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 //        callbackManager = CallbackManager.Factory.create();
     }
 
-    private static void registerReceiver(Context context) {
+    private void registerReceiver(Context context) {
 
         if (context == null) {
             return;
@@ -232,7 +233,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        context.registerReceiver(new AppInstallReceiver(), filter);
+        context.registerReceiver(appInstallReceiver, filter);
     }
 
 //    private void sendMessage(final MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
@@ -471,6 +472,9 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     public void onStop() {
         super.onStop();
         MoPub.onStop(this);
+        if (appInstallReceiver != null) {
+            unregisterReceiver(appInstallReceiver);
+        }
     }
 
     @Override
