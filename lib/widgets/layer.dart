@@ -1800,8 +1800,8 @@ class Layer {
                 overflow: Overflow.visible,
                 children: <Widget>[
                   Container(
-                    height: ScreenUtil().setWidth(174),
-                    width: ScreenUtil().setWidth(900),
+                    height: ScreenUtil().setWidth(128),
+                    width: ScreenUtil().setWidth(877),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(ScreenUtil().setWidth(80)),
@@ -1828,29 +1828,33 @@ class Layer {
               SizedBox(
                 height: ScreenUtil().setWidth(50),
               ),
-              RichText(
-                text: TextSpan(
-                    text: "0 match=10min coins\n"
-                        "1 match=20min coins\n"
-                        "2 matches=30min coins\n"
-                        "3 matches=60min coins\n"
-                        "4 matched=\$50\n"
-                        "5 matched=\$1000\n",
-                    style: TextStyle(
-                        color: Color(0xFF262626),
-                        fontFamily: FontFamily.semibold,
-                        fontSize: ScreenUtil().setSp(48),
-                        fontWeight: FontWeight.w500),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "6 matched=\$10000",
-                        style: TextStyle(
-                            fontFamily: FontFamily.semibold,
-                            fontSize: ScreenUtil().setSp(48),
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF32B54A)),
-                      ),
-                    ]),
+              Container(
+                width: ScreenUtil().setWidth(800),
+                margin: EdgeInsets.only(left: ScreenUtil().setWidth(60)),
+                child: RichText(
+                  text: TextSpan(
+                      text: "0 match=10min coins\n"
+                          "1 match=20min coins\n"
+                          "2 matches=30min coins\n"
+                          "3 matches=60min coins\n"
+                          "4 matched=\$50\n"
+                          "5 matched=\$1000\n",
+                      style: TextStyle(
+                          color: Color(0xFF262626),
+                          fontFamily: FontFamily.semibold,
+                          fontSize: ScreenUtil().setSp(48),
+                          fontWeight: FontWeight.w500),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "6 matched=\$10000",
+                          style: TextStyle(
+                              fontFamily: FontFamily.semibold,
+                              fontSize: ScreenUtil().setSp(56),
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF32B54A)),
+                        ),
+                      ]),
+                ),
               ),
               SizedBox(
                 height: ScreenUtil().setWidth(60),

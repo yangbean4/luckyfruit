@@ -952,7 +952,7 @@ class __SignState extends State<_Sign> {
   Widget build(BuildContext context) {
     bool disable =
         // false;
-        widget.is_today_sign == 1 || hasUse;
+        widget.is_today_sign == 1 || hasUse || widget.sign_times >= 7;
     return Container(
         width: ScreenUtil().setWidth(815),
         height: ScreenUtil().setWidth(854),
@@ -1118,7 +1118,7 @@ class __SignState extends State<_Sign> {
                         moneyGroup
                             .beginSign(sign.sign, sign.count)
                             .then((value) {
-                              print("beginSign_$value");
+                          print("beginSign_$value");
                           if (value) {
                             setState(() {
                               hasUse = true;

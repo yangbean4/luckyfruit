@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -843,7 +842,8 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   }
 
   bool checkUseAd(LuckyGroup luckyGroup) {
-    return !luckyGroup.lotto_from_ads &&
+    return !luckyGroup.isDisableToPickLotto() &&
+        !luckyGroup.lotto_from_ads &&
         (!luckyGroup.isLottoRewardedTimeReached() &&
             luckyGroup.lottoRemainingTimesToday > 0 &&
             luckyGroup.lottoTicketNumTotal <= 0);
