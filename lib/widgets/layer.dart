@@ -713,11 +713,30 @@ class Layer {
       luckyGroup.setShowLuckyWheelGuidance = true;
     });
 
-    showDialog(
+//    showDialog(
+//        context: context,
+//        builder: (_) => LuckyWheelWrapperWidget(
+//              fromAppLaunch: fromAppLaunch,
+//            ));
+
+    showGeneralDialog(
+        barrierColor: Color.fromRGBO(0, 0, 0, 0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: LuckyWheelWrapperWidget(
+                fromAppLaunch: fromAppLaunch,
+              ),
+            ),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
         context: context,
-        builder: (_) => LuckyWheelWrapperWidget(
-              fromAppLaunch: fromAppLaunch,
-            ));
+        pageBuilder: (context, animation1, animation2) {});
   }
 
   static messageNotification(Function onOk) {
@@ -1438,19 +1457,17 @@ class Layer {
       ..show();
   }
 
-  static void checkShowInviteEventOrPartnerCash(BuildContext context){
+  static void checkShowInviteEventOrPartnerCash(BuildContext context) {
     UserModel userModel = Provider.of<UserModel>(context, listen: false);
     List<dynamic> timerList = userModel.value.residue_7days_time;
-    bool timeReached =
-    timerList != null && timerList.isNotEmpty ? false : true;
+    bool timeReached = timerList != null && timerList.isNotEmpty ? false : true;
 
     // 关闭后出现分享活动弹框或者Cash Gift Packs
     if (!timeReached) {
       Layer.showSevenDaysInviteEventWindow(MoneyGroup.context);
     } else {
       Layer.partnerCash(MoneyGroup.context, onOK: () {
-        LuckyGroup luckyGroup =
-        Provider.of<LuckyGroup>(context, listen: false);
+        LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
         if (luckyGroup.issed.merge_number == 0) {
           FreePhone().showModal();
         }

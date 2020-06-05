@@ -22,10 +22,19 @@ class FreePhone extends StatelessWidget {
 
   FreePhone({Key key, this.child}) : super(key: key);
 
-  showModal() {
+  showModal({bool isAuto = true}) async {
+    if (isAuto) {
+      String sessionVal =
+          await Storage.getItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE);
+      print("freephone_showmodal:${BurialReport.sessionid}, $sessionVal");
+      if (BurialReport.sessionid.compareTo(sessionVal) == 0) {
+        return;
+      }
+    }
+
     BurialReport.report('page_imp', {'page_code': '006'});
     BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
-    Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
+    Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, BurialReport.sessionid);
 
     Modal(
         verticalPadding: 0,
@@ -97,11 +106,10 @@ class FreePhone extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModal();
+        showModal(isAuto: false);
         BurialReport.report(
             'c_phone_entr', {'time': DateTime.now().toString()});
         BurialReport.report('event_entr_click', {'entr_code': '3'});
-        // Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, '_no_');
       },
       child: child,
     );

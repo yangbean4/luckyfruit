@@ -44,7 +44,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           width: ScreenUtil().setWidth(900),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -545,17 +546,27 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
             width: ScreenUtil().setWidth(1080),
             height: ScreenUtil().setWidth(145),
           ),
-          Positioned(
-            top: ScreenUtil().setWidth(40),
-            left: ScreenUtil().setWidth(38),
-            child: Container(
-              child: Image.asset(
-                "assets/image/lotto_status_balls.png",
-                width: ScreenUtil().setWidth(1004),
-                height: ScreenUtil().setWidth(760),
-              ),
-            ),
-          ),
+          Selector<LuckyGroup, LuckyGroup>(
+              selector: (context, provider) => provider,
+              builder: (_, luckGroup, __) {
+                return Positioned(
+                  top: ScreenUtil().setWidth(40),
+                  left: ScreenUtil().setWidth(38),
+                  child: Container(
+                    child: luckGroup.isLottoRewardedTimeReached()
+                        ? Image.asset(
+                            "assets/image/lotto_status_balls_award.png",
+                            width: ScreenUtil().setWidth(1004),
+                            height: ScreenUtil().setWidth(760),
+                          )
+                        : Image.asset(
+                            "assets/image/lotto_status_balls.png",
+                            width: ScreenUtil().setWidth(1004),
+                            height: ScreenUtil().setWidth(760),
+                          ),
+                  ),
+                );
+              }),
           Positioned(bottom: 0, child: LottoStatusRewardedWidget()),
           Selector<LuckyGroup, LuckyGroup>(
               selector: (context, provider) => provider,
@@ -571,7 +582,7 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: luckGroup.isLottoRewardedTimeReached()
-                          ? "Winning Numbers"
+                          ? ""
                           : "Winning Numbers In",
                       style: TextStyle(
                           fontFamily: FontFamily.semibold,
@@ -581,7 +592,7 @@ class LottoStatusHeaderImageWidget extends StatelessWidget {
                       children: <TextSpan>[
                         TextSpan(
                           text: luckGroup.isLottoRewardedTimeReached()
-                              ? '\n${Util.formatNumber(luckGroup.getWinningNumnersOfLotto())}'
+                              ? ''
                               : "\n${luckGroup.getCountDownTimerStringOfLotto()}",
                           style: TextStyle(
                               fontFamily: FontFamily.bold,
@@ -846,7 +857,13 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 
     // TODO 测试
 //    String test = """
-//    {"award_num": [3, 2, 1]}
+//    {
+//      "code": 0,
+//      "msg": "Success",
+//      "data": {
+//          "award_num": [3, 2, 1]
+//      }
+//    }
 //    """;
 //    lottoReceivePrizeInfo = json.decode(test);
 
@@ -858,6 +875,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
         List<num>.from(lottoReceivePrizeInfo['data']['award_num'] ?? []);
     luckyGroup.showLottoAwardShowup = true;
 
+    luckyGroup.currentPeriodlottoList = [];
     // lotto领取奖励
     BurialReport.report('lotto_reward_collect', {});
   }
