@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-05 16:42:24
+ * @LastEditTime: 2020-06-05 18:20:31
  */
 import 'dart:math';
 
@@ -43,6 +43,13 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   bool dialogIsShow = false;
   int period = 500;
 
+  Offset getPhonePositionInfoWithGlobalKey(GlobalKey globalKey) {
+    Offset offset = Offset(0, 0);
+    RenderBox renderBox = globalKey.currentContext?.findRenderObject();
+    offset = renderBox?.localToGlobal(Offset.zero);
+    return offset;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,10 +57,15 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
       ..addStatusListener((status) {
         print(status);
         if (status == AnimationStatus.completed) {
-          if (mounted) {
-            _showSpin();
-          }
+          Offset offsetEnd =
+              getPhonePositionInfoWithGlobalKey(Consts.globalKeyFlowerPosition);
           _controller.reset();
+
+          if (offsetEnd.dx > 0) {
+            _showSpin();
+          } else {
+            _controller.forward();
+          }
         }
       });
     gifController = GifController(vsync: this);
@@ -482,6 +494,7 @@ class __LuckyModelState extends State<_LuckyModel>
     if (luckResultMap == null) {
       Layer.toastWarning("Failed, Try Agagin Later");
       controller.reset();
+      onCloseWindow(context);
     } else {
       TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
       treeGroup.hasFlowerCount = 0;

@@ -556,8 +556,13 @@ class _TripState extends State<Trip>
               ),
             )),
 
-        // 宝箱 📦
-        Treasure(),
+        // 弹幕
+        Selector<UserModel, bool>(
+            selector: (context, provider) => provider.value.is_m != 0,
+            builder: (_, bool show, __) {
+              return show ? Barrage() : Container();
+            }),
+
         Flowers(
           showMsg: showFlowerMsg,
           showMsgHandel: () {
@@ -584,13 +589,9 @@ class _TripState extends State<Trip>
                     )),
               )
             : Container(),
+        // 宝箱 📦
+        Treasure(),
         FlowerFlyingAnimation(),
-        // 弹幕
-        Selector<UserModel, bool>(
-            selector: (context, provider) => provider.value.is_m != 0,
-            builder: (_, bool show, __) {
-              return show ? Barrage() : Container();
-            }),
 
         // 气球🎈
         Balloon(),
