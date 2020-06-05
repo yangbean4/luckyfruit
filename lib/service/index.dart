@@ -139,7 +139,7 @@ class Service {
   // 用户签到接口
   Future<Map<String, dynamic>> beginSign(Map<String, dynamic> data) async {
     Response response = await _client.post('/Draw/beginSign', data: data);
-    return response.data['data'];
+    return response.data;
   }
 
   // 用户抽奖接口

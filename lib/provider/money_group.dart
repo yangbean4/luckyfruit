@@ -286,16 +286,21 @@ class MoneyGroup with ChangeNotifier {
   }
 
   // 用户签到
-  beginSign(String reward_id, String number) async {
+  Future<bool> beginSign(String reward_id, String number) async {
     Map<String, dynamic> res = await Service().beginSign(
         {'acct_id': acct_id, "reward_id": reward_id, "count": number});
+
+    if (res['code'] != 0) {
+      Layer.toastWarning(res['msg']);
+      return false;
+    }
     await updateUserInfo();
-    if (res == null) {
+    if (res['data'] == null) {
       GetReward.showPhoneWindow(number, () {
         showPhoneAnimation = int.parse(number);
       });
     } else {
-      Invite_award invite_award = Invite_award.fromJson(res);
+      Invite_award invite_award = Invite_award.fromJson(res['data']);
       GetReward.showLimitedTimeBonusTree(invite_award.duration, () {
         treeGroup.addTree(
             tree: Tree(
@@ -309,6 +314,7 @@ class MoneyGroup with ChangeNotifier {
         ));
       });
     }
+    return true;
   }
 
 // 更新userInfo

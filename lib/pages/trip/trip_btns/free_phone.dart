@@ -27,14 +27,16 @@ class FreePhone extends StatelessWidget {
       String sessionVal =
           await Storage.getItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE);
       print("freephone_showmodal:${BurialReport.sessionid}, $sessionVal");
-      if (BurialReport.sessionid.compareTo(sessionVal) == 0) {
+      if (sessionVal != null &&
+          BurialReport.sessionid.compareTo(sessionVal) == 0) {
         return;
       }
     }
 
     BurialReport.report('page_imp', {'page_code': '006'});
     BurialReport.report('phone_imp', {'time': DateTime.now().toString()});
-    Storage.setItem(TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, BurialReport.sessionid);
+    Storage.setItem(
+        TreeGroup.CACHE_IS_FIRST_CLICK_PHONE, BurialReport.sessionid);
 
     Modal(
         verticalPadding: 0,
@@ -1113,9 +1115,15 @@ class __SignState extends State<_Sign> {
                             return Layer.locationFull();
                           }
                         }
-                        moneyGroup.beginSign(sign.sign, sign.count);
-                        setState(() {
-                          hasUse = true;
+                        moneyGroup
+                            .beginSign(sign.sign, sign.count)
+                            .then((value) {
+                              print("beginSign_$value");
+                          if (value) {
+                            setState(() {
+                              hasUse = true;
+                            });
+                          }
                         });
                       },
                       fontSize: 36)
