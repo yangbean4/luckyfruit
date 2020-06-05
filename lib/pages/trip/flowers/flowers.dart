@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 22:46:20
+ * @LastEditTime: 2020-06-05 16:42:24
  */
 import 'dart:math';
 
@@ -50,7 +50,9 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
       ..addStatusListener((status) {
         print(status);
         if (status == AnimationStatus.completed) {
-          _showSpin();
+          if (mounted) {
+            _showSpin();
+          }
           _controller.reset();
         }
       });
@@ -275,7 +277,9 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                             }
 
                             if (flowernumber >= TreeGroup.FLOWER_LUCKY_NUMBER) {
-                              _showSpin();
+                              if (mounted) {
+                                _showSpin();
+                              }
                               BurialReport.report(
                                   'event_entr_click', {'entr_code': '18'});
                             } else {

@@ -555,6 +555,9 @@ class _TripState extends State<Trip>
                 ],
               ),
             )),
+
+        // 宝箱 📦
+        Treasure(),
         Flowers(
           showMsg: showFlowerMsg,
           showMsgHandel: () {
@@ -582,17 +585,15 @@ class _TripState extends State<Trip>
               )
             : Container(),
         FlowerFlyingAnimation(),
-
-        // 气球🎈
-        Balloon(),
-        // 宝箱 📦
-        Treasure(),
         // 弹幕
         Selector<UserModel, bool>(
             selector: (context, provider) => provider.value.is_m != 0,
             builder: (_, bool show, __) {
               return show ? Barrage() : Container();
             }),
+
+        // 气球🎈
+        Balloon(),
 
         // 金币雨动效
         CoinRainWidget(),
