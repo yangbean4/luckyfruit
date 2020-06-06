@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-05 00:07:18
+ * @LastEditTime: 2020-06-06 17:37:35
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +57,7 @@ class LottoFlyingAnimation extends StatelessWidget {
                           x: ofStart.dx + ScreenUtil().setWidth(160),
                           y: ofStart.dy + ScreenUtil().setHeight(260)),
                       radius: ScreenUtil().setWidth(50),
-                      animateTime: Duration(milliseconds: 1500),
+                      animateTime: Duration(milliseconds: 1200),
                       child: Image.asset(
                         'assets/image/lotto_tickets_icon.png',
                         width: ScreenUtil().setWidth(136),

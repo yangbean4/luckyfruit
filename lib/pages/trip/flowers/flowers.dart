@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-06 12:37:03
+ * @LastEditTime: 2020-06-06 17:42:31
  */
 import 'dart:math';
 
@@ -584,32 +584,31 @@ class __LuckyModelState extends State<_LuckyModel>
               ? Positioned(
                   left: 0,
                   bottom: 0,
-                  child: Container(
-                    width: ScreenUtil().setWidth(1080),
-                    height: ScreenUtil().setHeight(1920),
-                    color: Color.fromRGBO(0, 0, 0, 0.5),
-                    child: Stack(children: [
-                      LottoAwardShowupItemWidget(
-                        positonLeft: 395,
-                        hidePlusIcon: true,
-                        animationTime: duration - Duration(milliseconds: 600),
-                        goldNum: awardCount,
-                        awardType: awardType,
-                      )
-                    ]),
-                    // child: Center(
-                    //   child: Container(
-                    //     width: ScreenUtil().setWidth(1080),
-                    //     height: ScreenUtil().setWidth(440),
-                    //     child: Column(
-                    //       children:[
-
-                    //       ]
-                    //     ),
-                    //   ),
-                    // ),
-                  ),
-                )
+                  child: GestureDetector(
+                    // onTap: () {
+                    //   setState(() {
+                    //     awardCount = 0;
+                    //   });
+                    //   Future.delayed(Duration(seconds: 2))
+                    //       .then((value) => setState(() {
+                    //             awardCount = 10;
+                    //           }));
+                    // },
+                    child: Container(
+                      width: ScreenUtil().setWidth(1080),
+                      height: ScreenUtil().setHeight(1920),
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                      child: Stack(children: [
+                        LottoAwardShowupItemWidget(
+                          positonLeft: 395,
+                          hidePlusIcon: true,
+                          animationTime: duration - Duration(milliseconds: 600),
+                          goldNum: awardCount,
+                          awardType: awardType,
+                        )
+                      ]),
+                    ),
+                  ))
               : Container()
         ]));
   }

@@ -116,7 +116,7 @@ class _FlyAnimationState extends State<FlyAnimation>
           widget.onFinish();
         }
       });
-    Future.delayed(Duration(milliseconds: 500))
+    Future.delayed(Duration(milliseconds: 200))
         .then((value) => controller.forward());
   }
 

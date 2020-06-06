@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 16:31:06
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 18:30:52
+ * @LastEditTime: 2020-06-06 17:37:24
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +59,7 @@ class TreeFlyingAnimation extends StatelessWidget {
                           x: ofStart.dx + ScreenUtil().setWidth(0),
                           y: ofStart.dy + ScreenUtil().setHeight(0)),
                       radius: 0,
-                      animateTime: Duration(milliseconds: 1500),
+                      animateTime: Duration(milliseconds: 1200),
                       child: Image.asset(
                         'assets/tree/bonus.png',
                         width: ScreenUtil().setWidth(220),

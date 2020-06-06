@@ -53,12 +53,19 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
     BackButtonInterceptor.add(myInterceptor);
     WidgetsBinding.instance.addObserver(this); // 注册监听器
     print("loading_start");
-    Future.delayed(Duration(seconds: 10), () {
-      print("loading_end");
-      if (mounted)
-        setState(() {
-          timeReached = true;
-        });
+
+    Storage.getItem(UserModel.is_new_user).then((value) {
+      if (value == null) {
+        timeReached = true;
+        return;
+      }
+      Future.delayed(Duration(seconds: 10), () {
+        print("loading_end");
+        if (mounted)
+          setState(() {
+            timeReached = true;
+          });
+      });
     });
   }
 

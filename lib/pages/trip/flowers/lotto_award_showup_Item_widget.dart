@@ -64,8 +64,8 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
   Map<String, Widget> labelSource = {};
 
   Map<String, num> positonLeft = {
-    DwardType.gold: 395,
-    DwardType.tree: 280,
+    DwardType.gold: 246,
+    DwardType.tree: 246,
     DwardType.lotto: 395
   };
 
@@ -117,16 +117,20 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
       });
 
     labelSource = {
-      DwardType.gold: GoldText(
-        Util.formatNumber(goldNum),
-        textSize: 60,
-        iconSize: 54,
-        textColor: Colors.white,
-      ),
+      DwardType.gold: Container(
+          width: ScreenUtil().setWidth(600),
+          height: ScreenUtil().setWidth(120),
+          // alignment: Alignment(1, 0),
+          child: GoldText(
+            Util.formatNumber(goldNum),
+            textSize: 60,
+            iconSize: 54,
+            textColor: Colors.white,
+          )),
       DwardType.tree: Container(
         width: ScreenUtil().setWidth(600),
         height: ScreenUtil().setWidth(120),
-        alignment: Alignment(-0.5, 0),
+        // alignment: Alignment(-0.5, 0),
         child: Text(
           'The Limited Time \nBonus Tree x $goldNum',
           textAlign: TextAlign.center,
@@ -162,27 +166,12 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Transform.scale(
-                      scale: scaleImageAnimation?.value ?? 0,
-                      child: imageSource[widget.awardType],
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(25),
-                    ),
-                    AnimatedOpacity(
-                      opacity: (_visible && !widget.hidePlusIcon) ? 1.0 : 0.0,
-//                            opacity: 1.0,
-                      duration: Duration(milliseconds: 100),
-                      child: Image.asset(
-                        "assets/image/lotto_icon_plus.png",
-                        width: ScreenUtil().setWidth(60),
-                        height: ScreenUtil().setWidth(60),
-                      ),
-                    )
-                  ],
+                Transform.scale(
+                  scale: scaleImageAnimation?.value ?? 0,
+                  alignment: Alignment.center,
+                  child: imageSource[widget.awardType],
                 ),
                 AnimatedOpacity(
                   opacity: _visible ? 1.0 : 0.0,
