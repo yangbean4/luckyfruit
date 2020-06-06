@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-04-01 16:22:50
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-04-24 15:28:11
+ * @LastEditTime: 2020-06-06 15:55:05
  */
 package goodluck.lucky.money.mergegarden.win.cash;
 
@@ -58,9 +58,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     private String mTGAKey = "f2328f8dee2b4ed1970be74235b9a5cc";
     private MethodChannel methodChannel;
     private MethodChannel eventChannel;
-    //    private CallbackManager callbackManager;
+    // private CallbackManager callbackManager;
     ThinkingAnalyticsSDK tdInstance;
-    private AppInstallReceiver appInstallReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +67,13 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         SenUtils.installPrevention(this);
         GeneratedPluginRegistrant.registerWith(this);
         initTgaSDK();
-//        final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
-//        ArrayList<String> list = new ArrayList<>();
-//        list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
-//        sdk.getSettings().setTestDeviceAdvertisingIds(list);
-//        AppLovinSdk.getInstance(this).getSettings().setVerboseLogging(true);
+        // final AppLovinSdk sdk = AppLovinSdk.getInstance(this);
+        // ArrayList<String> list = new ArrayList<>();
+        // list.add("91734d90-38e6-4998-8900-2c693ffd11fd");
+        // sdk.getSettings().setTestDeviceAdvertisingIds(list);
+        // AppLovinSdk.getInstance(this).getSettings().setVerboseLogging(true);
         AppLovinSdk.initializeSdk(this);
-        appInstallReceiver = new AppInstallReceiver();
+
         new MethodChannel(getFlutterView(), Config.METHOD_CHANNEL)
                 .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
                     @Override
@@ -122,17 +121,17 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 }
                                 break;
                             }
-//                            case "sendMessage": {
-//                                String urlActionTitle = methodCall.argument("urlActionTitle");
-//                                String url = methodCall.argument("url");
-//                                String title = methodCall.argument("title");
-//                                String subtitle = methodCall.argument("subtitle");
-//                                String imageUrl = methodCall.argument("imageUrl");
-//                                String pageId = methodCall.argument("pageId");
-//
-//                                sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
-//                                break;
-//                            }
+                            // case "sendMessage": {
+                            // String urlActionTitle = methodCall.argument("urlActionTitle");
+                            // String url = methodCall.argument("url");
+                            // String title = methodCall.argument("title");
+                            // String subtitle = methodCall.argument("subtitle");
+                            // String imageUrl = methodCall.argument("imageUrl");
+                            // String pageId = methodCall.argument("pageId");
+                            //
+                            // sendMessage(result, urlActionTitle, url, title, subtitle, imageUrl, pageId);
+                            // break;
+                            // }
                             case Config.GET_DEVICE_MESSAGE_FROM_NATIVE:
                                 boolean isDebug = SenUtils.checkWhetherEnableDeveloperModel(MainActivity.this);
                                 boolean isUsb = SenUtils.checkDevicePluggedIn(MainActivity.this);
@@ -141,9 +140,10 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 String language = SenUtils.getLanguage();
 
                                 String geo = SenUtils.getCountry();
-                                Log.i("tago", String.format("onCreate_params: " +
-                                                "isDebug:%s, isUsb:%s, battery:%s, isRoot:%s, geo:%s, language:%s",
-                                        isDebug, isUsb, batteryLevel, isRoot, geo, language));
+                                Log.i("tago",
+                                        String.format("onCreate_params: "
+                                                + "isDebug:%s, isUsb:%s, battery:%s, isRoot:%s, geo:%s, language:%s",
+                                                isDebug, isUsb, batteryLevel, isRoot, geo, language));
 
                                 Map<String, String> map = new HashMap<>();
                                 map.put("is_debug", isDebug ? "1" : "0");
@@ -164,8 +164,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                     return;
                                 }
                                 int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
-                                loadRewardAds(adUnitIdFlag == 2 ? mAdUnitId2 :
-                                        mAdUnitId1);
+                                loadRewardAds(adUnitIdFlag == 2 ? mAdUnitId2 : mAdUnitId1);
                                 result.success(true);
                                 break;
                             }
@@ -183,15 +182,15 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 }
                                 break;
                             }
-//                            case Config.MOPUB_IS_REWARD_VIDEO_READY: {
-//                                if (methodCall == null) {
-//                                    return;
-//                                }
-//                                int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
-//                                String adUnitId = adUnitIdFlag == 2 ? mAdUnitId2 : mAdUnitId1;
-//                                result.success(isRewardVideoAdReady(adUnitId));
-//                                break;
-//                            }
+                            // case Config.MOPUB_IS_REWARD_VIDEO_READY: {
+                            // if (methodCall == null) {
+                            // return;
+                            // }
+                            // int adUnitIdFlag = methodCall.argument("adUnitIdFlag");
+                            // String adUnitId = adUnitIdFlag == 2 ? mAdUnitId2 : mAdUnitId1;
+                            // result.success(isRewardVideoAdReady(adUnitId));
+                            // break;
+                            // }
                             case Config.START_REPORT_APP_LIST: {
                                 if (methodCall == null) {
                                     return;
@@ -200,8 +199,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 Config.ACCT_ID = methodCall.argument("acct_id");
                                 Config.enableAppMonitor = methodCall.argument("enableAppMonitor");
 
-                                Log.i("tago", "onMethodCall_START_REPORT_APP_LIST: acctId="
-                                        + Config.ACCT_ID + ", enable: " + Config.enableAppMonitor);
+                                Log.i("tago", "onMethodCall_START_REPORT_APP_LIST: acctId=" + Config.ACCT_ID
+                                        + ", enable: " + Config.enableAppMonitor);
 
                                 if (Config.enableAppMonitor == 0) {
                                     return;
@@ -221,10 +220,10 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         // 监听安装卸载
         registerReceiver(this);
 
-//        callbackManager = CallbackManager.Factory.create();
+        // callbackManager = CallbackManager.Factory.create();
     }
 
-    private void registerReceiver(Context context) {
+    private static void registerReceiver(Context context) {
 
         if (context == null) {
             return;
@@ -233,69 +232,73 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        context.registerReceiver(appInstallReceiver, filter);
+        context.registerReceiver(new AppInstallReceiver(), filter);
     }
 
-//    private void sendMessage(final MethodChannel.Result result, String urlActionTitle, String url, String title, String subtitle, String imageUrl, String pageId) {
-//
-////        url= "https://mkfruit.com?sd=Merge%20trees%F0%9F%8E%84%2Cdecorating%20my%20garden%2Cearn%20rewards%F0%9F%8E%81%F0%9F%92%B5&si=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fimg%2Ffb_share_merge.png&st=%F0%9F%92%B0%F0%9F%92%B0Believe%20it%20or%20not!%20I%20can%20earn%20money%20by%20merge%20garden%F0%9F%8F%A1%F0%9F%8F%A1!&amv=0&apn=goodluck.lucky.money.mergegarden.win.cash&link=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fzip%2Findex.html%3Fcode%3D771";
-////        url="https://mkfruit.com/Sohr";
-//        ShareMessengerURLActionButton actionButton =
-//                new ShareMessengerURLActionButton.Builder()
-//                        .setTitle(urlActionTitle)
-//                        .setUrl(Uri.parse(url))
-//                        .build();
-//
-//        ShareMessengerGenericTemplateElement.Builder genericTemplateElementBuilder =
-//                new ShareMessengerGenericTemplateElement.Builder();
-//        genericTemplateElementBuilder.setTitle(title);
-//        genericTemplateElementBuilder.setSubtitle(subtitle);
-//
-//        if (imageUrl != null && !imageUrl.isEmpty())
-//            genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
-//        if (url != null && !url.isEmpty()) genericTemplateElementBuilder.setButton(actionButton);
-//
-//        ShareMessengerGenericTemplateContent genericTemplateContent =
-//                new ShareMessengerGenericTemplateContent.Builder()
-//                        .setPageId(Config.FACEBOOK_PAGE_ID) // Your page ID, required
-//                        .setGenericTemplateElement(genericTemplateElementBuilder.build())
-//                        .build();
-//        MessageDialog md = new MessageDialog(this);
-//        md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-//
-//            @Override
-//            public void onSuccess(Sharer.Result shareResult) {
-//                result.success(true);
-//                Log.d("tago", "FacebookCallback_onSuccess");
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                result.success(false);
-//                Log.d("tago", "FacebookCallback_onCancel");
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                result.success(false);
-//                Log.d("tago", "FacebookCallback_error => " + error);
-//            }
-//        });
-//        if (md.canShow(genericTemplateContent)) {
-//            MessageDialog.show(this, genericTemplateContent);
-//        }
-//    }
+    // private void sendMessage(final MethodChannel.Result result, String
+    // urlActionTitle, String url, String title, String subtitle, String imageUrl,
+    // String pageId) {
+    //
+    //// url=
+    // "https://mkfruit.com?sd=Merge%20trees%F0%9F%8E%84%2Cdecorating%20my%20garden%2Cearn%20rewards%F0%9F%8E%81%F0%9F%92%B5&si=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fimg%2Ffb_share_merge.png&st=%F0%9F%92%B0%F0%9F%92%B0Believe%20it%20or%20not!%20I%20can%20earn%20money%20by%20merge%20garden%F0%9F%8F%A1%F0%9F%8F%A1!&amv=0&apn=goodluck.lucky.money.mergegarden.win.cash&link=https%3A%2F%2Fmergegarden-cdn.mkfruit.com%2Fcdn%2Fzip%2Findex.html%3Fcode%3D771";
+    //// url="https://mkfruit.com/Sohr";
+    // ShareMessengerURLActionButton actionButton =
+    // new ShareMessengerURLActionButton.Builder()
+    // .setTitle(urlActionTitle)
+    // .setUrl(Uri.parse(url))
+    // .build();
+    //
+    // ShareMessengerGenericTemplateElement.Builder genericTemplateElementBuilder =
+    // new ShareMessengerGenericTemplateElement.Builder();
+    // genericTemplateElementBuilder.setTitle(title);
+    // genericTemplateElementBuilder.setSubtitle(subtitle);
+    //
+    // if (imageUrl != null && !imageUrl.isEmpty())
+    // genericTemplateElementBuilder.setImageUrl(Uri.parse(imageUrl));
+    // if (url != null && !url.isEmpty())
+    // genericTemplateElementBuilder.setButton(actionButton);
+    //
+    // ShareMessengerGenericTemplateContent genericTemplateContent =
+    // new ShareMessengerGenericTemplateContent.Builder()
+    // .setPageId(Config.FACEBOOK_PAGE_ID) // Your page ID, required
+    // .setGenericTemplateElement(genericTemplateElementBuilder.build())
+    // .build();
+    // MessageDialog md = new MessageDialog(this);
+    // md.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+    //
+    // @Override
+    // public void onSuccess(Sharer.Result shareResult) {
+    // result.success(true);
+    // Log.d("tago", "FacebookCallback_onSuccess");
+    // }
+    //
+    // @Override
+    // public void onCancel() {
+    // result.success(false);
+    // Log.d("tago", "FacebookCallback_onCancel");
+    // }
+    //
+    // @Override
+    // public void onError(FacebookException error) {
+    // result.success(false);
+    // Log.d("tago", "FacebookCallback_error => " + error);
+    // }
+    // });
+    // if (md.canShow(genericTemplateContent)) {
+    // MessageDialog.show(this, genericTemplateContent);
+    // }
+    // }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        callbackManager.onActivityResult(requestCode, resultCode, data);
-//    }
+    // @Override
+    // protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    // {
+    // super.onActivityResult(requestCode, resultCode, data);
+    // callbackManager.onActivityResult(requestCode, resultCode, data);
+    // }
 
     private void initTgaSDK() {
         ThinkingAnalyticsSDK.enableTrackLog(true);
-        TDConfig config = TDConfig.getInstance(this, mTGAKey,
-                "http://tad.sen-sdk.com");
+        TDConfig config = TDConfig.getInstance(this, mTGAKey, "http://tad.sen-sdk.com");
         config.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
         tdInstance = ThinkingAnalyticsSDK.sharedInstance(config);
     }
@@ -330,12 +333,12 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     public void loadRewardAds(String adUnitId) {
         Log.i("tago", "loadRewardAds_" + adUnitId);
-//        GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings settings = new GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings();
-//        settings.setTestDeviceId("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
-//        settings.setTestDeviceId("91734d90-38e6-4998-8900-2c693ffd11fd");
+        // GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings settings
+        // = new GooglePlayServicesRewardedVideo.GooglePlayServicesMediationSettings();
+        // settings.setTestDeviceId("65942227-abd3-4fe5-8cd5-dbf7f2fc4cac");
+        // settings.setTestDeviceId("91734d90-38e6-4998-8900-2c693ffd11fd");
         MoPubRewardedVideos.loadRewardedVideo(adUnitId,
-                new MoPubRewardedVideoManager.RequestParameters("",
-                        "", null, "sample_app_customer_id"));
+                new MoPubRewardedVideoManager.RequestParameters("", "", null, "sample_app_customer_id"));
     }
 
     public boolean isRewardVideoAdReady(String adUnitId) {
@@ -361,7 +364,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                 loadRewardAds(mAdUnitId1);
                 loadRewardAds(mAdUnitId2);
                 // ironsource的检查集成环境的方法
-//                IntegrationHelper.validateIntegration(MainActivity.this);
+                // IntegrationHelper.validateIntegration(MainActivity.this);
             }
         };
     }
@@ -441,8 +444,8 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
     @Override
     public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds, @NonNull MoPubReward reward) {
-        Log.i("tago", "onRewardedVideoCompleted_" + adUnitIds.toString()
-                + ", contains(1)_" + adUnitIds.contains(mAdUnitId1));
+        Log.i("tago",
+                "onRewardedVideoCompleted_" + adUnitIds.toString() + ", contains(1)_" + adUnitIds.contains(mAdUnitId1));
         Map<String, Object> json = new HashMap<>();
         json.put("name", Config.MOPUB_REWARD_VIDEO_COMPLETE);
         json.put("data", adUnitIds.contains(mAdUnitId1) ? 1 : 2);
@@ -472,9 +475,6 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     public void onStop() {
         super.onStop();
         MoPub.onStop(this);
-        if (appInstallReceiver != null) {
-            unregisterReceiver(appInstallReceiver);
-        }
     }
 
     @Override
