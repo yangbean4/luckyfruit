@@ -111,7 +111,11 @@ class _GameState extends State<Game> with MyNavigator {
     Tree animateTargetTree = treeGroup.animateTargetTree;
     Tree animateSourceTree = treeGroup.animateSourceTree;
     int gridAnimationUseflower = treeGroup.gridAnimationUseflower;
-    TreePoint flowerPoint = treeGroup.flowerPoint;
+    int gridReverseAnimationUseflower = treeGroup.gridReverseAnimationUseflower;
+
+    TreePoint gridReverseFlowerPoint = treeGroup.gridReverseFlowerPoint;
+    TreePoint gridFlowerPoint = treeGroup.gridFlowerPoint;
+
     List<List<Tree>> treeMatrix = treeGroup.treeMatrix;
     // REVIEW:还是否需要使用Selector
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
@@ -119,6 +123,11 @@ class _GameState extends State<Game> with MyNavigator {
         // Selector<A, S> A 是我们从顶层获取的 Provider 的类型 S为获取到的类型
         PositionLT positionLT = PositionLT(x: x, y: y);
         Tree data = treeMatrix[y][x];
+        bool isThisUseFlower(TreePoint point) =>
+            point != null &&
+            data != null &&
+            point?.x == data?.x &&
+            point?.y == data?.y;
         grids.add(
             // Selector<TreeGroup, Tree>(
             //   selector: (context, provider) => provider.treeMatrix[y][x],
@@ -137,13 +146,13 @@ class _GameState extends State<Game> with MyNavigator {
                       animateSourceTree:
                           animateTargetTree == data ? animateSourceTree : null,
                       flowerKey: Consts.flowerGroupGlobalKey[y][x],
-                      gridAnimationUseflower: (flowerPoint != null &&
-                              data != null &&
-                              flowerPoint?.x == data?.x &&
-                              flowerPoint?.y == data?.y)
+                      gridAnimationUseflower: isThisUseFlower(gridFlowerPoint)
                           ? gridAnimationUseflower
                           : 0,
-                      // animationUseflower: animationUseflower,
+                      gridReverseAnimationUseflower:
+                          isThisUseFlower(gridReverseFlowerPoint)
+                              ? gridReverseAnimationUseflower
+                              : 0,
                     );
                   },
                   onWillAccept: (Tree source) {

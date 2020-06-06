@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:35:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-04 21:04:13
+ * @LastEditTime: 2020-06-06 12:47:17
  */
 
 import 'dart:math';
@@ -30,21 +30,21 @@ class FlowerFlyingAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Selector<TreeGroup, Tuple2<TreePoint, int>>(
         builder: (_, data, __) {
-          TreePoint flowerPoint = data.item1;
+          TreePoint flowerFlyPoint = data.item1;
 
           int number = data.item2;
           Offset offsetSt;
           Offset offsetEnd;
 
-          if (flowerPoint != null) {
+          if (flowerFlyPoint != null) {
             offsetSt = getPhonePositionInfoWithGlobalKey(
-                Consts.treeGroupGlobalKey[flowerPoint.y][flowerPoint.x]);
+                Consts.treeGroupGlobalKey[flowerFlyPoint.y][flowerFlyPoint.x]);
             offsetEnd = getPhonePositionInfoWithGlobalKey(
                 Consts.globalKeyFlowerPosition);
             // );
           }
 
-          return number != 0 && flowerPoint != null
+          return number != 0 && flowerFlyPoint != null
               ? Positioned(
                   left: 0,
                   top: 0,
@@ -56,7 +56,12 @@ class FlowerFlyingAnimation extends StatelessWidget {
                       onFinish: () {
                         TreeGroup moneyGroup =
                             Provider.of<TreeGroup>(context, listen: false);
-                        moneyGroup.flowerPoint = null;
+                        moneyGroup.flowerPoint = moneyGroup.flowerFlyPoint;
+                        moneyGroup.animationUseflower =
+                            moneyGroup.flyAnimationUseflower;
+
+                        moneyGroup.flyAnimationUseflower = 0;
+                        moneyGroup.flowerFlyPoint = null;
                       },
                       count: 1,
                       endPos: Position(
@@ -82,7 +87,7 @@ class FlowerFlyingAnimation extends StatelessWidget {
               : Container();
         },
         selector: (context, provider) =>
-            Tuple2(provider.flowerPoint, provider.animationUseflower));
+            Tuple2(provider.flowerFlyPoint, provider.flyAnimationUseflower));
   }
 }
 
@@ -203,6 +208,7 @@ class _FlyAnimationState extends State<FlyAnimation>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           widget.onFinish();
+          controller.reset();
         }
       });
   }

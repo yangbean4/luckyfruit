@@ -19,17 +19,20 @@ class GridItem extends StatefulWidget {
   final Tree animateTargetTree;
   final Tree animateSourceTree;
   final int gridAnimationUseflower;
+  final int gridReverseAnimationUseflower;
+
   final GlobalKey flowerKey;
 
   final bool showAnimation;
-  GridItem(
-      {Key key,
-      this.tree,
-      this.animateTargetTree,
-      this.flowerKey,
-      this.animateSourceTree,
-      this.gridAnimationUseflower})
-      : showAnimation = animateTargetTree != null,
+  GridItem({
+    Key key,
+    this.tree,
+    this.animateTargetTree,
+    this.flowerKey,
+    this.animateSourceTree,
+    this.gridAnimationUseflower,
+    this.gridReverseAnimationUseflower,
+  })  : showAnimation = animateTargetTree != null,
         super(key: key);
 
   @override
@@ -62,6 +65,44 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Widget _tree = TreeItem(widget.tree);
     int flower = widget.gridAnimationUseflower;
+    int reverseFlower = widget.gridReverseAnimationUseflower;
+    Widget opcityChild = Container(
+      width: ScreenUtil().setWidth(120),
+      height: ScreenUtil().setWidth(41),
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        Image.asset(
+          'assets/image/flower/img_flower.png',
+          key: widget.flowerKey,
+          width: ScreenUtil().setWidth(40),
+          height: ScreenUtil().setWidth(41),
+        ),
+        Center(
+            child: Stack(children: <Widget>[
+          Text(
+            'x $flower',
+            style: TextStyle(
+                height: 1,
+                foreground: new Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = ScreenUtil().setWidth(8)
+                  ..color = Color.fromRGBO(196, 61, 27, 1),
+                fontFamily: FontFamily.bold,
+                fontSize: ScreenUtil().setSp(30),
+                fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'x $flower',
+            style: TextStyle(
+                color: Colors.white,
+                height: 1,
+                fontFamily: FontFamily.bold,
+                fontSize: ScreenUtil().setSp(30),
+                fontWeight: FontWeight.bold),
+          )
+        ]))
+      ]),
+    );
+
     return Container(
       width: ScreenUtil().setWidth(200),
       height: ScreenUtil().setWidth(210),
@@ -150,51 +191,39 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                     onForwardFinish: () {
                       TreeGroup treeGroup =
                           Provider.of<TreeGroup>(context, listen: false);
-                      treeGroup.animationUseflower =
+                      treeGroup.gridReverseAnimationUseflower =
                           treeGroup.gridAnimationUseflower;
+                      treeGroup.gridReverseFlowerPoint =
+                          treeGroup.gridFlowerPoint;
+                      treeGroup.gridFlowerPoint = null;
                       treeGroup.gridAnimationUseflower = 0;
                     },
-                    child: Container(
-                      width: ScreenUtil().setWidth(120),
-                      height: ScreenUtil().setWidth(41),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Image.asset(
-                              'assets/image/flower/img_flower.png',
-                              key: widget.flowerKey,
-                              width: ScreenUtil().setWidth(40),
-                              height: ScreenUtil().setWidth(41),
-                            ),
-                            Center(
-                                child: Stack(children: <Widget>[
-                              Text(
-                                'x $flower',
-                                style: TextStyle(
-                                    height: 1,
-                                    foreground: new Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = ScreenUtil().setWidth(8)
-                                      ..color = Color.fromRGBO(196, 61, 27, 1),
-                                    fontFamily: FontFamily.bold,
-                                    fontSize: ScreenUtil().setSp(30),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'x $flower',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    height: 1,
-                                    fontFamily: FontFamily.bold,
-                                    fontSize: ScreenUtil().setSp(30),
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ]))
-                          ]),
-                    ),
+                    child: opcityChild,
                   ),
                 )
               // ,)
+              : Container(),
+          reverseFlower != 0
+              ? Positioned(
+                  left: ScreenUtil().setWidth(152),
+                  bottom: ScreenUtil().setWidth(27),
+                  child: OpacityAnimation(
+                    reverse: true,
+                    animateTime: Duration(milliseconds: 700),
+                    onForwardFinish: () {
+                      TreeGroup treeGroup =
+                          Provider.of<TreeGroup>(context, listen: false);
+                      treeGroup.flyAnimationUseflower =
+                          treeGroup.gridReverseAnimationUseflower;
+
+                      treeGroup.flowerFlyPoint =
+                          treeGroup.gridReverseFlowerPoint;
+                      treeGroup.gridReverseFlowerPoint = null;
+                      treeGroup.gridReverseAnimationUseflower = 0;
+                    },
+                    child: opcityChild,
+                  ),
+                )
               : Container(),
           // Positioned(child: null)
         ],

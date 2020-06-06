@@ -625,7 +625,7 @@ class TreeGroup with ChangeNotifier {
     // final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
     // final period = Duration(milliseconds: ti);
 
-    final period = Duration(milliseconds: 1500);
+    final period = Duration(milliseconds: 1100);
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
@@ -1167,12 +1167,58 @@ class TreeGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  // 进行动画用的🌹个数
+  int _gridReverseAnimationUseflower = 0;
+
+  int get gridReverseAnimationUseflower => _gridReverseAnimationUseflower;
+
+  set gridReverseAnimationUseflower(int count) {
+    _gridReverseAnimationUseflower = count;
+    notifyListeners();
+  }
+
+  int _flyAnimationUseflower = 0;
+
+  int get flyAnimationUseflower => _flyAnimationUseflower;
+
+  set flyAnimationUseflower(int count) {
+    _flyAnimationUseflower = count;
+    notifyListeners();
+  }
+
+  TreePoint _gridFlowerPoint;
+
+  TreePoint get gridFlowerPoint => _gridFlowerPoint;
+
+  set gridFlowerPoint(TreePoint count) {
+    _gridFlowerPoint = count;
+    notifyListeners();
+  }
+
+  TreePoint _gridReverseFlowerPoint;
+
+  TreePoint get gridReverseFlowerPoint => _gridReverseFlowerPoint;
+
+  set gridReverseFlowerPoint(TreePoint count) {
+    _gridReverseFlowerPoint = count;
+    notifyListeners();
+  }
+
   TreePoint _flowerPoint;
 
   TreePoint get flowerPoint => _flowerPoint;
 
   set flowerPoint(TreePoint count) {
     _flowerPoint = count;
+    notifyListeners();
+  }
+
+  TreePoint _flowerFlyPoint;
+
+  TreePoint get flowerFlyPoint => _flowerFlyPoint;
+
+  set flowerFlyPoint(TreePoint count) {
+    _flowerFlyPoint = count;
     notifyListeners();
   }
 
@@ -1192,10 +1238,9 @@ class TreeGroup with ChangeNotifier {
         //         _flowerList[0] == 0
         //         )
         ) {
-      flowerPoint = TreePoint(x: x, y: y);
+      gridFlowerPoint = TreePoint(x: x, y: y);
       gridAnimationUseflower = _flowerList[0];
-      // gridAnimationUseflower = 150;
-      // animationUseflower = 15;
+      // gridAnimationUseflower = 5;
       _flowerList.removeAt(0);
     }
     if (_flowerList.length < 10) {

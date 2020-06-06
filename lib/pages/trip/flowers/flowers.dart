@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-05 18:20:31
+ * @LastEditTime: 2020-06-06 12:37:03
  */
 import 'dart:math';
 
@@ -195,7 +195,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                         height: ScreenUtil().setWidth(105),
                       ),
                     ),
-                    animationUseflower != 0 && flowerPoint == null
+                    animationUseflower != 0 && flowerPoint != null
                         ? Positioned(
                             left: ScreenUtil().setWidth((940 - width) / 2),
                             top: ScreenUtil().setWidth(18),
@@ -217,6 +217,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                                     tourismMap.hasFlowerCount +=
                                         animationUseflower;
                                     tourismMap.animationUseflower = 0;
+                                    tourismMap.flowerPoint = null;
                                   });
                                 });
                               },
@@ -253,7 +254,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                     Positioned(
                       left: ScreenUtil().setWidth(18),
                       top: ScreenUtil().setWidth(8),
-                      child: animationUseflower != 0 && flowerPoint == null
+                      child: animationUseflower != 0 && flowerPoint != null
                           ? ExpandAnimation(
                               animateTime: Duration(milliseconds: 200),
                               count: 1,
