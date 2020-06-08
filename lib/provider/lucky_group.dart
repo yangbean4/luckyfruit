@@ -283,6 +283,16 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  /// lotto领取奖励的「collect」按钮是否可以显示出来
+  bool _isLottoCollectCanShow = false;
+
+  bool get isLottoCollectCanShow => _isLottoCollectCanShow;
+
+  set isLottoCollectCanShow(bool value) {
+    _isLottoCollectCanShow = value;
+    notifyListeners();
+  }
+
   List<String> _countDownPrizeFromAddData = [];
 
   List<String> get countDownPrizeFromAddData => _countDownPrizeFromAddData;

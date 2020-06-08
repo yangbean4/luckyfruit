@@ -715,6 +715,13 @@ class LottoStatusShowcaseWidget extends StatefulWidget {
 
 class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   @override
+  void initState() {
+    super.initState();
+    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+    luckyGroup.isLottoCollectCanShow = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Stack(
@@ -780,61 +787,68 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
 //        SizedBox(
 //          height: ScreenUtil().setWidth(30),
 //        ),
-          Selector<LuckyGroup, LuckyGroup>(
-              selector: (context, provider) => provider,
-              builder: (_, luckyGroup, __) {
-                return Positioned(
-                  bottom: ScreenUtil().setWidth(30),
-                  left: ScreenUtil().setWidth(160),
-                  child: AdButton(
-                    adUnitIdFlag: 1,
-                    ad_code: "216",
-                    adIconPath: "assets/image/ad_icon_white.png",
-                    colorsOnBtn: <Color>[
-                      Color(0xffF1D34E),
-                      Color(0xffF59A22),
-                    ],
-                    onOk: (isFromAd) {
-                      if (luckyGroup.isLottoRewardedTimeReached()) {
-                        // 开奖界面点击collect
-                        hanldeLottoReceivePrize(luckyGroup);
-                      } else {
-                        // 倒计时界面重新选择
-                        if (luckyGroup.isDisableToPickLotto()) {
-                          Layer.toastWarning(
-                              "3 chances per day, plaease try tomorrow");
-                          return;
-                        }
+          Selector<LuckyGroup, Tuple2>(
+              selector: (context, provider) =>
+                  Tuple2(provider, provider.isLottoCollectCanShow),
+              builder: (_, tuple2, __) {
+                LuckyGroup luckyGroup = tuple2.item1;
+                bool hide =
+                    luckyGroup.isLottoRewardedTimeReached() && !tuple2.item2;
+                return !hide
+                    ? Positioned(
+                        bottom: ScreenUtil().setWidth(30),
+                        left: ScreenUtil().setWidth(160),
+                        child: AdButton(
+                          adUnitIdFlag: 1,
+                          ad_code: "216",
+                          adIconPath: "assets/image/ad_icon_white.png",
+                          colorsOnBtn: <Color>[
+                            Color(0xffF1D34E),
+                            Color(0xffF59A22),
+                          ],
+                          onOk: (isFromAd) {
+                            if (luckyGroup.isLottoRewardedTimeReached()) {
+                              // 开奖界面点击collect
+                              hanldeLottoReceivePrize(luckyGroup);
+                            } else {
+                              // 倒计时界面重新选择
+                              if (luckyGroup.isDisableToPickLotto()) {
+                                Layer.toastWarning(
+                                    "3 chances per day, plaease try tomorrow");
+                                return;
+                              }
 
-                        if (isFromAd) {
-                          Storage.setItem('lotto_from_ads',
-                              Util.formatDate(dateTime: DateTime.now()));
-                          luckyGroup.lotto_from_ads = true;
-                          luckyGroup.addLottoDataFromAds = true;
-                        } else if (luckyGroup.lottoRemainingTimesToday <= 0 ||
-                            luckyGroup.lottoTicketNumTotal <= 0) {
-                          Layer.toastWarning(
-                              "No chances, plaease try tomorrow");
-                          return;
-                        }
+                              if (isFromAd) {
+                                Storage.setItem('lotto_from_ads',
+                                    Util.formatDate(dateTime: DateTime.now()));
+                                luckyGroup.lotto_from_ads = true;
+                                luckyGroup.addLottoDataFromAds = true;
+                              } else if (luckyGroup.lottoRemainingTimesToday <=
+                                      0 ||
+                                  luckyGroup.lottoTicketNumTotal <= 0) {
+                                Layer.toastWarning(
+                                    "No chances, plaease try tomorrow");
+                                return;
+                              }
 
-                        // lotto下赌注
-                        BurialReport.report('lotto_bet', {});
-                        luckyGroup.lottoPickedFinished = false;
-                      }
-                    },
-                    // 1. 开奖界面的时候不需要看广告
-                    // 2. 倒计时界面：
-                    //    a. 如果一天里面的三次机会还没有用完，并且可用的券已经用完了
-                    //    这个时候可以观看广告来进行一次抽取
-                    useAd: checkUseAd(luckyGroup),
+                              // lotto下赌注
+                              BurialReport.report('lotto_bet', {});
+                              luckyGroup.lottoPickedFinished = false;
+                            }
+                          },
+                          // 1. 开奖界面的时候不需要看广告
+                          // 2. 倒计时界面：
+                          //    a. 如果一天里面的三次机会还没有用完，并且可用的券已经用完了
+                          //    这个时候可以观看广告来进行一次抽取
+                          useAd: checkUseAd(luckyGroup),
 //                    disable: luckyGroup.lottoRemainingTimes <= 0,
-                    btnText: luckyGroup.isLottoRewardedTimeReached()
-                        ? 'Collect'
-                        : 'Bet',
-                    tips: null,
-                  ),
-                );
+                          btnText: luckyGroup.isLottoRewardedTimeReached()
+                              ? 'Collect'
+                              : 'Bet',
+                          tips: null,
+                        ),
+                      )
+                    : Container();
               })
         ],
       ),
@@ -875,7 +889,6 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
         List<num>.from(lottoReceivePrizeInfo['data']['award_num'] ?? []);
     luckyGroup.showLottoAwardShowup = true;
 
-    luckyGroup.currentPeriodlottoList = [];
     // lotto领取奖励
     BurialReport.report('lotto_reward_collect', {});
   }
@@ -961,10 +974,13 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
   Animation flip_anim;
   bool animationStart = false;
   bool hasDisposed = false;
+  LuckyGroup luckyGroup;
 
   @override
   void initState() {
     super.initState();
+    luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
+
     controller =
         AnimationController(duration: Duration(seconds: 3), vsync: this);
 
@@ -976,6 +992,12 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
       if (!hasDisposed) {
         animationStart = true;
         controller.forward().orCancel;
+        print("FlipLottoItemWidget_${widget.index}");
+        if ((widget.index + 1) % 6 == 0) {
+          Future.delayed(Duration(seconds: 1), () {
+            luckyGroup.isLottoCollectCanShow = true;
+          });
+        }
       }
     });
   }

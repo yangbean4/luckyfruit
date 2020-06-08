@@ -19,6 +19,23 @@ class _LottoAwardShowupWidgetState extends State<LottoAwardShowupWidget> {
     super.initState();
   }
 
+  List<int> getPositionLeft(int recordsLength) {
+    if (recordsLength <= 1) {
+      // 只有一个奖励
+      return [395, 0, 0];
+    }
+
+    if (recordsLength <= 2) {
+      // 只有两个奖励
+      return [210, 570, 0];
+    }
+
+    if (recordsLength <= 3) {
+      // 只有一个奖励
+      return [35, 395, 755];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,17 +50,17 @@ class _LottoAwardShowupWidgetState extends State<LottoAwardShowupWidget> {
                   provider.lottoReceivePrizeRecords.length > 0
                       ? provider.lottoReceivePrizeRecords[0]
                       : 0,
-                  provider.lottoReceivePrizeRecords.length <= 1),
+                  provider.lottoReceivePrizeRecords.length),
               builder: (_, tuple3, __) {
                 return tuple3.item1
                     ? LottoAwardShowupItemWidget(
-                        positonLeft: 35,
+                        positonLeft: getPositionLeft(tuple3.item3)[0],
                         goldNumGrade: tuple3.item2,
-                        hidePlusIcon: tuple3.item3,
+                        hidePlusIcon: tuple3.item3<=1,
                         callback: () {
                           LuckyGroup luckyGroup =
                               Provider.of<LuckyGroup>(context, listen: false);
-                          if (tuple3.item3) {
+                          if (tuple3.item3 <= 1) {
                             luckyGroup.showLottoAwardShowupCollect = true;
                             return;
                           }
@@ -57,17 +74,17 @@ class _LottoAwardShowupWidgetState extends State<LottoAwardShowupWidget> {
                   provider.lottoReceivePrizeRecords.length > 1
                       ? provider.lottoReceivePrizeRecords[1]
                       : 0,
-                  provider.lottoReceivePrizeRecords.length <= 2),
+                  provider.lottoReceivePrizeRecords.length),
               builder: (_, tuple3, __) {
                 return tuple3.item1
                     ? LottoAwardShowupItemWidget(
-                        positonLeft: 395,
+                        positonLeft: getPositionLeft(tuple3.item3)[1],
                         goldNumGrade: tuple3.item2,
-                        hidePlusIcon: tuple3.item3,
+                        hidePlusIcon: tuple3.item3<=2,
                         callback: () {
                           LuckyGroup luckyGroup =
                               Provider.of<LuckyGroup>(context, listen: false);
-                          if (tuple3.item3) {
+                          if (tuple3.item3 <= 2) {
                             luckyGroup.showLottoAwardShowupCollect = true;
                             return;
                           }
@@ -75,18 +92,19 @@ class _LottoAwardShowupWidgetState extends State<LottoAwardShowupWidget> {
                         })
                     : Container();
               }),
-          Selector<LuckyGroup, Tuple2>(
-              selector: (context, provider) => Tuple2(
+          Selector<LuckyGroup, Tuple3>(
+              selector: (context, provider) => Tuple3(
                   provider.lottoAwardShowupFlag3,
                   provider.lottoReceivePrizeRecords.length > 2
                       ? provider.lottoReceivePrizeRecords[2]
-                      : 0),
-              builder: (_, tuple2, __) {
-                return tuple2.item1
+                      : 0,
+                  provider.lottoReceivePrizeRecords.length),
+              builder: (_, tuple3, __) {
+                return tuple3.item1
                     ? LottoAwardShowupItemWidget(
-                        goldNumGrade: tuple2.item2,
+                        goldNumGrade: tuple3.item2,
                         hidePlusIcon: true,
-                        positonLeft: 755,
+                        positonLeft: getPositionLeft(tuple3.item3)[2],
                         callback: () {
                           LuckyGroup luckyGroup =
                               Provider.of<LuckyGroup>(context, listen: false);
@@ -109,6 +127,7 @@ class _LottoAwardShowupWidgetState extends State<LottoAwardShowupWidget> {
                             luckyGroup.showLottoAwardShowup = false;
                             // 返回到pick 5 numbers页面
                             luckyGroup.lottoPickedFinished = false;
+                            luckyGroup.currentPeriodlottoList = [];
 
                             // 金币增加到余额中
                             EVENT_BUS.emit(MoneyGroup.ADD_GOLD_LOTTO,
