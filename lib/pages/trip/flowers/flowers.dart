@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-06 17:42:31
+ * @LastEditTime: 2020-06-06 18:18:32
  */
 import 'dart:math';
 
@@ -459,7 +459,9 @@ class __LuckyModelState extends State<_LuckyModel>
         awardType = '';
       });
 
-      callback != null && callback();
+      if (callback != null) {
+        callback();
+      }
     });
   }
 
