@@ -125,10 +125,6 @@ class _TripState extends State<Trip>
                     },
                   ),
                   Positioned(
-                      right: 0,
-                      top: ScreenUtil().setWidth(180),
-                      child: RightBtns()),
-                  Positioned(
                     bottom: ScreenUtil().setWidth(80),
                     right: 0,
                     child: GestureDetector(
@@ -598,6 +594,18 @@ class _TripState extends State<Trip>
 
         // 金币雨动效
         CoinRainWidget(),
+        Positioned(
+            right: 0,
+            top: ScreenUtil().setWidth(220),
+            child: RightBtns(
+              type: 'auto',
+            )),
+        Positioned(
+            right: 0,
+            bottom: ScreenUtil().setWidth(140),
+            child: RightBtns(
+              type: 'double',
+            )),
       ]),
     );
   }

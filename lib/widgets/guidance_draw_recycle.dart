@@ -202,7 +202,7 @@ class _GuidanceDrawRecycleState extends State<GuidanceDrawRecycleWidget>
             position == null ? null : Position(x: position.x, y: position.y);
         // show = false;
         if (show) {
-          print('--------------------_playAnimation----------');
+          // print('--------------------_playAnimation----------');
           _playAnimation();
         }
 

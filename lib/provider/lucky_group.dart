@@ -513,6 +513,28 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  int _doubleAaintainTime;
+  int get doubleAaintainTime => _doubleAaintainTime;
+
+  set doubleAaintainTime(int value) {
+    _doubleAaintainTime = value;
+    notifyListeners();
+  }
+
+  Timer _doubleMaintainTimer;
+
+  _doubleMaintainTimerRun() {
+    _showDouble = true;
+    doubleAaintainTime = issed?.double_coin_remain_time ?? 10;
+    // Timer.periodic(Duration(seconds: 1), (timer) {
+    //   doubleAaintainTime -= 1;
+    //   _doubleMaintainTimer = timer;
+    //   if (doubleAaintainTime <= 1) {
+    //     _doubleMaintainTimer.cancel();
+    //   }
+    // });
+  }
+
   // 当前是双倍
   bool _showAuto = false;
 
@@ -524,6 +546,7 @@ class LuckyGroup with ChangeNotifier {
       notifyListeners();
     }
     if (value) {
+      _autoMaintainTimerRun();
       Storage.getItem(Consts.SP_KEY_AUTO_MERGE_GUIDANCE).then((value) {
         if (value == null) {
           setShowAutoMergeCircleGuidance = true;
@@ -587,6 +610,29 @@ class LuckyGroup with ChangeNotifier {
     EVENT_BUS.emit(TreeGroup.AUTO_MERGE_END, 1);
     notifyListeners();
   }
+
+  int _atuoMaintainTime;
+  int get atuoMaintainTime => _atuoMaintainTime;
+
+  set atuoMaintainTime(int value) {
+    _atuoMaintainTime = value;
+    notifyListeners();
+  }
+
+  Timer _autoMaintainTimer;
+
+  _autoMaintainTimerRun() {
+    atuoMaintainTime = issed?.automatic_remain_time ?? 10;
+    // Timer.periodic(Duration(seconds: 1), (timer) {
+    //   atuoMaintainTime -= 1;
+    //   _autoMaintainTimer = timer;
+    //   if (atuoMaintainTime <= 1) {
+    //     _autoMaintainTimer.cancel();
+    //   }
+    // });
+  }
+
+  //---------------------------------------------
 
 // 计算领取倒计时
   _transTime(String _last_draw_time) async {
@@ -851,7 +897,7 @@ class LuckyGroup with ChangeNotifier {
     _timerRun(
         time1: issed?.two_adSpace,
         run1: () {
-          _showDouble = true;
+          _doubleMaintainTimerRun();
         },
         time2: issed.double_coin_remain_time,
         run2: () {
@@ -914,7 +960,7 @@ class LuckyGroup with ChangeNotifier {
           time1: issed?.game_timeLen,
           // time1: 10,
           run1: () {
-            _showDouble = true;
+            _doubleMaintainTimerRun();
           },
           time2: issed.double_coin_remain_time,
           run2: () {
@@ -1021,13 +1067,6 @@ class LuckyGroup with ChangeNotifier {
         timer.cancel();
       }
     });
-
-    // if (issed.game_timeLen != null) {
-    //   Future.delayed(Duration(seconds: issed.game_timeLen)).then((e) {
-    //     _showDouble = true;
-    //     notifyListeners();
-    //   });
-    // }
   }
 }
 

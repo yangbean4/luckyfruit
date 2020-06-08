@@ -163,7 +163,6 @@ class Util {
     RenderBox renderBox =
         Consts.globalKeyAutoMerge.currentContext?.findRenderObject();
     offset = renderBox?.localToGlobal(Offset.zero);
-    print("globalKeyAutoMerge:localToGlobal ${offset}");
     return offset;
   }
 

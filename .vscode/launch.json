@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter Profile Mode",
+      "name": "Flutter",
       "type": "dart",
       "request": "launch",
-      "flutterMode": "profile",
+      "program": "lib/main.dart"
     },
     {
       "name": "Flutter: Attach to Device",

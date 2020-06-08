@@ -90,7 +90,7 @@ class _GrowTransition extends StatelessWidget {
       child: new AnimatedBuilder(
         animation: animation,
         builder: (BuildContext context, Widget _) {
-          print('-------------------${animation.value}');
+          // print('-------------------${animation.value}');
           return Opacity(opacity: animation.value, child: child);
         },
       ),
