@@ -54,6 +54,8 @@ class TreeGroup with ChangeNotifier {
 
   String acct_id;
 
+  bool canAutoMerge = true;
+
   // 该模块下的初始化数据加载完成
   bool _dataLoad = false;
 
@@ -629,7 +631,7 @@ class TreeGroup with ChangeNotifier {
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
-        if (!_autoTimeOut) {
+        if (!_autoTimeOut && canAutoMerge) {
           //自动合成状态且不是暂停状态
           _checkMerge();
         }
@@ -672,7 +674,18 @@ class TreeGroup with ChangeNotifier {
   autoMergeEnd(Tree source, Tree target) {
     autoSourceTree = null;
     autoTargetTree = null;
-    mergeTree(source, target);
+    canAutoMerge = false;
+    Layer.showBypassLevelUp(null, () {
+      // 进行越级升级
+      source.grade += 1;
+      target.grade += 1;
+      canAutoMerge = true;
+      mergeTree(source, target);
+    }, () {
+      // 取消越级升级或者不满足弹出条件，走正常升级流程
+      canAutoMerge = true;
+      mergeTree(source, target);
+    }, source, target);
     notifyListeners();
   }
 

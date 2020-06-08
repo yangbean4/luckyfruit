@@ -1137,8 +1137,8 @@ class Layer {
   /// 4. 本地请求到广告了
   static showBypassLevelUp(BuildContext context, Function onOk,
       Function onCancel, Tree source, Tree target) async {
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    LuckyGroup luckyGroup = Initialize.luckyGroup;
+    TreeGroup treeGroup = Initialize.treeGroup;
 
     if (source == null ||
         target == null ||
@@ -1164,7 +1164,9 @@ class Layer {
 //      return;
 //    }
     Modal(
-        onCancel: () {},
+        onCancel: () {
+          onCancel();
+        },
         childrenBuilder: (modal) => <Widget>[
               ModalTitle("Free Upgrade"),
               Container(height: ScreenUtil().setWidth(37)),
