@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -14,6 +13,7 @@ import 'package:tuple/tuple.dart';
 
 class RightBtns extends StatefulWidget {
   final String type;
+
   RightBtns({Key key, this.type}) : super(key: key);
 
   @override
@@ -139,8 +139,8 @@ class _RightBtnsState extends State<RightBtns>
         int autoTime = data.item7;
 
         return Container(
-            width: ScreenUtil().setWidth(294),
-            height: ScreenUtil().setWidth(180),
+//            width: ScreenUtil().setWidth(294),
+//            height: ScreenUtil().setWidth(180),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -153,6 +153,7 @@ class _RightBtnsState extends State<RightBtns>
                           luckyGroup.doubleStart();
                         },
                         child: _ActiveItem(
+                          size: 180,
                           typeChild: Positioned(
                             child: Lottie.asset(
                               'assets/lottiefiles/double/data.json',
@@ -191,9 +192,10 @@ class _RightBtnsState extends State<RightBtns>
                           });
                         },
                         child: _ActiveItem(
+                          size: 210,
                           typeChild: Positioned(
-                            left: ScreenUtil().setWidth(-30),
-                            top: ScreenUtil().setWidth(-30),
+//                            left: ScreenUtil().setWidth(-30),
+//                            top: ScreenUtil().setWidth(-30),
                             child:
                                 // Image.asset(
                                 //   'assets/image/auto_merge.gif',
@@ -202,8 +204,8 @@ class _RightBtnsState extends State<RightBtns>
                                 // )
                                 Lottie.asset(
                               'assets/lottiefiles/automerge/auto.json',
-                              width: ScreenUtil().setWidth(240),
-                              height: ScreenUtil().setWidth(240),
+                              width: ScreenUtil().setWidth(210),
+                              height: ScreenUtil().setWidth(210),
                             ),
                           ),
                           totalDuration: issed?.automatic_remain_time ?? 10,
@@ -230,8 +232,14 @@ class _ActiveItem extends StatefulWidget {
   final Widget typeChild;
   final int totalDuration;
   final int emainingDuration;
+  final int size;
+
   _ActiveItem(
-      {Key key, this.typeChild, this.totalDuration, this.emainingDuration})
+      {Key key,
+      this.typeChild,
+      this.totalDuration,
+      this.emainingDuration,
+      this.size})
       : super(key: key);
 
   @override
@@ -242,6 +250,7 @@ class __ActiveItemState extends State<_ActiveItem>
     with TickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> scaleAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -262,8 +271,8 @@ class __ActiveItemState extends State<_ActiveItem>
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil().setWidth(180),
-      height: ScreenUtil().setWidth(180),
+      width: ScreenUtil().setWidth(widget.size),
+      height: ScreenUtil().setWidth(widget.size),
       decoration: BoxDecoration(
         color: Color.fromRGBO(161, 61, 33, 1),
         borderRadius: BorderRadius.all(Radius.circular(
@@ -276,8 +285,8 @@ class __ActiveItemState extends State<_ActiveItem>
               left: ScreenUtil().setWidth(0),
               top: ScreenUtil().setWidth(0),
               child: Container(
-                width: ScreenUtil().setWidth(180),
-                height: ScreenUtil().setWidth(180),
+                width: ScreenUtil().setWidth(widget.size),
+                height: ScreenUtil().setWidth(widget.size),
                 child: Center(
                     child: AnimatedBuilder(
                         animation: scaleAnimation,
@@ -287,7 +296,7 @@ class __ActiveItemState extends State<_ActiveItem>
                               Color.fromRGBO(31, 235, 51, 1),
                               Color.fromRGBO(31, 235, 51, 1)
                             ],
-                            radius: ScreenUtil().setWidth(80),
+                            radius: ScreenUtil().setWidth(widget.size / 2),
                             stokeWidth: ScreenUtil().setWidth(12),
                             backgroundColor: Color.fromRGBO(161, 61, 33, 1),
                             value: 1.0 - _animationController.value,

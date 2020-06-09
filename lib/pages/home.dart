@@ -15,6 +15,7 @@ import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
+import 'package:luckyfruit/widgets/guidance_draw_circle_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
@@ -366,7 +367,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             selector: (context, provider) =>
                 provider.showAutoMergeCircleGuidance,
             builder: (_, bool show, __) {
-              return show ? GuidanceDrawRRectAutoMergeWidget() : Container();
+              return show ? GuidanceDrawCircleAutoMergeWidget() : Container();
             }),
         // 新手引导-auto merge finger
         Selector<LuckyGroup, bool>(
