@@ -288,9 +288,11 @@ class LuckyGroup with ChangeNotifier {
 
   bool get isLottoCollectCanShow => _isLottoCollectCanShow;
 
-  set isLottoCollectCanShow(bool value) {
+  void setIsLottoCollectCanShow(bool value, {bool notify = true}) {
     _isLottoCollectCanShow = value;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
   }
 
   List<String> _countDownPrizeFromAddData = [];

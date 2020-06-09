@@ -404,7 +404,7 @@ class _TripState extends State<Trip>
                             })),
                   ),
                   Positioned(
-                      right: 0,
+                      right: ScreenUtil().setWidth(30),
                       top: ScreenUtil().setWidth(21),
                       child: Selector<UserModel, bool>(
                           selector: (context, provider) =>
@@ -413,7 +413,7 @@ class _TripState extends State<Trip>
                             return !show
                                 ? Container()
                                 : Container(
-                                    width: ScreenUtil().setWidth(780),
+                                    width: ScreenUtil().setWidth(650),
                                     height: ScreenUtil().setWidth(110),
                                     child: Row(
                                       crossAxisAlignment:
@@ -427,26 +427,26 @@ class _TripState extends State<Trip>
                                         EarningWidget(
                                           EarningWidgetType.Earning_Type_CASH,
                                         ),
-                                        GestureDetector(
-                                            behavior:
-                                                HitTestBehavior.translucent,
-                                            onTap: () {
-                                              BurialReport.report('page_imp',
-                                                  {'page_code': '010'});
-                                              MyNavigator().pushNamed(
-                                                  context, "howToPlay");
-                                            },
-                                            child: Container(
-                                              width: ScreenUtil().setWidth(95),
-                                              height: ScreenUtil().setWidth(74),
-                                              child: Image.asset(
-                                                'assets/image/top_btn_help.png',
-                                                width:
-                                                    ScreenUtil().setWidth(95),
-                                                height:
-                                                    ScreenUtil().setWidth(74),
-                                              ),
-                                            ))
+//                                        GestureDetector(
+//                                            behavior:
+//                                                HitTestBehavior.translucent,
+//                                            onTap: () {
+//                                              BurialReport.report('page_imp',
+//                                                  {'page_code': '010'});
+//                                              MyNavigator().pushNamed(
+//                                                  context, "howToPlay");
+//                                            },
+//                                            child: Container(
+//                                              width: ScreenUtil().setWidth(95),
+//                                              height: ScreenUtil().setWidth(74),
+//                                              child: Image.asset(
+//                                                'assets/image/top_btn_help.png',
+//                                                width:
+//                                                    ScreenUtil().setWidth(95),
+//                                                height:
+//                                                    ScreenUtil().setWidth(74),
+//                                              ),
+//                                            ))
                                       ],
                                     ),
                                   );

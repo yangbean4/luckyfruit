@@ -718,7 +718,7 @@ class _LottoStatusShowcaseWidgetState extends State<LottoStatusShowcaseWidget> {
   void initState() {
     super.initState();
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    luckyGroup.isLottoCollectCanShow = false;
+    luckyGroup.setIsLottoCollectCanShow(false, notify: false);
   }
 
   @override
@@ -995,7 +995,7 @@ class _FlipLottoItemWidgetState extends State<FlipLottoItemWidget>
         print("FlipLottoItemWidget_${widget.index}");
         if ((widget.index + 1) % 6 == 0) {
           Future.delayed(Duration(seconds: 1), () {
-            luckyGroup.isLottoCollectCanShow = true;
+            luckyGroup.setIsLottoCollectCanShow(true);
           });
         }
       }

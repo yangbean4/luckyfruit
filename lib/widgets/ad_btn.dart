@@ -278,7 +278,8 @@ class _AdButtonState extends State<AdButton> {
                             'is_new': "1"
                           });
                         },
-                        child: Padding(
+                        child: Container(
+                            width: ScreenUtil().setWidth(760),
                             padding:
                                 EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                             child: FourthText(
