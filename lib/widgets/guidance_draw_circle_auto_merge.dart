@@ -17,7 +17,7 @@ class InvertedCircleClipper extends CustomClipper<Path> {
     return new Path()
       ..addOval(Rect.fromCircle(
           center: Offset(
-              dx + ScreenUtil().setWidth(105), dy + ScreenUtil().setWidth(105)),
+              dx + ScreenUtil().setWidth(120), dy + ScreenUtil().setWidth(120)),
           radius: radius))
       ..addRect(Rect.fromLTWH(
           0.0, 0.0, ScreenUtil().setWidth(1080), ScreenUtil().setWidth(2500)))
@@ -54,7 +54,7 @@ class _GuidanceDrawCircleState extends State<GuidanceDrawCircleAutoMergeWidget>
 
     scaleTween = Tween<double>(
       begin: ScreenUtil().setWidth(2000),
-      end: ScreenUtil().setWidth(110),
+      end: ScreenUtil().setWidth(120),
     );
 
     scaleAnimation = scaleTween.animate(curveEaseIn)

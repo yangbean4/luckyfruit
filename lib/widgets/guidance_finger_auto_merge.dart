@@ -25,8 +25,8 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
     curveEaseIn = new CurvedAnimation(parent: controller, curve: Curves.linear);
 
     scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.6,
+      begin: .6,
+      end: .4,
     ).animate(curveEaseIn);
 
     scaleAnimation.addListener(() {
@@ -81,9 +81,9 @@ class _GuidanceFingerState extends State with TickerProviderStateMixin {
                   builder: (BuildContext context, Widget child) {
                     return Positioned(
                       left: dx +
-                          ScreenUtil().setWidth(105) -
+                          ScreenUtil().setWidth(120) -
                           ScreenUtil().setWidth(210 / 2),
-                      top: dy,
+                      top: dy + ScreenUtil().setWidth(60),
                       child: Transform.scale(
 //                        scale: 0.1,
                         scale: dx <= 0 ? 0 : scaleAnimation?.value ?? 0,
