@@ -52,6 +52,8 @@ class AdButton extends StatefulWidget {
   final String adIconPath;
   final Map<String, String> adLogParam;
   final List<Shadow> tipsShadows;
+  final bool showTopRightIcon;
+  final bool enableAnimation;
 
   AdButton(
       {Key key,
@@ -77,6 +79,8 @@ class AdButton extends StatefulWidget {
       this.disable = false,
       this.fontSize = 64,
       this.adLogParam,
+      this.showTopRightIcon = false,
+      this.enableAnimation = false,
       this.ad_code})
       : super(key: key);
 
@@ -209,64 +213,7 @@ class _AdButtonState extends State<AdButton> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                GestureDetector(
-                  onTap: onTap,
-                  child: Container(
-                    width: ScreenUtil().setWidth(widget.width),
-                    height: ScreenUtil().setWidth(widget.height),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(
-                        ScreenUtil().setWidth(widget.width / 2),
-                      )),
-                      color: widget.disable ? MyTheme.darkGrayColor : null,
-                      boxShadow: [
-                        //阴影
-                        BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 2.0),
-                      ],
-                      gradient: LinearGradient(
-                          begin: Alignment(0.0, -1.0),
-                          end: Alignment(0.0, 1.0),
-                          colors: widget.disable
-                              ? (widget.colorsOnBtnDisabled ??
-                                  widget.colorsOnBtn)
-                              : widget.colorsOnBtn),
-//                        image: widget.disable
-//                            ? null
-//                            : DecorationImage(
-//                                alignment: Alignment.center,
-//                                image: AssetImage('assets/image/ad_btn.png'),
-//                                fit: BoxFit.cover,
-//                              )
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        widget.useAd && !widget.disable
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    right: ScreenUtil().setWidth(33)),
-                                child: Image.asset(
-                                  widget.adIconPath,
-                                  width: ScreenUtil().setWidth(75),
-                                  height: ScreenUtil().setWidth(75),
-                                ),
-                              )
-                            : Container(),
-                        SizedBox(width: ScreenUtil().setWidth(24)),
-                        ModalTitle(
-                          widget.btnText,
-                          color: Colors.white,
-                          fontsize: widget.fontSize,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                _AdButtonTitleWidget(adButton: widget, onTap: onTap),
                 widget.useAd && widget.onCancel != null
                     ? GestureDetector(
                         onTap: () {
@@ -318,5 +265,137 @@ class _AdButtonState extends State<AdButton> {
               ],
             ),
           );
+  }
+}
+
+class _AdButtonTitleWidget extends StatefulWidget {
+  final Function onTap;
+
+  final AdButton adButton;
+
+  _AdButtonTitleWidget({this.adButton, this.onTap});
+
+  @override
+  __AdButtonTitleWidgetState createState() => __AdButtonTitleWidgetState();
+}
+
+class __AdButtonTitleWidgetState extends State<_AdButtonTitleWidget>
+    with TickerProviderStateMixin {
+  Animation<double> scaleAnimation;
+  AnimationController scaleAnimationController;
+  bool isDispose = false;
+
+  @override
+  void initState() {
+    super.initState();
+    scaleAnimationController = new AnimationController(
+      duration: Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    final CurvedAnimation treeCurve = new CurvedAnimation(
+        parent: scaleAnimationController, curve: Curves.easeIn);
+    scaleAnimation =
+        new Tween(begin: 1.0, end: widget.adButton.enableAnimation ? 1.1 : 1.0)
+            .animate(treeCurve)
+              ..addStatusListener((status) {
+                print("scaleAnimation_status_$status");
+                if (status == AnimationStatus.dismissed) {
+                  runAction();
+                }
+              });
+    runAction();
+  }
+
+  Future<void> runAction() async {
+    if (isDispose) {
+      return;
+    }
+    await scaleAnimationController?.forward();
+    await scaleAnimationController?.reverse();
+  }
+
+  @override
+  void dispose() {
+    isDispose = true;
+    scaleAnimationController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: scaleAnimation,
+        builder: (BuildContext context, Widget child) {
+          return GestureDetector(
+            onTap: widget.onTap,
+            child: Transform.scale(
+              scale: scaleAnimation.value,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().setWidth(widget.adButton.width),
+                    height: ScreenUtil().setWidth(widget.adButton.height),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(
+                        ScreenUtil().setWidth(widget.adButton.width / 2),
+                      )),
+                      color: widget.adButton.disable
+                          ? MyTheme.darkGrayColor
+                          : null,
+                      boxShadow: [
+                        //阴影
+                        BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 2.0),
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: widget.adButton.disable
+                              ? (widget.adButton.colorsOnBtnDisabled ??
+                                  widget.adButton.colorsOnBtn)
+                              : widget.adButton.colorsOnBtn),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        widget.adButton.useAd && !widget.adButton.disable
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    right: ScreenUtil().setWidth(33)),
+                                child: Image.asset(
+                                  widget.adButton.adIconPath,
+                                  width: ScreenUtil().setWidth(75),
+                                  height: ScreenUtil().setWidth(75),
+                                ),
+                              )
+                            : Container(),
+                        SizedBox(width: ScreenUtil().setWidth(24)),
+                        ModalTitle(
+                          widget.adButton.btnText,
+                          color: Colors.white,
+                          fontsize: widget.adButton.fontSize,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ),
+                  ),
+                  widget.adButton.showTopRightIcon
+                      ? Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Image.asset(
+                            'assets/image/value2.png',
+                            width: ScreenUtil().setWidth(124),
+                            height: ScreenUtil().setWidth(108),
+                          ))
+                      : Positioned(top: 0, right: 0, child: Container())
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

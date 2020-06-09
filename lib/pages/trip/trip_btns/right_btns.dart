@@ -153,14 +153,25 @@ class _RightBtnsState extends State<RightBtns>
                       luckyGroup.doubleStart();
                     },
                     child: _ActiveItem(
-                      size: 180,
+                      size: 170,
                       typeChild: Positioned(
-                        child: Lottie.asset(
-                          'assets/lottiefiles/double/data.json',
-                          width: ScreenUtil().setWidth(180),
-                          height: ScreenUtil().setWidth(180),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(161, 61, 33, 1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Lottie.asset(
+                            'assets/lottiefiles/double/data.json',
+                            width: ScreenUtil().setWidth(170),
+                            height: ScreenUtil().setWidth(170),
+                          ),
                         ),
                       ),
+                      indicatorColor: [
+                        Color.fromRGBO(161, 61, 33, 1),
+                        Color.fromRGBO(161, 61, 33, 1)
+                      ],
+                      radius: ScreenUtil().setWidth(170 / 2),
                       totalDuration: issed?.double_coin_remain_time ?? 10,
                       emainingDuration: _luckyGroup.doubleAaintainTime ?? 10,
                     ))
@@ -191,7 +202,7 @@ class _RightBtnsState extends State<RightBtns>
                       });
                     },
                     child: _ActiveItem(
-                      size: 210,
+                      size: 240,
                       typeChild: Positioned(
 //                            left: ScreenUtil().setWidth(-30),
 //                            top: ScreenUtil().setWidth(-30),
@@ -203,10 +214,12 @@ class _RightBtnsState extends State<RightBtns>
                             // )
                             Lottie.asset(
                           'assets/lottiefiles/automerge/auto.json',
-                          width: ScreenUtil().setWidth(210),
-                          height: ScreenUtil().setWidth(210),
+                          width: ScreenUtil().setWidth(240),
+                          height: ScreenUtil().setWidth(240),
                         ),
                       ),
+                      indicatorColor: [Colors.white, Colors.white],
+                      radius: ScreenUtil().setWidth(240 / 2 - 35),
                       totalDuration: issed?.automatic_remain_time ?? 10,
                       emainingDuration: _luckyGroup.atuoMaintainTime ?? 10,
                     ))
@@ -231,12 +244,16 @@ class _ActiveItem extends StatefulWidget {
   final int totalDuration;
   final int emainingDuration;
   final int size;
+  final List<Color> indicatorColor;
+  final double radius;
 
   _ActiveItem(
       {Key key,
       this.typeChild,
       this.totalDuration,
       this.emainingDuration,
+      this.indicatorColor,
+      this.radius,
       this.size})
       : super(key: key);
 
@@ -272,13 +289,13 @@ class __ActiveItemState extends State<_ActiveItem>
       width: ScreenUtil().setWidth(widget.size),
       height: ScreenUtil().setWidth(widget.size),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(161, 61, 33, 1),
         borderRadius: BorderRadius.all(Radius.circular(
           ScreenUtil().setWidth(103),
         )),
       ),
       child: Stack(
         children: <Widget>[
+          widget.typeChild,
           Positioned(
               left: ScreenUtil().setWidth(0),
               top: ScreenUtil().setWidth(0),
@@ -290,18 +307,14 @@ class __ActiveItemState extends State<_ActiveItem>
                         animation: scaleAnimation,
                         builder: (BuildContext context, Widget child) {
                           return GradientCircularProgressIndicator(
-                            colors: [
-                              Color.fromRGBO(161, 61, 33, 1),
-                              Color.fromRGBO(161, 61, 33, 1)
-                            ],
-                            radius: ScreenUtil().setWidth(widget.size / 2),
+                            colors: widget.indicatorColor,
+                            radius: widget.radius,
                             stokeWidth: ScreenUtil().setWidth(12),
                             backgroundColor: Color.fromRGBO(31, 235, 51, 1),
                             value: _animationController.value,
                           );
                         })),
               )),
-          widget.typeChild,
         ],
       ),
     );

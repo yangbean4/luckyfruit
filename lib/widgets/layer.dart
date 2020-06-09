@@ -1320,31 +1320,23 @@ class Layer {
               ),
               Padding(
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(46)),
-                child: Stack(overflow: Overflow.visible, children: [
-                  AdButton(
-                    ad_code: '208',
-                    adUnitIdFlag: 2,
-                    btnText: '+${Util.formatNumber(glod * 2)}',
-                    onCancel: () {
-                      modal.hide();
-                      onOk(false);
-                    },
-                    onOk: (isFromAd) {
-                      modal.hide();
-                      onOk(true);
-                    },
-                    // tips:
-                    //     "Number of videos reset at 12am&12pm (${userInfo.ad_times} times left)",
-                  ),
-                  Positioned(
-                      top: 0,
-                      right: ScreenUtil().setWidth(80),
-                      child: Image.asset(
-                        'assets/image/value2.png',
-                        width: ScreenUtil().setWidth(124),
-                        height: ScreenUtil().setWidth(108),
-                      ))
-                ]),
+                child: AdButton(
+                  ad_code: '208',
+                  adUnitIdFlag: 2,
+                  enableAnimation: true,
+                  showTopRightIcon: true,
+                  btnText: '+${Util.formatNumber(glod * 2)}',
+                  onCancel: () {
+                    modal.hide();
+                    onOk(false);
+                  },
+                  onOk: (isFromAd) {
+                    modal.hide();
+                    onOk(true);
+                  },
+                  // tips:
+                  //     "Number of videos reset at 12am&12pm (${userInfo.ad_times} times left)",
+                ),
               ),
             ]).show();
   }

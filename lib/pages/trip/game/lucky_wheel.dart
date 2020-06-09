@@ -356,8 +356,20 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                               data.item3.ticket += 5;
                               ticketCount = data.item3.ticket;
 
-                              // 用掉了一次看广告换转盘券的机会，本地减去1
-                              data.item3.ticket_time--;
+                              int watchAdTicketFromServer =
+                                  value['data'] != null
+                                      ? value['data']['times']
+                                      : 0;
+
+                              print(
+                                  "watchAdTicketFromServer_${watchAdTicketFromServer},"
+                                  " originalTimes_${watchAdForTicketTimes}");
+                              if (watchAdTicketFromServer > 0) {
+                                data.item3.ticket_time =
+                                    watchAdTicketFromServer;
+                              } else {
+                                data.item3.ticket_time--;
+                              }
                               watchAdForTicketTimes = data.item3.ticket_time;
 
                               if (watchAdForTicketTimes <= 0) {
