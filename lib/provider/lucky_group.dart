@@ -432,20 +432,6 @@ class LuckyGroup with ChangeNotifier {
 // 展示广告时间
   DateTime _showAdtime;
 
-// // 是否显示双倍的入口按钮
-//   bool _showDouble = false;
-//   bool get showDouble => _showDouble;
-
-// //  当前是双倍
-//   bool _isDoublee = false;
-//   bool get isDouble => _isDoublee;
-//   // 是否显示双倍的入口按钮
-//   bool _showAuto = false;
-//   bool get showAuto => _showAuto;
-//   // 是否显示双倍的入口按钮
-//   bool _isAuto = false;
-//   bool get isAuto => _isAuto;
-
   // 后端返回的数据 如果为空说明是第一次领取
   String last_draw_time;
 

@@ -142,87 +142,85 @@ class _RightBtnsState extends State<RightBtns>
 //            width: ScreenUtil().setWidth(294),
 //            height: ScreenUtil().setWidth(180),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                widget.type == 'double' && showDouble
-                    ? AdButton(
-                        ad_code: '201',
-                        adUnitIdFlag: 1,
-                        onOk: (isFromAd) {
-                          luckyGroup.doubleStart();
-                        },
-                        child: _ActiveItem(
-                          size: 180,
-                          typeChild: Positioned(
-                            child: Lottie.asset(
-                              'assets/lottiefiles/double/data.json',
-                              width: ScreenUtil().setWidth(180),
-                              height: ScreenUtil().setWidth(180),
-                            ),
-                          ),
-                          totalDuration: issed?.double_coin_remain_time ?? 10,
-                          emainingDuration:
-                              _luckyGroup.doubleAaintainTime ?? 10,
-                        ))
-                    : Container(),
-                widget.type == 'double' && isDouble
-                    ? renderItem(
-                        type: 'double',
-                        topString: 'Earn X${issed?.reward_multiple}',
-                        bottom: runderBottomString(
-                          Util.formatCountDownTimer(
-                              Duration(seconds: doubleTime ?? 2)),
-                        ))
-                    : Container(),
-                widget.type == 'auto' && showAuto
-                    ? AdButton(
-                        ad_code: '202',
-                        adUnitIdFlag: 2,
-                        key: Consts.globalKeyAutoMerge,
-                        useAd: !luckyGroup.showAutoMergeCircleGuidance,
-                        onOk: (isFromAd) {
-                          //success
-                          luckyGroup.setShowAutoMergeCircleGuidance = false;
-                          luckyGroup.setShowAutoMergeFingerGuidance = false;
-                          luckyGroup.autoStart();
-                          luckyGroup.autoMergeDurationFromLuckyWheel = 0;
-                          setState(() {
-                            isAuto = true;
-                          });
-                        },
-                        child: _ActiveItem(
-                          size: 210,
-                          typeChild: Positioned(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            widget.type == 'double' && showDouble
+                ? AdButton(
+                    ad_code: '201',
+                    adUnitIdFlag: 1,
+                    onOk: (isFromAd) {
+                      luckyGroup.doubleStart();
+                    },
+                    child: _ActiveItem(
+                      size: 180,
+                      typeChild: Positioned(
+                        child: Lottie.asset(
+                          'assets/lottiefiles/double/data.json',
+                          width: ScreenUtil().setWidth(180),
+                          height: ScreenUtil().setWidth(180),
+                        ),
+                      ),
+                      totalDuration: issed?.double_coin_remain_time ?? 10,
+                      emainingDuration: _luckyGroup.doubleAaintainTime ?? 10,
+                    ))
+                : Container(),
+            widget.type == 'double' && isDouble
+                ? renderItem(
+                    type: 'double',
+                    topString: 'Earn X${issed?.reward_multiple}',
+                    bottom: runderBottomString(
+                      Util.formatCountDownTimer(
+                          Duration(seconds: doubleTime ?? 2)),
+                    ))
+                : Container(),
+            widget.type == 'auto' && showAuto
+                ? AdButton(
+                    ad_code: '202',
+                    adUnitIdFlag: 2,
+                    key: Consts.globalKeyAutoMerge,
+                    useAd: !luckyGroup.showAutoMergeCircleGuidance,
+                    onOk: (isFromAd) {
+                      //success
+                      luckyGroup.setShowAutoMergeCircleGuidance = false;
+                      luckyGroup.setShowAutoMergeFingerGuidance = false;
+                      luckyGroup.autoStart();
+                      luckyGroup.autoMergeDurationFromLuckyWheel = 0;
+                      setState(() {
+                        isAuto = true;
+                      });
+                    },
+                    child: _ActiveItem(
+                      size: 210,
+                      typeChild: Positioned(
 //                            left: ScreenUtil().setWidth(-30),
 //                            top: ScreenUtil().setWidth(-30),
-                            child:
-                                // Image.asset(
-                                //   'assets/image/auto_merge.gif',
-                                //   width: ScreenUtil().setWidth(260),
-                                //   height: ScreenUtil().setWidth(260),
-                                // )
-                                Lottie.asset(
-                              'assets/lottiefiles/automerge/auto.json',
-                              width: ScreenUtil().setWidth(210),
-                              height: ScreenUtil().setWidth(210),
-                            ),
-                          ),
-                          totalDuration: issed?.automatic_remain_time ?? 10,
-                          emainingDuration: _luckyGroup.atuoMaintainTime ?? 10,
-                        ))
-                    : Container(),
-                widget.type == 'auto' && isAuto
-                    ? renderItem(
-                        type: 'auto',
-                        topString: 'Auto',
-                        bottom: runderBottomString(
-                          Util.formatCountDownTimer(
-                              Duration(seconds: autoTime)),
-                        ))
-                    : Container(),
-              ],
-            ));
+                        child:
+                            // Image.asset(
+                            //   'assets/image/auto_merge.gif',
+                            //   width: ScreenUtil().setWidth(260),
+                            //   height: ScreenUtil().setWidth(260),
+                            // )
+                            Lottie.asset(
+                          'assets/lottiefiles/automerge/auto.json',
+                          width: ScreenUtil().setWidth(210),
+                          height: ScreenUtil().setWidth(210),
+                        ),
+                      ),
+                      totalDuration: issed?.automatic_remain_time ?? 10,
+                      emainingDuration: _luckyGroup.atuoMaintainTime ?? 10,
+                    ))
+                : Container(),
+            widget.type == 'auto' && isAuto
+                ? renderItem(
+                    type: 'auto',
+                    topString: 'Auto',
+                    bottom: runderBottomString(
+                      Util.formatCountDownTimer(Duration(seconds: autoTime)),
+                    ))
+                : Container(),
+          ],
+        ));
       },
     );
   }
@@ -293,13 +291,13 @@ class __ActiveItemState extends State<_ActiveItem>
                         builder: (BuildContext context, Widget child) {
                           return GradientCircularProgressIndicator(
                             colors: [
-                              Color.fromRGBO(31, 235, 51, 1),
-                              Color.fromRGBO(31, 235, 51, 1)
+                              Color.fromRGBO(161, 61, 33, 1),
+                              Color.fromRGBO(161, 61, 33, 1)
                             ],
                             radius: ScreenUtil().setWidth(widget.size / 2),
                             stokeWidth: ScreenUtil().setWidth(12),
-                            backgroundColor: Color.fromRGBO(161, 61, 33, 1),
-                            value: 1.0 - _animationController.value,
+                            backgroundColor: Color.fromRGBO(31, 235, 51, 1),
+                            value: _animationController.value,
                           );
                         })),
               )),
