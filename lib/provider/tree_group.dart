@@ -625,10 +625,10 @@ class TreeGroup with ChangeNotifier {
   // 自动合成开启
   _autoMerge() {
     // 动画时间的1.2倍时间检查一次
-    final ti = (AnimationConfig.AutoMergeTime * 2).toInt();
-    final period = Duration(milliseconds: ti);
+    // final ti = (AnimationConfig.AutoMergeTime * 2.5).toInt();
+    // final period = Duration(milliseconds: ti);
 
-    // final period = Duration(milliseconds: 1100);
+    final period = Duration(milliseconds: 500);
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
