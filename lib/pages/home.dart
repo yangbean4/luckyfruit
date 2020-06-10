@@ -376,7 +376,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             builder: (_, bool show, __) {
               return show ? GuidanceFingerAutoMergeWidget() : Container();
             }),
-        // lotto开奖后的领奖动效
         Selector<LuckyGroup, bool>(
             selector: (context, provider) => provider.showLottoAwardShowup,
             builder: (_, bool show, __) {

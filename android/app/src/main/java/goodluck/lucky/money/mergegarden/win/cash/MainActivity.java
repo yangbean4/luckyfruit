@@ -60,7 +60,6 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
     private MethodChannel eventChannel;
     // private CallbackManager callbackManager;
     ThinkingAnalyticsSDK tdInstance;
-    AppInstallReceiver installReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +142,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
                                 String geo = SenUtils.getCountry();
                                 Log.i("tago",
                                         String.format("onCreate_params: "
-                                                        + "isDebug:%s, isUsb:%s, battery:%s, isRoot:%s, geo:%s, language:%s",
+                                                + "isDebug:%s, isUsb:%s, battery:%s, isRoot:%s, geo:%s, language:%s",
                                                 isDebug, isUsb, batteryLevel, isRoot, geo, language));
 
                                 Map<String, String> map = new HashMap<>();
@@ -218,13 +217,13 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
 
         // 初始化 mopub SDK
         initRewardAds();
-
-        installReceiver = new AppInstallReceiver();
         // 监听安装卸载
         registerReceiver(this);
+
+        // callbackManager = CallbackManager.Factory.create();
     }
 
-    private void registerReceiver(Context context) {
+    private static void registerReceiver(Context context) {
 
         if (context == null) {
             return;
@@ -233,7 +232,7 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        context.registerReceiver(installReceiver, filter);
+        context.registerReceiver(new AppInstallReceiver(), filter);
     }
 
     // private void sendMessage(final MethodChannel.Result result, String
@@ -464,13 +463,6 @@ public class MainActivity extends FlutterActivity implements MoPubRewardedVideoL
         super.onDestroy();
         MoPubRewardedVideos.setRewardedVideoListener(null);
         MoPub.onDestroy(this);
-        try {
-            if (installReceiver != null) {
-                unregisterReceiver(installReceiver);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
