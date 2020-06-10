@@ -448,6 +448,7 @@ class TreeGroup with ChangeNotifier {
         _luckyGroup.setShowLuckyWheelDot(true, notify: false);
       }
     }
+
     return this;
   }
 
@@ -624,10 +625,10 @@ class TreeGroup with ChangeNotifier {
   // 自动合成开启
   _autoMerge() {
     // 动画时间的1.2倍时间检查一次
-    // final ti = (AnimationConfig.AutoMergeTime * 1.5).toInt();
-    // final period = Duration(milliseconds: ti);
+    final ti = (AnimationConfig.AutoMergeTime * 2).toInt();
+    final period = Duration(milliseconds: ti);
 
-    final period = Duration(milliseconds: 1100);
+    // final period = Duration(milliseconds: 1100);
     Timer.periodic(period, (_tim) {
       timer = _tim;
       if (_isAuto) {
@@ -659,11 +660,25 @@ class TreeGroup with ChangeNotifier {
               t.grade < Tree.MAX_LEVEL - 1,
           orElse: () => null);
       if (source != null) {
-        autoSourceTree = source;
-        autoTargetTree = target;
+        if (flowerMatrix[target.y][target.x] != null ||
+            flowerMatrix[source.y][source.x] != null) {
+          continue;
+          // if (flowerMatrix[source.y][source.x] != null) {
+          //   // 两个点都有花的动画在执行
+          //   continue;
+          // } else {
+          //   // 合成位置有花的动画正在执行 则交换位置，
+          //   autoSourceTree = target;
+          //   autoTargetTree = source;
+          // }
+        } else {
+          // 正常的 source Tree 飞往 target的位置进行合并
+          autoSourceTree = source;
+          autoTargetTree = target;
+        }
 
         // 从列表中删除 开始自动合成动画
-        _treeList.remove(source);
+        _treeList.remove(autoSourceTree);
         notifyListeners();
         break;
       }
@@ -1126,7 +1141,7 @@ class TreeGroup with ChangeNotifier {
   static int CAN_GET_FLOWER_LEVEL = 8;
 
 // 获得🌹队列
-  List<int> _flowerList = [];
+  List<int> _flowerCountList = [];
 
   // 当前拥有🌹的个数
   int _hasFlowerCount = 0;
@@ -1146,16 +1161,7 @@ class TreeGroup with ChangeNotifier {
     _userModel.upDate({'flower_nums': min(hasFlowerCount, 150)});
   }
 
-  // 进行动画用的🌹个数
-  int _animationUseflower = 0;
-
-  int get animationUseflower => _animationUseflower;
-
-  set animationUseflower(int count) {
-    _animationUseflower = count;
-    notifyListeners();
-  }
-
+// 花瓣抽奖抽到限时分红树
   Tree _flowerMakeTree;
 
   Tree get flowerMakeTree => _flowerMakeTree;
@@ -1170,97 +1176,7 @@ class TreeGroup with ChangeNotifier {
     notifyListeners();
   }
 
-  // 进行动画用的🌹个数
-  int _gridAnimationUseflower = 0;
-
-  int get gridAnimationUseflower => _gridAnimationUseflower;
-
-  set gridAnimationUseflower(int count) {
-    _gridAnimationUseflower = count;
-    notifyListeners();
-  }
-
-  // 进行动画用的🌹个数
-  int _gridReverseAnimationUseflower = 0;
-
-  int get gridReverseAnimationUseflower => _gridReverseAnimationUseflower;
-
-  set gridReverseAnimationUseflower(int count) {
-    _gridReverseAnimationUseflower = count;
-    notifyListeners();
-  }
-
-  int _flyAnimationUseflower = 0;
-
-  int get flyAnimationUseflower => _flyAnimationUseflower;
-
-  set flyAnimationUseflower(int count) {
-    _flyAnimationUseflower = count;
-    notifyListeners();
-  }
-
-  TreePoint _gridFlowerPoint;
-
-  TreePoint get gridFlowerPoint => _gridFlowerPoint;
-
-  set gridFlowerPoint(TreePoint count) {
-    _gridFlowerPoint = count;
-    notifyListeners();
-  }
-
-  TreePoint _gridReverseFlowerPoint;
-
-  TreePoint get gridReverseFlowerPoint => _gridReverseFlowerPoint;
-
-  set gridReverseFlowerPoint(TreePoint count) {
-    _gridReverseFlowerPoint = count;
-    notifyListeners();
-  }
-
-  TreePoint _flowerPoint;
-
-  TreePoint get flowerPoint => _flowerPoint;
-
-  set flowerPoint(TreePoint count) {
-    _flowerPoint = count;
-    notifyListeners();
-  }
-
-  TreePoint _flowerFlyPoint;
-
-  TreePoint get flowerFlyPoint => _flowerFlyPoint;
-
-  set flowerFlyPoint(TreePoint count) {
-    _flowerFlyPoint = count;
-    notifyListeners();
-  }
-
-  // 获取花朵数据
-  _getFlower() async {
-    List<int> list = await Service().getFlower({'acct_id': acct_id});
-    _flowerList.addAll(list);
-  }
-
-  _checkFlower(int x, int y) {
-    // if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
-    //   return;
-    // }
-    if (_flowerList.length != 0
-        //  &&
-        //     ((animationUseflower == 0 && animationUseflower == 0) ||
-        //         _flowerList[0] == 0
-        //         )
-        ) {
-      gridFlowerPoint = TreePoint(x: x, y: y);
-      gridAnimationUseflower = _flowerList[0];
-      // gridAnimationUseflower = 150;
-      _flowerList.removeAt(0);
-    }
-    if (_flowerList.length < 10) {
-      _getFlower();
-    }
-  }
-
+  // 花瓣抽奖抽到lotto碎片
   int _lottoAnimationNumber = 0;
 
   int get lottoAnimationNumber => _lottoAnimationNumber;
@@ -1269,5 +1185,80 @@ class TreeGroup with ChangeNotifier {
     _lottoAnimationNumber = count;
     _luckyGroup.lottoTicketNumTotal += count;
     notifyListeners();
+  }
+
+  // 获取花朵数据
+  _getFlower() async {
+    List<int> list = await Service().getFlower({'acct_id': acct_id});
+    _flowerCountList.addAll(list);
+  }
+
+  static const String ADD_FLOWER_ANIMATE = 'ADD_FLOWER_ANIMATE';
+  static const String ADD_FLOWER_NUMBER = 'ADD_FLOWER_NUMBER';
+
+  // Tree列表
+  List<FlowerPoint> _flowerList = [];
+
+  List<FlowerPoint> get flowerList => _flowerList;
+
+  // 转成二维数组
+  List<List<FlowerPoint>> get flowerMatrix {
+    List<List<FlowerPoint>> flowerMatrix = List(GameConfig.Y_AMOUNT);
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      List<FlowerPoint> yFlower = List(GameConfig.X_AMOUNT);
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        FlowerPoint flower = _flowerList.firstWhere((t) => t.x == x && t.y == y,
+            orElse: () => null);
+        // 会出现gradle==0的情况
+        if (flower?.count == 0) {
+          _flowerList.remove(flower);
+          continue;
+        }
+        yFlower[x] = flower;
+      }
+      flowerMatrix[y] = yFlower;
+    }
+
+    return flowerMatrix;
+  }
+
+  flowerGridAnimateEnd(FlowerPoint flower) {
+    FlowerPoint flowerPoint =
+        _flowerList.firstWhere((t) => t == flower, orElse: () => null);
+
+    flowerPoint.showGridAnimate = false;
+    flowerPoint.showGridReverse = true;
+    notifyListeners();
+  }
+
+  flowerGridAnimatReEnd(FlowerPoint flower) {
+    FlowerPoint flowerPoint =
+        _flowerList.firstWhere((t) => t == flower, orElse: () => null);
+
+    flowerPoint.showGridReverse = false;
+    flowerPoint.showFlyAnimate = true;
+    notifyListeners();
+  }
+
+  flowerFlyAnimatReEnd(FlowerPoint flower) {
+    EVENT_BUS.emit(TreeGroup.ADD_FLOWER_NUMBER, flower.count);
+    _flowerList.remove(flower);
+    notifyListeners();
+  }
+
+  _checkFlower(int x, int y) {
+    // if (hasMaxLevel < TreeGroup.CAN_GET_FLOWER_LEVEL) {
+    //   return;
+    // }
+    if (_flowerCountList.length != 0) {
+      // _flowerCountList[0] = 15;
+      if (_flowerCountList[0] > 0) {
+        _flowerList.add(FlowerPoint(x, y, count: _flowerCountList[0]));
+      }
+      _flowerCountList.removeAt(0);
+    }
+    if (_flowerCountList.length < 10) {
+      _getFlower();
+    }
   }
 }

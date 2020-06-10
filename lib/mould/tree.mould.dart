@@ -14,6 +14,16 @@ class TreePoint {
   });
 }
 
+class FlowerPoint extends TreePoint {
+  int count;
+  bool showGridAnimate = true;
+  bool showGridReverse = false;
+  bool showFlyAnimate = false;
+  bool showFlowerAnimate = false;
+
+  FlowerPoint(x, y, {this.count}) : super(x: x, y: y);
+}
+
 class Tree extends TreePoint {
   static const int MAX_LEVEL = 38;
   static TreeConfig treeConfig;

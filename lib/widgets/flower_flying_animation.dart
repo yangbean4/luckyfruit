@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-29 19:35:46
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-06 12:47:17
+ * @LastEditTime: 2020-06-10 19:05:32
  */
 
 import 'dart:math';
@@ -13,12 +13,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/utils/position.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-class FlowerFlyingAnimation extends StatelessWidget {
+class FlowerFlyingAnimation extends StatefulWidget {
+  FlowerFlyingAnimation({Key key}) : super(key: key);
+
+  @override
+  _FlowerFlyingAnimationState createState() => _FlowerFlyingAnimationState();
+}
+
+class _FlowerFlyingAnimationState extends State<FlowerFlyingAnimation> {
+  Offset offsetEnd;
+  List<List<Offset>> offsetStrList;
+
   static Offset getPhonePositionInfoWithGlobalKey(GlobalKey globalKey) {
     Offset offset = Offset(0, 0);
     RenderBox renderBox = globalKey.currentContext?.findRenderObject();
@@ -27,67 +38,128 @@ class FlowerFlyingAnimation extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        offsetEnd =
+            getPhonePositionInfoWithGlobalKey(Consts.globalKeyFlowerPosition);
+        offsetStrList = getOffset();
+      });
+    });
+  }
+
+  List<List<Offset>> getOffset() {
+    List<List<Offset>> grids = List(GameConfig.Y_AMOUNT);
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      List<Offset> yFlower = List(GameConfig.X_AMOUNT);
+
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        yFlower[x] =
+            getPhonePositionInfoWithGlobalKey(Consts.treeGroupGlobalKey[y][x]);
+      }
+      grids[y] = yFlower;
+    }
+    return grids;
+  }
+
+  List<Widget> renderGridforPos(BuildContext context) {
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context);
+    List<List<FlowerPoint>> flowerMatrix = treeGroup.flowerMatrix;
+
+    List<Widget> grids = [];
+
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        FlowerPoint flowerPoint = flowerMatrix[y][x];
+
+        grids.add(Positioned(
+          left: 0,
+          top: 0,
+          child: Container(
+            width: ScreenUtil().setWidth(1080),
+            height: ScreenUtil().setHeight(1920),
+            child: _FlyFlower(
+              flowerFlyPoint: flowerPoint,
+              offsetEnd: offsetEnd,
+              offsetStrList: offsetStrList,
+              onFinish: () {
+                TreeGroup treeGroup =
+                    Provider.of<TreeGroup>(context, listen: false);
+                treeGroup.flowerFlyAnimatReEnd(flowerPoint);
+              },
+            ),
+          ),
+        ));
+      }
+    }
+    return grids;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Selector<TreeGroup, Tuple2<TreePoint, int>>(
-        builder: (_, data, __) {
-          TreePoint flowerFlyPoint = data.item1;
+    return Positioned(
+        left: 0,
+        top: 0,
+        child: Container(
+          width: ScreenUtil().setWidth(1080),
+          height: ScreenUtil().setHeight(1920),
+          // color: Colors.red,
+          child: Stack(
+            children: renderGridforPos(context),
+          ),
+        ));
+  }
+}
 
-          int number = data.item2;
-          Offset offsetSt;
-          Offset offsetEnd;
+class _FlyFlower extends StatelessWidget {
+  final FlowerPoint flowerFlyPoint;
+  final Function onFinish;
+  final Offset offsetEnd;
+  final List<List<Offset>> offsetStrList;
 
-          if (flowerFlyPoint != null) {
-            offsetSt = getPhonePositionInfoWithGlobalKey(
-                Consts.treeGroupGlobalKey[flowerFlyPoint.y][flowerFlyPoint.x]);
-            offsetEnd = getPhonePositionInfoWithGlobalKey(
-                Consts.globalKeyFlowerPosition);
-            // );
-          }
+  _FlyFlower(
+      {Key key,
+      this.flowerFlyPoint,
+      this.onFinish,
+      this.offsetStrList,
+      this.offsetEnd})
+      : super(key: key);
 
-          return number != 0 && flowerFlyPoint != null
-              ? Positioned(
-                  left: 0,
-                  top: 0,
-                  child: Container(
-                    width: ScreenUtil().setWidth(1080),
-                    height: ScreenUtil().setHeight(1920),
-                    // color: Colors.red,
-                    child: _FlyGroup(
-                      onFinish: () {
-                        TreeGroup moneyGroup =
-                            Provider.of<TreeGroup>(context, listen: false);
-                        moneyGroup.flowerPoint = moneyGroup.flowerFlyPoint;
-                        moneyGroup.animationUseflower =
-                            moneyGroup.flyAnimationUseflower;
+  @override
+  Widget build(BuildContext context) {
+    Offset offsetSt;
 
-                        moneyGroup.flyAnimationUseflower = 0;
-                        moneyGroup.flowerFlyPoint = null;
-                      },
-                      count: 1,
-                      endPos: Position(
-                          x: offsetEnd.dx + ScreenUtil().setWidth(15),
-                          y: offsetEnd.dy + ScreenUtil().setWidth(15)),
-                      startCenter: Position(
-                          x: offsetSt.dx + ScreenUtil().setWidth(172),
-                          y: offsetSt.dy + ScreenUtil().setWidth(160)),
-                      radius: ScreenUtil().setWidth(20),
-                      animateTime: Duration(milliseconds: 1000),
-                      child: Container(
-                        width: ScreenUtil().setWidth(40),
-                        height: ScreenUtil().setWidth(41),
-                        child: Image.asset(
-                          'assets/image/flower/img_flower.png',
-                          width: ScreenUtil().setWidth(40),
-                          height: ScreenUtil().setWidth(41),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : Container();
-        },
-        selector: (context, provider) =>
-            Tuple2(provider.flowerFlyPoint, provider.flyAnimationUseflower));
+    if (flowerFlyPoint != null && offsetEnd != null) {
+      offsetSt = offsetStrList[flowerFlyPoint.y][flowerFlyPoint.x];
+    }
+    return offsetSt != null &&
+            offsetEnd != null &&
+            flowerFlyPoint != null &&
+            flowerFlyPoint.count != 0 &&
+            flowerFlyPoint.showFlyAnimate
+        ? _FlyGroup(
+            onFinish: onFinish,
+            count: 1,
+            endPos: Position(
+                x: offsetEnd.dx + ScreenUtil().setWidth(15),
+                y: offsetEnd.dy + ScreenUtil().setWidth(15)),
+            startCenter: Position(
+                x: offsetSt.dx + ScreenUtil().setWidth(172),
+                y: offsetSt.dy + ScreenUtil().setWidth(160)),
+            radius: ScreenUtil().setWidth(20),
+            animateTime: Duration(milliseconds: 1000),
+            child: Container(
+              width: ScreenUtil().setWidth(40),
+              height: ScreenUtil().setWidth(41),
+              child: Image.asset(
+                'assets/image/flower/img_flower.png',
+                width: ScreenUtil().setWidth(40),
+                height: ScreenUtil().setWidth(41),
+              ),
+            ),
+          )
+        : Container();
   }
 }
 
@@ -215,8 +287,8 @@ class _FlyAnimationState extends State<FlyAnimation>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override

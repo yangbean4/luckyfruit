@@ -18,8 +18,7 @@ class GridItem extends StatefulWidget {
   final Tree tree;
   final Tree animateTargetTree;
   final Tree animateSourceTree;
-  final int gridAnimationUseflower;
-  final int gridReverseAnimationUseflower;
+  final FlowerPoint flowerPoint;
 
   final GlobalKey flowerKey;
 
@@ -30,8 +29,7 @@ class GridItem extends StatefulWidget {
     this.animateTargetTree,
     this.flowerKey,
     this.animateSourceTree,
-    this.gridAnimationUseflower,
-    this.gridReverseAnimationUseflower,
+    this.flowerPoint,
   })  : showAnimation = animateTargetTree != null,
         super(key: key);
 
@@ -64,8 +62,13 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Widget _tree = TreeItem(widget.tree);
-    int flower = widget.gridAnimationUseflower;
-    int reverseFlower = widget.gridReverseAnimationUseflower;
+    FlowerPoint flowerPoint = widget.flowerPoint;
+    int flower = flowerPoint != null && flowerPoint.showGridAnimate
+        ? flowerPoint.count
+        : 0;
+    int reverseFlower = flowerPoint != null && flowerPoint.showGridReverse
+        ? flowerPoint.count
+        : 0;
     Widget opcityChild = Container(
       width: ScreenUtil().setWidth(120),
       height: ScreenUtil().setWidth(41),
@@ -167,17 +170,19 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                     // ),
 
                     child: FrameAnimationImage(
-                        List<String>.generate(
-                            19, (e) => 'assets/image/merge/merge_$e.png'),
-                        width: ScreenUtil().setWidth(200),
-                        interval: 300,
-                        height: ScreenUtil().setWidth(200), onFinish: () {
-                      TreeGroup treeGroup =
-                          Provider.of<TreeGroup>(context, listen: false);
+                      List<String>.generate(
+                          19, (e) => 'assets/image/merge/merge_$e.png'),
+                      width: ScreenUtil().setWidth(200),
+                      interval: 300,
+                      height: ScreenUtil().setWidth(200),
+                      onFinish: () {
+                        TreeGroup treeGroup =
+                            Provider.of<TreeGroup>(context, listen: false);
 
-                      treeGroup
-                          .removeAnimateTargetTree(widget.animateSourceTree);
-                    }),
+                        treeGroup
+                            .removeAnimateTargetTree(widget.animateSourceTree);
+                      },
+                    ),
                   ),
                 )
               : Container(),
@@ -191,12 +196,7 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                     onForwardFinish: () {
                       TreeGroup treeGroup =
                           Provider.of<TreeGroup>(context, listen: false);
-                      treeGroup.gridReverseAnimationUseflower =
-                          treeGroup.gridAnimationUseflower;
-                      treeGroup.gridReverseFlowerPoint =
-                          treeGroup.gridFlowerPoint;
-                      treeGroup.gridFlowerPoint = null;
-                      treeGroup.gridAnimationUseflower = 0;
+                      treeGroup.flowerGridAnimateEnd(flowerPoint);
                     },
                     child: opcityChild,
                   ),
@@ -213,13 +213,7 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
                     onForwardFinish: () {
                       TreeGroup treeGroup =
                           Provider.of<TreeGroup>(context, listen: false);
-                      treeGroup.flyAnimationUseflower =
-                          treeGroup.gridReverseAnimationUseflower;
-
-                      treeGroup.flowerFlyPoint =
-                          treeGroup.gridReverseFlowerPoint;
-                      treeGroup.gridReverseFlowerPoint = null;
-                      treeGroup.gridReverseAnimationUseflower = 0;
+                      treeGroup.flowerGridAnimatReEnd(flowerPoint);
                     },
                     child: opcityChild,
                   ),

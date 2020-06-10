@@ -181,8 +181,8 @@ class _FlyAnimationState extends State<FlyAnimation>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override

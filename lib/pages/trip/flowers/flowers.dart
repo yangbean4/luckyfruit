@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-06 18:18:32
+ * @LastEditTime: 2020-06-09 21:10:47
  */
 import 'dart:math';
 
@@ -19,6 +19,7 @@ import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/burial_report.dart';
+import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import './lotto_award_showup_Item_widget.dart';
@@ -42,6 +43,9 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   AnimationController _controller;
   bool dialogIsShow = false;
   int period = 500;
+  // 花瓣数目队列
+  List<int> flowerNumber = [];
+  bool showAddFlowerAnimation = false;
 
   Offset getPhonePositionInfoWithGlobalKey(GlobalKey globalKey) {
     Offset offset = Offset(0, 0);
@@ -53,6 +57,19 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+// bus通知执行动画， 如果没执行完 先中止上次的动画，然后开始新的动画
+    EVENT_BUS.on(TreeGroup.ADD_FLOWER_NUMBER, (_) {
+      if (showAnimation || showAddFlowerAnimation) {
+        animateEnd();
+      }
+      flowerNumber.add(_);
+      Future.delayed(Duration(microseconds: 10)).then((e) {
+        setState(() {
+          showAddFlowerAnimation = true;
+        });
+      });
+    });
+
     _controller = AnimationController(vsync: this)
       ..addStatusListener((status) {
         print(status);
@@ -72,6 +89,19 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       gifController.repeat(
           min: 0, max: 9, period: Duration(milliseconds: period));
+    });
+  }
+
+  animateEnd() {
+    if (flowerNumber[0] != null) {
+      TreeGroup tourismMap = Provider.of<TreeGroup>(context, listen: false);
+      tourismMap.hasFlowerCount += flowerNumber[0];
+      flowerNumber.removeAt(0);
+    }
+
+    setState(() {
+      showAnimation = false;
+      showAddFlowerAnimation = false;
     });
   }
 
@@ -105,17 +135,14 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
             height: ScreenUtil().setWidth(105),
             // color: Colors.red,
             // level flowernumber animationUseflower
-            child: Selector<TreeGroup, Tuple4<int, int, int, TreePoint>>(
-              selector: (context, provider) => Tuple4(
-                  provider.hasMaxLevel,
-                  provider.hasFlowerCount,
-                  provider.animationUseflower,
-                  provider.flowerPoint),
+            child: Selector<TreeGroup, Tuple2<int, int>>(
+              selector: (context, provider) => Tuple2(
+                provider.hasMaxLevel,
+                provider.hasFlowerCount,
+              ),
               builder: (_, data, __) {
                 int level = data.item1;
                 int flowernumber = data.item2;
-                int animationUseflower = data.item3;
-                TreePoint flowerPoint = data.item4;
 
                 double flowersProgess =
                     min(flowernumber / TreeGroup.FLOWER_LUCKY_NUMBER, 1);
@@ -195,7 +222,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                         height: ScreenUtil().setWidth(105),
                       ),
                     ),
-                    animationUseflower != 0 && flowerPoint != null
+                    showAddFlowerAnimation
                         ? Positioned(
                             left: ScreenUtil().setWidth((940 - width) / 2),
                             top: ScreenUtil().setWidth(18),
@@ -208,16 +235,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                                   Future.delayed(Duration(
                                           milliseconds: (period).toInt()))
                                       .then((value) {
-                                    setState(() {
-                                      showAnimation = false;
-                                    });
-                                    TreeGroup tourismMap =
-                                        Provider.of<TreeGroup>(context,
-                                            listen: false);
-                                    tourismMap.hasFlowerCount +=
-                                        animationUseflower;
-                                    tourismMap.animationUseflower = 0;
-                                    tourismMap.flowerPoint = null;
+                                    animateEnd();
                                   });
                                 });
                               },
@@ -254,7 +272,7 @@ class _FlowersState extends State<Flowers> with TickerProviderStateMixin {
                     Positioned(
                       left: ScreenUtil().setWidth(18),
                       top: ScreenUtil().setWidth(8),
-                      child: animationUseflower != 0 && flowerPoint != null
+                      child: showAddFlowerAnimation
                           ? ExpandAnimation(
                               animateTime: Duration(milliseconds: 200),
                               count: 1,

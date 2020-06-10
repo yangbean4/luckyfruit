@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Author:  bean^ <bean_4@163.com>
+ * @Date: 2020-04-21 14:48:57
+ * @LastEditors:  bean^ <bean_4@163.com>
+ * @LastEditTime: 2020-06-10 16:25:28
+ */
 import 'package:flutter/material.dart';
 
 // 帧动画Image
@@ -28,6 +35,7 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
   Animation<double> _animation;
   AnimationController _controller;
   List<Widget> images = [];
+  bool check = false;
 
   @override
   void initState() {
@@ -62,7 +70,11 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
     if (widget.repeat) {
       await _controller.repeat().orCancel;
     } else {
-      await _controller.forward().orCancel;
+      if (!check && mounted) {
+        await _controller.forward();
+      }
+      // try {
+      // } catch (e) {}
     }
     widget.onFinish();
   }
@@ -70,6 +82,7 @@ class _FrameAnimationImageState extends State<FrameAnimationImage>
   @override
   void dispose() {
     _controller.dispose();
+    check = true;
     super.dispose();
   }
 
