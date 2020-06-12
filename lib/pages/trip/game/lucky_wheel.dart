@@ -29,10 +29,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
     // 关闭之后检查是否需要开始auto merge
     LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
     if (luckyGroup.autoMergeDurationFromLuckyWheel > 0) {
-      luckyGroup.setShowAutoMergeCircleGuidance = false;
-      luckyGroup.setShowAutoMergeFingerGuidance = false;
       luckyGroup.autoStart();
-      luckyGroup.autoMergeDurationFromLuckyWheel = 0;
     }
 
     if (fromAppLaunch) {

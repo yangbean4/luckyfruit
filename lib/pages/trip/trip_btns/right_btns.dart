@@ -193,10 +193,7 @@ class _RightBtnsState extends State<RightBtns>
                     useAd: !luckyGroup.showAutoMergeCircleGuidance,
                     onOk: (isFromAd) {
                       //success
-                      luckyGroup.setShowAutoMergeCircleGuidance = false;
-                      luckyGroup.setShowAutoMergeFingerGuidance = false;
-                      luckyGroup.autoStart();
-                      luckyGroup.autoMergeDurationFromLuckyWheel = 0;
+                      luckyGroup.autoStart(runNext: true);
                       setState(() {
                         isAuto = true;
                       });

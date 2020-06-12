@@ -562,18 +562,31 @@ class LuckyGroup with ChangeNotifier {
 
   bool get isAuto => _isAuto;
 
-  void autoStart() {
+  /// @name:
+  /// @param [runNext] {bool} 是否执行下次广告入口检查
+  /// @return:
+  void autoStart({bool runNext = false}) {
     _isAuto = true;
-    hideAutoAndNextRun();
-    EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
-    _automatic_time = autoMergeDurationFromLuckyWheel > 0
-        ? autoMergeDurationFromLuckyWheel
-        : issed?.automatic_time;
-    _runAutoTimer();
+
+    if (runNext) {
+      hideAutoAndNextRun();
+      _automatic_time += issed?.automatic_time;
+    } else {
+      _automatic_time += autoMergeDurationFromLuckyWheel;
+    }
+
+    if (autoTimer == null) {
+      _runAutoTimer();
+      EVENT_BUS.emit(TreeGroup.AUTO_MERGE_START);
+    }
+    autoMergeDurationFromLuckyWheel = 0;
+    setShowAutoMergeCircleGuidance = false;
+    setShowAutoMergeFingerGuidance = false;
+
     notifyListeners();
   }
 
-  int _automatic_time;
+  int _automatic_time = 0;
 
   int get automatic_time => _automatic_time;
 
@@ -599,6 +612,7 @@ class LuckyGroup with ChangeNotifier {
       autoTimer = timer;
       if (automatic_time <= 1) {
         timer.cancel();
+        autoTimer = null;
         autoEnd();
       }
     });
