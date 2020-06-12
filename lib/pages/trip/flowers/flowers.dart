@@ -3,8 +3,9 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-09 21:10:47
+ * @LastEditTime: 2020-06-12 16:49:18
  */
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ import 'package:lottie/lottie.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/garden_news/garden_news.dart';
+import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -22,7 +25,7 @@ import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/utils/event_bus.dart';
 import 'package:luckyfruit/widgets/expand_animation.dart';
 import 'package:luckyfruit/widgets/layer.dart';
-import './lotto_award_showup_Item_widget.dart';
+import 'package:luckyfruit/widgets/receive_award_animate.dart';
 import 'package:luckyfruit/widgets/opcity_animation.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -379,8 +382,6 @@ class __LuckyModelState extends State<_LuckyModel>
   AnimationController controller;
   Tween<double> curTween;
   int giftId;
-  int awardCount = 0;
-  String awardType = '';
   Map<String, dynamic> res;
   Duration duration = Duration(milliseconds: 1500);
 
@@ -455,31 +456,31 @@ class __LuckyModelState extends State<_LuckyModel>
                         {treeGroup.lottoAnimationNumber = lottoNumber});
 
                 break;
+              case 3:
+                LuckyGroup treeGroup =
+                    Provider.of<LuckyGroup>(context, listen: false);
+
+                goAward(1, DwardType.attack, callback: () {
+                  treeGroup.attackNumTotal += 1;
+                  GardenNews.show(context);
+                });
+                break;
             }
           }
-
-          Future.delayed(duration).then((value) {
-            onCloseWindow(context);
-          });
         }
       });
     // _handleStartSpin();
   }
 
   void goAward(int count, String type, {Function callback}) {
-    setState(() {
-      awardCount = count;
-      awardType = type;
-    });
-    Future.delayed(duration).then((value) {
-      setState(() {
-        awardCount = 0;
-        awardType = '';
-      });
-
+    ReceiveAwardAnimate.show(context,
+        animationTime: duration,
+        awardAcount: count,
+        awardType: type, callback: () {
       if (callback != null) {
         callback();
       }
+      onCloseWindow(context);
     });
   }
 
@@ -490,7 +491,8 @@ class __LuckyModelState extends State<_LuckyModel>
 
   ///接口中取到结果后更新
   updateTween() {
-    double needAngle = giftId == 0 ? 2 / 3 : giftId == 2 ? 0 : 4 / 3;
+    double needAngle =
+        giftId == 0 ? 1 : giftId == 2 ? 0 : giftId == 3 ? 1.5 : 0.5;
     curTween.end = curTween.end + needAngle;
     controller.forward();
   }
@@ -503,14 +505,13 @@ class __LuckyModelState extends State<_LuckyModel>
     });
 
     // TODO 测试
-//    String test = """
+//     String test = """
 //    {
-//      "gift_id": 0,
-//      "gift_name": "Lotto X 2",
-//      "ticket_num": 2
+//  "gift_id": 3,
+//     "gift_name": "attack"
 //    }
 //    """;
-//    luckResultMap = json.decode(test);
+//     luckResultMap = json.decode(test);
     res = luckResultMap;
     if (luckResultMap == null) {
       Layer.toastWarning("Failed, Try Agagin Later");
@@ -600,36 +601,6 @@ class __LuckyModelState extends State<_LuckyModel>
               ),
             ),
           ),
-          awardCount != 0
-              ? Positioned(
-                  left: 0,
-                  bottom: 0,
-                  child: GestureDetector(
-                    // onTap: () {
-                    //   setState(() {
-                    //     awardCount = 0;
-                    //   });
-                    //   Future.delayed(Duration(seconds: 2))
-                    //       .then((value) => setState(() {
-                    //             awardCount = 10;
-                    //           }));
-                    // },
-                    child: Container(
-                      width: ScreenUtil().setWidth(1080),
-                      height: ScreenUtil().setHeight(1920),
-                      color: Color.fromRGBO(0, 0, 0, 0.5),
-                      child: Stack(children: [
-                        LottoAwardShowupItemWidget(
-                          positonLeft: 395,
-                          hidePlusIcon: true,
-                          animationTime: duration - Duration(milliseconds: 600),
-                          goldNum: awardCount,
-                          awardType: awardType,
-                        )
-                      ]),
-                    ),
-                  ))
-              : Container()
         ]));
   }
 }

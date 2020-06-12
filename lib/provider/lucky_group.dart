@@ -54,6 +54,8 @@ class LuckyGroup with ChangeNotifier {
 
   static const String RECRIVE_TIME_CACHE = 'RECRIVE_TIME_CACHE';
 
+  UserModel _userModel;
+
   String acct_id;
 
   // 该模块下的初始化数据加载完成
@@ -723,10 +725,12 @@ class LuckyGroup with ChangeNotifier {
     String last_draw_time = userModel.value.last_draw_time;
     String _acct_id = userModel.value.acct_id;
     String configVersion = userModel.value.version;
-
+    _userModel = userModel;
     String share_version = userModel.value.share_version;
     lottoRemainingTimesToday = userModel.value.lotto_residue_time;
     lottoTicketNumTotal = userModel.value.lotto_nums;
+    _attackNumTotal = userModel.value.lotto_nums;
+
     // TODO 测试
 //    lottoTicketNumTotal = 0;
 //    lottoRemainingTimesToday = 2;
@@ -1100,6 +1104,21 @@ class LuckyGroup with ChangeNotifier {
         timer.cancel();
       }
     });
+  }
+
+  // 当前拥有铲子的个数
+  int _attackNumTotal = 0;
+
+  int get attackNumTotal => _attackNumTotal;
+
+  set attackNumTotal(int count) {
+    _attackNumTotal = count;
+    _submitattackNumTotal();
+    notifyListeners();
+  }
+
+  _submitattackNumTotal() {
+    _userModel.upDate({'attack_num': _attackNumTotal});
   }
 }
 

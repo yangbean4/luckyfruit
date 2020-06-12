@@ -11,35 +11,50 @@ class DwardType {
   static const gold = 'gold';
   static const tree = 'tree';
   static const lotto = 'lotto';
+  static const attack = 'attack';
 }
 
-class LottoAwardShowupItemWidget extends StatefulWidget {
+class ReceiveAwardAnimate {
+  static show(
+    context, {
+    Function callback,
+    int awardAcount,
+    String awardType,
+    Duration animationTime,
+  }) {
+    showDialog(
+        context: context,
+        builder: (_) => _ReceiveAwardAnimate(
+              callback: callback,
+              awardAcount: awardAcount,
+              awardType: awardType,
+              animationTime: animationTime,
+            ));
+  }
+}
+
+class _ReceiveAwardAnimate extends StatefulWidget {
   Function callback;
-  int positonLeft;
-  bool hidePlusIcon;
-  int goldNumGrade;
-  int goldNum;
+  int awardAcount;
   String awardType;
   Duration animationTime;
 
-  LottoAwardShowupItemWidget(
+  _ReceiveAwardAnimate(
       {this.callback,
-      this.positonLeft,
-      this.goldNum,
       this.awardType,
       this.animationTime = const Duration(milliseconds: 1000),
-      this.hidePlusIcon = false,
-      this.goldNumGrade});
+      this.awardAcount});
 
   @override
-  _LottoAwardShowupItemWidgetState createState() =>
-      _LottoAwardShowupItemWidgetState();
+  __ReceiveAwardAnimateState createState() => __ReceiveAwardAnimateState();
 }
 
-class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
+class __ReceiveAwardAnimateState extends State<_ReceiveAwardAnimate>
     with TickerProviderStateMixin {
   Animation<double> scaleImageAnimation;
   Animation<double> posImageAnimation;
+  Animation<double> opaImageAnimation;
+
   AnimationController controller;
 
   Map<String, Widget> imageSource = {
@@ -59,6 +74,11 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
       key: Consts.globalKeyFlowerSpinLotto,
       width: ScreenUtil().setWidth(290),
       height: ScreenUtil().setWidth(290),
+    ),
+    DwardType.attack: Image.asset(
+      'assets/image/attack.png',
+      width: ScreenUtil().setWidth(209),
+      height: ScreenUtil().setWidth(232),
     )
   };
   Map<String, Widget> labelSource = {};
@@ -66,11 +86,12 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
   Map<String, num> positonLeft = {
     DwardType.gold: 246,
     DwardType.tree: 246,
-    DwardType.lotto: 395
+    DwardType.lotto: 395,
+    DwardType.attack: 260
   };
 
   bool _visible = false;
-  num goldNum;
+  num awardAcount;
   LuckyGroup luckyGroup;
 
   @override
@@ -78,8 +99,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
     super.initState();
 
     luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    goldNum = widget.goldNum ??
-        luckyGroup.getCoinNumWithWinningGrade(widget.goldNumGrade);
+    awardAcount = widget.awardAcount;
 
     controller =
         new AnimationController(duration: widget.animationTime, vsync: this);
@@ -91,7 +111,18 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
         parent: controller,
         curve: Interval(
           0.0,
-          1.0,
+          0.6,
+          curve: Curves.ease,
+        )));
+
+    opaImageAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+        parent: controller,
+        curve: Interval(
+          0.6,
+          0.7,
           curve: Curves.ease,
         )));
 
@@ -102,17 +133,15 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
         parent: controller,
         curve: Interval(
           0.0,
-          1.0,
+          0.6,
           curve: Curves.ease,
         )))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          setState(() {
-            _visible = true;
-            if (widget.callback != null) {
-              widget.callback();
-            }
-          });
+          if (widget.callback != null) {
+            widget.callback();
+          }
+          Navigator.pop(context);
         }
       });
 
@@ -122,7 +151,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
           height: ScreenUtil().setWidth(120),
           // alignment: Alignment(1, 0),
           child: GoldText(
-            Util.formatNumber(goldNum),
+            Util.formatNumber(awardAcount),
             textSize: 60,
             iconSize: 54,
             textColor: Colors.white,
@@ -132,7 +161,7 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
         height: ScreenUtil().setWidth(120),
         // alignment: Alignment(-0.5, 0),
         child: Text(
-          'The Limited Time \nBonus Tree x $goldNum',
+          'The Limited Time \nBonus Tree x $awardAcount',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -144,12 +173,24 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
         ),
       ),
       DwardType.lotto: GoldText(
-        goldNum.toString(),
+        awardAcount.toString(),
         textSize: 60,
         iconSize: 54,
         imgUrl: "assets/image/lotto_tickets_icon.png",
         textColor: Colors.white,
-      )
+      ),
+      DwardType.attack: Container(
+        width: ScreenUtil().setWidth(600),
+        height: ScreenUtil().setWidth(120),
+        // alignment: Alignment(1, 0),
+        child: GoldText(
+          awardAcount.toString(),
+          textSize: 60,
+          iconSize: 54,
+          imgUrl: "assets/image/attack.png",
+          textColor: Colors.white,
+        ),
+      ),
     };
 
     controller.forward().orCancel;
@@ -157,33 +198,40 @@ class _LottoAwardShowupItemWidgetState extends State<LottoAwardShowupItemWidget>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        builder: (BuildContext context, Widget child) {
-          return Positioned(
-            bottom: posImageAnimation?.value ?? 0,
-            left: ScreenUtil().setWidth(positonLeft[widget.awardType]),
-            // left: ScreenUtil().setWidth(widget.positonLeft),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.5),
+      body: Stack(children: [
+        AnimatedBuilder(
+            builder: (BuildContext context, Widget child) {
+              return Positioned(
+                bottom: posImageAnimation?.value ?? 0,
+                left: ScreenUtil().setWidth(positonLeft[widget.awardType]),
+                // left: ScreenUtil().setWidth(widget.positonLeft),
 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Transform.scale(
-                  scale: scaleImageAnimation?.value ?? 0,
-                  alignment: Alignment.center,
-                  child: imageSource[widget.awardType],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Transform.scale(
+                      scale: scaleImageAnimation?.value ?? 0,
+                      alignment: Alignment.center,
+                      child: imageSource[widget.awardType],
+                    ),
+                    Opacity(
+                      opacity: opaImageAnimation.value,
+                      child: labelSource[widget.awardType],
+                    )
+                    // AnimatedOpacity(
+                    //   opacity: _visible ? 1.0 : 0.0,
+                    //   duration: Duration(milliseconds: 100),
+
+                    // )
+                  ],
                 ),
-                AnimatedOpacity(
-                  opacity: _visible ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 100),
-                  child: labelSource[widget.awardType],
-                )
-              ],
-            ),
-          );
-        },
-        animation: controller);
+              );
+            },
+            animation: controller)
+      ]),
+    );
   }
-
-  num getGoldNum(int grade) {}
 }

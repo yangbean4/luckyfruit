@@ -110,7 +110,7 @@ class Layer {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
-                            Radius.circular(ScreenUtil().setWidth(30))),
+                            Radius.circular(ScreenUtil().setWidth(100))),
                       ),
                       child: Column(
                         children: <Widget>[
