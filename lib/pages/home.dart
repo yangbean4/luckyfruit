@@ -17,7 +17,6 @@ import 'package:luckyfruit/utils/method_channel.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle.dart';
 import 'package:luckyfruit/widgets/guidance_draw_circle_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_draw_rrect.dart';
-import 'package:luckyfruit/widgets/guidance_draw_rrect_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_finger.dart';
 import 'package:luckyfruit/widgets/guidance_finger_auto_merge.dart';
 import 'package:luckyfruit/widgets/guidance_first_get_money.dart';
@@ -26,6 +25,7 @@ import 'package:luckyfruit/widgets/guidance_welcome.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/lotto_award_showup_widget.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
+import 'package:luckyfruit/widgets/revenge_gold_flowing_widget.dart';
 import 'package:provider/provider.dart';
 
 import './trip/trip.dart';
@@ -376,10 +376,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             builder: (_, bool show, __) {
               return show ? GuidanceFingerAutoMergeWidget() : Container();
             }),
+        // lotto领取奖励的动效
         Selector<LuckyGroup, bool>(
             selector: (context, provider) => provider.showLottoAwardShowup,
             builder: (_, bool show, __) {
               return show ? LottoAwardShowupWidget() : Container();
+            }),
+        // 偷树时喷涌出的金币效果
+        Selector<LuckyGroup, bool>(
+            selector: (context, provider) => provider.showRevengeGoldFlowing,
+            builder: (_, bool show, __) {
+              return show ? RevengeGoldFlowingFlyGroup() : Container();
             }),
       ],
     );

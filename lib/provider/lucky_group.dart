@@ -397,6 +397,16 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  // 偷树的时候喷涌出金币
+  bool _showRevengeGoldFlowing = false;
+
+  bool get showRevengeGoldFlowing => _showRevengeGoldFlowing;
+
+  set showRevengeGoldFlowing(bool value) {
+    _showRevengeGoldFlowing = value;
+    notifyListeners();
+  }
+
   /// 是否显示auto merge的circle指引
   bool _showAutoMergeCircleGuidance = false;
 
@@ -502,6 +512,7 @@ class LuckyGroup with ChangeNotifier {
   }
 
   int _doubleAaintainTime;
+
   int get doubleAaintainTime => _doubleAaintainTime;
 
   set doubleAaintainTime(int value) {
@@ -600,6 +611,7 @@ class LuckyGroup with ChangeNotifier {
   }
 
   int _atuoMaintainTime;
+
   int get atuoMaintainTime => _atuoMaintainTime;
 
   set atuoMaintainTime(int value) {
