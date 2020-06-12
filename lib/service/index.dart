@@ -96,6 +96,14 @@ class Service {
     return response.data['data'];
   }
 
+  // 获取大转盘结果（新版）
+  Future<Map<String, dynamic>> getLuckyWheelResultV2(
+      Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Roulette/playRouletteV2', data: data);
+    return response.data['data'];
+  }
+
   // 获取大转盘结果
   Future<Map<String, dynamic>> exchangeRouletteGift(
       Map<String, dynamic> data) async {

@@ -1,11 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:luckyfruit/models/index.dart';
-import 'package:luckyfruit/pages/trip/game/huge_win.dart';
-import 'package:luckyfruit/pages/trip/game/times_reward.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
@@ -47,7 +46,7 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: ScreenUtil().setWidth(900),
+          width: ScreenUtil().setWidth(844),
           height: ScreenUtil().setWidth(1240),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -65,13 +64,13 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
             Positioned(
                 top: -ScreenUtil().setWidth(80),
                 child: Container(
-                    width: ScreenUtil().setWidth(900),
+                    width: ScreenUtil().setWidth(844),
                     padding: EdgeInsets.symmetric(horizontal: 10),
 //                    color: Colors.red,
                     child: LuckyWheelWidget(null, onCloseWindow))),
             Positioned(
-                top: ScreenUtil().setWidth(50),
-                right: ScreenUtil().setWidth(50),
+                top: ScreenUtil().setWidth(20),
+                right: ScreenUtil().setWidth(20),
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
@@ -113,6 +112,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 上一次转到的位置，只在上次是翻倍奖励的时候返回，其他时候返回0
   int prevPos = 0;
+
+  /// 返回限时分红树时的数据字段
+  num treeId;
+  double amount;
+  int treeType;
+
   Tween<double> curTween;
 
   // 默认3圈
@@ -129,7 +134,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
   // 当前剩余观看广告次数，用尽后不能再触发点击
   int watchAdForTicketTimes = 0;
-  String testJson = """{"gift_id":5,"coin":1000,"prev":0,"duration":6}""";
+  String testJson = """{"gift_id":6,"coin":1000,"prev":0,"duration":6}""";
 
   num coinNum = 0;
   int watched_ad = 0;
@@ -189,7 +194,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   Future<dynamic> getLuckResult(BuildContext context) async {
     TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
     dynamic luckResultMap;
-    luckResultMap = await Service().getLuckyWheelResult({
+    luckResultMap = await Service().getLuckyWheelResultV2({
       'acct_id': treeGroup.acct_id,
       'coin_speed': treeGroup.makeGoldSped,
       'watched_ad': watched_ad
@@ -314,10 +319,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
                     Color(0xffF59A22),
                   ],
                   colorsOnBtnDisabled: [
-                    Color(0xffF3DB83),
-                    Color(0xffF3DB83),
+                    Color(0xffD4992B),
+                    Color(0xffD4992B),
                   ],
                   btnText: btnText,
+                  descText: "reset at 00:00",
+                  colorOfDisableedText: Color(0xffEEDD9B),
                   useAd: ticketCount <= 0,
                   disable: disable,
                   onCancel: () {
@@ -422,8 +429,12 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       coinNum = luckResultMap['coin'] as num;
       durationOfAutoMerge = luckResultMap['duration'] as num;
 
-      print(
-          "返回的gift_id=$finalPos，coin=$coinNum, durationOfAutoMerge=$durationOfAutoMerge");
+      /// 以下是得到限时分红树时才会返回的
+      treeId = luckResultMap['tree_id'] as num;
+      amount = luckResultMap['amount'] as num;
+
+      print("返回的gift_id=$finalPos，coin=$coinNum, "
+          "durationOfAutoMerge=$durationOfAutoMerge, treeId=$treeId, amout=$amount");
 
       if (mounted) {
         setState(() {
@@ -442,139 +453,65 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
   }
 
   double _getAngelWithSelectedPosition(int pos) {
-    var x = 0.125;
+    var x = 2 / 6;
     switch (pos) {
-      case 8:
-        return 2 * x;
-        break;
-      case 7:
-        return 4 * x;
-        break;
       case 6:
-        return 6 * x;
+        return 3 / 2 * x;
         break;
       case 5:
-        return 8 * x;
+        return 5 / 2 * x;
         break;
       case 4:
-        return 10 * x;
+        return 7 / 2 * x;
         break;
       case 3:
-        return 12 * x;
+        return 9 / 2 * x;
         break;
       case 2:
-        return 14 * x;
+        return 11 / 2 * x;
         break;
       case 1:
-        return 0;
+        return 1 / 2 * x;
         break;
       default:
         return 0;
     }
   }
 
-//  double _getAngelWithSelectedPosition(int pos) {
-//    var x = 0.14, y = 0.22, z = 1 / 2;
-//    switch (pos) {
-//      case 8:
-//        return x + y;
-//        break;
-//      case 7:
-//        return z + x;
-//        break;
-//      case 6:
-//        return z + x + y;
-//        break;
-//      case 5:
-//        return 2 * z + x;
-//        break;
-//      case 4:
-//        return 2 * z + x + y;
-//        break;
-//      case 3:
-//        return 3 * z + x;
-//        break;
-//      case 2:
-//        print("_getAngelWithSelectedPosition $pos ${3 * z + x + y}");
-//        return 3 * z + x + y;
-//        break;
-//      case 1:
-//        return x;
-//        break;
-//      default:
-//        return 0;
-//    }
-//  }
-
+  /**
+   *  1、1hour coins                   Huge
+      2、The limited Bouns Tree
+      3、15min  coins                  Big
+      4、auto merge
+      5、30min coins                   Mega
+      6、attack
+   */
   void showRewardWindowWithFinalPostion(int finalPosition) {
-    int luckyWheelType;
     switch (finalPosition) {
-      case 8:
-        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_5_TIMES, () {
-          watched_ad = 1;
-        }, () {
-          watched_ad = 0;
-        });
-        return;
-      case 7:
-      case 3:
-        if (prevPos == 8) {
-          // 如果上次返回的是5倍奖励
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN_5X;
-        } else if (prevPos == 4) {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN_10X;
-        } else {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_MEGE_WIN;
-        }
+      case 1:
+        // huge，1hour coin
         break;
-      case 6:
       case 2:
-        if (prevPos == 8) {
-          // 如果上次返回的是5倍奖励
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN_5X;
-        } else if (prevPos == 4) {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN_10X;
-        } else {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_HUGE_WIN;
-        }
+        // The limited Bouns Tree
         break;
-      case 5:
-//        if (prevPos == 8) {
-//          // 如果上次返回的是5倍奖励
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_5X;
-//        } else if (prevPos == 4) {
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN_10X;
-//        } else {
-//          luckyWheelType = LuckyWheelWinResultWindow.TYPE_JACKPOT_WIN;
-//        }
-//        break;
+      case 3:
+        // big，15min coin
+        break;
+      case 4:
         // 转到auto merge，每次一分钟
         LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
         luckyGroup.autoMergeDurationFromLuckyWheel += durationOfAutoMerge;
         Layer.showAutoMergeInLuckyWheel();
         return;
-      case 4:
-        Layer.show5TimesTreasureWindow(TimesRewardWidget.TYPE_10_TIMES, () {
-          watched_ad = 1;
-        }, () {
-          watched_ad = 0;
-        });
-        return;
-      case 1:
-        if (prevPos == 8) {
-          // 如果上次返回的是5倍奖励
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_5X;
-        } else if (prevPos == 4) {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN_10X;
-        } else {
-          luckyWheelType = LuckyWheelWinResultWindow.TYPE_BIG_WIN;
-        }
+      case 5:
+      // mega，30min coin
+        break;
+      case 6:
+      // attack
         break;
       default:
         Layer.toastWarning("Failed, Please Try Agagin Later");
         return;
     }
-
-    Layer.showLuckWheelWinResultWindow(luckyWheelType, coinNum);
   }
 }

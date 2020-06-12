@@ -49,11 +49,13 @@ class AdButton extends StatefulWidget {
 
   final List<Color> colorsOnBtn;
   final List<Color> colorsOnBtnDisabled;
+  final Color colorOfDisableedText;
   final String adIconPath;
   final Map<String, String> adLogParam;
   final List<Shadow> tipsShadows;
   final bool showTopRightIcon;
   final bool enableAnimation;
+  final String descText;
 
   AdButton(
       {Key key,
@@ -72,6 +74,8 @@ class AdButton extends StatefulWidget {
       this.tips = 'Number of videos reset at 12am&12pm ({{times}} times left)',
       this.tipsColor,
       this.interval = const Duration(seconds: 2),
+      this.colorOfDisableedText = Colors.white,
+      this.descText,
       this.onOk,
       this.width = 600,
       this.height = 124,
@@ -373,11 +377,26 @@ class __AdButtonTitleWidgetState extends State<_AdButtonTitleWidget>
                               )
                             : Container(),
                         SizedBox(width: ScreenUtil().setWidth(24)),
-                        ModalTitle(
-                          widget.adButton.btnText,
-                          color: Colors.white,
-                          fontsize: widget.adButton.fontSize,
-                          textAlign: TextAlign.center,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ModalTitle(
+                              widget.adButton.btnText,
+                              color: !widget.adButton.disable
+                                  ? Colors.white
+                                  : widget.adButton.colorOfDisableedText,
+                              fontsize: widget.adButton.fontSize,
+                              textAlign: TextAlign.center,
+                            ),
+                            widget.adButton.disable &&
+                                    widget.adButton.descText != null
+                                ? FourthText(
+                                    widget.adButton.descText,
+                                    color: Color(0xffEEDD9B),
+                                    fontsize: 32,
+                                  )
+                                : Container(),
+                          ],
                         )
                       ],
                     ),
