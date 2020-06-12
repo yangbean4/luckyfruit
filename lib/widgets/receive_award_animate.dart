@@ -12,6 +12,7 @@ class DwardType {
   static const tree = 'tree';
   static const lotto = 'lotto';
   static const attack = 'attack';
+  static const auto = "auto";
 }
 
 class ReceiveAwardAnimate {
@@ -79,13 +80,20 @@ class __ReceiveAwardAnimateState extends State<_ReceiveAwardAnimate>
       'assets/image/attack.png',
       width: ScreenUtil().setWidth(209),
       height: ScreenUtil().setWidth(232),
-    )
+    ),
+    DwardType.auto: Image.asset(
+      'assets/image/spin_auto.png',
+      key: Consts.globalKeyAutoMergeSpin,
+      width: ScreenUtil().setWidth(209),
+      height: ScreenUtil().setWidth(232),
+    ),
   };
   Map<String, Widget> labelSource = {};
 
   Map<String, num> positonLeft = {
     DwardType.gold: 246,
     DwardType.tree: 246,
+    DwardType.auto: 246,
     DwardType.lotto: 395,
     DwardType.attack: 260
   };
@@ -191,6 +199,22 @@ class __ReceiveAwardAnimateState extends State<_ReceiveAwardAnimate>
           textColor: Colors.white,
         ),
       ),
+      DwardType.auto: Container(
+        width: ScreenUtil().setWidth(600),
+        height: ScreenUtil().setWidth(120),
+        // alignment: Alignment(-0.5, 0),
+        child: Text(
+          'Auto Merge x ${awardAcount * 60} s',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            decoration: TextDecoration.none,
+            fontSize: ScreenUtil().setSp(48),
+            fontFamily: FontFamily.semibold,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      )
     };
 
     controller.forward().orCancel;

@@ -12,6 +12,7 @@ import 'package:luckyfruit/routes/router.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/adjust_link.dart';
 import 'package:luckyfruit/utils/bgm.dart';
+import 'package:luckyfruit/widgets/auto_flying_animation.dart';
 import 'package:luckyfruit/widgets/double_click_quit.dart';
 import 'package:luckyfruit/widgets/flower_flying_animation.dart';
 import 'package:luckyfruit/widgets/gold_flying_animation.dart';
@@ -137,6 +138,7 @@ class MyApp extends StatelessWidget {
               PhoneFlyingAnimation(),
               TreeFlyingAnimation(),
               LottoFlyingAnimation(),
+              AutoFlyingAnimation(),
               // 领取手机碎片动画
               // 新手引导-大转盘
               GuidanceLuckyWheelWidget(),

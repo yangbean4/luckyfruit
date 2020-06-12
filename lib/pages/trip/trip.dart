@@ -598,6 +598,7 @@ class _TripState extends State<Trip>
             right: 0,
             top: ScreenUtil().setWidth(220),
             child: RightBtns(
+              key: Consts.globalKeyAutoMergeArea,
               type: 'auto',
             )),
         Positioned(

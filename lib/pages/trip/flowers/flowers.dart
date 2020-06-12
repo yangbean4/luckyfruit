@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-12 16:49:18
+ * @LastEditTime: 2020-06-12 18:23:03
  */
 import 'dart:convert';
 import 'dart:math';
@@ -507,8 +507,9 @@ class __LuckyModelState extends State<_LuckyModel>
     // TODO 测试
 //     String test = """
 //    {
-//  "gift_id": 3,
-//     "gift_name": "attack"
+// "gift_id": 0,
+//     "gift_name": "Lotto X 2",
+//     "ticket_num": 2
 //    }
 //    """;
 //     luckResultMap = json.decode(test);

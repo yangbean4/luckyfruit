@@ -36,7 +36,6 @@ class User {
     num lotto_residue_time;
     num lotto_nums;
     num flower_nums;
-    num attack_num;
     
     factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
     Map<String, dynamic> toJson() => _$UserToJson(this);

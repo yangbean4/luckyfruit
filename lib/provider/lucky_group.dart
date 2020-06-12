@@ -591,9 +591,9 @@ class LuckyGroup with ChangeNotifier {
 
     if (runNext) {
       hideAutoAndNextRun();
-      _automatic_time += issed?.automatic_time;
+      automatic_time += issed?.automatic_time;
     } else {
-      _automatic_time += autoMergeDurationFromLuckyWheel;
+      automatic_time += autoMergeDurationFromLuckyWheel;
     }
 
     if (autoTimer == null) {
@@ -623,6 +623,7 @@ class LuckyGroup with ChangeNotifier {
 
   set autoMergeDurationFromLuckyWheel(int value) {
     _autoMergeDurationFromLuckyWheel = value;
+    notifyListeners();
   }
 
   Timer autoTimer;
@@ -729,7 +730,7 @@ class LuckyGroup with ChangeNotifier {
     String share_version = userModel.value.share_version;
     lottoRemainingTimesToday = userModel.value.lotto_residue_time;
     lottoTicketNumTotal = userModel.value.lotto_nums;
-    _attackNumTotal = userModel.value.lotto_nums;
+    // _attackNumTotal = userModel.value.lotto_nums;
 
     // TODO 测试
 //    lottoTicketNumTotal = 0;
@@ -1118,7 +1119,7 @@ class LuckyGroup with ChangeNotifier {
   }
 
   _submitattackNumTotal() {
-    _userModel.upDate({'attack_num': _attackNumTotal});
+    // _userModel.upDate({'attack_num': _attackNumTotal});
   }
 }
 

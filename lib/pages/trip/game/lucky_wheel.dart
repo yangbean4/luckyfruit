@@ -4,8 +4,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart';
+import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/garden_news/garden_news.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/money_group.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/provider/user_model.dart';
 import 'package:luckyfruit/service/index.dart';
@@ -15,6 +19,7 @@ import 'package:luckyfruit/utils/burial_report.dart';
 import 'package:luckyfruit/widgets/ad_btn.dart';
 import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/modal.dart';
+import 'package:luckyfruit/widgets/receive_award_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -25,12 +30,6 @@ class LuckyWheelWrapperWidget extends StatelessWidget {
 
   void onCloseWindow(BuildContext context) {
     Navigator.pop(context);
-
-    // 关闭之后检查是否需要开始auto merge
-    LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-    if (luckyGroup.autoMergeDurationFromLuckyWheel > 0) {
-      luckyGroup.autoStart();
-    }
 
     if (fromAppLaunch) {
       Layer.checkShowInviteEventOrPartnerCash(context);
@@ -421,6 +420,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         updateTween();
         return;
       }
+      res = luckResultMap;
       finalPos = luckResultMap['gift_id'] as num;
       prevPos = luckResultMap['prev'] as num;
       coinNum = luckResultMap['coin'] as num;
@@ -475,6 +475,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
     }
   }
 
+  Map<String, dynamic> res;
   /**
    *  1、1hour coins                   Huge
       2、The limited Bouns Tree
@@ -484,31 +485,87 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
       6、attack
    */
   void showRewardWindowWithFinalPostion(int finalPosition) {
+    // finalPosition = 4;
+    // durationOfAutoMerge = 60;
     switch (finalPosition) {
       case 1:
         // huge，1hour coin
+        {
+          MoneyGroup moneyGroup =
+              Provider.of<MoneyGroup>(context, listen: false);
+
+          int gold = (moneyGroup.makeGoldSped * 60 * 60).toInt();
+          goAward(gold, DwardType.gold,
+              callback: () => {moneyGroup.addGold(gold.toDouble())});
+        }
         break;
       case 2:
         // The limited Bouns Tree
+        Invite_award invite_award = Invite_award.fromJson(res);
+
+        TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+        goAward(1, DwardType.tree,
+            callback: () => {
+                  treeGroup.flowerMakeTree = Tree(
+                    grade: Tree.MAX_LEVEL,
+                    type: TreeType.Type_TimeLimited_Bonus,
+                    duration: invite_award.duration,
+                    amount: invite_award.amount.toDouble(),
+                    showCountDown: true,
+                    treeId: invite_award.tree_id,
+                    timePlantedLimitedBonusTree:
+                        DateTime.now().millisecondsSinceEpoch,
+                  )
+                });
         break;
       case 3:
         // big，15min coin
+        MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+
+        int gold = (moneyGroup.makeGoldSped * 15 * 60).toInt();
+        goAward(gold, DwardType.gold,
+            callback: () => {moneyGroup.addGold(gold.toDouble())});
         break;
       case 4:
         // 转到auto merge，每次一分钟
         LuckyGroup luckyGroup = Provider.of<LuckyGroup>(context, listen: false);
-        luckyGroup.autoMergeDurationFromLuckyWheel += durationOfAutoMerge;
-        Layer.showAutoMergeInLuckyWheel();
+
+        // 关闭之后检查是否需要开始auto merge
+        goAward(1, DwardType.auto,
+            callback: () => luckyGroup.autoMergeDurationFromLuckyWheel +=
+                durationOfAutoMerge);
+
         return;
       case 5:
-      // mega，30min coin
+        // mega，30min coin
+        MoneyGroup moneyGroup = Provider.of<MoneyGroup>(context, listen: false);
+
+        int gold = (moneyGroup.makeGoldSped * 30 * 60).toInt();
+        goAward(gold, DwardType.gold,
+            callback: () => {moneyGroup.addGold(gold.toDouble())});
         break;
       case 6:
-      // attack
+        // attack
+        LuckyGroup treeGroup = Provider.of<LuckyGroup>(context, listen: false);
+        goAward(1, DwardType.attack, callback: () {
+          treeGroup.attackNumTotal += 1;
+          GardenNews.show(context);
+        });
         break;
       default:
         Layer.toastWarning("Failed, Please Try Agagin Later");
         return;
     }
+  }
+
+  void goAward(int count, String type, {Function callback}) {
+    ReceiveAwardAnimate.show(context,
+        animationTime: Duration(milliseconds: 1500),
+        awardAcount: count,
+        awardType: type, callback: () {
+      if (callback != null) {
+        callback();
+      }
+    });
   }
 }
