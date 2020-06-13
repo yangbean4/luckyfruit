@@ -383,13 +383,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             builder: (_, bool show, __) {
               return show ? LottoAwardShowupWidget() : Container();
             }),
-        // 偷树时喷涌出的金币效果
-        Selector<LuckyGroup, bool>(
-            selector: (context, provider) => provider.showRevengeGoldFlowing,
-            builder: (_, bool show, __) {
-              return show ? RevengeGoldFlowingFlyGroup() : Container();
-            }),
-        RevengeShovelWidget(),
       ],
     );
   }

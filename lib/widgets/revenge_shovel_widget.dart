@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:luckyfruit/config/app.dart';
+import 'package:luckyfruit/main.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 typedef Widget _BuilderFun(BuildContext context,
     {Animation<double> top, Animation<double> size});
@@ -28,26 +29,32 @@ class _RevengeShovelWidgetState extends State<RevengeShovelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<LuckyGroup, bool>(
-        selector: (context, provider) => provider.showRevengeShovel,
-        builder: (_, bool show, __) {
-          if (show) {
-            offsetStartPoint = Util.getOffset(Consts.treeGroupGlobalKey[0][1]);
+    return Selector<LuckyGroup, Tuple2<bool, GlobalKey>>(
+        selector: (context, provider) =>
+            Tuple2(provider.showRevengeShovel, provider.revengeShovelKey),
+        builder: (_, tuple2, __) {
+          if (tuple2.item1) {
+            offsetStartPoint = Util.getOffset(tuple2.item2);
             posLeft = offsetStartPoint.dx;
             posTop = offsetStartPoint.dy;
           }
-          return show
+          return tuple2.item1
               ? _ShovelAnimation(
                   animateTime: Duration(milliseconds: 400),
+                  onFinish: () {
+                    Initialize.luckyGroup.showRevengeShovel = false;
+                    Initialize.luckyGroup.showRevengeGoldFlowing = true;
+                  },
                   builder: (ctx,
                       {Animation<double> top, Animation<double> size}) {
                     return Positioned(
-                        left: posLeft,
-                        top: posTop + ScreenUtil().setWidth(100) * top.value,
+                        left: posLeft + ScreenUtil().setWidth(50),
+                        top: posTop +
+                            ScreenUtil().setWidth(120) * (top.value - 1),
                         child: Image.asset(
-                          "assets/image/position_icon.png",
-                          width: ScreenUtil().setWidth(120),
-                          height: ScreenUtil().setWidth(120),
+                          "assets/image/revenge_shovel.png",
+                          width: ScreenUtil().setWidth(200),
+                          height: ScreenUtil().setWidth(200),
                         ));
                   },
                 )
@@ -59,10 +66,12 @@ class _RevengeShovelWidgetState extends State<RevengeShovelWidget> {
 class _ShovelAnimation extends StatefulWidget {
   final _BuilderFun builder;
   final Duration animateTime;
+  final Function onFinish;
 
   _ShovelAnimation(
       {Key key,
       @required this.builder,
+      this.onFinish,
       this.animateTime = const Duration(milliseconds: 600)})
       : super(key: key);
 
@@ -82,6 +91,13 @@ class _ShovelAnimationState extends State<_ShovelAnimation>
       vsync: this,
     )
       ..value = 0.0
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          if (widget.onFinish != null) {
+            widget.onFinish();
+          }
+        }
+      })
       ..forward();
   }
 
@@ -106,7 +122,7 @@ class _GrowTransition extends StatelessWidget {
           end: 1.0,
         ).animate(CurvedAnimation(
             parent: controller,
-            curve: Interval(0.0, 1.0, curve: _ShakeCurve(longTime: 1)))),
+            curve: Interval(0.2, 0.6, curve: _ShakeCurve(longTime: 1)))),
         // 大小
         enlargeSize = Tween<double>(
           begin: -1.0,

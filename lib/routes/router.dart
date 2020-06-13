@@ -9,6 +9,7 @@ import 'package:luckyfruit/pages/mine/widthdraw.dart';
 import 'package:luckyfruit/pages/partner/instruction.dart';
 import 'package:luckyfruit/pages/partner/invitation_record.dart';
 import 'package:luckyfruit/pages/partner/partner_profit_page.dart';
+import 'package:luckyfruit/pages/revenge/trip_of_revenge.dart';
 import '../pages/Home.dart';
 import '../pages/rank_page.dart';
 import 'package:luckyfruit/pages/trip/dividend.dart';
@@ -46,6 +47,7 @@ final routes = {
   'instructionPage': (context) => InstructionPage(),
   'loadingPage': (context) => LoadingPage(),
   'howToPlay': (context) => HowToPlay(),
+  'tripOfRevengePage': (context, {arguments}) => TripOfRevengePage(deblockCityId: arguments,),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

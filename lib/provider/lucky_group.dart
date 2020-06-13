@@ -417,6 +417,15 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  // 选择了哪一个树坑去挖
+  GlobalKey _revengeShovelKey;
+
+  GlobalKey get revengeShovelKey => _revengeShovelKey;
+
+  set revengeShovelKey(GlobalKey value) {
+    _revengeShovelKey = value;
+  }
+
   /// 是否显示auto merge的circle指引
   bool _showAutoMergeCircleGuidance = false;
 

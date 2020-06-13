@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:luckyfruit/theme/public/gold_text.dart';
-import 'package:luckyfruit/widgets/expand_animation.dart';
-import 'package:luckyfruit/widgets/opcity_animation.dart';
-import 'package:provider/provider.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
-
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/provider/tree_group.dart';
 import 'package:luckyfruit/theme/index.dart';
+import 'package:luckyfruit/widgets/frame_animation_image.dart';
+import 'package:luckyfruit/widgets/opcity_animation.dart';
+import 'package:provider/provider.dart';
+
 import './tree_item.dart';
 import './tree_no_animation.dart';
-import 'package:luckyfruit/widgets/frame_animation_image.dart';
 
 class GridItem extends StatefulWidget {
   final Tree tree;
@@ -23,12 +19,17 @@ class GridItem extends StatefulWidget {
   final GlobalKey flowerKey;
 
   final bool showAnimation;
+  final bool enableDrag;
+  final Function(GlobalKey) onTap;
+
   GridItem({
     Key key,
     this.tree,
     this.animateTargetTree,
     this.flowerKey,
     this.animateSourceTree,
+    this.enableDrag = true,
+    this.onTap,
     this.flowerPoint,
   })  : showAnimation = animateTargetTree != null,
         super(key: key);
@@ -40,6 +41,7 @@ class GridItem extends StatefulWidget {
 class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
   AnimationController _controller;
   bool showFlower = true;
+
   @override
   void initState() {
     super.initState();
@@ -109,118 +111,129 @@ class _GridItemState extends State<GridItem> with TickerProviderStateMixin {
     return Container(
       width: ScreenUtil().setWidth(200),
       height: ScreenUtil().setWidth(210),
-      child: Stack(
-        overflow: Overflow.visible,
-        children: <Widget>[
-          Positioned(
-              left: 0,
-              bottom: 0,
-              child: Container(
-                  width: ScreenUtil().setWidth(200),
-                  height: ScreenUtil().setWidth(100),
-                  decoration: BoxDecoration(
-                      color: MyTheme.grayColor,
-                      borderRadius: BorderRadius.all(
-                        Radius.elliptical(ScreenUtil().setWidth(200) / 2,
-                            ScreenUtil().setWidth(100) / 2),
-                      )))),
-
-          widget.tree != null
-              ? widget.animateSourceTree == null
-                  ? Positioned(
-                      bottom: ScreenUtil().setWidth(25),
-                      child: Center(
-                          child: Selector<TreeGroup, Function>(
-                              selector: (context, provider) =>
-                                  provider.transRecycle,
-                              shouldRebuild: (pre, next) => false,
-                              builder: (context, Function transRecycle, child) {
-                                return Draggable(
-                                    child: _tree,
-                                    onDragStarted: () =>
-                                        transRecycle(widget.tree),
-                                    onDragEnd: (_) => transRecycle(null),
-                                    // feedback: _tree,
-                                    feedback: TreeNoAnimation(widget.tree),
-                                    data: widget.tree,
-                                    childWhenDragging: Container());
-                              })),
-                    )
-                  : _TreeMerge(
-                      animateTargetTree: widget.animateTargetTree,
-                      animateSourceTree: widget.animateSourceTree,
-                    )
-              : Container(),
-          widget.showAnimation
-              ? Positioned(
-                  left: 0,
-                  bottom: 0,
-                  child: Container(
+      child: GestureDetector(
+        onTap: () {
+          if (widget.onTap != null && widget.tree != null) {
+            widget.onTap(widget.key);
+          }
+        },
+        child: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+            Positioned(
+                left: 0,
+                bottom: 0,
+                child: Container(
                     width: ScreenUtil().setWidth(200),
-                    height: ScreenUtil().setWidth(200),
-                    // child: Lottie.asset(
-                    //   'assets/lottiefiles/merge.json',
-                    //   controller: _controller,
-                    //   onLoaded: (composition) {
-                    //     _controller.duration = composition.duration;
-                    //     _controller
-                    //       ..value = 0
-                    //       ..forward();
-                    //   },
-                    // ),
+                    height: ScreenUtil().setWidth(100),
+                    decoration: BoxDecoration(
+                        color: MyTheme.grayColor,
+                        borderRadius: BorderRadius.all(
+                          Radius.elliptical(ScreenUtil().setWidth(200) / 2,
+                              ScreenUtil().setWidth(100) / 2),
+                        )))),
 
-                    child: FrameAnimationImage(
-                      List<String>.generate(
-                          19, (e) => 'assets/image/merge/merge_$e.png'),
+            widget.tree != null
+                ? widget.animateSourceTree == null
+                    ? Positioned(
+                        bottom: ScreenUtil().setWidth(25),
+                        child: Center(
+                            child: Selector<TreeGroup, Function>(
+                                selector: (context, provider) =>
+                                    provider.transRecycle,
+                                shouldRebuild: (pre, next) => false,
+                                builder:
+                                    (context, Function transRecycle, child) {
+                                  return widget.enableDrag
+                                      ? Draggable(
+                                          child: _tree,
+                                          onDragStarted: () =>
+                                              transRecycle(widget.tree),
+                                          onDragEnd: (_) => transRecycle(null),
+                                          // feedback: _tree,
+                                          feedback:
+                                              TreeNoAnimation(widget.tree),
+                                          data: widget.tree,
+                                          childWhenDragging: Container())
+                                      : _tree;
+                                })),
+                      )
+                    : _TreeMerge(
+                        animateTargetTree: widget.animateTargetTree,
+                        animateSourceTree: widget.animateSourceTree,
+                      )
+                : Container(),
+            widget.showAnimation
+                ? Positioned(
+                    left: 0,
+                    bottom: 0,
+                    child: Container(
                       width: ScreenUtil().setWidth(200),
-                      interval: 300,
                       height: ScreenUtil().setWidth(200),
-                      onFinish: () {
+                      // child: Lottie.asset(
+                      //   'assets/lottiefiles/merge.json',
+                      //   controller: _controller,
+                      //   onLoaded: (composition) {
+                      //     _controller.duration = composition.duration;
+                      //     _controller
+                      //       ..value = 0
+                      //       ..forward();
+                      //   },
+                      // ),
+
+                      child: FrameAnimationImage(
+                        List<String>.generate(
+                            19, (e) => 'assets/image/merge/merge_$e.png'),
+                        width: ScreenUtil().setWidth(200),
+                        interval: 300,
+                        height: ScreenUtil().setWidth(200),
+                        onFinish: () {
+                          TreeGroup treeGroup =
+                              Provider.of<TreeGroup>(context, listen: false);
+
+                          treeGroup.removeAnimateTargetTree(
+                              widget.animateSourceTree);
+                        },
+                      ),
+                    ),
+                  )
+                : Container(),
+
+            flower != 0
+                ? Positioned(
+                    left: ScreenUtil().setWidth(152),
+                    bottom: ScreenUtil().setWidth(27),
+                    child: OpacityAnimation(
+                      animateTime: Duration(milliseconds: 700),
+                      onForwardFinish: () {
                         TreeGroup treeGroup =
                             Provider.of<TreeGroup>(context, listen: false);
-
-                        treeGroup
-                            .removeAnimateTargetTree(widget.animateSourceTree);
+                        treeGroup.flowerGridAnimateEnd(flowerPoint);
                       },
+                      child: opcityChild,
                     ),
-                  ),
-                )
-              : Container(),
-
-          flower != 0
-              ? Positioned(
-                  left: ScreenUtil().setWidth(152),
-                  bottom: ScreenUtil().setWidth(27),
-                  child: OpacityAnimation(
-                    animateTime: Duration(milliseconds: 700),
-                    onForwardFinish: () {
-                      TreeGroup treeGroup =
-                          Provider.of<TreeGroup>(context, listen: false);
-                      treeGroup.flowerGridAnimateEnd(flowerPoint);
-                    },
-                    child: opcityChild,
-                  ),
-                )
-              // ,)
-              : Container(),
-          reverseFlower != 0
-              ? Positioned(
-                  left: ScreenUtil().setWidth(152),
-                  bottom: ScreenUtil().setWidth(27),
-                  child: OpacityAnimation(
-                    reverse: true,
-                    animateTime: Duration(milliseconds: 700),
-                    onForwardFinish: () {
-                      TreeGroup treeGroup =
-                          Provider.of<TreeGroup>(context, listen: false);
-                      treeGroup.flowerGridAnimatReEnd(flowerPoint);
-                    },
-                    child: opcityChild,
-                  ),
-                )
-              : Container(),
-          // Positioned(child: null)
-        ],
+                  )
+                // ,)
+                : Container(),
+            reverseFlower != 0
+                ? Positioned(
+                    left: ScreenUtil().setWidth(152),
+                    bottom: ScreenUtil().setWidth(27),
+                    child: OpacityAnimation(
+                      reverse: true,
+                      animateTime: Duration(milliseconds: 700),
+                      onForwardFinish: () {
+                        TreeGroup treeGroup =
+                            Provider.of<TreeGroup>(context, listen: false);
+                        treeGroup.flowerGridAnimatReEnd(flowerPoint);
+                      },
+                      child: opcityChild,
+                    ),
+                  )
+                : Container(),
+            // Positioned(child: null)
+          ],
+        ),
       ),
     );
   }
