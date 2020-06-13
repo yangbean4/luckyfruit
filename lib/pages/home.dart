@@ -26,6 +26,7 @@ import 'package:luckyfruit/widgets/layer.dart';
 import 'package:luckyfruit/widgets/lotto_award_showup_widget.dart';
 import 'package:luckyfruit/widgets/lucky_wheel_unlock_animation.dart';
 import 'package:luckyfruit/widgets/revenge_gold_flowing_widget.dart';
+import 'package:luckyfruit/widgets/revenge_shovel_widget.dart';
 import 'package:provider/provider.dart';
 
 import './trip/trip.dart';
@@ -388,6 +389,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             builder: (_, bool show, __) {
               return show ? RevengeGoldFlowingFlyGroup() : Container();
             }),
+        RevengeShovelWidget(),
       ],
     );
   }

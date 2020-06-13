@@ -393,13 +393,13 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
 
                     handleStartSpin(data?.item3);
                   },
-                  tipsColor: Colors.white,
-                  tipsShadows: [
-                    BoxShadow(
-                        color: Colors.black,
-                        offset: Offset(0, 1),
-                        blurRadius: 2)
-                  ],
+                  tipsColor: Color(0xffAC6B06),
+//                  tipsShadows: [
+//                    BoxShadow(
+//                        color: Colors.black,
+//                        offset: Offset(0, 1),
+//                        blurRadius: 2)
+//                  ],
                   tips:
                       "Number of videos reset at 12am&12pm (${data?.item1?.ad_times ?? 0} times left)");
             },

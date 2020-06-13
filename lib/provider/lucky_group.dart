@@ -407,6 +407,16 @@ class LuckyGroup with ChangeNotifier {
     notifyListeners();
   }
 
+  // 偷树时小铲子的动效
+  bool _showRevengeShovel = false;
+
+  bool get showRevengeShovel => _showRevengeShovel;
+
+  set showRevengeShovel(bool value) {
+    _showRevengeShovel = value;
+    notifyListeners();
+  }
+
   /// 是否显示auto merge的circle指引
   bool _showAutoMergeCircleGuidance = false;
 

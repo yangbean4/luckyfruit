@@ -257,9 +257,9 @@ class _AdButtonState extends State<AdButton> {
                                       : widget.tipsColor,
                                   height: 1,
                                   shadows: widget.tipsShadows,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamily.regular,
-                                  fontSize: ScreenUtil().setSp(30),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: FontFamily.semibold,
+                                  fontSize: ScreenUtil().setSp(32),
                                 ),
                               );
                             }),
