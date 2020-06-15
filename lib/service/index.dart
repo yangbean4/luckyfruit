@@ -397,7 +397,9 @@ class Service {
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       // REVIEW: aes?
 //       options.data = _aes.encrypt(json.encode(options.data));
-      (options.data as Map).addAll(getBaseMap());
+      if ((options.data as Map)['disable_base_params'] == null) {
+        (options.data as Map).addAll(getBaseMap());
+      }
       // 请求拦截器，加密参数
       return options;
     }, onResponse: (Response res) {

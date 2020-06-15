@@ -47,7 +47,7 @@ final routes = {
   'instructionPage': (context) => InstructionPage(),
   'loadingPage': (context) => LoadingPage(),
   'howToPlay': (context) => HowToPlay(),
-  'tripOfRevengePage': (context, {arguments}) => TripOfRevengePage(deblockCityId: arguments,),
+  'tripOfRevengePage': (context, {arguments}) => TripOfRevengePage(arguments),
 };
 
 var onGenerateRoute = (RouteSettings routeSettings) {

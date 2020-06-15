@@ -1,13 +1,22 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
 import 'package:luckyfruit/pages/trip/game/grid_item.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
+import 'package:luckyfruit/provider/tree_group.dart';
+import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/index.dart';
 import 'package:provider/provider.dart';
 
 class TreeGridOfRevengeWidget extends StatefulWidget {
+  final String acctId;
+  final int type;
+
+  TreeGridOfRevengeWidget(this.acctId, this.type);
+
   @override
   _TreeGridOfRevengeWidgetState createState() =>
       _TreeGridOfRevengeWidgetState();
@@ -17,11 +26,24 @@ class _TreeGridOfRevengeWidgetState extends State<TreeGridOfRevengeWidget> {
   String testJson =
       "{\"upDateTime\":\"1591962398930\",\"treeList\":[{\"x\":1,\"y\":1,\"type\":null,\"grade\":17,\"gradeNumber\":1,\"recycleMoney\":null,\"treeId\":null,\"duration\":200,\"amount\":null,\"limitedBonusedAmount\":0.0,\"showCountDown\":false,\"originalDuration\":200,\"timePlantedLimitedBonusTree\":null},{\"x\":1,\"y\":0,\"type\":null,\"grade\":17,\"gradeNumber\":29,\"recycleMoney\":null,\"treeId\":null,\"duration\":200,\"amount\":null,\"limitedBonusedAmount\":0.0,\"showCountDown\":false,\"originalDuration\":200,\"timePlantedLimitedBonusTree\":null},{\"x\":2,\"y\":1,\"type\":null,\"grade\":17,\"gradeNumber\":27,\"recycleMoney\":null,\"treeId\":null,\"duration\":200,\"amount\":null,\"limitedBonusedAmount\":0.0,\"showCountDown\":false,\"originalDuration\":200,\"timePlantedLimitedBonusTree\":null}],\"treeGradeNumber\":\"{\\\"1\\\":3,\\\"6\\\":37,\\\"3\\\":30,\\\"4\\\":30,\\\"5\\\":33,\\\"7\\\":40,\\\"8\\\":30,\\\"9\\\":33,\\\"10\\\":29,\\\"11\\\":33}\",\"hasMaxLevel\":\"17\",\"warehouseTreeList\":[{\"x\":null,\"y\":null,\"type\":null,\"grade\":1,\"gradeNumber\":2,\"recycleMoney\":null,\"treeId\":null,\"duration\":200,\"amount\":null,\"limitedBonusedAmount\":0.0,\"showCountDown\":false,\"originalDuration\":200,\"timePlantedLimitedBonusTree\":null}]}";
 
+  List<Tree> _treeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget?.type == 1 && widget.acctId != null) {
+      fetchOpponentTreeInfoWithAcctId();
+    } else {
+      // 虚拟用户，随机生成用户数据
+      fetchOpponentTreeInfoRandomly();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(1080),
-        height: ScreenUtil().setWidth(1085),
+        height: ScreenUtil().setHeight(1280),
         color: Color.fromRGBO(255, 255, 255, 1),
         padding: EdgeInsets.only(
           left: ScreenUtil().setWidth(60),
@@ -74,20 +96,8 @@ class _TreeGridOfRevengeWidgetState extends State<TreeGridOfRevengeWidget> {
     return grids;
   }
 
-  // 获取对手的树木、城市的信息
-  List<Tree> fetchOpponentTreeInfo() {
-    Map<String, dynamic> treeInfoMap = Util.decodeStr(testJson);
-    List<Tree> _treeList = (treeInfoMap['treeList'] as List)
-        ?.map(
-            (e) => e == null ? null : Tree.formJson(e as Map<String, dynamic>))
-        .toList();
-
-    return _treeList;
-  }
-
   // 转成二维数组
   List<List<Tree>> getTreeMatrix() {
-    List<Tree> _treeList = fetchOpponentTreeInfo();
     List<List<Tree>> treeMatrix = List(GameConfig.Y_AMOUNT);
     for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
       List<Tree> yMat = List(GameConfig.X_AMOUNT);
@@ -105,6 +115,41 @@ class _TreeGridOfRevengeWidgetState extends State<TreeGridOfRevengeWidget> {
     }
 
     return treeMatrix;
+  }
+
+  // 获取对手的树木、城市的信息
+  fetchOpponentTreeInfoWithAcctId() {
+    Service().getTreeInfo(
+        {'acct_id': widget.acctId, 'disable_base_params': true}).then((value) {
+      if (value == null) {
+        return;
+      }
+      Map<String, dynamic> treeInfoMap = Util.decodeStr(value['code']);
+//    treeInfoMap = Util.decodeStr(testJson);
+      _treeList = (treeInfoMap['treeList'] as List)
+          ?.map((e) =>
+              e == null ? null : Tree.formJson(e as Map<String, dynamic>))
+          .toList();
+      setState(() {});
+    });
+  }
+
+  /// 虚拟用户，随机生成用户数据
+  void fetchOpponentTreeInfoRandomly() {
+    for (int y = 0; y < GameConfig.Y_AMOUNT; y++) {
+      for (int x = 0; x < GameConfig.X_AMOUNT; x++) {
+        _treeList.add(generateRandomTreeInfo(x, y));
+      }
+    }
+  }
+
+  /// 根据用户可购买等级的树木(可购买等级树木向下3级，向上8级)，随机进行界面渲染
+  Tree generateRandomTreeInfo(int x, int y) {
+    TreeGroup treeGroup = Provider.of<TreeGroup>(context, listen: false);
+    // 生成区间（n-3,n+8）之间的数值
+    int treeGrade =
+        Random().nextInt(11) + (treeGroup.minLevel - 3);
+    return Tree(grade: treeGrade, x: x, y: y);
   }
 }
 
