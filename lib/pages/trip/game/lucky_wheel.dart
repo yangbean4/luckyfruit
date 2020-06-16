@@ -549,7 +549,7 @@ class LuckyWheelWidgetState extends State<LuckyWheelWidget>
         LuckyGroup treeGroup = Provider.of<LuckyGroup>(context, listen: false);
         goAward(1, DwardType.attack, callback: () {
           treeGroup.attackNumTotal += 1;
-          GardenNews.show(context);
+          GardenNews.show();
         });
         break;
       default:

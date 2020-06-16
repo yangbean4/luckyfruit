@@ -6,6 +6,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart' show UserInfo;
 import 'package:luckyfruit/models/invite_award.dart';
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/garden_news/garden_news.dart';
 import 'package:luckyfruit/provider/lucky_group.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
@@ -113,7 +114,8 @@ class MoneyGroup with ChangeNotifier {
   addUnLineGet(DateTime upDateTime, num sped) {
     if (upDateTime != null && sped != null && _isHome) {
       num diffTime = DateTime.now().difference(upDateTime).inSeconds;
-      // 小于10分钟没有奖励
+
+      /// 小于10分钟没有奖励
       if (diffTime > App.NO_UN_LINE_TIME) {
         diffTime = diffTime > App.UN_LINE_TIME ? App.UN_LINE_TIME : diffTime;
         Layer.showOffLineRewardWindow(sped * diffTime, (bool isDouble) {
@@ -122,12 +124,20 @@ class MoneyGroup with ChangeNotifier {
           if (userModel.value.is_m != 1) {
             return;
           }
+          Function callBack = () {
+            if (userModel?.value?.ticket > 0 ||
+                userModel?.value?.ticket_time > 0) {
+              Layer.showLuckyWheel(context, fromAppLaunch: true);
+            } else {
+              Layer.checkShowInviteEventOrPartnerCash(context);
+            }
+          };
 
-          if (userModel?.value?.ticket > 0 ||
-              userModel?.value?.ticket_time > 0) {
-            Layer.showLuckyWheel(context, fromAppLaunch: true);
+          /// 如果 返回的attack_num>0 （大于三小时） 显示frden news
+          if (_userModel.value.attack_num > 0) {
+            GardenNews.show(callBack: callBack);
           } else {
-            Layer.checkShowInviteEventOrPartnerCash(context);
+            callBack();
           }
         });
       }
@@ -150,9 +160,11 @@ class MoneyGroup with ChangeNotifier {
           int.tryParse(group1['upDateTime']) * 1000);
       DateTime upDateTime2 = DateTime.fromMicrosecondsSinceEpoch(
           int.tryParse(group2['upDateTime']) * 1000);
-      // 如果远端的更新时间在本地时间之前（即有可能是保存是接口没有上报成功），则使用本地的，否则使用哪一个都一样
+
+      /// 如果远端的更新时间在本地时间之前（即有可能是保存是接口没有上报成功），则使用本地的，否则使用哪一个都一样
       group = upDateTime1.isAfter(upDateTime2) ? group1 : group2;
-      // 如果存在活跃的限时分红树，则使用本地缓存的数据取money
+
+      /// 如果存在活跃的限时分红树，则使用本地缓存的数据取money
       if (group1['LBTreeActive'] == '1') {
         group = group1;
       }

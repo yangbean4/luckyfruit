@@ -3,7 +3,7 @@
  * @Author:  bean^ <bean_4@163.com>
  * @Date: 2020-05-28 15:32:27
  * @LastEditors:  bean^ <bean_4@163.com>
- * @LastEditTime: 2020-06-12 18:23:03
+ * @LastEditTime: 2020-06-13 15:50:03
  */
 import 'dart:convert';
 import 'dart:math';
@@ -462,7 +462,7 @@ class __LuckyModelState extends State<_LuckyModel>
 
                 goAward(1, DwardType.attack, callback: () {
                   treeGroup.attackNumTotal += 1;
-                  GardenNews.show(context);
+                  GardenNews.show();
                 });
                 break;
             }

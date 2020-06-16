@@ -337,6 +337,13 @@ class Service {
     return response.data;
   }
 
+// 获取花园消息偷树列表
+  Future<List> gardenList(Map<String, dynamic> data) async {
+    Response response =
+        await _client.post('/Excavatetree/gardenList', data: data);
+    return response.data['data'];
+  }
+
   Map<String, String> getBaseMap() {
     Map<String, dynamic> info = DeviceIofo.getInfoSync();
     print(

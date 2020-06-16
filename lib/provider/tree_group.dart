@@ -8,6 +8,7 @@ import 'package:luckyfruit/config/app.dart';
 import 'package:luckyfruit/models/index.dart'
     show GlobalDividendTree, UnlockNewTreeLevel;
 import 'package:luckyfruit/mould/tree.mould.dart';
+import 'package:luckyfruit/pages/trip/garden_news/garden_news.dart';
 import 'package:luckyfruit/pages/trip/trip_btns/free_phone.dart';
 import 'package:luckyfruit/service/index.dart';
 import 'package:luckyfruit/utils/bgm.dart';
@@ -48,7 +49,7 @@ class TreeGroup with ChangeNotifier {
   // 当前最大等级和最小等级的差
   static const int DIFF_LEVEL = 5;
 
-  static const int WAREHOUSE_MAX_LENGTH = 15;
+  static const int WAREHOUSE_MAX_LENGTH = 20;
 
   static const String LOAD = 'LOAD';
 
@@ -557,7 +558,7 @@ class TreeGroup with ChangeNotifier {
   bool addTree({Tree tree, bool saveData = true}) {
     // checkRecycleRectGuidance();
     // checkMag();
-
+    GardenNews.show();
 // 已经存在的限时分红树不能重复种
     if (tree?.type == TreeType.Type_TimeLimited_Bonus &&
         allTreeList.firstWhere((element) => tree.treeId == element.treeId,

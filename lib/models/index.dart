@@ -15,6 +15,7 @@ export 'drawInfo.dart' ;
 export 'Issued.dart' ; 
 export 'lottoListItem.dart' ; 
 export 'userInfo.dart' ; 
+export 'grdenNews.dart' ; 
 export 'invite_award.dart' ; 
 export 'rank_bonus_trees.dart' ; 
 export 'partnerProfitList.dart' ; 

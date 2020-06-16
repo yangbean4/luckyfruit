@@ -37,7 +37,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..residue_7days_time = json['residue_7days_time'] as List
     ..lotto_residue_time = json['lotto_residue_time'] as num
     ..lotto_nums = json['lotto_nums'] as num
-    ..flower_nums = json['flower_nums'] as num;
+    ..flower_nums = json['flower_nums'] as num
+    ..attack_num = json['attack_num'] as num;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -70,5 +71,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'residue_7days_time': instance.residue_7days_time,
       'lotto_residue_time': instance.lotto_residue_time,
       'lotto_nums': instance.lotto_nums,
-      'flower_nums': instance.flower_nums
+      'flower_nums': instance.flower_nums,
+      'attack_num': instance.attack_num
     };
